@@ -1,0 +1,6 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.gitignore$
+^\.travis.yml$
+^\.travis\.yml$
+^cran-comments.md$
