@@ -3,6 +3,9 @@
   column names from the `broom` output.
 * Adds `dust_fn`
 * Adds `dust_bold`
+* Adds `dust_italic`
+* Adds `dust_print_format`
+* Imports knitr
 * Imports `lazyWeave::pvalString`
 
 

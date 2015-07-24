@@ -1,5 +1,4 @@
-#' @name dust_colnames
-#' @export dust_colnames
+#' @name table_attribute_bunnies
 #' @importFrom ArgumentCheck addError
 #' @importFrom ArgumentCheck finishArgCheck
 #' @importFrom ArgumentCheck newArgCheck
@@ -36,6 +35,11 @@
 #' # Causes an error due to too few unnamed arguments
 #' x + dust_colnames("Term", "Estimate")
 #' }
+
+NULL
+
+#' @rdname table_attribute_bunnies
+#' @export 
 
 dust_colnames <- function(...)
 {
@@ -89,6 +93,16 @@ dust_colnames <- function(...)
   }
   structure(new_names, 
             class = c("col_names", "dust_bunny"))
+}
+
+#' @rdname table_attribute_bunnies
+#' @param print_method A character string denoting the printing method for the table.  This 
+#'   must have length 1.
+#' @export 
+
+dust_print_method <- function(print_method){
+  structure(print_method,
+            class = c("dust_print_method", "dust_bunny"))
 }
 
 

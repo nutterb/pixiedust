@@ -71,7 +71,9 @@ x + dust_fn(colname = "estimate", fn = quote(format(value, digits = 3))) +
 x + dust_fn(colname = "estimate", fn = quote(format(value, digits = 3))) +
   dust_italic(colname = "estimate", row = 2, set_italic = TRUE)
 
-x + dust_round(colname = "statistic", round = 3)
+x + dust_round(colname = c("estimate", "statistic", "std.error"), round = 3) +
+  dust_fn(colname = "p.value", fn = quote(pvalString(value))) +
+  dust_colnames("Term", "Estimate", "SE", "T statistic", "p-value")
 }
 \author{
 Benjamin Nutter

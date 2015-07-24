@@ -2,6 +2,8 @@
 #' @export 
 #' @importFrom dplyr mutate_
 #' @importFrom dplyr select_
+#' @importFrom knitr asis_output
+#' @importFrom knitr kable
 #' @importFrom tidyr spread_
 #' @method print dust
 #' 
@@ -23,13 +25,17 @@ print.dust <- function(x, ...)
 {
   switch(x$print_method,
         "console" = print_dust_console(x, ...),
-#         "markdown" = print_dust_markdown(x, ...),
+        "markdown" = print_dust_markdown(x, ...),
 #         "html" = print_dust_html(x, ...),
 #         "latex" = print_dust_latex(x, ...),
         stop(paste0("'", x$print_method, "' is not an valid option")))
 }
 
-
+#*************************************************
+#*************************************************
+#* Print Console Output
+#*************************************************
+#*************************************************
 
 print_dust_console <- function(x, ...)
 {
@@ -63,4 +69,48 @@ print_dust_console <- function(x, ...)
   colnames(obj) <- x$col_names
   
   print(obj)
+}
+
+#*************************************************
+#*************************************************
+#* Print Markdown Output
+#*************************************************
+#*************************************************
+
+print_dust_markdown <- function(x, ...)
+{
+  numeric_classes <- c("double", "numeric")
+  
+  obj <- perform_function(x$obj)
+  
+  obj <- obj %>%
+    dplyr::mutate_(
+      value = ~suppressWarnings(
+        ifelse(!is.na(round) & col_class %in% numeric_classes,
+               as.character(round(as.numeric(value), round)),
+               value)))
+  
+  if (any(obj$bold))
+    obj <- mutate_(obj, 
+                   value = ~ifelse(bold, 
+                                   paste0("**", value, "**"), 
+                                   value))
+  if (any(obj$italic))
+    obj <- mutate_(obj, 
+                   value = ~ifelse(italic, 
+                                   paste0("_", value, "_"), 
+                                   value))
+  
+  obj <- obj %>%
+    dplyr::select_("row", "col", "value") %>%
+    tidyr::spread_("col", "value") %>%
+    dplyr::select_("-row")
+  
+  colnames(obj) <- x$col_names
+  
+
+  knitr::asis_output(
+    paste(c("", "", knitr::kable(obj,
+                                 format = "markdown")), 
+          collapse = "\n"))
 }

@@ -44,6 +44,7 @@
          "dust_bold" = add_bold(x, y, Check),
          "dust_fn" = add_fn(x, y, Check),
          "dust_italic" = add_italic(x, y, Check),
+         "dust_print_method" = add_print_method(x, y, Check),
          "dust_round" = add_round(x, y, Check),
          stop(paste0("dust_bunny_type '", dust_bunny_type, "' not recognized.")))
 }
@@ -119,6 +120,22 @@ add_fn <- function(x, y, argcheck)
            FUN.VALUE = "character")
   
   return(x)  
+}
+
+#**********************************************************
+#**********************************************************
+
+add_print_method <- function(x, y, argcheck)
+{
+  if (!is.character(y) || length(y) != 1)
+    ArgumentCheck::addError(
+      msg = "'print_method' must be a character string with length 1",
+      argcheck = argcheck)
+  
+  ArgumentCheck::finishArgCheck(argcheck)
+  
+  x$print_method <- unclass(y)
+  return(x)
 }
 
 #**********************************************************

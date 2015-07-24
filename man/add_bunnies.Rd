@@ -18,11 +18,13 @@ Adds attributes of a plot to be rendered by the \code{print.dust} method.
 \section{Dust Bunnies}{
 
 The following is a list of available functions for adding dust bunnies to a \code{dust} table.
+This list may or may not be complete.
 \itemize{
   \item{\code{\link{dust_colnames}}}{ Change the column names for a table}
   \item{\code{\link{dust_bold}}}{ Bold text in cells }
   \item{\code{\link{dust_fn}}}{ Apply a function to values in a table}
   \item{\code{\link{dust_italic}}}{ Italicize text in cells }
+  \item{\code{\link{dust_round}}}{ Round values in cells }
 }
 }
 \author{

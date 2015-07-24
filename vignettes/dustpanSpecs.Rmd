@@ -1,6 +1,6 @@
 ---
 title: "`dustpan` Specification and Requirements"
-author: "Jarrod Dalton and Benjamin Nutter"
+author: "Benjamin Nutter"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
