@@ -4,11 +4,14 @@
 \alias{cell_attribute_bunnies}
 \alias{dust_bold}
 \alias{dust_fn}
+\alias{dust_italic}
 \title{Apply Functions to cells in a table}
 \usage{
 dust_fn(..., fn)
 
 dust_bold(..., set_bold)
+
+dust_italic(..., set_italic)
 }
 \arguments{
 \item{...}{Named argument with characteristics described below.}
@@ -17,6 +20,8 @@ dust_bold(..., set_bold)
 on which `fn` should act is `value`. (ie, `quote(format(value, big.mark=","))`)}
 
 \item{set_bold}{Logical. Sets the \code{bold} flag for the table.}
+
+\item{set_italic}{Logical. Sets the \code{italic} flag for the table.}
 }
 \description{
 Some cells may require particular formatting or additional calculation prior to
@@ -54,6 +59,9 @@ dust_fn(colname = "p.value", fn = quote(pvalString(value)))
 
 x + dust_fn(colname = "estimate", fn = quote(format(value, digits = 3))) +
   dust_bold(colname = "estimate", row = 2, set_bold = TRUE)
+
+x + dust_fn(colname = "estimate", fn = quote(format(value, digits = 3))) +
+  dust_italic(colname = "estimate", row = 2, set_italic = TRUE)
 }
 \author{
 Benjamin Nutter

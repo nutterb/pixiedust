@@ -39,6 +39,7 @@
          "col_names" = add_colnames(x, y, Check),
          "dust_fn" = add_fn(x, y, Check),
          "dust_bold" = add_bold(x, y, Check),
+         "dust_italic" = add_italic(x, y, Check),
          stop(paste0("dust_bunny_type '", dust_bunny_type, "' not recognized.")))
 }
 
@@ -111,6 +112,27 @@ add_bold <- function(x, y, argcheck)
                    col = y[["col"]])
   
   x$obj$bold[x$obj$row %in% Y$row & x$obj[["col"]] %in% Y[["col"]]] <- y$set_bold
+  
+  return(x)
+}
+
+#**********************************************************
+#**********************************************************
+
+add_italic <- function(x, y, argcheck)
+{
+  cell_bunny_checks(x, y, argcheck)
+  
+  y[["col"]] <- unique(c(y[["col"]], match(y$colname, names(x$col_name))))
+  y[["col"]] <- y[["col"]][!is.na(y$col)]
+  
+  if (is.null(y[["row"]])) y[["row"]] <- 1:max(x$obj[["row"]])
+  if (is.null(y[["col"]])) y[["col"]] <- 1:max(x$obj[["col"]])
+  
+  Y <- expand.grid(row = y$row,
+                   col = y[["col"]])
+  
+  x$obj$italic[x$obj$row %in% Y$row & x$obj[["col"]] %in% Y[["col"]]] <- y$set_italic
   
   return(x)
 }

@@ -40,6 +40,9 @@
 #' 
 #' x + dust_fn(colname = "estimate", fn = quote(format(value, digits = 3))) + 
 #'   dust_bold(colname = "estimate", row = 2, set_bold = TRUE)
+#'   
+#' x + dust_fn(colname = "estimate", fn = quote(format(value, digits = 3))) + 
+#'   dust_italic(colname = "estimate", row = 2, set_italic = TRUE)
 
 NULL
 
@@ -73,6 +76,20 @@ dust_bold <- function(..., set_bold)
             class = c("dust_bold", "dust_bunny"))
 }
 
+#' @rdname cell_attribute_bunnies
+#' @param set_italic Logical. Sets the \code{italic} flag for the table.
+#' @export
+
+dust_italic <- function(..., set_italic)
+{
+  Check <- ArgumentCheck::newArgCheck()
+  dust_list <- dust_list_checks(..., attr = set_italic, fn = "dust_italic", argcheck = Check)
+  
+  ArgumentCheck::finishArgCheck(Check)
+  
+  structure(dust_list,
+            class = c("dust_italic", "dust_bunny"))
+}
 
 #*********************************************
 # dust_list checks
