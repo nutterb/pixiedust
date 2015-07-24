@@ -13,10 +13,10 @@ dust_bold(..., set_bold)
 \arguments{
 \item{...}{Named argument with characteristics described below.}
 
-\item{set_bold}{Logical. Sets the \code{bold} flag for the table.}
-
-\item{An}{expression with the function to be applied to the tabulated values.  The object
+\item{fn}{An expression with the function to be applied to the tabulated values.  The object
 on which `fn` should act is `value`. (ie, `quote(format(value, big.mark=","))`)}
+
+\item{set_bold}{Logical. Sets the \code{bold} flag for the table.}
 }
 \description{
 Some cells may require particular formatting or additional calculation prior to

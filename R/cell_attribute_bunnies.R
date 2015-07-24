@@ -44,21 +44,17 @@
 NULL
 
 #' @rdname cell_attribute_bunnies
-#' @param An expression with the function to be applied to the tabulated values.  The object
+#' @param fn An expression with the function to be applied to the tabulated values.  The object
 #'     on which `fn` should act is `value`. (ie, `quote(format(value, big.mark=","))`)
 #' @export
 dust_fn <- function(..., fn)
 {
   Check <- ArgumentCheck::newArgCheck()
+  dust_list <- dust_list_checks(..., attr = fn, fn = "dust_fn", argcheck = Check)
   
-  dust_fn_list <- c(list(...), list(fn = fn))
+  ArgumentCheck::finishArgCheck(Check)
   
-  if (any(names(dust_fn_list) %in% ""))
-    ArgumentCheck::addError(
-      msg = "All arguments to 'dust_fn' must be named",
-      argcheck = Check)
-  
-  structure(dust_fn_list,
+  structure(dust_list,
             class = c("dust_fn", "dust_bunny"))
 }
 
@@ -69,21 +65,35 @@ dust_fn <- function(..., fn)
 dust_bold <- function(..., set_bold)
 {
   Check <- ArgumentCheck::newArgCheck()
-  
-  if (length(set_bold) != 1)
-    ArgumentCheck::addError(
-      msg = "'set_bold' must have length 1",
-      argcheck = Check)
-  
-  dust_bold_list <- c(list(...), list(set_bold = set_bold))
-  
-  if (any(names(dust_bold_list) %in% ""))
-    ArgumentCheck::addError(
-      msg = "All arguments to 'dust_bold' must be named",
-      argcheck = Check)
+  dust_list <- dust_list_checks(..., attr = set_bold, fn = "dust_bold", argcheck = Check)
   
   ArgumentCheck::finishArgCheck(Check)
   
-  structure(dust_bold_list,
+  structure(dust_list,
             class = c("dust_bold", "dust_bunny"))
+}
+
+
+#*********************************************
+# dust_list checks
+#*********************************************
+
+dust_list_checks <- function(..., attr, fn, argcheck)
+{
+  if (length(attr) != 1 && !is.call(attr))
+    ArgumentCheck::addError(
+      msg = paste0("'", substitute(attr), "' must have length 1"),
+      argcheck = argcheck)
+  
+  dots_list <- list(...)
+  attr_list <- list(attr)
+  names(attr_list) <- as.character(substitute(attr))
+  dust_list <- c(dots_list, attr_list)
+  
+  if (any(names(dust_list) %in% ""))
+    ArgumentCheck::addError(
+      msg = paste0("All arguments to '", fn, "' must be named"),
+      argcheck = argcheck)
+  
+  return(dust_list)
 }
