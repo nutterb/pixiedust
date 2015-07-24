@@ -2,12 +2,9 @@
 % Please edit documentation in R/print.dust.R
 \name{print.dust}
 \alias{print.dust}
-\alias{print_dust_console}
 \title{Print A \code{dust} Table}
 \usage{
 \method{print}{dust}(x, ...)
-
-print_dust_console(x, ...)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}

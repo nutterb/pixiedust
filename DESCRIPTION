@@ -11,9 +11,12 @@ Description: The introduction of the broom package has made converting model obj
   (markdown, HTML, and LaTeX).
 Depends: R (>= 3.2.1)
 Imports: 
+  ArgumentCheck, 
   broom,
   dplyr,
   magrittr,
   tidyr
+Suggests:
+  testthat
 License: MIT + file LICENSE
 LazyData: true

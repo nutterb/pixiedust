@@ -22,7 +22,8 @@
 #' @author Benjamin Nutter
 #' 
 #' @examples 
-#' dust(lm(mpg ~ qsec + factor(am), data = mtcars))
+#' x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars))
+#' x
 
 dust <- function(object, ...)
 {

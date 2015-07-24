@@ -1,3 +1,5 @@
 #### 0.0.0-001 (23 July 2015)
 * Adds `dust` and `print.dust`.
 * Only the method for printing to the console is available.
+* `+.dust` added
+* `dust_colnames` added

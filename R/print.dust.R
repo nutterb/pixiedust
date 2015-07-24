@@ -29,8 +29,7 @@ print.dust <- function(x, ...)
         stop(paste0("'", x$print_method, "' is not an valid option")))
 }
 
-#' @rdname print.dust
-#' 
+
 
 print_dust_console <- function(x, ...)
 {

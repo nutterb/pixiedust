@@ -23,7 +23,8 @@ Generates the basic structure from which \code{dustpan} tables are formatted
   may be printed as well.  Formatting of the table may be done by adding additional layers.
 }
 \examples{
-dust(lm(mpg ~ qsec + factor(am), data = mtcars))
+x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars))
+x
 }
 \author{
 Benjamin Nutter
