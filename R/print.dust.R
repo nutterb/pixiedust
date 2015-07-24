@@ -43,6 +43,7 @@ print_dust_console <- function(x, ...)
                ifelse(!is.na(round) & col_class %in% numeric_classes,
                       as.character(round(as.numeric(value), round)),
                       value)))
+
   if (any(obj$bold))
     obj <- mutate_(obj, 
                    value = ~ifelse(bold, 

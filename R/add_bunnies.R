@@ -13,9 +13,13 @@
 #' 
 #' @section Dust Bunnies:
 #' The following is a list of available functions for adding dust bunnies to a \code{dust} table.
+#' This list may or may not be complete.
 #' \itemize{
 #'   \item{\code{\link{dust_colnames}}}{ Change the column names for a table}
+#'   \item{\code{\link{dust_bold}}}{ Bold text in cells }
 #'   \item{\code{\link{dust_fn}}}{ Apply a function to values in a table}
+#'   \item{\code{\link{dust_italic}}}{ Italicize text in cells }
+#'   \item{\code{\link{dust_round}}}{ Round values in cells }
 #' }
 #' 
 #' @author Benjamin Nutter
@@ -37,9 +41,10 @@
   dust_bunny_type <- class(y)[1]
   switch(dust_bunny_type,
          "col_names" = add_colnames(x, y, Check),
-         "dust_fn" = add_fn(x, y, Check),
          "dust_bold" = add_bold(x, y, Check),
+         "dust_fn" = add_fn(x, y, Check),
          "dust_italic" = add_italic(x, y, Check),
+         "dust_round" = add_round(x, y, Check),
          stop(paste0("dust_bunny_type '", dust_bunny_type, "' not recognized.")))
 }
 
@@ -73,31 +78,6 @@ add_colnames <- function(x, y, argcheck)
 #**********************************************************
 #**********************************************************
 
-add_fn <- function(x, y, argcheck)
-{
-  cell_bunny_checks(x, y, argcheck)
-  
-  y[["col"]] <- unique(c(y[["col"]], match(y$colname, names(x$col_name))))
-  y[["col"]] <- y[["col"]][!is.na(y$col)]
-  
-  if (is.null(y[["row"]])) y[["row"]] <- 1:max(x$obj[["row"]])
-  if (is.null(y[["col"]])) y[["col"]] <- 1:max(x$obj[["col"]])
-  
-  Y <- expand.grid(row = y$row,
-              col = y[["col"]])
-  
-  x$obj[x$obj$row %in% Y$row & x$obj[["col"]] %in% Y$col, "fn"] <- 
-    vapply(X = 1:nrow(Y),
-          FUN = function(i) 
-                  x$obj[x$obj$row == Y$row[i] & x$obj[["col"]] == Y$col[i], "fn"] <- deparse(y$fn),
-          FUN.VALUE = "character")
-
-  return(x)  
-}
-
-#**********************************************************
-#**********************************************************
-
 add_bold <- function(x, y, argcheck)
 {
   cell_bunny_checks(x, y, argcheck)
@@ -119,6 +99,31 @@ add_bold <- function(x, y, argcheck)
 #**********************************************************
 #**********************************************************
 
+add_fn <- function(x, y, argcheck)
+{
+  cell_bunny_checks(x, y, argcheck)
+  
+  y[["col"]] <- unique(c(y[["col"]], match(y$colname, names(x$col_name))))
+  y[["col"]] <- y[["col"]][!is.na(y$col)]
+  
+  if (is.null(y[["row"]])) y[["row"]] <- 1:max(x$obj[["row"]])
+  if (is.null(y[["col"]])) y[["col"]] <- 1:max(x$obj[["col"]])
+  
+  Y <- expand.grid(row = y$row,
+                   col = y[["col"]])
+  
+  x$obj[x$obj$row %in% Y$row & x$obj[["col"]] %in% Y$col, "fn"] <- 
+    vapply(X = 1:nrow(Y),
+           FUN = function(i) 
+             x$obj[x$obj$row == Y$row[i] & x$obj[["col"]] == Y$col[i], "fn"] <- deparse(y$fn),
+           FUN.VALUE = "character")
+  
+  return(x)  
+}
+
+#**********************************************************
+#**********************************************************
+
 add_italic <- function(x, y, argcheck)
 {
   cell_bunny_checks(x, y, argcheck)
@@ -133,6 +138,27 @@ add_italic <- function(x, y, argcheck)
                    col = y[["col"]])
   
   x$obj$italic[x$obj$row %in% Y$row & x$obj[["col"]] %in% Y[["col"]]] <- y$set_italic
+  
+  return(x)
+}
+
+#**********************************************************
+#**********************************************************
+
+add_round <- function(x, y, argcheck)
+{
+  cell_bunny_checks(x, y, argcheck)
+  
+  y[["col"]] <- unique(c(y[["col"]], match(y$colname, names(x$col_name))))
+  y[["col"]] <- y[["col"]][!is.na(y$col)]
+  
+  if (is.null(y[["row"]])) y[["row"]] <- 1:max(x$obj[["row"]])
+  if (is.null(y[["col"]])) y[["col"]] <- 1:max(x$obj[["col"]])
+  
+  Y <- expand.grid(row = y$row,
+                   col = y[["col"]])
+  
+  x$obj$round[x$obj$row %in% Y$row & x$obj[["col"]] %in% Y[["col"]]] <- y$round
   
   return(x)
 }

@@ -1,6 +1,7 @@
 #' @name cell_attribute_bunnies
 #' @importFrom lazyWeave pvalString
 #' @export pvalString
+#' @aliases dust_fn, dust_bold, dust_italic
 #' 
 #' @title Apply Functions to cells in a table
 #' @description Some cells may require particular formatting or additional calculation prior to
@@ -16,11 +17,11 @@
 #' 
 #' @section Input Formats:
 #' \itemize{
-#'   \item{row}{Integers giving rows across which a function is applied.  The function is always 
+#'   \item{\code{row}}{ Integers giving rows across which a function is applied.  The function is always 
 #'     applied on the intersection of `row` and `col` (or `colname`).}
-#'   \item{col}{Integers giving columns over which a function is applied.  The function is always 
+#'   \item{\code{col}}{ Integers giving columns over which a function is applied.  The function is always 
 #'     applied on the intersection of `row` and `col`.}
-#'   \item{colname}{A character vector of column names over which the column is applied.  The function is always 
+#'   \item{\code{colname}}{ A character vector of column names over which the column is applied.  The function is always 
 #'     applied on the intersection of `row` and `colname`.}
 #' }
 #' 
@@ -43,23 +44,12 @@
 #'   
 #' x + dust_fn(colname = "estimate", fn = quote(format(value, digits = 3))) + 
 #'   dust_italic(colname = "estimate", row = 2, set_italic = TRUE)
+#'   
+#' x + dust_round(colname = c("estimate", "statistic", "std.error"), round = 3) + 
+#'   dust_fn(colname = "p.value", fn = quote(pvalString(value))) + 
+#'   dust_colnames("Term", "Estimate", "SE", "T statistic", "p-value")
 
 NULL
-
-#' @rdname cell_attribute_bunnies
-#' @param fn An expression with the function to be applied to the tabulated values.  The object
-#'     on which `fn` should act is `value`. (ie, `quote(format(value, big.mark=","))`)
-#' @export
-dust_fn <- function(..., fn)
-{
-  Check <- ArgumentCheck::newArgCheck()
-  dust_list <- dust_list_checks(..., attr = fn, fn = "dust_fn", argcheck = Check)
-  
-  ArgumentCheck::finishArgCheck(Check)
-  
-  structure(dust_list,
-            class = c("dust_fn", "dust_bunny"))
-}
 
 #' @rdname cell_attribute_bunnies
 #' @param set_bold Logical. Sets the \code{bold} flag for the table.
@@ -77,6 +67,21 @@ dust_bold <- function(..., set_bold)
 }
 
 #' @rdname cell_attribute_bunnies
+#' @param fn An expression with the function to be applied to the tabulated values.  The object
+#'     on which `fn` should act is `value`. (ie, `quote(format(value, big.mark=","))`)
+#' @export
+dust_fn <- function(..., fn)
+{
+  Check <- ArgumentCheck::newArgCheck()
+  dust_list <- dust_list_checks(..., attr = fn, fn = "dust_fn", argcheck = Check)
+  
+  ArgumentCheck::finishArgCheck(Check)
+  
+  structure(dust_list,
+            class = c("dust_fn", "dust_bunny"))
+}
+
+#' @rdname cell_attribute_bunnies
 #' @param set_italic Logical. Sets the \code{italic} flag for the table.
 #' @export
 
@@ -89,6 +94,22 @@ dust_italic <- function(..., set_italic)
   
   structure(dust_list,
             class = c("dust_italic", "dust_bunny"))
+}
+
+#' @rdname cell_attribute_bunnies
+#' @param round Integer.  Determines the number of decimals to which a value is rounded via
+#'   the `round` function.
+#' @export
+
+dust_round <- function(..., round)
+{
+  Check <- ArgumentCheck::newArgCheck()
+  dust_list <- dust_list_checks(..., attr = round, fn = "dust_round", argcheck = Check)
+  
+  ArgumentCheck::finishArgCheck(Check)
+  
+  structure(dust_list,
+            class = c("dust_round", "dust_bunny"))
 }
 
 #*********************************************

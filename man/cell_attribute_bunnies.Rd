@@ -3,25 +3,33 @@
 \name{cell_attribute_bunnies}
 \alias{cell_attribute_bunnies}
 \alias{dust_bold}
+\alias{dust_bold,}
 \alias{dust_fn}
+\alias{dust_fn,}
 \alias{dust_italic}
+\alias{dust_round}
 \title{Apply Functions to cells in a table}
 \usage{
-dust_fn(..., fn)
-
 dust_bold(..., set_bold)
 
+dust_fn(..., fn)
+
 dust_italic(..., set_italic)
+
+dust_round(..., round)
 }
 \arguments{
 \item{...}{Named argument with characteristics described below.}
 
+\item{set_bold}{Logical. Sets the \code{bold} flag for the table.}
+
 \item{fn}{An expression with the function to be applied to the tabulated values.  The object
 on which `fn` should act is `value`. (ie, `quote(format(value, big.mark=","))`)}
 
-\item{set_bold}{Logical. Sets the \code{bold} flag for the table.}
-
 \item{set_italic}{Logical. Sets the \code{italic} flag for the table.}
+
+\item{round}{Integer.  Determines the number of decimals to which a value is rounded via
+the `round` function.}
 }
 \description{
 Some cells may require particular formatting or additional calculation prior to
@@ -37,11 +45,11 @@ These are intended to be simple functions, mostly for formatting.  Calculations 
 \section{Input Formats}{
 
 \itemize{
-  \item{row}{Integers giving rows across which a function is applied.  The function is always
+  \item{\code{row}}{ Integers giving rows across which a function is applied.  The function is always
     applied on the intersection of `row` and `col` (or `colname`).}
-  \item{col}{Integers giving columns over which a function is applied.  The function is always
+  \item{\code{col}}{ Integers giving columns over which a function is applied.  The function is always
     applied on the intersection of `row` and `col`.}
-  \item{colname}{A character vector of column names over which the column is applied.  The function is always
+  \item{\code{colname}}{ A character vector of column names over which the column is applied.  The function is always
     applied on the intersection of `row` and `colname`.}
 }
 }
@@ -62,6 +70,8 @@ x + dust_fn(colname = "estimate", fn = quote(format(value, digits = 3))) +
 
 x + dust_fn(colname = "estimate", fn = quote(format(value, digits = 3))) +
   dust_italic(colname = "estimate", row = 2, set_italic = TRUE)
+
+x + dust_round(colname = "statistic", round = 3)
 }
 \author{
 Benjamin Nutter
