@@ -26,7 +26,7 @@ print.dust <- function(x, ...)
   switch(x$print_method,
         "console" = print_dust_console(x, ...),
         "markdown" = print_dust_markdown(x, ...),
-#         "html" = print_dust_html(x, ...),
+        "html" = print_dust_html(x, ...),
 #         "latex" = print_dust_latex(x, ...),
         stop(paste0("'", x$print_method, "' is not an valid option")))
 }
@@ -51,12 +51,12 @@ print_dust_console <- function(x, ...)
                       value)))
 
   if (any(obj$bold))
-    obj <- mutate_(obj, 
+    obj <- dplyr::mutate_(obj, 
                    value = ~ifelse(bold, 
                                    paste0("**", value, "**"), 
                                    paste0("  ", value, "  ")))
   if (any(obj$italic))
-    obj <- mutate_(obj, 
+    obj <- dplyr::mutate_(obj, 
                    value = ~ifelse(italic, 
                                    paste0("_", value, "_"), 
                                    paste0(" ", value, " ")))
@@ -91,12 +91,12 @@ print_dust_markdown <- function(x, ...)
                value)))
   
   if (any(obj$bold))
-    obj <- mutate_(obj, 
+    obj <- dplyr::mutate_(obj, 
                    value = ~ifelse(bold, 
                                    paste0("**", value, "**"), 
                                    value))
   if (any(obj$italic))
-    obj <- mutate_(obj, 
+    obj <- dplyr::mutate_(obj, 
                    value = ~ifelse(italic, 
                                    paste0("_", value, "_"), 
                                    value))
@@ -113,4 +113,57 @@ print_dust_markdown <- function(x, ...)
     paste(c("", "", knitr::kable(obj,
                                  format = "markdown")), 
           collapse = "\n"))
+}
+
+
+#*************************************************
+#*************************************************
+#* Print HTML Output
+#*************************************************
+#*************************************************
+
+print_dust_html <- function(x, ...)
+{
+  numeric_classes <- c("double", "numeric")
+  
+  obj <- perform_function(x$obj)
+  
+  obj <- obj %>%
+    dplyr::mutate_(
+      value = ~suppressWarnings(
+        ifelse(!is.na(round) & col_class %in% numeric_classes,
+               as.character(round(as.numeric(value), round)),
+               value)))
+  
+    obj <- dplyr::mutate_(obj, 
+                   bold = ~ifelse(bold, 
+                                  "font-weight:bold;",
+                                   ""))
+
+    obj <- dplyr::mutate_(obj, 
+                   italic = ~ifelse(italic, 
+                                   "font-style:italic;", 
+                                   ""))
+    
+    obj <- dplyr::mutate_(obj, 
+      value = ~gsub("[<]", " &lt; ", value),
+      value = ~gsub("[>]", " &gt; ", value),
+      value = ~paste0("<td style='", bold, italic, "'>", value, "</td>"))
+  
+  obj <- obj %>%
+    dplyr::select_("row", "col", "value") %>%
+    tidyr::spread_("col", "value") %>%
+    dplyr::select_("-row")
+  
+  colnames(obj) <- x$col_names
+  
+  knitr::asis_output(
+    paste0("<table>\n<thead><tr>",
+           paste0(paste0("<th> ", colnames(obj), "</th>"), collapse="\n"),
+           "</thead>\n<tbody>\n",
+           paste0(paste0("<tr> ", 
+                         apply(obj, 1, paste0, collapse = "\n"), 
+                         " </tr>"),
+                  collapse="\n"),
+           "</tbody>\n</table>"))
 }
