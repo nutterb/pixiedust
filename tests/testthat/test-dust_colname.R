@@ -38,7 +38,9 @@ test_that("dust_colnames: named arguments are added to dust table",
   x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars)) + 
     dust_colnames(term = "Term", statistic = "T")
   expect_equal(x$col_names, 
-               c("Term", "estimate", "std.error", "T", "p.value"))
+               c(term = "Term", estimate = "estimate", 
+                 std.error = "std.error", statistic = "T", 
+                 p.value = "p.value"))
 })
 
 test_that("dust_colnames: unnamed arguments are added to dust table",
@@ -46,7 +48,9 @@ test_that("dust_colnames: unnamed arguments are added to dust table",
   x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars)) + 
     dust_colnames("Term", "Estimate", "SE", "T-statistic", "p-value")
   expect_equal(x$col_names,
-               c("Term", "Estimate", "SE", "T-statistic", "p-value"))
+               c(term = "Term", estimate = "Estimate", 
+                 std.error = "SE", statistic = "T-statistic", 
+                 p.value = "p-value"))
 })
 
 test_that("dust_colnames: return error when there are not enough unnamed arguments",

@@ -35,12 +35,17 @@ print_dust_console <- function(x, ...)
 {
   numeric_classes <- c("double", "numeric")
   
-  obj <- x$obj %>%
-    dplyr::mutate_(value = ~suppressWarnings(
-      ifelse(!is.na(round) & col_class %in% numeric_classes,
-             as.character(round(as.numeric(value), round)),
-             value)),
-      value = ~ifelse(bold, paste0("**", value, "**"), value),
+  obj <- perform_function(x$obj)
+  
+  obj <- obj %>%
+    dplyr::mutate_(
+      value = ~suppressWarnings(
+               ifelse(!is.na(round) & col_class %in% numeric_classes,
+                      as.character(round(as.numeric(value), round)),
+                      value)),
+      value = ~ifelse(bold, 
+                      paste0("**", value, "**"), 
+                      paste0("  ", value, "  ")),
       value = ~ifelse(italic, paste0("_", value, "_"), value)) %>%
     dplyr::select_("row", "col", "value") %>%
     tidyr::spread_("col", "value") %>%

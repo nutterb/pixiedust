@@ -30,6 +30,7 @@ dust <- function(object, ...)
   if (!class(object) == "data.frame") object <- broom::tidy(object, ...)
 
   .col_names <- colnames(object)
+  names(.col_names) <- .col_names
   
   Classes <- data.frame(col_name = .col_names,
                         col_class = vapply(object, class, "class"), 
@@ -37,6 +38,7 @@ dust <- function(object, ...)
   
   .cell_attr <- expand.grid(row = 1:nrow(object),
                             col = 1:ncol(object),
+                            fn = NA,
                             bold = FALSE,
                             italic = FALSE,
                             bg = NA,

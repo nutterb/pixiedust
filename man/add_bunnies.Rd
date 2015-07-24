@@ -15,14 +15,12 @@
 \description{
 Adds attributes of a plot to be rendered by the \code{print.dust} method.
 }
-\examples{
-x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars))
-x
-x + dust_colnames(term = "Term", statistic = "T")
-x + dust_colnames("Term", "Estimate", "SE", "T-statistic", "p-value")
-\dontrun{
-# Causes an error due to too few unnamed arguments
-x + dust_colnames("Term", "Estimate")
+\section{Dust Bunnies}{
+
+The following is a list of available functions for adding dust bunnies to a \code{dust} table.
+\itemize{
+  \item{\code{\link{dust_colnames}}}{ Change the column names for a table}
+  \item{\code{\link{dust_fn}}}{ Apply a function to values in a table}
 }
 }
 \author{

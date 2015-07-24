@@ -1,3 +1,11 @@
+#### 0.0.0-002 (24 July 2015)
+* 'col_names` attribute is now named.  The names are the original 
+  column names from the `broom` output.
+* Adds `dust_fn`
+* Adds `dust_bold`
+* Imports `lazyWeave::pvalString`
+
+
 #### 0.0.0-001 (23 July 2015)
 * Adds `dust` and `print.dust`.
 * Only the method for printing to the console is available.

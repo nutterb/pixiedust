@@ -30,13 +30,13 @@ Assigns new column names to a table
  to columns in sequential order.
 }
 \examples{
+x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars))
+x
+x + dust_colnames(term = "Term", statistic = "T")
+x + dust_colnames("Term", "Estimate", "SE", "T-statistic", "p-value")
 \dontrun{
-# to use in tests
-dust_colnames(col_names = c("Term", "Estimate", "SE", "T", "p"))
-dust_colnames(term = c("Term", "SE"), std.error = "SE", p.value = "p")
-dust_colnames(term = "Term", std.error = "SE", p.value = "p")
-dust_colnames(term = "Term", "SE", "p")
-dust_colnames("Term", "SE", "p")
+# Causes an error due to too few unnamed arguments
+x + dust_colnames("Term", "Estimate")
 }
 }
 \author{
