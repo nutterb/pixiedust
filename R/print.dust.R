@@ -39,36 +39,52 @@ print.dust <- function(x, ...)
 
 print_dust_console <- function(x, ...)
 {
+  #************************************************
+  #* 1. apply a function, if any is indicated
+  #* 2. Perform any rounding
+  #* 3. Bold
+  #* 4. Italic
+  #* 5. Spread to wide format for printing
+  #* 6. Column Names
+  #************************************************
+  
   numeric_classes <- c("double", "numeric")
-  
-  obj <- perform_function(x$obj)
-  
-  obj <- obj %>%
+
+  #* 1. apply a function, if any is indicated
+  body <- perform_function(x$body)
+
+  #* 2. Perform any rounding
+  body <- body %>%
     dplyr::mutate_(
       value = ~suppressWarnings(
                ifelse(!is.na(round) & col_class %in% numeric_classes,
                       as.character(round(as.numeric(value), round)),
                       value)))
 
-  if (any(obj$bold))
-    obj <- dplyr::mutate_(obj, 
+  #* 3. Bold
+  if (any(body$bold))
+    body <- dplyr::mutate_(body, 
                    value = ~ifelse(bold, 
                                    paste0("**", value, "**"), 
                                    paste0("  ", value, "  ")))
-  if (any(obj$italic))
-    obj <- dplyr::mutate_(obj, 
+  
+  #* 4. Italic
+  if (any(body$italic))
+    body <- dplyr::mutate_(body, 
                    value = ~ifelse(italic, 
                                    paste0("_", value, "_"), 
                                    paste0(" ", value, " ")))
-  
-  obj <- obj %>%
+
+  #* 5. Spread to wide format for printing
+  body <- body %>%
     dplyr::select_("row", "col", "value") %>%
     tidyr::spread_("col", "value") %>%
     dplyr::select_("-row")
+
+  #* 6. Column Names     
+  colnames(body) <- x$head$col_title
   
-  colnames(obj) <- x$col_names
-  
-  print(obj)
+  print(body)
 }
 
 #*************************************************
@@ -81,37 +97,53 @@ print_dust_markdown <- function(x, ...)
 {
   numeric_classes <- c("double", "numeric")
   
-  obj <- perform_function(x$obj)
+  #************************************************
+  #* 1. apply a function, if any is indicated
+  #* 2. Perform any rounding
+  #* 3. Bold
+  #* 4. Italic
+  #* 5. Spread to wide format for printing
+  #* 6. Column Names
+  #************************************************
   
-  obj <- obj %>%
+  #* 1. apply a function, if any is indicated
+  body <- perform_function(x$body)
+
+  #* 2. Perform any rounding
+  body <- body %>%
     dplyr::mutate_(
       value = ~suppressWarnings(
         ifelse(!is.na(round) & col_class %in% numeric_classes,
                as.character(round(as.numeric(value), round)),
                value)))
-  
-  if (any(obj$bold))
-    obj <- dplyr::mutate_(obj, 
+
+  #* 3. Bold
+  if (any(body$bold))
+    body <- dplyr::mutate_(body, 
                    value = ~ifelse(bold, 
                                    paste0("**", value, "**"), 
                                    value))
-  if (any(obj$italic))
-    obj <- dplyr::mutate_(obj, 
+  
+  #* 4. Italic
+  if (any(body$italic))
+    body <- dplyr::mutate_(body, 
                    value = ~ifelse(italic, 
                                    paste0("_", value, "_"), 
                                    value))
-  
-  obj <- obj %>%
+
+  #* 5. Spread to wide format for printing
+  body <- body %>%
     dplyr::select_("row", "col", "value") %>%
     tidyr::spread_("col", "value") %>%
     dplyr::select_("-row")
   
-  colnames(obj) <- x$col_names
-  
+  #* 6. Column Names 
+  colnames(body) <- x$head$col_title
 
   knitr::asis_output(
-    paste(c("", "", knitr::kable(obj,
-                                 format = "markdown")), 
+    paste(c("", "", knitr::kable(body,
+                                 format = "markdown",
+                                 align = x$head$halign)), 
           collapse = "\n"))
 }
 
@@ -125,44 +157,73 @@ print_dust_markdown <- function(x, ...)
 print_dust_html <- function(x, ...)
 {
   numeric_classes <- c("double", "numeric")
+ 
+  #************************************************
+  #* 1. apply a function, if any is indicated
+  #* 2. Perform any rounding
+  #* 3. Bold
+  #* 4. Italic
+  #* 5. Spread to wide format for printing
+  #* 6. Column Names
+  #************************************************
   
-  obj <- perform_function(x$obj)
-  
-  obj <- obj %>%
+  #* 1. apply a function, if any is indicated
+  body <- perform_function(x$body)
+
+  #* 2. Perform any rounding
+  body <- body %>%
     dplyr::mutate_(
       value = ~suppressWarnings(
         ifelse(!is.na(round) & col_class %in% numeric_classes,
                as.character(round(as.numeric(value), round)),
                value)))
-  
-    obj <- dplyr::mutate_(obj, 
-                   bold = ~ifelse(bold, 
-                                  "font-weight:bold;",
-                                   ""))
 
-    obj <- dplyr::mutate_(obj, 
-                   italic = ~ifelse(italic, 
-                                   "font-style:italic;", 
-                                   ""))
+  #* 3. Bold
+  body <- dplyr::mutate_(body, 
+                        bold = ~ifelse(bold, 
+                                       "font-weight:bold;",
+                                       ""))
+
+  #* 4. Italic
+  body <- dplyr::mutate_(body, 
+                 italic = ~ifelse(italic, 
+                                 "font-style:italic;", 
+                                 ""))
+  
+  #* 5. Cell Alignment
+  for (i in 1:length(body$halign)){
+    body$halign[i] <- switch(body$halign[i],
+                            "l" = "left",
+                            "c" = "center",
+                            "r" = "right",
+                            stop("Invalid 'halign'"))
+  }
+  
+  body <- dplyr::mutate_(body,
+           halign = ~ifelse(halign != "",
+                           paste0("text-align:", halign, ";"),
+                           halign))
     
-    obj <- dplyr::mutate_(obj, 
+  body <- dplyr::mutate_(body, 
       value = ~gsub("[<]", " &lt; ", value),
       value = ~gsub("[>]", " &gt; ", value),
-      value = ~paste0("<td style='", bold, italic, "'>", value, "</td>"))
-  
-  obj <- obj %>%
+      value = ~paste0("<td style='", bold, italic, halign, "'>", value, "</td>"))
+
+  #* 5. Spread to wide format for printing
+  body <- body %>%
     dplyr::select_("row", "col", "value") %>%
     tidyr::spread_("col", "value") %>%
     dplyr::select_("-row")
-  
-  colnames(obj) <- x$col_names
+
+  #* 6. Column Names   
+  colnames(body) <- x$head$col_title
   
   knitr::asis_output(
     paste0("<table>\n<thead><tr>",
-           paste0(paste0("<th> ", colnames(obj), "</th>"), collapse="\n"),
+           paste0(paste0("<th> ", colnames(body), "</th>"), collapse="\n"),
            "</thead>\n<tbody>\n",
            paste0(paste0("<tr> ", 
-                         apply(obj, 1, paste0, collapse = "\n"), 
+                         apply(body, 1, paste0, collapse = "\n"), 
                          " </tr>"),
                   collapse="\n"),
            "</tbody>\n</table>"))

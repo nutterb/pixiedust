@@ -1,0 +1,8 @@
+dustbunny,implemented,console,markdown,html,latex
+dust_cell_halign,,,,x, 
+dust_colnames,x,x,x,x, 
+dust_bold,x,x,x,x,  
+dust_fn,x,x,x,x, 
+dust_head_halign,x,,x,x,
+dust_italic,x,x,x,x, 
+dust_round,x,x,x,x,

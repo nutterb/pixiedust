@@ -13,11 +13,16 @@
 #' 
 #' @section Dust Bunnies:
 #' The following is a list of available functions for adding dust bunnies to a \code{dust} table.
-#' This list may or may not be complete.
+#' This list may or may not be complete.  Not every dust bunny will impact every type of table.
+#' See \code{vignette("dustbunnies")} for a tabulation of which dustbunnies are applicable to each
+#' printing method.
+#' 
 #' \itemize{
+#'   \item{\code{\link{dust_cell_halign}}}{ Assign the horizontal alignment in a cell}
 #'   \item{\code{\link{dust_colnames}}}{ Change the column names for a table}
 #'   \item{\code{\link{dust_bold}}}{ Bold text in cells }
 #'   \item{\code{\link{dust_fn}}}{ Apply a function to values in a table}
+#'   \item{\code{\link{dust_head_halign}}}{ Assign the horizontal alignment for a column}
 #'   \item{\code{\link{dust_italic}}}{ Italicize text in cells }
 #'   \item{\code{\link{dust_round}}}{ Round values in cells }
 #' }
@@ -30,7 +35,7 @@
 '+.dust' <- function(x, y)
 {
   
-    Check <- ArgumentCheck::newArgCheck()
+  Check <- ArgumentCheck::newArgCheck()
   #* Not quite sure how to make this one work yet
   #   if (!"dust_bunny" %in% class(y))
   #     ArgumentCheck::addError(
@@ -42,7 +47,9 @@
   switch(dust_bunny_type,
          "col_names" = add_colnames(x, y, Check),
          "dust_bold" = add_bold(x, y, Check),
+         "dust_cell_halign" = add_cell_halign(x, y, Check),
          "dust_fn" = add_fn(x, y, Check),
+         "dust_head_halign" = add_head_halign(x, y, Check),
          "dust_italic" = add_italic(x, y, Check),
          "dust_print_method" = add_print_method(x, y, Check),
          "dust_round" = add_round(x, y, Check),
@@ -52,47 +59,65 @@
 #**********************************************************
 #**********************************************************
 
-add_colnames <- function(x, y, argcheck)
-{
-  old_names <- x$col_names
-  vec_names <- names(x$col_names)
-  
-  if (is.null(names(y))){
-    if (length(y) != length(old_names)){
-      ArgumentCheck::addError(
-        msg = paste0("Unnamed column names from 'dust_colnames' should have length ", 
-                     length(old_names), "."),
-        argcheck = argcheck)
-      ArgumentCheck::finishArgCheck(argcheck)
-    }
-    x$col_names <- unclass(y)
-  } 
-  else{
-    x$col_names[match(names(y), old_names)] <- y
-  }
-  
-  names(x$col_names) <- vec_names
-  
-  return(x)
-}
-  
-#**********************************************************
-#**********************************************************
-
 add_bold <- function(x, y, argcheck)
 {
   cell_bunny_checks(x, y, argcheck)
   
-  y[["col"]] <- unique(c(y[["col"]], match(y$colname, names(x$col_name))))
+  y[["col"]] <- unique(c(y[["col"]], match(y$colname, x$head$col_names)))
   y[["col"]] <- y[["col"]][!is.na(y$col)]
 
-  if (is.null(y[["row"]])) y[["row"]] <- 1:max(x$obj[["row"]])
-  if (is.null(y[["col"]])) y[["col"]] <- 1:max(x$obj[["col"]])
+  if (is.null(y[["row"]])) y[["row"]] <- 1:max(x$body[["row"]])
+  if (is.null(y[["col"]])) y[["col"]] <- 1:max(x$body[["col"]])
   
   Y <- expand.grid(row = y$row,
                    col = y[["col"]])
   
-  x$obj$bold[x$obj$row %in% Y$row & x$obj[["col"]] %in% Y[["col"]]] <- y$set_bold
+  x$body$bold[x$body$row %in% Y$row & x$body[["col"]] %in% Y[["col"]]] <- y$set_bold
+  
+  return(x)
+}
+
+
+
+#**********************************************************
+#**********************************************************
+
+add_cell_halign <- function(x, y, argcheck)
+{
+  cell_bunny_checks(x, y, argcheck)
+  
+  y[["col"]] <- unique(c(y[["col"]], match(y$colname, x$head$col_names)))
+  y[["col"]] <- y[["col"]][!is.na(y$col)]
+  
+  if (is.null(y[["row"]])) y[["row"]] <- 1:max(x$body[["row"]])
+  if (is.null(y[["col"]])) y[["col"]] <- 1:max(x$body[["col"]])
+  
+  Y <- expand.grid(row = y$row,
+                   col = y[["col"]])
+  
+  x$body$halign[x$body$row %in% Y$row & x$body[["col"]] %in% Y[["col"]]] <- y$halign
+  
+  return(x)
+}
+
+#**********************************************************
+#**********************************************************
+
+add_colnames <- function(x, y, argcheck)
+{
+  if (is.null(names(y))){
+    if (length(y) != nrow(x$head)){
+      ArgumentCheck::addError(
+        msg = paste0("Unnamed column names from 'dust_colnames' should have length ", 
+                     nrow(x$head), "."),
+        argcheck = argcheck)
+      ArgumentCheck::finishArgCheck(argcheck)
+    }
+    x$head$col_title <- unclass(y)
+  } 
+  else{
+    x$head$col_title[match(names(y), x$head$col_names)] <- y
+  }
   
   return(x)
 }
@@ -104,22 +129,65 @@ add_fn <- function(x, y, argcheck)
 {
   cell_bunny_checks(x, y, argcheck)
   
-  y[["col"]] <- unique(c(y[["col"]], match(y$colname, names(x$col_name))))
+  y[["col"]] <- unique(c(y[["col"]], match(y$colname, x$head$col_names)))
   y[["col"]] <- y[["col"]][!is.na(y$col)]
   
-  if (is.null(y[["row"]])) y[["row"]] <- 1:max(x$obj[["row"]])
-  if (is.null(y[["col"]])) y[["col"]] <- 1:max(x$obj[["col"]])
+  if (is.null(y[["row"]])) y[["row"]] <- 1:max(x$body[["row"]])
+  if (is.null(y[["col"]])) y[["col"]] <- 1:max(x$body[["col"]])
   
   Y <- expand.grid(row = y$row,
                    col = y[["col"]])
   
-  x$obj[x$obj$row %in% Y$row & x$obj[["col"]] %in% Y$col, "fn"] <- 
+  x$body[x$body$row %in% Y$row & x$body[["col"]] %in% Y$col, "fn"] <- 
     vapply(X = 1:nrow(Y),
            FUN = function(i) 
-             x$obj[x$obj$row == Y$row[i] & x$obj[["col"]] == Y$col[i], "fn"] <- deparse(y$fn),
+             x$body[x$body$row == Y$row[i] & x$body[["col"]] == Y$col[i], "fn"] <- deparse(y$fn),
            FUN.VALUE = "character")
   
   return(x)  
+}
+
+#**********************************************************
+#**********************************************************
+
+add_head_halign <- function(x, y, argcheck)
+{
+  if (is.null(names(y))){
+    if (length(y) != nrow(x$head)){
+      ArgumentCheck::addError(
+        msg = paste0("Unnamed column names from 'dust_head_halign' should have length ", 
+                     nrow(x$head), "."),
+        argcheck = argcheck)
+      ArgumentCheck::finishArgCheck(argcheck)
+    }
+    x$head$halign <- unclass(y)
+  } 
+  else{
+    x$head$halign[match(names(y), x$head$col_names)] <- y
+  }
+  
+  return(x)
+}
+
+#**********************************************************
+#**********************************************************
+
+add_italic <- function(x, y, argcheck)
+{
+  cell_bunny_checks(x, y, argcheck)
+  
+  y[["col"]] <- unique(c(y[["col"]], match(y$colname, x$head$col_names)))
+  y[["col"]] <- y[["col"]][!is.na(y$col)]
+  
+  if (is.null(y[["row"]])) y[["row"]] <- 1:max(x$body[["row"]])
+  if (is.null(y[["col"]])) y[["col"]] <- 1:max(x$body[["col"]])
+  
+  Y <- expand.grid(row = y$row,
+                   col = y[["col"]])
+  
+  x$body$italic[x$body$row %in% Y$row & x$body[["col"]] %in% Y[["col"]]] <- y$set_italic
+  
+  return(x)
 }
 
 #**********************************************************
@@ -138,26 +206,6 @@ add_print_method <- function(x, y, argcheck)
   return(x)
 }
 
-#**********************************************************
-#**********************************************************
-
-add_italic <- function(x, y, argcheck)
-{
-  cell_bunny_checks(x, y, argcheck)
-  
-  y[["col"]] <- unique(c(y[["col"]], match(y$colname, names(x$col_name))))
-  y[["col"]] <- y[["col"]][!is.na(y$col)]
-  
-  if (is.null(y[["row"]])) y[["row"]] <- 1:max(x$obj[["row"]])
-  if (is.null(y[["col"]])) y[["col"]] <- 1:max(x$obj[["col"]])
-  
-  Y <- expand.grid(row = y$row,
-                   col = y[["col"]])
-  
-  x$obj$italic[x$obj$row %in% Y$row & x$obj[["col"]] %in% Y[["col"]]] <- y$set_italic
-  
-  return(x)
-}
 
 #**********************************************************
 #**********************************************************
@@ -166,16 +214,16 @@ add_round <- function(x, y, argcheck)
 {
   cell_bunny_checks(x, y, argcheck)
   
-  y[["col"]] <- unique(c(y[["col"]], match(y$colname, names(x$col_name))))
+  y[["col"]] <- unique(c(y[["col"]], match(y$colname, x$head$col_name)))
   y[["col"]] <- y[["col"]][!is.na(y$col)]
   
-  if (is.null(y[["row"]])) y[["row"]] <- 1:max(x$obj[["row"]])
-  if (is.null(y[["col"]])) y[["col"]] <- 1:max(x$obj[["col"]])
+  if (is.null(y[["row"]])) y[["row"]] <- 1:max(x$body[["row"]])
+  if (is.null(y[["col"]])) y[["col"]] <- 1:max(x$body[["col"]])
   
   Y <- expand.grid(row = y$row,
                    col = y[["col"]])
   
-  x$obj$round[x$obj$row %in% Y$row & x$obj[["col"]] %in% Y[["col"]]] <- y$round
+  x$body$round[x$body$row %in% Y$row & x$body[["col"]] %in% Y[["col"]]] <- y$round
   
   return(x)
 }
@@ -189,8 +237,8 @@ add_round <- function(x, y, argcheck)
 cell_bunny_checks <- function(x, y, argcheck)
 {
   if (!is.null(y$colname)){
-    if (any(!y$colname %in% names(x$col_name))){
-      mismatched <- y$colname[!y$colname %in% names(x$col_name)]
+    if (any(!y$colname %in% x$head$col_names)){
+      mismatched <- y$colname[!y$colname %in% x$head$col_names]
       ArgumentCheck::addError(
         msg = paste0("Submitted column names could not be found: ",
                      paste0(mismatched, collapse=", ")),
@@ -198,19 +246,19 @@ cell_bunny_checks <- function(x, y, argcheck)
     }
   }
   
-  if (any(!y$row %in% x$obj$row)){
-    row_out_of_bounds <- y$row[!y$row %in% x$obj$row]
+  if (any(!y$row %in% x$body$row)){
+    row_out_of_bounds <- y$row[!y$row %in% x$body$row]
     ArgumentCheck::addError(
-      msg = paste0("There are ", max(x$obj$row), " rows in the table. ",
+      msg = paste0("There are ", max(x$body$row), " rows in the table. ",
                    "These row numbers from `dust_fn` are out of bound: ",
                    paste0(row_out_of_bounds, collapse=", ")),
       argcheck = argcheck)
   }
   
-  if (any(!y[["col"]] %in% x$obj[["col"]])){
-    col_out_of_bounds <- y[["col"]][!y[["col"]] %in% x$obj[["col"]]]
+  if (any(!y[["col"]] %in% x$body[["col"]])){
+    col_out_of_bounds <- y[["col"]][!y[["col"]] %in% x$body[["col"]]]
     ArgumentCheck::addError(
-      msg = paste0("There are ", max(x$obj[["col"]]), " columns in the table. ",
+      msg = paste0("There are ", max(x$body[["col"]]), " columns in the table. ",
                    "These column numbers from `dust_fn` are out of bound: ",
                    paste0(row_out_of_bounds, collapse=", ")),
       argcheck = argcheck)

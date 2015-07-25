@@ -4,6 +4,7 @@
 \alias{cell_attribute_bunnies}
 \alias{dust_bold}
 \alias{dust_bold,}
+\alias{dust_cell_halign}
 \alias{dust_fn}
 \alias{dust_fn,}
 \alias{dust_italic}
@@ -11,6 +12,8 @@
 \title{Apply Functions to cells in a table}
 \usage{
 dust_bold(..., set_bold)
+
+dust_cell_halign(..., halign)
 
 dust_fn(..., fn)
 
@@ -22,6 +25,9 @@ dust_round(..., round)
 \item{...}{Named argument with characteristics described below.}
 
 \item{set_bold}{Logical. Sets the \code{bold} flag for the table.}
+
+\item{halign}{A character value.  May be any of \code{"l"}, \code{"left"}, \code{"c"},
+\code{"center"}, \code{"r"}, or \code{"right"}.}
 
 \item{fn}{An expression with the function to be applied to the tabulated values.  The object
 on which `fn` should act is `value`. (ie, `quote(format(value, big.mark=","))`)}

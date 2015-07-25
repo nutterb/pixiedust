@@ -29,41 +29,59 @@ dust <- function(object, ...)
 {
   if (!class(object) == "data.frame") object <- broom::tidy(object, ...)
 
-  .col_names <- colnames(object)
-  names(.col_names) <- .col_names
-  
-  Classes <- data.frame(col_name = .col_names,
+  #* Build the body attributes object
+  Classes <- data.frame(col_name = colnames(object),
                         col_class = vapply(object, class, "class"), 
                         stringsAsFactors=FALSE)
   
   .cell_attr <- expand.grid(row = 1:nrow(object),
                             col = 1:ncol(object),
                             fn = NA,
+                            round = NA,
                             bold = FALSE,
                             italic = FALSE,
+                            halign = "na",
+                            valign = "na",
                             bg = NA,
-                            round = NA,
                             left_border = FALSE,
                             right_border = FALSE,
                             top_border = FALSE,
-                            bottom_border = FALSE)
+                            bottom_border = FALSE,
+                            stringsAsFactors=FALSE)
   
-  object <- 
+  body <- 
     dplyr::mutate_(object, row = ~1:n()) %>%
     tidyr::gather_("col", "value", gather_cols=names(object)[!names(object) %in% "row"]) %>%
     dplyr::mutate_(col_name = ~factor(col, colnames(object)),
                    col = ~as.numeric(col_name),
                    col_name = ~as.character(col_name))
-  object <- 
-    dplyr::left_join(object, .cell_attr,
+  body <- 
+    dplyr::left_join(body, .cell_attr,
                      by = c("row" = "row", 
                             "col" = "col"))
-  object <- 
-    dplyr::left_join(object, Classes,
+  body <- 
+    dplyr::left_join(body, Classes,
                      by = c("col_name" = "col_name"))
   
-  structure(list(obj = object,
-                 col_names = .col_names,
+  #* Build the header attributes object
+  Alignment <- 
+    dplyr::select_(body, "col_name", "col_class") %>%
+    dplyr::distinct() %>%
+    dplyr::mutate_(halign = ~ifelse(col_class %in% c("numeric", "double", "int"),
+                                    "r", "l")) %>%
+    dplyr::select_("col_name", "halign")
+                                    
+  
+  head <- data.frame(col_names = colnames(object),
+                     stringsAsFactors = FALSE)
+  head$col_title <- head$col_names
+  head <- left_join(head, Alignment,
+                    by = c("col_names" = "col_name"))
+  head$valign <- "na"
+
+  
+  structure(list(body = body,
+                 head = head,
                  print_method = getOption("dustpan_output")),
             class = "dust")
 }

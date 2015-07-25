@@ -1,3 +1,13 @@
+#### 0.0.0-003 (25 July 2015)
+* Adds halign and valign attributes to `dust$obj`. valign is not yet implemented.
+* Adds `dust_cell_halign`
+* Adds `dust_head_halign`
+* Adds dustbunnies vignette
+* Removed the `col_names` attribute of the `dust` object and replaced it with the
+  `head` object.  The `head` object is a data frame holding the attributes of the
+  table header.
+* Renamed the `obj` attributes of the `dust` object to `body`.
+
 #### 0.0.0-002 (24 July 2015)
 * 'col_names` attribute is now named.  The names are the original 
   column names from the `broom` output.

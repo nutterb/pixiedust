@@ -67,6 +67,29 @@ dust_bold <- function(..., set_bold)
 }
 
 #' @rdname cell_attribute_bunnies
+#' @param halign A character value.  May be any of \code{"l"}, \code{"left"}, \code{"c"}, 
+#'   \code{"center"}, \code{"r"}, or \code{"right"}.
+#' @export
+
+dust_cell_halign <- function(..., halign){
+  Check <- ArgumentCheck::newArgCheck()
+  dust_list <- dust_list_checks(..., attr = halign, fn = "dust_cell_halign", argcheck = Check)
+  
+  if (any(!halign %in% c("l", "left", "c", "center", "r", "right")))
+    ArgumentCheck::addError(
+      msg = paste0("'dust_cell_halign' argument 'halign' only accepts ",
+                   "'l', 'left', 'c', 'center', 'r', and 'right'."),
+      argcheck = Check)
+  
+  ArgumentCheck::finishArgCheck(Check)
+  
+  dust_list$halign <- substr(dust_list$halign, 1, 1)
+  
+  structure(dust_list,
+            class = c("dust_cell_halign", "dust_bunny"))
+}
+
+#' @rdname cell_attribute_bunnies
 #' @param fn An expression with the function to be applied to the tabulated values.  The object
 #'     on which `fn` should act is `value`. (ie, `quote(format(value, big.mark=","))`)
 #' @export

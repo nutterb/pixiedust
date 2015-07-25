@@ -2,33 +2,30 @@
 % Please edit documentation in R/table_attribute_bunnies.R
 \name{table_attribute_bunnies}
 \alias{dust_colnames}
-\alias{dust_print_method}
+\alias{dust_head_halign}
 \alias{table_attribute_bunnies}
-\title{Column Names for \code{dustpan} Tables}
+\title{Column Attributes for \code{dustpan} Tables}
 \usage{
 dust_colnames(...)
 
-dust_print_method(print_method)
+dust_head_halign(...)
 }
 \arguments{
-\item{...}{Column names for the table.  See 'Input Formats'}
-
-\item{print_method}{A character string denoting the printing method for the table.  This
-must have length 1.}
+\item{...}{Column attributes for the table.  See 'Input Formats'}
 }
 \description{
-Assigns new column names to a table
+Assigns new column attributes to a table
 }
 \section{Input Formats}{
 
 \itemize{
-  \item{\code{col_names}}{Using \code{dust_colnames(col_names = c(...))}, a vector with named or
+  \item{\code{attr_vec}}{ Using \code{dust_colnames(attr_vec = c(...))}, a vector with named or
     unnamed elements may be provided.  If the elements are unnamed, it must have the same
     length as the number of columns in the table.}
-  \item{named arguments}{Using \code{dust_colnames(term = "Term", estimate = "Estimate")},
+  \item{named arguments}{ Using \code{dust_colnames(term = "Term", estimate = "Estimate")},
     column names may be passed for all or a subset of the columns.  The existing column
     name will be matched against the argument name.}
-  \item{unnamed arguments}{Using \code{dust_colnames("Term", "Estimate", "SE", ...)},
+  \item{unnamed arguments}{ Using \code{dust_colnames("Term", "Estimate", "SE", ...)},
     column names may be passed for all of the columns.  If the arguments are unnamed, the
     number of arguments passed must match the number of columns in the table.}
  }

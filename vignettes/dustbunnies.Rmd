@@ -1,0 +1,27 @@
+---
+title: "Dustbunnies"
+author: "Benjamin Nutter"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    fig_caption: no
+    number_section: yes
+    toc: yes
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Dustbunnies}
+  \usepackage[utf8]{inputenc}
+---
+
+Dustbunnies are used to modify the appearance of a table.
+
+```{r, echo=FALSE}
+Dustbunnies <- read.csv(system.file("dustbunnies.csv", package = "dustpan"),
+                        stringsAsFactors=FALSE)
+```
+
+```{r}
+library(dustpan)
+dust(Dustbunnies) + 
+  dust_print_method(print_method = "html")
+```
