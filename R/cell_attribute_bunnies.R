@@ -60,6 +60,11 @@ dust_bold <- function(..., set_bold)
   Check <- ArgumentCheck::newArgCheck()
   dust_list <- dust_list_checks(..., attr = set_bold, fn = "dust_bold", argcheck = Check)
   
+  if (any(!is.logical(dust_list$set_bold)))
+    ArgumentCheck::addError(
+      msg = "'set_bold' must be logical.",
+      argcheck = Check)
+  
   ArgumentCheck::finishArgCheck(Check)
   
   structure(dust_list,
@@ -68,12 +73,16 @@ dust_bold <- function(..., set_bold)
 
 #' @rdname cell_attribute_bunnies
 #' @param halign A character value.  May be any of \code{"l"}, \code{"left"}, \code{"c"}, 
-#'   \code{"center"}, \code{"r"}, or \code{"right"}.
+#'   \code{"center"}, \code{"r"}, or \code{"right"}.  Truthfully, only the first letter matters,
+#'   so submitting \code{halign = "cowabunga dude"} will center align a cell.  I've chosen to 
+#'   allow this oddity since it will be forgiving of unintentional misspellings.
 #' @export
 
 dust_cell_halign <- function(..., halign){
   Check <- ArgumentCheck::newArgCheck()
   dust_list <- dust_list_checks(..., attr = halign, fn = "dust_cell_halign", argcheck = Check)
+  
+  dust_list$halign <- tolower(substr(dust_list$halign, 1, 1))
   
   if (any(!halign %in% c("l", "left", "c", "center", "r", "right")))
     ArgumentCheck::addError(
@@ -82,8 +91,6 @@ dust_cell_halign <- function(..., halign){
       argcheck = Check)
   
   ArgumentCheck::finishArgCheck(Check)
-  
-  dust_list$halign <- substr(dust_list$halign, 1, 1)
   
   structure(dust_list,
             class = c("dust_cell_halign", "dust_bunny"))
@@ -113,6 +120,11 @@ dust_italic <- function(..., set_italic)
   Check <- ArgumentCheck::newArgCheck()
   dust_list <- dust_list_checks(..., attr = set_italic, fn = "dust_italic", argcheck = Check)
   
+  if (any(!is.logical(dust_list$set_italic)))
+    ArgumentCheck::addError(
+      msg = "'set_italic' must be logical.",
+      argcheck = Check)
+  
   ArgumentCheck::finishArgCheck(Check)
   
   structure(dust_list,
@@ -128,6 +140,11 @@ dust_round <- function(..., round)
 {
   Check <- ArgumentCheck::newArgCheck()
   dust_list <- dust_list_checks(..., attr = round, fn = "dust_round", argcheck = Check)
+  
+  if (!is.numeric(dust_list$round))
+    ArgumentCheck::addError(
+      msg = "'round' argument in 'dust_round' must be numeric",
+      argcheck = Check)
   
   ArgumentCheck::finishArgCheck(Check)
   

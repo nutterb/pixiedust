@@ -1,8 +1,10 @@
 #' @name dust
 #' @export dust
 #' @importFrom broom tidy
+#' @importFrom dplyr distinct
 #' @importFrom dplyr left_join
 #' @importFrom dplyr mutate_
+#' @importFrom dplyr select_
 #' @importFrom tidyr gather_
 #' 
 #' @title Prepare an Object for Printing
@@ -40,8 +42,8 @@ dust <- function(object, ...)
                             round = NA,
                             bold = FALSE,
                             italic = FALSE,
-                            halign = "na",
-                            valign = "na",
+                            halign = NA,
+                            valign = NA,
                             bg = NA,
                             left_border = FALSE,
                             right_border = FALSE,
@@ -63,23 +65,22 @@ dust <- function(object, ...)
     dplyr::left_join(body, Classes,
                      by = c("col_name" = "col_name"))
   
-  #* Build the header attributes object
-  Alignment <- 
-    dplyr::select_(body, "col_name", "col_class") %>%
-    dplyr::distinct() %>%
-    dplyr::mutate_(halign = ~ifelse(col_class %in% c("numeric", "double", "int"),
-                                    "r", "l")) %>%
-    dplyr::select_("col_name", "halign")
-                                    
-  
-  head <- data.frame(col_names = colnames(object),
+  #* head attributes
+  head <- data.frame(col_name = colnames(object),
+                     col_title = colnames(object),
+                     halign = rep(NA, length(object)),
+                     valign = rep(NA, length(object)),
                      stringsAsFactors = FALSE)
-  head$col_title <- head$col_names
-  head <- left_join(head, Alignment,
-                    by = c("col_names" = "col_name"))
-  head$valign <- "na"
-
+  head_col_class <- 
+    dplyr::select_(body, "col_name", "col_class") %>%
+    dplyr::distinct()
   
+  head <- dplyr::left_join(head, head_col_class,
+                           by = c("col_name" = "col_name"))
+
+    
+    dplyr::left_join
+
   structure(list(body = body,
                  head = head,
                  print_method = getOption("dustpan_output")),

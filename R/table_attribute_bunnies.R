@@ -46,7 +46,7 @@ dust_colnames <- function(...)
   Check <- ArgumentCheck::newArgCheck()
   new_names <- list(...)
   
-  new_names <- dust_table_attr_checks(new_names, Check)
+  new_names <- dust_table_attr_checks(new_names, Check, "dust_colnames")
   
   structure(new_names, 
             class = c("col_names", "dust_bunny"))
@@ -59,8 +59,8 @@ dust_head_halign <- function(...){
   Check <- ArgumentCheck::newArgCheck()
   new_halign <- list(...)
   
-  new_halign <- dust_table_attr_checks(new_halign, Check)
-  new_halign <- substr(new_halign, 1, 1)
+  new_halign <- dust_table_attr_checks(new_halign, Check, "dust_head_halign")
+  new_halign <- tolower(substr(new_halign, 1, 1))
   
   if (any(!new_halign %in% c("l", "c", "r")))
     ArgumentCheck::addError(
@@ -75,7 +75,7 @@ dust_head_halign <- function(...){
 
 #********************************************
 
-dust_table_attr_checks <- function(attr_list, argcheck)
+dust_table_attr_checks <- function(attr_list, argcheck, fn)
 {
   #* Return the 'attr_vec' vector, if used.
   if ("attr_vec" %in% names(attr_list)){
@@ -89,7 +89,7 @@ dust_table_attr_checks <- function(attr_list, argcheck)
   #* Return an error if any element in ... has length greater than 1.
   else if (any(vapply(attr_list, length, 1) != 1)){
     ArgumentCheck::addError(
-      msg = "Arguments to 'dust_colnames' should have length 1 (unless using 'attr_vec')",
+      msg = paste0("Arguments to '", fn, "' should have length 1 (unless using 'attr_vec')"),
       argcheck = argcheck)
     
     ArgumentCheck::finishArgCheck(argcheck)

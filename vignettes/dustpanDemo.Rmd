@@ -57,7 +57,7 @@ dust(fit) +
   dust_colnames("Term", "Estimate", "SE", "T statistic", "p-value") + 
   dust_bold(colname = "estimate", row = 2, set_bold=TRUE) + 
   dust_italic(colname = "estimate", row = 2:3, set_italic = TRUE) + 
-  dust_head_halign(term = "r", statistic = "c", p.value = "left") + 
+  dust_head_halign(estimate = "r", statistic = "c", p.value = "left") + 
   dust_cell_halign(row=2, halign = "r") + 
-  dust_print_method("markdown")
+  dust_print_method("html")
 ```

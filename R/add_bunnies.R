@@ -63,11 +63,11 @@ add_bold <- function(x, y, argcheck)
 {
   cell_bunny_checks(x, y, argcheck)
   
-  y[["col"]] <- unique(c(y[["col"]], match(y$colname, x$head$col_names)))
+  y[["col"]] <- unique(c(y[["col"]], match(y$colname, x$head$col_name)))
   y[["col"]] <- y[["col"]][!is.na(y$col)]
 
-  if (is.null(y[["row"]])) y[["row"]] <- 1:max(x$body[["row"]])
-  if (is.null(y[["col"]])) y[["col"]] <- 1:max(x$body[["col"]])
+  if (length(y[["row"]]) == 0) y[["row"]] <- 1:max(x$body[["row"]])
+  if (length(y[["col"]]) == 0) y[["col"]] <- 1:max(x$body[["col"]])
   
   Y <- expand.grid(row = y$row,
                    col = y[["col"]])
@@ -86,11 +86,11 @@ add_cell_halign <- function(x, y, argcheck)
 {
   cell_bunny_checks(x, y, argcheck)
   
-  y[["col"]] <- unique(c(y[["col"]], match(y$colname, x$head$col_names)))
+  y[["col"]] <- unique(c(y[["col"]], match(y$colname, x$head$col_name)))
   y[["col"]] <- y[["col"]][!is.na(y$col)]
   
-  if (is.null(y[["row"]])) y[["row"]] <- 1:max(x$body[["row"]])
-  if (is.null(y[["col"]])) y[["col"]] <- 1:max(x$body[["col"]])
+  if (length((y[["row"]])) == 0) y[["row"]] <- 1:max(x$body[["row"]])
+  if (length((y[["col"]])) == 0) y[["col"]] <- 1:max(x$body[["col"]])
   
   Y <- expand.grid(row = y$row,
                    col = y[["col"]])
@@ -116,7 +116,7 @@ add_colnames <- function(x, y, argcheck)
     x$head$col_title <- unclass(y)
   } 
   else{
-    x$head$col_title[match(names(y), x$head$col_names)] <- y
+    x$head$col_title[match(names(y), x$head$col_name)] <- y
   }
   
   return(x)
@@ -129,11 +129,11 @@ add_fn <- function(x, y, argcheck)
 {
   cell_bunny_checks(x, y, argcheck)
   
-  y[["col"]] <- unique(c(y[["col"]], match(y$colname, x$head$col_names)))
+  y[["col"]] <- unique(c(y[["col"]], match(y$colname, x$head$col_name)))
   y[["col"]] <- y[["col"]][!is.na(y$col)]
   
-  if (is.null(y[["row"]])) y[["row"]] <- 1:max(x$body[["row"]])
-  if (is.null(y[["col"]])) y[["col"]] <- 1:max(x$body[["col"]])
+  if (length(y[["row"]]) == 0) y[["row"]] <- 1:max(x$body[["row"]])
+  if (length(y[["col"]]) == 0) y[["col"]] <- 1:max(x$body[["col"]])
   
   Y <- expand.grid(row = y$row,
                    col = y[["col"]])
@@ -163,7 +163,7 @@ add_head_halign <- function(x, y, argcheck)
     x$head$halign <- unclass(y)
   } 
   else{
-    x$head$halign[match(names(y), x$head$col_names)] <- y
+    x$head$halign[match(names(y), x$head$col_name)] <- y
   }
   
   return(x)
@@ -176,11 +176,11 @@ add_italic <- function(x, y, argcheck)
 {
   cell_bunny_checks(x, y, argcheck)
   
-  y[["col"]] <- unique(c(y[["col"]], match(y$colname, x$head$col_names)))
+  y[["col"]] <- unique(c(y[["col"]], match(y$colname, x$head$col_name)))
   y[["col"]] <- y[["col"]][!is.na(y$col)]
   
-  if (is.null(y[["row"]])) y[["row"]] <- 1:max(x$body[["row"]])
-  if (is.null(y[["col"]])) y[["col"]] <- 1:max(x$body[["col"]])
+  if (length(y[["row"]]) == 0) y[["row"]] <- 1:max(x$body[["row"]])
+  if (length(y[["col"]]) == 0) y[["col"]] <- 1:max(x$body[["col"]])
   
   Y <- expand.grid(row = y$row,
                    col = y[["col"]])
@@ -217,8 +217,8 @@ add_round <- function(x, y, argcheck)
   y[["col"]] <- unique(c(y[["col"]], match(y$colname, x$head$col_name)))
   y[["col"]] <- y[["col"]][!is.na(y$col)]
   
-  if (is.null(y[["row"]])) y[["row"]] <- 1:max(x$body[["row"]])
-  if (is.null(y[["col"]])) y[["col"]] <- 1:max(x$body[["col"]])
+  if (length(y[["row"]]) == 0) y[["row"]] <- 1:max(x$body[["row"]])
+  if (length(y[["col"]]) == 0) y[["col"]] <- 1:max(x$body[["col"]])
   
   Y <- expand.grid(row = y$row,
                    col = y[["col"]])
@@ -237,8 +237,8 @@ add_round <- function(x, y, argcheck)
 cell_bunny_checks <- function(x, y, argcheck)
 {
   if (!is.null(y$colname)){
-    if (any(!y$colname %in% x$head$col_names)){
-      mismatched <- y$colname[!y$colname %in% x$head$col_names]
+    if (any(!y$colname %in% x$head$col_name)){
+      mismatched <- y$colname[!y$colname %in% x$head$col_name]
       ArgumentCheck::addError(
         msg = paste0("Submitted column names could not be found: ",
                      paste0(mismatched, collapse=", ")),

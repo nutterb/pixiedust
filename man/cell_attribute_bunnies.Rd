@@ -27,7 +27,9 @@ dust_round(..., round)
 \item{set_bold}{Logical. Sets the \code{bold} flag for the table.}
 
 \item{halign}{A character value.  May be any of \code{"l"}, \code{"left"}, \code{"c"},
-\code{"center"}, \code{"r"}, or \code{"right"}.}
+\code{"center"}, \code{"r"}, or \code{"right"}.  Truthfully, only the first letter matters,
+so submitting \code{halign = "cowabunga dude"} will center align a cell.  I've chosen to
+allow this oddity since it will be forgiving of unintentional misspellings.}
 
 \item{fn}{An expression with the function to be applied to the tabulated values.  The object
 on which `fn` should act is `value`. (ie, `quote(format(value, big.mark=","))`)}
