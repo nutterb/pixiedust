@@ -59,7 +59,7 @@ dust_bold <- function(..., set_bold)
 {
   Check <- ArgumentCheck::newArgCheck()
   dust_list <- dust_list_checks(..., attr = set_bold, fn = "dust_bold", argcheck = Check)
-  
+
   if (any(!is.logical(dust_list$set_bold)))
     ArgumentCheck::addError(
       msg = "'set_bold' must be logical.",
@@ -163,15 +163,25 @@ dust_list_checks <- function(..., attr, fn, argcheck)
       msg = paste0("'", substitute(attr), "' must have length 1"),
       argcheck = argcheck)
   
-  dots_list <- list(...)
+  dust_list <- list(...)
   attr_list <- list(attr)
   names(attr_list) <- as.character(substitute(attr))
-  dust_list <- c(dots_list, attr_list)
-  
+
   if (any(names(dust_list) %in% ""))
     ArgumentCheck::addError(
       msg = paste0("All arguments to '", fn, "' must be named"),
       argcheck = argcheck)
   
+  valid_args <- c("row", "col", "colname")
+  if (any(!names(dust_list) %in% valid_args)){
+    bad_args <- names(dust_list)[!names(dust_list) %in% valid_args]
+    ArgumentCheck::addError(
+      msg = paste0("'", paste0(bad_args, collapse="', '"), "' are not valid arguments to ",
+                   fn),
+      argcheck = argcheck)
+  }
+
+  dust_list <- c(dust_list, attr_list)
+    
   return(dust_list)
 }

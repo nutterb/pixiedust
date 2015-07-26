@@ -1,9 +1,11 @@
 #' @name print.dust
 #' @export 
+#' @importFrom dplyr group_by_
 #' @importFrom dplyr left_join
 #' @importFrom dplyr mutate_
 #' @importFrom dplyr rename_
 #' @importFrom dplyr select_
+#' @importFrom dplyr ungroup
 #' @importFrom knitr asis_output
 #' @importFrom knitr kable
 #' @importFrom tidyr spread_
@@ -64,18 +66,20 @@ print_dust_console <- function(x, ...)
                       value)))
 
   #* 3. Bold
-  if (any(body$bold))
-    body <- dplyr::mutate_(body, 
-                   value = ~ifelse(bold, 
-                                   paste0("**", value, "**"), 
-                                   paste0("  ", value, "  ")))
-  
+  body <- dplyr::group_by_(body, "col_name") %>%
+    dplyr::mutate_(value = ~if (any(bold)) ifelse(bold, 
+                                                  paste0("**", value, "**"),
+                                                  paste0("  ", value, "  "))
+                            else value) %>%
+    dplyr::ungroup()
+
   #* 4. Italic
-  if (any(body$italic))
-    body <- dplyr::mutate_(body, 
-                   value = ~ifelse(italic, 
-                                   paste0("_", value, "_"), 
-                                   paste0(" ", value, " ")))
+  body <- dplyr::group_by_(body, "col_name") %>%
+    dplyr::mutate_(value = ~if (any(italic)) ifelse(italic, 
+                                                  paste0("_", value, "_"),
+                                                  paste0(" ", value, " "))
+                   else value) %>%
+    dplyr::ungroup()
 
   #* 5. Spread to wide format for printing
   body <- body %>%
