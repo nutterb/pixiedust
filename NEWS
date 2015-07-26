@@ -1,3 +1,10 @@
+#### 0.0.0-4 (26 July 2015)
+* Improved the Dustbunnies vignette to use a color coded table indicating which 
+  dust bunnies are planned, available, and functional for different printing 
+  methods.
+* Dropped leading zeroes from the version number.
+* Adds `dust_text_color`
+
 #### 0.0.0-003 (25 July 2015)
 * Adds halign and valign attributes to `dust$obj`. valign is not yet implemented.
 * Adds `dust_cell_halign`

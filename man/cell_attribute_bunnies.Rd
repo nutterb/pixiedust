@@ -9,6 +9,7 @@
 \alias{dust_cell_halign}
 \alias{dust_fn}
 \alias{dust_fn,}
+\alias{dust_font_color}
 \alias{dust_italic}
 \alias{dust_round}
 \title{Apply Functions to cells in a table}
@@ -24,6 +25,8 @@ dust_cell_halign(..., halign)
 
 dust_fn(..., fn)
 
+dust_font_color(..., color)
+
 dust_italic(..., set_italic)
 
 dust_round(..., round)
@@ -38,7 +41,7 @@ accepts partial matching.}
 
 \item{set_bold}{Logical. Sets the \code{bold} flag for the table.}
 
-\item{color}{A character string naming the color for the cells}
+\item{color}{A character string naming the background color for the cells}
 
 \item{halign}{A character value.  May be any of \code{"l"}, \code{"left"}, \code{"c"},
 \code{"center"}, \code{"r"}, or \code{"right"}.  Truthfully, only the first letter matters,

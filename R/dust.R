@@ -45,6 +45,7 @@ dust <- function(object, ...)
                             halign = NA,
                             valign = NA,
                             bg = NA,
+                            font_color = NA,
                             left_border = FALSE,
                             right_border = FALSE,
                             top_border = FALSE,

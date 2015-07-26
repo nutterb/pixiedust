@@ -93,7 +93,7 @@ dust_bold <- function(..., set_bold)
 }
 
 #' @rdname cell_attribute_bunnies
-#' @param color A character string naming the color for the cells
+#' @param color A character string naming the background color for the cells
 #' @export
 
 dust_cell_bg <- function(..., color)
@@ -150,6 +150,26 @@ dust_fn <- function(..., fn)
   
   structure(dust_list,
             class = c("dust_fn", "dust_bunny"))
+}
+
+#' @rdname cell_attribute_bunnies
+# color is documented in dust_cell_bg
+#' @export
+
+dust_font_color <- function(..., color)
+{
+  Check <- ArgumentCheck::newArgCheck()
+  dust_list <- dust_list_checks(..., attr = color, fn = "dust_font_color", argcheck = Check)
+  
+  if (!is.character(dust_list$color))
+    ArgumentCheck::addError(
+      msg = "'color' argument in 'dust_font_color' must be a character string",
+      argcheck = Check)
+  
+  ArgumentCheck::finishArgCheck(Check)
+  
+  structure(dust_list,
+            class = c("dust_font_color", "dust_bunny"))
 }
 
 #' @rdname cell_attribute_bunnies

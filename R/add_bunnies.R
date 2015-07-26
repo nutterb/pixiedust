@@ -55,6 +55,7 @@
          "dust_italic" = add_italic(x, y, Check),
          "dust_print_method" = add_print_method(x, y, Check),
          "dust_round" = add_round(x, y, Check),
+         "dust_font_color"= add_font_color(x, y, Check),
          stop(paste0("dust_bunny_type '", dust_bunny_type, "' not recognized.")))
 }
 
@@ -196,6 +197,27 @@ add_fn <- function(x, y, argcheck)
 #**********************************************************
 #**********************************************************
 
+add_font_color <- function(x, y, argcheck)
+{
+  cell_bunny_checks(x, y, argcheck)
+  
+  y[["col"]] <- unique(c(y[["col"]], match(y$colname, x$head$col_name)))
+  y[["col"]] <- y[["col"]][!is.na(y$col)]
+  
+  if (length(y[["row"]]) == 0) y[["row"]] <- 1:max(x$body[["row"]])
+  if (length(y[["col"]]) == 0) y[["col"]] <- 1:max(x$body[["col"]])
+  
+  Y <- expand.grid(row = y$row,
+                   col = y[["col"]])
+  
+  x$body$font_color[x$body$row %in% Y$row & x$body[["col"]] %in% Y[["col"]]] <- y$color
+  
+  return(x)
+}
+
+#**********************************************************
+#**********************************************************
+
 add_head_halign <- function(x, y, argcheck)
 {
   if (is.null(names(y))){
@@ -273,7 +295,8 @@ add_round <- function(x, y, argcheck)
   
   return(x)
 }
-  
+
+
 #**********************************************************
 #**********************************************************
 #* Perform the checks for valid rows and columns

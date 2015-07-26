@@ -73,4 +73,5 @@ dust(fit) +
   dust_bg_pattern(across = "col",
                   colors = c("#762A83", "#1B7837")) + 
   dust_cell_bg(row = 3, col = 3, color = "red") + 
+  dust_font_color(row = 3, col = 3, color = "white") + 
   dust_print_method("html")

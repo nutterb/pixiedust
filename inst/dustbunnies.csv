@@ -9,7 +9,7 @@ dust_cell_valign,            ,       ,        ,   o,    o
 dust_cell_width,             ,       ,        ,   o,    o
 dust_colnames,              x,      x,       x,   x,    o 
 dust_fn,                    x,      x,       x,   x,    o 
-dust_font_color,             ,       ,        ,   o,    o
+dust_font_color,            x,       ,        ,   x,    o
 dust_font_size,              ,       ,        ,   o,    o
 dust_head_halign,           x,       ,       x,   x,    o
 dust_head_valign,            ,       ,        ,   o,    o
