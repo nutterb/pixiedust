@@ -7,9 +7,12 @@
 \alias{dust_bold,}
 \alias{dust_cell_bg}
 \alias{dust_cell_halign}
+\alias{dust_cell_height}
+\alias{dust_cell_width}
 \alias{dust_fn}
 \alias{dust_fn,}
 \alias{dust_font_color}
+\alias{dust_font_size}
 \alias{dust_italic}
 \alias{dust_round}
 \title{Apply Functions to cells in a table}
@@ -21,11 +24,17 @@ dust_bold(..., set_bold)
 
 dust_cell_bg(..., color)
 
+dust_cell_height(..., height, units = c("px"))
+
+dust_cell_width(..., width, units = c("\%", "px"))
+
 dust_cell_halign(..., halign)
 
 dust_fn(..., fn)
 
 dust_font_color(..., color)
+
+dust_font_size(..., size, units = c("\%", "px", "pt", "em"))
 
 dust_italic(..., set_italic)
 
@@ -43,6 +52,14 @@ accepts partial matching.}
 
 \item{color}{A character string naming the background color for the cells}
 
+\item{height}{A character string or numeric value giving the height of the cell}
+
+\item{units}{Units for the measurement.  Options may vary depending on the
+attribute being modified, but the full list of valid options is included
+in the argument's default vector.}
+
+\item{width}{A character string or numeric value giving the width of the cell.}
+
 \item{halign}{A character value.  May be any of \code{"l"}, \code{"left"}, \code{"c"},
 \code{"center"}, \code{"r"}, or \code{"right"}.  Truthfully, only the first letter matters,
 so submitting \code{halign = "cowabunga dude"} will center align a cell.  I've chosen to
@@ -50,6 +67,8 @@ allow this oddity since it will be forgiving of unintentional misspellings.}
 
 \item{fn}{An expression with the function to be applied to the tabulated values.  The object
 on which `fn` should act is `value`. (ie, `quote(format(value, big.mark=","))`)}
+
+\item{size}{Font size for the text.}
 
 \item{set_italic}{Logical. Sets the \code{italic} flag for the table.}
 

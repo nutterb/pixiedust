@@ -229,11 +229,26 @@ print_dust_html <- function(x, ...)
   body <- dplyr::mutate_(body,
             font_color = ~ifelse(is.na(font_color), "",
                                  paste0("color:", font_color, "; ")))
+  
+  #* x. Font size
+  body <- dplyr::mutate_(body,
+            font_size = ~ifelse(is.na(font_size), "",
+                                paste0("font-size:", font_size, "; ")))
+  
+  #* x. cell height and width
+  body <- dplyr::mutate_(body,
+            cell_height = ~ifelse(is.na(cell_height), "",
+                                  paste0("height:", cell_height, "; ")),
+            cell_width = ~ifelse(is.na(cell_width), "",
+                                 paste0("width:", cell_width, "; ")))
       
   body <- dplyr::mutate_(body, 
       value = ~gsub("[<]", " &lt; ", value),
       value = ~gsub("[>]", " &gt; ", value),
-      value = ~paste0("<td style='", bold, italic, halign, bg, font_color, "'>", value, "</td>"))
+      value = ~paste0("<td style='", 
+                        bold, italic, halign, bg, font_color, 
+                        font_size, cell_height, cell_width,
+                      "'>", value, "</td>"))
 
   #* 5. Spread to wide format for printing
   body <- body %>%

@@ -4,13 +4,13 @@ dust_bg_pattern,            x,       ,        ,   x,    o
 dust_bold,                  x,      x,       x,   x,    o 
 dust_cell_border,            ,       ,        ,   o,    o
 dust_cell_halign,           x,       ,        ,   x,    o
-dust_cell_height,            ,       ,        ,   o,    o
+dust_cell_height,           x,       ,        ,   x,    o
 dust_cell_valign,            ,       ,        ,   o,    o
-dust_cell_width,             ,       ,        ,   o,    o
+dust_cell_width,            x,       ,        ,   x,    o
 dust_colnames,              x,      x,       x,   x,    o 
 dust_fn,                    x,      x,       x,   x,    o 
 dust_font_color,            x,       ,        ,   x,    o
-dust_font_size,              ,       ,        ,   o,    o
+dust_font_size,             x,       ,        ,   x,    o
 dust_head_halign,           x,       ,       x,   x,    o
 dust_head_valign,            ,       ,        ,   o,    o
 dust_italic,                x,      x,       x,   x,    o 

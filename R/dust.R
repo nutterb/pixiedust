@@ -46,10 +46,13 @@ dust <- function(object, ...)
                             valign = NA,
                             bg = NA,
                             font_color = NA,
+                            font_size = NA,
                             left_border = FALSE,
                             right_border = FALSE,
                             top_border = FALSE,
                             bottom_border = FALSE,
+                            cell_height = NA,
+                            cell_width = NA,
                             stringsAsFactors=FALSE)
   
   body <- 

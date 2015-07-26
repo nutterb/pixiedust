@@ -3,7 +3,8 @@
   dust bunnies are planned, available, and functional for different printing 
   methods.
 * Dropped leading zeroes from the version number.
-* Adds `dust_text_color`
+* Adds `dust_font_color`, `dust_font_size`
+* Adds `dust_cell_height`, `dust_cell_width`
 
 #### 0.0.0-003 (25 July 2015)
 * Adds halign and valign attributes to `dust$obj`. valign is not yet implemented.

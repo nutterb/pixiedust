@@ -72,6 +72,10 @@ dust(fit) +
 dust(fit) + 
   dust_bg_pattern(across = "col",
                   colors = c("#762A83", "#1B7837")) + 
+  dust_round(colname = c("estimate", "statistic", "std.error"), round = 3) + 
+  dust_fn(colname = "p.value", fn = quote(pvalString(value))) + 
   dust_cell_bg(row = 3, col = 3, color = "red") + 
   dust_font_color(row = 3, col = 3, color = "white") + 
+  dust_cell_height(row = 1, col = 4, height = 100, units = "px") + 
+  dust_cell_width(row = 1, col = 1, width = 200, units = "px") + 
   dust_print_method("html")

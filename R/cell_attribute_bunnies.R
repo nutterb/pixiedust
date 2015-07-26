@@ -113,6 +113,61 @@ dust_cell_bg <- function(..., color)
 }
 
 #' @rdname cell_attribute_bunnies
+#' @param height A character string or numeric value giving the height of the cell
+#' @param units Units for the measurement.  Options may vary depending on the 
+#'   attribute being modified, but the full list of valid options is included
+#'   in the argument's default vector.
+#' @export
+
+dust_cell_height <- function(..., height, units = c("px"))
+{
+  Check <- ArgumentCheck::newArgCheck()
+  units <- ArgumentCheck::match_arg(units, 
+                                    c("px"), 
+                                    argcheck = Check)
+
+  dust_list <- dust_list_checks(..., attr = height, fn = "dust_cell_height", argcheck = Check)
+  
+  if (any(!is.character(dust_list$height) & !is.numeric(dust_list$height)))
+    ArgumentCheck::addError(
+      msg = "'height' must be either a character or numeric value.",
+      argcheck = Check)
+  
+  ArgumentCheck::finishArgCheck(Check)
+  
+  dust_list$height <- paste0(dust_list$height, units)
+  
+  structure(dust_list,
+            class = c("dust_cell_height", "dust_bunny"))
+}
+
+#' @rdname cell_attribute_bunnies
+#' @param width A character string or numeric value giving the width of the cell.
+#' @export
+
+dust_cell_width <- function(..., width, units = c("%", "px"))
+{
+  Check <- ArgumentCheck::newArgCheck()
+  units <- ArgumentCheck::match_arg(units, 
+                                    c("%", "px"), 
+                                    argcheck = Check)
+  
+  dust_list <- dust_list_checks(..., attr = width, fn = "dust_cell_width", argcheck = Check)
+  
+  if (any(!is.character(dust_list$width) & !is.numeric(dust_list$width)))
+    ArgumentCheck::addError(
+      msg = "'width' must be either a character or numeric value.",
+      argcheck = Check)
+  
+  ArgumentCheck::finishArgCheck(Check)
+  
+  dust_list$width <- paste0(dust_list$width, units)
+  
+  structure(dust_list,
+            class = c("dust_cell_width", "dust_bunny"))
+}
+
+#' @rdname cell_attribute_bunnies
 #' @param halign A character value.  May be any of \code{"l"}, \code{"left"}, \code{"c"}, 
 #'   \code{"center"}, \code{"r"}, or \code{"right"}.  Truthfully, only the first letter matters,
 #'   so submitting \code{halign = "cowabunga dude"} will center align a cell.  I've chosen to 
@@ -170,6 +225,33 @@ dust_font_color <- function(..., color)
   
   structure(dust_list,
             class = c("dust_font_color", "dust_bunny"))
+}
+
+#' @rdname cell_attribute_bunnies
+#' @param size Font size for the text.
+#' @export
+
+dust_font_size <- function(..., size, units = c("%", "px", "pt", "em"))
+{
+  Check <- ArgumentCheck::newArgCheck()
+
+  units <- ArgumentCheck::match_arg(units, 
+                                    c("%", "px", "pt", "em"),
+                                    argcheck = Check)
+
+  dust_list <- dust_list_checks(..., attr = size, fn = "dust_font_size", argcheck = Check)
+  
+  if (!is.character(dust_list$size) & !is.numeric(dust_list$size))
+    ArgumentCheck::addError(
+      msg = "'size' argument in 'dust_font_size' must be either numeric or a character string",
+      argcheck = Check)
+  
+  ArgumentCheck::finishArgCheck(Check)
+  
+  dust_list$size = paste0(dust_list$size, units)
+  
+  structure(dust_list,
+            class = c("dust_font_size", "dust_bunny"))
 }
 
 #' @rdname cell_attribute_bunnies
