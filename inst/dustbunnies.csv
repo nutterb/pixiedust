@@ -1,15 +1,17 @@
-dustbunny,implemented,console,markdown,html,latex
-dust_bg_cell,x,,,x,o
-dust_bg_pattern,x,,,x,o
-dust_bold,x,x,x,x,o 
-dust_cell_border,,,,,
-dust_cell_halign,,,,x,o
-dust_cell_height,,,,,
-dust_cell_width,,,,,
-dust_colnames,x,x,x,x,o 
-dust_fn,x,x,x,x,o 
-dust_font_color,,,,,
-dust_font_size,,,,,
-dust_head_halign,x,,x,x,o
-dust_italic,x,x,x,x,o 
-dust_round,x,x,x,x,o
+dustbunny,        implemented,console,markdown,html,latex
+dust_bg_cell,               x,       ,        ,   x,    o
+dust_bg_pattern,            x,       ,        ,   x,    o
+dust_bold,                  x,      x,       x,   x,    o 
+dust_cell_border,            ,       ,        ,   o,    o
+dust_cell_halign,           x,       ,        ,   x,    o
+dust_cell_height,            ,       ,        ,   o,    o
+dust_cell_valign,            ,       ,        ,   o,    o
+dust_cell_width,             ,       ,        ,   o,    o
+dust_colnames,              x,      x,       x,   x,    o 
+dust_fn,                    x,      x,       x,   x,    o 
+dust_font_color,             ,       ,        ,   o,    o
+dust_font_size,              ,       ,        ,   o,    o
+dust_head_halign,           x,       ,       x,   x,    o
+dust_head_valign,            ,       ,        ,   o,    o
+dust_italic,                x,      x,       x,   x,    o 
+dust_round,                 x,      x,       x,   x,    o

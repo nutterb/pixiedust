@@ -13,15 +13,42 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-Dustbunnies are used to modify the appearance of a table.
+Dustbunnies are used to modify the appearance of a table. The table below shows the currently available and planned dustbunnies (in light green and yellow, respectively) as well as the implementations for the printing methods.
+
+Black indicates that a dust bunny will have no impact on the output for that method.
+
+Red indicates that a dust bunny is not yet functional for that method.
+
+Green indicates that a dust bunny is currently functional for that method.
+
 
 ```{r, echo=FALSE}
 Dustbunnies <- read.csv(system.file("dustbunnies.csv", package = "dustpan"),
                         stringsAsFactors=FALSE)
+Dustbunnies[,-1] <- lapply(Dustbunnies[-1], stringr::str_trim)
 ```
 
-```{r}
+```{r, echo=FALSE}
 library(dustpan)
-dust(Dustbunnies) + 
-  dust_print_method(print_method = "html")
+red <- "#A50026"
+lightgreen <- "#A6DBA0"
+green <- "#006837"
+yellow <- "#FFFFBF"
+
+x <- dust(Dustbunnies[, -2]) + 
+  dust_cell_bg(row = which(Dustbunnies$implemented == ""), 
+               colname = "dustbunny", color = yellow) + 
+  dust_cell_bg(row = which(Dustbunnies$implemented == "x"),
+               colname = "dustbunny", color = lightgreen)
+x$body$bg <- ifelse(!is.na(x$body$bg),
+                    x$body$bg,
+                    ifelse(x$body$value == "",
+                           "black",
+                           ifelse(x$body$value == "o",
+                                  red,
+                                  green)))
+x$body$value <- ifelse(x$body$value %in% c("x", "o"), "", x$body$value)
+  
+x + dust_print_method(print_method = "html")
+
 ```

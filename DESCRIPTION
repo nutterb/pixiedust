@@ -1,6 +1,6 @@
 Package: dustpan
 Title: Publication-Ready Tables Through a Flexible Programming Interface
-Version: 0.0.0.003
+Version: 0.0.0-4
 Authors@R: person("Benjamin", "Nutter", email = "nutter@battelle.org", role = c("aut", "cre"))
 Description: The introduction of the broom package has made converting model objects into data 
   frames as simple as a single function.  While the broom package focuses on providing tidy
