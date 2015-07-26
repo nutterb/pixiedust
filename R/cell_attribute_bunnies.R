@@ -52,6 +52,27 @@
 NULL
 
 #' @rdname cell_attribute_bunnies
+#' @param across A character string of length one.  Must be either \code{row} or \code{column} and
+#'   accepts partial matching.
+#' @param colors A character vector of colors to recycle in the pattern.
+#' @export
+
+dust_bg_pattern <- function(across = c("row", "column"), 
+                            colors = c("#F0F0F0", "#BDBDBD")){
+  Check <- ArgumentCheck::newArgCheck()
+  
+  across <- ArgumentCheck::match_arg(arg = across, 
+                                     choices = c("row", "column"),
+                                     argcheck = Check)
+  if (length(across) == 0)
+    ArgumentCheck::finishArgCheck(Check)
+  
+  structure(list(across = across,
+                 colors = colors),
+            class = c("dust_bg_pattern", "dust_bunny"))
+}
+
+#' @rdname cell_attribute_bunnies
 #' @param set_bold Logical. Sets the \code{bold} flag for the table.
 #' @export
 
@@ -69,6 +90,26 @@ dust_bold <- function(..., set_bold)
   
   structure(dust_list,
             class = c("dust_bold", "dust_bunny"))
+}
+
+#' @rdname cell_attribute_bunnies
+#' @param color A character string naming the color for the cells
+#' @export
+
+dust_cell_bg <- function(..., color)
+{
+  Check <- ArgumentCheck::newArgCheck()
+  dust_list <- dust_list_checks(..., attr = color, fn = "dust_cell_bg", argcheck = Check)
+  
+  if (any(!is.character(dust_list$color)))
+    ArgumentCheck::addError(
+      msg = "'color' must be a character value.",
+      argcheck = Check)
+  
+  ArgumentCheck::finishArgCheck(Check)
+  
+  structure(dust_list,
+            class = c("dust_cell_bg", "dust_bunny"))
 }
 
 #' @rdname cell_attribute_bunnies

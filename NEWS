@@ -8,6 +8,7 @@
   table header.
 * Renamed the `obj` attributes of the `dust` object to `body`.
 * Adds a lot of tests
+* Adds `dust_cell_bg` and `dust_bg_pattern`
 
 #### 0.0.0-002 (24 July 2015)
 * 'col_names` attribute is now named.  The names are the original 

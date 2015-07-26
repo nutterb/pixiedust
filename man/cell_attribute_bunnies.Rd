@@ -2,8 +2,10 @@
 % Please edit documentation in R/cell_attribute_bunnies.R
 \name{cell_attribute_bunnies}
 \alias{cell_attribute_bunnies}
+\alias{dust_bg_pattern}
 \alias{dust_bold}
 \alias{dust_bold,}
+\alias{dust_cell_bg}
 \alias{dust_cell_halign}
 \alias{dust_fn}
 \alias{dust_fn,}
@@ -11,7 +13,12 @@
 \alias{dust_round}
 \title{Apply Functions to cells in a table}
 \usage{
+dust_bg_pattern(across = c("row", "column"), colors = c("#F0F0F0",
+  "#BDBDBD"))
+
 dust_bold(..., set_bold)
+
+dust_cell_bg(..., color)
 
 dust_cell_halign(..., halign)
 
@@ -22,9 +29,16 @@ dust_italic(..., set_italic)
 dust_round(..., round)
 }
 \arguments{
+\item{across}{A character string of length one.  Must be either \code{row} or \code{column} and
+accepts partial matching.}
+
+\item{colors}{A character vector of colors to recycle in the pattern.}
+
 \item{...}{Named argument with characteristics described below.}
 
 \item{set_bold}{Logical. Sets the \code{bold} flag for the table.}
+
+\item{color}{A character string naming the color for the cells}
 
 \item{halign}{A character value.  May be any of \code{"l"}, \code{"left"}, \code{"c"},
 \code{"center"}, \code{"r"}, or \code{"right"}.  Truthfully, only the first letter matters,

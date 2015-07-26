@@ -206,6 +206,7 @@ print_dust_html <- function(x, ...)
                                  "font-style:italic;", 
                                  ""))
   
+  #** Alignments
   body <- dplyr::mutate_(body,
            halign = ~expand_halign_tag(halign),
            halign = ~ifelse(is.na(halign), 
@@ -218,11 +219,16 @@ print_dust_html <- function(x, ...)
                                     halign.y,
                                     halign)) %>%
     dplyr::select_("-halign.y")
+  
+  #** Background
+  body <- dplyr::mutate_(body,
+            bg = ~ifelse(is.na(bg), "",
+                         paste0("background-color: ", bg, ";")))
     
   body <- dplyr::mutate_(body, 
       value = ~gsub("[<]", " &lt; ", value),
       value = ~gsub("[>]", " &gt; ", value),
-      value = ~paste0("<td style='", bold, italic, halign, "'>", value, "</td>"))
+      value = ~paste0("<td style='", bold, italic, halign, bg, "'>", value, "</td>"))
 
   #* 5. Spread to wide format for printing
   body <- body %>%

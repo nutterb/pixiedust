@@ -46,7 +46,9 @@
   dust_bunny_type <- class(y)[1]
   switch(dust_bunny_type,
          "col_names" = add_colnames(x, y, Check),
+         "dust_bg_pattern" = add_bg_pattern(x, y, Check),
          "dust_bold" = add_bold(x, y, Check),
+         "dust_cell_bg" = add_cell_bg(x, y, Check),
          "dust_cell_halign" = add_cell_halign(x, y, Check),
          "dust_fn" = add_fn(x, y, Check),
          "dust_head_halign" = add_head_halign(x, y, Check),
@@ -54,6 +56,33 @@
          "dust_print_method" = add_print_method(x, y, Check),
          "dust_round" = add_round(x, y, Check),
          stop(paste0("dust_bunny_type '", dust_bunny_type, "' not recognized.")))
+}
+
+#**********************************************************
+#**********************************************************
+
+add_bg_pattern <- function(x, y, argcheck)
+{
+  if (y$across == "row"){
+    n_row <- max(x$body$row)
+    Colors <- data.frame(row = 1:n_row,
+                         color = rep(y$colors, length.out = n_row),
+                         stringsAsFactors=FALSE)
+    x$body <- dplyr::left_join(x$body, Colors,
+                               by = c("row" = "row")) %>%
+      dplyr::mutate_(bg = ~color) %>%
+      dplyr::select_("-color")
+  } else{
+    n_col <- max(x$body$col)
+    Colors <- data.frame(col = 1:n_col,
+                         color = rep(y$colors, length.out = n_col),
+                         stringsAsFactors=FALSE)
+    x$body <- dplyr::left_join(x$body, Colors,
+                               by = c("col" = "col")) %>%
+      dplyr::mutate_(bg = ~color) %>%
+      dplyr::select_("-color")
+  }
+  return(x)
 }
 
 #**********************************************************
@@ -77,7 +106,24 @@ add_bold <- function(x, y, argcheck)
   return(x)
 }
 
+#**********************************************************
+#**********************************************************
 
+add_cell_bg <- function(x, y, argcheck)
+{
+  y[["col"]] <- unique(c(y[["col"]], match(y$colname, x$head$col_name)))
+  y[["col"]] <- y[["col"]][!is.na(y$col)]
+  
+  if (length((y[["row"]])) == 0) y[["row"]] <- 1:max(x$body[["row"]])
+  if (length((y[["col"]])) == 0) y[["col"]] <- 1:max(x$body[["col"]])
+  
+  Y <- expand.grid(row = y$row,
+                   col = y[["col"]])
+  
+  x$body$bg[x$body$row %in% Y$row & x$body[["col"]] %in% Y[["col"]]] <- y$color
+  
+  return(x)
+}
 
 #**********************************************************
 #**********************************************************

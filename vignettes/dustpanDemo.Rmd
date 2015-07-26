@@ -61,3 +61,16 @@ dust(fit) +
   dust_cell_halign(row=2, halign = "r") + 
   dust_print_method("html")
 ```
+
+```{r}
+dust(fit) + 
+  dust_bg_pattern() + 
+  dust_print_method("html")
+```
+
+```{r}
+dust(fit) + 
+  dust_bg_pattern(across = "col",
+                  colors = c("#762A83", "#1B7837")) + 
+  dust_cell_bg(row = 3, col = 3, color = "red") + 
+  dust_print_method("html")
