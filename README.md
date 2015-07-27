@@ -1,5 +1,27 @@
 # dustpan
-After sweeping up all your analyses with the `broom` package, go ahead and grab the `dustpan`.  Customize your table output and write it to markdown, HTML, LaTeX, or even just the console.  `dustpan` makes it easy to customize the appearance of your tables in all of these formats by adding any number of "dustbunnies", much in the same way you can add layers to a `ggplot`.  
+After sweeping up all your analyses with the `broom` package, go ahead and grab the `dustpan`.  Customize your table output and write it to markdown, HTML, LaTeX, or even just the console.  `dustpan` makes it easy to customize the appearance of your tables in all of these formats by adding any number of "dustbunnies", much in the same way you can add layers to a `ggplot`.
+
+```r
+> fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
+> library(dustpan)
+> dust(fit) + 
++   dust_round(col = 2:4, round = 3) + 
++   dust_fn(col = 5, fn = quote(pvalString(value))) + 
++   dust_colnames(term = "Term", 
++                 estimate = "Estimate", 
++                 std.error = "SE",
++                 statistic = "T-statistic", 
++                 p.value = "P-value")
+```
+```
+           Term Estimate    SE T-statistic P-value
+1   (Intercept)    9.365 8.373       1.118    0.27
+2          qsec    1.245 0.383       3.252   0.003
+3   factor(am)1    3.151 1.941       1.624    0.12
+4            wt   -3.926 0.743      -5.286 < 0.001
+5 factor(gear)4   -0.268 1.655      -0.162    0.87
+6 factor(gear)5    -0.27 2.063      -0.131     0.9
+```
 
 ### Customizing with Dustbunnies
 
