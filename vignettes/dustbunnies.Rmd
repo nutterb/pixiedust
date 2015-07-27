@@ -52,3 +52,46 @@ x$body$value <- ifelse(x$body$value %in% c("x", "o"), "", x$body$value)
 x + dust_print_method(print_method = "html")
 
 ```
+
+```{r, echo=FALSE, eval=FALSE}
+#* README Content
+knitr::kable(Dustbunnies, align = c("l", rep("c", 5)))
+
+fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
+
+library(dustpan)
+dust(fit) + 
+  dust_round(col = 2:4, round = 3) + 
+  dust_fn(col = 5, fn = quote(pvalString(value)))+ 
+  dust_colnames(term = "Term", 
+                estimate = "Estimate", 
+                std.error = "SE",
+                statistic = "T-statistic", 
+                p.value = "P-value")
+
+summary(fit)
+
+library(broom)
+tidy(fit)
+
+library(dustpan)
+dust(fit)
+
+x <- dust(fit) + 
+  dust_round(col = 2:4, round = 3) + 
+  dust_fn(col = 5, fn = quote(pvalString(value)))
+
+x
+
+x <- x + 
+  dust_bold(colname = c("estimate", "p.value"), 
+            row = c(2, 4), 
+            set_bold = TRUE) + 
+  dust_colnames(term = "Term", 
+                estimate = "Estimate", 
+                std.error = "SE",
+                statistic = "T-statistic", 
+                p.value = "P-value")
+
+x
+```

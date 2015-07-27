@@ -90,7 +90,7 @@ print_dust_console <- function(x, ...)
   #* 6. Column Names     
   colnames(body) <- x$head$col_title
   
-  print(body)
+  print(as.data.frame(body))
 }
 
 #*************************************************
