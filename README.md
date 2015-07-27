@@ -32,9 +32,11 @@ Tables can be customized by row, column, or even by a single cell by adding dust
 |dust_bg_cell     |      x      |         |          |  x   |   o   |
 |dust_bg_pattern  |      x      |         |          |  x   |   o   |
 |dust_bold        |      x      |    x    |    x     |  x   |   o   |
+|dust_border_collapse |         |         |          |  o   |       |     
 |dust_cell_border |             |         |          |  o   |   o   |
 |dust_cell_halign |      x      |         |          |  x   |   o   |
 |dust_cell_height |      x      |         |          |  x   |   o   |
+|dust_cell_pad    |             |         |          |  o   |       |
 |dust_cell_valign |             |         |          |  o   |   o   |
 |dust_cell_width  |      x      |         |          |  x   |   o   |
 |dust_colnames    |      x      |    x    |    x     |  x   |   o   |
