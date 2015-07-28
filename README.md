@@ -189,4 +189,4 @@ Are there other features you want or need?  Please submit an issue, or contribut
 | 0.8.0   | Adjustable cell heights and widths in LaTeX tables |             |
 | 0.9.0   | Rotated text for LaTeX tables                      |             |
 | 0.10.0  | Add variable labels and levels to `broom` output   |             |
-| 1.0.0   | Release of basic, stable package                   |             |
+| 1.0.0   | Release of basic, stable package                   | May 2016    |
