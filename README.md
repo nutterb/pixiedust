@@ -32,12 +32,12 @@ Tables can be customized by row, column, or even by a single cell by adding dust
 |dust_bg_cell     |      x      |         |          |  x   |   o   |
 |dust_bg_pattern  |      x      |         |          |  x   |   o   |
 |dust_bold        |      x      |    x    |    x     |  x   |   o   |
-|dust_border_collapse |         |         |          |  o   |       |     
-|dust_cell_border |             |         |          |  o   |   o   |
+|dust_border_collapse |  x      |         |          |  x   |       |     
+|dust_cell_border |      x      |         |          |  x   |   o   |
 |dust_cell_halign |      x      |         |          |  x   |   o   |
 |dust_cell_height |      x      |         |          |  x   |   o   |
 |dust_cell_pad    |             |         |          |  o   |       |
-|dust_cell_valign |             |         |          |  o   |   o   |
+|dust_cell_valign |      x      |         |          |  x   |   o   |
 |dust_cell_width  |      x      |         |          |  x   |   o   |
 |dust_colnames    |      x      |    x    |    x     |  x   |   o   |
 |dust_fn          |      x      |    x    |    x     |  x   |   o   |
@@ -175,3 +175,18 @@ We're just getting started!  While there are a number of customizations already 
 7. Option to add factor levels as a separate column to `broom` output
 
 Are there other features you want or need?  Please submit an issue, or contribute functionality yourself.  
+
+### Development Schedule
+| Version | Release Description                                | Target Date | 
+|--------:|:---------------------------------------------------|:-----------:|
+| 0.1.0   | Console, markdown and HTML output for simple table | 1 Aug 2015  |
+| 0.2.0   | Multirow table headers; footers; multipage tables  | 1 Sep 2015  |
+| 0.3.0   | Multicolumn and multirow cells in HTML             | 15 Sep 2015 |
+| 0.4.0   | LaTeX output for simple table                      |             |
+| 0.5.0   | Borders and backgrounds for LaTeX tables           |             |
+| 0.6.0   | Multicolumn and multirow support for LaTeX tables  |             |
+| 0.7.0   | Longtable support for LaTeX tables                 |             |
+| 0.8.0   | Adjustable cell heights and widths in LaTeX tables |             |
+| 0.9.0   | Rotated text for LaTeX tables                      |             |
+| 0.10.0  | Add variable labels and levels to `broom` output   |             |
+| 1.0.0   | Release of basic, stable package                   |             |
