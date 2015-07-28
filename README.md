@@ -184,11 +184,12 @@ Are there other features you want or need?  Please submit an issue, or contribut
 | 0.1.0   | Console, markdown and HTML output for simple table | 1 Aug 2015  |
 | 0.2.0   | Multirow table headers; footers; multipage tables  | 1 Sep 2015  |
 | 0.3.0   | Multicolumn and multirow cells in HTML             | 15 Sep 2015 |
-| 0.4.0   | LaTeX output for simple table                      |             |
-| 0.5.0   | Borders and backgrounds for LaTeX tables           |             |
-| 0.6.0   | Multicolumn and multirow support for LaTeX tables  |             |
-| 0.7.0   | Longtable support for LaTeX tables                 |             |
-| 0.8.0   | Adjustable cell heights and widths in LaTeX tables |             |
-| 0.9.0   | Rotated text for LaTeX tables                      |             |
-| 0.10.0  | Add variable labels and levels to `broom` output   |             |
+| 0.4.0   | Glance statistics in table footer                  |             |
+| 0.5.0   | LaTeX output for simple table                      |             |
+| 0.6.0   | Borders and backgrounds for LaTeX tables           |             |
+| 0.7.0   | Multicolumn and multirow support for LaTeX tables  |             |
+| 0.8.0   | Longtable support for LaTeX tables                 |             |
+| 0.9.0   | Adjustable cell heights and widths in LaTeX tables |             |
+| 0.10.0   | Rotated text for LaTeX tables                     |             |
+| 0.11.0  | Add variable labels and levels to `broom` output   |             |
 | 1.0.0   | Release of basic, stable package                   | May 2016    |
