@@ -113,6 +113,49 @@ dust_cell_bg <- function(..., color)
 }
 
 #' @rdname cell_attribute_bunnies
+#' @param sides A character vector of up to length 4.  May use any of \code{"top"}, \code{"bottom"},
+#'   \code{"left"} or \code{"right"}.  The border style is applied to the sides of the table
+#'   specified.  Multiple sides are accepted and partial matching is performed.
+#' @param thickness A numeric vector of length 1 specifying the thickness of the border.
+#' @param style A character string giving the style for the border line.  Only the first value is 
+#'   accepted.
+#' @export
+
+dust_cell_border <- function(..., sides, thickness = 1, units = c("px", "pt"),
+                             style = c("solid", "dashed", "dotted"),
+                             color = "black")
+{
+  Check <- ArgumentCheck::newArgCheck()
+  
+  sides <- ArgumentCheck::match_arg(sides, c("left", "right", "top", "bottom"),
+                                    several.ok = TRUE, argcheck = Check)
+  units <- ArgumentCheck::match_arg(units, c("px", "pt"), argcheck = Check)
+  style <- ArgumentCheck::match_arg(style, c("solid", "dashed", "dotted"), argcheck = Check)
+  
+  if (length(thickness) != 1)
+    ArgumentCheck::addError(
+      msg = "'thickness' must have length 1.",
+      argcheck = Check)
+  
+  if (!is.character(color) | length(color) != 1)
+    ArgumentCheck::addError(
+      msg = "'color' must be a character string of length 1.",
+      argcheck = Check)
+  
+  dust_list <- dust_list_checks(..., attr = style, fn = "dust_cell_border", argcheck = Check)
+  
+  ArgumentCheck::finishArgCheck(Check)
+  
+  style <- paste0(thickness, units, " ", style, " ", color)
+  
+  dust_list$style <- style
+  dust_list$sides <- sides
+  
+  structure(dust_list,
+            class = c("dust_cell_border", "dust_bunny"))
+}
+
+#' @rdname cell_attribute_bunnies
 #' @param height A character string or numeric value giving the height of the cell
 #' @param units Units for the measurement.  Options may vary depending on the 
 #'   attribute being modified, but the full list of valid options is included
@@ -190,6 +233,32 @@ dust_cell_halign <- function(..., halign){
   
   structure(dust_list,
             class = c("dust_cell_halign", "dust_bunny"))
+}
+
+#' @rdname cell_attribute_bunnies
+#' @param valign A character value.  May be any of \code{"m"}, \code{"middle"}, \code{"b"}, 
+#'   \code{"bottom"}, \code{"t"}, or \code{"top"}.  Truthfully, only the first letter matters,
+#'   so submitting \code{halign = "muggles"} will align text in the center of a cell.  I've chosen to 
+#'   allow this oddity since it will be forgiving of unintentional misspellings. Abuse the 
+#'   privilege at your leisure.
+#' @export
+
+dust_cell_valign <- function(..., valign){
+  Check <- ArgumentCheck::newArgCheck()
+  dust_list <- dust_list_checks(..., attr = valign, fn = "dust_cell_valign", argcheck = Check)
+  
+  dust_list$valign <- tolower(substr(dust_list$valign, 1, 1))
+  
+  if (any(!valign %in% c("m", "b", "t")))
+    ArgumentCheck::addError(
+      msg = paste0("'dust_cell_valign' argument 'valign' only accepts ",
+                   "'m', 'middle', 'b', 'bottom', 't', and 'top'."),
+      argcheck = Check)
+  
+  ArgumentCheck::finishArgCheck(Check)
+  
+  structure(dust_list,
+            class = c("dust_cell_valign", "dust_bunny"))
 }
 
 #' @rdname cell_attribute_bunnies

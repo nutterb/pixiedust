@@ -73,6 +73,63 @@ dust_head_halign <- function(...){
             class = c("dust_head_halign", "dust_bunny"))
 }
 
+#' @rdname table_attribute_bunnies
+#' @param collapse Character string indicating if cell borders should blend together or 
+#'   be distinct.
+#' @export
+
+dust_border_collapse <- function(collapse = c("collapse", "separate"))
+{
+  Check <- ArgumentCheck::newArgCheck()
+  collapse <- ArgumentCheck::match_arg(collapse, c("collapse", "separate"), argcheck = Check)
+  ArgumentCheck::finishArgCheck(Check)
+  
+  structure(collapse,
+            class = c("dust_border_collapse", "dust_bunny"))
+}
+
+#' @rdname table_attribute_bunnies
+#' @param sides A character vector of up to length 4.  May use any of \code{"top"}, \code{"bottom"},
+#'   \code{"left"} or \code{"right"}.  The border style is applied to the sides of the table
+#'   specified.  Multiple sides are accepted and partial matching is performed.
+#' @param thickness A numeric vector of length 1 specifying the thickness of the border.
+#' @param units A character string indicating the units of \code{thickness}.  
+#' @param style A character string giving the style for the border line.  Only the first value is 
+#'   accepted.
+#' @param color A character string denoting the color of the border.  Only one value is permitted.
+#' @export
+
+dust_table_border <- function(sides, thickness=1, units=c("px", "pt"),
+                              style = c("solid", "dashed", "dotted"),
+                              color = "black")
+{
+  Check <- ArgumentCheck::newArgCheck()
+  sides <- ArgumentCheck::match_arg(sides, c("left", "right", "top", "bottom"),
+                                    several.ok = TRUE, argcheck = Check)
+  units <- ArgumentCheck::match_arg(units, c("px", "pt"), argcheck = Check)
+  style <- ArgumentCheck::match_arg(style, c("solid", "dashed", "dotted"), argcheck = Check)
+  
+  if (length(thickness) != 1)
+    ArgumentCheck::addError(
+      msg = "'thickness' must have length 1.",
+      argcheck = Check)
+  
+  if (!is.character(color) | length(color) != 1)
+    ArgumentCheck::addError(
+      msg = "'color' must be a character string of length 1.",
+      argcheck = Check)
+  
+  ArgumentCheck::finishArgCheck(Check)
+  
+  style = paste0(thickness, units, " ", style, " ", color)
+  
+  
+  structure(list(sides = sides,
+                 style = style),
+            class = c("dust_table_border", "dust_bunny"))
+}
+
+
 #********************************************
 
 dust_table_attr_checks <- function(attr_list, argcheck, fn)

@@ -70,12 +70,16 @@ dust(fit) +
 
 ```{r}
 dust(fit) + 
-  dust_bg_pattern(across = "col",
-                  colors = c("#762A83", "#1B7837")) + 
   dust_round(colname = c("estimate", "statistic", "std.error"), round = 3) + 
   dust_fn(colname = "p.value", fn = quote(pvalString(value))) + 
-  dust_cell_bg(row = 3, col = 3, color = "red") + 
-  dust_font_color(row = 3, col = 3, color = "white") + 
-  dust_cell_height(row = 1, col = 4, height = 100, units = "px") + 
-  dust_cell_width(row = 1, col = 1, width = 200, units = "px") + 
+  dust_cell_height(col = 2:4, height = 50) +
+  dust_cell_valign(col = 2, valign = "t") + 
+  dust_cell_valign(col = 3, valign = "m") + 
+  dust_cell_valign(col = 4, valign = "b") + 
+  dust_table_border("top", thickness = 3, color = "blue") + 
+  dust_table_border(c("right", "left"), thickness = 2, units="px",
+                    color = "red", style = "dotted") + 
+  dust_cell_border(row = 1, col = c(2, 4), sides = c("top", "left"),
+                   thickness = 2, color = "purple", style = "dotted") + 
   dust_print_method("html")
+```

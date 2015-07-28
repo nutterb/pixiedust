@@ -168,6 +168,25 @@ print_dust_html <- function(x, ...)
 {
   numeric_classes <- c("double", "numeric")
   
+  #* Table Head Attributes
+  
+  x$table_border[-1] <- 
+  lapply(names(x$table_border[-1]),
+         function(nm){ 
+           if (x$table_border[[nm]] != "") 
+               x$table_border[[nm]] <- paste0("border-", nm, ":", x$table_border[[nm]], "; ")
+           return(x$table_border[[nm]])
+         })
+  table_attr <- 
+    paste0("<table style = '",
+           "border-collapse:", x$table_border$border_collapse, ";",
+           x$table_border$top, 
+           x$table_border$bottom, 
+           x$table_border$left, 
+           x$table_border$right, 
+           "'>")
+                       
+  
   #* Heading Column Alignment
   #* This must be set first and then applied to cell data where alignment is not declared.
   x$head <- dplyr::mutate_(x$head,
@@ -210,7 +229,7 @@ print_dust_html <- function(x, ...)
   body <- dplyr::mutate_(body,
            halign = ~expand_halign_tag(halign),
            halign = ~ifelse(is.na(halign), 
-                            halign,
+                            "",
                             paste0("text-align:", halign, ";"))) %>%
     dplyr::left_join(x$head[, c("col_name", "halign")],
                      by = c("col_name" = "col_name")) %>%
@@ -219,6 +238,19 @@ print_dust_html <- function(x, ...)
                                     halign.y,
                                     halign)) %>%
     dplyr::select_("-halign.y")
+  
+  body <- dplyr::mutate_(body,
+                         valign = ~expand_valign_tag(valign),
+                         valign = ~ifelse(is.na(valign), 
+                                          "",
+                                          paste0("vertical-align:", valign, ";"))) %>%
+    dplyr::left_join(x$head[, c("col_name", "valign")],
+                     by = c("col_name" = "col_name")) %>%
+    dplyr::rename_("valign" = "valign.x") %>%
+    dplyr::mutate_(halign = ~ifelse(is.na(valign),
+                                    valign.y,
+                                    valign)) %>%
+    dplyr::select_("-valign.y")
   
   #** Background
   body <- dplyr::mutate_(body,
@@ -240,14 +272,23 @@ print_dust_html <- function(x, ...)
             cell_height = ~ifelse(is.na(cell_height), "",
                                   paste0("height:", cell_height, "; ")),
             cell_width = ~ifelse(is.na(cell_width), "",
-                                 paste0("width:", cell_width, "; ")))
+                                 paste0("width:", cell_width, "; ")),
+            top_border = ~ifelse(is.na(top_border), "",
+                                 paste0("border-top:", top_border, "; ")),
+            bottom_border = ~ifelse(is.na(bottom_border), "",
+                                    paste0("border-bottom:", bottom_border, "; ")),
+            left_border = ~ifelse(is.na(left_border), "",
+                                  paste0("border-left:", left_border, "; ")),
+            right_border = ~ifelse(is.na(right_border), "",
+                                   paste0("border-right:", right_border, "; ")))
       
   body <- dplyr::mutate_(body, 
       value = ~gsub("[<]", " &lt; ", value),
       value = ~gsub("[>]", " &gt; ", value),
       value = ~paste0("<td style='", 
-                        bold, italic, halign, bg, font_color, 
+                        bold, italic, halign, valign, bg, font_color, 
                         font_size, cell_height, cell_width,
+                        top_border, bottom_border, left_border, right_border,
                       "'>", value, "</td>"))
 
   #* 5. Spread to wide format for printing
@@ -262,7 +303,7 @@ print_dust_html <- function(x, ...)
 
   
   knitr::asis_output(
-    paste0("<table>\n<thead><tr>",
+    paste0(table_attr, "\n<thead><tr>",
            paste0(paste0("<th style='",
                          x$head$halign, "'> ", 
                          colnames(body), 
@@ -297,6 +338,29 @@ expand_halign_tag <- function(tag)
                         "r" = "right",
                         "na" = NA,
                         stop("Invalid halign tag"))
+  }
+  tag
+}
+
+set_valign_tag <- function(valign, col_class, format)
+{
+  valign <- ifelse(is.na(valign),
+                   "m",
+                   valign)
+  if (format == "html") valign <- expand_valign_tag(valign)
+  valign
+}
+
+expand_valign_tag <- function(tag)
+{
+  tag <- ifelse(is.na(tag), "na", tag)
+  for (i in 1:length(tag)){
+    tag[i] <- switch(tag[i],
+                     "m" = "middle",
+                     "b" = "bottom",
+                     "t" = "top",
+                     "na" = NA,
+                     stop("Invalid valign tag"))
   }
   tag
 }

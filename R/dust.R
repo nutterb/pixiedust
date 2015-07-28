@@ -87,6 +87,11 @@ dust <- function(object, ...)
 
   structure(list(body = body,
                  head = head,
+                 table_border = list(border_collapse = "collapse",
+                                     top = "",
+                                     bottom = "",
+                                     left = "",
+                                     right = ""),
                  print_method = getOption("dustpan_output")),
             class = "dust")
 }

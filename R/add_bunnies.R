@@ -48,10 +48,13 @@
          "col_names" = add_colnames(x, y, Check),
          "dust_bg_pattern" = add_bg_pattern(x, y, Check),
          "dust_bold" = add_bold(x, y, Check),
+         "dust_border_collapse" = add_border_collapse(x, y, Check),
          "dust_cell_bg" = add_cell_bg(x, y, Check),
+         "dust_cell_border" = add_cell_border(x, y, Check),
          "dust_cell_halign" = add_cell_halign(x, y, Check),
          "dust_cell_height" = add_cell_height(x, y, Check),
          "dust_cell_width" = add_cell_width(x, y, Check),
+         "dust_cell_valign" = add_cell_valign(x, y, Check),
          "dust_fn" = add_fn(x, y, Check),
          "dust_font_color"= add_font_color(x, y, Check),
          "dust_font_size" = add_font_size(x, y, Check),
@@ -59,6 +62,7 @@
          "dust_italic" = add_italic(x, y, Check),
          "dust_print_method" = add_print_method(x, y, Check),
          "dust_round" = add_round(x, y, Check),
+         "dust_table_border" = add_table_border(x, y, Check),
          stop(paste0("dust_bunny type '", dust_bunny_type, "' not recognized.")))
 }
 
@@ -113,6 +117,15 @@ add_bold <- function(x, y, argcheck)
 #**********************************************************
 #**********************************************************
 
+add_border_collapse <- function(x, y, argcheck)
+{
+  x$table_border$border_collapse = y$collapse
+  x
+}
+
+#**********************************************************
+#**********************************************************
+
 add_cell_bg <- function(x, y, argcheck)
 {
   y[["col"]] <- unique(c(y[["col"]], match(y$colname, x$head$col_name)))
@@ -128,6 +141,35 @@ add_cell_bg <- function(x, y, argcheck)
   
   return(x)
 }
+
+#**********************************************************
+#**********************************************************
+
+add_cell_border <- function(x, y, argcheck)
+{
+  cell_bunny_checks(x, y, argcheck)
+  
+  y[["col"]] <- unique(c(y[["col"]], match(y$colname, x$head$col_name)))
+  y[["col"]] <- y[["col"]][!is.na(y$col)]
+  
+  if (length((y[["row"]])) == 0) y[["row"]] <- 1:max(x$body[["row"]])
+  if (length((y[["col"]])) == 0) y[["col"]] <- 1:max(x$body[["col"]])
+  
+  Y <- expand.grid(row = y$row,
+                   col = y[["col"]])
+  
+  if ("top" %in% y$sides)
+    x$body$top_border[x$body$row %in% Y$row & x$body[["col"]] %in% Y[["col"]]] <- y$style
+  if ("bottom" %in% y$sides)
+    x$body$bottom_border[x$body$row %in% Y$row & x$body[["col"]] %in% Y[["col"]]] <- y$style
+  if ("left" %in% y$sides)
+    x$body$left_border[x$body$row %in% Y$row & x$body[["col"]] %in% Y[["col"]]] <- y$style
+  if ("right" %in% y$sides)
+    x$body$right_border[x$body$row %in% Y$row & x$body[["col"]] %in% Y[["col"]]] <- y$style
+  
+  return(x)
+}
+
 
 #**********************************************************
 #**********************************************************
@@ -170,6 +212,28 @@ add_cell_height <- function(x, y, argcheck)
   
   return(x)
 }
+
+#**********************************************************
+#**********************************************************
+
+add_cell_valign <- function(x, y, argcheck)
+{
+  cell_bunny_checks(x, y, argcheck)
+  
+  y[["col"]] <- unique(c(y[["col"]], match(y$colname, x$head$col_name)))
+  y[["col"]] <- y[["col"]][!is.na(y$col)]
+  
+  if (length((y[["row"]])) == 0) y[["row"]] <- 1:max(x$body[["row"]])
+  if (length((y[["col"]])) == 0) y[["col"]] <- 1:max(x$body[["col"]])
+  
+  Y <- expand.grid(row = y$row,
+                   col = y[["col"]])
+  
+  x$body$valign[x$body$row %in% Y$row & x$body[["col"]] %in% Y[["col"]]] <- y$valign
+  
+  return(x)
+}
+
 
 #**********************************************************
 #**********************************************************
@@ -362,6 +426,17 @@ add_round <- function(x, y, argcheck)
   return(x)
 }
 
+#**********************************************************
+#**********************************************************
+
+add_table_border <- function(x, y, argcheck)
+{
+  if ("top" %in% y$sides) x$table_border$top <- y$style
+  if ("bottom" %in% y$sides) x$table_border$bottom <- y$style
+  if ("left" %in% y$sides) x$table_border$left <- y$style
+  if ("right" %in% y$sides) x$table_border$right <- y$style
+  return(x)
+}
 
 #**********************************************************
 #**********************************************************

@@ -1,3 +1,9 @@
+#### 0.0.0-5 (27 July 2015)
+* Adds `dust_cell_valign`
+* Adds `dust_border_collapse`
+* Adds `dust_table_border`
+* Adds `dust_cell_border`
+
 #### 0.0.0-4 (26 July 2015)
 * Improved the Dustbunnies vignette to use a color coded table indicating which 
   dust bunnies are planned, available, and functional for different printing 

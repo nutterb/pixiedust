@@ -6,8 +6,10 @@
 \alias{dust_bold}
 \alias{dust_bold,}
 \alias{dust_cell_bg}
+\alias{dust_cell_border}
 \alias{dust_cell_halign}
 \alias{dust_cell_height}
+\alias{dust_cell_valign}
 \alias{dust_cell_width}
 \alias{dust_fn}
 \alias{dust_fn,}
@@ -24,11 +26,16 @@ dust_bold(..., set_bold)
 
 dust_cell_bg(..., color)
 
+dust_cell_border(..., sides, thickness = 1, units = c("px", "pt"),
+  style = c("solid", "dashed", "dotted"), color = "black")
+
 dust_cell_height(..., height, units = c("px"))
 
 dust_cell_width(..., width, units = c("\%", "px"))
 
 dust_cell_halign(..., halign)
+
+dust_cell_valign(..., valign)
 
 dust_fn(..., fn)
 
@@ -52,11 +59,20 @@ accepts partial matching.}
 
 \item{color}{A character string naming the background color for the cells}
 
-\item{height}{A character string or numeric value giving the height of the cell}
+\item{sides}{A character vector of up to length 4.  May use any of \code{"top"}, \code{"bottom"},
+\code{"left"} or \code{"right"}.  The border style is applied to the sides of the table
+specified.  Multiple sides are accepted and partial matching is performed.}
+
+\item{thickness}{A numeric vector of length 1 specifying the thickness of the border.}
 
 \item{units}{Units for the measurement.  Options may vary depending on the
 attribute being modified, but the full list of valid options is included
 in the argument's default vector.}
+
+\item{style}{A character string giving the style for the border line.  Only the first value is
+accepted.}
+
+\item{height}{A character string or numeric value giving the height of the cell}
 
 \item{width}{A character string or numeric value giving the width of the cell.}
 
@@ -64,6 +80,12 @@ in the argument's default vector.}
 \code{"center"}, \code{"r"}, or \code{"right"}.  Truthfully, only the first letter matters,
 so submitting \code{halign = "cowabunga dude"} will center align a cell.  I've chosen to
 allow this oddity since it will be forgiving of unintentional misspellings.}
+
+\item{valign}{A character value.  May be any of \code{"m"}, \code{"middle"}, \code{"b"},
+\code{"bottom"}, \code{"t"}, or \code{"top"}.  Truthfully, only the first letter matters,
+so submitting \code{halign = "muggles"} will align text in the center of a cell.  I've chosen to
+allow this oddity since it will be forgiving of unintentional misspellings. Abuse the
+privilege at your leisure.}
 
 \item{fn}{An expression with the function to be applied to the tabulated values.  The object
 on which `fn` should act is `value`. (ie, `quote(format(value, big.mark=","))`)}
