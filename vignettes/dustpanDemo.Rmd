@@ -72,14 +72,7 @@ dust(fit) +
 dust(fit) + 
   dust_round(colname = c("estimate", "statistic", "std.error"), round = 3) + 
   dust_fn(colname = "p.value", fn = quote(pvalString(value))) + 
-  dust_cell_height(col = 2:4, height = 50) +
-  dust_cell_valign(col = 2, valign = "t") + 
-  dust_cell_valign(col = 3, valign = "m") + 
-  dust_cell_valign(col = 4, valign = "b") + 
-  dust_table_border("top", thickness = 3, color = "blue") + 
-  dust_table_border(c("right", "left"), thickness = 2, units="px",
-                    color = "red", style = "dotted") + 
-  dust_cell_border(row = 1, col = c(2, 4), sides = c("top", "left"),
-                   thickness = 2, color = "purple", style = "dotted") + 
+  dust_cell_padding(row=1, col=2, padding = 0) + 
+  dust_cell_padding(row=2, col=3, padding = 50) + 
   dust_print_method("html")
 ```

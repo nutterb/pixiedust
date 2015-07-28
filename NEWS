@@ -1,8 +1,12 @@
+#### 0.0.0-6 (28 July 2015)
+* Adds `dust_rotate_text`
+
 #### 0.0.0-5 (27 July 2015)
 * Adds `dust_cell_valign`
 * Adds `dust_border_collapse`
 * Adds `dust_table_border`
 * Adds `dust_cell_border`
+* Adds `dust_cell_padding`
 
 #### 0.0.0-4 (26 July 2015)
 * Improved the Dustbunnies vignette to use a color coded table indicating which 

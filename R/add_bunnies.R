@@ -53,6 +53,7 @@
          "dust_cell_border" = add_cell_border(x, y, Check),
          "dust_cell_halign" = add_cell_halign(x, y, Check),
          "dust_cell_height" = add_cell_height(x, y, Check),
+         "dust_cell_padding" = add_cell_padding(x, y, Check),
          "dust_cell_width" = add_cell_width(x, y, Check),
          "dust_cell_valign" = add_cell_valign(x, y, Check),
          "dust_fn" = add_fn(x, y, Check),
@@ -61,6 +62,7 @@
          "dust_head_halign" = add_head_halign(x, y, Check),
          "dust_italic" = add_italic(x, y, Check),
          "dust_print_method" = add_print_method(x, y, Check),
+         "dust_rotate_text" = add_rotate_text(x, y, Check),
          "dust_round" = add_round(x, y, Check),
          "dust_table_border" = add_table_border(x, y, Check),
          stop(paste0("dust_bunny type '", dust_bunny_type, "' not recognized.")))
@@ -209,6 +211,27 @@ add_cell_height <- function(x, y, argcheck)
                    col = y[["col"]])
   
   x$body$cell_height[x$body$row %in% Y$row & x$body[["col"]] %in% Y[["col"]]] <- y$height
+  
+  return(x)
+}
+
+#**********************************************************
+#**********************************************************
+
+add_cell_padding <- function(x, y, argcheck)
+{
+  cell_bunny_checks(x, y, argcheck)
+  
+  y[["col"]] <- unique(c(y[["col"]], match(y$colname, x$head$col_name)))
+  y[["col"]] <- y[["col"]][!is.na(y$col)]
+  
+  if (length((y[["row"]])) == 0) y[["row"]] <- 1:max(x$body[["row"]])
+  if (length((y[["col"]])) == 0) y[["col"]] <- 1:max(x$body[["col"]])
+  
+  Y <- expand.grid(row = y$row,
+                   col = y[["col"]])
+  
+  x$body$padding[x$body$row %in% Y$row & x$body[["col"]] %in% Y[["col"]]] <- y$padding
   
   return(x)
 }
@@ -404,6 +427,26 @@ add_print_method <- function(x, y, argcheck)
   return(x)
 }
 
+#**********************************************************
+#**********************************************************
+
+add_rotate_text <- function(x, y, argcheck)
+{
+  cell_bunny_checks(x, y, argcheck)
+  
+  y[["col"]] <- unique(c(y[["col"]], match(y$colname, x$head$col_name)))
+  y[["col"]] <- y[["col"]][!is.na(y$col)]
+  
+  if (length(y[["row"]]) == 0) y[["row"]] <- 1:max(x$body[["row"]])
+  if (length(y[["col"]]) == 0) y[["col"]] <- 1:max(x$body[["col"]])
+  
+  Y <- expand.grid(row = y$row,
+                   col = y[["col"]])
+  
+  x$body$degree[x$body$row %in% Y$row & x$body[["col"]] %in% Y[["col"]]] <- y$degree
+  
+  return(x)
+}
 
 #**********************************************************
 #**********************************************************

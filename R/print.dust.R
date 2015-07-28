@@ -280,7 +280,11 @@ print_dust_html <- function(x, ...)
             left_border = ~ifelse(is.na(left_border), "",
                                   paste0("border-left:", left_border, "; ")),
             right_border = ~ifelse(is.na(right_border), "",
-                                   paste0("border-right:", right_border, "; ")))
+                                   paste0("border-right:", right_border, "; ")),
+            degree = ~ifelse(is.na(degree), "",
+                             rotate_tag(degree)),
+            padding = ~ifelse(is.na(padding), "",
+                              paste0("padding:", padding, "px;")))
       
   body <- dplyr::mutate_(body, 
       value = ~gsub("[<]", " &lt; ", value),
@@ -289,6 +293,7 @@ print_dust_html <- function(x, ...)
                         bold, italic, halign, valign, bg, font_color, 
                         font_size, cell_height, cell_width,
                         top_border, bottom_border, left_border, right_border,
+                        degree, padding,
                       "'>", value, "</td>"))
 
   #* 5. Spread to wide format for printing
@@ -363,4 +368,13 @@ expand_valign_tag <- function(tag)
                      stop("Invalid valign tag"))
   }
   tag
+}
+
+rotate_tag <- function(degree)
+{
+  paste0("-webkit-transform:rotate(", degree, "deg);",
+         "-moz-transform:rotate(", degree, "deg);",
+         "-ms-transform:rotate(", degree, "deg);",
+         "-o-transform:rotate(", degree, "deg);",
+         "transform:rotate(", degree, "deg);")
 }

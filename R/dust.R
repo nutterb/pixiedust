@@ -47,12 +47,14 @@ dust <- function(object, ...)
                             bg = NA,
                             font_color = NA,
                             font_size = NA,
-                            left_border = FALSE,
-                            right_border = FALSE,
-                            top_border = FALSE,
-                            bottom_border = FALSE,
+                            left_border = NA,
+                            right_border = NA,
+                            top_border = NA,
+                            bottom_border = NA,
                             cell_height = NA,
                             cell_width = NA,
+                            degree = NA,
+                            padding = NA,
                             stringsAsFactors=FALSE)
   
   body <- 

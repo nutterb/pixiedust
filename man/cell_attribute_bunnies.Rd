@@ -9,6 +9,7 @@
 \alias{dust_cell_border}
 \alias{dust_cell_halign}
 \alias{dust_cell_height}
+\alias{dust_cell_padding}
 \alias{dust_cell_valign}
 \alias{dust_cell_width}
 \alias{dust_fn}
@@ -16,6 +17,7 @@
 \alias{dust_font_color}
 \alias{dust_font_size}
 \alias{dust_italic}
+\alias{dust_rotate_text}
 \alias{dust_round}
 \title{Apply Functions to cells in a table}
 \usage{
@@ -35,6 +37,8 @@ dust_cell_width(..., width, units = c("\%", "px"))
 
 dust_cell_halign(..., halign)
 
+dust_cell_padding(..., padding)
+
 dust_cell_valign(..., valign)
 
 dust_fn(..., fn)
@@ -44,6 +48,8 @@ dust_font_color(..., color)
 dust_font_size(..., size, units = c("\%", "px", "pt", "em"))
 
 dust_italic(..., set_italic)
+
+dust_rotate_text(..., degree)
 
 dust_round(..., round)
 }
@@ -81,6 +87,8 @@ accepted.}
 so submitting \code{halign = "cowabunga dude"} will center align a cell.  I've chosen to
 allow this oddity since it will be forgiving of unintentional misspellings.}
 
+\item{padding}{A numerical value that sets the cell padding in pixels.}
+
 \item{valign}{A character value.  May be any of \code{"m"}, \code{"middle"}, \code{"b"},
 \code{"bottom"}, \code{"t"}, or \code{"top"}.  Truthfully, only the first letter matters,
 so submitting \code{halign = "muggles"} will align text in the center of a cell.  I've chosen to
@@ -93,6 +101,9 @@ on which `fn` should act is `value`. (ie, `quote(format(value, big.mark=","))`)}
 \item{size}{Font size for the text.}
 
 \item{set_italic}{Logical. Sets the \code{italic} flag for the table.}
+
+\item{degree}{Integer.  The degree of rotation in a clockwise direction.  Negative values
+rotate the text counter clockwise.}
 
 \item{round}{Integer.  Determines the number of decimals to which a value is rounded via
 the `round` function.}

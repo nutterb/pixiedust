@@ -236,6 +236,25 @@ dust_cell_halign <- function(..., halign){
 }
 
 #' @rdname cell_attribute_bunnies
+#' @param padding A numerical value that sets the cell padding in pixels.
+#' @export
+
+dust_cell_padding <- function(..., padding){
+  Check <- ArgumentCheck::newArgCheck()
+  dust_list <- dust_list_checks(..., attr = padding, fn = "dust_cell_padding", argcheck = Check)
+  
+  if (any(!is.numeric(padding)))
+    ArgumentCheck::addError(
+      msg = paste0("'dust_cell_padding' argument 'padding' must be numeric."),
+      argcheck = Check)
+  
+  ArgumentCheck::finishArgCheck(Check)
+  
+  structure(dust_list,
+            class = c("dust_cell_padding", "dust_bunny"))
+}
+
+#' @rdname cell_attribute_bunnies
 #' @param valign A character value.  May be any of \code{"m"}, \code{"middle"}, \code{"b"}, 
 #'   \code{"bottom"}, \code{"t"}, or \code{"top"}.  Truthfully, only the first letter matters,
 #'   so submitting \code{halign = "muggles"} will align text in the center of a cell.  I've chosen to 
@@ -341,6 +360,27 @@ dust_italic <- function(..., set_italic)
   
   structure(dust_list,
             class = c("dust_italic", "dust_bunny"))
+}
+
+#' @rdname cell_attribute_bunnies
+#' @param degree Integer.  The degree of rotation in a clockwise direction.  Negative values
+#'   rotate the text counter clockwise.
+#' @export
+
+dust_rotate_text <- function(..., degree)
+{
+  Check <- ArgumentCheck::newArgCheck()
+  dust_list <- dust_list_checks(..., attr = degree, fn = "dust_rotate_text", argcheck = Check)
+  
+  if (!is.numeric(dust_list$degree))
+    ArgumentCheck::addError(
+      msg = "'degree' argument in 'dust_rotate_text' must be numeric",
+      argcheck = Check)
+  
+  ArgumentCheck::finishArgCheck(Check)
+  
+  structure(dust_list,
+            class = c("dust_rotate_text", "dust_bunny"))
 }
 
 #' @rdname cell_attribute_bunnies

@@ -6,7 +6,7 @@ dust_border_collapse,       x,       ,        ,   x,
 dust_cell_border,           x,       ,        ,   x,    o
 dust_cell_halign,           x,       ,        ,   x,    o
 dust_cell_height,           x,       ,        ,   x,    o
-dust_cell_pad,               ,       ,        ,   x,     
+dust_cell_padding,          x,       ,        ,   x,     
 dust_cell_valign,           x,       ,        ,   x,    o
 dust_cell_width,            x,       ,        ,   x,    o
 dust_colnames,              x,      x,       x,   x,    o 
@@ -17,4 +17,5 @@ dust_head_halign,           x,       ,       x,   x,    o
 dust_head_valign,            ,       ,        ,   o,    o
 dust_italic,                x,      x,       x,   x,    o 
 dust_round,                 x,      x,       x,   x,    o
+dust_rotate_text,           x,       ,        ,   x,    o
 dust_table_border,          x,       ,        ,   x,    o
