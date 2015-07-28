@@ -47,6 +47,8 @@ Tables can be customized by row, column, or even by a single cell by adding dust
 |dust_head_valign |             |         |          |  o   |   o   |
 |dust_italic      |      x      |    x    |    x     |  x   |   o   |
 |dust_round       |      x      |    x    |    x     |  x   |   o   |
+|dust_rotate_text |             |         |          |  o   |   o   |
+|dust_table_border|      x      |         |          |  x   |   o   |
 
 ### A Brief Example
 
