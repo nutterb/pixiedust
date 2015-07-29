@@ -42,7 +42,7 @@
 #'      if \code{bg_pattern} is provided, \code{bg_pattern_by} is assumed, meaning
 #'      it is not necessary to explicitly define \code{bg_pattern_by} unless 
 #'      changing an existing or default setting.}
-#'   \item{\code{bold} }{}
+#'   \item{\code{bold} }{Logical value.  If \code{TRUE}, text is rendered in bold.}
 #'   \item{\code{border} }{This is one of the few exceptions to the length 1 rule.  
 #'      Accepts values \code{"left"}, \code{"right"}, \code{"top"}, and
 #'      \code{"bottom"} with partial matching.  The border will be added
@@ -62,22 +62,36 @@
 #'   \item{\code{border_collapse} }{This element is only applicable to 
 #'      \code{part = "table"} and will be applied to the table regardless
 #'      the value of \code{part} in the call.}
-#'   \item{\code{fn} }{}
-#'   \item{\code{font_color} }{}
-#'   \item{\code{font_size} }{}
+#'   \item{\code{fn} }{A function to apply to values in cells.  The function 
+#'      should be an expression that acts on the variable \code{value}. For
+#'      example, \code{quote(round(value, 3))}.}
+#'   \item{\code{font_color} }{A character string denoting the color of the
+#'      font.  See "Colors".}
+#'   \item{\code{font_size} }{A numeric value denoting the size of the font.}
 #'   \item{\code{font_size_units} }{A character string giving the units 
 #'     of the font size.  Accepts values \code{"px"}, \code{"pt"}, \code{"\%"},
 #'     and \code{"em"}.  Defaults to \code{"px"}.}
-#'   \item{\code{halign} }{}
-#'   \item{\code{height} }{}
-#'   \item{\code{height_units} }{}
-#'   \item{\code{italic} }{}
-#'   \item{\code{pad} }{}
-#'   \item{\code{rotate_text} }{}
-#'   \item{\code{round} }{}
-#'   \item{\code{valign} }{}
-#'   \item{\code{width} }{}
-#'   \item{\code{width_units} }{}
+#'   \item{\code{halign} }{A character string denoting the horizontal alignment.
+#'     Accepts any one of the values \code{"left"}, \code{"center"}, or 
+#'     \code{"right"}, with partial matching.}
+#'   \item{\code{height} }{A numerical value giving the height of the cells.}
+#'   \item{\code{height_units} }{A character string giving the units for the 
+#'     \code{height} argument.  Accepts \code{"px"} and \code{"\%"}. Defaults
+#'     to \code{"px"}.}
+#'   \item{\code{italic} }{Logical value.  If \code{TRUE}, text is rendered in italics.}
+#'   \item{\code{pad} }{A numerical value giving the cell padding in pixels.}
+#'   \item{\code{rotate_degree} }{A numerical value that determines the angle of rotation
+#'      in the clockwise direction.  Use negative values to rotate counter clockwise.}
+#'   \item{\code{round} }{A numerical value for the number of decimal places to 
+#'      which numerical values are rounded.  This can also be accomplished through
+#'      the \code{fn} argument, but this argument makes it a bit easier to do.}
+#'   \item{\code{valign} }{A character string giving the vertical alignment for the
+#'      cells.  Accepts the values \code{"top"}, \code{"middle"}, or \code{"bottom"}
+#'      with partial matching.}
+#'   \item{\code{width} }{A numerical value giving the width of the cells.}
+#'   \item{\code{width_units} }{A character string giving the units for the 
+#'     \code{width} argument.  Accepts \code{"px"} and \code{"\%"}. Defaults
+#'     to \code{"px"}.}
 #' }
 #'
 #' @section Colors:
