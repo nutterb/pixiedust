@@ -39,11 +39,12 @@
 #'      for the background.  See "Colors".}
 #'   \item{\code{bg_pattern} }{This is one of the few exceptions to the length 1 rule.
 #'      This accepts a vector of any length.  Background colors are recycled in a 
-#'      pattern. See "Colors"}
+#'      pattern. See "Colors". If left unspecified but \code{bg_pattern_by} is 
+#'      specified, this will default to \code{c("white", "gainsboro")}.}
 #'   \item{\code{bg_pattern_by} }{A character string denoting if the background 
 #'      pattern is recycled over rows or columns.  Accepts either \code{"rows"},
 #'      or \code{"columns"} with partial matching and defaults to \code{"rows"}.
-#'      if \code{bg_pattern} is provided, \code{bg_pattern_by} is assumed, meaning
+#'      If \code{bg_pattern} is provided, \code{bg_pattern_by} is assumed, meaning
 #'      it is not necessary to explicitly define \code{bg_pattern_by} unless 
 #'      changing an existing or default setting.}
 #'   \item{\code{bold} }{Logical value.  If \code{TRUE}, text is rendered in bold.}
@@ -302,7 +303,7 @@ sprinkle_names <- function()
 default_sprinkles <- function(setting)
 {
   switch(setting,
-         "bg_pattern" = c("white", "grey"),
+         "bg_pattern" = c("white", "gainsboro"),
          "bg_pattern_by" = "rows",
          "border" = "all",
          "border_thickness" = 1,
