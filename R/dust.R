@@ -51,6 +51,17 @@
 #'   console.
 #'   
 #' @return Returns an object of class \code{dust}
+#'
+#' @section Upcoming Developments:
+#' \itemize{
+#'   \item{inspect_dust }{Function to evaluate a dust object for things such as 
+#'      incompatible columns (the table head might have 7 columns while the
+#'      body only has 6, for example); sprinkles not supported by the print
+#'      method (colored text in the console); or sprinkle selections that 
+#'      may cause conflicts (hopefully this won't occur, but there is potential
+#'      for problems in combining attributes in LaTeX).}
+#'   \item{dust_part }{A wrapper for extracting objects from a \code{dust} 
+#'      object.  This is intended to assist in building custom heads and feet.}
 #' 
 #' @seealso \link[broom]{tidy}
 #' 
