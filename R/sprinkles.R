@@ -25,6 +25,10 @@
 #'
 #'   Whenever \code{part = "table"}, \code{rows} and \code{columns} are ignored
 #'   and the attributes are applied to the entire table.
+#'
+#'   If at least one of \code{border}, \code{border_thickness}, \code{border_units},
+#'   \code{border_style} or \code{border_color} is specified, the remaining
+#'   unspecified attributes assume their default values.
 #'   
 #' @section Sprinkles:
 #' The following list describes the valid sprinkles that may be defined in the 
@@ -44,8 +48,8 @@
 #'      changing an existing or default setting.}
 #'   \item{\code{bold} }{Logical value.  If \code{TRUE}, text is rendered in bold.}
 #'   \item{\code{border} }{This is one of the few exceptions to the length 1 rule.  
-#'      Accepts values \code{"left"}, \code{"right"}, \code{"top"}, and
-#'      \code{"bottom"} with partial matching.  The border will be added
+#'      Accepts values \code{"left"}, \code{"right"}, \code{"top"}, 
+#'      \code{"bottom"}, and \code{"all"} with partial matching.  The border will be added
 #'      to the sides indicated.}
 #'   \item{\code{border_thickness} }{A numeric value denoting the thickness
 #'      of the border.  Defaults to \code{1}.}
@@ -157,7 +161,7 @@ sprinkle <- function(rows, cols, ...,
     
   if ("border" %in% names(sprinkles))
     sprinkles$border <- ArgumentCheck::match_arg(sprinkles$border, 
-                                                 c("left", "right", "top", "bottom"),
+                                                 c("all", "left", "right", "top", "bottom"),
                                                  argcheck = Check)
   
   if ("border_thickness" %in% names(sprinkles) & !is.numeric(sprinkles$border_thickness))
@@ -258,6 +262,15 @@ sprinkle <- function(rows, cols, ...,
                                                        argcheck = Check)
   ArgumentCheck::finishArgCheck(Check)
   
+  #* For borders, set unspecified attributes to their defaults
+  border_attributes <- c("border", "border_thickness", "border_units", "border_style", "border_color")
+  if (any(border_attributes %in% names(sprinkles)))
+  {
+    border_not_given <-  border_attributes[!border_attributes %in% names(sprinkles)]
+    sprinkles[[border_not_given]] <- lapply(border_not_given,
+                                            default_border_settings)
+  }
+  
   structure(list(rows = rows,
                  cols = cols,
                  sprinkles = sprinkles,
@@ -273,10 +286,30 @@ sprinkle_print_method <- function(print_method = c("console", "markdown", "html"
 {
   
 }
+
+#****************
 sprinkle_names <- function()
 {
-  c("bg", "bg_pattern", "bold", "border_collapse",
+  c("bg", "bg_pattern", "bg_pattern_by", 
+    "bold", "border", "border_thickness", 
+    "border_units", "border_style", "border_color", 
+    "border_collapse",
     "fn", "font_color", "font_size", "halign", 
-    "height", "italic", "pad", "rotate_text", 
-    "round", "valign", "width")
+    "height", "height_units", "italic", "pad", "rotate_text", 
+    "round", "valign", "width", "width_units")
+}
+
+default_sprinkles <- function(setting)
+{
+  switch(setting,
+         "bg_pattern" = c("white", "grey"),
+         "bg_pattern_by" = "rows",
+         "border" = "all",
+         "border_thickness" = 1,
+         "border_units" = "px",
+         "border_style" = "solid",
+         "border_color" = "black",
+         "font_size_units" = "px",
+         "height_units", = "px",
+         "width_units" = "px")
 }
