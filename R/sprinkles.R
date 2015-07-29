@@ -59,7 +59,8 @@
 #'      to \code{"solid"}.}
 #'   \item{\code{border_color} }{A character string denoting the color 
 #'      for the border.  See "Colors".}
-#'   \item{\code{border_collapse} }{This element is only applicable to 
+#'   \item{\code{border_collapse} }{Logical.  Defaults to \code{TRUE}. 
+#'      This element is only applicable to 
 #'      \code{part = "table"} and will be applied to the table regardless
 #'      the value of \code{part} in the call.}
 #'   \item{\code{fn} }{A function to apply to values in cells.  The function 
@@ -139,7 +140,122 @@ sprinkle <- function(rows, cols, ...,
       msg = paste0("The following arguments in '...' are not valid ",
                    "sprinkles: ", paste0(bad_sprinkles, collapse = ", ")),
       argcheck = Check)
+      
+  if ("bg" %in% names(sprinkles) & !is.character(sprinkles$bg))
+      ArgumentCheck::addError(
+        msg = "The 'bg' argument must be a character string.",
+        argcheck = Check)
   
+  if ("bg_pattern_by" %in% names(sprinkles))
+    sprinkles$bg_pattern_by <- ArgumentCheck::match_arg(sprinkles$bg_pattern_by, c("rows", "columns"), 
+                                                     argcheck = Check)
+  
+  if ("bold" %in% names(sprinkles) & !is.logical(sprinkles$bold))
+    ArgumentCheck::addError(
+      msg = "The 'bold' argument must be logical",
+      argcheck = Check)
+    
+  if ("border" %in% names(sprinkles))
+    sprinkles$border <- ArgumentCheck::match_arg(sprinkles$border, 
+                                                 c("left", "right", "top", "bottom"),
+                                                 argcheck = Check)
+  
+  if ("border_thickness" %in% names(sprinkles) & !is.numeric(sprinkles$border_thickness))
+    ArgumentCheck::addError(
+      msg = "The 'border_thickness' arguments must be numeric",
+      argcheck = Check)
+  
+  if ("border_units" %in% names(sprinkles))
+    sprinkles$border_units <- ArgumentCheck::match_arg(sprinkles$border_units,
+                                                       c("px", "pt"),
+                                                       argcheck = Check)
+  
+  if ("border_style" %in% names(sprinkles))
+    sprinkles$border_style <- ArgumentCheck::match_arg(sprinkles$border_style,
+                                                       c("solid", "dashed", "dotted", "double", 
+                                                         "grooved", "ridge", "inset", "outset",
+                                                         "hidden"),
+                                                       argcheck = Check)
+  
+  if ("border_color" %in% names(sprinkles) & !is.character(sprinkles$border_color))
+    ArgumentCheck::addError(
+      msg = "The 'border_color' argument must be a character string.",
+      argcheck = Check)
+  
+  if ("border_collapse" %in% names(sprinkles) & !is.logical(sprinkles$border_collapse))
+    ArgumentCheck::addError(
+      msg = "The 'border_collapse' argument must be logical.",
+      argcheck = Check)
+      
+  if ("fn" %in% names(sprinkles) & !is.call(sprinkles$fn))
+    ArgumentCheck::addError(
+      msg = "The 'fn' argument must have class 'call'.  Use of 'quote()' is recommended",
+      argcheck = Check)
+  
+  if ("font_color" %in% names(sprinkles) & !is.character(sprinkles$font_color))
+    ArgumentCheck::addError(
+      msg = "The 'font_color' argument must be a character string.",
+      argcheck = Check)
+  
+  if ("font_size" %in% names(sprinkles) & !is.numeric(sprinkles$font_size))
+    ArgumentCheck::addError(
+      msg = "The 'font_size' argument must be numeric",
+      argcheck = Check)
+  
+  if ("font_size_units" %in% names(sprinkles))
+    sprinkles$font_size_units <- ArgumentCheck::match_arg(sprinkles$font_size_units,
+                                                          c("px", "pt", "%", "em"),
+                                                          argcheck = Check)
+  
+  if ("halign" %in% names(sprinkles))
+    sprinkles$halign <- ArgumentCheck::match_arg(sprinkles$halign,
+                                                 c("left", "center", "right"),
+                                                 argcheck = Check)
+  
+  if ("height" %in% names(sprinkles) & !is.numeric(sprinkles$height))
+    ArgumentCheck::addError(
+      msg = "The 'height' argument must be numeric",
+      argcheck = Check)
+  
+  if ("height_units" %in% names(sprinkles))
+    sprinkles$height_units <- ArgumentCheck::match_arg(sprinkles$heights_units,
+                                                       c("px", "%"),
+                                                       argcheck = Check)
+  
+  if ("italic" %in% names(sprinkles) & !is.logical(sprinkles$italic))
+    ArgumentCheck::addError(
+      msg = "The 'italic' argument must be logical",
+      argcheck = Check)
+  
+  if ("pad" %in% names(sprinkles) & !is.numeric(sprinkles$pad))
+    ArgumentCheck::addError(
+      msg = "The 'pad' argument must be numeric",
+      argcheck = Check)
+  
+  if ("rotate_degree" %in% names(sprinkles) & !is.numeric(sprinkles$rotate_degree))
+    ArgumentCheck::addError(
+      msg = "The 'rotate_degree' argument must be numeric",
+      argcheck = Check)
+  
+  if ("round" %in% names(sprinkles) & !is.numeric(sprinkles$round))
+    ArgumentCheck::addError(
+      msg = "The 'round' argument must be numeric",
+      argcheck = Check)
+  
+  if ("valign" %in% names(sprinkles))
+    sprinkles$valign <- ArgumentCheck::match_arg(sprinkles$valign,
+                                                 c("middle", "top", "bottom"),
+                                                 argcheck = Check)
+  
+  if ("width" %in% names(sprinkles) & !is.numeric(sprinkles$width))
+    ArgumentCheck::addError(
+      msg = "The 'width' argument must be numeric",
+      argcheck = Check)
+  
+  if ("width_units" %in% names(sprinkles))
+    sprinkles$width_units <- ArgumentCheck::match_arg(sprinkles$width_units,
+                                                       c("px", "%"),
+                                                       argcheck = Check)
   ArgumentCheck::finishArgCheck(Check)
   
   structure(list(rows = rows,
