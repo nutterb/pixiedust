@@ -110,7 +110,7 @@
 #' 
 #' @author Benjamin Nutter
 #'    
-sprinkle <- function(rows, cols, ..., 
+sprinkle <- function(rows = NULL, cols = NULL, ..., 
                      part = c("body", "head", "foot", "interfoot", "table"))
 {
   Check <- ArgumentCheck::newArgCheck()
@@ -268,9 +268,24 @@ sprinkle <- function(rows, cols, ...,
   if (any(border_attributes %in% names(sprinkles)))
   {
     border_not_given <-  border_attributes[!border_attributes %in% names(sprinkles)]
-    sprinkles[[border_not_given]] <- lapply(border_not_given,
-                                            default_border_settings)
+    sprinkles[border_not_given] <- lapply(border_not_given,
+                                            default_sprinkles)
   }
+  
+  if (is.null(sprinkles$bg_pattern) & !is.null(sprinkles$bg_pattern_by))
+    sprinkles$bg_pattern <- default_sprinkles("bg_pattern")
+  
+  if (!is.null(sprinkles$bg_pattern) & is.null(sprinkles$bg_pattern_by))
+    sprinkles$bg_pattern_by <- default_sprinkles("bg_pattern_by")
+  
+  if (!is.null(sprinkles$font_size) & is.null(sprinkles$font_size_units))
+    sprinkles$font_size_units <- default_sprinkles("font_size_units")
+  
+  if (!is.null(sprinkles$height) & is.null(sprinkles$height_units))
+    sprinkles$height_units <- default_sprinkles("height_units")
+  
+  if (!is.null(sprinkles$width) & is.null(sprinkles$width_units))
+    sprinkles$width_units <- default_sprinkles("width_units")
   
   structure(list(rows = rows,
                  cols = cols,
@@ -285,7 +300,14 @@ sprinkle <- function(rows, cols, ...,
 
 sprinkle_print_method <- function(print_method = c("console", "markdown", "html", "latex"))
 {
+  Check <- ArgumentCheck::newArgCheck()
+  print_method <- ArgumentCheck::match_arg(print_method,
+                                           c("console", "markdown", "html", "latex"),
+                                           argcheck = Check)
+  ArgumentCheck::finishArgCheck(Check)
   
+  structure(print_method,
+            class = "sprinkle")
 }
 
 #****************
@@ -311,6 +333,6 @@ default_sprinkles <- function(setting)
          "border_style" = "solid",
          "border_color" = "black",
          "font_size_units" = "px",
-         "height_units", = "px",
+         "height_units" = "px",
          "width_units" = "px")
 }

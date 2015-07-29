@@ -62,6 +62,7 @@
 #'      for problems in combining attributes in LaTeX).}
 #'   \item{dust_part }{A wrapper for extracting objects from a \code{dust} 
 #'      object.  This is intended to assist in building custom heads and feet.}
+#' }
 #' 
 #' @seealso \link[broom]{tidy}
 #' 
@@ -87,6 +88,7 @@ dust <- function(object, ..., glance_foot = TRUE, tidy_df = FALSE)
                  interfoot = NULL,
                  foot = NULL,
                  table_attributes = cell_attributes_frame(1, 1),
+                 border_collapse = TRUE,
                  print_method = getOption("fairydust_print_method")),
             class = "dust")
 }

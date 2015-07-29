@@ -2,25 +2,73 @@
 % Please edit documentation in R/dust.R
 \name{dust}
 \alias{dust}
-\title{Prepare an Object for Printing}
+\title{Dust Table Construction}
 \usage{
-dust(object, ...)
+dust(object, ..., glance_foot = TRUE, tidy_df = FALSE)
 }
 \arguments{
 \item{object}{An object that has a \code{tidy} method in \code{broom}}
 
 \item{...}{Additional arguments to pass to \code{tidy}}
+
+\item{glance_foot}{Arrange the glance statistics for the \code{foot} of the
+table.}
+
+\item{tidy_df}{When \code{object} is an object that inherits the
+\code{data.frame} class, the default behavior is to assume that the
+object itself is the basis of the table.  If the summarized table is
+desired, set to \code{TRUE}.}
 }
 \value{
 Returns an object of class \code{dust}
 }
 \description{
-Generates the basic structure from which \code{dustpan} tables are formatted
-  for printing.
+Dust tables consist of four primary components that are
+  built together to create a full table.  Namely, the \code{head}, the
+  \code{body}, the \code{interfoot}, and the \code{foot}.  Dust tables
+  also contain a \code{table_attributes} object and a \code{print_method}
+  object.
 }
 \details{
-\code{dust} is intended to work directly on objects, although matrices and data frames
-  may be printed as well.  Formatting of the table may be done by adding additional layers.
+The \code{head} object describes what each column of the table
+  represents.  By default, the head is a single row, but multi row headers
+  may be provided.  Note that multirow headers may not render in markdown
+  as intended, though rendering in HTML and LaTeX is fairly reliable. In
+  longtables (tables broken over multiple pages), the \code{head} appears
+  at the top of each table portion.
+
+  The \code{body} object gives the main body of information.  In long tables,
+  this portion is broken into portions, ideally with one portion per page.
+
+  The \code{interfoot} object is an optional table to be placed at the
+  bottom of longtable portions with the exception of the last portion.  A
+  well designed \code{interfoot} can convey to the user that the table
+  continues on the next page.
+
+  The \code{foot} object is the table that appears at the end of the
+  completed table.  For model objects, it is recommended that the
+  \code{\link[broom]{glance}} statistics be used to display model fit
+  statistics.
+
+  The \code{table_attributes} object stores information to apply to the
+  entire table.
+
+  The \code{print_method} object determines how the table is rendered when
+  the \code{print} method is invoked.  The default is to print to the
+  console.
+}
+\section{Upcoming Developments}{
+
+\itemize{
+  \item{inspect_dust }{Function to evaluate a dust object for things such as
+     incompatible columns (the table head might have 7 columns while the
+     body only has 6, for example); sprinkles not supported by the print
+     method (colored text in the console); or sprinkle selections that
+     may cause conflicts (hopefully this won't occur, but there is potential
+     for problems in combining attributes in LaTeX).}
+  \item{dust_part }{A wrapper for extracting objects from a \code{dust}
+     object.  This is intended to assist in building custom heads and feet.}
+}
 }
 \examples{
 x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars))
