@@ -1,4 +1,4 @@
-# dustpan
+# fairydust
 After sweeping up all your analyses with the `broom` package, go ahead and grab the `dustpan`.  Customize your table output and write it to markdown, HTML, LaTeX, or even just the console.  `dustpan` makes it easy to customize the appearance of your tables in all of these formats by adding any number of "dustbunnies", much in the same way you can add layers to a `ggplot`.
 
 ```r
