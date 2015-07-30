@@ -3,15 +3,15 @@ After sweeping up all your analyses with the `broom` package, go ahead and grab 
 
 ```r
 > fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
-> library(dustpan)
+> library(fairydust)
 > dust(fit) + 
-+   dust_round(col = 2:4, round = 3) + 
-+   dust_fn(col = 5, fn = quote(pvalString(value))) + 
-+   dust_colnames(term = "Term", 
-+                 estimate = "Estimate", 
-+                 std.error = "SE",
-+                 statistic = "T-statistic", 
-+                 p.value = "P-value")
++   sprinkle(col = 2:4, round = 3) + 
++   sprinkle(col = 5, fn = quote(pvalString(value))) + 
++   sprinkle_colnames(term = "Term", 
++                     estimate = "Estimate", 
++                      std.error = "SE",
++                      statistic = "T-statistic", 
++                      p.value = "P-value")
 ```
 ```
            Term Estimate    SE T-statistic P-value
@@ -23,32 +23,37 @@ After sweeping up all your analyses with the `broom` package, go ahead and grab 
 6 factor(gear)5    -0.27 2.063      -0.131     0.9
 ```
 
-### Customizing with Dustbunnies
+### Customizing with Sprinkles
 
-Tables can be customized by row, column, or even by a single cell by adding dustbunnies to the `dust` object.  The table below shows the currently planned and implemented dustbunnies.  In the "implemented" column, an 'x' indicates a customization that has been implemented, while a blank cell suggests that the customization is planned but has not yet been implemented.  In the remaining columns, an 'x' indicates that the dustbunny is already implemented for the output format; an 'o' indicates that implementation is planned but not yet completed; and a blank cell indicates that the dustbunny will not be implemented (usually because the output format doesn't support the option).
+Tables can be customized by row, column, or even by a single cell by adding sprinkles to the `dust` object.  The table below shows the currently planned and implemented sprinkles.  In the "implemented" column, an 'x' indicates a customization that has been implemented, while a blank cell suggests that the customization is planned but has not yet been implemented.  In the remaining columns, an 'x' indicates that the sprinkle is already implemented for the output format; an 'o' indicates that implementation is planned but not yet completed; and a blank cell indicates that the sprinkle will not be implemented (usually because the output format doesn't support the option).
 
 |dustbunny        | implemented | console | markdown | html | latex |
 |:----------------|:-----------:|:-------:|:--------:|:----:|:-----:|
-|dust_bg_cell     |      x      |         |          |  x   |   o   |
-|dust_bg_pattern  |      x      |         |          |  x   |   o   |
-|dust_bold        |      x      |    x    |    x     |  x   |   o   |
-|dust_border_collapse |  x      |         |          |  x   |       |     
-|dust_cell_border |      x      |         |          |  x   |   o   |
-|dust_cell_halign |      x      |         |          |  x   |   o   |
-|dust_cell_height |      x      |         |          |  x   |   o   |
-|dust_cell_pad    |             |         |          |  o   |       |
-|dust_cell_valign |      x      |         |          |  x   |   o   |
-|dust_cell_width  |      x      |         |          |  x   |   o   |
-|dust_colnames    |      x      |    x    |    x     |  x   |   o   |
-|dust_fn          |      x      |    x    |    x     |  x   |   o   |
-|dust_font_color  |      x      |         |          |  x   |   o   |
-|dust_font_size   |      x      |         |          |  x   |   o   |
-|dust_head_halign |      x      |         |    x     |  x   |   o   |
-|dust_head_valign |             |         |          |  o   |   o   |
-|dust_italic      |      x      |    x    |    x     |  x   |   o   |
-|dust_round       |      x      |    x    |    x     |  x   |   o   |
-|dust_rotate_text |             |         |          |  o   |   o   |
-|dust_table_border|      x      |         |          |  x   |   o   |
+|bg (background)  |      x      |         |          |  x   |   o   |
+|bg_pattern       |      x      |         |          |  x   |   o   |
+|bold             |      x      |    x    |    x     |  x   |   o   |
+|border_collapse  |      x      |         |          |  x   |       |     
+|border           |      x      |         |          |  x   |   o   |
+|border_thickness |      x      |         |          |  x   |       |
+|border_units     |      x      |         |          |  x   |       |
+|border_style     |      x      |         |          |  x   |       |
+|border_color     |      x      |         |          |  x   |       |
+|colnames         |      x      |    x    |    x     |  x   |   o   |
+|halign           |      x      |         |          |  x   |   o   |
+|height           |      x      |         |          |  x   |   o   |
+|height_units     |      x      |         |          |  x   |   o   |
+|fn               |      x      |    x    |    x     |  x   |   o   |
+|font_color       |      x      |         |          |  x   |   o   |
+|font_size        |      x      |         |          |  x   |   o   |
+|font_size_units  |      x      |         |          |  x   |   o   |
+|italic           |      x      |    x    |    x     |  x   |   o   |
+|pad              |             |         |          |  o   |       |
+|round            |      x      |    x    |    x     |  x   |   o   |
+|rotate_text      |             |         |          |  o   |   o   |
+|valign           |      x      |         |          |  x   |   o   |
+|width            |      x      |         |          |  x   |   o   |
+|width_units      |      x      |         |          |  x   |   o   |
+
 
 ### A Brief Example
 
@@ -102,7 +107,7 @@ While the summary is informative and useful, it is full of "stats-speak" and isn
 
 It has been observed by some, however, that even this summary isn't quite ready for publication.  There are too many decimal places, the p-value employ scientific notation, and column titles like "statistic" don't specify what type of statistic.  These kinds of details aren't the purview of `broom`, however, as `broom` is focused on tidying the results of a model for further analysis (particularly with respect to comparing slightly varying models).
 
-The `dustpan` package diverts from `broom`'s mission here and provides the ability to customize the `broom` output for presentation.  The initial `dust` object returns a table that is largely similar to the `broom` output.  Truthfully, it may be less desirable because it has converted all of those numerical values into character strings.  This has the consequence of losing the numerical formatting employed by printing a data frame.
+The `fairydust` package diverts from `broom`'s mission here and provides the ability to customize the `broom` output for presentation.  The initial `dust` object returns a table that is largely similar to the `broom` output.  Truthfully, it may be less desirable because it has converted all of those numerical values into character strings.  This has the consequence of losing the numerical formatting employed by printing a data frame.
 
 ```r
 > library(dustpan)
@@ -119,12 +124,12 @@ The `dustpan` package diverts from `broom`'s mission here and provides the abili
 6 factor(gear)5 -0.269746805223248   2.0631829212229 -0.130743039043461    0.896984955536724
 ```
 
-Where `dustpan` shows its strength is the ease of which these tables can be customized.  The code below rounds the columns `estimate`, `std.error`, and `statistic` to three decimal places each, and then formats the `p.value` into a format that happens to be one that I like.
+Where `fairydust` shows its strength is the ease of which these tables can be customized.  The code below rounds the columns `estimate`, `std.error`, and `statistic` to three decimal places each, and then formats the `p.value` into a format that happens to be one that I like.
 
 ```r
 > x <- dust(fit) + 
-+   dust_round(col = 2:4, round = 3) + 
-+   dust_fn(col = 5, fn = quote(pvalString(value)))
++   sprinkle(col = 2:4, round = 3) + 
++   sprinkle(col = 5, fn = quote(pvalString(value)))
 > 
 > x
 ```
@@ -143,9 +148,9 @@ Now we're almost there!  Let's change up the column names, and while we're add i
 
 ```r
 > x <- x + 
-+   dust_bold(colname = c("estimate", "p.value"), 
-+             row = c(2, 4), 
-+             set_bold = TRUE) + 
++   sprinkle(col = c("estimate", "p.value"), 
++            row = c(2, 4), 
++            bold = TRUE) + 
 +   dust_colnames(term = "Term", 
 +                 estimate = "Estimate", 
 +                 std.error = "SE",
@@ -179,18 +184,18 @@ We're just getting started!  While there are a number of customizations already 
 Are there other features you want or need?  Please submit an issue, or contribute functionality yourself.  
 
 ### Development Schedule
-| Version | Release Description                                | Target Date | 
-|--------:|:---------------------------------------------------|------------:|
-| 0.1.0   | Console, markdown and HTML output for simple table | 1 Aug 2015  |
-| 0.2.0   | Multirow table headers; footers; multipage tables  | 20 Aug 2015 |
-| 0.3.0   | Multicolumn and multirow cells in HTML             | 15 Sep 2015 |
-| 0.4.0   | Glance statistics in table footer                  | 1 Oct 2015  |
-| 0.5.0   | LaTeX output for simple table                      | 15 Oct 2015 |
-| 0.6.0   | Borders and backgrounds for LaTeX tables           | 1 Nov 2015  |
-| 0.7.0   | Multicolumn and multirow support for LaTeX tables  | 1 Dec 2015  |
-| 0.8.0   | Longtable support for LaTeX tables                 |   Jan 2016  |
-| 0.9.0   | Adjustable cell heights and widths in LaTeX tables |   Feb 2016  |
-| 0.10.0  | Rotated text for LaTeX tables                      |   Mar 2016  |
-| 0.11.0  | Add variable labels and levels to `broom` output   |   Apr 2016  |
-| 0.12.0  | Add themes (cobwebs?) for batch customizations     |   Apr 2016  |
-| 1.0.0   | Release of basic, stable package                   |   May 2016  |
+| Version | Release Description                                | Target Date | Acutal Date |
+|--------:|:---------------------------------------------------|------------:|-------------|
+| 0.1.0   | Console, markdown and HTML output for simple table | 1 Aug 2015  | |
+| 0.2.0   | Multirow table headers; footers; multipage tables  | 20 Aug 2015 | |
+| 0.3.0   | Multicolumn and multirow cells in HTML             | 15 Sep 2015 | |
+| 0.4.0   | Glance statistics in table footer                  | 1 Oct 2015  | |
+| 0.5.0   | LaTeX output for simple table                      | 15 Oct 2015 | |
+| 0.6.0   | Borders and backgrounds for LaTeX tables           | 1 Nov 2015  | |
+| 0.7.0   | Multicolumn and multirow support for LaTeX tables  | 1 Dec 2015  | |
+| 0.8.0   | Longtable support for LaTeX tables                 |   Jan 2016  | |
+| 0.9.0   | Adjustable cell heights and widths in LaTeX tables |   Feb 2016  | |
+| 0.10.0  | Rotated text for LaTeX tables                      |   Mar 2016  | |
+| 0.11.0  | Add variable labels and levels to `broom` output   |   Apr 2016  | |
+| 0.12.0  | Add themes (cobwebs?) for batch customizations     |   Apr 2016  | |
+| 1.0.0   | Release of basic, stable package                   |   May 2016  | |
