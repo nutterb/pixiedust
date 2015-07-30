@@ -83,20 +83,22 @@ dust <- function(object, ..., glance_foot = TRUE, tidy_df = FALSE)
                         stringsAsFactors=FALSE)
   names(head) <- names(object)
 
-  structure(list(head = component_table(head),
+  structure(list(head = component_table(head, object),
                  body = component_table(object),
                  interfoot = NULL,
                  foot = NULL,
                  table_attributes = cell_attributes_frame(1, 1),
                  border_collapse = TRUE,
+                 object = object,
                  print_method = getOption("fairydust_print_method")),
             class = "dust")
 }
 
-component_table <- function(tbl)
+component_table <- function(tbl, object)
 {
-  Classes <- data.frame(col_name = colnames(tbl),
-                        col_class = vapply(tbl, class, "class"), 
+  if (missing(object)) object <- tbl
+  Classes <- data.frame(col_name = colnames(object),
+                        col_class = vapply(object, class, "class"), 
                         stringsAsFactors=FALSE)
   
   gather_tbl(tbl) %>%
@@ -112,8 +114,8 @@ cell_attributes_frame <- function(nrow, ncol)
               col = 1:ncol,
               fn = NA,
               round = NA,
-              bold = NA,
-              italic = NA,
+              bold = FALSE,
+              italic = FALSE,
               halign = NA,
               valign = NA,
               bg = NA,

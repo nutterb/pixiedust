@@ -1,4 +1,5 @@
 #' @name sprinkle_colnames
+#' @export sprinkle_colnames
 #' @importFrom ArgumentCheck addError
 #' @importFrom ArgumentCheck finishArgCheck
 #' @importFrom ArgumentCheck newArgCheck

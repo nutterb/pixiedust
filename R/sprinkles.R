@@ -1,4 +1,5 @@
 #' @name sprinkles
+#' @export sprinkle
 #' @importFrom ArgumentCheck newArgCheck
 #' @importFrom ArgumentCheck addError
 #' @importFrom ArgumentCheck finishArgCheck
@@ -130,9 +131,13 @@ sprinkle <- function(rows = NULL, cols = NULL, ...,
       msg = paste0("All arguments in '...' must be named"),
       argcheck = Check)
   
+  if ("fn" %in% names(sprinkles))
+    sprinkles$fn <- deparse(sprinkles$fn)
+  
   too_long <- names(sprinkles)[vapply(sprinkles, 
                                       function(x) length(x) != 1,
                                       TRUE)]
+  
   if (length(too_long) > 0)
     ArgumentCheck::addError(
       msg = paste0("Arguments in '...' must have length 1.",
@@ -192,10 +197,10 @@ sprinkle <- function(rows = NULL, cols = NULL, ...,
       msg = "The 'border_collapse' argument must be logical.",
       argcheck = Check)
       
-  if ("fn" %in% names(sprinkles) & !is.call(sprinkles$fn))
-    ArgumentCheck::addError(
-      msg = "The 'fn' argument must have class 'call'.  Use of 'quote()' is recommended",
-      argcheck = Check)
+#   if ("fn" %in% names(sprinkles) & !is.call(sprinkles$fn))
+#     ArgumentCheck::addError(
+#       msg = "The 'fn' argument must have class 'call'.  Use of 'quote()' is recommended",
+#       argcheck = Check)
   
   if ("font_color" %in% names(sprinkles) & !is.character(sprinkles$font_color))
     ArgumentCheck::addError(
@@ -307,7 +312,7 @@ sprinkle_print_method <- function(print_method = c("console", "markdown", "html"
   ArgumentCheck::finishArgCheck(Check)
   
   structure(print_method,
-            class = "sprinkle")
+            class = c("print_method", "sprinkle"))
 }
 
 #****************

@@ -1,6 +1,6 @@
 .onLoad <- function(libname,pkgname)
 {
-  options(dustpan_output="console")
+  options(fairydust_print_method="console")
 }
 
 .onUnload <- function(libPath)

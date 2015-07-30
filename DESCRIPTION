@@ -1,4 +1,4 @@
-Package: dustpan
+Package: fairydust
 Title: Publication-Ready Tables Through a Flexible Programming Interface
 Version: 0.0.0-6
 Authors@R: person("Benjamin", "Nutter", email = "nutter@battelle.org", role = c("aut", "cre"))

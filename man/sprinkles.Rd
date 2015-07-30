@@ -6,8 +6,8 @@
 \alias{sprinkles}
 \title{Define Customization to a Table}
 \usage{
-sprinkle(rows, cols, ..., part = c("body", "head", "foot", "interfoot",
-  "table"))
+sprinkle(rows = NULL, cols = NULL, ..., part = c("body", "head", "foot",
+  "interfoot", "table"))
 
 sprinkle_print_method(print_method = c("console", "markdown", "html",
   "latex"))

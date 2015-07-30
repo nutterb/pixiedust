@@ -1,4 +1,5 @@
 #' @name pvalString
+#' @importFrom lazyWeave pvalString
 #' @export pvalString
 #' 
 #' @title Format P-values for Reports

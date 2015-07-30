@@ -39,10 +39,9 @@
     ArgumentCheck::addError("'y' must be an object with class 'sprinkle'",
                             argcheck = Check)
   
-  if (!is.null(y$sprinkles$border_collapse))
-  {
-    x$border_collapse <- y$sprinkles$border_collapse
-    y$sprinkles$border_collapse <- NULL
+  if ("print_method" %in% class(y)){
+    x$print_method <- y
+    return(x)
   }
   
   if ("col_names" %in% class(y))
@@ -69,10 +68,17 @@
       ArgumentCheck::finishArgCheck(Check)
       
       x$head$value <- y
+      return(x)
     }
   } 
   else{
     ArgumentCheck::finishArgCheck(Check)
+    
+    if (!is.null(y$sprinkles$border_collapse))
+    {
+      x$border_collapse <- y$sprinkles$border_collapse
+      y$sprinkles$border_collapse <- NULL
+    }
     
     part <- x[[y$part]]
 
