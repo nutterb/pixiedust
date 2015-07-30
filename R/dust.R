@@ -16,7 +16,7 @@
 #'   
 #' @param object An object that has a \code{tidy} method in \code{broom}
 #' @param glance_foot Arrange the glance statistics for the \code{foot} of the
-#'   table.
+#'   table. (Not scheduled for implementation until version 0.4.0)
 #' @param tidy_df When \code{object} is an object that inherits the 
 #'   \code{data.frame} class, the default behavior is to assume that the 
 #'   object itself is the basis of the table.  If the summarized table is 
@@ -101,11 +101,12 @@ component_table <- function(tbl, object)
                         col_class = vapply(object, class, "class"), 
                         stringsAsFactors=FALSE)
   
-  gather_tbl(tbl) %>%
-    left_join(., cell_attributes_frame(nrow(tbl), ncol(tbl)),
-              by = c("row" = "row", "col" = "col")) %>%
-    left_join(., Classes,
+  tab <- gather_tbl(tbl)
+  tab <- dplyr::left_join(tab, cell_attributes_frame(nrow(tbl), ncol(tbl)),
+              by = c("row" = "row", "col" = "col"))
+  tab <- dplyr::left_join(tab, Classes,
               by = c("col_name" = "col_name"))
+  return(tab)
 }
 
 cell_attributes_frame <- function(nrow, ncol)

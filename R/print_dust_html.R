@@ -17,7 +17,7 @@ print_dust_html <- function(x, ...)
   body <- dplyr::bind_rows(head, body)
   
   rows <- apply(body, 1, paste0, collapse = "\n")
-  rows <- paste0("<tr>", rows, "<\tr>", sep = "\n")
+  rows <- paste0("<tr>", rows, "</tr>", sep = "\n")
   
   knitr::asis_output(
     paste0("<table>",

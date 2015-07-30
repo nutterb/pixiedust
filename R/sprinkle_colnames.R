@@ -41,16 +41,16 @@ sprinkle_colnames <- function(...)
   if (any(names(new_names) %in% "")){
       ArgumentCheck::addError(
         msg = "Elements of '...' must either all be named or all be unnamed",
-        argcheck = argcheck)
-    ArgumentCheck::finishArgCheck(argcheck)      
+        argcheck = Check)
+    ArgumentCheck::finishArgCheck(Check)      
   }
   #* Return an error if any element in ... has length greater than 1.
   else if (any(vapply(new_names, length, 1) != 1)){
     ArgumentCheck::addError(
       msg = "Arguments to '...' should have length 1",
-      argcheck = argcheck)
+      argcheck = Check)
     
-    ArgumentCheck::finishArgCheck(argcheck)
+    ArgumentCheck::finishArgCheck(Check)
   }
   
   #* Return the vector when no names are used

@@ -14,7 +14,7 @@ print_dust_console <- function(x, ...)
   
   names(body) <- names(head) <- head[1, ]
   
-  if (nrow(body) > 1) body <- dplyr::bind_rows(head[-1, ], body)
+  if (nrow(head) > 1) body <- dplyr::bind_rows(head[-1, ], body)
   
   print(as.data.frame(body))
 }

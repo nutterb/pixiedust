@@ -1,5 +1,5 @@
 ---
-title: "`dustpan` Demonstration"
+title: "Creating Magic with `fairydust` "
 author: "Benjamin Nutter"
 date: "`r Sys.Date()`"
 output:
@@ -9,7 +9,7 @@ output:
     toc: yes
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{dustpan Demonstration}
+  %\VignetteIndexEntry{Creating Magic with fairydust}
   \usepackage[utf8]{inputenc}
 ---
 

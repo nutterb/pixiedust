@@ -12,7 +12,7 @@ dust(object, ..., glance_foot = TRUE, tidy_df = FALSE)
 \item{...}{Additional arguments to pass to \code{tidy}}
 
 \item{glance_foot}{Arrange the glance statistics for the \code{foot} of the
-table.}
+table. (Not scheduled for implementation until version 0.4.0)}
 
 \item{tidy_df}{When \code{object} is an object that inherits the
 \code{data.frame} class, the default behavior is to assume that the

@@ -11,21 +11,6 @@
 #' @param x a \code{dust} object
 #' @param y a \code{dust_bunny} object.
 #' 
-#' @section Dust Bunnies:
-#' The following is a list of available functions for adding dust bunnies to a \code{dust} table.
-#' This list may or may not be complete.  Not every dust bunny will impact every type of table.
-#' See \code{vignette("dustbunnies")} for a tabulation of which dustbunnies are applicable to each
-#' printing method.
-#' 
-#' \itemize{
-#'   \item{\code{\link{dust_cell_halign}}}{ Assign the horizontal alignment in a cell}
-#'   \item{\code{\link{dust_colnames}}}{ Change the column names for a table}
-#'   \item{\code{\link{dust_bold}}}{ Bold text in cells }
-#'   \item{\code{\link{dust_fn}}}{ Apply a function to values in a table}
-#'   \item{\code{\link{dust_head_halign}}}{ Assign the horizontal alignment for a column}
-#'   \item{\code{\link{dust_italic}}}{ Italicize text in cells }
-#'   \item{\code{\link{dust_round}}}{ Round values in cells }
-#' }
 #' 
 #' @author Benjamin Nutter
 #' 
@@ -81,9 +66,17 @@
     }
     
     part <- x[[y$part]]
+    
+    if (!is.null(y$cols)){
+      cols_num <- suppressWarnings(as.numeric(y$cols))
+      cols_num <- cols_num[!is.na(cols_num)]
+      
+      cols_str <- match(y$cols, unique(x$head$col_name))
+      y$cols <- unique(c(cols_num, cols_str))
+    }
 
-    if (is.null(y$rows)) y$rows <- 1:max(part$row)
-    if (is.null(y$cols)) y$cols <- 1:max(part$col)
+    if (is.null(y$rows) | length(y$rows) == 0) y$rows <- 1:max(part$row)
+    if (is.null(y$cols) | length(y$cols) == 0) y$cols <- 1:max(part$col)
   
     Cells <- expand.grid(c(list(row = y$rows,
                                 col = y$cols),
