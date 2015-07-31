@@ -23,13 +23,13 @@ Green indicates that a dust bunny is currently functional for that method.
 
 
 ```{r, echo=FALSE}
-Sprinkles <- read.csv(system.file("sprinkles.csv", package = "fairydust"),
+Sprinkles <- read.csv(system.file("sprinkles.csv", package = "pixiedust"),
                         stringsAsFactors=FALSE)
 Sprinkles[,-1] <- lapply(Sprinkles[-1], stringr::str_trim)
 ```
 
 ```{r, echo=FALSE}
-library(fairydust)
+library(pixiedust)
 red <- "#A50026"
 lightgreen <- "#A6DBA0"
 green <- "#006837"
@@ -55,15 +55,15 @@ x + sprinkle_print_method(print_method = "html")
 
 ```{r, echo=FALSE, eval=FALSE}
 #* README Content
-knitr::kable(Dustbunnies, align = c("l", rep("c", 5)))
+knitr::kable(Sprinkles, align = c("l", rep("c", 5)))
 
 fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
 
-library(dustpan)
+library(pixiedust)
 dust(fit) + 
-  dust_round(col = 2:4, round = 3) + 
-  dust_fn(col = 5, fn = quote(pvalString(value)))+ 
-  dust_colnames(term = "Term", 
+  sprinkle(col = 2:4, round = 3) + 
+  sprinkle(col = 5, fn = quote(pvalString(value)))+ 
+  sprinkle_colnames(term = "Term", 
                 estimate = "Estimate", 
                 std.error = "SE",
                 statistic = "T-statistic", 
@@ -74,20 +74,20 @@ summary(fit)
 library(broom)
 tidy(fit)
 
-library(dustpan)
+library(pixiedust)
 dust(fit)
 
 x <- dust(fit) + 
-  dust_round(col = 2:4, round = 3) + 
-  dust_fn(col = 5, fn = quote(pvalString(value)))
+  sprinkle(col = 2:4, round = 3) + 
+  sprinkle(col = 5, fn = quote(pvalString(value)))
 
 x
 
 x <- x + 
-  dust_bold(colname = c("estimate", "p.value"), 
+  sprinkle(col = c("estimate", "p.value"), 
             row = c(2, 4), 
-            set_bold = TRUE) + 
-  dust_colnames(term = "Term", 
+            bold = TRUE) + 
+  sprinkle_colnames(term = "Term", 
                 estimate = "Estimate", 
                 std.error = "SE",
                 statistic = "T-statistic", 

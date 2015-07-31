@@ -1,6 +1,9 @@
+#### 0.0.0-9 (31 July 2015)
+* Finished tests
+
 #### 0.0.0-8 (30 July 2015)
 * Finished HTML rendering
-* Adds fairydust vignette
+* Adds pixiedust vignette
 * Removes old vignettes
 
 #### 0.0.0-7 (29 July 2015)
@@ -11,11 +14,11 @@
   of rows and cols in the ... argument of the dust bunnies, 
   it made more sense to add the dust bunnies in ... with
   formal arguments for row and col.  I also came up 
-  with the idea of naming the package `fairydust` and 
+  with the idea of naming the package `pixiedust` and 
   sprinkling the dust around.  It sounded like fun so 
   let's hope CRAN lets me get away with it.
 * All functionality has been rewritten to support the
-  fairydust paradigm, but new tests and vignettes need 
+  pixiedust paradigm, but new tests and vignettes need 
   to be written to confirm that it all works.
 * R CMD check has _NOT_ been run.
 

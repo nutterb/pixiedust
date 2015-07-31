@@ -1,15 +1,15 @@
-Package: fairydust
+Package: pixiedust
 Title: Tables So Beautifully Fine-Tuned You Will Believe It's Magic
-Version: 0.0.0-6
+Version: 0.0.0-9
 Authors@R: person("Benjamin", "Nutter", email = "nutter@battelle.org", role = c("aut", "cre"))
 Description: The introduction of the broom package has made converting model objects into data 
   frames as simple as a single function.  While the broom package focuses on providing tidy
   data frames that can be used in advanced analysis, it deliberately stops short of providing 
-  functionality for reporting models in publication-ready tables.  fairydust provides this 
+  functionality for reporting models in publication-ready tables.  pixiedust provides this 
   functionality with a programming interface intended to be similar to ggplot2's system of 
   layers with fine tuned control over each cell of the table.  Options for output include 
   printing to the console and to the common markdown formats (markdown, HTML, and LaTeX). 
-  With a little fairydust (and happy thoughts) tables can really fly.
+  With a little pixiedust (and happy thoughts) tables can really fly.
 Depends: R (>= 3.2.1)
 Imports: 
   ArgumentCheck, 

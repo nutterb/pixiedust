@@ -65,6 +65,12 @@
       y$sprinkles$border_collapse <- NULL
     }
     
+    if (!is.null(y$sprinkles$bg_pattern)){
+      x$bg_pattern <- y$sprinkles$bg_pattern
+      x$bg_pattern_bh <- y$sprinkles$bg_pattern_by
+      y$sprinkles$bg_pattern <- y$sprinkles$bg_pattern_by <- NULL
+    }
+    
     part <- x[[y$part]]
     
     if (!is.null(y$cols)){

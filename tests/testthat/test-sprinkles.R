@@ -229,7 +229,7 @@ test_that("sprinkles: height errors",
                       "2: The 'height' argument must be numeric"))
 })
 
-test_that("sprinkles: height",
+test_that("sprinkles: height_units",
 {
   expect_equal(sprinkle(rows = 1, cols = 1, height_units = "px"),
                structure(list(rows = 1, cols = 1, 
@@ -239,9 +239,195 @@ test_that("sprinkles: height",
                          .Names = c("rows", "cols", "sprinkles", "part"), class = "sprinkle"))
 })
 
-test_that("sprinkles: height errors",
+test_that("sprinkles: height_units errors",
 {
   expect_error(sprinkle(rows = 1, cols = 1, height_units = "em"),
                "1: 'sprinkles[$]height_units' should be one of")
 })
 
+test_that("sprinkles: fn",
+{
+  expect_equal(sprinkle(rows = 1, cols = 1, fn = quote(pvalString(value))),
+               structure(list(rows = 1, cols = 1, 
+                              sprinkles = structure(list(fn = "pvalString(value)"), 
+                                                    .Names = "fn"), 
+                              part = "body"), 
+                         .Names = c("rows", "cols", "sprinkles", "part"), 
+                         class = "sprinkle"))
+})
+
+test_that("sprinkles: font_color",
+{
+  expect_equal(sprinkle(rows = 1, cols = 1, font_color = "orchid"),
+               structure(list(rows = 1, cols = 1, 
+                              sprinkles = structure(list(font_color = "orchid"), 
+                                                    .Names = "font_color"), 
+                              part = "body"), 
+                         .Names = c("rows", "cols", "sprinkles", "part"), 
+                         class = "sprinkle"))
+})
+           
+test_that("sprinkles: font_color error",
+{
+  expect_error(sprinkle(rows = 1, cols = 1, font_color = c("orchid", "aquamarine")),
+               "1: Arguments in '...' must have length 1. Please check font_color.")
+})
+
+test_that("sprinkles: font_size",
+{
+  expect_equal(sprinkle(rows = 1, cols = 1, font_size = 12),
+               structure(list(rows = 1, cols = 1, 
+                              sprinkles = structure(list(font_size = 12, 
+                                                         font_size_units = "px"), 
+                                                    .Names = c("font_size","font_size_units")), 
+                              part = "body"), 
+                         .Names = c("rows", "cols", "sprinkles", "part"), 
+                         class = "sprinkle"))
+})
+
+test_that("sprinkles: font_size errors",
+{
+  expect_error(sprinkle(rows = 1, cols = 1, font_size = c("1", "x")),
+               paste0("1: Arguments in '...' must have length 1. Please check font_size.\n",
+                      "2: The 'font_size' argument must be numeric"))
+})
+
+test_that("sprinkles: font_size_units",
+{
+  expect_equal(sprinkle(rows = 1, cols = 1, font_size_units = "em"),
+               structure(list(rows = 1, cols = 1, 
+                              sprinkles = structure(list(font_size_units = "em"), 
+                                                    .Names = "font_size_units"), 
+                              part = "body"), 
+                         .Names = c("rows", "cols", "sprinkles", "part"), 
+                         class = "sprinkle"))
+})
+
+test_that("sprinkles: font_size_unit errors",
+{
+  expect_error(sprinkle(rows = 1, cols = 1, font_size_units = c("inches")),
+               paste0("1: 'sprinkles[$]font_size_units' should be one of"))
+})
+
+test_that("sprinkles: italic",
+{
+  expect_equal(sprinkle(rows = 1, cols = 1, italic = TRUE),
+               structure(list(rows = 1, cols = 1, 
+                              sprinkles = structure(list(italic = TRUE), 
+                                                  .Names = "italic"), 
+                              part = "body"), 
+                         .Names = c("rows", "cols", "sprinkles", "part"), 
+                         class = "sprinkle"))
+})
+
+test_that("sprinkles: italic errors",
+{
+  expect_error(sprinkle(rows = 1, cols = 1, italic = c(1, 2)),
+               paste0("1: Arguments in '...' must have length 1. Please check italic.\n",
+                      "2: The 'italic' argument must be logical"))
+})
+
+test_that("sprinkles: pad",
+{
+  expect_equal(sprinkle(rows = 1, cols = 1, pad = 5),
+               structure(list(rows = 1, cols = 1, 
+                              sprinkles = structure(list(pad = 5), 
+                                                    .Names = "pad"), 
+                              part = "body"), 
+                         .Names = c("rows", "cols", "sprinkles", "part"), 
+                         class = "sprinkle"))
+})
+
+test_that("sprinkles: pad errors",
+{
+  expect_error(sprinkle(rows = 1, cols = 1, pad = c(1, "text")),
+               paste0("1: Arguments in '...' must have length 1. Please check pad.\n",
+                      "2: The 'pad' argument must be numeric"))
+})
+
+test_that("sprinkles: round",
+{
+  expect_equal(sprinkle(rows = 1, cols = 1, round = 5),
+               structure(list(rows = 1, cols = 1, 
+                              sprinkles = structure(list(round = 5), 
+                                                    .Names = "round"), 
+                              part = "body"), 
+                         .Names = c("rows", "cols", "sprinkles", "part"), 
+                         class = "sprinkle"))
+})
+
+test_that("sprinkles: round errors",
+{
+  expect_error(sprinkle(rows = 1, cols = 1, round = c(1, "text")),
+               paste0("1: Arguments in '...' must have length 1. Please check round.\n",
+                      "2: The 'round' argument must be numeric"))
+})
+
+test_that("sprinkles: rotate_degree",
+{
+  expect_equal(sprinkle(rows = 1, cols = 1, rotate_degree = 5),
+               structure(list(rows = 1, cols = 1, 
+                              sprinkles = structure(list(rotate_degree = 5), 
+                                                    .Names = "rotate_degree"), 
+                              part = "body"), 
+                         .Names = c("rows", "cols", "sprinkles", "part"), 
+                         class = "sprinkle"))
+})
+
+test_that("sprinkles: rotate_degree errors",
+{
+  expect_error(sprinkle(rows = 1, cols = 1, rotate_degree = c(1, "text")),
+               paste0("1: Arguments in '...' must have length 1. Please check rotate_degree.\n",
+                      "2: The 'rotate_degree' argument must be numeric"))
+})
+
+test_that("sprinkles: valign",
+{
+  expect_equal(sprinkle(rows = 1, cols = 1, valign = "middle"),
+               structure(list(rows = 1, cols = 1, 
+                              sprinkles = structure(list(valign = "middle"), 
+                                                    .Names = "valign"), 
+                              part = "body"), 
+                         .Names = c("rows", "cols", "sprinkles", "part"), 
+                         class = "sprinkle"))
+          })
+
+test_that("sprinkles: valign errors",
+{
+  expect_error(sprinkle(rows = 1, cols = 1, valign = "above"),
+               paste0("1: 'sprinkles[$]valign' should be one of"))
+})
+
+test_that("sprinkles: width",
+{
+  expect_equal(sprinkle(rows = 1, cols = 1, width = 12),
+               structure(list(rows = 1, cols = 1, 
+                              sprinkles = structure(list(width = 12, width_units = "px"), 
+                                                    .Names = c("width", "width_units")), 
+                              part = "body"), 
+                         .Names = c("rows", "cols", "sprinkles", "part"), 
+                         class = "sprinkle"))
+})
+
+test_that("sprinkles: width errors",
+{
+  expect_error(sprinkle(rows = 1, cols = 1, width = c(12, "text")),
+               paste0("1: Arguments in '...' must have length 1. Please check width.\n",
+                      "2: The 'width' argument must be numeric"))
+})
+
+test_that("sprinkles: width_units",
+{
+  expect_equal(sprinkle(rows = 1, cols = 1, width_units = "px"),
+               structure(list(rows = 1, cols = 1, 
+                              sprinkles = structure(list(width_units = "px"), 
+                                                    .Names = "width_units"), 
+                              part = "body"), 
+                         .Names = c("rows", "cols", "sprinkles", "part"), class = "sprinkle"))
+})
+
+test_that("sprinkles: width_units errors",
+{
+  expect_error(sprinkle(rows = 1, cols = 1, width_units = "em"),
+               "1: 'sprinkles[$]width_units' should be one of")
+})

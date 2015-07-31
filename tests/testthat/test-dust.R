@@ -28,8 +28,8 @@ test_that("dust object body component has correct dimensions",
                dim(x$foot))
   
   expect_equal(Dims, 
-               list(c(5, 22), 
-                    c(30, 22),
+               list(c(5, 25), 
+                    c(30, 25),
                     NULL,
                     NULL))
 })

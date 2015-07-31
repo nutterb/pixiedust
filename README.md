@@ -1,9 +1,9 @@
-# fairydust
-After sweeping up all your analyses with the `broom` package, go ahead and grab the `dustpan`.  Customize your table output and write it to markdown, HTML, LaTeX, or even just the console.  `dustpan` makes it easy to customize the appearance of your tables in all of these formats by adding any number of "dustbunnies", much in the same way you can add layers to a `ggplot`.
+# pixiedust
+After sweeping up all your analyses with the `broom` package, go ahead and grab the `pixiedust`.  Customize your table output and write it to markdown, HTML, LaTeX, or even just the console.  `pixiedust` makes it easy to customize the appearance of your tables in all of these formats by adding any number of "dustbunnies", much in the same way you can add layers to a `ggplot`.
 
 ```r
 > fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
-> library(fairydust)
+> library(pixiedust)
 > dust(fit) + 
 +   sprinkle(col = 2:4, round = 3) + 
 +   sprinkle(col = 5, fn = quote(pvalString(value))) + 
@@ -107,10 +107,10 @@ While the summary is informative and useful, it is full of "stats-speak" and isn
 
 It has been observed by some, however, that even this summary isn't quite ready for publication.  There are too many decimal places, the p-value employ scientific notation, and column titles like "statistic" don't specify what type of statistic.  These kinds of details aren't the purview of `broom`, however, as `broom` is focused on tidying the results of a model for further analysis (particularly with respect to comparing slightly varying models).
 
-The `fairydust` package diverts from `broom`'s mission here and provides the ability to customize the `broom` output for presentation.  The initial `dust` object returns a table that is largely similar to the `broom` output.  Truthfully, it may be less desirable because it has converted all of those numerical values into character strings.  This has the consequence of losing the numerical formatting employed by printing a data frame.
+The `pixiedust` package diverts from `broom`'s mission here and provides the ability to customize the `broom` output for presentation.  The initial `dust` object returns a table that is largely similar to the `broom` output.  Truthfully, it may be less desirable because it has converted all of those numerical values into character strings.  This has the consequence of losing the numerical formatting employed by printing a data frame.
 
 ```r
-> library(dustpan)
+> library(pixiedust)
 > dust(fit)
 ```
 
@@ -124,7 +124,7 @@ The `fairydust` package diverts from `broom`'s mission here and provides the abi
 6 factor(gear)5 -0.269746805223248   2.0631829212229 -0.130743039043461    0.896984955536724
 ```
 
-Where `fairydust` shows its strength is the ease of which these tables can be customized.  The code below rounds the columns `estimate`, `std.error`, and `statistic` to three decimal places each, and then formats the `p.value` into a format that happens to be one that I like.
+Where `pixiedust` shows its strength is the ease of which these tables can be customized.  The code below rounds the columns `estimate`, `std.error`, and `statistic` to three decimal places each, and then formats the `p.value` into a format that happens to be one that I like.
 
 ```r
 > x <- dust(fit) + 

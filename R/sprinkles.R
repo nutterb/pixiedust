@@ -324,7 +324,7 @@ sprinkle_names <- function()
     "border_units", "border_style", "border_color", 
     "border_collapse",
     "fn", "font_color", "font_size", "font_size_units", "halign", 
-    "height", "height_units", "italic", "pad", "rotate_text", 
+    "height", "height_units", "italic", "pad", "rotate_degree", 
     "round", "valign", "width", "width_units")
 }
 

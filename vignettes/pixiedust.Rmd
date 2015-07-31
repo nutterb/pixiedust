@@ -1,5 +1,5 @@
 ---
-title: "Creating Magic with `fairydust` "
+title: "Creating Magic with `pixiedust` "
 author: "Benjamin Nutter"
 date: "`r Sys.Date()`"
 output:
@@ -9,7 +9,7 @@ output:
     toc: yes
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Creating Magic with fairydust}
+  %\VignetteIndexEntry{Creating Magic with pixiedust}
   \usepackage[utf8]{inputenc}
 ---
 
@@ -31,7 +31,7 @@ tidy(fit)
 ```
 
 ```{r}
-library(dustpan)
+library(pixiedust)
 dust(fit)
 ```
 

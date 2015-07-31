@@ -90,7 +90,7 @@ dust <- function(object, ..., glance_foot = TRUE, tidy_df = FALSE)
                  table_attributes = cell_attributes_frame(1, 1),
                  border_collapse = TRUE,
                  object = object,
-                 print_method = getOption("fairydust_print_method")),
+                 print_method = getOption("pixiedust_print_method")),
             class = "dust")
 }
 
@@ -111,7 +111,7 @@ component_table <- function(tbl, object)
 
 cell_attributes_frame <- function(nrow, ncol)
 {
-  expand.grid(row = 1:nrow,
+  ca <- expand.grid(row = 1:nrow,
               col = 1:ncol,
               fn = NA,
               round = NA,
@@ -122,15 +122,23 @@ cell_attributes_frame <- function(nrow, ncol)
               bg = NA,
               font_color = NA,
               font_size = NA,
+              font_size_units = NA,
               left_border = NA,
               right_border = NA,
               top_border = NA,
               bottom_border = NA,
-              cell_height = NA,
-              cell_width = NA,
-              degree = NA,
-              padding = NA,
+              height = NA,
+              height_units = NA,
+              width = NA,
+              width_units = NA,
+              rotate_degree = NA,
+              pad = NA,
               stringsAsFactors=FALSE)
+  
+  structure(ca,
+            class = "data.frame",
+            bg_pattern = NULL,
+            bg_pattern_by = NULL)
 }
 
 gather_tbl <- function(tbl)
