@@ -73,6 +73,7 @@
       
       cols_str <- match(y$cols, unique(x$head$col_name))
       y$cols <- unique(c(cols_num, cols_str))
+      y$cols <- y$cols[!is.na(y$cols)]
     }
 
     if (is.null(y$rows) | length(y$rows) == 0) y$rows <- 1:max(part$row)

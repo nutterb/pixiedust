@@ -1,0 +1,41 @@
+context("print.dust")
+
+test_that("printing to console succeeds with defaults",
+{
+  fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
+  x <- dust(fit)
+  
+  expect_that(x, not(throws_error()))
+})
+
+# test_that("printing to console succeeds with sprinkles",
+# {
+#   fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
+#   x <- dust(fit) + 
+#     sprinkle(rows = 1:4,
+#              cols = 1:4,
+#              bg = "black",
+#              bg_pattern = c("white", "blue"),
+#              bold = TRUE,
+#              border_collapse = FALSE,
+#              border = c("left", "right"),
+#              border_thickness = 2,
+#              border_units = "px",
+#              border_style = "solid",
+#              border_color = "purple",
+#              halign = "left",
+#              height = 7,
+#              height_units = "px",
+#              fn = quote(value * -1),
+#              font_color = "orchid",
+#              font_size = 14,
+#              font_size_units = "px",
+#              italic = TRUE,
+#              pad = 8,
+#              round = 3,
+#              rotate_text = -45,
+#              valign = "bottom",
+#              width = 15,
+#              width_units = "%")
+#              
+# })

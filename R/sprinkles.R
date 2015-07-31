@@ -126,10 +126,14 @@ sprinkle <- function(rows = NULL, cols = NULL, ...,
       msg = "No sprinkles declared. You must define at least one sprinkle in '...'",
       argcheck = Check)
   
-  if (any(names(sprinkles) %in% ""))
+  if (any(names(sprinkles) %in% "")){
+    unnamed_pos <- which(names(sprinkles) %in% "")
     ArgumentCheck::addError(
-      msg = paste0("All arguments in '...' must be named"),
+      msg = paste0("All arguments in '...' must be named. ",
+                   "Check arguments in position(s) ", 
+                   paste0(unnamed_pos, collapse=", ")),
       argcheck = Check)
+  }
   
   if ("fn" %in% names(sprinkles))
     sprinkles$fn <- deparse(sprinkles$fn)
@@ -137,11 +141,12 @@ sprinkle <- function(rows = NULL, cols = NULL, ...,
   too_long <- names(sprinkles)[vapply(sprinkles, 
                                       function(x) length(x) != 1,
                                       TRUE)]
+  too_long <- too_long[!too_long %in% c("bg_pattern", "border")]
   
   if (length(too_long) > 0)
     ArgumentCheck::addError(
       msg = paste0("Arguments in '...' must have length 1.",
-                   " Please check", paste0(too_long, collapse=", "), "."),
+                   " Please check ", paste0(too_long, collapse=", "), "."),
       argcheck = Check)
   
   bad_sprinkles <- names(sprinkles)[!names(sprinkles) %in% sprinkle_names()]
@@ -168,6 +173,7 @@ sprinkle <- function(rows = NULL, cols = NULL, ...,
   if ("border" %in% names(sprinkles))
     sprinkles$border <- ArgumentCheck::match_arg(sprinkles$border, 
                                                  c("all", "left", "right", "top", "bottom"),
+                                                 several.ok = TRUE,
                                                  argcheck = Check)
   
   if ("border_thickness" %in% names(sprinkles) & !is.numeric(sprinkles$border_thickness))
@@ -197,11 +203,6 @@ sprinkle <- function(rows = NULL, cols = NULL, ...,
       msg = "The 'border_collapse' argument must be logical.",
       argcheck = Check)
       
-#   if ("fn" %in% names(sprinkles) & !is.call(sprinkles$fn))
-#     ArgumentCheck::addError(
-#       msg = "The 'fn' argument must have class 'call'.  Use of 'quote()' is recommended",
-#       argcheck = Check)
-  
   if ("font_color" %in% names(sprinkles) & !is.character(sprinkles$font_color))
     ArgumentCheck::addError(
       msg = "The 'font_color' argument must be a character string.",
@@ -222,13 +223,13 @@ sprinkle <- function(rows = NULL, cols = NULL, ...,
                                                  c("left", "center", "right"),
                                                  argcheck = Check)
   
-  if ("height" %in% names(sprinkles) & !is.numeric(sprinkles$height))
+  if ("height" %in% names(sprinkles) & !is.numeric(sprinkles[["height"]]))
     ArgumentCheck::addError(
       msg = "The 'height' argument must be numeric",
       argcheck = Check)
   
   if ("height_units" %in% names(sprinkles))
-    sprinkles$height_units <- ArgumentCheck::match_arg(sprinkles$heights_units,
+    sprinkles$height_units <- ArgumentCheck::match_arg(sprinkles$height_units,
                                                        c("px", "%"),
                                                        argcheck = Check)
   
@@ -277,19 +278,19 @@ sprinkle <- function(rows = NULL, cols = NULL, ...,
                                             default_sprinkles)
   }
   
-  if (is.null(sprinkles$bg_pattern) & !is.null(sprinkles$bg_pattern_by))
+  if (is.null(sprinkles[["bg_pattern"]]) & !is.null(sprinkles$bg_pattern_by))
     sprinkles$bg_pattern <- default_sprinkles("bg_pattern")
   
-  if (!is.null(sprinkles$bg_pattern) & is.null(sprinkles$bg_pattern_by))
+  if (!is.null(sprinkles[["bg_pattern"]]) & is.null(sprinkles$bg_pattern_by))
     sprinkles$bg_pattern_by <- default_sprinkles("bg_pattern_by")
   
-  if (!is.null(sprinkles$font_size) & is.null(sprinkles$font_size_units))
+  if (!is.null(sprinkles[["font_size"]]) & is.null(sprinkles$font_size_units))
     sprinkles$font_size_units <- default_sprinkles("font_size_units")
   
-  if (!is.null(sprinkles$height) & is.null(sprinkles$height_units))
+  if (!is.null(sprinkles[["height"]]) & is.null(sprinkles$height_units))
     sprinkles$height_units <- default_sprinkles("height_units")
   
-  if (!is.null(sprinkles$width) & is.null(sprinkles$width_units))
+  if (!is.null(sprinkles[["width"]]) & is.null(sprinkles$width_units))
     sprinkles$width_units <- default_sprinkles("width_units")
   
   structure(list(rows = rows,
@@ -322,7 +323,7 @@ sprinkle_names <- function()
     "bold", "border", "border_thickness", 
     "border_units", "border_style", "border_color", 
     "border_collapse",
-    "fn", "font_color", "font_size", "halign", 
+    "fn", "font_color", "font_size", "font_size_units", "halign", 
     "height", "height_units", "italic", "pad", "rotate_text", 
     "round", "valign", "width", "width_units")
 }
