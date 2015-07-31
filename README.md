@@ -1,5 +1,5 @@
 # pixiedust
-After sweeping up all your analyses with the `broom` package, go ahead and grab the `pixiedust`.  Customize your table output and write it to markdown, HTML, LaTeX, or even just the console.  `pixiedust` makes it easy to customize the appearance of your tables in all of these formats by adding any number of "dustbunnies", much in the same way you can add layers to a `ggplot`.
+After tidying up your analyses with the `broom` package, go ahead and grab the `pixiedust`.  Customize your table output and write it to markdown, HTML, LaTeX, or even just the console.  `pixiedust` makes it easy to customize the appearance of your tables in all of these formats by adding any number of "sprinkles", much in the same way you can add layers to a `ggplot`.
 
 ```r
 > fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
