@@ -1,5 +1,5 @@
 Package: pixiedust
-Title: Tables So Beautifully Fine-Tuned You Will Believe It's Magic
+Title: Tables so Beautifully Fine-Tuned You Will Believe It's Magic
 Version: 0.0.0-9
 Authors@R: person("Benjamin", "Nutter", email = "nutter@battelle.org", role = c("aut", "cre"))
 Description: The introduction of the broom package has made converting model objects into data 

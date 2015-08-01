@@ -49,7 +49,10 @@ Sprinkling is done over the intersection of rows and columns.  If
 \section{Sprinkles}{
 
 The following list describes the valid sprinkles that may be defined in the
-\code{...} dots argument.
+\code{...} dots argument.  All sprinkles may be defined for any output type, but
+only sprinkles recognized by that output type will be applied.  For a complete
+list of which sprinkles are recognized by each output type, see
+\code{vignette("sprinkles", package = "pixiedust")}.
 
 \itemize{
   \item{\code{bg} }{A character string denoting the color
@@ -65,6 +68,10 @@ The following list describes the valid sprinkles that may be defined in the
      it is not necessary to explicitly define \code{bg_pattern_by} unless
      changing an existing or default setting.}
   \item{\code{bold} }{Logical value.  If \code{TRUE}, text is rendered in bold.}
+  \item{\code{border_collapse} }{Logical.  Defaults to \code{TRUE}.
+     This element is only applicable to
+     \code{part = "table"} and will be applied to the table regardless
+     the value of \code{part} in the call.}
   \item{\code{border} }{This is one of the few exceptions to the length 1 rule.
      Accepts values \code{"left"}, \code{"right"}, \code{"top"},
      \code{"bottom"}, and \code{"all"} with partial matching.  The border will be added
@@ -81,10 +88,6 @@ The following list describes the valid sprinkles that may be defined in the
      to \code{"solid"}.}
   \item{\code{border_color} }{A character string denoting the color
      for the border.  See "Colors".}
-  \item{\code{border_collapse} }{Logical.  Defaults to \code{TRUE}.
-     This element is only applicable to
-     \code{part = "table"} and will be applied to the table regardless
-     the value of \code{part} in the call.}
   \item{\code{fn} }{A function to apply to values in cells.  The function
      should be an expression that acts on the variable \code{value}. For
      example, \code{quote(round(value, 3))}.}

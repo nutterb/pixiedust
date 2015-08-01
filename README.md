@@ -1,3 +1,5 @@
+[![Travis-CI Build Status](https://travis-ci.org/nutterb/dustpan.svg?branch=fairydust)](https://travis-ci.org/nutterb/dustpan)
+
 # pixiedust
 After tidying up your analyses with the `broom` package, go ahead and grab the `pixiedust`.  Customize your table output and write it to markdown, HTML, LaTeX, or even just the console.  `pixiedust` makes it easy to customize the appearance of your tables in all of these formats by adding any number of "sprinkles", much in the same way you can add layers to a `ggplot`.
 
@@ -29,30 +31,31 @@ Tables can be customized by row, column, or even by a single cell by adding spri
 
 |dustbunny        | implemented | console | markdown | html | latex |
 |:----------------|:-----------:|:-------:|:--------:|:----:|:-----:|
-|bg (background)  |      x      |         |          |  x   |   o   |
-|bg_pattern       |      x      |         |          |  x   |   o   |
-|bold             |      x      |    x    |    x     |  x   |   o   |
-|border_collapse  |      x      |         |          |  x   |       |     
-|border           |      x      |         |          |  x   |   o   |
-|border_thickness |      x      |         |          |  x   |       |
-|border_units     |      x      |         |          |  x   |       |
-|border_style     |      x      |         |          |  x   |       |
-|border_color     |      x      |         |          |  x   |       |
-|colnames         |      x      |    x    |    x     |  x   |   o   |
-|halign           |      x      |         |          |  x   |   o   |
-|height           |      x      |         |          |  x   |   o   |
-|height_units     |      x      |         |          |  x   |   o   |
-|fn               |      x      |    x    |    x     |  x   |   o   |
-|font_color       |      x      |         |          |  x   |   o   |
-|font_size        |      x      |         |          |  x   |   o   |
-|font_size_units  |      x      |         |          |  x   |   o   |
-|italic           |      x      |    x    |    x     |  x   |   o   |
-|pad              |             |         |          |  o   |       |
-|round            |      x      |    x    |    x     |  x   |   o   |
-|rotate_text      |             |         |          |  o   |   o   |
-|valign           |      x      |         |          |  x   |   o   |
-|width            |      x      |         |          |  x   |   o   |
-|width_units      |      x      |         |          |  x   |   o   |
+|`bg` (background)  |      x      |         |          |  x   |   o   |
+|`bg_pattern`       |      x      |         |          |  x   |   o   |
+|`bg_pattern_by`    |      x      |         |          |  x   |   o   |
+|`bold`             |      x      |    x    |    x     |  x   |   o   |
+|`border_collapse`  |      x      |         |          |  x   |       |     
+|`border`           |      x      |         |          |  x   |   o   |
+|`border_thickness` |      x      |         |          |  x   |       |
+|`border_units`     |      x      |         |          |  x   |       |
+|`border_style`     |      x      |         |          |  x   |       |
+|`border_color`     |      x      |         |          |  x   |       |
+|`colnames`         |      x      |    x    |    x     |  x   |   o   |
+|`fn`               |      x      |    x    |    x     |  x   |   o   |
+|`font_color`       |      x      |         |          |  x   |   o   |
+|`font_size`        |      x      |         |          |  x   |   o   |
+|`font_size_units`  |      x      |         |          |  x   |   o   |
+|`halign`           |      x      |         |          |  x   |   o   |
+|`height`           |      x      |         |          |  x   |   o   |
+|`height_units`     |      x      |         |          |  x   |   o   |
+|`italic`           |      x      |    x    |    x     |  x   |   o   |
+|`pad`              |             |         |          |  o   |       |
+|`round`            |      x      |    x    |    x     |  x   |   o   |
+|`rotate_degree`    |             |         |          |  o   |   o   |
+|`valign`           |      x      |         |          |  x   |   o   |
+|`width`            |      x      |         |          |  x   |   o   |
+|`width_units`      |      x      |         |          |  x   |   o   |
 
 
 ### A Brief Example

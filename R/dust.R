@@ -111,7 +111,7 @@ component_table <- function(tbl, object)
 
 cell_attributes_frame <- function(nrow, ncol)
 {
-  ca <- expand.grid(row = 1:nrow,
+  expand.grid(row = 1:nrow,
               col = 1:ncol,
               fn = NA,
               round = NA,
@@ -134,11 +134,6 @@ cell_attributes_frame <- function(nrow, ncol)
               rotate_degree = NA,
               pad = NA,
               stringsAsFactors=FALSE)
-  
-  structure(ca,
-            class = "data.frame",
-            bg_pattern = NULL,
-            bg_pattern_by = NULL)
 }
 
 gather_tbl <- function(tbl)

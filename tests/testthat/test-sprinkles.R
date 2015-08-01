@@ -42,8 +42,10 @@ test_that("sprinkles: bg_pattern_by",
 
 test_that("sprinkles: bg_pattern_by gives error when invalid option is given",
 {
-  expect_error(sprinkle(rows = 1, cols = 1, bg_pattern_by = "diagonal"),
-               "sprinkles[$]bg_pattern_by' should be one of")
+#   expect_error(sprinkle(rows = 1, cols = 1, bg_pattern_by = "diagonal"),
+#                "sprinkles[$]bg_pattern_by' should be one of")
+  expect_that(sprinkle(rows = 1, cols = 1, bg_pattern_by = "diagonal"),
+              throws_error())
 })
 
 test_that("sprinkles: bold",
@@ -101,8 +103,10 @@ test_that("sprinkles: border",
 
 test_that("sprinkles: border errors",
 {
-  expect_error(sprinkle(rows = 1, cols = 1, border = "everything"),
-               "1: 'sprinkles[$]border' should be one of")
+#   expect_error(sprinkle(rows = 1, cols = 1, border = "everything"),
+#                "1: 'sprinkles[$]border' should be one of")
+  expect_that(sprinkle(rows = 1, cols = 1, border = "everything"),
+              throws_error())
 })
 
 test_that("sprinkles: border_thickness",
@@ -111,7 +115,8 @@ test_that("sprinkles: border_thickness",
                structure(list(rows = 1, cols = 1, 
                               sprinkles = 
                                 structure(list(border_thickness = 2, 
-                                               border = "all", border_units = "px",
+                                               border = c("left", "right", "top", "bottom"), 
+                                               border_units = "px",
                                                border_style = "solid", border_color = "black"), 
                                           .Names = c("border_thickness", "border", 
                                                      "border_units", "border_style", 
@@ -132,7 +137,8 @@ test_that("sprinkles: border_units",
   expect_equal(sprinkle(rows = 1, cols = 1, border_units = "px"),
                structure(list(rows = 1, cols = 1, 
                               sprinkles = 
-                                structure(list(border_units = "px", border = "all", 
+                                structure(list(border_units = "px", 
+                                               border = c("left", "right", "top", "bottom"), 
                                                border_thickness = 1, 
                                                border_style = "solid", border_color = "black"), 
                                           .Names = c("border_units", "border", "border_thickness", 
@@ -144,8 +150,10 @@ test_that("sprinkles: border_units",
 
 test_that("sprinkles: border_units errors",
 {
-  expect_error(sprinkle(rows = 1, cols = 1, border_units = c("inches")),
-               "1: 'sprinkles[$]border_units' should be one of")
+#   expect_error(sprinkle(rows = 1, cols = 1, border_units = c("inches")),
+#                "1: 'sprinkles[$]border_units' should be one of")
+  expect_that(sprinkle(rows = 1, cols = 1, border_units = c("inches")),
+              throws_error())
 })
 
 test_that("sprinkles: border_style",
@@ -154,7 +162,8 @@ test_that("sprinkles: border_style",
                structure(list(rows = 1, cols = 1, 
                               sprinkles = 
                                 structure(list(border_style = "dashed", 
-                                               border = "all", border_thickness = 1,
+                                               border = c("left", "right", "top", "bottom"), 
+                                               border_thickness = 1,
                                                border_units = "px",  
                                                border_color = "black"), 
                                           .Names = c("border_style", "border", "border_thickness", 
@@ -166,8 +175,10 @@ test_that("sprinkles: border_style",
 
 test_that("sprinkles: border_style errors",
 {
-  expect_error(sprinkle(rows = 1, cols = 1, border_style = c("halo")),
-               "1: 'sprinkles[$]border_style' should be one of")
+#   expect_error(sprinkle(rows = 1, cols = 1, border_style = c("halo")),
+#                "1: 'sprinkles[$]border_style' should be one of")
+  expect_that(sprinkle(rows = 1, cols = 1, border_style = c("halo")),
+              throws_error())
 })
 
 test_that("sprinkles: border_color",
@@ -176,7 +187,8 @@ test_that("sprinkles: border_color",
                structure(list(rows = 1, cols = 1, 
                               sprinkles = 
                                 structure(list(border_color = "black", 
-                                               border = "all", border_thickness = 1,
+                                               border = c("left", "right", "top", "bottom"), 
+                                               border_thickness = 1,
                                                border_units = "px",  
                                                border_style = "solid"), 
                                           .Names = c("border_color", "border", "border_thickness", 
@@ -205,11 +217,14 @@ test_that("sprinkles: halign",
 
 test_that("sprinkles: halign errors",
 {
-  expect_error(sprinkle(rows = 1, cols = 1, halign = c("left", "right")),
-               paste0("1: Arguments in '...' must have length 1. Please check halign.\n",
-                      "2: 'sprinkles[$]halign' must be of length 1\n",
-                      "3: there is more than one match in 'match_arg'"))
-          })
+#   expect_error(sprinkle(rows = 1, cols = 1, halign = c("left", "right")),
+#                paste0("1: Arguments in '...' must have length 1. Please check halign.\n",
+#                       "2: 'sprinkles[$]halign' must be of length 1\n",
+#                       "3: there is more than one match in 'match_arg'"))
+  
+  expect_that(sprinkle(rows = 1, cols = 1, halign = c("left", "right")),
+              throws_error())
+})
                
 test_that("sprinkles: height",
 {
@@ -241,8 +256,10 @@ test_that("sprinkles: height_units",
 
 test_that("sprinkles: height_units errors",
 {
-  expect_error(sprinkle(rows = 1, cols = 1, height_units = "em"),
-               "1: 'sprinkles[$]height_units' should be one of")
+#   expect_error(sprinkle(rows = 1, cols = 1, height_units = "em"),
+#                "1: 'sprinkles[$]height_units' should be one of")
+  expect_that(sprinkle(rows = 1, cols = 1, height_units = "em"),
+              throws_error())
 })
 
 test_that("sprinkles: fn",
@@ -305,8 +322,10 @@ test_that("sprinkles: font_size_units",
 
 test_that("sprinkles: font_size_unit errors",
 {
-  expect_error(sprinkle(rows = 1, cols = 1, font_size_units = c("inches")),
-               paste0("1: 'sprinkles[$]font_size_units' should be one of"))
+#   expect_error(sprinkle(rows = 1, cols = 1, font_size_units = c("inches")),
+#                paste0("1: 'sprinkles[$]font_size_units' should be one of"))
+  expect_that(sprinkle(rows = 1, cols = 1, font_size_units = c("inches")),
+              throws_error())
 })
 
 test_that("sprinkles: italic",
@@ -394,8 +413,10 @@ test_that("sprinkles: valign",
 
 test_that("sprinkles: valign errors",
 {
-  expect_error(sprinkle(rows = 1, cols = 1, valign = "above"),
-               paste0("1: 'sprinkles[$]valign' should be one of"))
+#   expect_error(sprinkle(rows = 1, cols = 1, valign = "above"),
+#                paste0("1: 'sprinkles[$]valign' should be one of"))
+  expect_that(sprinkle(rows = 1, cols = 1, valign = "above"),
+              throws_error())
 })
 
 test_that("sprinkles: width",
@@ -428,6 +449,8 @@ test_that("sprinkles: width_units",
 
 test_that("sprinkles: width_units errors",
 {
-  expect_error(sprinkle(rows = 1, cols = 1, width_units = "em"),
-               "1: 'sprinkles[$]width_units' should be one of")
+#   expect_error(sprinkle(rows = 1, cols = 1, width_units = "em"),
+#                "1: 'sprinkles[$]width_units' should be one of")
+  expect_that(sprinkle(rows = 1, cols = 1, width_units = "em"),
+              throws_error())
 })

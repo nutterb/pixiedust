@@ -33,7 +33,10 @@
 #'   
 #' @section Sprinkles:
 #' The following list describes the valid sprinkles that may be defined in the 
-#' \code{...} dots argument.
+#' \code{...} dots argument.  All sprinkles may be defined for any output type, but 
+#' only sprinkles recognized by that output type will be applied.  For a complete
+#' list of which sprinkles are recognized by each output type, see 
+#' \code{vignette("sprinkles", package = "pixiedust")}.
 #' 
 #' \itemize{
 #'   \item{\code{bg} }{A character string denoting the color 
@@ -49,6 +52,10 @@
 #'      it is not necessary to explicitly define \code{bg_pattern_by} unless 
 #'      changing an existing or default setting.}
 #'   \item{\code{bold} }{Logical value.  If \code{TRUE}, text is rendered in bold.}
+#'   \item{\code{border_collapse} }{Logical.  Defaults to \code{TRUE}. 
+#'      This element is only applicable to 
+#'      \code{part = "table"} and will be applied to the table regardless
+#'      the value of \code{part} in the call.}
 #'   \item{\code{border} }{This is one of the few exceptions to the length 1 rule.  
 #'      Accepts values \code{"left"}, \code{"right"}, \code{"top"}, 
 #'      \code{"bottom"}, and \code{"all"} with partial matching.  The border will be added
@@ -65,10 +72,6 @@
 #'      to \code{"solid"}.}
 #'   \item{\code{border_color} }{A character string denoting the color 
 #'      for the border.  See "Colors".}
-#'   \item{\code{border_collapse} }{Logical.  Defaults to \code{TRUE}. 
-#'      This element is only applicable to 
-#'      \code{part = "table"} and will be applied to the table regardless
-#'      the value of \code{part} in the call.}
 #'   \item{\code{fn} }{A function to apply to values in cells.  The function 
 #'      should be an expression that acts on the variable \code{value}. For
 #'      example, \code{quote(round(value, 3))}.}
@@ -162,7 +165,7 @@ sprinkle <- function(rows = NULL, cols = NULL, ...,
         argcheck = Check)
   
   if ("bg_pattern_by" %in% names(sprinkles))
-    sprinkles$bg_pattern_by <- ArgumentCheck::match_arg(sprinkles$bg_pattern_by, c("rows", "columns"), 
+    sprinkles$bg_pattern_by <- ArgumentCheck::match_arg(sprinkles[["bg_pattern_by"]], c("rows", "columns"), 
                                                      argcheck = Check)
   
   if ("bold" %in% names(sprinkles) & !is.logical(sprinkles$bold))
@@ -171,7 +174,7 @@ sprinkle <- function(rows = NULL, cols = NULL, ...,
       argcheck = Check)
     
   if ("border" %in% names(sprinkles))
-    sprinkles$border <- ArgumentCheck::match_arg(sprinkles$border, 
+    sprinkles$border <- ArgumentCheck::match_arg(sprinkles[["border"]], 
                                                  c("all", "left", "right", "top", "bottom"),
                                                  several.ok = TRUE,
                                                  argcheck = Check)
@@ -182,12 +185,12 @@ sprinkle <- function(rows = NULL, cols = NULL, ...,
       argcheck = Check)
   
   if ("border_units" %in% names(sprinkles))
-    sprinkles$border_units <- ArgumentCheck::match_arg(sprinkles$border_units,
+    sprinkles$border_units <- ArgumentCheck::match_arg(sprinkles[["border_units"]],
                                                        c("px", "pt"),
                                                        argcheck = Check)
   
   if ("border_style" %in% names(sprinkles))
-    sprinkles$border_style <- ArgumentCheck::match_arg(sprinkles$border_style,
+    sprinkles$border_style <- ArgumentCheck::match_arg(sprinkles[["border_style"]],
                                                        c("solid", "dashed", "dotted", "double", 
                                                          "grooved", "ridge", "inset", "outset",
                                                          "hidden"),
@@ -214,12 +217,12 @@ sprinkle <- function(rows = NULL, cols = NULL, ...,
       argcheck = Check)
   
   if ("font_size_units" %in% names(sprinkles))
-    sprinkles$font_size_units <- ArgumentCheck::match_arg(sprinkles$font_size_units,
+    sprinkles$font_size_units <- ArgumentCheck::match_arg(sprinkles[["font_size_units"]],
                                                           c("px", "pt", "%", "em"),
                                                           argcheck = Check)
   
   if ("halign" %in% names(sprinkles))
-    sprinkles$halign <- ArgumentCheck::match_arg(sprinkles$halign,
+    sprinkles$halign <- ArgumentCheck::match_arg(sprinkles[["halign"]],
                                                  c("left", "center", "right"),
                                                  argcheck = Check)
   
@@ -229,7 +232,7 @@ sprinkle <- function(rows = NULL, cols = NULL, ...,
       argcheck = Check)
   
   if ("height_units" %in% names(sprinkles))
-    sprinkles$height_units <- ArgumentCheck::match_arg(sprinkles$height_units,
+    sprinkles$height_units <- ArgumentCheck::match_arg(sprinkles[["height_units"]],
                                                        c("px", "%"),
                                                        argcheck = Check)
   
@@ -254,7 +257,7 @@ sprinkle <- function(rows = NULL, cols = NULL, ...,
       argcheck = Check)
   
   if ("valign" %in% names(sprinkles))
-    sprinkles$valign <- ArgumentCheck::match_arg(sprinkles$valign,
+    sprinkles$valign <- ArgumentCheck::match_arg(sprinkles[["valign"]],
                                                  c("middle", "top", "bottom"),
                                                  argcheck = Check)
   
@@ -264,7 +267,7 @@ sprinkle <- function(rows = NULL, cols = NULL, ...,
       argcheck = Check)
   
   if ("width_units" %in% names(sprinkles))
-    sprinkles$width_units <- ArgumentCheck::match_arg(sprinkles$width_units,
+    sprinkles$width_units <- ArgumentCheck::match_arg(sprinkles[["width_units"]],
                                                        c("px", "%"),
                                                        argcheck = Check)
   ArgumentCheck::finishArgCheck(Check)
@@ -277,6 +280,8 @@ sprinkle <- function(rows = NULL, cols = NULL, ...,
     sprinkles[border_not_given] <- lapply(border_not_given,
                                             default_sprinkles)
   }
+  
+  if (any(sprinkles[["border"]] == "all")) sprinkles$border <- c("left", "right", "top", "bottom")
   
   if (is.null(sprinkles[["bg_pattern"]]) & !is.null(sprinkles$bg_pattern_by))
     sprinkles$bg_pattern <- default_sprinkles("bg_pattern")

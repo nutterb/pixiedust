@@ -15,11 +15,11 @@ vignette: >
 
 Sprinkles are used to modify the appearance of a table. The table below shows the currently available and planned sprinkles (in light green and yellow, respectively) as well as the implementations for the printing methods.
 
-Black indicates that a dust bunny will have no impact on the output for that method.
+Black indicates that a sprinkle will have no impact on the output for that method.
 
-Red indicates that a dust bunny is not yet functional for that method.
+Red indicates that a sprinkle is not yet functional for that method.
 
-Green indicates that a dust bunny is currently functional for that method.
+Green indicates that a sprinkle is currently functional for that method.
 
 
 ```{r, echo=FALSE}
@@ -51,47 +51,4 @@ x$body$value <- ifelse(x$body$value %in% c("x", "o"), "", x$body$value)
   
 x + sprinkle_print_method(print_method = "html")
 
-```
-
-```{r, echo=FALSE, eval=FALSE}
-#* README Content
-knitr::kable(Sprinkles, align = c("l", rep("c", 5)))
-
-fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
-
-library(pixiedust)
-dust(fit) + 
-  sprinkle(col = 2:4, round = 3) + 
-  sprinkle(col = 5, fn = quote(pvalString(value)))+ 
-  sprinkle_colnames(term = "Term", 
-                estimate = "Estimate", 
-                std.error = "SE",
-                statistic = "T-statistic", 
-                p.value = "P-value")
-
-summary(fit)
-
-library(broom)
-tidy(fit)
-
-library(pixiedust)
-dust(fit)
-
-x <- dust(fit) + 
-  sprinkle(col = 2:4, round = 3) + 
-  sprinkle(col = 5, fn = quote(pvalString(value)))
-
-x
-
-x <- x + 
-  sprinkle(col = c("estimate", "p.value"), 
-            row = c(2, 4), 
-            bold = TRUE) + 
-  sprinkle_colnames(term = "Term", 
-                estimate = "Estimate", 
-                std.error = "SE",
-                statistic = "T-statistic", 
-                p.value = "P-value")
-
-x
 ```

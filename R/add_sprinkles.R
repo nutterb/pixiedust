@@ -67,8 +67,13 @@
     
     if (!is.null(y$sprinkles$bg_pattern)){
       x$bg_pattern <- y$sprinkles$bg_pattern
-      x$bg_pattern_bh <- y$sprinkles$bg_pattern_by
-      y$sprinkles$bg_pattern <- y$sprinkles$bg_pattern_by <- NULL
+      x$bg_pattern_by <- y$sprinkles$bg_pattern_by
+      
+      bg_pattern <- y$sprinkles$bg_pattern
+      pattern_by <- y$sprinkles$bg_pattern_by
+      
+      y$sprinkles$bg_pattern <- NULL
+      y$sprinkles$bg_pattern_by <- NULL
     }
     
     part <- x[[y$part]]
@@ -97,6 +102,19 @@
                                                     border_style, " ", border_color)) %>%
         dplyr::select_("-border_thickness", "-border_units", "-border_style", "-border_color") %>%
         tidyr::spread_("border", "border_spec")
+    
+    if (exists("bg_pattern")){
+      if (pattern_by == "rows"){
+        bg_frame <- dplyr::data_frame(row = unique(Cells$row))
+        bg_frame$bg <- rep(bg_pattern, length.out = nrow(bg_frame))
+        Cells <- dplyr::left_join(Cells, bg_frame, by = c("row" = "row"))
+      }
+      else {
+        bg_frame <- dplyr::data_frame(col = unique(Cells$col))
+        bg_frame$bg <- rep(bg_pattern, length.out = nrow(bg_frame))
+        Cells <- dplyr::left_join(Cells, bg_frame, by = c("col" = "col"))
+      }
+    }
    
     replace <- vapply(1:nrow(Cells), 
                       function(r) which(part$row == Cells$row[r] & part$col == Cells$col[r]), 
