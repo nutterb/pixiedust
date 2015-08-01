@@ -159,10 +159,15 @@ sprinkle <- function(rows = NULL, cols = NULL, ...,
                    "sprinkles: ", paste0(bad_sprinkles, collapse = ", ")),
       argcheck = Check)
       
-  if ("bg" %in% names(sprinkles) & !is.character(sprinkles$bg))
+  if ("bg" %in% names(sprinkles) & !is.character(sprinkles[["bg"]]))
       ArgumentCheck::addError(
         msg = "The 'bg' argument must be a character string.",
         argcheck = Check)
+  
+  if (all(c("bg", "bg_pattern") %in% names(sprinkles)))
+    ArgumentCheck::addError(
+      msg = "The 'bg' and 'bg_pattern' arguments cannot be specified together",
+      argcheck = Check)
   
   if ("bg_pattern_by" %in% names(sprinkles))
     sprinkles$bg_pattern_by <- ArgumentCheck::match_arg(sprinkles[["bg_pattern_by"]], c("rows", "columns"), 
@@ -284,7 +289,7 @@ sprinkle <- function(rows = NULL, cols = NULL, ...,
   if (any(sprinkles[["border"]] == "all")) sprinkles$border <- c("left", "right", "top", "bottom")
   
   if (is.null(sprinkles[["bg_pattern"]]) & !is.null(sprinkles$bg_pattern_by))
-    sprinkles$bg_pattern <- default_sprinkles("bg_pattern")
+    sprinkles[["bg_pattern"]] <- default_sprinkles("bg_pattern")
   
   if (!is.null(sprinkles[["bg_pattern"]]) & is.null(sprinkles$bg_pattern_by))
     sprinkles$bg_pattern_by <- default_sprinkles("bg_pattern_by")

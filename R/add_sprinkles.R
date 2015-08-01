@@ -65,7 +65,7 @@
       y$sprinkles$border_collapse <- NULL
     }
     
-    if (!is.null(y$sprinkles$bg_pattern)){
+    if (!is.null(y$sprinkles[["bg_pattern"]])){
       x$bg_pattern <- y$sprinkles$bg_pattern
       x$bg_pattern_by <- y$sprinkles$bg_pattern_by
       
@@ -106,13 +106,17 @@
     if (exists("bg_pattern")){
       if (pattern_by == "rows"){
         bg_frame <- dplyr::data_frame(row = unique(Cells$row))
-        bg_frame$bg <- rep(bg_pattern, length.out = nrow(bg_frame))
-        Cells <- dplyr::left_join(Cells, bg_frame, by = c("row" = "row"))
+        bg_frame[["bg"]] <- rep(bg_pattern, length.out = nrow(bg_frame))
+        Cells <- dplyr::left_join(Cells, bg_frame, by = c("row" = "row")) %>%
+          dplyr::rename_("bg" = "bg.y") %>%
+          dplyr::select_("-bg.x")
       }
       else {
         bg_frame <- dplyr::data_frame(col = unique(Cells$col))
-        bg_frame$bg <- rep(bg_pattern, length.out = nrow(bg_frame))
-        Cells <- dplyr::left_join(Cells, bg_frame, by = c("col" = "col"))
+        bg_frame[["bg"]] <- rep(bg_pattern, length.out = nrow(bg_frame))
+        Cells <- dplyr::left_join(Cells, bg_frame, by = c("col" = "col")) %>%
+          dplyr::rename_("bg" = "bg.y") %>%
+          dplyr::select_("-bg.x")
       }
     }
    
