@@ -14,6 +14,7 @@ perform_function <- function(obj)
     if (obj$col_class[i] %in% c("double", "numeric", "integer"))
       value <- do.call(paste0("as.", obj$col_class[i]), 
                        list(obj$value[i]))
+    else value <- obj$value[i]
       obj$value[i] <- eval(parse(text = obj$fn[i]))
   }
   

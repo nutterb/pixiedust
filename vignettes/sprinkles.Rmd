@@ -1,0 +1,54 @@
+---
+title: "Sprinkles"
+author: "Benjamin Nutter"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    fig_caption: no
+    number_section: yes
+    toc: yes
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Dustbunnies}
+  \usepackage[utf8]{inputenc}
+---
+
+Sprinkles are used to modify the appearance of a table. The table below shows the currently available and planned sprinkles (in light green and yellow, respectively) as well as the implementations for the printing methods.
+
+Black indicates that a sprinkle will have no impact on the output for that method.
+
+Red indicates that a sprinkle is not yet functional for that method.
+
+Green indicates that a sprinkle is currently functional for that method.
+
+
+```{r, echo=FALSE}
+Sprinkles <- read.csv(system.file("sprinkles.csv", package = "pixiedust"),
+                        stringsAsFactors=FALSE)
+Sprinkles[,-1] <- lapply(Sprinkles[-1], stringr::str_trim)
+```
+
+```{r, echo=FALSE}
+library(pixiedust)
+red <- "#A50026"
+lightgreen <- "#A6DBA0"
+green <- "#006837"
+yellow <- "#FFFFBF"
+
+x <- dust(Sprinkles[, -2]) + 
+  sprinkle(row = which(Sprinkles$implemented == ""), 
+           col = "dustbunny", bg = yellow) + 
+  sprinkle(row = which(Sprinkles$implemented == "x"),
+           col = "dustbunny", bg = lightgreen)
+x$body$bg <- ifelse(!is.na(x$body$bg),
+                    x$body$bg,
+                    ifelse(x$body$value == "",
+                           "black",
+                           ifelse(x$body$value == "o",
+                                  red,
+                                  green)))
+x$body$value <- ifelse(x$body$value %in% c("x", "o"), "", x$body$value)
+  
+x + sprinkle_print_method(print_method = "html")
+
+```

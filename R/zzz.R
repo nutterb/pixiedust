@@ -1,9 +1,9 @@
 .onLoad <- function(libname,pkgname)
 {
-  options(dustpan_output="console")
+  options(pixiedust_print_method="console")
 }
 
 .onUnload <- function(libPath)
 {
-  options(dustpan_output=NULL)
+  options(pixiedust_print_method=NULL)
 }

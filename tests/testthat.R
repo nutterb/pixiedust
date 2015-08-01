@@ -1,4 +1,4 @@
 library("testthat")
-library("dustpan")
+library("pixiedust")
 
-test_check("dustpan")
+test_check("pixiedust")
