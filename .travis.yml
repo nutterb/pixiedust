@@ -2,6 +2,7 @@
 
 language: r
 warnings_are_errors: true
+sudo: false
 
 env:
  global:
