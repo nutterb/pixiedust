@@ -107,16 +107,20 @@
       if (pattern_by == "rows"){
         bg_frame <- dplyr::data_frame(row = unique(Cells$row))
         bg_frame[["bg"]] <- rep(bg_pattern, length.out = nrow(bg_frame))
-        Cells <- dplyr::left_join(Cells, bg_frame, by = c("row" = "row")) %>%
-          dplyr::rename_("bg" = "bg.y") %>%
-          dplyr::select_("-bg.x")
+        Cells <- dplyr::left_join(Cells, bg_frame, by = c("row" = "row"))
+        if ("bg.x" %in% names(Cells)){
+          Cells <- dplyr::rename_(Cells, "bg" = "bg.y") %>%
+            dplyr::select_("-bg.x")
+        }
       }
       else {
         bg_frame <- dplyr::data_frame(col = unique(Cells$col))
         bg_frame[["bg"]] <- rep(bg_pattern, length.out = nrow(bg_frame))
-        Cells <- dplyr::left_join(Cells, bg_frame, by = c("col" = "col")) %>%
-          dplyr::rename_("bg" = "bg.y") %>%
-          dplyr::select_("-bg.x")
+        Cells <- dplyr::left_join(Cells, bg_frame, by = c("col" = "col"))
+        if ("bg.x" %in% names(Cells)){
+          Cells <- dplyr::rename_(Cells, "bg" = "bg.y") %>%
+            dplyr::select_("-bg.x")
+        }
       }
     }
    
