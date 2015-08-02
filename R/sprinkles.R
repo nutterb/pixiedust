@@ -31,6 +31,11 @@
 #'   \code{border_style} or \code{border_color} is specified, the remaining
 #'   unspecified attributes assume their default values.
 #'   
+#'   The sprinkles `bg` and `bg_pattern` may not be used together.
+#'   
+#'   A more detailed demonstration of the use of sprinkles is available in 
+#'   \code{vignette("pixiedust", package = "pixiedust")}
+#'   
 #' @section Sprinkles:
 #' The following list describes the valid sprinkles that may be defined in the 
 #' \code{...} dots argument.  All sprinkles may be defined for any output type, but 
@@ -113,6 +118,12 @@
 #' @seealso \code{\link{sprinkle_colnames}} for changing column names in a table.
 #' 
 #' @author Benjamin Nutter
+#' 
+#' @examples 
+#' x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars))
+#' x + sprinkle(cols = 2:4, round = 3) + 
+#'   sprinkle(cols = 5, fn = quote(pvalString(value))) + 
+#'   sprinkle(rows = 2, bold = TRUE)
 #'    
 sprinkle <- function(rows = NULL, cols = NULL, ..., 
                      part = c("body", "head", "foot", "interfoot", "table"))

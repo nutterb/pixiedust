@@ -45,6 +45,11 @@ Sprinkling is done over the intersection of rows and columns.  If
   If at least one of \code{border}, \code{border_thickness}, \code{border_units},
   \code{border_style} or \code{border_color} is specified, the remaining
   unspecified attributes assume their default values.
+
+  The sprinkles `bg` and `bg_pattern` may not be used together.
+
+  A more detailed demonstration of the use of sprinkles is available in
+  \code{vignette("pixiedust", package = "pixiedust")}
 }
 \section{Sprinkles}{
 
@@ -127,6 +132,12 @@ Color specifications accept X11 color names (\code{"orchid"}),
 hexidecimal names (\code{"#DA70D6"}), rgb names (\code{"rgb(218 112 214)"}),
 and rgba (rgb+alpha transparancy; \code{"rgba(218, 112, 214, .75)"}).
 Refer to \url{https://en.wikipedia.org/wiki/Web_colors#X11_color_names}.
+}
+\examples{
+x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars))
+x + sprinkle(cols = 2:4, round = 3) +
+  sprinkle(cols = 5, fn = quote(pvalString(value))) +
+  sprinkle(rows = 2, bold = TRUE)
 }
 \author{
 Benjamin Nutter

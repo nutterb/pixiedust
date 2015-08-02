@@ -18,4 +18,7 @@ Adds attributes of a plot to be rendered by the \code{print.dust} method.
 \author{
 Benjamin Nutter
 }
+\seealso{
+\code{\link{dust}}, \code{\link{sprinkle}}
+}
 

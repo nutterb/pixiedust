@@ -11,6 +11,8 @@
 #' @param x a \code{dust} object
 #' @param y a \code{dust_bunny} object.
 #' 
+#' @seealso \code{\link{dust}}, \code{\link{sprinkle}}
+#' 
 #' 
 #' @author Benjamin Nutter
 #' 
