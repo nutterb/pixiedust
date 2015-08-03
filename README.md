@@ -189,7 +189,7 @@ Are there other features you want or need?  Please submit an issue, or contribut
 ### Development Schedule
 | Version | Release Description                                | Target Date | Acutal Date |
 |--------:|:---------------------------------------------------|------------:|-------------|
-|**0.1.0**| Console, markdown and HTML output for simple table | 1 Aug 2015  | |
+|**0.1.0**| Console, markdown and HTML output for simple table | 1 Aug 2015  | 3 Aug 2015  |
 | 0.2.0   | Multirow table headers; footers; multipage tables  | 20 Aug 2015 | |
 | 0.3.0   | Multicolumn and multirow cells in HTML             | 15 Sep 2015 | |
 | 0.4.0   | Glance statistics in table footer                  | 1 Oct 2015  | |
