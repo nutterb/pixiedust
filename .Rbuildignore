@@ -4,3 +4,4 @@
 ^\.travis.yml$
 ^\.travis\.yml$
 ^cran-comments.md$
+^xtable_vs_pixiedust.Rmd$

@@ -1,0 +1,77 @@
+---
+title: "`xtable` vs `pixiedust`: Speed Comparison"
+author: "Benjamin Nutter"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    fig_caption: no
+    number_section: yes
+    toc: yes
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{xtable vs pixiedust: Speed Comparison}
+  \usepackage[utf8]{inputenc}
+---
+
+The process for comparing the speed of `xtable` and `pixiedust` will be a random sample of `r format(1e4, big.mark = ",")` rows from the `mtcars` dataset, with replacement.  A table with this many rows is certainly at the fringe of the size of tables people my try to produce using either package and is large enough to give us some idea of how the two packages differ in terms of speed.
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(pixiedust)
+library(xtable)
+set.seed(100)
+LargeTable <- mtcars[sample(1:nrow(mtcars), 1e4, replace = TRUE), ]
+```
+
+The `xtable` times are calculated as follows:
+
+```{r, results = 'hide'}
+Xtable <- lapply(1:100,
+                 function(i)
+                   system.time({print.xtable(xtable(LargeTable, type = "html"), type = "html")})
+                )
+
+Xtable <- as.data.frame(do.call("rbind", Xtable)) %>%
+  mutate(pkg = "xtable")
+```
+
+The `pixiedust` times are calculated below.  No additional features have been added to this table.
+
+```{r, results='hide'}
+library(pixiedust)
+Pixie <- lapply(1:100,
+                function(i)
+                  system.time({dust(LargeTable) + sprinkle_print_method("html")})
+               )
+Pixie <- as.data.frame(do.call("rbind", Pixie)) %>%
+  mutate(pkg = "pixiedust-plain")
+```
+
+The `pixiedust` times are calculated below.  We apply the default background pattern just to add a little more complexity to the table.  This should elaborate if adding more sprinkles adds to the processing time.  Further investigation will be needed to determine if the time is added in the `+.sprinkle` method, or in the printing.
+
+```{r, results='hide'}
+library(pixiedust)
+PixieBackground <- lapply(1:100,
+                function(i)
+                  system.time({dust(LargeTable) + sprinkle_print_method("html") + 
+                      sprinkle(bg_pattern_by = "rows")})
+               )
+Pixie <- as.data.frame(do.call("rbind", Pixie)) %>%
+  mutate(pkg = "pixiedust-background")
+```
+
+```{r}
+Compare <- bind_rows(Xtable, Pixie, PixieBackground)
+
+library(ggplot2)
+ggplot(Compare,
+       aes(x = pkg, y = elapsed)) + 
+  geom_boxplot()
+
+Compare %>%
+  group_by(pkg) %>%
+  summarise(median_user = median(user.self),
+            median_sys = median(sys.self),
+            median_elapsed =  median(elapsed))
+```
