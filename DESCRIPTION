@@ -24,3 +24,6 @@ Suggests:
   testthat
 License: MIT + file LICENSE
 LazyData: true
+VignetteBuilder: knitr
+URL: https://github.com/nutterb/pixiedust
+BugReports: https://github.com/nutterb/pixiedust/issues

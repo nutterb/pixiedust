@@ -41,49 +41,49 @@ part_prep_html <- function(part, head=FALSE)
     #* 2. Perform any rounding
     dplyr::mutate_(
       value = ~suppressWarnings(
-        ifelse(!is.na(round) & col_class %in% numeric_classes,
+        ifelse_fast(value, !is.na(round) & col_class %in% numeric_classes,
                as.character(round(as.numeric(value), round)),
                value))) %>%
     #* 3. Bold and italic
-    dplyr::mutate_(bold = ~ifelse(bold, 
+    dplyr::mutate_(bold = ~ifelse_fast(bold, bold, 
                                   "font-weight:bold;",
                                   ""),
-                   italic = ~ifelse(italic, 
+                   italic = ~ifelse_fast(italic, italic, 
                                     "font-style:italic;", 
                                     "")) %>%
     #** Alignments
-    dplyr::mutate_(halign = ~ifelse(is.na(halign), 
+    dplyr::mutate_(halign = ~ifelse_fast(halign, is.na(halign), 
                                     "",
                                     paste0("text-align:", halign, ";"))) %>%
     #** Vertical alignments
-    dplyr::mutate_(valign = ~ifelse(is.na(valign), 
+    dplyr::mutate_(valign = ~ifelse_fast(valign, is.na(valign), 
                                     "",
                                     paste0("vertical-align:", valign, ";"))) %>%
     #** Background
-    dplyr::mutate_(bg = ~ifelse(is.na(bg), "",
+    dplyr::mutate_(bg = ~ifelse_fast(bg, is.na(bg), "",
                                 paste0("background-color: ", bg, ";"))) %>%
     #* x. Font Color
-    dplyr::mutate_(font_color = ~ifelse(is.na(font_color), "",
+    dplyr::mutate_(font_color = ~ifelse_fast(font_color, is.na(font_color), "",
                                         paste0("color:", font_color, "; "))) %>%
     #* x. Font size
-    dplyr::mutate_(font_size = ~ifelse(is.na(font_size), "",
+    dplyr::mutate_(font_size = ~ifelse_fast(font_size, is.na(font_size), "",
                                        paste0("font-size:", font_size, font_size_units, "; "))) %>%
     #* x. cell height and width
-    dplyr::mutate_(height = ~ifelse(is.na(height), "",
+    dplyr::mutate_(height = ~ifelse_fast(height, is.na(height), "",
                                     paste0("height:", height, height_units, "; ")),
-                   width = ~ifelse(is.na(width), "",
+                   width = ~ifelse_fast(width, is.na(width), "",
                                    paste0("width:", width, width_units, "; ")),
-                   top_border = ~ifelse(is.na(top_border), "",
+                   top_border = ~ifelse_fast(top_border, is.na(top_border), "",
                                         paste0("border-top:", top_border, "; ")),
-                   bottom_border = ~ifelse(is.na(bottom_border), "",
+                   bottom_border = ~ifelse_fast(bottom_border, is.na(bottom_border), "",
                                            paste0("border-bottom:", bottom_border, "; ")),
-                   left_border = ~ifelse(is.na(left_border), "",
+                   left_border = ~ifelse_fast(left_border, is.na(left_border), "",
                                          paste0("border-left:", left_border, "; ")),
-                   right_border = ~ifelse(is.na(right_border), "",
+                   right_border = ~ifelse_fast(right_border, is.na(right_border), "",
                                           paste0("border-right:", right_border, "; ")),
-                   rotate_degree = ~ifelse(is.na(rotate_degree), "",
+                   rotate_degree = ~ifelse_fast(rotate_degree, is.na(rotate_degree), "",
                                     rotate_tag(rotate_degree)),
-                   padding = ~ifelse(is.na(pad), "",
+                   padding = ~ifelse_fast(pad, is.na(pad), "",
                                      paste0("padding:", pad, "px;"))) %>%
     dplyr::mutate_(value = ~gsub("[<]", " &lt; ", value),
                    value = ~gsub("[>]", " &gt; ", value),
