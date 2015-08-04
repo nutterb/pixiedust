@@ -25,15 +25,17 @@ part_prep_console <- function(part)
 {
   numeric_classes <- c("double", "numeric")
   
-  perform_function(part) %>%
-    #* 2. Perform any rounding
-    dplyr::mutate_(
-      value = ~suppressWarnings(
-        ifelse(!is.na(round) & col_class %in% numeric_classes,
-               as.character(round(as.numeric(value), round)),
-               value))) %>%
+  part <- perform_function(part)
+  
+  #* Perform any rounding
+  logic <- part$round != "" & part$col_class %in% numeric_classes
+  if (any(logic))
+    part$value[logic] <- 
+    with(part, as.character(round(as.numeric(value[logic]), as.numeric(round[logic]))))
+  
+  
     #* 3. Bold
-    dplyr::group_by_("col_name") %>%
+    dplyr::group_by_(part, "col_name") %>%
     dplyr::mutate_(value = ~if (any(bold)) ifelse(bold, 
                                                   paste0("**", value, "**"),
                                                   paste0("  ", value, "  "))
