@@ -37,64 +37,94 @@ part_prep_html <- function(part, head=FALSE)
   dh <- if (head) "th" else "td"
   
   #* 1. apply a function, if any is indicated
-  perform_function(part) %>%
-    #* 2. Perform any rounding
-    dplyr::mutate_(
-      value = ~suppressWarnings(
-        ifelse_fast(value, !is.na(round) & col_class %in% numeric_classes,
-               as.character(round(as.numeric(value), round)),
-               value))) %>%
-    #* 3. Bold and italic
-    dplyr::mutate_(bold = ~ifelse_fast(bold, bold, 
-                                  "font-weight:bold;",
-                                  ""),
-                   italic = ~ifelse_fast(italic, italic, 
-                                    "font-style:italic;", 
-                                    "")) %>%
-    #** Alignments
-    dplyr::mutate_(halign = ~ifelse_fast(halign, is.na(halign), 
-                                    "",
-                                    paste0("text-align:", halign, ";"))) %>%
-    #** Vertical alignments
-    dplyr::mutate_(valign = ~ifelse_fast(valign, is.na(valign), 
-                                    "",
-                                    paste0("vertical-align:", valign, ";"))) %>%
-    #** Background
-    dplyr::mutate_(bg = ~ifelse_fast(bg, is.na(bg), "",
-                                paste0("background-color: ", bg, ";"))) %>%
-    #* x. Font Color
-    dplyr::mutate_(font_color = ~ifelse_fast(font_color, is.na(font_color), "",
-                                        paste0("color:", font_color, "; "))) %>%
-    #* x. Font size
-    dplyr::mutate_(font_size = ~ifelse_fast(font_size, is.na(font_size), "",
-                                       paste0("font-size:", font_size, font_size_units, "; "))) %>%
-    #* x. cell height and width
-    dplyr::mutate_(height = ~ifelse_fast(height, is.na(height), "",
-                                    paste0("height:", height, height_units, "; ")),
-                   width = ~ifelse_fast(width, is.na(width), "",
-                                   paste0("width:", width, width_units, "; ")),
-                   top_border = ~ifelse_fast(top_border, is.na(top_border), "",
-                                        paste0("border-top:", top_border, "; ")),
-                   bottom_border = ~ifelse_fast(bottom_border, is.na(bottom_border), "",
-                                           paste0("border-bottom:", bottom_border, "; ")),
-                   left_border = ~ifelse_fast(left_border, is.na(left_border), "",
-                                         paste0("border-left:", left_border, "; ")),
-                   right_border = ~ifelse_fast(right_border, is.na(right_border), "",
-                                          paste0("border-right:", right_border, "; ")),
-                   rotate_degree = ~ifelse_fast(rotate_degree, is.na(rotate_degree), "",
-                                    rotate_tag(rotate_degree)),
-                   padding = ~ifelse_fast(pad, is.na(pad), "",
-                                     paste0("padding:", pad, "px;"))) %>%
-    dplyr::mutate_(value = ~gsub("[<]", " &lt; ", value),
-                   value = ~gsub("[>]", " &gt; ", value),
-                   value = ~paste0("<", dh, " style='", 
-                                   bold, italic, halign, valign, bg, font_color, 
-                                   font_size, height, width,
-                                   top_border, bottom_border, left_border, right_border,
-                                   rotate_degree, padding,
-                                   "'>", value, "</", dh, ">")) %>%
+  part <- perform_function(part) 
+  
+  #* 2. Perform any rounding
+  logic <- part$round != "" & part$col_class %in% numeric_classes
+  if (any(logic))
+    part$value[logic] <- 
+      with(part, as.character(round(as.numeric(value[logic]), as.numeric(round[logic]))))
+  
+  #* 3. Bold and italic
+  boldify <- part$bold
+  part$bold[boldify] <- "font-weight:bold;"
+  part$bold[!boldify] <- ""
+  
+  italicize <- part$italic
+  part$italic[italicize] <- "font-style:italic;"
+  part$italic[!italicize] <- ""
+
+  #** Alignments
+  logic <- part$halign != ""
+  part$halign[logic] <- 
+    with(part, paste0("text-align:", halign[logic], ";"))
+  
+  logic <- part$valign != ""
+  part$valign[logic] <- 
+    with(part, paste0("vertical-align:", valign[logic], ";"))
+  
+  #** Background
+  logic <- part$bg != ""
+  part$bg[logic] <- 
+    with(part, paste0("background-color:", bg[logic], ";"))
+  
+  #* x. Font Color
+  logic <- part$font_color != ""
+  part$font_color[logic] <- 
+    with(part, paste0("color:", font_color[logic], ";"))
+  
+  #* x. Font size
+  logic <- part$font_size != ""
+  part$font_size[logic] <- 
+    with(part, paste0("font-size:", font_size[logic],
+                      font_size_units[logic], ";"))
+  
+  #* x. cell height and width
+  logic <- part$height != ""
+  part$height[logic] <- 
+    with(part, paste0("height:", height[logic], height_units[logic], ";"))
+  
+  logic <- part$width != ""
+  part$widht[logic] <- 
+    with(part, paste0("width:", width[logic], width_units[logic], ";"))
+  
+  logic <- part$top_border != ""
+  part$top_border[logic] <- 
+    with(part, paste0("border-top:", top_border[logic], "; "))
+  
+  logic <- part$bottom_border != ""
+  part$bottom_border[logic] <- 
+    with(part, paste0("border-bottom:", bottom_border[logic], "; "))
+  
+  logic <- part$left_border != ""
+  part$left_border[logic] <- 
+    with(part, paste0("border-left:", left_border[logic], "; "))
+  
+  logic <- part$right_border != ""
+  part$right_border[logic] <- 
+    with(part, paste0("border-right:", right_border[logic], "; "))
+  
+  logic <- part$pad != ""
+  part$pad[logic] <- 
+    with(part, paste0("padding:", pad[logic], "px;"))
+  
+  logic <- part$rotate_degree != ""
+  part$rotate_degree[logic] <- 
+    with(part, rotate_tag(rotate_degree[logic]))
+
+  part$value <- gsub("[<]", "&lt; ", part$value)
+  part$value <- gsub("[>]", "&gt; ", part$value)
+  
+  part$value <- 
+    with(part, paste0("<", dh, " style='", 
+                      bold, italic, halign, valign, bg, font_color, 
+                      font_size, height, width,
+                      top_border, bottom_border, left_border, right_border,
+                      rotate_degree, pad,
+                      "'>", value, "</", dh, ">"))
+
     #* 5. Spread to wide format for printing
-    dplyr::select_("row", "col", "value") %>%
+    dplyr::select_(part, "row", "col", "value") %>%
     tidyr::spread_("col", "value") %>%
     dplyr::select_("-row")
   

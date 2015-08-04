@@ -21,7 +21,7 @@ library(ggplot2)
 library(pixiedust)
 library(xtable)
 set.seed(100)
-LargeTable <- mtcars[sample(1:nrow(mtcars), 1e4, replace = TRUE), ]
+LargeTable <- mtcars[sample(1:nrow(mtcars), 1e3, replace = TRUE), ]
 ```
 
 The `xtable` times are calculated as follows:
@@ -57,7 +57,7 @@ PixieBackground <- lapply(1:100,
                   system.time({dust(LargeTable) + sprinkle_print_method("html") + 
                       sprinkle(bg_pattern_by = "rows")})
                )
-Pixie <- as.data.frame(do.call("rbind", Pixie)) %>%
+PixieBackground <- as.data.frame(do.call("rbind", PixieBackground)) %>%
   mutate(pkg = "pixiedust-background")
 ```
 
