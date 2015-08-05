@@ -9,7 +9,7 @@ output:
     toc: yes
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Dustbunnies}
+  %\VignetteIndexEntry{Sprinkles}
   \usepackage[utf8]{inputenc}
 ---
 
@@ -37,10 +37,10 @@ yellow <- "#FFFFBF"
 
 x <- dust(Sprinkles[, -2]) + 
   sprinkle(row = which(Sprinkles$implemented == ""), 
-           col = "dustbunny", bg = yellow) + 
+           col = "sprinkle", bg = yellow) + 
   sprinkle(row = which(Sprinkles$implemented == "x"),
-           col = "dustbunny", bg = lightgreen)
-x$body$bg <- ifelse(!is.na(x$body$bg),
+           col = "sprinkle", bg = lightgreen)
+x$body$bg <- ifelse(x$body$bg != "",
                     x$body$bg,
                     ifelse(x$body$value == "",
                            "black",

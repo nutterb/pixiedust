@@ -39,29 +39,25 @@ part_prep_markdown <- function(part)
 {
   numeric_classes <- c("double", "numeric")
   
-  perform_function(part) %>%
-    #* 2. Perform any rounding
-    dplyr::mutate_(
-      value = ~suppressWarnings(
-        ifelse(!is.na(round) & col_class %in% numeric_classes,
-               as.character(round(as.numeric(value), round)),
-               value))) %>%
-    #* 3. Bold
-    dplyr::group_by_("col_name") %>%
-    dplyr::mutate_(value = ~if (any(bold)) ifelse(bold, 
-                                                  paste0("**", value, "**"),
-                                                  paste0("  ", value, "  "))
-                   else value) %>%
-    dplyr::ungroup() %>%
-    #* 4. Italic
-    dplyr::group_by_("col_name") %>%
-    dplyr::mutate_(value = ~if (any(italic)) ifelse(italic, 
-                                                    paste0("_", value, "_"),
-                                                    paste0(" ", value, " "))
-                   else value) %>%
-    dplyr::ungroup() %>%
-    #* 5. Spread to wide format for printing
-    dplyr::select_("row", "col", "value") %>%
+  part <- perform_function(part)
+  
+  #* 2. Perform any rounding
+  logic <- part$round != "" & part$col_class %in% numeric_classes
+  if (any(logic))
+    part$value[logic] <- 
+    with(part, as.character(round(as.numeric(value[logic]), as.numeric(round[logic]))))
+
+  logic <- part$bold
+  part$value[logic] <- 
+    with(part, paste0("**", value[logic], "**"))
+  
+  logic <- part$italic
+  part$value[logic] <- 
+    with(part, paste0("_", value[logic], "_"))
+
+
+  #* 5. Spread to wide format for printing
+  dplyr::select_(part, "row", "col", "value") %>%
     tidyr::spread_("col", "value") %>%
     dplyr::select_("-row")
 }

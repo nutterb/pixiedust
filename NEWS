@@ -1,3 +1,12 @@
+#### 0.1.1-2 (4 August 2015)
+* Optimizations related to removing ifelse calls.  Appears to cut processing
+  time in half.
+* Initial values for table attributes are now stored as "" instead of NA.
+  This increases the object size, but cuts down on the processing time.
+* Removed `object` element from the `dust` object. In Issue #13, matthieugomez
+  pointed out that very large models could create storage space problems. 
+  There's no sense in keeping an extra copy of the model object.
+
 #### 0.1.1 (3 August 2015)
 * Added the necessary fields to DESCRIPTION to get the vignettes to build.
 
