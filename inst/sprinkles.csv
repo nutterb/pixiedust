@@ -19,6 +19,7 @@ height,                     x,       ,        ,   x,    o
 height_units,               x,       ,        ,   x,    o
 italic,                     x,      x,       x,   x,    o 
 padding,                    x,       ,        ,   x,     
+replace,                    x,      x,       x,   x,    x
 round,                      x,      x,       x,   x,    o
 rotate_degree,              x,       ,        ,   x,    o
 valign,                     x,       ,        ,   x,    o
