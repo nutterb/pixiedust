@@ -20,7 +20,7 @@ print_dust_markdown <- function(x, ...)
   
   alignments <- dplyr::filter_(x$head, "row == 1") %>%
     dplyr::select_("row", "col", "halign", "col_class") %>%
-    dplyr::mutate_(halign = ~ifelse(is.na(halign),
+    dplyr::mutate_(halign = ~ifelse(halign == "",
                                     ifelse(col_class %in% numeric_classes, 
                                            "r",
                                            "l"),

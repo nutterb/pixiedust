@@ -1,4 +1,4 @@
-#' @name sprinkles
+#' @name sprinkle
 #' @export sprinkle
 #' @importFrom ArgumentCheck newArgCheck
 #' @importFrom ArgumentCheck addError
@@ -10,6 +10,7 @@
 #'   to be applied over a subset of table cells.  They may be added to any 
 #'   part of the table, or to the table as a whole.
 #'   
+#' @param x A dust object
 #' @param rows A numeric vector specifying the rows of the table to sprinkle.
 #'   See details for more about sprinkling.
 #' @param cols A numeric (or character) vector specifying the columns (or 
@@ -121,15 +122,22 @@
 #' 
 #' @examples 
 #' x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars))
-#' x + sprinkle(cols = 2:4, round = 3) + 
-#'   sprinkle(cols = 5, fn = quote(pvalString(value))) + 
+#' x %>% sprinkle(cols = 2:4, round = 3) %>% 
+#'   sprinkle(cols = 5, fn = quote(pvalString(value))) %>% 
 #'   sprinkle(rows = 2, bold = TRUE)
-#'    
-sprinkle <- function(rows = NULL, cols = NULL, ..., 
-                     part = c("body", "head", "foot", "interfoot", "table"))
+#'
+
+sprinkle <- function(x, rows=NULL, cols=NULL, ..., 
+                          part = c("body", "head", "foot", "interfoot", "table"))
 {
   Check <- ArgumentCheck::newArgCheck()
-  part <- ArgumentCheck::match_arg(part, 
+  
+  if (class(x) != "dust")
+    ArgumentCheck::addError(
+      msg = "Sprinkles may only be added to objects of class 'dust'",
+      argcheck = Check)
+  
+  part_name <- ArgumentCheck::match_arg(part, 
                                    c("body", "head", "foot", "interfoot", "table"),
                                    argcheck = Check)
   
@@ -169,11 +177,11 @@ sprinkle <- function(rows = NULL, cols = NULL, ...,
       msg = paste0("The following arguments in '...' are not valid ",
                    "sprinkles: ", paste0(bad_sprinkles, collapse = ", ")),
       argcheck = Check)
-      
+  
   if ("bg" %in% names(sprinkles) & !is.character(sprinkles[["bg"]]))
-      ArgumentCheck::addError(
-        msg = "The 'bg' argument must be a character string.",
-        argcheck = Check)
+    ArgumentCheck::addError(
+      msg = "The 'bg' argument must be a character string.",
+      argcheck = Check)
   
   if (all(c("bg", "bg_pattern") %in% names(sprinkles)))
     ArgumentCheck::addError(
@@ -182,13 +190,13 @@ sprinkle <- function(rows = NULL, cols = NULL, ...,
   
   if ("bg_pattern_by" %in% names(sprinkles))
     sprinkles$bg_pattern_by <- ArgumentCheck::match_arg(sprinkles[["bg_pattern_by"]], c("rows", "columns"), 
-                                                     argcheck = Check)
+                                                        argcheck = Check)
   
   if ("bold" %in% names(sprinkles) & !is.logical(sprinkles$bold))
     ArgumentCheck::addError(
       msg = "The 'bold' argument must be logical",
       argcheck = Check)
-    
+  
   if ("border" %in% names(sprinkles))
     sprinkles$border <- ArgumentCheck::match_arg(sprinkles[["border"]], 
                                                  c("all", "left", "right", "top", "bottom"),
@@ -221,7 +229,7 @@ sprinkle <- function(rows = NULL, cols = NULL, ...,
     ArgumentCheck::addError(
       msg = "The 'border_collapse' argument must be logical.",
       argcheck = Check)
-      
+  
   if ("font_color" %in% names(sprinkles) & !is.character(sprinkles$font_color))
     ArgumentCheck::addError(
       msg = "The 'font_color' argument must be a character string.",
@@ -284,8 +292,8 @@ sprinkle <- function(rows = NULL, cols = NULL, ...,
   
   if ("width_units" %in% names(sprinkles))
     sprinkles$width_units <- ArgumentCheck::match_arg(sprinkles[["width_units"]],
-                                                       c("px", "%"),
-                                                       argcheck = Check)
+                                                      c("px", "%"),
+                                                      argcheck = Check)
   ArgumentCheck::finishArgCheck(Check)
   
   #* For borders, set unspecified attributes to their defaults
@@ -294,7 +302,7 @@ sprinkle <- function(rows = NULL, cols = NULL, ...,
   {
     border_not_given <-  border_attributes[!border_attributes %in% names(sprinkles)]
     sprinkles[border_not_given] <- lapply(border_not_given,
-                                            default_sprinkles)
+                                          default_sprinkles)
   }
   
   if (any(sprinkles[["border"]] == "all")) sprinkles$border <- c("left", "right", "top", "bottom")
@@ -314,27 +322,81 @@ sprinkle <- function(rows = NULL, cols = NULL, ...,
   if (!is.null(sprinkles[["width"]]) & is.null(sprinkles$width_units))
     sprinkles$width_units <- default_sprinkles("width_units")
   
-  structure(list(rows = rows,
-                 cols = cols,
-                 sprinkles = sprinkles,
-                 part = part),
-            class = "sprinkle")
-}
-
-#' @rdname sprinkles
-#' @param print_method A character string giving the print method for the table.  
-#' @export
-
-sprinkle_print_method <- function(print_method = c("console", "markdown", "html", "latex"))
-{
-  Check <- ArgumentCheck::newArgCheck()
-  print_method <- ArgumentCheck::match_arg(print_method,
-                                           c("console", "markdown", "html", "latex"),
-                                           argcheck = Check)
   ArgumentCheck::finishArgCheck(Check)
+
+  if (!is.null(sprinkles$border_collapse))
+  {
+    x$border_collapse <- sprinkles$border_collapse
+    sprinkles$border_collapse <- NULL
+  }
   
-  structure(print_method,
-            class = c("print_method", "sprinkle"))
+  if (!is.null(sprinkles[["bg_pattern"]])){
+    x$bg_pattern <- sprinkles$bg_pattern
+    x$bg_pattern_by <- sprinkles$bg_pattern_by
+    
+    bg_pattern <- sprinkles$bg_pattern
+    pattern_by <- sprinkles$bg_pattern_by
+    
+    sprinkles$bg_pattern <- NULL
+    sprinkles$bg_pattern_by <- NULL
+  }
+
+  part <- x[[part_name]]
+
+  if (!is.null(cols)){
+    cols_num <- suppressWarnings(as.numeric(cols))
+    cols_num <- cols_num[!is.na(cols_num)]
+    
+    cols_str <- match(cols, unique(x$head$col_name))
+    cols <- unique(c(cols_num, cols_str))
+    cols <- cols[!is.na(cols)]
+  }
+
+  if (is.null(rows) | length(rows) == 0) rows <- 1:max(part$row)
+  if (is.null(cols) | length(cols) == 0) cols <- 1:max(part$col)
+  
+  Cells <- expand.grid(c(list(row = rows,
+                              col = cols),
+                         sprinkles),
+                       stringsAsFactors = FALSE)
+  
+  if ("border" %in% names(Cells))
+    Cells <- dplyr::mutate_(Cells,
+                            border = ~paste0(border, "_border"),
+                            border_spec = ~paste0(border_thickness, border_units, " ",
+                                                  border_style, " ", border_color)) %>%
+    dplyr::select_("-border_thickness", "-border_units", "-border_style", "-border_color") %>%
+    tidyr::spread_("border", "border_spec")
+
+  if (exists("bg_pattern")){
+    if (pattern_by == "rows"){
+      bg_frame <- dplyr::data_frame(row = unique(Cells$row))
+      bg_frame[["bg"]] <- rep(bg_pattern, length.out = nrow(bg_frame))
+      Cells <- dplyr::left_join(Cells, bg_frame, by = c("row" = "row"))
+      if ("bg.x" %in% names(Cells)){
+        Cells <- dplyr::rename_(Cells, "bg" = "bg.y") %>%
+          dplyr::select_("-bg.x")
+      }
+    }
+    else {
+      bg_frame <- dplyr::data_frame(col = unique(Cells$col))
+      bg_frame[["bg"]] <- rep(bg_pattern, length.out = nrow(bg_frame))
+      Cells <- dplyr::left_join(Cells, bg_frame, by = c("col" = "col"))
+      if ("bg.x" %in% names(Cells)){
+        Cells <- dplyr::rename_(Cells, "bg" = "bg.y") %>%
+          dplyr::select_("-bg.x")
+      }
+    }
+  }
+ 
+  replace <- vapply(1:nrow(Cells), 
+                    function(r) which(part$row == Cells$row[r] & part$col == Cells$col[r]), 
+                    1)
+  
+  part[replace, names(Cells)[-(1:2)]] <- Cells[, -(1:2), drop=FALSE]
+
+  x[[part_name]] <- part
+  x
 }
 
 #****************

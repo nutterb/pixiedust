@@ -46,12 +46,12 @@ dust(fit)
 Realistically, the `dust` output is probably even less desirable than the `broom` output.  The `broom` output retains the class of the variables.  `term` is a character vector, the other vectors are numeric.  When this output is `dust`ed, however, these are all turned into character values.  The consequence is that we lose the benefit of the default formatting of numerical values.  Don't panic, though.  This isn't a disadvantage, it's the key feature of `pixiedust`.  `dust` converts the `broom` output into a table where each cell in the table is represented by a row (Take a look at `dust(fit)$body` to see what I mean).  This is the process by which we get control over every last detail of the table.  By the time we're done, we'll easily produce tables that look like this:
 
 ```{r, echo=FALSE}
-dust(fit) + 
+dust(fit) %>%
   sprinkle(cols = c("estimate", "std.error", "statistic"),
-           round = 3) + 
-  sprinkle(cols = "p.value", fn = quote(pvalString(value))) + 
-  sprinkle_colnames("Term", "Coefficient", "SE", "T-statistic", "P-value") + 
-  sprinkle(bg_pattern = c("orchid", "plum")) + 
+           round = 3) %>% 
+  sprinkle(cols = "p.value", fn = quote(pvalString(value))) %>% 
+  sprinkle_colnames("Term", "Coefficient", "SE", "T-statistic", "P-value") %>% 
+  sprinkle(bg_pattern = c("orchid", "plum")) %>% 
   sprinkle_print_method("html")
 ```
 
@@ -61,7 +61,7 @@ Okay, maybe not those exact colors.  But you have to admit, they are very pixie 
 As we noted earlier, the default output of `dust` has far too many decimal places.  In most cases, the decimal places returned probably exceed the accuracy of the values in the data.  We can sprinkle the values with `round` or any other function to suit our needs.  First, let's take a look at the `round` sprinkle.
 
 ```{r}
-dust(fit) + 
+dust(fit) %>% 
   sprinkle(cols = c("estimate", "std.error", "statistic"), round = 2)
 ```
 
@@ -71,9 +71,9 @@ That already makes a big difference.  We could have rounded the p-values as well
 2. The function `pvalString` is acting on `value`.  The elements of the `dust` object are stored in a manner where each cell in the table is a row in a data frame, with the contents of the cell being stored as `value`.  (Try running `dust(fit)$body` to explore the anatomy of the `dust` object).  Any function you pass in the `fn` argument needs to act on `value`.
 
 ```{r}
-dust(fit) + 
+dust(fit) %>% 
   sprinkle(cols = c("estimate", "std.error", "statistic"),
-           round = 3) + 
+           round = 3) %>% 
   sprinkle(cols = "p.value", fn = quote(pvalString(value))) 
 ```
 
@@ -86,20 +86,20 @@ After formatting the cell values, the next thing we will likely want to change a
 For the reader, the table's column names can be modified using the `sprinkle_colnames` function in `pixiedust`.  The function only has a `...` argument, and may accept either named or unnamed arguments.  If the arguments are named, the name matches one of the column names in the `broom` output, and the argument value represents the name we wish to appear in print.
 
 ```{r}
-dust(fit) + 
+dust(fit) %>% 
   sprinkle(cols = c("estimate", "std.error", "statistic"),
-           round = 3) + 
-  sprinkle(cols = "p.value", fn = quote(pvalString(value))) + 
+           round = 3) %>% 
+  sprinkle(cols = "p.value", fn = quote(pvalString(value))) %>% 
   sprinkle_colnames(term = "Term", p.value = "P-value")
 ```
 
 Naming the arguments has advantages for reproducibility, as `pixiedust` will correctly assign the column names regardless of order.
 
 ```{r}
-dust(fit) + 
+dust(fit) %>% 
   sprinkle(cols = c("estimate", "std.error", "statistic"),
-           round = 3) + 
-  sprinkle(cols = "p.value", fn = quote(pvalString(value))) + 
+           round = 3) %>% 
+  sprinkle(cols = "p.value", fn = quote(pvalString(value))) %>% 
   sprinkle_colnames(term = "Term", p.value = "P-value", 
                     std.error = "SE", statistic = "T-statistic",
                     estimate = "Coefficient")
@@ -108,20 +108,20 @@ dust(fit) +
 If all of the columns are to be renamed, we may forego naming the arguments _so long as we are careful to provide the new names in the same order they appear in the table_ (from left to right).  If the new names are provided in the wrong order, they will be applied to the table incorrectly.  Thus, it is recommended to name the arguments.  
 
 ```{r}
-dust(fit) + 
+dust(fit) %>% 
   sprinkle(cols = c("estimate", "std.error", "statistic"),
-           round = 3) + 
-  sprinkle(cols = "p.value", fn = quote(pvalString(value))) + 
+           round = 3) %>% 
+  sprinkle(cols = "p.value", fn = quote(pvalString(value))) %>% 
   sprinkle_colnames("Term", "Coefficient", "SE", "T-statistic", "P-value")
 ```
 
 In the case that you provide a different number of arguments than there are columns in the table, an error is returned stating such.
 
 ```{r, error = TRUE}
-dust(fit) + 
+dust(fit) %>% 
   sprinkle(cols = c("estimate", "std.error", "statistic"),
-           round = 3) + 
-  sprinkle(cols = "p.value", fn = quote(pvalString(value))) + 
+           round = 3) %>% 
+  sprinkle(cols = "p.value", fn = quote(pvalString(value))) %>% 
   sprinkle_colnames("Term", "Coefficient", "SE", "T-statistic", "P-value", "Extra Column Name")
 ```
 
@@ -129,13 +129,13 @@ dust(fit) +
 For the duration of the vignette, we will use `basetable` as the basis of additional customizations where `basetable` is defined below. We are also moving out of the capabilities of the console, so we will switch over to HTML printing.
 
 ```{r}
-basetable <- dust(fit) + 
+basetable <- dust(fit) %>% 
   sprinkle(cols = c("estimate", "std.error", "statistic"),
-           round = 3) + 
-  sprinkle(cols = "p.value", fn = quote(pvalString(value))) + 
+           round = 3) %>% 
+  sprinkle(cols = "p.value", fn = quote(pvalString(value))) %>% 
   sprinkle_colnames(term = "Term", estimate = "Coefficient", 
                     std.error = "SE", statistic = "T-statistic", 
-                    p.value = "P-value") + 
+                    p.value = "P-value") %>% 
   sprinkle_print_method("html")
 ```
 
@@ -150,20 +150,20 @@ For no good reason, let's also focus on drawing attention to the statistically s
 All of these sprinkles have default values they can take, so unless we need to customize more than one sprinkle, we need only specify one of the five in order to get all of them to take effect.
 
 ```{r}
-basetable + 
+basetable %>% 
   sprinkle(rows = c(2, 4), border_color = "orchid")
 ```
 
 If we want to eliminate the borders between cells, we have to do a little more work.
 
 ```{r}
-basetable + 
+basetable %>% 
   sprinkle(rows = c(2, 4), cols = 1, 
            border = c("left", "top", "bottom"),
-           border_color = "orchid") + 
+           border_color = "orchid") %>% 
   sprinkle(rows = c(2, 4), cols = 5,
            border = c("right", "top", "bottom"),
-           border_color = "orchid") +
+           border_color = "orchid") %>%
   sprinkle(rows = c(2, 4), cols = 2:4,
            border = c("top", "bottom"),
            border_color = "orchid")
@@ -172,7 +172,7 @@ basetable +
 We can further separate these rows by adding more padding to the cells.  In this example, for simplicity, we'll allow the lines between cells.
 
 ```{r}
-basetable + 
+basetable %>% 
   sprinkle(rows = c(2, 4), border_color = "orchid",
            pad = 15)
 ```
@@ -181,14 +181,14 @@ basetable +
 A more conventional way to draw attention to these rows would be to print them in bold text.
 
 ```{r}
-basetable + 
+basetable %>% 
   sprinkle(rows = c(2, 4), bold = TRUE)
 ```
 
 The text could also be italicized either separately or concurrently.  He we show the italics printed concurrently.
 
 ```{r}
-basetable + 
+basetable %>% 
   sprinkle(rows = c(2, 4), bold = TRUE, italic=TRUE)
 ```
 
@@ -197,21 +197,21 @@ basetable +
 Backgrounds are added using the `bg` sprinkle, which accepts X11 colors, hexidecimal colors, rgb colors, and for HTML rgba colors (the a specifies the transparency). To put in a background in the rows showing statistical significance, we need only specify the color.
 
 ```{r}
-basetable + 
+basetable %>% 
   sprinkle(rows = c(2, 4), bg = "orchid")
 ```
 
 If we decide that color is a little bit strong, we can lighten it up a little with the transparency.  We have to look up the rgb specification for the orchid color (there are lots of web resources for this; X11 Color Names on Wikipedia is a good place to start).
 
 ```{r}
-basetable + 
+basetable %>% 
   sprinkle(rows = c(2, 4), bg = "rgba(218,112,214,.5)")
 ```
 
 If we aren't interested in coloring just those two rows, we can apply color to the entire table with the `bg_pattern` sprinkle.  This sprinkle accepts as many colors as you want to cycle through.
 
 ```{r}
-basetable + 
+basetable %>% 
   sprinkle(bg_pattern = c("orchid", "plum"))
 ```
 
@@ -220,7 +220,7 @@ basetable +
 Font sizes and colors are modified with the `font_size` and `font_color` sprinkles.  We'll employ these simultaneously to highlight our significant rows.
 
 ```{r}
-basetable + 
+basetable %>% 
   sprinkle(rows = c(2, 4), 
            font_color = "orchid",
            font_size = 24,
@@ -234,15 +234,15 @@ basetable +
 In addition to the sprinkles already discussed, we can also use sprinkles to change the height, width, and alignment of cells.  For illustration, we're going to use the first three rows of columns 2-4 to show a grid of all the combinations of alignments.  This requires that each cell be modified individually, so bear with me...the code is a bit long.
 
 ```{r}
-basetable + 
-  sprinkle(rows = 1, cols = 2, halign = "left", valign = "top", height = 50, width = 50) + 
-  sprinkle(rows = 1, cols = 3, halign = "center", valign = "top", height = 50, width = 50) + 
-  sprinkle(rows = 1, cols = 4, halign = "right", valign = "top", height = 50, width = 50) + 
-  sprinkle(rows = 2, cols = 2, halign = "left", valign = "middle", height = 50, width = 50) + 
-  sprinkle(rows = 2, cols = 3, halign = "center", valign = "middle", height = 50, width = 50) + 
-  sprinkle(rows = 2, cols = 4, halign = "right", valign = "middle", height = 50, width = 50) + 
-  sprinkle(rows = 3, cols = 2, halign = "left", valign = "bottom", height = 50, width = 50) + 
-  sprinkle(rows = 3, cols = 3, halign = "center", valign = "bottom", height = 50, width = 50) + 
+basetable %>% 
+  sprinkle(rows = 1, cols = 2, halign = "left", valign = "top", height = 50, width = 50) %>% 
+  sprinkle(rows = 1, cols = 3, halign = "center", valign = "top", height = 50, width = 50) %>% 
+  sprinkle(rows = 1, cols = 4, halign = "right", valign = "top", height = 50, width = 50) %>% 
+  sprinkle(rows = 2, cols = 2, halign = "left", valign = "middle", height = 50, width = 50) %>% 
+  sprinkle(rows = 2, cols = 3, halign = "center", valign = "middle", height = 50, width = 50) %>% 
+  sprinkle(rows = 2, cols = 4, halign = "right", valign = "middle", height = 50, width = 50) %>% 
+  sprinkle(rows = 3, cols = 2, halign = "left", valign = "bottom", height = 50, width = 50) %>% 
+  sprinkle(rows = 3, cols = 3, halign = "center", valign = "bottom", height = 50, width = 50) %>% 
   sprinkle(rows = 3, cols = 4, halign = "right", valign = "bottom", height = 50, width = 50)
 ```
 # Rotating Text
@@ -251,12 +251,12 @@ There is a sprinkle available to rotate the text in a cell. I don't recommend us
 
 Notice here that when I apply the rotation, I added an argument to `sprinkle` in which I denoted that the rotation should apply to the head of the table.  The head and body of the table are stored separately in the `dust` object and all of the sprinkles may be applied to either part of the table.  
 ```{r}
-dust(mtcars, tidy_df = TRUE) + 
+dust(mtcars, tidy_df = TRUE) %>% 
   sprinkle(cols = c("mean", "sd", "median", "trimmed", "mad", 
                     "min", "max", "range", "skew", "kurtosis", "se"),
-           round = 2) + 
+           round = 2) %>% 
   sprinkle(rows = 1, rotate_degree = -90, 
-           height = 60, part = "head") + 
+           height = 60, part = "head") %>% 
   sprinkle_print_method("html")
 ```
 

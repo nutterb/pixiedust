@@ -11,7 +11,7 @@ test_that("printing to console succeeds with defaults",
 test_that("printing to console succeeds with sprinkles",
 {
   fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
-  x <- dust(fit) + 
+  x <- dust(fit) %>% 
     sprinkle(rows = 2:4,
              cols = 2:4,
              bg = "black",
@@ -43,7 +43,7 @@ test_that("printing to console succeeds with sprinkles",
 test_that("printing to console succeeds with sprinkles",
 {
   fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
-  x <- dust(fit) + 
+  x <- dust(fit) %>% 
     sprinkle(rows = 2:4,
              cols = 2:4,
              bg = "black",
@@ -67,7 +67,7 @@ test_that("printing to console succeeds with sprinkles",
              rotate_degree = -45,
              valign = "bottom",
              width = 15,
-             width_units = "%") + 
+             width_units = "%") %>% 
     sprinkle_print_method("markdown")
           
   expect_that(x, not(throws_error()))
@@ -76,7 +76,7 @@ test_that("printing to console succeeds with sprinkles",
 test_that("printing to console succeeds with sprinkles",
 {
   fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
-  x <- dust(fit) + 
+  x <- dust(fit) %>% 
     sprinkle(rows = 2:4,
              cols = 2:4,
              bg = "black",
@@ -100,7 +100,7 @@ test_that("printing to console succeeds with sprinkles",
              rotate_degree = -45,
              valign = "bottom",
              width = 15,
-             width_units = "%") + 
+             width_units = "%") %>% 
     sprinkle_print_method("html")
           
   expect_that(x, not(throws_error()))

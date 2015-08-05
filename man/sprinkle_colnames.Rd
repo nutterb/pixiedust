@@ -4,9 +4,11 @@
 \alias{sprinkle_colnames}
 \title{Column Names for \code{dust} Tables}
 \usage{
-sprinkle_colnames(...)
+sprinkle_colnames(x, ...)
 }
 \arguments{
+\item{x}{A dust object.}
+
 \item{...}{Column names for the table.  See 'Input Formats'}
 }
 \description{
@@ -29,11 +31,11 @@ Assigns new column names to a table
 \examples{
 x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars))
 x
-x + sprinkle_colnames(term = "Term", statistic = "T")
-x + sprinkle_colnames("Term", "Estimate", "SE", "T-statistic", "p-value")
+x \%>\% sprinkle_colnames(term = "Term", statistic = "T")
+x \%>\% sprinkle_colnames("Term", "Estimate", "SE", "T-statistic", "p-value")
 \dontrun{
 # Causes an error due to too few unnamed arguments
-x + sprinkle_colnames("Term", "Estimate")
+x \%>\% sprinkle_colnames("Term", "Estimate")
 }
 }
 \author{
