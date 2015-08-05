@@ -1,5 +1,6 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 [![Travis-CI Build Status](https://travis-ci.org/nutterb/pixiedust.svg?branch=master)](https://travis-ci.org/nutterb/pixiedust)
+![](http://cranlogs.r-pkg.org/badges/grand-total/pixiedust)
 
 pixiedust
 =========
@@ -182,7 +183,7 @@ Are there other features you want or need? Please submit an issue, or contribute
 
 ### Development Schedule
 
-|    Version| Release Description                                |  Target Date| Acutal Date |
+|    Version| Release Description                                |  Target Date| Actual Date |
 |----------:|:---------------------------------------------------|------------:|-------------|
 |  **0.1.0**| Console, markdown and HTML output for simple table |   1 Aug 2015| 3 Aug 2015  |
 |      0.2.0| Multirow table headers; footers; multipage tables  |  20 Aug 2015|             |
