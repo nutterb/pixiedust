@@ -186,7 +186,7 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
   too_long <- names(sprinkles)[vapply(sprinkles, 
                                       function(x) length(x) != 1,
                                       TRUE)]
-  too_long <- too_long[!too_long %in% c("bg_pattern", "border")]
+  too_long <- too_long[!too_long %in% c("bg_pattern", "border", "replace")]
   
   if (length(too_long) > 0)
     ArgumentCheck::addError(
