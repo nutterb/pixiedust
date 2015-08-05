@@ -35,9 +35,9 @@ lightgreen <- "#A6DBA0"
 green <- "#006837"
 yellow <- "#FFFFBF"
 
-x <- dust(Sprinkles[, -2]) + 
+x <- dust(Sprinkles[, -2]) %>% 
   sprinkle(row = which(Sprinkles$implemented == ""), 
-           col = "sprinkle", bg = yellow) + 
+           col = "sprinkle", bg = yellow) %>% 
   sprinkle(row = which(Sprinkles$implemented == "x"),
            col = "sprinkle", bg = lightgreen)
 x$body$bg <- ifelse(x$body$bg != "",
@@ -49,6 +49,6 @@ x$body$bg <- ifelse(x$body$bg != "",
                                   green)))
 x$body$value <- ifelse(x$body$value %in% c("x", "o"), "", x$body$value)
   
-x + sprinkle_print_method(print_method = "html")
+x %>% sprinkle_print_method(print_method = "html")
 
 ```

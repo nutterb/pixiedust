@@ -3,7 +3,7 @@ context("perform_function")
 test_that("Apply a calculation",
 {
   fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
-  x <- dust(fit) + 
+  x <- dust(fit) %>% 
     sprinkle(row = 2, cols = 2:3, fn = quote(round(value * -1, 2)))
   
   x <- perform_function(x$body)
@@ -15,7 +15,7 @@ test_that("Apply a calculation",
 test_that("Apply a string manipulation",
 {
   fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
-  x <- dust(fit) + 
+  x <- dust(fit) %>%
     sprinkle(cols = 1, fn = quote(gsub("factor[(]gear[)]", "Gears: ", value)))
             
   x <- perform_function(x$body)

@@ -7,6 +7,7 @@
 #' @title Column Names for \code{dust} Tables
 #' @description Assigns new column names to a table
 #' 
+#' @param x A dust object.
 #' @param ... Column names for the table.  See 'Input Formats'
 #' 
 #' @section Input Formats:
@@ -27,15 +28,20 @@
 #' @examples
 #' x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars)) 
 #' x
-#' x + sprinkle_colnames(term = "Term", statistic = "T")
-#' x + sprinkle_colnames("Term", "Estimate", "SE", "T-statistic", "p-value")
+#' x %>% sprinkle_colnames(term = "Term", statistic = "T")
+#' x %>% sprinkle_colnames("Term", "Estimate", "SE", "T-statistic", "p-value")
 #' \dontrun{
 #' # Causes an error due to too few unnamed arguments
-#' x + sprinkle_colnames("Term", "Estimate")
+#' x %>% sprinkle_colnames("Term", "Estimate")
 #' }
-sprinkle_colnames <- function(...)
+sprinkle_colnames <- function(x, ...)
 {
   Check <- ArgumentCheck::newArgCheck()
+  if (class(x) != "dust")
+    ArgumentCheck::addError(
+      msg = "Sprinkles may only be added to objects of class 'dust'",
+      argcheck = Check)
+  
   new_names <- list(...)
   
   if (any(names(new_names) %in% "")){
@@ -69,6 +75,27 @@ sprinkle_colnames <- function(...)
                         USE.NAMES = TRUE)
   }
 
-  structure(new_names, 
-            class = c("col_names", "sprinkle"))
+  if (!is.null(names(new_names))){
+    if (any(!names(new_names) %in% x$head$col_name))
+    {
+      bad_names <- names(new_names)[!names(new_names) %in% x$head$col_name]
+      ArgumentCheck::addError(
+        msg = paste0("The following variable names are not found in the dust table:\n    ",
+                     paste0(bad_names, collapse=", ")),
+        argcheck = Check)
+    }
+    ArgumentCheck::finishArgCheck(Check)
+    
+    x$head$value[match(names(new_names), x$head$col_name)] <- new_names
+  } 
+  else{
+    if (length(new_names) != max(x$head$col))
+      ArgumentCheck::addError(
+        msg = paste0("colnames sprinkle must have ", max(x$head$col), " values"),
+        argcheck = Check)
+    ArgumentCheck::finishArgCheck(Check)
+    
+    x$head$value <- new_names
+  }
+  x
 }

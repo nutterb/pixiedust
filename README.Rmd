@@ -22,9 +22,9 @@ After tidying up your analyses with the `broom` package, go ahead and grab the `
 ```{r}
 fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
 library(pixiedust)
-dust(fit) + 
-  sprinkle(col = 2:4, round = 3) + 
-  sprinkle(col = 5, fn = quote(pvalString(value))) + 
+dust(fit) %>% 
+  sprinkle(col = 2:4, round = 3) %>% 
+  sprinkle(col = 5, fn = quote(pvalString(value))) %>% 
   sprinkle_colnames(term = "Term", 
                     estimate = "Estimate", 
                      std.error = "SE",
@@ -36,34 +36,16 @@ dust(fit) +
 
 Tables can be customized by row, column, or even by a single cell by adding sprinkles to the `dust` object.  The table below shows the currently planned and implemented sprinkles.  In the "implemented" column, an 'x' indicates a customization that has been implemented, while a blank cell suggests that the customization is planned but has not yet been implemented.  In the remaining columns, an 'x' indicates that the sprinkle is already implemented for the output format; an 'o' indicates that implementation is planned but not yet completed; and a blank cell indicates that the sprinkle will not be implemented (usually because the output format doesn't support the option).
 
-|dustbunny        | implemented | console | markdown | html | latex |
-|:----------------|:-----------:|:-------:|:--------:|:----:|:-----:|
-|`bg` (background)  |      x      |         |          |  x   |   o   |
-|`bg_pattern`       |      x      |         |          |  x   |   o   |
-|`bg_pattern_by`    |      x      |         |          |  x   |   o   |
-|`bold`             |      x      |    x    |    x     |  x   |   o   |
-|`border_collapse`  |      x      |         |          |  x   |       |     
-|`border`           |      x      |         |          |  x   |   o   |
-|`border_thickness` |      x      |         |          |  x   |       |
-|`border_units`     |      x      |         |          |  x   |       |
-|`border_style`     |      x      |         |          |  x   |       |
-|`border_color`     |      x      |         |          |  x   |       |
-|`colnames`         |      x      |    x    |    x     |  x   |   o   |
-|`fn`               |      x      |    x    |    x     |  x   |   o   |
-|`font_color`       |      x      |         |          |  x   |   o   |
-|`font_size`        |      x      |         |          |  x   |   o   |
-|`font_size_units`  |      x      |         |          |  x   |   o   |
-|`halign`           |      x      |         |          |  x   |   o   |
-|`height`           |      x      |         |          |  x   |   o   |
-|`height_units`     |      x      |         |          |  x   |   o   |
-|`italic`           |      x      |    x    |    x     |  x   |   o   |
-|`pad`              |             |         |          |  o   |       |
-|`round`            |      x      |    x    |    x     |  x   |   o   |
-|`rotate_degree`    |             |         |          |  o   |   o   |
-|`valign`           |      x      |         |          |  x   |   o   |
-|`width`            |      x      |         |          |  x   |   o   |
-|`width_units`      |      x      |         |          |  x   |   o   |
+```{r, echo=FALSE}
+Sprinkles <- read.csv(system.file("sprinkles.csv", package = "pixiedust"),
+                        stringsAsFactors=FALSE)
+Sprinkles[,-1] <- lapply(Sprinkles[-1], trimws)
 
+dust(Sprinkles) %>%
+  sprinkle(cols=1, halign = "left") %>%
+  sprinkle(cols=2:6, halign = "center") %>%
+  sprinkle_print_method("markdown")
+```
 
 ### A Brief Example
 
@@ -94,8 +76,8 @@ dust(fit)
 Where `pixiedust` shows its strength is the ease of which these tables can be customized.  The code below rounds the columns `estimate`, `std.error`, and `statistic` to three decimal places each, and then formats the `p.value` into a format that happens to be one that I like.
 
 ```{r}
-x <- dust(fit) + 
-  sprinkle(col = 2:4, round = 3) + 
+x <- dust(fit) %>% 
+  sprinkle(col = 2:4, round = 3) %>% 
   sprinkle(col = 5, fn = quote(pvalString(value)))
 x
 ```
@@ -103,10 +85,10 @@ x
 Now we're almost there!  Let's change up the column names, and while we're add it, let's add some "bold" markers to the statistically significant terms in order to make them stand out some (I say "bold" because the console output doesn't show up in bold, but with the markdown tags for bold text.  In a rendered table, the text would actually be rendered in bold).
 
 ```{r}
-x <- x + 
+x <- x %>% 
   sprinkle(col = c("estimate", "p.value"), 
            row = c(2, 4), 
-           bold = TRUE) + 
+           bold = TRUE) %>% 
   sprinkle_colnames(term = "Term", 
                 estimate = "Estimate", 
                 std.error = "SE",
