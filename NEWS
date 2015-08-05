@@ -1,3 +1,11 @@
+#### 0.1.1-2 (4 August 2015)
+* Optimizations to the code base.  Namely, removing a lot of ifelse
+  statements.  This appears to have cut the processing time in half.
+* Instead of storing most of the values in the dust object as 
+  NA, they are now stored as "", which makes it easier to do the 
+  character string manipulations and speeds up the reassignments (at
+  the cost of increased object size).
+
 #### 0.1.1 (3 August 2015)
 * Added the necessary fields to DESCRIPTION to get the vignettes to build.
 

@@ -7,3 +7,4 @@
 ^README\.Rmd$
 ^README-.*\.png$
 ^xtable_vs_pixiedust.Rmd$
+^xtable_vs_pixiedust.html$
