@@ -96,6 +96,11 @@
 #'     to \code{"px"}.}
 #'   \item{\code{italic} }{Logical value.  If \code{TRUE}, text is rendered in italics.}
 #'   \item{\code{pad} }{A numerical value giving the cell padding in pixels.}
+#'   \item{\code{replace} }{A character vector (or vector to be coerced to character) that
+#'     will replace the cells identified by \code{rows} and \code{cols}.  Replacement 
+#'     is always performed moving down columns first, then across rows from left to right.
+#'     The operating assumption is that the most frequent use of this argument will be 
+#'     to replace entire columns.}
 #'   \item{\code{rotate_degree} }{A numerical value that determines the angle of rotation
 #'      in the clockwise direction.  Use negative values to rotate counter clockwise.}
 #'   \item{\code{round} }{A numerical value for the number of decimal places to 
@@ -140,6 +145,24 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
   part_name <- ArgumentCheck::match_arg(part, 
                                    c("body", "head", "foot", "interfoot", "table"),
                                    argcheck = Check)
+  
+  if (length(part_name) > 0)
+  {
+    part <- x[[part_name]]
+    
+    if (!is.null(cols)){
+      cols_num <- suppressWarnings(as.numeric(cols))
+      cols_num <- cols_num[!is.na(cols_num)]
+    
+      cols_str <- match(cols, unique(x$head$col_name))
+      cols <- unique(c(cols_num, cols_str))
+      cols <- cols[!is.na(cols)]
+    }
+
+    if (is.null(rows) | length(rows) == 0) rows <- 1:max(part$row)
+    if (is.null(cols) | length(cols) == 0) cols <- 1:max(part$col)
+  
+  }
   
   sprinkles <- list(...)
   
@@ -269,6 +292,25 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
     ArgumentCheck::addError(
       msg = "The 'pad' argument must be numeric",
       argcheck = Check)
+      
+  if (length(part_name) == 0 & "replace" %in% names(sprinkles))
+    ArgumentCheck::addWarning(
+      msg = paste0("'replace' argument could not be checked because the ",
+                   "value to 'part' was invalid."),
+      argcheck = Check)
+  
+  if ("replace" %in% names(sprinkles)){
+    ReplaceTable <- expand.grid(row = rows, col = cols)
+    
+    if (length(sprinkles$replace) != nrow(ReplaceTable))
+      ArgumentCheck::addError(
+        msg = paste0("The 'replace' argument should have length ", nrow(ReplaceTable), 
+                     " (based on the cross section of 'rows' and 'cols')"),
+        argcheck = Check)
+    
+    ReplaceTable$value = sprinkles$replace
+    sprinkles$replace <- NULL
+  }
   
   if ("rotate_degree" %in% names(sprinkles) & !is.numeric(sprinkles$rotate_degree))
     ArgumentCheck::addError(
@@ -341,20 +383,6 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
     sprinkles$bg_pattern_by <- NULL
   }
 
-  part <- x[[part_name]]
-
-  if (!is.null(cols)){
-    cols_num <- suppressWarnings(as.numeric(cols))
-    cols_num <- cols_num[!is.na(cols_num)]
-    
-    cols_str <- match(cols, unique(x$head$col_name))
-    cols <- unique(c(cols_num, cols_str))
-    cols <- cols[!is.na(cols)]
-  }
-
-  if (is.null(rows) | length(rows) == 0) rows <- 1:max(part$row)
-  if (is.null(cols) | length(cols) == 0) cols <- 1:max(part$col)
-  
   Cells <- expand.grid(c(list(row = rows,
                               col = cols),
                          sprinkles),
@@ -387,6 +415,11 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
           dplyr::select_("-bg.x")
       }
     }
+  }
+  
+  if (exists("ReplaceTable")){
+    Cells <- dplyr::left_join(Cells, ReplaceTable,
+                              by = c("row" = "row", "col" = "col"))
   }
  
   replace <- vapply(1:nrow(Cells), 
