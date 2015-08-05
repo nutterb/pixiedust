@@ -1,4 +1,8 @@
-#### 0.1.1-2 (4 August 2015)
+#### 0.1.1-4 (5 August 2015)
+* Added the `replace` sprinkle to replace values in table columns, rows, or cells.
+  This closes Issue #12
+
+#### 0.1.1-3 (4 August 2015)
 * Optimizations related to removing ifelse calls.  Appears to cut processing
   time in half.
 * Initial values for table attributes are now stored as "" instead of NA.
