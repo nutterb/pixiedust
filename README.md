@@ -1,6 +1,5 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Travis-CI Build Status](https://travis-ci.org/nutterb/pixiedust.svg?branch=master)](https://travis-ci.org/nutterb/pixiedust)
-![](http://cranlogs.r-pkg.org/badges/grand-total/pixiedust)
+[![Travis-CI Build Status](https://travis-ci.org/nutterb/pixiedust.svg?branch=master)](https://travis-ci.org/nutterb/pixiedust) ![](http://cranlogs.r-pkg.org/badges/grand-total/pixiedust)
 
 pixiedust
 =========
@@ -53,6 +52,7 @@ Tables can be customized by row, column, or even by a single cell by adding spri
 | height\_units     | x           |         |          | x    | o     |
 | italic            | x           | x       | x        | x    | o     |
 | padding           | x           |         |          | x    |       |
+| replace           | x           | x       | x        | x    | x     |
 | round             | x           | x       | x        | x    | o     |
 | rotate\_degree    | x           |         |          | x    | o     |
 | valign            | x           |         |          | x    | o     |

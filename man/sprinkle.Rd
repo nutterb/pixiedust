@@ -3,7 +3,7 @@
 \name{sprinkle}
 \alias{sprinkle}
 \alias{sprinkle_print_method}
-\title{Define Customization to a Table}
+\title{Define Customizations to a Table}
 \usage{
 sprinkle(x, rows = NULL, cols = NULL, ..., part = c("body", "head",
   "foot", "interfoot", "table"))
@@ -29,7 +29,7 @@ column names) to sprinkle.  See details for more about sprinkling.}
 }
 \description{
 Customizations to a \code{dust} table are added by "sprinkling"
-  with a little extra fairy dust.  Sprinkles are a collection of attributes
+  with a little extra pixie dust.  Sprinkles are a collection of attributes
   to be applied over a subset of table cells.  They may be added to any
   part of the table, or to the table as a whole.
 }
@@ -41,13 +41,19 @@ Sprinkling is done over the intersection of rows and columns.  If
   is applied over all of the cells in the table part denoted in \code{part}.
 
   Whenever \code{part = "table"}, \code{rows} and \code{columns} are ignored
-  and the attributes are applied to the entire table.
+  and the attributes are applied to the entire table. This feature is not
+  yet implemented (2015-08-05) and may be removed, depending on how useful
+  it turns out to be.
 
   If at least one of \code{border}, \code{border_thickness}, \code{border_units},
   \code{border_style} or \code{border_color} is specified, the remaining
   unspecified attributes assume their default values.
 
-  The sprinkles `bg` and `bg_pattern` may not be used together.
+  Other sprinkle pairings are \code{height} and \code{height_units};
+  \code{width} and \code{width_units}; \code{font_size} and \code{font_size_units};
+  \code{bg_pattern} and \code{bg_pattern_by}
+
+  The sprinkles \code{bg} and \code{bg_pattern} may not be used together.
 
   A more detailed demonstration of the use of sprinkles is available in
   \code{vignette("pixiedust", package = "pixiedust")}
@@ -112,6 +118,11 @@ list of which sprinkles are recognized by each output type, see
     to \code{"px"}.}
   \item{\code{italic} }{Logical value.  If \code{TRUE}, text is rendered in italics.}
   \item{\code{pad} }{A numerical value giving the cell padding in pixels.}
+  \item{\code{replace} }{A character vector (or vector to be coerced to character) that
+    will replace the cells identified by \code{rows} and \code{cols}.  Replacement
+    is always performed moving down columns first, then across rows from left to right.
+    The operating assumption is that the most frequent use of this argument will be
+    to replace entire columns.}
   \item{\code{rotate_degree} }{A numerical value that determines the angle of rotation
      in the clockwise direction.  Use negative values to rotate counter clockwise.}
   \item{\code{round} }{A numerical value for the number of decimal places to

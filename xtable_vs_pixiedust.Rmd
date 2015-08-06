@@ -18,6 +18,7 @@ The process for comparing the speed of `xtable` and `pixiedust` will be a random
 ```{r}
 library(dplyr)
 library(ggplot2)
+library(stargazer)
 library(xtable)
 set.seed(100)
 LargeTable <- mtcars[sample(1:nrow(mtcars), 1e3, replace = TRUE), ]
@@ -34,6 +35,17 @@ Xtable <- lapply(1:10,
 
 Xtable <- as.data.frame(do.call("rbind", Xtable)) %>%
   mutate(pkg = "xtable")
+```
+
+The `stargazer` times are calculated in a similar manner.
+
+```{r, results = 'hide'}
+Stargazer <- lapply(1:10,
+                    function(i)
+                      system.time({stargazer(LargeTable, type = "html", summary = FALSE)})
+                    )
+Stargazer <- as.data.frame(do.call("rbind", Stargazer)) %>%
+  mutate(pkg = "stargazer")
 ```
 
 The `pixiedust` times are calculated below.  We apply the default background pattern just to add a little more complexity to the table.  This should elaborate if adding more sprinkles adds to the processing time.  Further investigation will be needed to determine if the time is added in the `+.sprinkle` method, or in the printing.

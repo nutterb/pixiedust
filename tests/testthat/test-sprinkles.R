@@ -290,6 +290,21 @@ test_that("sprinkles: pad errors",
                       "2: The 'pad' argument must be numeric"))
 })
 
+test_that("sprinkles: replace",
+{
+  x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
+  expect_equal(sprinkle(x, rows = 1, cols = 1, replace = "Intercept")$body$value[1],
+              "Intercept")
+})
+
+test_that("sprinkles: replace errors",
+{
+  x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
+  expect_error(sprinkle(x, rows = 1, cols = 1, 
+                        replace = c("Intercept", "1/4 Mile Time")),
+               "The 'replace' argument should have length 1")
+})
+
 test_that("sprinkles: round",
 {
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))

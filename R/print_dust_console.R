@@ -1,3 +1,10 @@
+#' @importFrom dplyr bind_rows
+#' @importFrom dplyr group_by_
+#' @importFrom dplyr mutate_
+#' @importFrom dplyr select_
+#' @importFrom dplyr ungroup
+#' @importFrom tidyr spread
+
 print_dust_console <- function(x, ...)
 {
   #************************************************
@@ -23,8 +30,12 @@ print_dust_console <- function(x, ...)
 
 part_prep_console <- function(part)
 {
+  #* values in the dust object are all stored as character strings.
+  #* These classes need to be converted to numerics for rounding
+  #* to have the appropriate effect.
   numeric_classes <- c("double", "numeric")
   
+  #* If functions are assigned, perform the function.
   part <- perform_function(part)
   
   #* Perform any rounding
@@ -34,21 +45,25 @@ part_prep_console <- function(part)
     with(part, as.character(round(as.numeric(value[logic]), as.numeric(round[logic]))))
   
   
-    #* 3. Bold
+    #* Bold text.  In the console, bold text is denoted by "**".  In order
+    #* to keep the all of the formatting lined up in columns, the data 
+    #* frame is grouped by column, and if any cell in the column has bold 
+    #* text, the unbolded text gets two spaces on either side to make the 
+    #* columns the same width.
     dplyr::group_by_(part, "col_name") %>%
     dplyr::mutate_(value = ~if (any(bold)) ifelse(bold, 
                                                   paste0("**", value, "**"),
                                                   paste0("  ", value, "  "))
                    else value) %>%
     dplyr::ungroup() %>%
-    #* 4. Italic
+    #* Italic. Follows the same process as bold text.
     dplyr::group_by_("col_name") %>%
     dplyr::mutate_(value = ~if (any(italic)) ifelse(italic, 
                                                     paste0("_", value, "_"),
                                                     paste0(" ", value, " "))
                    else value) %>%
     dplyr::ungroup() %>%
-    #* 5. Spread to wide format for printing
+    #* Spread to wide format for printing
     dplyr::select_("row", "col", "value") %>%
     tidyr::spread_("col", "value") %>%
     dplyr::select_("-row")

@@ -1,3 +1,10 @@
+#' @importFrom dplyr bind_rows
+#' @importFrom dplyr mutate_
+#' @importFrom dplyr select_
+#' @importFrom knitr asis_output
+#' @importFrom knitr kable
+#' @importFrom tidyr spread
+
 print_dust_markdown <- function(x, ...)
 {
   #************************************************
@@ -18,6 +25,10 @@ print_dust_markdown <- function(x, ...)
   
   numeric_classes <- c("numeric", "double", "int")
   
+  #* Determine the alignments.  Alignments in 'knitr::kable' are assigned
+  #* by the first letter of the HTML alignment.  If not alignment is 
+  #* assigned, a default is chosen based on the variable type.  Numerics
+  #* are aligned right, characters are aligned left.
   alignments <- dplyr::filter_(x$head, "row == 1") %>%
     dplyr::select_("row", "col", "halign", "col_class") %>%
     dplyr::mutate_(halign = ~ifelse(halign == "",
@@ -41,22 +52,24 @@ part_prep_markdown <- function(part)
   
   part <- perform_function(part)
   
-  #* 2. Perform any rounding
+  #* Perform any rounding
   logic <- part$round != "" & part$col_class %in% numeric_classes
   if (any(logic))
     part$value[logic] <- 
     with(part, as.character(round(as.numeric(value[logic]), as.numeric(round[logic]))))
-
+  
+  #* Bold text
   logic <- part$bold
   part$value[logic] <- 
     with(part, paste0("**", value[logic], "**"))
   
+  #* Italic text
   logic <- part$italic
   part$value[logic] <- 
     with(part, paste0("_", value[logic], "_"))
 
 
-  #* 5. Spread to wide format for printing
+  #* Spread to wide format for printing
   dplyr::select_(part, "row", "col", "value") %>%
     tidyr::spread_("col", "value") %>%
     dplyr::select_("-row")

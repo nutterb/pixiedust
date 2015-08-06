@@ -2,11 +2,17 @@
 #' @export sprinkle
 #' @importFrom ArgumentCheck newArgCheck
 #' @importFrom ArgumentCheck addError
+#' @importFrom ArgumentCheck addMessage
 #' @importFrom ArgumentCheck finishArgCheck
+#' @importFrom ArgumentCheck match_arg
+#' @importFrom dplyr left_join
+#' @importFrom dplyr mutate_
+#' @importFrom dplyr select_
+#' @importFrom tidyr spread_
 #' 
-#' @title Define Customization to a Table
+#' @title Define Customizations to a Table
 #' @description Customizations to a \code{dust} table are added by "sprinkling"
-#'   with a little extra fairy dust.  Sprinkles are a collection of attributes
+#'   with a little extra pixie dust.  Sprinkles are a collection of attributes
 #'   to be applied over a subset of table cells.  They may be added to any 
 #'   part of the table, or to the table as a whole.
 #'   
@@ -26,13 +32,19 @@
 #'   is applied over all of the cells in the table part denoted in \code{part}.
 #'
 #'   Whenever \code{part = "table"}, \code{rows} and \code{columns} are ignored
-#'   and the attributes are applied to the entire table.
+#'   and the attributes are applied to the entire table. This feature is not
+#'   yet implemented (2015-08-05) and may be removed, depending on how useful 
+#'   it turns out to be.
 #'
 #'   If at least one of \code{border}, \code{border_thickness}, \code{border_units},
 #'   \code{border_style} or \code{border_color} is specified, the remaining
 #'   unspecified attributes assume their default values.
 #'   
-#'   The sprinkles `bg` and `bg_pattern` may not be used together.
+#'   Other sprinkle pairings are \code{height} and \code{height_units}; 
+#'   \code{width} and \code{width_units}; \code{font_size} and \code{font_size_units};
+#'   \code{bg_pattern} and \code{bg_pattern_by}
+#'   
+#'   The sprinkles \code{bg} and \code{bg_pattern} may not be used together.
 #'   
 #'   A more detailed demonstration of the use of sprinkles is available in 
 #'   \code{vignette("pixiedust", package = "pixiedust")}
@@ -137,19 +149,33 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
 {
   Check <- ArgumentCheck::newArgCheck()
   
+  #* Buckle up.  There's a lot of argument checking happening here.
+  
+  #* x must have class 'dust'
   if (class(x) != "dust")
     ArgumentCheck::addError(
       msg = "Sprinkles may only be added to objects of class 'dust'",
       argcheck = Check)
   
+  #* Make sure the given 'part_name' can be found in the dust object
   part_name <- ArgumentCheck::match_arg(part, 
                                    c("body", "head", "foot", "interfoot", "table"),
                                    argcheck = Check)
   
+  #* The ArgumentCheck version of match_arg returns a character(0) if no match
+  #* is found.  This allows the error to be delayed until all checks are done.
+  #* However, we need to generate a couple of objects before all the checks are
+  #* done in order to get the 'replace' sprinkle to work correctly.  This
+  #* block creates these objects only when a suitable match for the 'part' 
+  #* argument has been provided.
   if (length(part_name) > 0)
   {
+    #* The table part
     part <- x[[part_name]]
     
+    #* The cols argument allows character and numeric values to be 
+    #* given simultaneously. This block matches the character values
+    #* to numeric column indices
     if (!is.null(cols)){
       cols_num <- suppressWarnings(as.numeric(cols))
       cols_num <- cols_num[!is.na(cols_num)]
@@ -159,10 +185,15 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
       cols <- cols[!is.na(cols)]
     }
 
+    #* If rows or cols isn't given, assume the sprinkle should be applied
+    #* across the entire dimension.
     if (is.null(rows) | length(rows) == 0) rows <- 1:max(part$row)
     if (is.null(cols) | length(cols) == 0) cols <- 1:max(part$col)
   
   }
+  
+  #* Start checking the sprinkles.  The messages in the argument checks should
+  #* describe what the checks are looking for.
   
   sprinkles <- list(...)
   
@@ -180,12 +211,18 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
       argcheck = Check)
   }
   
+  #* No actual argument checking is performed on the 'fn' sprinkle.
+  #* It is converted to a character string so that it can pass the 
+  #* length 1 check.
   if ("fn" %in% names(sprinkles))
     sprinkles$fn <- deparse(sprinkles$fn)
   
+  #* Identify sprinkles with length > 1
   too_long <- names(sprinkles)[vapply(sprinkles, 
                                       function(x) length(x) != 1,
                                       TRUE)]
+  
+  #* Exempt a few sprinkles that accept vectors with length > 1
   too_long <- too_long[!too_long %in% c("bg_pattern", "border", "replace")]
   
   if (length(too_long) > 0)
@@ -194,6 +231,9 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
                    " Please check ", paste0(too_long, collapse=", "), "."),
       argcheck = Check)
   
+  #* Reject any sprinkles not in the allowable list.
+  #* The allowable list is accessed as a utility function
+  #* 'sprinkle_names()' at the end of this script.
   bad_sprinkles <- names(sprinkles)[!names(sprinkles) %in% sprinkle_names()]
   if (length(bad_sprinkles) > 0)
     ArgumentCheck::addError(
@@ -292,24 +332,35 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
     ArgumentCheck::addError(
       msg = "The 'pad' argument must be numeric",
       argcheck = Check)
-      
+  
+  #* The replacement sprinkle takes some special care.
+  #* First, if an invalid 'part_name' was given, a warning is 
+  #* cast that the 'replace' argument isn't being checked.  
+  #* The actual error check compares the number of cells to be replaced
+  #* (as identified by rows and cols) with the length of the vector
+  #* in 'replace'.  We can't determine if these lengths match without knowing
+  #* the part of the table to work in.
   if (length(part_name) == 0 & "replace" %in% names(sprinkles))
-    ArgumentCheck::addWarning(
+    ArgumentCheck::addMessage(
       msg = paste0("'replace' argument could not be checked because the ",
                    "value to 'part' was invalid."),
       argcheck = Check)
   
+  #* Generate the replacement table
   if ("replace" %in% names(sprinkles)){
     ReplaceTable <- expand.grid(row = rows, col = cols)
-    
+           
     if (length(sprinkles$replace) != nrow(ReplaceTable))
       ArgumentCheck::addError(
         msg = paste0("The 'replace' argument should have length ", nrow(ReplaceTable), 
                      " (based on the cross section of 'rows' and 'cols')"),
         argcheck = Check)
-    
-    ReplaceTable$value = sprinkles$replace
-    sprinkles$replace <- NULL
+    else {
+      #* There is no column for the 'replace' sprinkle.  Instead, the replacements
+      #* are placed directly into the table.  
+      ReplaceTable$value = sprinkles$replace
+      sprinkles$replace <- NULL
+    }
   }
   
   if ("rotate_degree" %in% names(sprinkles) & !is.numeric(sprinkles$rotate_degree))
@@ -347,6 +398,10 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
                                           default_sprinkles)
   }
   
+  #* The next several lines set default sprinkle values.
+  #* Some sprinkles come in groups, like font_size and font_size units.
+  #* If one member of the pair is specified, but the second is not, we assume
+  #* the user wants the default specified.
   if (any(sprinkles[["border"]] == "all")) sprinkles$border <- c("left", "right", "top", "bottom")
   
   if (is.null(sprinkles[["bg_pattern"]]) & !is.null(sprinkles$bg_pattern_by))
@@ -363,15 +418,15 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
   
   if (!is.null(sprinkles[["width"]]) & is.null(sprinkles$width_units))
     sprinkles$width_units <- default_sprinkles("width_units")
-  
-  ArgumentCheck::finishArgCheck(Check)
 
+  #* Generate the border_collapse sprinkle
   if (!is.null(sprinkles$border_collapse))
   {
     x$border_collapse <- sprinkles$border_collapse
     sprinkles$border_collapse <- NULL
   }
   
+  #* Generate the background pattern sprinkle
   if (!is.null(sprinkles[["bg_pattern"]])){
     x$bg_pattern <- sprinkles$bg_pattern
     x$bg_pattern_by <- sprinkles$bg_pattern_by
@@ -383,11 +438,16 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
     sprinkles$bg_pattern_by <- NULL
   }
 
+  #* Generate a table of all of the other sprinkles to be implemented.
+  #* This occurs after the border and bg_pattern sprinkles are constructed so 
+  #* that those sprinkles can be set to NULL.  Those are multiple column
+  #* sprinkles that aren't going to play nicely in expand.grid.
   Cells <- expand.grid(c(list(row = rows,
                               col = cols),
                          sprinkles),
                        stringsAsFactors = FALSE)
   
+  #* merge in border specifications, if any
   if ("border" %in% names(Cells))
     Cells <- dplyr::mutate_(Cells,
                             border = ~paste0(border, "_border"),
@@ -396,7 +456,9 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
     dplyr::select_("-border_thickness", "-border_units", "-border_style", "-border_color") %>%
     tidyr::spread_("border", "border_spec")
 
+  #* Merge in background patterns, if any
   if (exists("bg_pattern")){
+    #* pattern by row
     if (pattern_by == "rows"){
       bg_frame <- dplyr::data_frame(row = unique(Cells$row))
       bg_frame[["bg"]] <- rep(bg_pattern, length.out = nrow(bg_frame))
@@ -407,6 +469,7 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
       }
     }
     else {
+      #* pattern by column
       bg_frame <- dplyr::data_frame(col = unique(Cells$col))
       bg_frame[["bg"]] <- rep(bg_pattern, length.out = nrow(bg_frame))
       Cells <- dplyr::left_join(Cells, bg_frame, by = c("col" = "col"))
@@ -417,15 +480,19 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
     }
   }
   
+  #* merge in replacement sprinkle
   if (exists("ReplaceTable")){
     Cells <- dplyr::left_join(Cells, ReplaceTable,
                               by = c("row" = "row", "col" = "col"))
   }
  
+  #* determine the cell indices to replace
   replace <- vapply(1:nrow(Cells), 
                     function(r) which(part$row == Cells$row[r] & part$col == Cells$col[r]), 
                     1)
   
+  #* Implement the sprinkles, assign the new part back into the dust object
+  #* and return.
   part[replace, names(Cells)[-(1:2)]] <- Cells[, -(1:2), drop=FALSE]
 
   x[[part_name]] <- part
@@ -433,6 +500,11 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
 }
 
 #****************
+#* List of acceptable sprinkle names.
+#* Whenever I add a sprinkle, I'll likely forget to add 
+#* it to this list.  And it will likely take me way 
+#* too long to figure that out.
+
 sprinkle_names <- function()
 {
   c("bg", "bg_pattern", "bg_pattern_by", 
@@ -445,6 +517,8 @@ sprinkle_names <- function()
     "round", "valign", "width", "width_units")
 }
 
+#* Default sprinkle values.  Used mostly for sprinkles that come in
+#* pairs, but only one of the pair is specified.
 default_sprinkles <- function(setting)
 {
   switch(setting,

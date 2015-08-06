@@ -38,7 +38,7 @@ The \code{head} object describes what each column of the table
   at the top of each table portion.
 
   The \code{body} object gives the main body of information.  In long tables,
-  this portion is broken into portions, ideally with one portion per page.
+  this section is broken into portions, ideally with one portion per page.
 
   The \code{interfoot} object is an optional table to be placed at the
   bottom of longtable portions with the exception of the last portion.  A
@@ -51,7 +51,11 @@ The \code{head} object describes what each column of the table
   statistics.
 
   The \code{table_attributes} object stores information to apply to the
-  entire table.
+  entire table.  This object is currently dormant and may be removed in
+  the future. (2015-08-05)
+
+  The \code{border_collapse} object applies to an entire HTML table.  It
+  indicates if the borders should form a single line or distinct lines.
 
   The \code{print_method} object determines how the table is rendered when
   the \code{print} method is invoked.  The default is to print to the

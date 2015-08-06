@@ -1,10 +1,8 @@
 #' @name dust
 #' @export dust
-#' @importFrom broom tidy
 #' @importFrom dplyr distinct
 #' @importFrom dplyr left_join
 #' @importFrom dplyr mutate_
-#' @importFrom dplyr select_
 #' @importFrom tidyr gather_
 #' 
 #' @title Dust Table Construction
@@ -31,7 +29,7 @@
 #'   at the top of each table portion.
 #'   
 #'   The \code{body} object gives the main body of information.  In long tables,
-#'   this portion is broken into portions, ideally with one portion per page.
+#'   this section is broken into portions, ideally with one portion per page.
 #'   
 #'   The \code{interfoot} object is an optional table to be placed at the 
 #'   bottom of longtable portions with the exception of the last portion.  A 
@@ -44,7 +42,11 @@
 #'   statistics.
 #'   
 #'   The \code{table_attributes} object stores information to apply to the 
-#'   entire table.
+#'   entire table.  This object is currently dormant and may be removed in
+#'   the future. (2015-08-05)
+#'   
+#'   The \code{border_collapse} object applies to an entire HTML table.  It
+#'   indicates if the borders should form a single line or distinct lines.
 #'   
 #'   The \code{print_method} object determines how the table is rendered when 
 #'   the \code{print} method is invoked.  The default is to print to the 
@@ -76,13 +78,21 @@
 #' @export
 dust <- function(object, ..., glance_foot = TRUE, tidy_df = FALSE)
 {
+  #* By default, we assume data.frame-like objects are to be printed
+  #* as given.  All other objects are tidied.
   if (!inherits(object, "data.frame") | tidy_df) 
     object <- broom::tidy(object, ...)
 
+  #* Create the table head
   head <- as.data.frame(t(names(object)),
                         stringsAsFactors=FALSE)
   names(head) <- names(object)
 
+  #* Eventually, by default, glance statistics will be inserted into
+  #* the 'foot' object.  Objects passed as data frames should not have
+  #* glance statistics by default.  Perhaps an option for glance_df should
+  #* be provided here.
+  
   structure(list(head = component_table(head, object),
                  body = component_table(object),
                  interfoot = NULL,
@@ -93,20 +103,51 @@ dust <- function(object, ..., glance_foot = TRUE, tidy_df = FALSE)
             class = "dust")
 }
 
+#***********************************************************
+#* Utilities
+
 component_table <- function(tbl, object)
 {
+  #* Get the classes of each column in the data frame.
+  #* These will be needed later for the 'round' sprinkle.
   if (missing(object)) object <- tbl
   Classes <- data.frame(col_name = colnames(object),
                         col_class = vapply(object, class, "class"), 
                         stringsAsFactors=FALSE)
   
+  #* Initialize the table with row index, column index, and value
   tab <- gather_tbl(tbl)
+  
+  #* Initialize default values of table attributes
   tab <- dplyr::left_join(tab, cell_attributes_frame(nrow(tbl), ncol(tbl)),
               by = c("row" = "row", "col" = "col"))
+  
+  #* Join with column classes
   tab <- dplyr::left_join(tab, Classes,
               by = c("col_name" = "col_name"))
   return(tab)
 }
+
+#*********************************************
+
+gather_tbl <- function(tbl)
+{
+  #* Assign the row indices
+  dplyr::mutate_(tbl, row = ~1:n()) %>%
+    #* Gather into a table with row (numeric), col (character), 
+    #* and value (character)
+    tidyr::gather_("col", "value", 
+                   gather_cols=names(tbl)[!names(tbl) %in% "row"]) %>%
+    #* Assign col_name as a factor.  Levels are in the same order as the column
+    #*   appear in the broom output
+    #* Extract numeric values of the col_name factor to get the column indices
+    #* Recast col_name as a character
+    dplyr::mutate_(col_name = ~factor(col, colnames(tbl)),
+                   col = ~as.numeric(col_name),
+                   col_name = ~as.character(col_name))
+}
+
+#*********************************************
 
 cell_attributes_frame <- function(nrow, ncol)
 {
@@ -135,13 +176,5 @@ cell_attributes_frame <- function(nrow, ncol)
               stringsAsFactors=FALSE)
 }
 
-gather_tbl <- function(tbl)
-{
-  dplyr::mutate_(tbl, row = ~1:n()) %>%
-    tidyr::gather_("col", "value", 
-                   gather_cols=names(tbl)[!names(tbl) %in% "row"]) %>%
-    dplyr::mutate_(col_name = ~factor(col, colnames(tbl)),
-                   col = ~as.numeric(col_name),
-                   col_name = ~as.character(col_name))
-}
+
 

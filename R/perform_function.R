@@ -8,12 +8,17 @@
 
 perform_function <- function(obj)
 {
+  #* Determine which cells in the table have a function assigned.
   have_fn <- which(!is.na(obj$fn))
   
   for (i in have_fn){
+    #* All of the elements in 'value' are stored as character 
+    #* strings. The if clause allows numeric functions to be
+    #* performed.
     if (obj$col_class[i] %in% c("double", "numeric", "integer"))
       value <- do.call(paste0("as.", obj$col_class[i]), 
                        list(obj$value[i]))
+    #* The else statement allows functions to act on character strings.
     else value <- obj$value[i]
       obj$value[i] <- eval(parse(text = obj$fn[i]))
   }

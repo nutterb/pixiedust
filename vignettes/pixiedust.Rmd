@@ -125,6 +125,34 @@ dust(fit) %>%
   sprinkle_colnames("Term", "Coefficient", "SE", "T-statistic", "P-value", "Extra Column Name")
 ```
 
+# Replacing Values in the Table
+
+There may be times you wish to use different values in the table than what are provided by the `broom` output.  Some examples may be using different standard errors from a ridge regression, or perhaps you prefer to display the variance inflation factors instead of the p-value.  Values can be replaced using the `replace` sprinkle.  In this example, we'll replace the `term` column with names that are a bit more friendly to the reader.
+
+```{r}
+dust(fit) %>% 
+  sprinkle(cols = "term", 
+           replace = c("Intercept", "Quarter Mile Time", "Automatic vs. Manual",
+                       "Weight", "Gears: 4 vs. 3", "Gears: 5 vs 3")) %>%
+  sprinkle(cols = c("estimate", "std.error", "statistic"),
+           round = 3) %>% 
+  sprinkle(cols = "p.value", fn = quote(pvalString(value))) %>% 
+  sprinkle_colnames("Term", "Coefficient", "SE", "T-statistic", "P-value")
+```
+
+Values are always replaced down the column before across the row.  To illustrate, let's replace the cells in rows 2 - 3 and columns 3 - 4 with the values 100, 200, 300, and 400.  If we want the values to read in sequential order from left to right before going to the next line, we make the replacement call (we will also italicize these cells to make them easier to find)
+
+```{r}
+dust(fit) %>% 
+  sprinkle(rows = 2:3, cols = 3:4, 
+           replace = c(100, 300, 200, 400),
+           italic = TRUE) %>%
+  sprinkle(cols = c("estimate", "std.error", "statistic"),
+           round = 3) %>% 
+  sprinkle(cols = "p.value", fn = quote(pvalString(value))) %>% 
+  sprinkle_colnames("Term", "Coefficient", "SE", "T-statistic", "P-value")
+```
+
 # Borders and Padding
 For the duration of the vignette, we will use `basetable` as the basis of additional customizations where `basetable` is defined below. We are also moving out of the capabilities of the console, so we will switch over to HTML printing.
 
