@@ -24,13 +24,17 @@ print_dust_html <- function(x, ...)
   rows <- apply(body, 1, paste0, collapse = "\n")
   rows <- paste0("<tr>", rows, "</tr>", sep = "\n")
   
-  knitr::asis_output(
-    paste0("<table>",
-           paste0(rows, collapse = "\n"),
-           "</table>", 
-           sep = "\n"))
-
+  html_code <- paste0("<table>",
+                   paste0(rows, collapse = "\n"),
+                   "</table>", 
+                   sep = "\n")
   
+  if (interactive()){
+    tmpfile <- tempfile(fileext=".html")
+    write(html_code, tmpfile)
+    getOption("viewer")(tmpfile)
+  }
+  else knitr::asis_output(html_code)
 }
 
 #**** Helper functions
