@@ -24,7 +24,8 @@ print_dust_html <- function(x, ...)
   rows <- apply(body, 1, paste0, collapse = "\n")
   rows <- paste0("<tr>", rows, "</tr>", sep = "\n")
   
-  html_code <- paste0("<table>",
+  html_code <- paste0("<table style = 'border-collapse:", 
+                      if (x$border_collapse) "collapse" else "separate" , ";'>",
                    paste0(rows, collapse = "\n"),
                    "</table>", 
                    sep = "\n")

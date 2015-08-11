@@ -21,12 +21,16 @@ print_dust_markdown <- function(x, ...)
   
   names(body) <- names(head) <- head[1, ]
   
-  if (nrow(head) > 1) body <- dplyr::bind_rows(head[-1, ], body)
+  subhead <- head[-1, ]
+  subhead <- lapply(subhead, function(v) paste0("**", v, "**")) %>%
+    as.data.frame(stringsAsFactors=FALSE)
+
+  if (nrow(head) > 1) body <- dplyr::bind_rows(subhead, body)
   
   numeric_classes <- c("numeric", "double", "int")
   
   #* Determine the alignments.  Alignments in 'knitr::kable' are assigned
-  #* by the first letter of the HTML alignment.  If not alignment is 
+  #* by the first letter of the HTML alignment.  If no alignment is 
   #* assigned, a default is chosen based on the variable type.  Numerics
   #* are aligned right, characters are aligned left.
   alignments <- dplyr::filter_(x$head, "row == 1") %>%
