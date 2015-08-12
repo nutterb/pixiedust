@@ -1,3 +1,10 @@
+#### 0.1.1-5 (11 August 2015)
+* Added the `longtable` option to `print.dust`.  Not yet active, but lays
+  the groundwork for multipage tables.
+* Added multirow headers and footers (but not interfoot)
+* Added the `redust` function for adding and/or switching table components.  For
+  example, adding a multirow header, or a foot.
+
 #### 0.1.1-4 (5 August 2015)
 * Added the `replace` sprinkle to replace values in table columns, rows, or cells.
   This closes Issue #12

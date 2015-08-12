@@ -18,14 +18,19 @@ print_dust_markdown <- function(x, ...)
   
   head <- part_prep_markdown(x$head)
   body <- part_prep_markdown(x$body)
+  foot <- if (!is.null(x$foot)) part_prep_markdown(x$foot) else NULL
+  interfoot <- if (!is.null(x$interfoot)) part_prep_markdown(x$interfoot) else NULL
   
   names(body) <- names(head) <- head[1, ]
+  
+  if (!is.null(foot)) names(foot) <- names(head)
+  if (!is.null(interfoot)) names(interfoot) <- names(head)
   
   subhead <- head[-1, ]
   subhead <- lapply(subhead, function(v) paste0("**", v, "**")) %>%
     as.data.frame(stringsAsFactors=FALSE)
 
-  if (nrow(head) > 1) body <- dplyr::bind_rows(subhead, body)
+  if (nrow(head) > 1) body <- dplyr::bind_rows(subhead, body, foot)
   
   numeric_classes <- c("numeric", "double", "int")
   

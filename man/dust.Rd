@@ -22,6 +22,8 @@ table. (Not scheduled for implementation until version 0.4.0)}
 object itself is the basis of the table.  If the summarized table is
 desired, set to \code{TRUE}.}
 
+\item{x}{A dust object}
+
 \item{table}{A data frame of similar dimensions of the part being replaced.}
 
 \item{part}{The part of the table to replace with \code{table}}

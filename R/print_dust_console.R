@@ -18,10 +18,16 @@ print_dust_console <- function(x, ...)
   
   head <- part_prep_console(x$head)
   body <- part_prep_console(x$body)
+  foot <- if (!is.null(x$foot)) part_prep_console(x$foot) else NULL
+  interfoot <- if (!is.null(x$interfoot)) part_prep_console(x$interfoot) else NULL
   
   names(body) <- names(head) <- head[1, ]
   
+  if (!is.null(foot)) names(foot) <- names(head)
+  if (!is.null(interfoot)) names(interfoot) <- names(head)
+  
   if (nrow(head) > 1) body <- dplyr::bind_rows(head[-1, ], body)
+  body <- dplyr::bind_rows(body, foot)
   
   print(as.data.frame(body))
 }

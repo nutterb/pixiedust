@@ -1,5 +1,6 @@
 #' @rdname dust
 #' 
+#' @param x A dust object
 #' @param table A data frame of similar dimensions of the part being replaced.
 #' @param part The part of the table to replace with \code{table}
 #' 
@@ -17,15 +18,15 @@ redust <- function(x, table, part = c("head", "foot", "interfoot", "body")){
                                                "interfoot", "body"),
                                        argcheck = Check)
   
-  if (length(part_str) > 0){
-    part <- x[[part_str]]
+  colCounts <- vapply(x[c("head", "body", "foot", "interfoot")], 
+                      col_count, 1)
   
-    ideal_cols <- max(part$col)
-  
-    if (ncol(table) != max(part$col))
+  if (sum(diff(colCounts), na.rm=TRUE) > 0){
       ArgumentCheck::addError(
-        msg = paste0("The existing table has ", max(part$col), 
-                     " while your replacement table has ", ncol(table)),
+        msg = paste0("All parts of the table must have the same number of columns (or none). \n", 
+                     "    Currently: ", 
+                     paste0(paste0(c("head", "body", "foot", "interfoot"), " (", colCounts, ")"),
+                            collapse = ", ")),
         argcheck = Check)
   }
   
@@ -41,4 +42,10 @@ redust <- function(x, table, part = c("head", "foot", "interfoot", "body")){
   
   x[[part_str]] <- part
   x
+}
+
+#*****
+
+col_count <- function(p){
+  if (is.null(p)) return(NA) else return(max(p$col))
 }

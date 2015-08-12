@@ -18,8 +18,10 @@ print_dust_html <- function(x, ...)
   
   head <- part_prep_html(x$head, head = TRUE)
   body <- part_prep_html(x$body)
+  foot <- if (!is.null(x$foot)) part_prep_html(x$foot) else NULL
+  interfoot <- if (!is.null(x$interfoot)) part_prep_html(x$interfoot) else NULL
   
-  body <- dplyr::bind_rows(head, body)
+  body <- dplyr::bind_rows(head, body, foot)
   
   rows <- apply(body, 1, paste0, collapse = "\n")
   rows <- paste0("<tr>", rows, "</tr>", sep = "\n")
