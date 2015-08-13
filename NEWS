@@ -8,6 +8,8 @@
   longtable and eventually multicolumn and multirow support.  Similar 
   vignettes will be needed for console, markdown, and html output, though
   not all of them will need to be bundled with the package.
+* Added the `roundSafe` helper function to allow rounding to succeed while
+  skipping true character values.
 
 #### 0.1.1-5 (11 August 2015)
 * Added the `longtable` option to `print.dust`.  Not yet active, but lays

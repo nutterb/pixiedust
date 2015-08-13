@@ -62,7 +62,7 @@ part_prep_console <- function(part)
   logic <- part$round != "" & part$col_class %in% numeric_classes
   if (any(logic))
     part$value[logic] <- 
-    with(part, as.character(round(as.numeric(value[logic]), as.numeric(round[logic]))))
+    with(part, as.character(roundSafe(as.numeric(value[logic]), as.numeric(round[logic]))))
   
   
     #* Bold text.  In the console, bold text is denoted by "**".  In order

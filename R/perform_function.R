@@ -25,3 +25,16 @@ perform_function <- function(obj)
   
   obj
 }
+
+#*** roundSafe
+#* An internal function to perform rounding on dust objects.
+#* All values in a dust object are stored as character values, but some may
+#* represent numeric values.  The roundSafe function will skip true character
+#* values when attempting to round.
+
+roundSafe <- function(x, digits){
+  y <- suppressWarnings(as.numeric(x))
+  y[!is.na(y)] <- round(y[!is.na(y)], digits)
+  x[!is.na(y)] <- y[!is.na(y)]
+  x
+}

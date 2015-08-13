@@ -147,7 +147,11 @@ list of which sprinkles are recognized by each output type, see
      in the clockwise direction.  Use negative values to rotate counter clockwise.}
   \item{\code{round} }{A numerical value for the number of decimal places to
      which numerical values are rounded.  This can also be accomplished through
-     the \code{fn} argument, but this argument makes it a bit easier to do.}
+     the \code{fn} argument, but this argument makes it a bit easier to do.  In cases where
+     character values are indicated for rounding (such a a term name), no action is taken.
+     This means that `sprinkle(x, round=3)` would round all numerical values in a table to three
+     decimal places without affecting any true character values; there is no need to limit
+     the `round` sprinkle to known numerical values.}
   \item{\code{valign} }{A character string giving the vertical alignment for the
      cells.  Accepts the values \code{"top"}, \code{"middle"}, or \code{"bottom"}
      with partial matching.}
