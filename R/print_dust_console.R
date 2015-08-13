@@ -7,6 +7,17 @@
 
 print_dust_console <- function(x, ...)
 {
+  
+  #* Determine the number of divisions
+  if (!is.numeric(x$longtable) & x$longtable) longtable_rows <- 25
+  else if (!is.numeric(x$longtable) & !x$longtable) longtable_rows <- max(x$body$row)
+  else longtable_rows <- x$longtable
+  
+  Divisions <- data.frame(div_num = rep(1:ceiling(max(x$body$row) / longtable_rows),
+                                        each = longtable_rows)[1:max(x$body$row)],
+                          row_num = 1:max(x$body$row))
+  total_div <- max(Divisions$div_num)
+  
   #************************************************
   #* 1. apply a function, if any is indicated
   #* 2. Perform any rounding
@@ -26,10 +37,13 @@ print_dust_console <- function(x, ...)
   if (!is.null(foot)) names(foot) <- names(head)
   if (!is.null(interfoot)) names(interfoot) <- names(head)
   
-  if (nrow(head) > 1) body <- dplyr::bind_rows(head[-1, ], body)
-  body <- dplyr::bind_rows(body, foot)
-  
-  print(as.data.frame(body))
+  for (i in 1:total_div){
+    tbl <- dplyr::bind_rows(if (nrow(head) > 1) head[-1, ] else NULL, 
+                            body[Divisions$row_num[Divisions$div_num == i], ], 
+                            if (i == total_div) foot else interfoot)
+    print(as.data.frame(tbl))
+    cat("\n\n")
+  }
 }
 
 #**** Helper functions

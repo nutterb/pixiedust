@@ -7,6 +7,17 @@
 
 print_dust_markdown <- function(x, ...)
 {
+  
+  #* Determine the number of divisions
+  if (!is.numeric(x$longtable) & x$longtable) longtable_rows <- 25
+  else if (!is.numeric(x$longtable) & !x$longtable) longtable_rows <- max(x$body$row)
+  else longtable_rows <- x$longtable
+  
+  Divisions <- data.frame(div_num = rep(1:ceiling(max(x$body$row) / longtable_rows),
+                                        each = longtable_rows)[1:max(x$body$row)],
+                          row_num = 1:max(x$body$row))
+  total_div <- max(Divisions$div_num)
+  
   #************************************************
   #* 1. apply a function, if any is indicated
   #* 2. Perform any rounding
@@ -30,8 +41,6 @@ print_dust_markdown <- function(x, ...)
   subhead <- lapply(subhead, function(v) paste0("**", v, "**")) %>%
     as.data.frame(stringsAsFactors=FALSE)
 
-  if (nrow(head) > 1) body <- dplyr::bind_rows(subhead, body, foot)
-  
   numeric_classes <- c("numeric", "double", "int")
   
   #* Determine the alignments.  Alignments in 'knitr::kable' are assigned
@@ -45,11 +54,22 @@ print_dust_markdown <- function(x, ...)
                                            "r",
                                            "l"),
                                     substr(halign, 1, 1)))
-  knitr::asis_output(
-    paste(c("", "", knitr::kable(body,
-                                 format = "markdown",
-                                 align = alignments$halign)), 
-          collapse = "\n"))
+
+  tbl_code <- ""
+  for (i in 1:total_div){
+    tbl <- dplyr::bind_rows(if (nrow(head) > 1) subhead else NULL, 
+                            body[Divisions$row_num[Divisions$div_num == i], ], 
+                            if (i == total_div) foot else interfoot)
+  
+    tbl_code <- paste0(tbl_code,
+                       paste(c("", "", 
+                               knitr::kable(tbl,
+                                            format = "markdown",
+                                            align = alignments$halign),
+                               "\n\n"), 
+                             collapse = "\n"))
+  }
+  knitr::asis_output(tbl_code)
   
 }
 

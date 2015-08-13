@@ -1,3 +1,14 @@
+#### 0.1.1-6 (12 August 2015)
+* Removed 'longtable' option from `print.dust` and made it a sprinkle. This
+  allows it to be used without having to explicitly call `print`.
+* Implemented longtable capacity.  Users may now break tables into multiple
+  divisions of either a default size (25 rows for console, markdown, or HTML)
+  or a user-specified number of rows.
+* Began an "advanced magic" vignette to demonstrate the capabilities of 
+  longtable and eventually multicolumn and multirow support.  Similar 
+  vignettes will be needed for console, markdown, and html output, though
+  not all of them will need to be bundled with the package.
+
 #### 0.1.1-5 (11 August 2015)
 * Added the `longtable` option to `print.dust`.  Not yet active, but lays
   the groundwork for multipage tables.

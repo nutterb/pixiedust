@@ -4,19 +4,12 @@
 \alias{print.dust}
 \title{Print A \code{dust} Table}
 \usage{
-\method{print}{dust}(x, ..., longtable = FALSE)
+\method{print}{dust}(x, ...)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}
 
 \item{...}{Additional arguments to pass to the print method.  Currently ignored.}
-
-\item{longtable}{Allows the user to print a table in multiple sections.  This is useful when
-  a table has more rows than will fit on a printed page.  Acceptable inputs are \code{FALSE},
-  indicating that only one table is printed (default); \code{TRUE} that the table should be
-  split into multiple tables with the default number of rows per table (see details); or a
-  positive integer indicating how many rows per table to include. All other values are
-  interpreted as \code{FALSE}.}
 }
 \description{
 Print A \code{dust} Table

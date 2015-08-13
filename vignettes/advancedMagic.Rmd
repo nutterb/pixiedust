@@ -1,0 +1,42 @@
+---
+title: "Advanced Magic with `pixiedust`"
+author: "Benjamin Nutter"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    fig_caption: no
+    number_section: yes
+    toc: yes
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Advanced Magic with pixiedust}
+  \usepackage[utf8]{inputenc}
+---
+
+# The Longtable Feature
+
+```{r}
+library(pixiedust)
+inter <- data.frame("To", "Be", "Con", "tin", "ued",
+                    "", "", "", "", "", "")
+
+x <- dust(mtcars[1:10, ]) %>% 
+  redust(as.data.frame(lapply(mtcars, sum)), part = "foot") %>%
+  redust(inter, part = "interfoot") %>%
+  sprinkle(bg = "gray", part = "head") %>%
+  sprinkle(bg = "lightgray", part = "foot") %>%
+  sprinkle_print_method("html")
+
+x
+```
+
+```{r}
+x %>%
+  sprinkle(longtable = 4)
+```
+
+```{r}
+x %>%
+  sprinkle(longtable = 4) %>%
+  sprinkle_print_method("markdown")
+```

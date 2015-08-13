@@ -99,6 +99,7 @@ dust <- function(object, ..., glance_foot = TRUE, tidy_df = FALSE)
                  foot = NULL,
                  table_attributes = cell_attributes_frame(1, 1),
                  border_collapse = TRUE,
+                 longtable = FALSE,
                  print_method = getOption("pixiedust_print_method")),
             class = "dust")
 }
@@ -144,7 +145,8 @@ gather_tbl <- function(tbl)
     #* Recast col_name as a character
     dplyr::mutate_(col_name = ~factor(col, colnames(tbl)),
                    col = ~as.numeric(col_name),
-                   col_name = ~as.character(col_name))
+                   col_name = ~as.character(col_name),
+                   value = ~as.character(value))
 }
 
 #*********************************************
