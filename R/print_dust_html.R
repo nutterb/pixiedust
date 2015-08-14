@@ -119,7 +119,7 @@ part_prep_html <- function(part, head=FALSE)
     with(part, paste0("height:", height[logic], height_units[logic], ";"))
   
   logic <- part$width != ""
-  part$widht[logic] <- 
+  part$width[logic] <- 
     with(part, paste0("width:", width[logic], width_units[logic], ";"))
   
   #* Borders
