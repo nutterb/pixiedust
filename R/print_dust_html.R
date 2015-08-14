@@ -7,6 +7,10 @@ print_dust_html <- function(x, ...)
 {
   
   #* Determine the number of divisions
+  #* It looks more complicated than it is, but the gist of it is
+  #* total number of divisions: ceiling(total_rows / longtable_rows)
+  #* The insane looking data frame is just to make a reference of what rows 
+  #*   go in what division.
   if (!is.numeric(x$longtable) & x$longtable) longtable_rows <- 25
   else if (!is.numeric(x$longtable) & !x$longtable) longtable_rows <- max(x$body$row)
   else longtable_rows <- x$longtable
@@ -17,17 +21,7 @@ print_dust_html <- function(x, ...)
   total_div <- max(Divisions$div_num)
   
   
-  #************************************************
-  #* 1. apply a function, if any is indicated
-  #* 2. Perform any rounding
-  #* 3. Bold
-  #* 4. Italic
-  #* 5. Spread to wide format for printing
-  #* 6. Column Names
-  #************************************************
-  
-  # table <- part_prep_html(x$table, head = FALSE)
-  
+  #* Format the table parts
   head <- part_prep_html(x$head, head = TRUE)
   body <- part_prep_html(x$body)
   foot <- if (!is.null(x$foot)) part_prep_html(x$foot) else NULL
@@ -37,6 +31,7 @@ print_dust_html <- function(x, ...)
   tmpfile <- tempfile(fileext=".html")
   non_interactive <- ""
   
+  #* Run a for loop to build all the table divisions
   for (i in 1:total_div){
     tbl <- dplyr::bind_rows(head, 
                             body[Divisions$row_num[Divisions$div_num == i], ], 
@@ -50,6 +45,8 @@ print_dust_html <- function(x, ...)
                      "</table><br/><br/>", 
                      sep = "\n")
   
+    #* When interactive, write to a temporary file so that it 
+    #* can be displayed in the viewer
     if (interactive()){
       write(html_code, tmpfile, append = i > 1)
     }

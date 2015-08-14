@@ -13,7 +13,7 @@ test_that("dust object has expected names",
   fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
   x <- dust(fit)
   
-  expect_equal(names(x), c("head", "body", "interfoot", "foot", "table_attributes",
+  expect_equal(names(x), c("head", "body", "interfoot", "foot", 
                            "border_collapse", "longtable", "print_method"))
 })
 

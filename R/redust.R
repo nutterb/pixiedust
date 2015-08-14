@@ -18,17 +18,27 @@ redust <- function(x, table, part = c("head", "foot", "interfoot", "body")){
                                                "interfoot", "body"),
                                        argcheck = Check)
   
+  
+  
   colCounts <- vapply(x[c("head", "body", "foot", "interfoot")], 
                       col_count, 1)
+  n_colCounts <- unique(colCounts[!is.na(colCounts)])
   
-  if (sum(diff(colCounts), na.rm=TRUE) > 0){
+  if (length(n_colCounts) > 1){
       ArgumentCheck::addError(
-        msg = paste0("All parts of the table must have the same number of columns (or none). \n", 
+        msg = paste0("All parts of the table must have the same number of columns (or none).\n", 
                      "    Currently: ", 
                      paste0(paste0(c("head", "body", "foot", "interfoot"), " (", colCounts, ")"),
                             collapse = ", ")),
         argcheck = Check)
   }
+  
+  if (!all(colCounts[!is.na(colCounts)] %in% ncol(table)))
+    ArgumentCheck::addError(
+      msg = paste0("The current table has ", paste0(n_colCounts, collapse = "/"), " columns and you ",
+                   "are attempting to impose a part\n",
+                   "    with ", ncol(table), " columns."),
+      argcheck = Check)
   
   ArgumentCheck::finishArgCheck(Check)
   
@@ -39,8 +49,9 @@ redust <- function(x, table, part = c("head", "foot", "interfoot", "body")){
   part <- component_table(table)
   part$col_name <- rep(col_name_class$col_name, each = nrow(table))
   part$col_class <- rep(col_name_class$col_class, each = nrow(table))
-  
+
   x[[part_str]] <- part
+  
   x
 }
 

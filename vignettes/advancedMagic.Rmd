@@ -13,28 +13,46 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-# The Longtable Feature
+The base table we will work with is defined by the following.
 
-```{r}
+```{r, warning=FALSE, message = FALSE}
 library(pixiedust)
 inter <- data.frame("To", "Be", "Con", "tin", "ued",
                     "", "", "", "", "", "")
+foot <- as.data.frame(lapply(mtcars, sum))
 
 x <- dust(mtcars[1:10, ]) %>% 
-  redust(as.data.frame(lapply(mtcars, sum)), part = "foot") %>%
+  redust(foot, part = "foot") %>%
   redust(inter, part = "interfoot") %>%
   sprinkle(bg = "gray", part = "head") %>%
-  sprinkle(bg = "lightgray", part = "foot") %>%
-  sprinkle_print_method("html")
-
-x
+  sprinkle(bg = "lightgray", part = "foot")
 ```
+
+# Console Output
+
+## Longtable Feature
 
 ```{r}
 x %>%
   sprinkle(longtable = 4)
 ```
 
+
+# HTML Output
+
+## Longtable Feature
+
+
+```{r}
+x %>%
+  sprinkle(longtable = 4) %>%
+  sprinkle_print_method("html")
+```
+
+
+# Markdown Output
+
+## Longtable Feature
 ```{r}
 x %>%
   sprinkle(longtable = 4) %>%

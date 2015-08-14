@@ -35,16 +35,16 @@ Returns an object of class \code{dust}
 Dust tables consist of four primary components that are
   built together to create a full table.  Namely, the \code{head}, the
   \code{body}, the \code{interfoot}, and the \code{foot}.  Dust tables
-  also contain a \code{table_attributes} object and a \code{print_method}
-  object.
+  also contain a table-wide attributes \code{border_collapse} and
+  \code{longtable} as well as a \code{print_method} element.
 }
 \details{
 The \code{head} object describes what each column of the table
   represents.  By default, the head is a single row, but multi row headers
   may be provided.  Note that multirow headers may not render in markdown
-  as intended, though rendering in HTML and LaTeX is fairly reliable. In
-  longtables (tables broken over multiple pages), the \code{head} appears
-  at the top of each table portion.
+  or console output as intended, though rendering in HTML and LaTeX is
+  fairly reliable. In longtables (tables broken over multiple pages),
+  the \code{head} appears at the top of each table portion.
 
   The \code{body} object gives the main body of information.  In long tables,
   this section is broken into portions, ideally with one portion per page.
@@ -59,12 +59,13 @@ The \code{head} object describes what each column of the table
   \code{\link[broom]{glance}} statistics be used to display model fit
   statistics.
 
-  The \code{table_attributes} object stores information to apply to the
-  entire table.  This object is currently dormant and may be removed in
-  the future. (2015-08-05)
-
   The \code{border_collapse} object applies to an entire HTML table.  It
   indicates if the borders should form a single line or distinct lines.
+
+  The \code{longtable} object determines how many rows per page are printed.
+  By default, all content is printed as a single table.  Using the
+  \code{longtable} argument in the \code{sprinkle} function can change this
+  setting.
 
   The \code{print_method} object determines how the table is rendered when
   the \code{print} method is invoked.  The default is to print to the
@@ -73,12 +74,6 @@ The \code{head} object describes what each column of the table
 \section{Upcoming Developments}{
 
 \itemize{
-  \item{inspect_dust }{Function to evaluate a dust object for things such as
-     incompatible columns (the table head might have 7 columns while the
-     body only has 6, for example); sprinkles not supported by the print
-     method (colored text in the console); or sprinkle selections that
-     may cause conflicts (hopefully this won't occur, but there is potential
-     for problems in combining attributes in LaTeX).}
   \item{dust_part }{A wrapper for extracting objects from a \code{dust}
      object.  This is intended to assist in building custom heads and feet.}
 }
@@ -91,6 +86,6 @@ x
 Benjamin Nutter
 }
 \seealso{
-\link[broom]{tidy}
+\code{\link[broom]{tidy}}
 }
 

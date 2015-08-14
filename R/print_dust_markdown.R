@@ -9,6 +9,10 @@ print_dust_markdown <- function(x, ...)
 {
   
   #* Determine the number of divisions
+  #* It looks more complicated than it is, but the gist of it is
+  #* total number of divisions: ceiling(total_rows / longtable_rows)
+  #* The insane looking data frame is just to make a reference of what rows 
+  #*   go in what division.
   if (!is.numeric(x$longtable) & x$longtable) longtable_rows <- 25
   else if (!is.numeric(x$longtable) & !x$longtable) longtable_rows <- max(x$body$row)
   else longtable_rows <- x$longtable
@@ -18,15 +22,18 @@ print_dust_markdown <- function(x, ...)
                           row_num = 1:max(x$body$row))
   total_div <- max(Divisions$div_num)
   
-  #************************************************
-  #* 1. apply a function, if any is indicated
-  #* 2. Perform any rounding
-  #* 3. Bold
-  #* 4. Italic
-  #* 5. Spread to wide format for printing
-  #* 6. Column Names
-  #************************************************
+  #* If the table is not being run interactively (ie, in an rmarkdown script)
+  #* detect the type of output.  The spacing between tables is output-specific
+  if (!interactive()){
+    output_type <- knitr::opts_knit$get('rmarkdown.pandoc.to')
+    linebreak <- if (output_type == "html") "<br>"
+    else if (output_type == "latex") "\\ \\linebreak"
+    else "  "
+  }
+  else linebreak <- "  "
   
+
+  #* Format the table divisions
   head <- part_prep_markdown(x$head)
   body <- part_prep_markdown(x$body)
   foot <- if (!is.null(x$foot)) part_prep_markdown(x$foot) else NULL
@@ -55,6 +62,9 @@ print_dust_markdown <- function(x, ...)
                                            "l"),
                                     substr(halign, 1, 1)))
 
+  #* Run a for loop to generate all the code.
+  #* Not the most efficient way to do this, probably, but 
+  #* it's easy to read and understand.
   tbl_code <- ""
   for (i in 1:total_div){
     tbl <- dplyr::bind_rows(if (nrow(head) > 1) subhead else NULL, 
@@ -66,7 +76,7 @@ print_dust_markdown <- function(x, ...)
                                knitr::kable(tbl,
                                             format = "markdown",
                                             align = alignments$halign),
-                               "\n\n"), 
+                               "\n", linebreak, "\n", linebreak, "\n"), 
                              collapse = "\n"))
   }
   knitr::asis_output(tbl_code)

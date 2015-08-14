@@ -9,6 +9,10 @@ print_dust_console <- function(x, ...)
 {
   
   #* Determine the number of divisions
+  #* It looks more complicated than it is, but the gist of it is
+  #* total number of divisions: ceiling(total_rows / longtable_rows)
+  #* The insane looking data frame is just to make a reference of what rows 
+  #*   go in what division.
   if (!is.numeric(x$longtable) & x$longtable) longtable_rows <- 25
   else if (!is.numeric(x$longtable) & !x$longtable) longtable_rows <- max(x$body$row)
   else longtable_rows <- x$longtable
@@ -18,15 +22,7 @@ print_dust_console <- function(x, ...)
                           row_num = 1:max(x$body$row))
   total_div <- max(Divisions$div_num)
   
-  #************************************************
-  #* 1. apply a function, if any is indicated
-  #* 2. Perform any rounding
-  #* 3. Bold
-  #* 4. Italic
-  #* 5. Spread to wide format for printing
-  #* 6. Column Names
-  #************************************************
-  
+  #* Format table parts
   head <- part_prep_console(x$head)
   body <- part_prep_console(x$body)
   foot <- if (!is.null(x$foot)) part_prep_console(x$foot) else NULL
@@ -37,6 +33,8 @@ print_dust_console <- function(x, ...)
   if (!is.null(foot)) names(foot) <- names(head)
   if (!is.null(interfoot)) names(interfoot) <- names(head)
   
+  
+  #* Run a loop to print all the divisions
   for (i in 1:total_div){
     tbl <- dplyr::bind_rows(if (nrow(head) > 1) head[-1, ] else NULL, 
                             body[Divisions$row_num[Divisions$div_num == i], ], 
