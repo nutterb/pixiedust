@@ -18,6 +18,7 @@ The process for comparing the speed of `xtable` and `pixiedust` will be a random
 ```{r}
 library(dplyr)
 library(ggplot2)
+library(microbenchmark)
 library(stargazer)
 library(xtable)
 set.seed(100)
@@ -27,28 +28,20 @@ LargeTable <- mtcars[sample(1:nrow(mtcars), 1e3, replace = TRUE), ]
 The `xtable` times are calculated as follows:
 
 ```{r, results = 'hide'}
-Xtable <- lapply(1:10,
-                 function(i)
-                   system.time({print.xtable(xtable(LargeTable, type = "html"), type = "html",
-                                             print.results = FALSE)})
-                )
-
-Xtable <- as.data.frame(do.call("rbind", Xtable)) %>%
-  mutate(pkg = "xtable")
+Xtable <- microbenchmark(xtable = print.xtable(xtable(LargeTable, type = "html"), type = "html",
+                                      print.results = FALSE),
+                         times = 10, unit = "ms")
 ```
 
 The `stargazer` times are calculated in a similar manner.
 
 ```{r, results = 'hide'}
-Stargazer <- lapply(1:10,
-                    function(i)
-                      system.time({stargazer(LargeTable, type = "html", summary = FALSE)})
-                    )
-Stargazer <- as.data.frame(do.call("rbind", Stargazer)) %>%
-  mutate(pkg = "stargazer")
+Stargazer <- microbenchmark(stargazer = {x <- capture.output(stargazer(LargeTable, 
+                                                          type = "html", summary = FALSE))},
+                            times = 10, unit = "ms")
 ```
 
-The `pixiedust` times are calculated below.  We apply the default background pattern just to add a little more complexity to the table.  This should elaborate if adding more sprinkles adds to the processing time.  Further investigation will be needed to determine if the time is added in the `+.sprinkle` method, or in the printing.
+The `pixiedust` times are calculated below.  We apply the default background pattern just to add a little more complexity to the table.  This should elaborate if adding more sprinkles adds to the processing time.  Further investigation will be needed to determine if the time is added in the `sprinkle` function, or in the printing.
 
 ```{r, results='hide'}
 libs <- list.files("F:/pixiedust_library", full.names = TRUE)
@@ -58,24 +51,18 @@ for (i in seq_along(libs)){
   library(pixiedust, lib.loc=libs[i])
   
   if (lib_versions[i] %in% c("0.1.1", "0.1.1-2")) {
-    Pixie <- lapply(1:10,
-                  function(j)
-                    system.time({dust(LargeTable) + sprinkle_print_method("html") + 
-                        sprinkle(bg_pattern_by = "rows")})
-                 ) %>% 
-    do.call("rbind", .) %>%
-    as.data.frame() %>%
-    mutate(pkg = paste0("pixiedust ", lib_versions[i]))
+    Pixie <- microbenchmark({dust(LargeTable) + 
+                               sprinkle_print_method("html") + 
+                               sprinkle(bg_pattern_by = "rows")},
+                            times = 10, units = "ms")
+    Pixie$expr <- paste0("pixiedust ", lib_versions[i])
   }
   else {
-    Pixie <- lapply(1:10,
-                  function(j)
-                    system.time({dust(LargeTable) %>% sprinkle_print_method("html") %>% 
-                        sprinkle(bg_pattern_by = "rows")})
-                 ) %>% 
-    do.call("rbind", .) %>%
-    as.data.frame() %>%
-    mutate(pkg = paste0("pixiedust ", lib_versions[i]))
+    Pixie <- microbenchmark({dust(LargeTable) %>% 
+                             sprinkle_print_method("html") %>%
+                             sprinkle(bg_pattern_by = "rows")},
+                            times = 10, unit = "ms")
+    Pixie$expr <- paste0("pixiedust ", lib_versions[i])
   }
   
   assign(paste0("Pixie_", lib_versions[i]), Pixie)
@@ -89,13 +76,13 @@ rm(list = c("Pixie", "lib_versions", "libs", "LargeTable", "i"))
 Compare <- bind_rows(mget(x = ls()))
 
 ggplot(Compare,
-       aes(x = pkg, y = elapsed)) + 
+       aes(x = expr, y = time)) + 
   geom_boxplot() + 
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
-Compare %>%
-  group_by(pkg) %>%
-  summarise(median_user = median(user.self),
-            median_sys = median(sys.self),
-            median_elapsed =  median(elapsed))
+Median <- Compare %>%
+  group_by(expr) %>%
+  summarise(median_time = median(time)) %>%
+  mutate(relative_time = median_time / min(median_time)) %>%
+  print()
 ```
