@@ -1,3 +1,9 @@
+#### 0.1.1-7 (17 August 2015)
+* Finished the Advanced Magic vignette, which serves as the tests for advanced
+  output since I haven't bothered to code a way to check the results directly.
+* Configure the repository for coveralls.
+* Adds `covr` and `Hmisc` to Suggests:
+
 #### 0.1.1-6 (12 August 2015)
 * Removed 'longtable' option from `print.dust` and made it a sprinkle. This
   allows it to be used without having to explicitly call `print`.

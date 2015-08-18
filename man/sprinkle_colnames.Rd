@@ -41,4 +41,7 @@ x \%>\% sprinkle_colnames("Term", "Estimate")
 \author{
 Benjamin Nutter
 }
+\seealso{
+\code{\link{sprinkle}}
+}
 

@@ -95,7 +95,7 @@ part_prep_markdown <- function(part)
   logic <- part$round != "" & part$col_class %in% numeric_classes
   if (any(logic))
     part$value[logic] <- 
-    with(part, as.character(roundSafe(as.numeric(value[logic]), as.numeric(round[logic]))))
+    with(part, as.character(roundSafe(value[logic], as.numeric(round[logic]))))
   
   #* Bold text
   logic <- part$bold

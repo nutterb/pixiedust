@@ -64,7 +64,7 @@ The \code{head} object describes what each column of the table
 
   The \code{longtable} object determines how many rows per page are printed.
   By default, all content is printed as a single table.  Using the
-  \code{longtable} argument in the \code{sprinkle} function can change this
+  \code{longtable} argument in the \code{\link{sprinkle}} function can change this
   setting.
 
   The \code{print_method} object determines how the table is rendered when

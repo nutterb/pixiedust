@@ -107,7 +107,7 @@ component_table <- function(tbl, object)
   #* These will be needed later for the 'round' sprinkle.
   if (missing(object)) object <- tbl
   Classes <- data.frame(col_name = colnames(object),
-                        col_class = vapply(object, class, "class"), 
+                        col_class = vapply(object, primaryClass, character(1)), 
                         stringsAsFactors=FALSE)
   
   #* Initialize the table with row index, column index, and value
@@ -170,6 +170,13 @@ cell_attributes_frame <- function(nrow, ncol)
               rotate_degree = "",
               pad = "",
               stringsAsFactors=FALSE)
+}
+
+
+primaryClass <- function(x){
+  acceptedClasses <- c("integer", "double", "numeric", "character", "factor", "logical")
+  class_vector <- class(x)
+  class_vector[class_vector %in% acceptedClasses][1]
 }
 
 
