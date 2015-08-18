@@ -1,5 +1,5 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Travis-CI Build Status](https://travis-ci.org/nutterb/pixiedust.svg?branch=master)](https://travis-ci.org/nutterb/pixiedust) ![](http://cranlogs.r-pkg.org/badges/grand-total/pixiedust)
+[![Travis-CI Build Status](https://travis-ci.org/nutterb/pixiedust.svg?branch=master)](https://travis-ci.org/nutterb/pixiedust) ![](http://cranlogs.r-pkg.org/badges/grand-total/pixiedust) [![Coverage Status](https://coveralls.io/repos/nutterb/pixiedust/badge.svg?branch=multirow-headers&service=github)](https://coveralls.io/github/nutterb/pixiedust?branch=multirow-headers)
 
 pixiedust
 =========
@@ -113,19 +113,19 @@ The `pixiedust` package diverts from `broom`'s mission here and provides the abi
 library(pixiedust)
 dust(fit)
 #>            term           estimate         std.error          statistic
-#> 1   (Intercept)   9.36504430865843  8.37301612033658   1.11847919245162
+#> 1   (Intercept)   9.36504430865836  8.37301612033658   1.11847919245161
 #> 2          qsec   1.24492121340088 0.382847869162145    3.2517386504602
-#> 3   factor(am)1   3.15051775932893  1.94051711270668   1.62354546563854
-#> 4            wt  -3.92630215010021 0.742756198609961   -5.2861250534807
-#> 5 factor(gear)4 -0.268163000929791  1.65546166120695 -0.161986838604453
-#> 6 factor(gear)5 -0.269746805223256   2.0631829212229 -0.130743039043465
+#> 3   factor(am)1   3.15051775932893  1.94051711270669   1.62354546563854
+#> 4            wt   -3.9263021501002 0.742756198609962   -5.2861250534807
+#> 5 factor(gear)4 -0.268163000929796  1.65546166120695 -0.161986838604456
+#> 6 factor(gear)5 -0.269746805223248   2.0631829212229 -0.130743039043461
 #>                p.value
-#> 1    0.273590282784445
-#> 2  0.00316812765022562
-#> 3    0.116536745986853
-#> 4 1.58173505907642e-05
-#> 5    0.872568516561887
-#> 6    0.896984955536721
+#> 1    0.273590282784449
+#> 2  0.00316812765022556
+#> 3    0.116536745986852
+#> 4 1.58173505907644e-05
+#> 5    0.872568516561885
+#> 6    0.896984955536724
 ```
 
 Where `pixiedust` shows its strength is the ease of which these tables can be customized. The code below rounds the columns `estimate`, `std.error`, and `statistic` to three decimal places each, and then formats the `p.value` into a format that happens to be one that I like.
@@ -176,8 +176,11 @@ We're just getting started! While there are a number of customizations already a
 3.  An option to use `broom`'s `glance` output in the table foot.
 4.  Multicolumn and multirow support
 5.  Perhaps an `htmlTables` engine
-6.  Option to add variable labels to `broom` output (if labels were given using the `Hmisc::label` functions
-7.  Option to add factor levels as a separate column to `broom` output
+6.  An engine for `flexTables` (`ReporteRs` package)
+7.  Option to add variable labels to `broom` output (if labels were given using the `Hmisc::label` functions
+8.  Option to add factor levels as a separate column to `broom` output
+9.  Functionality to define your own default settings.
+10. 
 
 Are there other features you want or need? Please submit an issue, or contribute functionality yourself.
 

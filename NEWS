@@ -29,8 +29,7 @@
   This closes Issue #12
 
 #### 0.1.1-3 (4 August 2015)
-* Optimizations related to removing ifelse calls.  Appears to cut processing
-  time in half.
+* Optimizations related to removing ifelse calls.  
 * Initial values for table attributes are now stored as "" instead of NA.
   This increases the object size, but cuts down on the processing time.
 * Removed `object` element from the `dust` object. In Issue #13, matthieugomez
