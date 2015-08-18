@@ -13,6 +13,7 @@ env:
 
 r_github_packages:
   - Rexamine/stringi
+  - rstudio/rmarkdown
 
 notifications:
   email:
