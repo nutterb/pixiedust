@@ -21,7 +21,6 @@ Imports:
   magrittr,
   tidyr
 Suggests:
-  covr,
   Hmisc,
   testthat
 License: MIT + file LICENSE
