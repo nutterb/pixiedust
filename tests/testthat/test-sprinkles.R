@@ -275,6 +275,34 @@ test_that("sprinkles: italic errors",
                       "2: The 'italic' argument must be logical"))
 })
 
+test_that("sprinkles: longtable accepts TRUE",
+{
+  x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
+  expect_equal(sprinkle(x, longtable = TRUE)$longtable,
+               TRUE)
+})
+
+test_that("sprinkles: longtable accepts FALSE",
+{
+  x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
+  expect_equal(sprinkle(x, longtable = FALSE)$longtable,
+               FALSE)
+})
+
+test_that("sprinkles: longtable accepts a number",
+{
+  x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
+  expect_equal(sprinkle(x, longtable = 10)$longtable,
+               10)
+})
+
+test_that("sprinkles: longtable- character resolve to FALSE",
+{
+  x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
+  expect_equal(sprinkle(x, longtable = "character")$longtable,
+               FALSE)
+})
+
 test_that("sprinkles: pad",
 {
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))

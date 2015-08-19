@@ -25,6 +25,8 @@
 #'  
 #' @author Benjamin Nutter
 #' 
+#' @seealso \code{\link{sprinkle}}
+#' 
 #' @examples
 #' x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars)) 
 #' x

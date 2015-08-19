@@ -5,31 +5,58 @@
 
 print_dust_html <- function(x, ...)
 {
-  #************************************************
-  #* 1. apply a function, if any is indicated
-  #* 2. Perform any rounding
-  #* 3. Bold
-  #* 4. Italic
-  #* 5. Spread to wide format for printing
-  #* 6. Column Names
-  #************************************************
   
-  # table <- part_prep_html(x$table, head = FALSE)
+  #* Determine the number of divisions
+  #* It looks more complicated than it is, but the gist of it is
+  #* total number of divisions: ceiling(total_rows / longtable_rows)
+  #* The insane looking data frame is just to make a reference of what rows 
+  #*   go in what division.
+  if (!is.numeric(x$longtable) & x$longtable) longtable_rows <- 25
+  else if (!is.numeric(x$longtable) & !x$longtable) longtable_rows <- max(x$body$row)
+  else longtable_rows <- x$longtable
   
+  Divisions <- data.frame(div_num = rep(1:ceiling(max(x$body$row) / longtable_rows),
+                                        each = longtable_rows)[1:max(x$body$row)],
+                          row_num = 1:max(x$body$row))
+  total_div <- max(Divisions$div_num)
+  
+  
+  #* Format the table parts
   head <- part_prep_html(x$head, head = TRUE)
   body <- part_prep_html(x$body)
+  foot <- if (!is.null(x$foot)) part_prep_html(x$foot) else NULL
+  interfoot <- if (!is.null(x$interfoot)) part_prep_html(x$interfoot) else NULL
   
-  body <- dplyr::bind_rows(head, body)
   
-  rows <- apply(body, 1, paste0, collapse = "\n")
-  rows <- paste0("<tr>", rows, "</tr>", sep = "\n")
+  tmpfile <- tempfile(fileext=".html")
+  non_interactive <- ""
   
-  knitr::asis_output(
-    paste0("<table>",
-           paste0(rows, collapse = "\n"),
-           "</table>", 
-           sep = "\n"))
-
+  #* Run a for loop to build all the table divisions
+  for (i in 1:total_div){
+    tbl <- dplyr::bind_rows(head, 
+                            body[Divisions$row_num[Divisions$div_num == i], ], 
+                            if (i == total_div) foot else interfoot)
+    rows <- apply(tbl, 1, paste0, collapse = "\n")
+    rows <- paste0("<tr>", rows, "</tr>", sep = "\n")
+  
+    html_code <- paste0("<table style = 'border-collapse:", 
+                        if (x$border_collapse) "collapse" else "separate" , ";'>",
+                     paste0(rows, collapse = "\n"),
+                     "</table><br/><br/>", 
+                     sep = "\n")
+  
+    #* When interactive, write to a temporary file so that it 
+    #* can be displayed in the viewer
+    if (interactive()){
+      write(html_code, tmpfile, append = i > 1)
+    }
+    else non_interactive <- paste0(non_interactive, html_code)
+  }
+  
+  if (interactive()){
+    getOption("viewer")(tmpfile)
+  }
+  else knitr::asis_output(non_interactive)
   
 }
 
@@ -48,7 +75,7 @@ part_prep_html <- function(part, head=FALSE)
   logic <- part$round != "" & part$col_class %in% numeric_classes
   if (any(logic))
     part$value[logic] <- 
-      with(part, as.character(round(as.numeric(value[logic]), as.numeric(round[logic]))))
+      with(part, as.character(roundSafe(value[logic], as.numeric(round[logic]))))
   
   #* Bold and italic
   boldify <- part$bold
@@ -92,7 +119,7 @@ part_prep_html <- function(part, head=FALSE)
     with(part, paste0("height:", height[logic], height_units[logic], ";"))
   
   logic <- part$width != ""
-  part$widht[logic] <- 
+  part$width[logic] <- 
     with(part, paste0("width:", width[logic], width_units[logic], ";"))
   
   #* Borders

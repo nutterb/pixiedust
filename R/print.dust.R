@@ -17,6 +17,7 @@
 #'   chunk's \code{results} argument.  Currently, there is no way to to capture
 #'   the code for additional post processing.
 #'   
+#'   
 #' @author Benjamin Nutter
 #' 
 #' @examples 

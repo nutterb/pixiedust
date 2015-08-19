@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 
 [![Travis-CI Build Status](https://travis-ci.org/nutterb/pixiedust.svg?branch=master)](https://travis-ci.org/nutterb/pixiedust)
 ![](http://cranlogs.r-pkg.org/badges/grand-total/pixiedust)
+[![Coverage Status](https://coveralls.io/repos/nutterb/pixiedust/badge.svg?branch=multirow-headers&service=github)](https://coveralls.io/github/nutterb/pixiedust?branch=multirow-headers)
 
 # pixiedust
 After tidying up your analyses with the `broom` package, go ahead and grab the `pixiedust`.  Customize your table output and write it to markdown, HTML, LaTeX, or even just the console.  `pixiedust` makes it easy to customize the appearance of your tables in all of these formats by adding any number of "sprinkles", much in the same way you can add layers to a `ggplot`.
@@ -120,7 +121,7 @@ Are there other features you want or need?  Please submit an issue, or contribut
 | Version | Release Description                                | Target Date | Actual Date |
 |--------:|:---------------------------------------------------|------------:|-------------|
 |**0.1.0**| Console, markdown and HTML output for simple table | 1 Aug 2015  | 3 Aug 2015  |
-| 0.2.0   | Multirow table headers; footers; multipage tables  | 20 Aug 2015 | |
+| 0.2.0   | Multirow table headers; footers; multipage tables  | 20 Aug 2015 | 18 Aug 2015 |
 | 0.3.0   | Multicolumn and multirow cells in HTML             | 15 Sep 2015 | |
 | 0.4.0   | Glance statistics in table footer                  | 1 Oct 2015  | |
 |**0.5.0**| LaTeX output for simple table                      | 15 Oct 2015 | |

@@ -7,23 +7,41 @@
 
 print_dust_console <- function(x, ...)
 {
-  #************************************************
-  #* 1. apply a function, if any is indicated
-  #* 2. Perform any rounding
-  #* 3. Bold
-  #* 4. Italic
-  #* 5. Spread to wide format for printing
-  #* 6. Column Names
-  #************************************************
   
+  #* Determine the number of divisions
+  #* It looks more complicated than it is, but the gist of it is
+  #* total number of divisions: ceiling(total_rows / longtable_rows)
+  #* The insane looking data frame is just to make a reference of what rows 
+  #*   go in what division.
+  if (!is.numeric(x$longtable) & x$longtable) longtable_rows <- 25
+  else if (!is.numeric(x$longtable) & !x$longtable) longtable_rows <- max(x$body$row)
+  else longtable_rows <- x$longtable
+  
+  Divisions <- data.frame(div_num = rep(1:ceiling(max(x$body$row) / longtable_rows),
+                                        each = longtable_rows)[1:max(x$body$row)],
+                          row_num = 1:max(x$body$row))
+  total_div <- max(Divisions$div_num)
+  
+  #* Format table parts
   head <- part_prep_console(x$head)
   body <- part_prep_console(x$body)
+  foot <- if (!is.null(x$foot)) part_prep_console(x$foot) else NULL
+  interfoot <- if (!is.null(x$interfoot)) part_prep_console(x$interfoot) else NULL
   
   names(body) <- names(head) <- head[1, ]
   
-  if (nrow(head) > 1) body <- dplyr::bind_rows(head[-1, ], body)
+  if (!is.null(foot)) names(foot) <- names(head)
+  if (!is.null(interfoot)) names(interfoot) <- names(head)
   
-  print(as.data.frame(body))
+  
+  #* Run a loop to print all the divisions
+  for (i in 1:total_div){
+    tbl <- dplyr::bind_rows(if (nrow(head) > 1) head[-1, ] else NULL, 
+                            body[Divisions$row_num[Divisions$div_num == i], ], 
+                            if (i == total_div) foot else interfoot)
+    print(as.data.frame(tbl))
+    cat("\n\n")
+  }
 }
 
 #**** Helper functions
@@ -42,7 +60,7 @@ part_prep_console <- function(part)
   logic <- part$round != "" & part$col_class %in% numeric_classes
   if (any(logic))
     part$value[logic] <- 
-    with(part, as.character(round(as.numeric(value[logic]), as.numeric(round[logic]))))
+    with(part, as.character(roundSafe(value[logic], as.numeric(round[logic]))))
   
   
     #* Bold text.  In the console, bold text is denoted by "**".  In order

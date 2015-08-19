@@ -49,6 +49,17 @@
 #'   A more detailed demonstration of the use of sprinkles is available in 
 #'   \code{vignette("pixiedust", package = "pixiedust")}
 #'   
+#'   In \code{sprinkle}, when \code{part = "table"}, the attributes are assigned to 
+#'   the entire table.  This is not yet active and may be removed entirely.
+#'   
+#'   The \code{sprinkle_table}, sprinkles may be applied to the columns of multiple tables. Table
+#'   parts are required to have the same number of columns, but not necessarily the same number 
+#'   of rows, which is why the \code{rows} argument is not available for the \code{sprinkle_table}.
+#'   In contrast to \code{sprinkle}, the \code{part} argument in \code{sprinkle} table will 
+#'   accept multiple parts.  If any of the named parts is \code{"table"}, the sprinkle will be 
+#'   applied to the columns of all of the parts.
+#'   
+#'   
 #' @section Sprinkles:
 #' The following list describes the valid sprinkles that may be defined in the 
 #' \code{...} dots argument.  All sprinkles may be defined for any output type, but 
@@ -107,6 +118,13 @@
 #'     \code{height} argument.  Accepts \code{"px"} and \code{"\%"}. Defaults
 #'     to \code{"px"}.}
 #'   \item{\code{italic} }{Logical value.  If \code{TRUE}, text is rendered in italics.}
+#'   \item{\code{longtable} }{ Allows the user to print a table in multiple sections.  
+#'     This is useful when 
+#'     a table has more rows than will fit on a printed page.  Acceptable inputs are \code{FALSE},
+#'     indicating that only one table is printed (default); \code{TRUE} that the table should be 
+#'     split into multiple tables with the default number of rows per table (see "Longtable"); or a 
+#'     positive integer indicating how many rows per table to include. All other values are 
+#'     interpreted as \code{FALSE}.}
 #'   \item{\code{pad} }{A numerical value giving the cell padding in pixels.}
 #'   \item{\code{replace} }{A character vector (or vector to be coerced to character) that
 #'     will replace the cells identified by \code{rows} and \code{cols}.  Replacement 
@@ -117,7 +135,11 @@
 #'      in the clockwise direction.  Use negative values to rotate counter clockwise.}
 #'   \item{\code{round} }{A numerical value for the number of decimal places to 
 #'      which numerical values are rounded.  This can also be accomplished through
-#'      the \code{fn} argument, but this argument makes it a bit easier to do.}
+#'      the \code{fn} argument, but this argument makes it a bit easier to do.  In cases where
+#'      character values are indicated for rounding (such a a term name), no action is taken.  
+#'      This means that `sprinkle(x, round=3)` would round all numerical values in a table to three 
+#'      decimal places without affecting any true character values; there is no need to limit
+#'      the `round` sprinkle to known numerical values.}
 #'   \item{\code{valign} }{A character string giving the vertical alignment for the
 #'      cells.  Accepts the values \code{"top"}, \code{"middle"}, or \code{"bottom"}
 #'      with partial matching.}
@@ -126,6 +148,20 @@
 #'     \code{width} argument.  Accepts \code{"px"} and \code{"\%"}. Defaults
 #'     to \code{"px"}.}
 #' }
+#' 
+#' @section Longtable:
+#' The \code{longtable} feature is named for the LaTeX package used to break very large 
+#' tables into multiple pages.  
+#' 
+#' When using the \code{longtable=TRUE} option, the default number of rows per table is 25 for 
+#' console, HTML, and markdown output.  For LaTeX output, the number of rows is determined by 
+#' the LaTeX \code{longtable} package's algorithm. The number of rows per table only considers 
+#' the content in the body of the table.  Consideration for the number of rows in the head and 
+#' foot are the responsibility of the user.
+#'   
+#' Whenever a table is broken into multiple parts, each part retains the table head.  If any 
+#' \code{interfoot} is provided, it is appended to the bottom of each section, with the 
+#' exception of the last section.  The last section has the \code{foot} appended.
 #'
 #' @section Colors:
 #' Color specifications accept X11 color names (\code{"orchid"}), 
@@ -328,6 +364,16 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
       msg = "The 'italic' argument must be logical",
       argcheck = Check)
   
+  if ("longtable" %in% names(sprinkles)){
+    if (!is.logical(sprinkles$longtable)){
+      if (is.numeric(sprinkles$longtable) & sprinkles$longtable < 1) sprinkles$longtable <- FALSE
+      else if (!is.numeric(sprinkles$longtable)) sprinkles$longtable <- FALSE
+    }
+    
+    x$longtable <- sprinkles$longtable
+    sprinkles$longtable <- NULL
+  }
+  
   if ("pad" %in% names(sprinkles) & !is.numeric(sprinkles$pad))
     ArgumentCheck::addError(
       msg = "The 'pad' argument must be numeric",
@@ -512,7 +558,7 @@ sprinkle_names <- function()
     "border_units", "border_style", "border_color", 
     "border_collapse",
     "fn", "font_color", "font_size", "font_size_units", "halign", 
-    "height", "height_units", "italic", "pad", 
+    "height", "height_units", "italic", "longtable", "pad", 
     "replace", "rotate_degree", 
     "round", "valign", "width", "width_units")
 }
