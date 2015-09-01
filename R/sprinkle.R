@@ -125,6 +125,20 @@
 #'     split into multiple tables with the default number of rows per table (see "Longtable"); or a 
 #'     positive integer indicating how many rows per table to include. All other values are 
 #'     interpreted as \code{FALSE}.}
+#'   \item{\code{merge} }{Logical.  If \code{TRUE}, the cells indicated in 
+#'     \code{rows} and \code{cols} are merged into a single cell.  An error is
+#'     cast if the cells do not form an adjacent block. Specifying 
+#'     \code{merge_rowval} or \code{merge_colval} without \code{merge} results
+#'     in an error; \code{pixiedust} is conservative and will not assume you 
+#'     mean to merge cells--it must be explicitly declared.}
+#'   \item{\code{merge_rowval} }{A numeric value of length 1 indicating the 
+#'     row position of the merged cells with the desired display text.  The 
+#'     value given must be an element of \code{rows}.  If no value is provided,
+#'     the smallest value of \code{rows} is used.}
+#'   \item{\code{merge_colval} }{A numeric value of length 1 indicating the 
+#'     column position of the merged cells with the desired display text. The
+#'     value given must be an element of \code{cols}.  If no value is provided,
+#'     the smallest value of \code{cols} is used.}
 #'   \item{\code{pad} }{A numerical value giving the cell padding in pixels.}
 #'   \item{\code{replace} }{A character vector (or vector to be coerced to character) that
 #'     will replace the cells identified by \code{rows} and \code{cols}.  Replacement 
@@ -374,6 +388,18 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
     sprinkles$longtable <- NULL
   }
   
+  if ("merge" %in% names(sprinkles)){
+    if (!is.logical(sprinkles$merge)){
+      ArgumentCheck::addError(
+        msg = "The 'merge' sprinkle must be logical with length 1",
+        argcheck = Check)
+    }
+    if (is.null(sprinkles$merge_rowval))
+      sprinkles$merge_rowval <- if (is.null(rows)) 1 else min(rows)
+    if (is.null(sprinkles$merge_colval))
+      sprinkles$merge_colval <- if (is.null(cols)) 1 else min(cols)
+  }
+  
   if ("pad" %in% names(sprinkles) & !is.numeric(sprinkles$pad))
     ArgumentCheck::addError(
       msg = "The 'pad' argument must be numeric",
@@ -434,7 +460,7 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
                                                       c("px", "%"),
                                                       argcheck = Check)
   ArgumentCheck::finishArgCheck(Check)
-  
+
   #* For borders, set unspecified attributes to their defaults
   border_attributes <- c("border", "border_thickness", "border_units", "border_style", "border_color")
   if (any(border_attributes %in% names(sprinkles)))
@@ -525,18 +551,32 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
       }
     }
   }
-  
+
   #* merge in replacement sprinkle
   if (exists("ReplaceTable")){
     Cells <- dplyr::left_join(Cells, ReplaceTable,
                               by = c("row" = "row", "col" = "col"))
+  }
+  
+  #* Set rowspan and colspan values
+  if ("merge" %in% names(Cells)){
+    Cells <- dplyr::mutate_(Cells,
+                     rowspan = ~ifelse(row == merge_rowval, 
+                                       length(rows),
+                                       0),
+                     colspan = ~ifelse(col == merge_colval,
+                                       length(cols),
+                                       0),
+                     merge = ~NULL,
+                     merge_rowval = ~NULL,
+                     merge_colval = ~NULL)
   }
  
   #* determine the cell indices to replace
   replace <- vapply(1:nrow(Cells), 
                     function(r) which(part$row == Cells$row[r] & part$col == Cells$col[r]), 
                     1)
-  
+
   #* Implement the sprinkles, assign the new part back into the dust object
   #* and return.
   part[replace, names(Cells)[-(1:2)]] <- Cells[, -(1:2), drop=FALSE]
@@ -558,7 +598,8 @@ sprinkle_names <- function()
     "border_units", "border_style", "border_color", 
     "border_collapse",
     "fn", "font_color", "font_size", "font_size_units", "halign", 
-    "height", "height_units", "italic", "longtable", "pad", 
+    "height", "height_units", "italic", "longtable", 
+    "merge", "merge_rowval", "merge_colval", "pad", 
     "replace", "rotate_degree", 
     "round", "valign", "width", "width_units")
 }

@@ -169,6 +169,8 @@ cell_attributes_frame <- function(nrow, ncol)
               width_units = "",
               rotate_degree = "",
               pad = "",
+              rowspan = 1,
+              colspan = 1,
               stringsAsFactors=FALSE)
 }
 

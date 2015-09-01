@@ -157,12 +157,18 @@ part_prep_html <- function(part, head=FALSE)
   
   #* Generate css style definitions for each cell.
   part$value <- 
-    with(part, paste0("<", dh, " style='", 
+    with(part, paste0("<", dh, 
+                      " colspan = '", colspan, "'; ", 
+                      "rowspan = '", rowspan, "'; ",
+                      "style='", 
                       bold, italic, halign, valign, bg, font_color, 
                       font_size, height, width,
                       top_border, bottom_border, left_border, right_border,
                       rotate_degree, pad,
                       "'>", value, "</", dh, ">"))
+  
+  part$value[part$rowspan == 0] <- ""
+  part$value[part$colspan == 0] <- ""
 
   #* Spread to wide format for printing
   dplyr::select_(part, "row", "col", "value") %>%
