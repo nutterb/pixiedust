@@ -1,3 +1,8 @@
+#### 0.2.0-1 (31 August 2015)
+* Multi-cell output is functional for HTML, Markdown, and Console output
+* A poor example is added to the `advancedMagic` vignette, but a better
+  example is really needed.
+
 #### 0.1.1-7 (17 August 2015)
 * Finished the Advanced Magic vignette, which serves as the tests for advanced
   output since I haven't bothered to code a way to check the results directly.

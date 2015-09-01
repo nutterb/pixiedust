@@ -106,6 +106,9 @@ part_prep_markdown <- function(part)
   logic <- part$italic
   part$value[logic] <- 
     with(part, paste0("_", value[logic], "_"))
+  
+  part$value[part$rowspan == 0] <- ""
+  part$value[part$colspan == 0] <- ""
 
 
   #* Spread to wide format for printing

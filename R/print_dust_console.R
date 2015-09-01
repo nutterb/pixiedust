@@ -81,6 +81,9 @@ part_prep_console <- function(part)
                                                     paste0(" ", value, " "))
                    else value) %>%
     dplyr::ungroup() %>%
+    #* For merged cells not chosen for printing, set value to an empty character
+    dplyr::mutate_(value = ~ifelse(rowspan == 0, "", value),
+                   value = ~ifelse(colspan == 0, "", value)) %>%
     #* Spread to wide format for printing
     dplyr::select_("row", "col", "value") %>%
     tidyr::spread_("col", "value") %>%

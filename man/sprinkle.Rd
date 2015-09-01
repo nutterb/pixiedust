@@ -137,6 +137,20 @@ list of which sprinkles are recognized by each output type, see
     split into multiple tables with the default number of rows per table (see "Longtable"); or a
     positive integer indicating how many rows per table to include. All other values are
     interpreted as \code{FALSE}.}
+  \item{\code{merge} }{Logical.  If \code{TRUE}, the cells indicated in
+    \code{rows} and \code{cols} are merged into a single cell.  An error is
+    cast if the cells do not form an adjacent block. Specifying
+    \code{merge_rowval} or \code{merge_colval} without \code{merge} results
+    in an error; \code{pixiedust} is conservative and will not assume you
+    mean to merge cells--it must be explicitly declared.}
+  \item{\code{merge_rowval} }{A numeric value of length 1 indicating the
+    row position of the merged cells with the desired display text.  The
+    value given must be an element of \code{rows}.  If no value is provided,
+    the smallest value of \code{rows} is used.}
+  \item{\code{merge_colval} }{A numeric value of length 1 indicating the
+    column position of the merged cells with the desired display text. The
+    value given must be an element of \code{cols}.  If no value is provided,
+    the smallest value of \code{cols} is used.}
   \item{\code{pad} }{A numerical value giving the cell padding in pixels.}
   \item{\code{replace} }{A character vector (or vector to be coerced to character) that
     will replace the cells identified by \code{rows} and \code{cols}.  Replacement
