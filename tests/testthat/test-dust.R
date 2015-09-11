@@ -28,8 +28,8 @@ test_that("dust object body component has correct dimensions",
                dim(x$foot))
   
   expect_equal(Dims, 
-               list(c(5, 27), 
-                    c(30, 27),
+               list(c(5, 28), 
+                    c(30, 28),
                     NULL,
                     NULL))
 })
@@ -42,4 +42,10 @@ test_that("dust runs when passed a data frame with tidy_df = FALSE",
 test_that("dust runs when passed a data frame with tidy_df = TRUE",
 {
   expect_output(dust(mtcars, tidy_df = TRUE), "column")
+})
+
+test_that("dust with keep_rownames = TRUE adds rownames to object",
+{
+  x <- dust(mtcars, keep_rownames = TRUE)
+  expect_equal(x$body$value[1:32], rownames(mtcars))
 })

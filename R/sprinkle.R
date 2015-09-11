@@ -139,6 +139,9 @@
 #'     column position of the merged cells with the desired display text. The
 #'     value given must be an element of \code{cols}.  If no value is provided,
 #'     the smallest value of \code{cols} is used.}
+#'   \item{\code{na_string} }{A character value of length 1. Specifies how missing
+#'     values (\code{NA}) are to be represented in the table.  Defaults to an 
+#'     empty character string (\code{""}).}
 #'   \item{\code{pad} }{A numerical value giving the cell padding in pixels.}
 #'   \item{\code{replace} }{A character vector (or vector to be coerced to character) that
 #'     will replace the cells identified by \code{rows} and \code{cols}.  Replacement 
@@ -400,6 +403,14 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
       sprinkles$merge_colval <- if (is.null(cols)) 1 else min(cols)
   }
   
+  if ("na_string" %in% names(sprinkles)){
+    if (!is.character(sprinkles$na_string)){
+      ArgumentCheck::addError(
+        msg = "The 'na_string' sprinkle must be character with length 1",
+        argcheck = Check)
+    }
+  }
+  
   if ("pad" %in% names(sprinkles) & !is.numeric(sprinkles$pad))
     ArgumentCheck::addError(
       msg = "The 'pad' argument must be numeric",
@@ -599,7 +610,7 @@ sprinkle_names <- function()
     "border_collapse",
     "fn", "font_color", "font_size", "font_size_units", "halign", 
     "height", "height_units", "italic", "longtable", 
-    "merge", "merge_rowval", "merge_colval", "pad", 
+    "merge", "merge_rowval", "merge_colval", "na_string", "pad", 
     "replace", "rotate_degree", 
     "round", "valign", "width", "width_units")
 }

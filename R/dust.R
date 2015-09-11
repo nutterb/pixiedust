@@ -19,6 +19,11 @@
 #'   \code{data.frame} class, the default behavior is to assume that the 
 #'   object itself is the basis of the table.  If the summarized table is 
 #'   desired, set to \code{TRUE}.
+#' @param keep_rownames Whe \code{tidy_df} is \code{FALSE}, setting 
+#'   \code{keep_rownames} binds the row names to the data frame as the first
+#'   column, allowing them to be preserved in the tabulated output.  This 
+#'   is only to data frame like objects, as the \code{broom::tidy.matrix} method 
+#'   performs this already.
 #' @param ... Additional arguments to pass to \code{tidy}
 #' 
 #' @details The \code{head} object describes what each column of the table
@@ -71,12 +76,20 @@
 
 #' @rdname dust
 #' @export
-dust <- function(object, ..., glance_foot = TRUE, tidy_df = FALSE)
+dust <- function(object, ..., glance_foot = TRUE, 
+                 tidy_df = FALSE, keep_rownames = FALSE)
 {
   #* By default, we assume data.frame-like objects are to be printed
   #* as given.  All other objects are tidied.
   if (!inherits(object, "data.frame") | tidy_df) 
     object <- broom::tidy(object, ...)
+  
+  if (inherits(object, "data.frame") & keep_rownames){
+    object <- cbind(rownames(object), object)
+    rownames(object) <- NULL
+    object[, 1] <- as.character(object[, 1])
+    names(object)[1] <- ".rownames"
+  }
 
   #* Create the table head
   head <- as.data.frame(t(names(object)),
@@ -171,6 +184,7 @@ cell_attributes_frame <- function(nrow, ncol)
               pad = "",
               rowspan = 1,
               colspan = 1,
+              na_string = NA,
               stringsAsFactors=FALSE)
 }
 
