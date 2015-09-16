@@ -1,5 +1,6 @@
 #' @importFrom dplyr bind_rows
 #' @importFrom dplyr select_
+#' @importFrom htmltools htmlPreserve
 #' @importFrom knitr asis_output
 #' @importFrom tidyr spread_
 
@@ -52,11 +53,11 @@ print_dust_html <- function(x, ...)
     }
     else non_interactive <- paste0(non_interactive, html_code)
   }
-  
+  # print(html_code)
   if (interactive()){
     getOption("viewer")(tmpfile)
   }
-  else knitr::asis_output(non_interactive)
+  else knitr::asis_output(htmltools::htmlPreserve(non_interactive))
   
 }
 
@@ -138,6 +139,11 @@ part_prep_html <- function(part, head=FALSE)
   logic <- part$right_border != ""
   part$right_border[logic] <- 
     with(part, paste0("border-right:", right_border[logic], "; "))
+  
+  #* Set NA (missing) values to na_string
+  logic <- is.na(part$value) & !is.na(part$na_string)
+  part$value[logic] <- 
+    part$na_string[logic]
   
   #* Padding
   logic <- part$pad != ""

@@ -303,6 +303,13 @@ test_that("sprinkles: longtable- character resolve to FALSE",
                FALSE)
 })
 
+test_that("sprinkles: na_string",
+{
+  x <- dust(aov(mpg ~ factor(am) + factor(gear), data = mtcars))
+  expect_equal(sprinkle(x, na_string = "")$body$na_string,
+               rep("", 18))
+})
+
 test_that("sprinkles: pad",
 {
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))

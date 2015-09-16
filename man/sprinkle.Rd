@@ -151,6 +151,9 @@ list of which sprinkles are recognized by each output type, see
     column position of the merged cells with the desired display text. The
     value given must be an element of \code{cols}.  If no value is provided,
     the smallest value of \code{cols} is used.}
+  \item{\code{na_string} }{A character value of length 1. Specifies how missing
+    values (\code{NA}) are to be represented in the table.  Defaults to an
+    empty character string (\code{""}).}
   \item{\code{pad} }{A numerical value giving the cell padding in pixels.}
   \item{\code{replace} }{A character vector (or vector to be coerced to character) that
     will replace the cells identified by \code{rows} and \code{cols}.  Replacement

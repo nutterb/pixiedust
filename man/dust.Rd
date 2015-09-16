@@ -5,7 +5,8 @@
 \alias{redust}
 \title{Dust Table Construction}
 \usage{
-dust(object, ..., glance_foot = TRUE, tidy_df = FALSE)
+dust(object, ..., glance_foot = TRUE, tidy_df = FALSE,
+  keep_rownames = FALSE)
 
 redust(x, table, part = c("head", "foot", "interfoot", "body"))
 }
@@ -21,6 +22,12 @@ table. (Not scheduled for implementation until version 0.4.0)}
 \code{data.frame} class, the default behavior is to assume that the
 object itself is the basis of the table.  If the summarized table is
 desired, set to \code{TRUE}.}
+
+\item{keep_rownames}{Whe \code{tidy_df} is \code{FALSE}, setting
+\code{keep_rownames} binds the row names to the data frame as the first
+column, allowing them to be preserved in the tabulated output.  This
+is only to data frame like objects, as the \code{broom::tidy.matrix} method
+performs this already.}
 
 \item{x}{A dust object}
 

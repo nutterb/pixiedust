@@ -109,6 +109,11 @@ part_prep_markdown <- function(part)
   
   part$value[part$rowspan == 0] <- ""
   part$value[part$colspan == 0] <- ""
+  
+  #* Set NA (missing) values to na_string
+  logic <- is.na(part$value) & !is.na(part$na_string)
+  part$value[logic] <- 
+    part$na_string[logic]
 
 
   #* Spread to wide format for printing

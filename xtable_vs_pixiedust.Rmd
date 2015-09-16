@@ -22,7 +22,7 @@ library(microbenchmark)
 library(stargazer)
 library(xtable)
 set.seed(100)
-LargeTable <- mtcars[sample(1:nrow(mtcars), 1e3, replace = TRUE), ]
+LargeTable <- mtcars[sample(1:nrow(mtcars), 1000, replace = TRUE), ]
 ```
 
 The `xtable` times are calculated as follows:
@@ -69,7 +69,7 @@ for (i in seq_along(libs)){
   
   detach("package:pixiedust", unload=TRUE)
 }
-rm(list = c("Pixie", "lib_versions", "libs", "LargeTable", "i"))
+rm(list = c("Pixie", "lib_versions", "libs", "LargeTable", "i", "x"))
 ```
 
 ```{r, fig.height = 6, fig.width = 8}
@@ -86,3 +86,4 @@ Median <- Compare %>%
   mutate(relative_time = median_time / min(median_time)) %>%
   print()
 ```
+
