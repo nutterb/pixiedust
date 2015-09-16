@@ -1,5 +1,6 @@
 #' @importFrom dplyr bind_rows
 #' @importFrom dplyr select_
+#' @importFrom htmltools htmlPreserve
 #' @importFrom knitr asis_output
 #' @importFrom tidyr spread_
 
@@ -56,7 +57,7 @@ print_dust_html <- function(x, ...)
   if (interactive()){
     getOption("viewer")(tmpfile)
   }
-  else knitr::asis_output(non_interactive)
+  else knitr::asis_output(htmltools::htmlPreserve(non_interactive))
   
 }
 

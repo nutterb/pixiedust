@@ -51,6 +51,7 @@ Tables can be customized by row, column, or even by a single cell by adding spri
 | height            | x           |         |          | x    | o     |
 | height\_units     | x           |         |          | x    | o     |
 | italic            | x           | x       | x        | x    | o     |
+| na\_string        | x           | x       | x        | x    | o     |
 | padding           | x           |         |          | x    |       |
 | replace           | x           | x       | x        | x    | x     |
 | round             | x           | x       | x        | x    | o     |
@@ -186,20 +187,39 @@ Are there other features you want or need? Please submit an issue, or contribute
 
 ### Development Schedule
 
-|    Version| Release Description                                |  Target Date| Actual Date |
-|----------:|:---------------------------------------------------|------------:|-------------|
-|  **0.1.0**| Console, markdown and HTML output for simple table |   1 Aug 2015| 3 Aug 2015  |
-|      0.2.0| Multirow table headers; footers; multipage tables  |  20 Aug 2015| 18 Aug 2015 |
-|      0.3.0| Multicolumn and multirow cells in HTML             |  15 Sep 2015|             |
-|      0.4.0| Glance statistics in table footer                  |   1 Oct 2015|             |
-|  **0.5.0**| LaTeX output for simple table                      |  15 Oct 2015|             |
-|      0.6.0| Borders and backgrounds for LaTeX tables           |   1 Nov 2015|             |
-|      0.7.0| Multicolumn and multirow support for LaTeX tables  |   1 Dec 2015|             |
-|  **0.8.0**| Longtable support for LaTeX tables                 |     Jan 2016|             |
-|      0.9.0| Adjustable cell heights and widths in LaTeX tables |     Feb 2016|             |
-|     0.10.0| Rotated text for LaTeX tables                      |     Mar 2016|             |
-|     0.11.0| Add variable labels and levels to `broom` output   |     Apr 2016|             |
-|     0.12.0| Add themes (cobwebs?) for batch customizations     |     Apr 2016|             |
-|  **1.0.0**| Release of basic, stable package                   |     Jun 2016|             |
+|    Version| Release Description                                |  Target Date| Actual Date  |
+|----------:|:---------------------------------------------------|------------:|--------------|
+|  **0.1.0**| Console, markdown and HTML output for simple table |   1 Aug 2015| 3 Aug 2015   |
+|      0.2.0| Multirow table headers; footers; multipage tables  |  20 Aug 2015| 18 Aug 2015  |
+|      0.3.0| Multicolumn and multirow cells in HTML             |  15 Sep 2015| 15 Sept 2015 |
+|      0.4.0| Glance statistics in table footer                  |   1 Oct 2015|              |
+|  **0.5.0**| LaTeX output for simple table                      |  15 Oct 2015|              |
+|      0.6.0| Borders and backgrounds for LaTeX tables           |   1 Nov 2015|              |
+|      0.7.0| Multicolumn and multirow support for LaTeX tables  |   1 Dec 2015|              |
+|  **0.8.0**| Longtable support for LaTeX tables                 |     Jan 2016|              |
+|      0.9.0| Adjustable cell heights and widths in LaTeX tables |     Feb 2016|              |
+|     0.10.0| Rotated text for LaTeX tables                      |     Mar 2016|              |
+|     0.11.0| Add variable labels and levels to `broom` output   |     Apr 2016|              |
+|     0.12.0| Add themes (cobwebs?) for batch customizations     |     Apr 2016|              |
+|  **1.0.0**| Release of basic, stable package                   |     Jun 2016|              |
 
 **bold version numbers** indicate a planned release to CRAN.
+
+A cool, free tip!
+-----------------
+
+The markdown output from `pixiedust` is somewhat limited due to the limitations of `Rmarkdown` itself. If/when more features become available for `Rmarkdown` output, I'll be sure to include them. But what can you do if you *really* want all of the flexibility of the HTML tables but need the MS Word document?
+
+With a little help from the `Grmd` package, you can have the best of both worlds. `Grmd` isn't available on CRAN yet, but if you're willing to install it from GitHub, you can render a `docx` file. Install `Grmd` with
+
+`devtools::install_github("gforge/Grmd")`
+
+Then use in your YAML header
+
+    ---
+    output: Grmd::docx_document
+    ---
+
+When you knit your document, it knits as an HTML file, but I've had no problems with the rendering when I right-click the file and open with MS Word.
+
+Read more at <http://gforge.se/2014/07/fast-track-publishing-using-rmarkdown/>

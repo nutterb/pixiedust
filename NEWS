@@ -1,3 +1,10 @@
+#### 0.3.0-0 (15 September 2015)
+* Multi-cell output for HTML is fully supported.
+* Data frame row names may be captured in the output with `dust` 
+  argument `keep_rownames`
+* A new sprinkle is added.  `na_string` defaults to "", and controls how
+  `NA` is printed in tables.
+
 #### 0.2.0-1 (31 August 2015)
 * Multi-cell output is functional for HTML, Markdown, and Console output
 * A poor example is added to the `advancedMagic` vignette, but a better
