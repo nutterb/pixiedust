@@ -1,5 +1,8 @@
 #' @name dust
 #' @export dust
+#' @importFrom ArgumentCheck newArgCheck
+#' @importFrom ArgumentCheck finishArgCheck
+#' @importFrom dplyr bind_cols
 #' @importFrom dplyr distinct
 #' @importFrom dplyr left_join
 #' @importFrom dplyr mutate_
@@ -13,8 +16,6 @@
 #'   \code{longtable} as well as a \code{print_method} element.
 #'   
 #' @param object An object that has a \code{tidy} method in \code{broom}
-#' @param glance_foot Arrange the glance statistics for the \code{foot} of the
-#'   table. (Not scheduled for implementation until version 0.4.0)
 #' @param tidy_df When \code{object} is an object that inherits the 
 #'   \code{data.frame} class, the default behavior is to assume that the 
 #'   object itself is the basis of the table.  If the summarized table is 
@@ -24,6 +25,34 @@
 #'   column, allowing them to be preserved in the tabulated output.  This 
 #'   is only to data frame like objects, as the \code{broom::tidy.matrix} method 
 #'   performs this already.
+#' @param glance_foot Arrange the glance statistics for the \code{foot} of the
+#'   table. (Not scheduled for implementation until version 0.4.0)
+#' @param glance_stats A character vector giving the names of the glance statistics
+#'   to put in the output.  When \code{NULL}, the default, all of the available 
+#'   statistics are retrieved.  In addition to controlling which statistics are 
+#'   printed, this also controls the order in which they are printed.
+#' @param col_pairs An integer indicating the number of column-pairings for the 
+#'   glance output.  This must be less than half the total number of columns,
+#'   as each column-pairing includes a statistic name and value. See the full
+#'   documentation for the unexported function \code{\link{glance_foot}}.
+#' @param byrow A logical, defaulting to \code{FALSE}, that indicates if the 
+#'   requested statistics are placed with priority to rows or columns.  
+#'   See the full documentation for the unexported function \code{\link{glance_foot}}.
+#' @param descriptors A character vector indicating the descriptors to
+#'   be used in the table.  Acceptable inputs are \code{"term"}, 
+#'   \code{"term_plain"}, \code{"label"}, \code{"level"}, and 
+#'   \code{"level_detail"}.  These may be used in any combination and
+#'   any order, with the descriptors appearing in the table from left
+#'   to right in the order given.  The default, \code{"term"}, returns
+#'   only the term descriptor and is identical to the output provided
+#'   by \code{broom::tidy} methods.  See Details for a full explanation
+#'   of each option and the Examples for sample output.
+#'   See the full documentation for the unexported function \code{\link{tidy_levels_labels}}.
+#' @param numeric_level A character string that determines which descriptor
+#'   is used for numeric variables in the \code{"level_detail"} descriptor
+#'   when a numeric has an interaction with a factor.  Acceptable inputs
+#'   are \code{"term"}, \code{"term_plain"}, and \code{"label"}.
+#'   See the full documentation for the unexported function \code{\link{tidy_levels_labels}}.
 #' @param ... Additional arguments to pass to \code{tidy}
 #' 
 #' @details The \code{head} object describes what each column of the table
@@ -66,7 +95,7 @@
 #'      object.  This is intended to assist in building custom heads and feet.}
 #' }
 #' 
-#' @seealso \code{\link[broom]{tidy}}
+#' @seealso \code{\link[broom]{tidy}} \code{\link{glance_foot}} \code{\link{tidy_levels_labels}}
 #' 
 #' @author Benjamin Nutter
 #' 
@@ -76,35 +105,68 @@
 
 #' @rdname dust
 #' @export
-dust <- function(object, ..., glance_foot = TRUE, 
-                 tidy_df = FALSE, keep_rownames = FALSE)
+dust <- function(object, ..., 
+                 tidy_df = FALSE, keep_rownames = FALSE,
+                 glance_foot = FALSE, glance_stats = NULL, 
+                 col_pairs = 2, byrow = FALSE,
+                 descriptors = "term", 
+                 numeric_level = c("term", "term_plain", "label"))
 {
+  Check <- ArgumentCheck::newArgCheck()
+  
   #* By default, we assume data.frame-like objects are to be printed
   #* as given.  All other objects are tidied.
   if (!inherits(object, "data.frame") | tidy_df) 
-    object <- broom::tidy(object, ...)
+    tidy_object <- broom::tidy(object, ...)
   
-  if (inherits(object, "data.frame") & keep_rownames){
-    object <- cbind(rownames(object), object)
-    rownames(object) <- NULL
-    object[, 1] <- as.character(object[, 1])
-    names(object)[1] <- ".rownames"
+  else if (inherits(object, "data.frame")){
+    if (keep_rownames){
+      tidy_object <- cbind(rownames(object), object)
+      rownames(tidy_object) <- NULL
+      tidy_object[, 1] <- as.character(tidy_object[, 1])
+      names(tidy_object)[1] <- ".rownames"
+    }
+    else{
+      tidy_object <- object
+    }
   }
 
+  if (!inherits(object, "data.frame") & any(!descriptors %in% "term")){
+    tidy_object <- tidy_levels_labels(object,
+                                      descriptors = descriptors,
+                                      numeric_level = numeric_level,
+                                      argcheck = Check) %>%
+      dplyr::bind_cols(., tidy_object[, -1, drop = FALSE])
+  }
+  
+  ArgumentCheck::finishArgCheck(Check)
+
   #* Create the table head
-  head <- as.data.frame(t(names(object)),
+  head <- as.data.frame(t(names(tidy_object)),
                         stringsAsFactors=FALSE)
-  names(head) <- names(object)
+  names(head) <- names(tidy_object)
+  
+  if (glance_foot){
+    foot <- glance_foot(object,
+                        col_pairs = col_pairs,
+                        total_cols = ncol(tidy_object),
+                        glance_stats = glance_stats,
+                        byrow = byrow) %>%
+      component_table()
+  }
+  else {
+    foot <- NULL
+  }
 
   #* Eventually, by default, glance statistics will be inserted into
   #* the 'foot' object.  Objects passed as data frames should not have
   #* glance statistics by default.  Perhaps an option for glance_df should
   #* be provided here.
   
-  structure(list(head = component_table(head, object),
-                 body = component_table(object),
+  structure(list(head = component_table(head, tidy_object),
+                 body = component_table(tidy_object),
                  interfoot = NULL,
-                 foot = NULL,
+                 foot = foot,
                  border_collapse = TRUE,
                  longtable = FALSE,
                  print_method = getOption("pixiedust_print_method")),
@@ -196,4 +258,4 @@ primaryClass <- function(x){
 }
 
 
-
+utils::globalVariables(".")

@@ -1,3 +1,10 @@
+#### 0.3.1-0 (18 September 2015)
+* Glance footer is implemented.  Needs additional documentation,
+  tests, and examples.  
+* Variable labels and levels are implemented (well ahead of
+  schedule!).  Also needs additional documentations, tests,
+  and examples.
+
 #### 0.3.0-0 (15 September 2015)
 * Multi-cell output for HTML is fully supported.
 * Data frame row names may be captured in the output with `dust` 

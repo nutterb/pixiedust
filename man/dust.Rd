@@ -5,8 +5,10 @@
 \alias{redust}
 \title{Dust Table Construction}
 \usage{
-dust(object, ..., glance_foot = TRUE, tidy_df = FALSE,
-  keep_rownames = FALSE)
+dust(object, ..., tidy_df = FALSE, keep_rownames = FALSE,
+  glance_foot = FALSE, glance_stats = NULL, col_pairs = 2,
+  byrow = FALSE, descriptors = "term", numeric_level = c("term",
+  "term_plain", "label"))
 
 redust(x, table, part = c("head", "foot", "interfoot", "body"))
 }
@@ -14,9 +16,6 @@ redust(x, table, part = c("head", "foot", "interfoot", "body"))
 \item{object}{An object that has a \code{tidy} method in \code{broom}}
 
 \item{...}{Additional arguments to pass to \code{tidy}}
-
-\item{glance_foot}{Arrange the glance statistics for the \code{foot} of the
-table. (Not scheduled for implementation until version 0.4.0)}
 
 \item{tidy_df}{When \code{object} is an object that inherits the
 \code{data.frame} class, the default behavior is to assume that the
@@ -28,6 +27,40 @@ desired, set to \code{TRUE}.}
 column, allowing them to be preserved in the tabulated output.  This
 is only to data frame like objects, as the \code{broom::tidy.matrix} method
 performs this already.}
+
+\item{glance_foot}{Arrange the glance statistics for the \code{foot} of the
+table. (Not scheduled for implementation until version 0.4.0)}
+
+\item{glance_stats}{A character vector giving the names of the glance statistics
+to put in the output.  When \code{NULL}, the default, all of the available
+statistics are retrieved.  In addition to controlling which statistics are
+printed, this also controls the order in which they are printed.}
+
+\item{col_pairs}{An integer indicating the number of column-pairings for the
+glance output.  This must be less than half the total number of columns,
+as each column-pairing includes a statistic name and value. See the full
+documentation for the unexported function \code{\link{glance_foot}}.}
+
+\item{byrow}{A logical, defaulting to \code{FALSE}, that indicates if the
+requested statistics are placed with priority to rows or columns.
+See the full documentation for the unexported function \code{\link{glance_foot}}.}
+
+\item{descriptors}{A character vector indicating the descriptors to
+be used in the table.  Acceptable inputs are \code{"term"},
+\code{"term_plain"}, \code{"label"}, \code{"level"}, and
+\code{"level_detail"}.  These may be used in any combination and
+any order, with the descriptors appearing in the table from left
+to right in the order given.  The default, \code{"term"}, returns
+only the term descriptor and is identical to the output provided
+by \code{broom::tidy} methods.  See Details for a full explanation
+of each option and the Examples for sample output.
+See the full documentation for the unexported function \code{\link{tidy_levels_labels}}.}
+
+\item{numeric_level}{A character string that determines which descriptor
+is used for numeric variables in the \code{"level_detail"} descriptor
+when a numeric has an interaction with a factor.  Acceptable inputs
+are \code{"term"}, \code{"term_plain"}, and \code{"label"}.
+See the full documentation for the unexported function \code{\link{tidy_levels_labels}}.}
 
 \item{x}{A dust object}
 
@@ -93,6 +126,6 @@ x
 Benjamin Nutter
 }
 \seealso{
-\code{\link[broom]{tidy}}
+\code{\link[broom]{tidy}} \code{\link{glance_foot}} \code{\link{tidy_levels_labels}}
 }
 
