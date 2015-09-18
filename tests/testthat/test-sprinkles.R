@@ -303,12 +303,43 @@ test_that("sprinkles: longtable- character resolve to FALSE",
                FALSE)
 })
 
+test_that("sprinkles: merge",
+{
+  x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
+  expect_that(sprinkle(x, rows = 3:4, cols = 1:2, merge = TRUE,
+                       merge_rowval = 4, merge_colval = 2),
+              not(throws_error()))
+})
+
+test_that("sprinkles: merge_rowval without merge casts error",
+{
+  x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
+  expect_that(sprinkle(x, rows = 3:4, cols = 1:2,
+                       merge_rowval = 4),
+              throws_error())
+})
+
+test_that("sprinkles: merge_colval without merge casts error",
+{
+  x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
+  expect_that(sprinkle(x, rows = 3:4, cols = 1:2,
+                       merge_colval = 4),
+              throws_error())
+})
+
 test_that("sprinkles: na_string",
 {
   x <- dust(aov(mpg ~ factor(am) + factor(gear), data = mtcars))
   expect_equal(sprinkle(x, na_string = "")$body$na_string,
                rep("", 18))
 })
+
+test_that("sprinkles: na_string not character",
+{
+  x <- dust(aov(mpg ~ factor(am) + factor(gear), data = mtcars))
+  expect_that(sprinkle(x, na_string = 1),
+               throws_error())
+}) 
 
 test_that("sprinkles: pad",
 {
@@ -418,3 +449,11 @@ test_that("sprinkles: width_units errors",
   expect_that(sprinkle(x, rows = 1, cols = 1, width_units = "em"),
               throws_error())
 })
+
+test_that("sprinkles: no sprinkles given",
+{
+  x <- dust(lm(mpg ~ qsec + factor(am) + wt, data=mtcars))
+  expect_that(sprinkle(x, rows = 1, cols = 1),
+              throws_error())
+})
+  

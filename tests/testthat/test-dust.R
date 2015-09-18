@@ -1,8 +1,9 @@
 context("Create a dust object")
 
+fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
+
 test_that("Create a dust object",
 {
-  fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
   x <- dust(fit)
   
   expect_equal(class(x), "dust")
@@ -10,7 +11,6 @@ test_that("Create a dust object",
 
 test_that("dust object has expected names",
 {
-  fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
   x <- dust(fit)
   
   expect_equal(names(x), c("head", "body", "interfoot", "foot", 
@@ -48,4 +48,25 @@ test_that("dust with keep_rownames = TRUE adds rownames to object",
 {
   x <- dust(mtcars, keep_rownames = TRUE)
   expect_equal(x$body$value[1:32], rownames(mtcars))
+})
+
+test_that("dust with additional descriptors",
+{
+  expect_that(dust(fit, 
+                    descriptors = c("label", "level_detail")),
+               not(throws_error()))
+})
+
+test_that("dust with additional descriptors and term_plain numeric_label",
+{
+  expect_that(dust(fit,
+                   descriptors = c("label", "level_detail"),
+                   numeric_label = "term_plain"),
+              not(throws_error()))
+})
+
+test_that("dust with glance_foot",
+{
+  expect_that(dust(fit, glance_foot = TRUE),
+              not(throws_error()))
 })

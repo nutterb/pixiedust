@@ -111,7 +111,7 @@ pixiedust:::tidy_levels_labels(fit,
 
 #* Assign factors ahead of the model. This allows
 #* the user to determine the levels that display.
-#* Compare the otuput for 'am' with the output for 'gear'
+#* Compare the output for 'am' with the output for 'gear'
 
 mtcars2$am <- factor(mtcars2$am, 0:1, c("Automatic", "Manual"))
 Hmisc::label(mtcars2$am) <- "Transmission" # Label was lost in variable conversion

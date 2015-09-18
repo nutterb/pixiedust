@@ -403,6 +403,14 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
       sprinkles$merge_colval <- if (is.null(cols)) 1 else min(cols)
   }
   
+  if (("merge_rowval" %in% names(sprinkles) | "merge_colval" %in% names(sprinkles)) &
+      !"merge" %in% names(sprinkles)){
+    ArgumentCheck::addError(
+      msg = paste0("The sprinkles 'merge_rowval' and 'merge_colval' ",
+                   "can only be used when the 'merge' sprinkle is used"),
+      argcheck = Check)
+  }
+  
   if ("na_string" %in% names(sprinkles)){
     if (!is.character(sprinkles$na_string)){
       ArgumentCheck::addError(
