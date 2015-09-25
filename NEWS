@@ -1,3 +1,13 @@
+#### 0.4.0-0 (25 September 2015)
+* Fixed a bug described in Issue #26
+* Changes to Advance Magic vignette use a linear model and
+  glance statistics for examples.
+
+#### 0.3.1-0 (18 September 2015)
+* Glance footer is implemented.  Vignettes need to be updated
+* Variable labels and levels are implemented (well ahead of
+  schedule!).  Vignettes need to be updated
+
 #### 0.3.0-0 (15 September 2015)
 * Multi-cell output for HTML is fully supported.
 * Data frame row names may be captured in the output with `dust` 

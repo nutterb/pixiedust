@@ -1,8 +1,10 @@
 #' @importFrom dplyr bind_rows
+#' @importFrom dplyr data_frame
 #' @importFrom dplyr select_
 #' @importFrom htmltools htmlPreserve
 #' @importFrom knitr asis_output
 #' @importFrom tidyr spread_
+
 
 print_dust_html <- function(x, ...)
 {
@@ -27,7 +29,6 @@ print_dust_html <- function(x, ...)
   body <- part_prep_html(x$body)
   foot <- if (!is.null(x$foot)) part_prep_html(x$foot) else NULL
   interfoot <- if (!is.null(x$interfoot)) part_prep_html(x$interfoot) else NULL
-  
   
   tmpfile <- tempfile(fileext=".html")
   non_interactive <- ""
@@ -173,14 +174,26 @@ part_prep_html <- function(part, head=FALSE)
                       rotate_degree, pad,
                       "'>", value, "</", dh, ">"))
   
-  part$value[part$rowspan == 0] <- ""
-  part$value[part$colspan == 0] <- ""
+  ncol <- max(part$col)
+  part <- dplyr::filter_(part, "!(rowspan == 0 | colspan == 0)")
+
+
+#   part$value[part$rowspan == 0] <- ""
+#   part$value[part$colspan == 0] <- ""
 
   #* Spread to wide format for printing
-  dplyr::select_(part, "row", "col", "value") %>%
-    tidyr::spread_("col", "value") %>%
-    dplyr::select_("-row")
+  part <- dplyr::select_(part, "html_row", "html_col", "value") %>%
+    tidyr::spread_("html_col", "value", fill = "") %>%
+    dplyr::select_("-html_row")
   
+  if (ncol(part) != ncol){
+    part <- dplyr::bind_cols(part, 
+                     do.call("cbind",
+                             lapply(1:(ncol - ncol(part)), 
+                            function(i) dplyr::data_frame(value = ""))))
+    names(part) <- 1:ncol
+  }
+  part
 }
 
 #***********************************

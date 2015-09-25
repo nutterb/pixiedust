@@ -123,15 +123,15 @@ Are there other features you want or need?  Please submit an issue, or contribut
 |**0.1.0**| Console, markdown and HTML output for simple table | 1 Aug 2015  | 3 Aug 2015  |
 | 0.2.0   | Multirow table headers; footers; multipage tables  | 20 Aug 2015 | 18 Aug 2015 |
 | 0.3.0   | Multicolumn and multirow cells in HTML             | 15 Sep 2015 | 15 Sept 2015 |
-| 0.4.0   | Glance statistics in table footer                  | 1 Oct 2015  | |
+| 0.4.0   | Glance statistics in table footer                  | 1 Oct 2015  | 25 Sept 2015 |
+|         | Add variable labels and levels to `broom` output   |             | |
 |**0.5.0**| LaTeX output for simple table                      | 15 Oct 2015 | |
 | 0.6.0   | Borders and backgrounds for LaTeX tables           | 1 Nov 2015  | |
 | 0.7.0   | Multicolumn and multirow support for LaTeX tables  | 1 Dec 2015  | |
 |**0.8.0**| Longtable support for LaTeX tables                 |   Jan 2016  | |
 | 0.9.0   | Adjustable cell heights and widths in LaTeX tables |   Feb 2016  | |
 | 0.10.0  | Rotated text for LaTeX tables                      |   Mar 2016  | |
-| 0.11.0  | Add variable labels and levels to `broom` output   |   Apr 2016  | |
-| 0.12.0  | Add themes (cobwebs?) for batch customizations     |   Apr 2016  | |
+| 0.12.0  | Add `dust_theme` for batch customizations     |   Apr 2016  | |
 |**1.0.0**| Release of basic, stable package                   |   Jun 2016  | |
 
 **bold version numbers** indicate a planned release to CRAN.
