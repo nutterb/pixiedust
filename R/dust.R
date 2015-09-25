@@ -247,7 +247,9 @@ cell_attributes_frame <- function(nrow, ncol)
               rowspan = 1,
               colspan = 1,
               na_string = NA,
-              stringsAsFactors=FALSE)
+              stringsAsFactors=FALSE) %>%
+    mutate_(html_row = ~row,
+            html_col = ~col)
 }
 
 

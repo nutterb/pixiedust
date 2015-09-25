@@ -1,3 +1,8 @@
+#### 0.3.1-1 (24 September 2015)
+* Fixed a bug described in Issue #26
+* Changes to Advance Magic vignette use a linear model and
+  glance statistics for examples.
+
 #### 0.3.1-0 (18 September 2015)
 * Glance footer is implemented.  Vignettes need to be updated
 * Variable labels and levels are implemented (well ahead of

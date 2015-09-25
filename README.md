@@ -51,6 +51,7 @@ Tables can be customized by row, column, or even by a single cell by adding spri
 | height            | x           |         |          | x    | o     |
 | height\_units     | x           |         |          | x    | o     |
 | italic            | x           | x       | x        | x    | o     |
+| merge             | x           | x       | x        | x    | o     |
 | na\_string        | x           | x       | x        | x    | o     |
 | padding           | x           |         |          | x    |       |
 | replace           | x           | x       | x        | x    | x     |
@@ -192,7 +193,7 @@ Are there other features you want or need? Please submit an issue, or contribute
 |  **0.1.0**| Console, markdown and HTML output for simple table |   1 Aug 2015| 3 Aug 2015   |
 |      0.2.0| Multirow table headers; footers; multipage tables  |  20 Aug 2015| 18 Aug 2015  |
 |      0.3.0| Multicolumn and multirow cells in HTML             |  15 Sep 2015| 15 Sept 2015 |
-|      0.4.0| Glance statistics in table footer                  |   1 Oct 2015|              |
+|      0.4.0| Glance statistics in table footer                  |   1 Oct 2015| 25 Sept 2015 |
 |           | Add variable labels and levels to `broom` output   |             |              |
 |  **0.5.0**| LaTeX output for simple table                      |  15 Oct 2015|              |
 |      0.6.0| Borders and backgrounds for LaTeX tables           |   1 Nov 2015|              |

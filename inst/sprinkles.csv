@@ -18,6 +18,7 @@ halign,                     x,       ,        ,   x,    o
 height,                     x,       ,        ,   x,    o
 height_units,               x,       ,        ,   x,    o
 italic,                     x,      x,       x,   x,    o 
+merge,                      x,      x,       x,   x,    o
 na_string,                  x,      x,       x,   x,    o
 padding,                    x,       ,        ,   x,     
 replace,                    x,      x,       x,   x,    x

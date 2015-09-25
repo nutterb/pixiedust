@@ -586,6 +586,8 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
                      colspan = ~ifelse(col == merge_colval,
                                        length(cols),
                                        0),
+                     html_row = min(rows),
+                     html_col = min(cols),
                      merge = ~NULL,
                      merge_rowval = ~NULL,
                      merge_colval = ~NULL)

@@ -116,8 +116,10 @@ glance_foot <- function(fit, col_pairs, total_cols,
   cols_per_gap <- ceiling(fill_cols / fill_gaps)
   total_fills <- fill_gaps * cols_per_gap
   
+  fills_per_gap_times <- fill_cols %/% cols_per_gap
+  if (!is.finite(fills_per_gap_times)) fills_per_gap_times <- 0
   fills_per_gap <- 
-    c(rep(cols_per_gap, fill_cols %/% cols_per_gap ),
+    c(rep(cols_per_gap, fills_per_gap_times),
       fill_cols %% cols_per_gap)
   fills_per_gap <- fills_per_gap[fills_per_gap > 0]
   
@@ -144,6 +146,7 @@ glance_foot <- function(fit, col_pairs, total_cols,
   
 
 build_fill <- function(fills_per_gap, rows){
+  if (is.na(fills_per_gap)) return(NULL)
   Fills <- lapply(1:fills_per_gap,
                   function(f)
                     data.frame(fill = rep("", rows),

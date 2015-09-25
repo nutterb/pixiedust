@@ -28,8 +28,8 @@ test_that("dust object body component has correct dimensions",
                dim(x$foot))
   
   expect_equal(Dims, 
-               list(c(5, 28), 
-                    c(30, 28),
+               list(c(5, 30), 
+                    c(30, 30),
                     NULL,
                     NULL))
 })
@@ -68,5 +68,14 @@ test_that("dust with additional descriptors and term_plain numeric_label",
 test_that("dust with glance_foot",
 {
   expect_that(dust(fit, glance_foot = TRUE),
+              not(throws_error()))
+})
+
+test_that("dust with glance_foot and col_pairs a divisor of total_cols",
+{
+  fit <- lm(mpg ~ qsec + factor(am) + wt * factor(gear), data = mtcars)
+  expect_that(dust(fit,
+                   descriptors = c("label", "level_detail"),
+                   glance_foot = TRUE, col_pairs = 3),
               not(throws_error()))
 })
