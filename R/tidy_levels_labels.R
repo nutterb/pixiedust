@@ -1,4 +1,13 @@
 #' @name tidy_levels_labels
+#' @importFrom ArgumentCheck finishArgCheck
+#' @importFrom ArgumentCheck match_arg
+#' @importFrom ArgumentCheck newArgCheck
+#' @importFrom broom tidy
+#' @importFrom dplyr bind_rows
+#' @importFrom dplyr mutate_
+#' @importFrom Hmisc label
+#' @importFrom stats model.frame
+#' 
 #' 
 #' @title Term and Level Descriptions for \code{pixiedust} Tables
 #' 
@@ -155,7 +164,7 @@ tidy_levels_labels <- function(object,
 }
 
 levels_and_labels <- function(object, ...){
-  model_data <- model.frame(object)
+  model_data <- stats::model.frame(object)
   Labels <- Hmisc::label(model_data, default = names(model_data))
   NLevels <- vapply(model_data, modelNLevels, 1)
   Levels <- lapply(model_data, modelFriendlyLevels) %>%

@@ -311,6 +311,14 @@ test_that("sprinkles: merge",
               not(throws_error()))
 })
 
+test_that("sprinkles: merge is not logical",
+{
+  x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
+  expect_that(sprinkle(x, rows = 3:4, cols = 1:2, merge = "yes please",
+                       merge_rowval = 4, merge_colval = 2),
+              throws_error())
+})
+
 test_that("sprinkles: merge_rowval without merge casts error",
 {
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
@@ -454,6 +462,27 @@ test_that("sprinkles: no sprinkles given",
 {
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data=mtcars))
   expect_that(sprinkle(x, rows = 1, cols = 1),
+              throws_error())
+})
+
+test_that("sprinkles: single unnamed sprinkle",
+{
+  x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
+  expect_that(sprinkle(x, rows = 1, cols = 1, "green"),
+              throws_error())
+})
+
+test_that("sprinkles: multiple unnamed sprinkles",
+{
+  x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
+  expect_that(sprinkle(x, rows = 1, cols = 1, "green", "dotted"),
+              throws_error())
+})
+
+test_that("sprinkles: mixture of named and unnamed sprinkles",
+{
+  x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
+  expect_that(sprinkle(x, rows = 1, cols = 1, border_color = "green", "dotted"),
               throws_error())
 })
   

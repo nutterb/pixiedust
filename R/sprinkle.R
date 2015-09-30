@@ -255,8 +255,9 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
       msg = "No sprinkles declared. You must define at least one sprinkle in '...'",
       argcheck = Check)
   
-  if (any(names(sprinkles) %in% "")){
+  if (any(names(sprinkles) %in% "") | is.null(names(sprinkles))){
     unnamed_pos <- which(names(sprinkles) %in% "")
+    if (length(unnamed_pos) == 0) unnamed_pos = 1:length(sprinkles)
     ArgumentCheck::addError(
       msg = paste0("All arguments in '...' must be named. ",
                    "Check arguments in position(s) ", 

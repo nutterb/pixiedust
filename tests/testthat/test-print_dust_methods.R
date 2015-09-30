@@ -65,6 +65,33 @@ test_that("print_dust_html",
   expect_that(print_dust_html(x), not(throws_error()))
 })
 
+test_that("print_dust_html: correction for multiple cell merge",
+{
+  custom_head <- rbind(names(mtcars), Hmisc::label(mtcars)) %>%
+    as.data.frame(stringsAsFactors = FALSE)
+  
+  custom_foot <- rbind(vapply(mtcars, mean, numeric(1)),
+                       vapply(mtcars, sd, numeric(1))) %>%
+    as.data.frame(stringsAsFactors = FALSE)
+  
+  custom_interfoot <- data.frame("To Be Continued", 
+                                 "", "", "", "", "", "",
+                                 "", "", "", "")
+  
+  x <- dust(mtcars) %>%
+     redust(custom_head, part = "head") %>%
+     redust(custom_foot, part = "foot") %>%
+     redust(custom_interfoot, part = "interfoot") %>%
+     sprinkle_table(round = 2, longtable = 4) %>%
+     sprinkle(bg = "gray", part = "head") %>%
+     sprinkle(bg = "lightgray", part = "foot") %>%
+     sprinkle(bg = "lightgray", part = "interfoot") %>%
+     sprinkle(merge = TRUE, halign = "center", part = "interfoot") %>%
+     sprinkle_print_method("html")
+  
+  expect_that(print_dust_html(x), not(throws_error()))
+})
+
 test_that("print_dust_markdown",
 {
   fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
@@ -95,5 +122,6 @@ test_that("print_dust_markdown",
              width_units = "%") %>%
     sprinkle_print_method("markdown")
   
-  prints_text(print_dust_markdown(x))
+  expect_that(x,
+              not(throws_error()))
 })
