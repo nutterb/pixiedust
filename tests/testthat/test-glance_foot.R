@@ -37,6 +37,14 @@ test_that("glance_foot with invalid stats requested",
               gives_warning())
 })
 
+test_that("glance_foot with no valid stats requested",
+{
+  expect_that(glance_foot(fit, col_pairs = 2, total_cols = 6, byrow = TRUE,
+                          glance_stats = c("r.squared-x", "adj.r.squared-x",
+                                           "df-x", "AIC-xy")),
+              throws_error())
+})
+
 test_that("glance_foot with too few total_cols",
 {
   expect_that(glance_foot(fit, col_pairs = 2, total_cols = 3, byrow = TRUE,

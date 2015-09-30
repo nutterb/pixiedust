@@ -9,6 +9,8 @@ sprinkle_table <- function(x, cols=NULL, ...,
                                          several.ok = TRUE,
                                          argcheck = Check)
   
+  ArgumentCheck::finishArgCheck(Check)
+  
   if (length(part_names) > 0)
     if (any(part_names %in% "table")) part_names <- c("body", "head", "foot", "interfoot")
   
