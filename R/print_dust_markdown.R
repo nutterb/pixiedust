@@ -26,13 +26,15 @@ print_dust_markdown <- function(x, ...)
   #* detect the type of output.  The spacing between tables is output-specific
   if (!interactive()){
     output_type <- knitr::opts_knit$get('rmarkdown.pandoc.to')
-    linebreak <- if (output_type == "html") "<br>"
+    linebreak <- if (is.null(output_type)) "  "
+    else if (output_type == "html") "<br>"
     else if (output_type == "latex") "\\ \\linebreak"
     else "  "
   }
   else linebreak <- "  "
   
 
+  
   #* Format the table divisions
   head <- part_prep_markdown(x$head)
   body <- part_prep_markdown(x$body)

@@ -122,6 +122,6 @@ test_that("print_dust_markdown",
              width_units = "%") %>%
     sprinkle_print_method("markdown")
   
-  expect_that(x,
+  expect_that(print_dust_markdown(x),
               not(throws_error()))
 })
