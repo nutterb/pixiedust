@@ -1,0 +1,31 @@
+---
+title: "LaTeX Table Tests"
+author: "Benjamin Nutter"
+date: "October 1, 2015"
+output: pdf_document
+header-includes:
+ - \usepackage[dvipsnames]{xcolor}
+---
+
+```{r}
+library(pixiedust)
+fit <- lm(mpg ~ qsec + factor(am) + wt * factor(gear), data = mtcars)
+x <- dust(fit) %>%
+  sprinkle(cols = 2:4, round = 2) %>%
+  sprinkle(cols = 5, fn = quote(pvalString(value))) %>%
+  sprinkle(cols = 3, bold = TRUE, font_color = "Orchid") %>%
+  sprinkle(cols = 2, italic = TRUE, bold = TRUE) %>%
+  sprinkle(cols = 1, rows = 2, halign = "right") %>%
+  sprinkle_colnames(estimate = "Estimate", p.value = "P") %>%
+  sprinkle_print_method("latex")
+```
+
+```{r}
+x
+```
+
+```{r}
+dust(anova(fit)) %>%
+  sprinkle(round = 3, na_string = "N/A") %>%
+  sprinkle_print_method("latex")
+```

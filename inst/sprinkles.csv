@@ -9,20 +9,20 @@ border_thickness,           x,       ,        ,   x,    o
 border_units,               x,       ,        ,   x,    o
 border_style,               x,       ,        ,   x,    o
 border_color,               x,       ,        ,   x,    o
-colnames,                   x,      x,       x,   x,    o 
-fn,                         x,      x,       x,   x,    o 
+colnames,                   x,      x,       x,   x,    x 
+fn,                         x,      x,       x,   x,    x 
 font_color,                 x,       ,        ,   x,    o
 font_size,                  x,       ,        ,   x,    o
 font_size_units,            x,       ,        ,   x,    o
 halign,                     x,       ,        ,   x,    o
 height,                     x,       ,        ,   x,    o
 height_units,               x,       ,        ,   x,    o
-italic,                     x,      x,       x,   x,    o 
+italic,                     x,      x,       x,   x,    x 
 merge,                      x,      x,       x,   x,    o
 na_string,                  x,      x,       x,   x,    o
 padding,                    x,       ,        ,   x,     
 replace,                    x,      x,       x,   x,    x
-round,                      x,      x,       x,   x,    o
+round,                      x,      x,       x,   x,    x
 rotate_degree,              x,       ,        ,   x,    o
 valign,                     x,       ,        ,   x,    o
 width,                      x,       ,        ,   x,    o

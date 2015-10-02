@@ -29,6 +29,6 @@ print.dust <- function(x, ...)
         "console" = print_dust_console(x, ...),
         "markdown" = print_dust_markdown(x, ...),
         "html" = print_dust_html(x, ...),
-        # "latex" = print_dust_latex(x, ...),
+        "latex" = print_dust_latex(x, ...),
         stop(paste0("'", x$print_method, "' is not an valid print method")))
 }

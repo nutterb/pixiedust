@@ -195,12 +195,53 @@ Whenever a table is broken into multiple parts, each part retains the table head
 exception of the last section.  The last section has the \code{foot} appended.
 }
 
-\section{Colors}{
+\section{HTML Colors}{
 
 Color specifications accept X11 color names (\code{"orchid"}),
 hexidecimal names (\code{"#DA70D6"}), rgb names (\code{"rgb(218 112 214)"}),
 and rgba (rgb+alpha transparancy; \code{"rgba(218, 112, 214, .75)"}).
 Refer to \url{https://en.wikipedia.org/wiki/Web_colors#X11_color_names}.
+
+HTML color names are not case sensitive, but the color names in LaTeX output
+are.  If you desire to be able to toggle your output between HTML and LaTeX,
+it is recommended that you use the color names under the dvips section of
+page 38 of the LaTeX package \code{xcolor} manual
+(\url{http://ctan.mirrorcatalogs.com/macros/latex/contrib/xcolor/xcolor.pdf}.
+}
+
+\section{LaTeX Colors}{
+
+Use of color in LaTeX requirements requires that you have the LaTeX \code{color}
+package included in your document preamble (\code{\\usepackage\{color\}}).
+Rmarkdown documents include the color package automatically. The
+standard colors available in LaTeX are "white", "black", "red", "green",
+"blue", "cyan", "magenta", and "yellow".
+
+Additional colors may be made available using the LaTeX package \code{xcolor}.
+To be consistent with color names used in the HTML tables, it is recommended
+that you use the option \code{\\usepackage[dvipsnames]\{xcolor\}} in your
+preamble.  Please note that color names in LaTeX are case-sensitive, but the
+HTML names are not.  If the ability to switch between output methods is
+something you desire, you should adopt the capitalization used in the dvips
+names (See page 38 of the \code{xcolor} manual;
+\url{http://ctan.mirrorcatalogs.com/macros/latex/contrib/xcolor/xcolor.pdf}).
+}
+
+\section{Required LaTeX Packages}{
+
+If you will be using the LaTeX output, some sprinkles will require you
+to include additional LaTeX packages in your document preamble.  In
+\code{.Rnw} files, additional packages can be included with the
+\code{\\usepackage\{[package]\}} syntax.  In markdown, additional packages
+are included using \code{header-includes:} in the YAML front matter with
+a line of the format \code{\\usepackage\{[package]\}} for each package to
+be used.  Sprinkles that require additional packages, and the LaTeX packages
+required, are listed below:
+
+\tabular{ll}{
+  Sprinkle \tab LaTeX Package(s) \cr
+  \code{font_color} \tab \code{\\usepackage[dvipsnames]\{xcolor\}} \cr
+}
 }
 \examples{
 x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars))

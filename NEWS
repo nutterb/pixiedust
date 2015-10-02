@@ -1,3 +1,6 @@
+#### 0.4.1-0 (1 October 2015)
+* Started LaTeX Output
+
 #### 0.4.0-0 (25 September 2015)
 * Fixed a bug described in Issue #26
 * Changes to Advance Magic vignette use a linear model and
