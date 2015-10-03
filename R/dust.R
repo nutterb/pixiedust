@@ -120,6 +120,8 @@ dust <- function(object, ...,
     tidy_object <- broom::tidy(object, ...)
   
   else if (inherits(object, "data.frame")){
+    if (inherits(object, "data.table"))
+      object <- as.data.frame(object)
     if (keep_rownames){
       tidy_object <- cbind(rownames(object), object)
       rownames(tidy_object) <- NULL
@@ -140,12 +142,12 @@ dust <- function(object, ...,
   }
   
   ArgumentCheck::finishArgCheck(Check)
-
+ 
   #* Create the table head
   head <- as.data.frame(t(names(tidy_object)),
                         stringsAsFactors=FALSE)
   names(head) <- names(tidy_object)
-  
+
   if (glance_foot){
     foot <- glance_foot(object,
                         col_pairs = col_pairs,
@@ -157,12 +159,12 @@ dust <- function(object, ...,
   else {
     foot <- NULL
   }
-
+  
   #* Eventually, by default, glance statistics will be inserted into
   #* the 'foot' object.  Objects passed as data frames should not have
   #* glance statistics by default.  Perhaps an option for glance_df should
   #* be provided here.
-  
+
   structure(list(head = component_table(head, tidy_object),
                  body = component_table(tidy_object),
                  interfoot = NULL,
@@ -171,6 +173,7 @@ dust <- function(object, ...,
                  longtable = FALSE,
                  print_method = getOption("pixiedust_print_method")),
             class = "dust")
+  
 }
 
 #***********************************************************
@@ -187,7 +190,7 @@ component_table <- function(tbl, object)
   
   #* Initialize the table with row index, column index, and value
   tab <- gather_tbl(tbl)
-  
+
   #* Initialize default values of table attributes
   tab <- dplyr::left_join(tab, cell_attributes_frame(nrow(tbl), ncol(tbl)),
               by = c("row" = "row", "col" = "col"))

@@ -208,6 +208,13 @@
 #' names (See page 38 of the \code{xcolor} manual; 
 #' \url{http://ctan.mirrorcatalogs.com/macros/latex/contrib/xcolor/xcolor.pdf}). 
 #' 
+#' At present, the LaTeX output won't accept HEX or RGB codes as color definitions.
+#' This feature will likely be added in the future.  
+#' 
+#' Custom color definitions may also be defined by defining the color in the
+#' preamble.  The process for color definitions is described in the \code{xcolor}
+#' documentation.
+#' 
 #' @section Required LaTeX Packages:
 #' If you will be using the LaTeX output, some sprinkles will require you 
 #' to include additional LaTeX packages in your document preamble.  In 
