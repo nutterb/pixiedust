@@ -3,6 +3,7 @@
 #' @importFrom dplyr select_
 #' @importFrom htmltools htmlPreserve
 #' @importFrom knitr asis_output
+#' @importFrom stringr str_extract_all
 #' @importFrom tidyr spread_
 
 
@@ -57,7 +58,7 @@ part_prep_latex <- function(part, head=FALSE)
   logic <- part$round != "" & part$col_class %in% numeric_classes
   if (any(logic))
     part$value[logic] <- 
-      with(part, as.character(roundSafe(value[logic], as.numeric(round[logic]))))
+      as.character(roundSafe(part$value[logic], as.numeric(part$round[logic])))
   
   #* Bold and italic
   part$value[part$bold] <- paste0("\\textbf{", part$value[part$bold], "}")
@@ -84,14 +85,22 @@ part_prep_latex <- function(part, head=FALSE)
 #   
   #* Font Color
   logic <- part$font_color != ""
+  part$font_color <- vapply(part$font_color, 
+                            convertColor,
+                            character(1))
   part$value[logic] <- 
-    paste0("\\textcolor{", part$font_color[logic], "}{", part$value[logic], "}")
-#   
-#   #* Font size
-#   logic <- part$font_size != ""
-#   part$font_size[logic] <- 
-#     with(part, paste0("font-size:", font_size[logic],
-#                       font_size_units[logic], ";"))
+    paste0("\\textcolor", part$font_color[logic], "{", part$value[logic], "}")
+  
+  #* Font size
+  logic <- part$font_size != ""
+  part$font_size_units[logic] <- ifelse(part$font_size_units[logic] == "%",
+                                        "pt",
+                                        part$font_size_units[logic])
+                                        
+  part$value[logic] <- 
+    paste0("{\\fontsize{", part$font_size[logic],
+           part$font_size_units[logic], "}{1em}\\selectfont ",
+           part$value[logic], "}")
 #   
 #   #* cell height and width
 #   logic <- part$height != ""
@@ -119,10 +128,10 @@ part_prep_latex <- function(part, head=FALSE)
 #   part$right_border[logic] <- 
 #     with(part, paste0("border-right:", right_border[logic], "; "))
 #   
-#   #* Set NA (missing) values to na_string
-#   logic <- is.na(part$value) & !is.na(part$na_string)
-#   part$value[logic] <- 
-#     part$na_string[logic]
+  #* Set NA (missing) values to na_string
+  logic <- is.na(part$value) & !is.na(part$na_string)
+  part$value[logic] <- 
+    part$na_string[logic]
 #   
 #   #* Padding
 #   logic <- part$pad != ""
@@ -180,3 +189,15 @@ paste_latex_part <- function(part){
     paste0(" \\\\") %>%
     paste0(collapse = "\n")
 }
+
+convertColor <- function(color){
+  if (grepl("#", color)){
+    return(paste0("[HTML]{", sub("#", "", color), "}"))
+  }
+  else if (grepl("rgb", color, ignore.case = TRUE)){
+    rgb <- stringr::str_extract_all(color, "\\d{1,3}", simplify = TRUE)[1, 1:3]
+    return(paste0("[RGB]{", paste0(rgb, collapse=","), "}"))
+  }
+  else return(color)
+}
+  

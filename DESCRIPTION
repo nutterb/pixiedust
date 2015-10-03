@@ -21,6 +21,7 @@ Imports:
   knitr,
   lazyWeave,
   magrittr,
+  stringr,
   tidyr
 Suggests:
   rmarkdown,

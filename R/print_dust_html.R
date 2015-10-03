@@ -77,7 +77,7 @@ part_prep_html <- function(part, head=FALSE)
   logic <- part$round != "" & part$col_class %in% numeric_classes
   if (any(logic))
     part$value[logic] <- 
-      with(part, as.character(roundSafe(value[logic], as.numeric(round[logic]))))
+       as.character(roundSafe(part$value[logic], as.numeric(part$round[logic])))
   
   #* Bold and italic
   boldify <- part$bold

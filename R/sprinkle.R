@@ -108,8 +108,9 @@
 #'      font.  See "Colors".}
 #'   \item{\code{font_size} }{A numeric value denoting the size of the font.}
 #'   \item{\code{font_size_units} }{A character string giving the units 
-#'     of the font size.  Accepts values \code{"px"}, \code{"pt"}, \code{"\%"},
-#'     and \code{"em"}.  Defaults to \code{"px"}.}
+#'     of the font size.  Accepts values \code{"px"}, \code{"pt"}, \code{"\%"} 
+#'     (HTML only--reverts to the default in LaTeX),
+#'     and \code{"em"}.  Defaults to \code{"px"}.  }
 #'   \item{\code{halign} }{A character string denoting the horizontal alignment.
 #'     Accepts any one of the values \code{"left"}, \code{"center"}, or 
 #'     \code{"right"}, with partial matching.}
@@ -183,7 +184,7 @@
 #' @section HTML Colors:
 #' Color specifications accept X11 color names (\code{"orchid"}), 
 #' hexidecimal names (\code{"#DA70D6"}), rgb names (\code{"rgb(218 112 214)"}),
-#' and rgba (rgb+alpha transparancy; \code{"rgba(218, 112, 214, .75)"}).
+#' and rgba (rgb+alpha transparency; \code{"rgba(218, 112, 214, .75)"}).
 #' Refer to \url{https://en.wikipedia.org/wiki/Web_colors#X11_color_names}.
 #' 
 #' HTML color names are not case sensitive, but the color names in LaTeX output
@@ -208,12 +209,15 @@
 #' names (See page 38 of the \code{xcolor} manual; 
 #' \url{http://ctan.mirrorcatalogs.com/macros/latex/contrib/xcolor/xcolor.pdf}). 
 #' 
-#' At present, the LaTeX output won't accept HEX or RGB codes as color definitions.
-#' This feature will likely be added in the future.  
+#' The LaTeX output will accept hexidecimal names (\code{"#DA70D6"}) and 
+#' rgb names (\code{"rgb(218 112 214)"}), similar to the HTML colors described
+#' above.  However, transparency is not supported.  If the transparency 
+#' value is provided, it is silently ignored.  
 #' 
 #' Custom color definitions may also be defined by defining the color in the
 #' preamble.  The process for color definitions is described in the \code{xcolor}
-#' documentation.
+#' documentation.  Keep in mind that custom color designations in LaTeX output
+#' will not transfer the other output formats.
 #' 
 #' @section Required LaTeX Packages:
 #' If you will be using the LaTeX output, some sprinkles will require you 

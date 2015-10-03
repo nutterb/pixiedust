@@ -34,7 +34,9 @@ perform_function <- function(obj)
 
 roundSafe <- function(x, digits){
   y <- suppressWarnings(as.numeric(x))
-  y[!is.na(y)] <- round(y[!is.na(y)], digits)
+  if (length(y[!is.na(y)]) == 0) return(x)
+  
+  y[!is.na(y)] <- round(y[!is.na(y)], digits[!is.na(y)])
   x[!is.na(y)] <- y[!is.na(y)]
   x
 }
