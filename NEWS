@@ -1,3 +1,7 @@
+#### 0.4.2-0 (5 October 2015)
+* Added basic medleys
+* Adds as.data.frame.dust method. Closes Issue #33
+
 #### 0.4.1-0 (1 October 2015)
 * Started LaTeX Output
 

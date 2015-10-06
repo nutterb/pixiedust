@@ -160,3 +160,22 @@ test_that("print_dust_latex",
             expect_that(print_dust_latex(x),
                         not(throws_error()))
           })
+
+test_that("convertColor",
+{
+  expect_equal(convertColor("rgba(128,0,0, .5)"),
+               "[RGB]{128,0,0}")
+})
+
+test_that("convertColor",
+{
+  expect_equal(convertColor("rgb(128,0,0)"),
+               "[RGB]{128,0,0}")
+})
+
+test_that("convertColor Hex",
+{
+  expect_equal(convertColor("#E46C6C"),
+               "[HTML]{E46C6C}")
+})
+  
