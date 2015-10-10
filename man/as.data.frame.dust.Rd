@@ -4,12 +4,20 @@
 \alias{as.data.frame.dust}
 \title{Convert \code{dust} Object to Data Frame}
 \usage{
-\method{as.data.frame}{dust}(x, ...)
+\method{as.data.frame}{dust}(x, ..., sprinkled = TRUE)
 }
 \arguments{
 \item{x}{A \code{dust} object.}
 
 \item{...}{Arguments to be passed to other methods.  Currently unused.}
+
+\item{sprinkled}{Logical.  If \code{TRUE}, the sprinkles attached to the
+  \code{dust} object are applied before returning the data frame.
+  Sprinkles are applied via the same mechanism that prints to the console,
+  so only sprinkles that are applicable to console output are used.
+  When \code{FALSE}, \code{pixiedust} attempts to reconstruct the
+  data frame (or tidied output from \code{broom::tidy}
+  originally given to \code{dust}.}
 }
 \description{
 Sprinkles are applied to the \code{dust} object

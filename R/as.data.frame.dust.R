@@ -8,6 +8,13 @@
 #'   
 #' @param x A \code{dust} object.
 #' @param ... Arguments to be passed to other methods.  Currently unused.
+#' @param sprinkled Logical.  If \code{TRUE}, the sprinkles attached to the
+#'   \code{dust} object are applied before returning the data frame. 
+#'   Sprinkles are applied via the same mechanism that prints to the console,
+#'   so only sprinkles that are applicable to console output are used.
+#'   When \code{FALSE}, \code{pixiedust} attempts to reconstruct the 
+#'   data frame (or tidied output from \code{broom::tidy} 
+#'   originally given to \code{dust}.
 #' 
 #' @details In its current state, this can be a fairly ineffcient function
 #'   as the table, if the longtable option is in use, will be built in 
@@ -31,7 +38,33 @@
 #' 
 #' @export
 
-as.data.frame.dust <- function(x, ...){
-  print_dust_console(x, return_df = TRUE)
+as.data.frame.dust <- function(x, ..., sprinkled = TRUE){
+  if (!sprinkled){
+    return(print_dust_console(x, return_df = TRUE))
+  }
+  else {
+    X <- dplyr::select(x$body, 
+                       row, col, value) %>%
+      tidyr::spread(col, value) %>%
+      dplyr::select(-row)
+    
+    col_names <- dplyr::group_by(x$body, col) %>%
+      dplyr::summarise(col_name = col_name[1])
+    col_names <- col_names$col_name
+    
+    classes <- dplyr::group_by(x$body, col) %>%
+      dplyr::summarise(col_class = col_class[1])
+    classes <- paste0("as.", classes$col_class)
+    
+    for (i in seq_along(X)){
+      X[[i]] <- get(classes[i])(X[[i]])
+    }
+    
+    names(X) <- col_names
+    
+    X
+  }
+  
 }
 
+utils::globalVariables(c("value", "col_name", "col_class"))
