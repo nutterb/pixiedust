@@ -47,7 +47,7 @@ print_dust_console <- function(x, ..., return_df = FALSE)
     }
   }
   
-  if (return_df) return(DF)
+  if (return_df) return(as.data.frame(DF))
 }
 
 #**** Helper functions
