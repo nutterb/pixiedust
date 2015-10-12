@@ -39,7 +39,7 @@
 #' @export
 
 as.data.frame.dust <- function(x, ..., sprinkled = TRUE){
-  if (!sprinkled){
+  if (sprinkled){
     return(print_dust_console(x, return_df = TRUE))
   }
   else {
