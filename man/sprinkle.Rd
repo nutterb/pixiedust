@@ -128,7 +128,8 @@ list of which sprinkles are recognized by each output type, see
     \code{"right"}, with partial matching.}
   \item{\code{height} }{A numerical value giving the height of the cells.}
   \item{\code{height_units} }{A character string giving the units for the
-    \code{height} argument.  Accepts \code{"px"} and \code{"\%"}. Defaults
+    \code{height} argument.  Accepts \code{"px"}, \code{"pt"}, \code{"cm"},
+    \code{"in"} and \code{"\%"}. Defaults
     to \code{"px"}.}
   \item{\code{italic} }{Logical value.  If \code{TRUE}, text is rendered in italics.}
   \item{\code{longtable} }{ Allows the user to print a table in multiple sections.
@@ -175,8 +176,8 @@ list of which sprinkles are recognized by each output type, see
      with partial matching.}
   \item{\code{width} }{A numerical value giving the width of the cells.}
   \item{\code{width_units} }{A character string giving the units for the
-    \code{width} argument.  Accepts \code{"px"} and \code{"\%"}. Defaults
-    to \code{"px"}.}
+    \code{width} argument.  Accepts \code{"px"}, \code{"pt"}, \code{"cm"},
+    \code{"in"} and \code{"\%"}. Defaults to \code{"px"}.}
 }
 }
 

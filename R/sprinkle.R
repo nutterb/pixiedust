@@ -116,7 +116,8 @@
 #'     \code{"right"}, with partial matching.}
 #'   \item{\code{height} }{A numerical value giving the height of the cells.}
 #'   \item{\code{height_units} }{A character string giving the units for the 
-#'     \code{height} argument.  Accepts \code{"px"} and \code{"\%"}. Defaults
+#'     \code{height} argument.  Accepts \code{"px"}, \code{"pt"}, \code{"cm"}, 
+#'     \code{"in"} and \code{"\%"}. Defaults
 #'     to \code{"px"}.}
 #'   \item{\code{italic} }{Logical value.  If \code{TRUE}, text is rendered in italics.}
 #'   \item{\code{longtable} }{ Allows the user to print a table in multiple sections.  
@@ -163,8 +164,8 @@
 #'      with partial matching.}
 #'   \item{\code{width} }{A numerical value giving the width of the cells.}
 #'   \item{\code{width_units} }{A character string giving the units for the 
-#'     \code{width} argument.  Accepts \code{"px"} and \code{"\%"}. Defaults
-#'     to \code{"px"}.}
+#'     \code{width} argument.  Accepts \code{"px"}, \code{"pt"}, \code{"cm"}, 
+#'     \code{"in"} and \code{"\%"}. Defaults to \code{"px"}.}
 #' }
 #' 
 #' @section Longtable:
@@ -422,7 +423,7 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
   
   if ("height_units" %in% names(sprinkles))
     sprinkles$height_units <- ArgumentCheck::match_arg(sprinkles[["height_units"]],
-                                                       c("px", "%"),
+                                                       c("px", "pt", "in", "cm", "%"),
                                                        argcheck = Check)
   
   if ("italic" %in% names(sprinkles) & !is.logical(sprinkles$italic))
@@ -525,7 +526,7 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
   
   if ("width_units" %in% names(sprinkles))
     sprinkles$width_units <- ArgumentCheck::match_arg(sprinkles[["width_units"]],
-                                                      c("px", "%"),
+                                                      c("px", "pt", "cm", "in", "%"),
                                                       argcheck = Check)
   ArgumentCheck::finishArgCheck(Check)
 
