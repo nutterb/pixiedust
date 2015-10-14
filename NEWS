@@ -1,3 +1,27 @@
+#### 0.5.0 (Change Log Highlights since last CRAN Release)
+* `pixiedust` no longer uses the `+` operator.  
+   Please use `%>%` instead.
+* Complete support for HTML tables is available.
+* Limited support for LaTeX tables is available.
+* New vignette: Advanced Magic.
+* Added the `replace` sprinkle to replace values in 
+  table columns, rows, or cells.  
+* Added the `longtable` sprinkle: allows tables to 
+  be printed in multiple sections.
+* Added the `na_string` sprinkle.
+* Added support for multirow headers and footers.
+* Added support for multicell output using the 
+  `merge` sprinkle.
+* Added an option `glance_foot`, which places model
+  summary statistics in the foot of a table.
+* Added options for including variables labels and
+  more detailed descriptions of factors and levels.
+* Introduces "medleys", functions that can apply
+  multiple sprinkles to a `dust` object in a 
+  single line.
+* Adds `as.data.frame.dust` method
+
+
 #### 0.4.3-0 (13 October 2015)
 * The majority of LaTeX sprinkles are available, with
   the exception of borders, longtable, merging cells,
