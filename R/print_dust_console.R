@@ -5,7 +5,7 @@
 #' @importFrom dplyr ungroup
 #' @importFrom tidyr spread
 
-print_dust_console <- function(x, ...)
+print_dust_console <- function(x, ..., return_df = FALSE)
 {
   
   #* Determine the number of divisions
@@ -33,15 +33,21 @@ print_dust_console <- function(x, ...)
   if (!is.null(foot)) names(foot) <- names(head)
   if (!is.null(interfoot)) names(interfoot) <- names(head)
   
+  if (return_df) DF <- NULL
   
   #* Run a loop to print all the divisions
   for (i in 1:total_div){
     tbl <- dplyr::bind_rows(if (nrow(head) > 1) head[-1, ] else NULL, 
                             body[Divisions$row_num[Divisions$div_num == i], ], 
                             if (i == total_div) foot else interfoot)
-    print(as.data.frame(tbl))
-    cat("\n\n")
+    if (return_df) DF <- rbind(DF, tbl)
+    else {
+      print(as.data.frame(tbl))
+      cat("\n\n")
+    }
   }
+  
+  if (return_df) return(as.data.frame(DF))
 }
 
 #**** Helper functions

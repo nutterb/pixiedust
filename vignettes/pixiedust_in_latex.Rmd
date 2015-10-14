@@ -1,0 +1,291 @@
+---
+title: "Creating Magic with `pixiedust` "
+author: "Benjamin Nutter"
+date: "`r Sys.Date()`"
+output: 
+  pdf_document:
+    keep_tex: yes
+    number_section: yes
+    toc: yes
+header-includes:
+ - \usepackage[dvipsnames,table]{xcolor}
+---
+
+When David Robinson produced the `broom` package [1], he described it as an attempt to "[bridge]  the gap from untidy outputs of predictions and estimations to create tidy data that is easy to manipulate with standard tools."  While `broom`'s vision was to use model outputs as data, his work had a happy side-effect of producing tabular output that was very near what many researchers wish to present as results.  While the `broom` package assumes you want the model output for further analysis, the `pixiedust` package diverts from this assumption and provides you with the tools to customize that output into a fine looking table suitable for reports.
+
+To illustrate the functionality of `pixiedust`, we will make use of a linear regression model based on the `mtcars` dataset.  The model is defined:
+
+```{r}
+fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), 
+          data = mtcars)
+```
+
+In base R, the model summary can be presented using the `summary` command, and produces output that is quasi tabular.  While this summary contains many details of interest to the statistician, many of them are foreign to non-statistical audiences, and may intimidate some readers rather than inviting further reflection.
+
+```{r}
+summary(fit)
+```
+
+When `broom` was released, many undoubtedly recognized the potential to use the tidy output as executive summaries of the analyses.  Surely, the output below is much more consumable for the lay audience than the output above.
+
+```{r}
+broom::tidy(fit)
+```
+
+Thanks to `broom`, the hardest part of generating the tabular output is already accomplished.  However, there are still a few details to be dealt with, even with the tidy output.  For instance, the numeric values have too many decimal places; the column names could be spruced up a little; and we may want to direct readers' attention to certain parts of the table that are of particular interest.  Adding `pixiedust` makes these customizations easier and uses the familiar strategy of `ggplot2` where each new customization is added on top of the others.
+
+The process of building these tables involves an initial dusting with the `dust` function, and then the addition of "sprinkles" to fine tune rows, columns, or even individual cells.  The initial dusting creates a presentation very similar to the `broom` output.  
+
+```{r}
+library(pixiedust)
+dust(fit)
+```
+
+Realistically, the `dust` output is probably even less desirable than the `broom` output.  The `broom` output retains the class of the variables.  `term` is a character vector, the other vectors are numeric.  When this output is `dust`ed, however, these are all turned into character values.  The consequence is that we lose the benefit of the default formatting of numerical values.  Don't panic, though.  This isn't a disadvantage, it's the key feature of `pixiedust`.  `dust` converts the `broom` output into a table where each cell in the table is represented by a row (Take a look at `dust(fit)$body` to see what I mean).  This is the process by which we get control over every last detail of the table.  By the time we're done, we'll easily produce tables that look like this:
+
+```{r, echo=FALSE}
+dust(fit) %>%
+  sprinkle(cols = c("estimate", "std.error", "statistic"),
+           round = 3) %>% 
+  sprinkle(cols = "p.value", fn = quote(pvalString(value))) %>% 
+  sprinkle_colnames("Term", "Coefficient", "SE", "T-statistic", "P-value") %>% 
+  sprinkle(bg_pattern = c("Orchid", "Plum")) %>% 
+  sprinkle_print_method("latex")
+```
+
+Okay, maybe not those exact colors.  But you have to admit, they are very pixie like colors, are they not?
+
+# Formatting Cell Values
+As we noted earlier, the default output of `dust` has far too many decimal places.  In most cases, the decimal places returned probably exceed the accuracy of the values in the data.  We can sprinkle the values with `round` or any other function to suit our needs.  First, let's take a look at the `round` sprinkle.
+
+```{r}
+dust(fit) %>% 
+  sprinkle(cols = c("estimate", "std.error", "statistic"), round = 2)
+```
+
+That already makes a big difference.  We could have rounded the p-values as well, but we'll do something different with those.  We'll use another function to format the p-values into strings.  In the following code, we'll pass a function call to the `fn` argument of `sprinkle`. There are two important aspects of this call to be aware of
+
+1. The function is wrapped in `quote`.  `sprinkles` uses standard evaluation, and passing a function wrapped in `quote` allows us to delay its execution.
+2. The function `pvalString` is acting on `value`.  The elements of the `dust` object are stored in a manner where each cell in the table is a row in a data frame, with the contents of the cell being stored as `value`.  (Try running `dust(fit)$body` to explore the anatomy of the `dust` object).  Any function you pass in the `fn` argument needs to act on `value`.
+
+```{r}
+dust(fit) %>% 
+  sprinkle(cols = c("estimate", "std.error", "statistic"),
+           round = 3) %>% 
+  sprinkle(cols = "p.value", fn = quote(pvalString(value))) 
+```
+
+
+
+# Columns Names
+
+After formatting the cell values, the next thing we will likely want to change about our table is the column names.  The names returned by `broom` are deliberately generic.  In a conference call in July of 2015, a listener asked Robinson if using the column name `statisic` made sense for so many model types, since some were `F` statistics, some were `t` and still others were `z`.  Robinson answered that `broom'`s focus was not on the convenience of the reader, but on the convenience of the analyst being able to quickly and easily combine the output of several models.  Having a generic name made it easier for the analyst.  
+
+For the reader, the table's column names can be modified using the `sprinkle_colnames` function in `pixiedust`.  The function only has a `...` argument, and may accept either named or unnamed arguments.  If the arguments are named, the name matches one of the column names in the `broom` output, and the argument value represents the name we wish to appear in print.
+
+```{r}
+dust(fit) %>% 
+  sprinkle(cols = c("estimate", "std.error", "statistic"),
+           round = 3) %>% 
+  sprinkle(cols = "p.value", fn = quote(pvalString(value))) %>% 
+  sprinkle_colnames(term = "Term", p.value = "P-value")
+```
+
+Naming the arguments has advantages for reproducibility, as `pixiedust` will correctly assign the column names regardless of order.
+
+```{r}
+dust(fit) %>% 
+  sprinkle(cols = c("estimate", "std.error", "statistic"),
+           round = 3) %>% 
+  sprinkle(cols = "p.value", fn = quote(pvalString(value))) %>% 
+  sprinkle_colnames(term = "Term", p.value = "P-value", 
+                    std.error = "SE", statistic = "T-statistic",
+                    estimate = "Coefficient")
+```
+
+If all of the columns are to be renamed, we may forego naming the arguments _so long as we are careful to provide the new names in the same order they appear in the table_ (from left to right).  If the new names are provided in the wrong order, they will be applied to the table incorrectly.  Thus, it is recommended to name the arguments.  
+
+```{r}
+dust(fit) %>% 
+  sprinkle(cols = c("estimate", "std.error", "statistic"),
+           round = 3) %>% 
+  sprinkle(cols = "p.value", fn = quote(pvalString(value))) %>% 
+  sprinkle_colnames("Term", "Coefficient", "SE", "T-statistic", "P-value")
+```
+
+In the case that you provide a different number of arguments than there are columns in the table, an error is returned stating such.
+
+```{r, error = TRUE}
+dust(fit) %>% 
+  sprinkle(cols = c("estimate", "std.error", "statistic"),
+           round = 3) %>% 
+  sprinkle(cols = "p.value", fn = quote(pvalString(value))) %>% 
+  sprinkle_colnames("Term", "Coefficient", "SE", "T-statistic", "P-value", "Extra Column Name")
+```
+
+# Replacing Values in the Table
+
+There may be times you wish to use different values in the table than what are provided by the `broom` output.  Some examples may be using different standard errors from a ridge regression, or perhaps you prefer to display the variance inflation factors instead of the p-value.  Values can be replaced using the `replace` sprinkle.  In this example, we'll replace the `term` column with names that are a bit more friendly to the reader.
+
+```{r}
+dust(fit) %>% 
+  sprinkle(cols = "term", 
+           replace = c("Intercept", "Quarter Mile Time", "Automatic vs. Manual",
+                       "Weight", "Gears: 4 vs. 3", "Gears: 5 vs 3")) %>%
+  sprinkle(cols = c("estimate", "std.error", "statistic"),
+           round = 3) %>% 
+  sprinkle(cols = "p.value", fn = quote(pvalString(value))) %>% 
+  sprinkle_colnames("Term", "Coefficient", "SE", "T-statistic", "P-value")
+```
+
+Values are always replaced down the column before across the row.  To illustrate, let's replace the cells in rows 2 - 3 and columns 3 - 4 with the values 100, 200, 300, and 400.  If we want the values to read in sequential order from left to right before going to the next line, we make the replacement call (we will also italicize these cells to make them easier to find)
+
+```{r}
+dust(fit) %>% 
+  sprinkle(rows = 2:3, cols = 3:4, 
+           replace = c(100, 300, 200, 400),
+           italic = TRUE) %>%
+  sprinkle(cols = c("estimate", "std.error", "statistic"),
+           round = 3) %>% 
+  sprinkle(cols = "p.value", fn = quote(pvalString(value))) %>% 
+  sprinkle_colnames("Term", "Coefficient", "SE", "T-statistic", "P-value")
+```
+
+# Borders and Padding
+For the duration of the vignette, we will use `basetable` as the basis of additional customizations where `basetable` is defined below. We are also moving out of the capabilities of the console, so we will switch over to HTML printing.
+
+```{r}
+basetable <- dust(fit) %>% 
+  sprinkle(cols = c("estimate", "std.error", "statistic"),
+           round = 3) %>% 
+  sprinkle(cols = "p.value", fn = quote(pvalString(value))) %>% 
+  sprinkle_colnames(term = "Term", estimate = "Coefficient", 
+                    std.error = "SE", statistic = "T-statistic", 
+                    p.value = "P-value") %>% 
+  sprinkle_print_method("latex")
+```
+
+For no good reason, let's also focus on drawing attention to the statistically significant results.  Using borders, we could accomplish this by drawing a border around each of those rows.  There are five sprinkles related to borders.
+
+1. `border` controls on which sides of the cells the borders are drawn.
+2. `border_thickness` controls how thick the borders are.
+3. `border_units` controls the units of measure on the thickness.
+4. `border_style` controls the border style (solid or dashed, etc).
+5. `border_color` controls the color of the border.
+
+All of these sprinkles have default values they can take, so unless we need to customize more than one sprinkle, we need only specify one of the five in order to get all of them to take effect.
+
+```{r}
+basetable %>% 
+  sprinkle(rows = c(2, 4), border_color = "Orchid")
+```
+
+If we want to eliminate the borders between cells, we have to do a little more work.
+
+```{r}
+basetable %>% 
+  sprinkle(rows = c(2, 4), cols = 1, 
+           border = c("left", "top", "bottom"),
+           border_color = "Orchid") %>% 
+  sprinkle(rows = c(2, 4), cols = 5,
+           border = c("right", "top", "bottom"),
+           border_color = "Orchid") %>%
+  sprinkle(rows = c(2, 4), cols = 2:4,
+           border = c("top", "bottom"),
+           border_color = "Orchid")
+```
+
+We can further separate these rows by adding more padding to the cells.  In this example, for simplicity, we'll allow the lines between cells.
+
+```{r}
+basetable %>% 
+  sprinkle(rows = c(2, 4), border_color = "Orchid",
+           pad = 15)
+```
+
+# Bold and Italic Text
+A more conventional way to draw attention to these rows would be to print them in bold text.
+
+```{r}
+basetable %>% 
+  sprinkle(rows = c(2, 4), bold = TRUE)
+```
+
+The text could also be italicized either separately or concurrently.  He we show the italics printed concurrently.
+
+```{r}
+basetable %>% 
+  sprinkle(rows = c(2, 4), bold = TRUE, italic=TRUE)
+```
+
+# Backgrounds
+
+Backgrounds are added using the `bg` sprinkle, which accepts X11 colors, hexidecimal colors, rgb colors, and for HTML rgba colors (the a specifies the transparency). To put in a background in the rows showing statistical significance, we need only specify the color.
+
+```{r}
+basetable %>% 
+  sprinkle(rows = c(2, 4), bg = "Orchid")
+```
+
+If we decide that color is a little bit strong, we can lighten it up a little with the transparency.  We have to look up the rgb specification for the orchid color (there are lots of web resources for this; X11 Color Names on Wikipedia is a good place to start).
+
+```{r}
+basetable %>% 
+  sprinkle(rows = c(2, 4), bg = "rgba(218,112,214,.5)")
+```
+
+If we aren't interested in coloring just those two rows, we can apply color to the entire table with the `bg_pattern` sprinkle.  This sprinkle accepts as many colors as you want to cycle through.
+
+```{r}
+basetable %>% 
+  sprinkle(bg_pattern = c("Orchid", "Plum"))
+```
+
+# Font Sizes and Colors
+
+Font sizes and colors are modified with the `font_size` and `font_color` sprinkles.  We'll employ these simultaneously to highlight our significant rows.
+
+```{r}
+basetable %>% 
+  sprinkle(rows = c(2, 4), 
+           font_color = "Orchid",
+           font_size = 24,
+           font_size_units = "pt")
+```
+
+(Woah!  That was a bit too much.)
+
+# Dimensions and Alignment
+
+In addition to the sprinkles already discussed, we can also use sprinkles to change the height, width, and alignment of cells.  For illustration, we're going to use the first three rows of columns 2-4 to show a grid of all the combinations of alignments.  This requires that each cell be modified individually, so bear with me...the code is a bit long.
+
+```{r}
+basetable %>% 
+  sprinkle(rows = 1, cols = 2, halign = "left", valign = "top", height = 50, width = 50) %>% 
+  sprinkle(rows = 1, cols = 3, halign = "center", valign = "top", height = 50, width = 50) %>% 
+  sprinkle(rows = 1, cols = 4, halign = "right", valign = "top", height = 50, width = 50) %>% 
+  sprinkle(rows = 2, cols = 2, halign = "left", valign = "middle", height = 50, width = 50) %>% 
+  sprinkle(rows = 2, cols = 3, halign = "center", valign = "middle", height = 50, width = 50) %>% 
+  sprinkle(rows = 2, cols = 4, halign = "right", valign = "middle", height = 50, width = 50) %>% 
+  sprinkle(rows = 3, cols = 2, halign = "left", valign = "bottom", height = 50, width = 50) %>% 
+  sprinkle(rows = 3, cols = 3, halign = "center", valign = "bottom", height = 50, width = 50) %>% 
+  sprinkle(rows = 3, cols = 4, halign = "right", valign = "bottom", height = 50, width = 50)
+```
+# Rotating Text
+
+There is a sprinkle available to rotate the text in a cell. I don't recommend using it.  Rotated text is harder to read, and communicating concepts is the whole point of the table.  However, sometimes it might be necessary.  For our example, we'll take the summary of the `mtcars` data set as returned by `broom`.
+
+Notice here that when I apply the rotation, I added an argument to `sprinkle` in which I denoted that the rotation should apply to the head of the table.  The head and body of the table are stored separately in the `dust` object and all of the sprinkles may be applied to either part of the table.  
+```{r}
+dust(mtcars, tidy_df = TRUE) %>% 
+  sprinkle(cols = c("mean", "sd", "median", "trimmed", "mad", 
+                    "min", "max", "range", "skew", "kurtosis", "se"),
+           round = 2) %>% 
+  sprinkle(rows = 1, rotate_degree = -90, 
+           height = 60, part = "head") %>% 
+  sprinkle_print_method("latex")
+```
+
+# References
+
+1. Robinson, David. "`broom`: An R Package for Converting Statistical Analysis Objects Into Tidy Data Frames," Cornell University Library, http://arxiv.org/pdf/1412.3565v2.pdf.

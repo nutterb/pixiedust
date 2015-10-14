@@ -73,7 +73,7 @@
 #'   \item{\code{bg_pattern} }{This is one of the few exceptions to the length 1 rule.
 #'      This accepts a vector of any length.  Background colors are recycled in a 
 #'      pattern. See "Colors". If left unspecified but \code{bg_pattern_by} is 
-#'      specified, this will default to \code{c("white", "gainsboro")}.}
+#'      specified, this will default to \code{c("White", "Gray")}.}
 #'   \item{\code{bg_pattern_by} }{A character string denoting if the background 
 #'      pattern is recycled over rows or columns.  Accepts either \code{"rows"},
 #'      or \code{"columns"} with partial matching and defaults to \code{"rows"}.
@@ -109,14 +109,18 @@
 #'   \item{\code{font_size} }{A numeric value denoting the size of the font.}
 #'   \item{\code{font_size_units} }{A character string giving the units 
 #'     of the font size.  Accepts values \code{"px"}, \code{"pt"}, \code{"\%"},
-#'     and \code{"em"}.  Defaults to \code{"px"}.}
+#'     and \code{"em"}.  Defaults to \code{"pt"}.  LaTeX formats only recognize
+#'     \code{"pt"} and \code{"em"}, and other units specifications will be 
+#'     coerced to \code{"pt"}, which may result in an unexpected appearance.}
 #'   \item{\code{halign} }{A character string denoting the horizontal alignment.
 #'     Accepts any one of the values \code{"left"}, \code{"center"}, or 
 #'     \code{"right"}, with partial matching.}
 #'   \item{\code{height} }{A numerical value giving the height of the cells.}
 #'   \item{\code{height_units} }{A character string giving the units for the 
-#'     \code{height} argument.  Accepts \code{"px"} and \code{"\%"}. Defaults
-#'     to \code{"px"}.}
+#'     \code{height} argument.  Accepts \code{"px"}, \code{"pt"}, \code{"cm"}, 
+#'     \code{"in"} and \code{"\%"}. Defaults to \code{"pt"}.  LaTeX formats
+#'     do not recognize \code{"px"} and this will be coerced to \code{"pt"} when
+#'     submitted for LaTeX output.}
 #'   \item{\code{italic} }{Logical value.  If \code{TRUE}, text is rendered in italics.}
 #'   \item{\code{longtable} }{ Allows the user to print a table in multiple sections.  
 #'     This is useful when 
@@ -162,8 +166,10 @@
 #'      with partial matching.}
 #'   \item{\code{width} }{A numerical value giving the width of the cells.}
 #'   \item{\code{width_units} }{A character string giving the units for the 
-#'     \code{width} argument.  Accepts \code{"px"} and \code{"\%"}. Defaults
-#'     to \code{"px"}.}
+#'     \code{width} argument.  Accepts \code{"px"}, \code{"pt"}, \code{"cm"}, 
+#'     \code{"in"} and \code{"\%"}. Defaults to \code{"px"}.  LaTeX formats
+#'     do not recognize \code{"px"} and this will be coerced to \code{"pt"} when
+#'     submitted for LaTeX output.}
 #' }
 #' 
 #' @section Longtable:
@@ -180,11 +186,62 @@
 #' \code{interfoot} is provided, it is appended to the bottom of each section, with the 
 #' exception of the last section.  The last section has the \code{foot} appended.
 #'
-#' @section Colors:
+#' @section HTML Colors:
 #' Color specifications accept X11 color names (\code{"orchid"}), 
 #' hexidecimal names (\code{"#DA70D6"}), rgb names (\code{"rgb(218 112 214)"}),
-#' and rgba (rgb+alpha transparancy; \code{"rgba(218, 112, 214, .75)"}).
+#' and rgba (rgb+alpha transparency; \code{"rgba(218, 112, 214, .75)"}).
 #' Refer to \url{https://en.wikipedia.org/wiki/Web_colors#X11_color_names}.
+#' 
+#' HTML color names are not case sensitive, but the color names in LaTeX output
+#' are.  If you desire to be able to toggle your output between HTML and LaTeX,
+#' it is recommended that you use the color names under the dvips section of 
+#' page 38 of the LaTeX package \code{xcolor} manual 
+#' (\url{http://ctan.mirrorcatalogs.com/macros/latex/contrib/xcolor/xcolor.pdf}.
+#' 
+#' @section LaTeX Colors:
+#' Use of color in LaTeX requirements requires that you have the LaTeX \code{color}
+#' package included in your document preamble (\code{\\usepackage\{color\}}). 
+#' Rmarkdown documents include the color package automatically. The 
+#' standard colors available in LaTeX are "white", "black", "red", "green", 
+#' "blue", "cyan", "magenta", and "yellow".
+#' 
+#' Additional colors may be made available using the LaTeX package \code{xcolor}.
+#' To be consistent with color names used in the HTML tables, it is recommended
+#' that you use the option \code{\\usepackage[dvipsnames]\{xcolor\}} in your 
+#' preamble.  Please note that color names in LaTeX are case-sensitive, but the 
+#' HTML names are not.  If the ability to switch between output methods is 
+#' something you desire, you should adopt the capitalization used in the dvips 
+#' names (See page 38 of the \code{xcolor} manual; 
+#' \url{http://ctan.mirrorcatalogs.com/macros/latex/contrib/xcolor/xcolor.pdf}). 
+#' 
+#' If desired, you may also use the \code{[x11names]} option to have the X11 
+#' color names available to you.
+#' 
+#' The LaTeX output will accept hexidecimal names (\code{"#DA70D6"}) and 
+#' rgb names (\code{"rgb(218 112 214)"}), similar to the HTML colors described
+#' above.  However, transparency is not supported.  If the transparency 
+#' value is provided, it is silently ignored.  
+#' 
+#' Custom color definitions may also be defined by defining the color in the
+#' preamble.  The process for color definitions is described in the \code{xcolor}
+#' documentation.  Keep in mind that custom color designations in LaTeX output
+#' will not transfer the other output formats.
+#' 
+#' @section Required LaTeX Packages:
+#' If you will be using the LaTeX output, some sprinkles will require you 
+#' to include additional LaTeX packages in your document preamble.  In 
+#' \code{.Rnw} files, additional packages can be included with the 
+#' \code{\\usepackage\{[package]\}} syntax.  In markdown, additional packages
+#' are included using \code{header-includes:} in the YAML front matter with 
+#' a line of the format \code{\\usepackage\{[package]\}} for each package to 
+#' be used.  Sprinkles that require additional packages, and the LaTeX packages
+#' required, are listed below:
+#' 
+#' \tabular{ll}{
+#'   Sprinkle \tab LaTeX Package(s) \cr
+#'   \code{font_color} \tab \code{\\usepackage[dvipsnames]\{xcolor\}} \cr
+#'   \code{bg, bg_pattern} \tab \code{\\usepackage[dvipsnames,table]\{xcolor\}} \cr
+#' }
 #'
 #' @seealso \code{\link{sprinkle_colnames}} for changing column names in a table.
 #' 
@@ -374,7 +431,7 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
   
   if ("height_units" %in% names(sprinkles))
     sprinkles$height_units <- ArgumentCheck::match_arg(sprinkles[["height_units"]],
-                                                       c("px", "%"),
+                                                       c("px", "pt", "in", "cm", "%"),
                                                        argcheck = Check)
   
   if ("italic" %in% names(sprinkles) & !is.logical(sprinkles$italic))
@@ -477,7 +534,7 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
   
   if ("width_units" %in% names(sprinkles))
     sprinkles$width_units <- ArgumentCheck::match_arg(sprinkles[["width_units"]],
-                                                      c("px", "%"),
+                                                      c("px", "pt", "cm", "in", "%"),
                                                       argcheck = Check)
   ArgumentCheck::finishArgCheck(Check)
 
@@ -631,14 +688,14 @@ sprinkle_names <- function()
 default_sprinkles <- function(setting)
 {
   switch(setting,
-         "bg_pattern" = c("white", "gainsboro"),
+         "bg_pattern" = c("White", "Gray"),
          "bg_pattern_by" = "rows",
          "border" = "all",
          "border_thickness" = 1,
          "border_units" = "px",
          "border_style" = "solid",
          "border_color" = "black",
-         "font_size_units" = "px",
-         "height_units" = "px",
-         "width_units" = "px")
+         "font_size_units" = "pt",
+         "height_units" = "pt",
+         "width_units" = "pt")
 }

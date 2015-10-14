@@ -1,7 +1,7 @@
 Package: pixiedust
-Date: 2015-09-25
+Date: 2015-10-14
 Title: Tables so Beautifully Fine-Tuned You Will Believe It's Magic
-Version: 0.4.0
+Version: 0.5.0
 Authors@R: person("Benjamin", "Nutter", email = "nutter@battelle.org", role = c("aut", "cre"))
 Description: The introduction of the broom package has made converting model objects into data 
   frames as simple as a single function.  While the broom package focuses on providing tidy
@@ -21,6 +21,7 @@ Imports:
   knitr,
   lazyWeave,
   magrittr,
+  stringr,
   tidyr
 Suggests:
   rmarkdown,
