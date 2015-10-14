@@ -75,7 +75,7 @@ part_prep_latex <- function(part, head=FALSE)
   
   #* Font size
   logic <- part$font_size != ""
-  part$font_size_units[logic] <- ifelse(part$font_size_units[logic] == "%",
+  part$font_size_units[logic] <- ifelse(part$font_size_units[logic] %in% c("%", "px"),
                                         "pt",
                                         part$font_size_units[logic])
   
@@ -118,30 +118,22 @@ part_prep_latex <- function(part, head=FALSE)
   logic <- part$height_units == "%"
   part$height[logic] <- paste0(as.numeric(part$height_units[logic])/100, "\\textwidth")
 
+  #** Background
+  logic <- part$bg != ""
+  part$bg[logic] <- 
+    paste0("\\cellcolor", vapply(part$bg[logic],
+                                 convertColor,
+                                 character(1)))
+    
+  
   part$value <- 
     paste0("\\multicolumn{", part$colspan, "}{p{", part$width, "}}",
            "{\\parbox[][", part$height, "][", part$valign, "]",
-           "{", part$width, "}{", part$halign, " ", part$value, "}}")
-#   
-#   logic <- part$valign != ""
-#   part$valign[logic] <- 
-#     with(part, paste0("vertical-align:", valign[logic], ";"))
-#   
-#   #** Background
-#   logic <- part$bg != ""
-#   part$bg[logic] <- 
-#     with(part, paste0("background-color:", bg[logic], ";"))
-#   
+           "{", part$width, "}{", part$bg, " ",
+           part$halign, " ", part$value, "}}")
+   
+ 
 
-#   
-#   #* cell height and width
-#   logic <- part$height != ""
-#   part$height[logic] <- 
-#     with(part, paste0("height:", height[logic], height_units[logic], ";"))
-#   
-#   logic <- part$width != ""
-#   part$width[logic] <- 
-#     with(part, paste0("width:", width[logic], width_units[logic], ";"))
 #   
 #   #* Borders
 #   logic <- part$top_border != ""
@@ -223,6 +215,8 @@ paste_latex_part <- function(part){
 }
 
 convertColor <- function(color){
+  if (length(color) == 0) return(character(0))
+  
   if (grepl("#", color)){
     return(paste0("[HTML]{", sub("#", "", color), "}"))
   }

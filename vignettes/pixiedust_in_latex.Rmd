@@ -8,7 +8,7 @@ output:
     number_section: yes
     toc: yes
 header-includes:
- - \usepackage[dvipsnames]{xcolor}
+ - \usepackage[dvipsnames,table]{xcolor}
 ---
 
 When David Robinson produced the `broom` package [1], he described it as an attempt to "[bridge]  the gap from untidy outputs of predictions and estimations to create tidy data that is easy to manipulate with standard tools."  While `broom`'s vision was to use model outputs as data, his work had a happy side-effect of producing tabular output that was very near what many researchers wish to present as results.  While the `broom` package assumes you want the model output for further analysis, the `pixiedust` package diverts from this assumption and provides you with the tools to customize that output into a fine looking table suitable for reports.

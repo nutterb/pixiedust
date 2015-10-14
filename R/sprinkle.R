@@ -73,7 +73,7 @@
 #'   \item{\code{bg_pattern} }{This is one of the few exceptions to the length 1 rule.
 #'      This accepts a vector of any length.  Background colors are recycled in a 
 #'      pattern. See "Colors". If left unspecified but \code{bg_pattern_by} is 
-#'      specified, this will default to \code{c("white", "gainsboro")}.}
+#'      specified, this will default to \code{c("White", "Gray")}.}
 #'   \item{\code{bg_pattern_by} }{A character string denoting if the background 
 #'      pattern is recycled over rows or columns.  Accepts either \code{"rows"},
 #'      or \code{"columns"} with partial matching and defaults to \code{"rows"}.
@@ -108,17 +108,19 @@
 #'      font.  See "Colors".}
 #'   \item{\code{font_size} }{A numeric value denoting the size of the font.}
 #'   \item{\code{font_size_units} }{A character string giving the units 
-#'     of the font size.  Accepts values \code{"px"}, \code{"pt"}, \code{"\%"} 
-#'     (HTML only--reverts to the default in LaTeX),
-#'     and \code{"em"}.  Defaults to \code{"px"}.  }
+#'     of the font size.  Accepts values \code{"px"}, \code{"pt"}, \code{"\%"},
+#'     and \code{"em"}.  Defaults to \code{"pt"}.  LaTeX formats only recognize
+#'     \code{"pt"} and \code{"em"}, and other units specifications will be 
+#'     coerced to \code{"pt"}, which may result in an unexpected appearance.}
 #'   \item{\code{halign} }{A character string denoting the horizontal alignment.
 #'     Accepts any one of the values \code{"left"}, \code{"center"}, or 
 #'     \code{"right"}, with partial matching.}
 #'   \item{\code{height} }{A numerical value giving the height of the cells.}
 #'   \item{\code{height_units} }{A character string giving the units for the 
 #'     \code{height} argument.  Accepts \code{"px"}, \code{"pt"}, \code{"cm"}, 
-#'     \code{"in"} and \code{"\%"}. Defaults
-#'     to \code{"px"}.}
+#'     \code{"in"} and \code{"\%"}. Defaults to \code{"pt"}.  LaTeX formats
+#'     do not recognize \code{"px"} and this will be coerced to \code{"pt"} when
+#'     submitted for LaTeX output.}
 #'   \item{\code{italic} }{Logical value.  If \code{TRUE}, text is rendered in italics.}
 #'   \item{\code{longtable} }{ Allows the user to print a table in multiple sections.  
 #'     This is useful when 
@@ -165,7 +167,9 @@
 #'   \item{\code{width} }{A numerical value giving the width of the cells.}
 #'   \item{\code{width_units} }{A character string giving the units for the 
 #'     \code{width} argument.  Accepts \code{"px"}, \code{"pt"}, \code{"cm"}, 
-#'     \code{"in"} and \code{"\%"}. Defaults to \code{"px"}.}
+#'     \code{"in"} and \code{"\%"}. Defaults to \code{"px"}.  LaTeX formats
+#'     do not recognize \code{"px"} and this will be coerced to \code{"pt"} when
+#'     submitted for LaTeX output.}
 #' }
 #' 
 #' @section Longtable:
@@ -210,6 +214,9 @@
 #' names (See page 38 of the \code{xcolor} manual; 
 #' \url{http://ctan.mirrorcatalogs.com/macros/latex/contrib/xcolor/xcolor.pdf}). 
 #' 
+#' If desired, you may also use the \code{[x11names]} option to have the X11 
+#' color names available to you.
+#' 
 #' The LaTeX output will accept hexidecimal names (\code{"#DA70D6"}) and 
 #' rgb names (\code{"rgb(218 112 214)"}), similar to the HTML colors described
 #' above.  However, transparency is not supported.  If the transparency 
@@ -233,6 +240,7 @@
 #' \tabular{ll}{
 #'   Sprinkle \tab LaTeX Package(s) \cr
 #'   \code{font_color} \tab \code{\\usepackage[dvipsnames]\{xcolor\}} \cr
+#'   \code{bg, bg_pattern} \tab \code{\\usepackage[dvipsnames,table]\{xcolor\}} \cr
 #' }
 #'
 #' @seealso \code{\link{sprinkle_colnames}} for changing column names in a table.
@@ -680,14 +688,14 @@ sprinkle_names <- function()
 default_sprinkles <- function(setting)
 {
   switch(setting,
-         "bg_pattern" = c("white", "gainsboro"),
+         "bg_pattern" = c("White", "Gray"),
          "bg_pattern_by" = "rows",
          "border" = "all",
          "border_thickness" = 1,
          "border_units" = "px",
          "border_style" = "solid",
          "border_color" = "black",
-         "font_size_units" = "px",
-         "height_units" = "px",
-         "width_units" = "px")
+         "font_size_units" = "pt",
+         "height_units" = "pt",
+         "width_units" = "pt")
 }
