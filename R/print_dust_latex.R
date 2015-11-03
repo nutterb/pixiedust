@@ -128,11 +128,11 @@ part_prep_latex <- function(part, head=FALSE)
   #** Borders
   logic <- part$left_border != ""
   part$left_border[logic] <- 
-    vapply(part$left_border[logic], latex_border_code, character(1))
+    vapply(part$left_border[logic], latex_vertical_border_code, character(1))
   
   logic <- part$right_border != ""
   part$right_border[logic] <- 
-    vapply(part$right_border[logic], latex_border_code, character(1))
+    vapply(part$right_border[logic], latex_vertical_border_code, character(1))
     
   
   part$value <- 
@@ -237,7 +237,7 @@ convertColor <- function(color){
   else return(paste0("{", color, "}"))
 }
 
-latex_border_code <- function(x){
+latex_vertical_border_code <- function(x){
   border <- stringr::str_split_fixed(x, " ", 3)
   border[, 1] <- gsub("px", "pt", border[, 1])
   border[, 2] <- ifelse(border[, 2] %in% c("dashed", "dotted"), 

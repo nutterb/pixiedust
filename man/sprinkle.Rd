@@ -102,10 +102,12 @@ list of which sprinkles are recognized by each output type, see
      \code{"bottom"}, and \code{"all"} with partial matching.  The border will be added
      to the sides indicated.}
   \item{\code{border_thickness} }{A numeric value denoting the thickness
-     of the border.  Defaults to \code{1}.}
+     of the border.  Defaults to \code{1}.  This setting is ignored in
+     LaTeX output when \code{border_style = "dashed"}.}
   \item{\code{border_units} }{A character string taking any one of the
      values \code{"px"} or \code{"pt"} with partial matching.  Defaults
-     to \code{"px"}.}
+     to \code{"px"}.  For LaTeX output, both \code{"px"} and \code{"pt"},
+     are rendered as \code{"pt"}.}
   \item{\code{border_style} }{A character string taking any one of the
      values \code{"solid"}, \code{"dashed"}, \code{"dotted"},
      \code{"double"}, \code{"groove"}, \code{"ridge"}, \code{"inset"},
@@ -264,6 +266,10 @@ required, are listed below:
   Sprinkle \tab LaTeX Package(s) \cr
   \code{font_color} \tab \code{\\usepackage[dvipsnames]\{xcolor\}} \cr
   \code{bg, bg_pattern} \tab \code{\\usepackage[dvipsnames,table]\{xcolor\}} \cr
+  \code{border_style} \tab  \code{\\usepackage\{amssymb\}} \cr
+  \\ \\ (with vertical dashed lines) \tab \\usepackage\{graphicx\} \cr
+  \\ \\ \tab \code{\\makeatletter} \cr
+  \\ \\ \tab \code{\\newcommand*\vdashline\{\\rotatebox[origin=c]\{90\}\{\$\\dabar\\dabar\\dabar\$\}\}} \cr
 }
 }
 \examples{
