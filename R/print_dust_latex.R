@@ -124,10 +124,20 @@ part_prep_latex <- function(part, head=FALSE)
     paste0("\\cellcolor", vapply(part$bg[logic],
                                  convertColor,
                                  character(1)))
+  
+  #** Borders
+  logic <- part$left_border != ""
+  part$left_border[logic] <- 
+    vapply(part$left_border[logic], latex_border_code, character(1))
+  
+  logic <- part$right_border != ""
+  part$right_border[logic] <- 
+    vapply(part$right_border[logic], latex_border_code, character(1))
     
   
   part$value <- 
-    paste0("\\multicolumn{", part$colspan, "}{p{", part$width, "}}",
+    paste0("\\multicolumn{", part$colspan, "}",
+           "{", part$left_border, "p{", part$width, "}", part$right_border, "}",
            "{\\parbox[][", part$height, "][", part$valign, "]",
            "{", part$width, "}{", part$bg, " ",
            part$halign, " ", part$value, "}}")
@@ -226,4 +236,25 @@ convertColor <- function(color){
   }
   else return(paste0("{", color, "}"))
 }
+
+latex_border_code <- function(x){
+  border <- stringr::str_split_fixed(x, " ", 3)
+  border[, 1] <- gsub("px", "pt", border[, 1])
+  border[, 2] <- ifelse(border[, 2] %in% c("dashed", "dotted"), 
+                        "dashed",
+                        ifelse(border[, 2] %in% c("groove", "ridge", "inset", "outset", "hidden"),
+                               "solid", border[, 2]))
+  if (border[, 2] %in% c("hidden", "none")) return("")
+  if (border[, 2] == "dashed"){
+    return("")
+  }
+  if (border[, 2] %in% c("solid", "double")){
+    border_code <- paste0("!{\\color", convertColor(border[, 3]), "\\vrule width ", border[, 1], "}")
+    if (border[, 2] == "double") return(paste0(border_code, border_code))
+    else return(border_code)
+  }
+}
   
+
+  
+  #!{\color{green}\vrule width 2pt}

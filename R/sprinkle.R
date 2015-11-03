@@ -98,7 +98,10 @@
 #'      values \code{"solid"}, \code{"dashed"}, \code{"dotted"}, 
 #'      \code{"double"}, \code{"groove"}, \code{"ridge"}, \code{"inset"},
 #'      \code{"outset"}, \code{"hidden"}, or \code{"none"}.  Defaults
-#'      to \code{"solid"}.}
+#'      to \code{"solid"}. LaTeX output only makes use of \code{"solid"}, 
+#'      \code{"dashed"}, \code{"double"}, and \code{"none"}. If \code{"dotted"},
+#'      is passed to LaTeX output, it is quietly changed to \code{"dashed"}. All
+#'      other options are quietly changed to \code{"solid"}.}
 #'   \item{\code{border_color} }{A character string denoting the color 
 #'      for the border.  See "Colors".}
 #'   \item{\code{fn} }{A function to apply to values in cells.  The function 
@@ -694,7 +697,7 @@ default_sprinkles <- function(setting)
          "border_thickness" = 1,
          "border_units" = "px",
          "border_style" = "solid",
-         "border_color" = "black",
+         "border_color" = "Black",
          "font_size_units" = "pt",
          "height_units" = "pt",
          "width_units" = "pt")
