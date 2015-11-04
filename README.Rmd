@@ -125,7 +125,7 @@ Are there other features you want or need?  Please submit an issue, or contribut
 | 0.3.0   | Multicolumn and multirow cells in HTML             | 15 Sep 2015 | 15 Sept 2015 |
 | 0.4.0   | Glance statistics in table footer                  | 1 Oct 2015  | 25 Sept 2015 |
 |         | Add variable labels and levels to `broom` output   |             | |
-|**0.5.0**| LaTeX output for simple table                      | 15 Oct 2015 | |
+|**0.5.0**| LaTeX output for simple table                      | 15 Oct 2015 | 15 Oct 2015 |
 |         | Adjustable cell heights and widths in LaTeX tables |             | |
 |         | Add `medley` for batch customizations              |             | |
 | 0.6.0   | Borders and backgrounds for LaTeX tables           | 15 Nov 2015  | |

@@ -113,7 +113,7 @@ list of which sprinkles are recognized by each output type, see
      \code{"double"}, \code{"groove"}, \code{"ridge"}, \code{"inset"},
      \code{"outset"}, \code{"hidden"}, or \code{"none"}.  Defaults
      to \code{"solid"}. LaTeX output only makes use of \code{"solid"},
-     \code{"dashed"}, \code{"double"}, and \code{"none"}. If \code{"dotted"},
+     \code{"dashed"}, and \code{"none"}. If \code{"dotted"},
      is passed to LaTeX output, it is quietly changed to \code{"dashed"}. All
      other options are quietly changed to \code{"solid"}.}
   \item{\code{border_color} }{A character string denoting the color
@@ -269,7 +269,7 @@ required, are listed below:
   \code{border_style} \tab  \code{\\usepackage\{amssymb\}} \cr
   \\ \\ (with vertical dashed lines) \tab \\usepackage\{graphicx\} \cr
   \\ \\ \tab \code{\\makeatletter} \cr
-  \\ \\ \tab \code{\\newcommand*\vdashline\{\\rotatebox[origin=c]\{90\}\{\$\\dabar\\dabar\\dabar\$\}\}} \cr
+  \\ \\ \tab \code{\\newcommand*\\vdashline\{\\rotatebox[origin=c]\{90\}\{\$\\dabar@\\dabar@\\dabar@\$\}\}} \cr
 }
 }
 \examples{

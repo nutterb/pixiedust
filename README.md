@@ -32,16 +32,16 @@ Tables can be customized by row, column, or even by a single cell by adding spri
 
 | sprinkle          | implemented | console | markdown | html | latex |
 |:------------------|:------------|:--------|:---------|:-----|:------|
-| bg                | x           |         |          | x    | o     |
-| bg\_pattern       | x           |         |          | x    | o     |
-| bg\_pattern\_by   | x           |         |          | x    | o     |
+| bg                | x           |         |          | x    | x     |
+| bg\_pattern       | x           |         |          | x    | x     |
+| bg\_pattern\_by   | x           |         |          | x    | x     |
 | bold              | x           | x       | x        | x    | x     |
 | border\_collapse  | x           |         |          | x    |       |
-| border            | x           |         |          | x    | o     |
-| border\_thickness | x           |         |          | x    | o     |
-| border\_units     | x           |         |          | x    | o     |
-| border\_style     | x           |         |          | x    | o     |
-| border\_color     | x           |         |          | x    | o     |
+| border            | x           |         |          | x    | x     |
+| border\_thickness | x           |         |          | x    | x     |
+| border\_units     | x           |         |          | x    | x     |
+| border\_style     | x           |         |          | x    | x     |
+| border\_color     | x           |         |          | x    | x     |
 | colnames          | x           | x       | x        | x    | x     |
 | fn                | x           | x       | x        | x    | x     |
 | font\_color       | x           |         |          | x    | x     |
@@ -195,7 +195,7 @@ Are there other features you want or need? Please submit an issue, or contribute
 |      0.3.0| Multicolumn and multirow cells in HTML             |  15 Sep 2015| 15 Sept 2015 |
 |      0.4.0| Glance statistics in table footer                  |   1 Oct 2015| 25 Sept 2015 |
 |           | Add variable labels and levels to `broom` output   |             |              |
-|  **0.5.0**| LaTeX output for simple table                      |  15 Oct 2015|              |
+|  **0.5.0**| LaTeX output for simple table                      |  15 Oct 2015| 15 Oct 2015  |
 |           | Adjustable cell heights and widths in LaTeX tables |             |              |
 |           | Add `medley` for batch customizations              |             |              |
 |      0.6.0| Borders and backgrounds for LaTeX tables           |  15 Nov 2015|              |

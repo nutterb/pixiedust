@@ -1,14 +1,14 @@
 sprinkle,        implemented,console,markdown,html,latex
-bg,                         x,       ,        ,   x,    o
-bg_pattern,                 x,       ,        ,   x,    o
-bg_pattern_by,              x,       ,        ,   x,    o
+bg,                         x,       ,        ,   x,    x
+bg_pattern,                 x,       ,        ,   x,    x
+bg_pattern_by,              x,       ,        ,   x,    x
 bold,                       x,      x,       x,   x,    x 
 border_collapse,            x,       ,        ,   x,     
-border,                     x,       ,        ,   x,    o
-border_thickness,           x,       ,        ,   x,    o
-border_units,               x,       ,        ,   x,    o
-border_style,               x,       ,        ,   x,    o
-border_color,               x,       ,        ,   x,    o
+border,                     x,       ,        ,   x,    x
+border_thickness,           x,       ,        ,   x,    x
+border_units,               x,       ,        ,   x,    x
+border_style,               x,       ,        ,   x,    x
+border_color,               x,       ,        ,   x,    x
 colnames,                   x,      x,       x,   x,    x 
 fn,                         x,      x,       x,   x,    x 
 font_color,                 x,       ,        ,   x,    x

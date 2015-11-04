@@ -1,3 +1,6 @@
+#### 0.5.1 (3 November 2015)
+* Cell borders.  Documentation still needs review.
+
 #### 0.5.0 (Change Log Highlights since last CRAN Release)
 * `pixiedust` no longer uses the `+` operator.  
    Please use `%>%` instead.

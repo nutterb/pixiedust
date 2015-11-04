@@ -133,6 +133,27 @@ part_prep_latex <- function(part, head=FALSE)
   logic <- part$right_border != ""
   part$right_border[logic] <- 
     vapply(part$right_border[logic], latex_vertical_border_code, character(1))
+  
+  logic <- part$bottom_border != ""
+  part$bottom_border[logic] <- 
+    mapply(latex_horizontal_border_code, 
+           part$bottom_border[logic],
+           part$col[logic])
+  bottom_borders <- dplyr::select(part, row, col, bottom_border) %>%
+    tidyr::spread(col, bottom_border) %>%
+    dplyr::select(-row) %>%
+    apply(1, paste0, collapse = "")
+  
+  logic <- part$top_border != ""
+  part$top_border[logic] <- 
+    mapply(latex_horizontal_border_code, 
+           part$top_border[logic],
+           part$col[logic])
+  top_borders <- dplyr::select(part, row, col, top_border) %>%
+    tidyr::spread(col, top_border) %>%
+    dplyr::select(-row) %>%
+    apply(1, paste0, collapse = "")
+  
     
   
   part$value <- 
@@ -142,35 +163,11 @@ part_prep_latex <- function(part, head=FALSE)
            "{", part$width, "}{", part$bg, " ",
            part$halign, " ", part$value, "}}")
    
- 
-
-#   
-#   #* Borders
-#   logic <- part$top_border != ""
-#   part$top_border[logic] <- 
-#     with(part, paste0("border-top:", top_border[logic], "; "))
-#   
-#   logic <- part$bottom_border != ""
-#   part$bottom_border[logic] <- 
-#     with(part, paste0("border-bottom:", bottom_border[logic], "; "))
-#   
-#   logic <- part$left_border != ""
-#   part$left_border[logic] <- 
-#     with(part, paste0("border-left:", left_border[logic], "; "))
-#   
-#   logic <- part$right_border != ""
-#   part$right_border[logic] <- 
-#     with(part, paste0("border-right:", right_border[logic], "; "))
-#   
   #* Set NA (missing) values to na_string
   logic <- is.na(part$value) & !is.na(part$na_string)
   part$value[logic] <- 
     part$na_string[logic]
-#   
-#   #* Padding
-#   logic <- part$pad != ""
-#   part$pad[logic] <- 
-#     with(part, paste0("padding:", pad[logic], "px;"))
+
 #   
 #   #* Text Rotation
 #   logic <- part$rotate_degree != ""
@@ -182,18 +179,6 @@ part_prep_latex <- function(part, head=FALSE)
 #   #* (see xtable)
 #   part$value <- gsub("[<]", "&lt; ", part$value)
 #   part$value <- gsub("[>]", "&gt; ", part$value)
-#   
-#   #* Generate css style definitions for each cell.
-#   part$value <- 
-#     with(part, paste0("<", dh, 
-#                       " colspan = '", colspan, "'; ", 
-#                       "rowspan = '", rowspan, "'; ",
-#                       "style='", 
-#                       bold, italic, halign, valign, bg, font_color, 
-#                       font_size, height, width,
-#                       top_border, bottom_border, left_border, right_border,
-#                       rotate_degree, pad,
-#                       "'>", value, "</", dh, ">"))
 #   
   ncol <- max(part$col)
   part <- dplyr::filter_(part, "!(rowspan == 0 | colspan == 0)")
@@ -214,13 +199,15 @@ part_prep_latex <- function(part, head=FALSE)
                             function(i) dplyr::data_frame(value = ""))))
     names(part) <- 1:ncol
   }
-  part
+  cbind(top_borders, bottom_borders, part)
 }
 
 paste_latex_part <- function(part){
   if (is.null(part)) return("")
-  apply(part, 1, paste, collapse = " & ") %>%
+  apply(part[, -(1:2)], 1, paste, collapse = " & ") %>%
     paste0(" \\\\") %>%
+    paste(part[, 2]) %>%
+    paste(part[, 1], .) %>%
     paste0(collapse = "\n")
 }
 
@@ -246,15 +233,34 @@ latex_vertical_border_code <- function(x){
                                "solid", border[, 2]))
   if (border[, 2] %in% c("hidden", "none")) return("")
   if (border[, 2] == "dashed"){
-    return("")
+    border_code <- paste("!{\\color", convertColor(border[, 3]), "\\vdashline}")
+    return(border_code)
   }
   if (border[, 2] %in% c("solid", "double")){
     border_code <- paste0("!{\\color", convertColor(border[, 3]), "\\vrule width ", border[, 1], "}")
-    if (border[, 2] == "double") return(paste0(border_code, border_code))
-    else return(border_code)
+    return(border_code)
   }
 }
-  
 
-  
-  #!{\color{green}\vrule width 2pt}
+
+latex_horizontal_border_code <- function(x, col){
+  border <- stringr::str_split_fixed(x, " ", 3)
+  border[, 1] <- gsub("px", "pt", border[, 1])
+  border[, 2] <- ifelse(border[, 2] %in% c("dashed", "dotted"), 
+                        "dashed",
+                        ifelse(border[, 2] %in% c("groove", "ridge", "inset", "outset", "hidden"),
+                               "solid", border[, 2]))
+  if (border[, 2] %in% c("hidden", "none")) return("")
+  if (border[, 2] == "dashed"){
+    border_code <- paste0("\\arrayrulecolor", convertColor(border[, 3]), 
+                          "\\cdashline{", col, "-", col, "}")
+    return(border_code)
+  }
+  if (border[, 2] %in% c("solid", "double")){
+    border_code <- paste0("\\arrayrulecolor", convertColor(border[, 3]), 
+                          "\\hdashline{", col, "-", col, "}")
+    return(border_code)
+  }
+}
+
+utils::globalVariables(c('bottom_border', 'top_border'))

@@ -2,13 +2,11 @@
 title: "LaTeX Table Tests"
 author: "Benjamin Nutter"
 date: "October 1, 2015"
-output: 
-  pdf_document: 
-    keep_tex: yes
+output: pdf_document
 header-includes:
  - \usepackage[dvipsnames,table]{xcolor}
  - \usepackage{array}
-
+ - \usepackage{arydshln}
  - \usepackage{amssymb}
  - \usepackage{graphicx}
  - \makeatletter
@@ -19,12 +17,13 @@ header-includes:
 ```{r}
 library(pixiedust)
 fit <- lm(mpg ~ qsec + factor(am) + wt * factor(gear), data = mtcars)
-x <- dust(fit) %>%
+x <- dust(fit, glance_foot = TRUE) %>%
   sprinkle(cols = 2:4, halign = "center") %>%
   sprinkle(cols = 5, fn = quote(pvalString(value))) %>%
   sprinkle(round = 3) %>%
-  sprinkle(cols = 1, border = "left", border_style = "double", border_color = "Red") %>%
+  sprinkle(cols = c(2, 4, 5), border = c("bottom", "top"), border_style = "dashed", border_color = "Blue") %>%
   sprinkle(cols = c(2, 4), rows = 3:5, border = "right", border_style = "double") %>%
+  sprinkle(bg_pattern_by = "rows") %>%
   sprinkle_print_method("latex")
 ```
 
@@ -42,10 +41,10 @@ dust(anova(fit)) %>%
   \renewcommand{\arraystretch}{1.3}
   \begin{tabular}{!{\color{Red}\vdashline}c|c|c!{\vrule width 2pt}c|c|c%
   !{\vrule width 2pt}c|c|c!{\vrule width 2pt}}
-    \noalign{\hrule height 2pt}
+    
+    \arrayrulecolor{Red}\hdashline 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\ \arrayrulecolor{Red}\hdashline{4-6}
     1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\ \hline
-    1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\ \hline
-    1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\ \noalign{\hrule height 2pt}
+    1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\ \noalign{\color{Red}\hrule height 2pt}
     1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\ \hline
     1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\ \hline
     1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\ \noalign{\hrule height 2pt}

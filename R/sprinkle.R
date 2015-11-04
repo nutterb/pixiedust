@@ -91,7 +91,8 @@
 #'      to the sides indicated.}
 #'   \item{\code{border_thickness} }{A numeric value denoting the thickness
 #'      of the border.  Defaults to \code{1}.  This setting is ignored in
-#'      LaTeX output when \code{border_style = "dashed"}.}
+#'      LaTeX output when \code{border_style = "dashed"} and for all
+#'      horizontal borders.}
 #'   \item{\code{border_units} }{A character string taking any one of the
 #'      values \code{"px"} or \code{"pt"} with partial matching.  Defaults
 #'      to \code{"px"}.  For LaTeX output, both \code{"px"} and \code{"pt"},
@@ -101,7 +102,7 @@
 #'      \code{"double"}, \code{"groove"}, \code{"ridge"}, \code{"inset"},
 #'      \code{"outset"}, \code{"hidden"}, or \code{"none"}.  Defaults
 #'      to \code{"solid"}. LaTeX output only makes use of \code{"solid"}, 
-#'      \code{"dashed"}, \code{"double"}, and \code{"none"}. If \code{"dotted"},
+#'      \code{"dashed"}, and \code{"none"}. If \code{"dotted"},
 #'      is passed to LaTeX output, it is quietly changed to \code{"dashed"}. All
 #'      other options are quietly changed to \code{"solid"}.}
 #'   \item{\code{border_color} }{A character string denoting the color 
@@ -249,7 +250,7 @@
 #'   \code{border_style} \tab  \code{\\usepackage\{amssymb\}} \cr
 #'   \\ \\ (with vertical dashed lines) \tab \\usepackage\{graphicx\} \cr
 #'   \\ \\ \tab \code{\\makeatletter} \cr
-#'   \\ \\ \tab \code{\\newcommand*\vdashline\{\\rotatebox[origin=c]\{90\}\{\$\\dabar\\dabar\\dabar\$\}\}} \cr
+#'   \\ \\ \tab \code{\\newcommand*\\vdashline\{\\rotatebox[origin=c]\{90\}\{\$\\dabar@@\\dabar@@\\dabar@@\$\}\}} \cr
 #' }
 #'
 #' @seealso \code{\link{sprinkle_colnames}} for changing column names in a table.
