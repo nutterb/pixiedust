@@ -2,9 +2,7 @@
 title: "LaTeX Table Tests"
 author: "Benjamin Nutter"
 date: "October 1, 2015"
-output: 
-  pdf_document: 
-    keep_tex: yes
+output: pdf_document
 header-includes:
  - \usepackage{longtable}
  - \usepackage[dvipsnames,table]{xcolor}
