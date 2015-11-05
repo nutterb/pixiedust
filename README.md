@@ -51,6 +51,7 @@ Tables can be customized by row, column, or even by a single cell by adding spri
 | height            | x           |         |          | x    | x     |
 | height\_units     | x           |         |          | x    | x     |
 | italic            | x           | x       | x        | x    | x     |
+| longtable         | x           | x       | x        | x    | x     |
 | merge             | x           | x       | x        | x    | o     |
 | na\_string        | x           | x       | x        | x    | x     |
 | padding           | x           |         |          | x    |       |
@@ -198,11 +199,11 @@ Are there other features you want or need? Please submit an issue, or contribute
 |  **0.5.0**| LaTeX output for simple table                      |  15 Oct 2015| 15 Oct 2015  |
 |           | Adjustable cell heights and widths in LaTeX tables |             |              |
 |           | Add `medley` for batch customizations              |             |              |
-|      0.6.0| Borders and backgrounds for LaTeX tables           |  15 Nov 2015|              |
-|      0.7.0| Multicolumn and multirow support for LaTeX tables  |  15 Dec 2015|              |
-|  **0.8.0**| Longtable support for LaTeX tables                 |     Jan 2016|              |
-|      0.9.0| Rotated text for LaTeX tables                      |     Mar 2016|              |
-|  **1.0.0**| Release of basic, stable package                   |     Jun 2016|              |
+|      0.6.0| Borders and backgrounds for LaTeX tables           |   1 Dec 2015|              |
+|           | Multicolumn and multirow support for LaTeX tables  |             |              |
+|           | Longtable support for LaTeX tables                 |             |              |
+|           | Rotated text for LaTeX tables                      |             |              |
+|  **1.0.0**| Release of basic, stable package                   |             |              |
 
 **bold version numbers** indicate a planned release to CRAN.
 

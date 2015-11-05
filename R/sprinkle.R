@@ -134,7 +134,8 @@
 #'     indicating that only one table is printed (default); \code{TRUE} that the table should be 
 #'     split into multiple tables with the default number of rows per table (see "Longtable"); or a 
 #'     positive integer indicating how many rows per table to include. All other values are 
-#'     interpreted as \code{FALSE}.}
+#'     interpreted as \code{FALSE}.  In LaTeX output, remember that after each section, a page 
+#'     break is forced.}
 #'   \item{\code{merge} }{Logical.  If \code{TRUE}, the cells indicated in 
 #'     \code{rows} and \code{cols} are merged into a single cell.  An error is
 #'     cast if the cells do not form an adjacent block. Specifying 
@@ -247,13 +248,40 @@
 #'   Sprinkle \tab LaTeX Package(s) \cr
 #'   \code{font_color} \tab \code{\\usepackage[dvipsnames]\{xcolor\}} \cr
 #'   \code{bg, bg_pattern} \tab \code{\\usepackage[dvipsnames,table]\{xcolor\}} \cr
-#'   \code{border_style} \tab  \code{\\usepackage\{amssymb\}} \cr
+#'   \code{border_style} \tab \code{\\usepackage\{arydshln\}} \cr
+#'   \\ \\ \tab  \code{\\usepackage\{amssymb\}} \cr
 #'   \\ \\ (with vertical dashed lines) \tab \\usepackage\{graphicx\} \cr
 #'   \\ \\ \tab \code{\\makeatletter} \cr
 #'   \\ \\ \tab \code{\\newcommand*\\vdashline\{\\rotatebox[origin=c]\{90\}\{\$\\dabar@@\\dabar@@\\dabar@@\$\}\}} \cr
+#'   \\ \\ \tab \code{\\makeatother} \cr
+#'   \code{longtable} \tab \code{\\usepackage\{longtable\}} \cr
+#'   \\ \\ \tab (Must be loaded before \code{arydshln})
 #' }
+#' 
+#' In order to ensure all features are available, the recommended code block (accounting for 
+#' the proper order to load packages) is:
+#' 
+#' \code{header-includes:} \cr
+#' \code{ - \\usepackage[dvipsnames,table]\{xcolor\}} \cr
+#' \code{ - \\usepackage\{longtable\}} \cr
+#' \code{ - \\usepackage\{arydshln\}} \cr
+#' \code{ - \\usepackage\{amssymb\}} \cr
+#' \code{ - \\usepackage\{graphicx\}} \cr
+#' \code{ - \\makeatletter} \cr
+#' \code{ - \\newcommand*\\vdashline\{\\rotatebox[origin=c]\{90\}\{\$\\dabar@@\\dabar@@\\dabar@@\$\}\}} \cr
+#' \code{ - \\makeatother}
 #'
 #' @seealso \code{\link{sprinkle_colnames}} for changing column names in a table.
+#' 
+#' @source 
+#' Altering the number of rows in a LaTeX longtable \cr
+#' http://tex.stackexchange.com/questions/19710/how-can-i-set-the-maximum-number-of-rows-in-a-page-for-longtable
+#' 
+#' Vertical dashed cell borders in LaTeX table \cr
+#' http://www.latex-community.org/forum/viewtopic.php?f=45&t=3149
+#' 
+#' Colored Cell border \cr
+#' http://tex.stackexchange.com/questions/40666/how-to-change-line-color-in-tabular
 #' 
 #' @author Benjamin Nutter
 #' 

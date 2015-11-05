@@ -19,6 +19,8 @@ print_dust_latex <- function(x, ...)
   else if (!is.numeric(x$longtable) & !x$longtable) longtable_rows <- max(x$body$row)
   else longtable_rows <- x$longtable
   
+  tab_env <- if (is.numeric(x$longtable) || x$longtable) "longtable" else "tabular"
+  
 #   Divisions <- data.frame(div_num = rep(1:ceiling(max(x$body$row) / longtable_rows),
 #                                         each = longtable_rows)[1:max(x$body$row)],
 #                           row_num = 1:max(x$body$row))
@@ -31,18 +33,28 @@ print_dust_latex <- function(x, ...)
   foot <- if (!is.null(x$foot)) part_prep_latex(x$foot) else NULL
   interfoot <- if (!is.null(x$interfoot)) part_prep_latex(x$interfoot) else NULL
   
+  prebegin <- numeric_longtable_newline(longtable_rows, is.numeric(x$longtable))
   
-
-  begin <- paste0("\\begin{tabular}{", 
+  begin <- paste0("\\begin{", tab_env, "}{", 
                   paste0(rep("c", max(x$body$col)), collapse = ""), "}\n")
-  end <- "\\end{tabular}"
+  end <- paste0("\\end{", tab_env, "}")
   
-  tbl <- paste0(vapply(list(head, body, foot, interfoot),
+  #* Convert each part into a character string
+  #* Returns a character vector of length 4.
+  tbl <- vapply(list(head, body, foot, interfoot),
                  paste_latex_part,
-                 character(1)),
-          collapse = "\n")
+                 character(1),
+                newline = if (is.numeric(x$longtable)) " \\ltabnewline" else " \\\\")
   
-  knitr::asis_output(paste(begin, tbl, end, collapse = "\n"))
+  #* Append longtable tags
+  if (is.numeric(x$longtable) || x$longtable){
+    tbl <- paste0(tbl[c(1, 4, 3, 2)], 
+                  c("\n\\endhead\n", "\n\\endfoot\n", "\n\\endlastfoot\n", ""))
+  }
+  
+  tbl <- paste(tbl, collapse = "\n")
+  
+  knitr::asis_output(paste(prebegin, begin, tbl, end, collapse = "\n"))
 }
 
 #**** Helper functions
@@ -99,7 +111,7 @@ part_prep_latex <- function(part, head=FALSE)
   #* by the number of columns
   
   logic <- part$width == ""
-  part$width[logic] <- paste0(1/max(part$col), "\\textwidth")
+  part$width[logic] <- paste0(round(1/max(part$col), 3), "\\textwidth")
   
   logic <- part$width_units == "%"
   part$width[logic] <- paste0(as.numeric(part$width[logic]) / 100, "\\textwidth")
@@ -202,10 +214,10 @@ part_prep_latex <- function(part, head=FALSE)
   cbind(top_borders, bottom_borders, part)
 }
 
-paste_latex_part <- function(part){
+paste_latex_part <- function(part, newline = " \\\\"){
   if (is.null(part)) return("")
   apply(part[, -(1:2)], 1, paste, collapse = " & ") %>%
-    paste0(" \\\\") %>%
+    paste(newline) %>%
     paste(part[, 2]) %>%
     paste(part[, 1], .) %>%
     paste0(collapse = "\n")
@@ -261,6 +273,23 @@ latex_horizontal_border_code <- function(x, col){
                           "\\hdashline{", col, "-", col, "}")
     return(border_code)
   }
+}
+
+numeric_longtable_newline <- function(n, redefine = FALSE){
+  if (redefine)
+    return(paste0("\\newcount\\mylineno \n",
+                  "\\mylineno=0 \n",
+                  "\\def\\ltabnewline{% \n", 
+                  "\\global\\advance\\mylineno by 1 \n", 
+                  "\\ifnum\\mylineno=", n, " \n",
+                  "\\global\\mylineno=0 \n",
+                  "\\\\ \n",
+                  "\\newpage \n",
+                  "\\else \n",
+                  "\\\\ \n",
+                  "\\fi \n",
+                  "}"))
+  else return("")
 }
 
 utils::globalVariables(c('bottom_border', 'top_border'))

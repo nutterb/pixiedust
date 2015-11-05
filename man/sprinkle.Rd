@@ -5,6 +5,10 @@
 \alias{sprinkle_print_method}
 \alias{sprinkle_table}
 \title{Define Customizations to a Table}
+\source{
+Altering the number of rows in a LaTeX longtable
+http://tex.stackexchange.com/questions/19710/how-can-i-set-the-maximum-number-of-rows-in-a-page-for-longtable
+}
 \usage{
 sprinkle(x, rows = NULL, cols = NULL, ..., part = c("body", "head",
   "foot", "interfoot", "table"))
@@ -103,7 +107,8 @@ list of which sprinkles are recognized by each output type, see
      to the sides indicated.}
   \item{\code{border_thickness} }{A numeric value denoting the thickness
      of the border.  Defaults to \code{1}.  This setting is ignored in
-     LaTeX output when \code{border_style = "dashed"}.}
+     LaTeX output when \code{border_style = "dashed"} and for all
+     horizontal borders.}
   \item{\code{border_units} }{A character string taking any one of the
      values \code{"px"} or \code{"pt"} with partial matching.  Defaults
      to \code{"px"}.  For LaTeX output, both \code{"px"} and \code{"pt"},
@@ -145,7 +150,8 @@ list of which sprinkles are recognized by each output type, see
     indicating that only one table is printed (default); \code{TRUE} that the table should be
     split into multiple tables with the default number of rows per table (see "Longtable"); or a
     positive integer indicating how many rows per table to include. All other values are
-    interpreted as \code{FALSE}.}
+    interpreted as \code{FALSE}.  In LaTeX output, remember that after each section, a page
+    break is forced.}
   \item{\code{merge} }{Logical.  If \code{TRUE}, the cells indicated in
     \code{rows} and \code{cols} are merged into a single cell.  An error is
     cast if the cells do not form an adjacent block. Specifying
@@ -266,11 +272,28 @@ required, are listed below:
   Sprinkle \tab LaTeX Package(s) \cr
   \code{font_color} \tab \code{\\usepackage[dvipsnames]\{xcolor\}} \cr
   \code{bg, bg_pattern} \tab \code{\\usepackage[dvipsnames,table]\{xcolor\}} \cr
-  \code{border_style} \tab  \code{\\usepackage\{amssymb\}} \cr
+  \code{border_style} \tab \code{\\usepackage\{arydshln\}} \cr
+  \\ \\ \tab  \code{\\usepackage\{amssymb\}} \cr
   \\ \\ (with vertical dashed lines) \tab \\usepackage\{graphicx\} \cr
   \\ \\ \tab \code{\\makeatletter} \cr
   \\ \\ \tab \code{\\newcommand*\\vdashline\{\\rotatebox[origin=c]\{90\}\{\$\\dabar@\\dabar@\\dabar@\$\}\}} \cr
+  \\ \\ \tab \code{\\makeatother} \cr
+  \code{longtable} \tab \code{\\usepackage\{longtable\}} \cr
+  \\ \\ \tab (Must be loaded before \code{arydshln})
 }
+
+In order to ensure all features are available, the recommended code block (accounting for
+the proper order to load packages) is:
+
+\code{header-includes:} \cr
+\code{ - \\usepackage[dvipsnames,table]\{xcolor\}} \cr
+\code{ - \\usepackage\{longtable\}} \cr
+\code{ - \\usepackage\{arydshln\}} \cr
+\code{ - \\usepackage\{amssymb\}} \cr
+\code{ - \\usepackage\{graphicx\}} \cr
+\code{ - \\makeatletter} \cr
+\code{ - \\newcommand*\\vdashline\{\\rotatebox[origin=c]\{90\}\{\$\\dabar@\\dabar@\\dabar@\$\}\}} \cr
+\code{ - \\makeatother}
 }
 \examples{
 x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars))
