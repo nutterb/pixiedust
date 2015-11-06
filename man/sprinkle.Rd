@@ -110,7 +110,9 @@ list of which sprinkles are recognized by each output type, see
   \item{\code{border} }{This is one of the few exceptions to the length 1 rule.
      Accepts values \code{"left"}, \code{"right"}, \code{"top"},
      \code{"bottom"}, and \code{"all"} with partial matching.  The border will be added
-     to the sides indicated.}
+     to the sides indicated. In LaTeX output with merged cells, horizontal
+     borders are placed on all rows identified, making it possible to run
+     borders through the merged cell.}
   \item{\code{border_thickness} }{A numeric value denoting the thickness
      of the border.  Defaults to \code{1}.  This setting is ignored in
      LaTeX output when \code{border_style = "dashed"} and for all
@@ -279,13 +281,14 @@ required, are listed below:
   \code{font_color} \tab \code{\\usepackage[dvipsnames]\{xcolor\}} \cr
   \code{bg, bg_pattern} \tab \code{\\usepackage[dvipsnames,table]\{xcolor\}} \cr
   \code{border_style} \tab \code{\\usepackage\{arydshln\}} \cr
-  \\ \\ \tab  \code{\\usepackage\{amssymb\}} \cr
-  \\ \\ (with vertical dashed lines) \tab \\usepackage\{graphicx\} \cr
-  \\ \\ \tab \code{\\makeatletter} \cr
-  \\ \\ \tab \code{\\newcommand*\\vdashline\{\\rotatebox[origin=c]\{90\}\{\$\\dabar@\\dabar@\\dabar@\$\}\}} \cr
-  \\ \\ \tab \code{\\makeatother} \cr
+      \tab  \code{\\usepackage\{amssymb\}} \cr
+      (with vertical dashed lines) \tab \\usepackage\{graphicx\} \cr
+      \tab \code{\\makeatletter} \cr
+      \tab \code{\\newcommand*\\vdashline\{\\rotatebox[origin=c]\{90\}\{\$\\dabar@\\dabar@\\dabar@\$\}\}} \cr
+      \tab \code{\\makeatother} \cr
   \code{longtable} \tab \code{\\usepackage\{longtable\}} \cr
-  \\ \\ \tab (Must be loaded before \code{arydshln})
+      \tab (Must be loaded before \code{arydshln}) \cr
+  \code{merge} \tab \code{\\usepackage\{multirow\}}
 }
 
 In order to ensure all features are available, the recommended code block (accounting for
@@ -297,6 +300,7 @@ the proper order to load packages) is:
 \code{ - \\usepackage\{arydshln\}} \cr
 \code{ - \\usepackage\{amssymb\}} \cr
 \code{ - \\usepackage\{graphicx\}} \cr
+\code{ - \\usepackage\{multirow\}} \cr
 \code{ - \\makeatletter} \cr
 \code{ - \\newcommand*\\vdashline\{\\rotatebox[origin=c]\{90\}\{\$\\dabar@\\dabar@\\dabar@\$\}\}} \cr
 \code{ - \\makeatother}

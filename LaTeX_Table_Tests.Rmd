@@ -12,6 +12,7 @@ header-includes:
  - \usepackage{arydshln}
  - \usepackage{amssymb}
  - \usepackage{graphicx}
+ - \usepackage{multirow}
  - \makeatletter
  - \newcommand*\vdashline{\rotatebox[origin=c]{90}{$\dabar@\dabar@\dabar@$}}
  - \makeatother
@@ -47,9 +48,7 @@ custom_foot <- rbind(vapply(mtcars2, mean, numeric(1)),
 
 custom_interfoot <- data.frame("To Be Continued", 
                                "", "", "", "")
-```
 
-```{r}
 (x <- dust(mtcars2, keep_rownames = TRUE) %>%
   redust(custom_head, part = "head") %>%
   redust(custom_foot, part = "foot") %>%
@@ -58,12 +57,25 @@ custom_interfoot <- data.frame("To Be Continued",
   sprinkle(rows = 2:3, cols = 3:4, 
            font_color = "Blue", 
            bold = TRUE, italic = TRUE,
-           halign = "left", 
-           font_size = 20) %>%
-  sprinkle(rows = 2:3, border = "top") %>%
-  # sprinkle(cols = 3, border = c("left", "right"), border_style = "dashed", border_color = "Red") %>%
-  sprinkle(rows = 7, border = c("top", "bottom"), border_color = "Red") %>%
+           halign = "center", 
+           font_size = 20, 
+           merge = TRUE, 
+           border = c("left", "right")) %>%
+  sprinkle(rows = 2, cols = 3:4, border = "top") %>%
+  sprinkle(rows = 3, cols = 3:4, border = "bottom") %>%
   sprinkle_table(round = 2) %>%
   sprinkle_print_method("latex"))
 ```
+
+\begin{tabular}{ccc p{1.5cm} r cccc}
+1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
+1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
+1 & 2 & 3 & \multicolumn{2}{l}{\multirow{4}{3.4cm}{I think it isn't wrapping because there are no word breaks}} & 6 & 7 & 8 & 9 \\
+1 & 2 & 3 & \multicolumn{2}{c}{} & 6 & 7 & 8 & 9 \\
+1 & 2 & 3 & \multicolumn{2}{c}{} & 6 & 7 & 8 & 9 \\
+1 & 2 & 3 & \multicolumn{2}{c}{} & 6 & 7 & 8 & 9 \\
+1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
+1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
+1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
+\end{tabular}
 

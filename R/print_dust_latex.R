@@ -157,6 +157,20 @@ part_prep_latex <- function(part, head=FALSE, col_halign)
     dplyr::select(-row) %>%
     apply(1, paste0, collapse = "")
   
+  #* Add the multirow tag where appropriate
+  logic <- part$rowspan > 1
+  part$value[logic] <- 
+    paste0("\\multirow{", part$rowspan[logic], "}{*}{", part$value[logic], "}")
+  
+  #* Add blank multicolumn tags to fill multirow spaces
+  #* set the colspan and rowspan to prevent deletion.
+  #*   They are set to -1 to indicate that they are fillers
+  logic <- part$html_row != part$row & part$html_col == part$col
+  part$value[logic] <- paste0("\\multicolumn{", part$colspan[logic], "}",
+                              "{", part$left_border[logic], "c", part$right_border[logic], "}{}")
+  part$rowspan[logic] <- -1
+  part$colspan[logic] <- -1
+  part$require_multicol[logic] <- FALSE
   
   #* Column alignment for cells that differ from the default
   logic <- part$require_multicol

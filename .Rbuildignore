@@ -11,4 +11,5 @@
 ^LaTeX_Table_Tests.pdf$
 ^LaTeX_Table_Tests.Rmd$
 ^LaTeX_Table_Tests.tex$
+^LaTeX_Table_Tests.log$
 ^print_dust_latex_original.R$
