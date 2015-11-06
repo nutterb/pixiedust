@@ -21,28 +21,29 @@ print_dust_latex <- function(x, ..., asis)
   
   tab_env <- if (is.numeric(x$longtable) || x$longtable) "longtable" else "tabular"
   
-  Joint <- joint_reference_table(x)
+#   Divisions <- data.frame(div_num = rep(1:ceiling(max(x$body$row) / longtable_rows),
+#                                         each = longtable_rows)[1:max(x$body$row)],
+#                           row_num = 1:max(x$body$row))
+#   total_div <- max(Divisions$div_num)
   
-  col_halign <- get_column_halign(Joint)
   
   #* Format the table parts
-  head <- part_prep_latex(x$head, head = TRUE, col_halign = col_halign)
-  body <- part_prep_latex(x$body, col_halign = col_halign)
-  foot <- if (!is.null(x$foot)) part_prep_latex(x$foot, col_halign = col_halign) else NULL
-  interfoot <- if (!is.null(x$interfoot)) part_prep_latex(x$interfoot, col_halign = col_halign) else NULL
+  head <- part_prep_latex(x$head, head = TRUE)
+  body <- part_prep_latex(x$body)
+  foot <- if (!is.null(x$foot)) part_prep_latex(x$foot) else NULL
+  interfoot <- if (!is.null(x$interfoot)) part_prep_latex(x$interfoot) else NULL
   
-  #* Write the LaTeX Code
   prebegin <- numeric_longtable_newline(longtable_rows, is.numeric(x$longtable))
   
   begin <- paste0("\\begin{", tab_env, "}{", 
-                  paste0(col_halign, collapse = ""), "}\n")
+                  paste0(rep("c", max(x$body$col)), collapse = ""), "}\n")
   end <- paste0("\\end{", tab_env, "}")
   
   #* Convert each part into a character string
   #* Returns a character vector of length 4.
   tbl <- vapply(list(head, body, foot, interfoot),
-                paste_latex_part,
-                character(1),
+                 paste_latex_part,
+                 character(1),
                 newline = if (is.numeric(x$longtable)) " \\ltabnewline" else " \\\\")
   
   #* Append longtable tags
@@ -55,29 +56,12 @@ print_dust_latex <- function(x, ..., asis)
   
   if (asis) knitr::asis_output(paste(prebegin, begin, tbl, end, collapse = "\n"))
   else paste(prebegin, begin, tbl, end, collapse = "\n")
- 
 }
 
-#* Prepare Cell Values for Printing
-part_prep_latex <- function(part, head=FALSE, col_halign)
+#**** Helper functions
+
+part_prep_latex <- function(part, head=FALSE)
 {
-  #* If a cell's column alignment differs from the column default, 
-  #* the \multicolumn command will need to be used.  This 
-  #* joins the table part with the default column setting, then
-  #* sets a logical flag for those variables that need to use
-  #* the multicolumn.  It also flags cells that have vertical 
-  #* borders specified.
-  part <- dplyr::left_join(part,
-                           data.frame(col = 1:length(col_halign),
-                                      col_halign = col_halign,
-                                      stringsAsFactors = FALSE)) %>%
-    mutate(require_multicol = (halign != "" & halign != col_halign) |
-                              (left_border != "" | right_border != "" | 
-                                 bottom_border != "" | top_border != ""),
-           halign = ifelse(require_multicol & halign == "",
-                           col_halign,
-                           substr(halign, 1, 1)))
-  
   numeric_classes <- c("double", "numeric")
   
   #* apply a function, if any is indicated
@@ -87,12 +71,7 @@ part_prep_latex <- function(part, head=FALSE, col_halign)
   logic <- part$round != "" & part$col_class %in% numeric_classes
   if (any(logic))
     part$value[logic] <- 
-    as.character(roundSafe(part$value[logic], as.numeric(part$round[logic])))
-  
-  #* Set NA (missing) values to na_string
-  logic <- is.na(part$value) & !is.na(part$na_string)
-  part$value[logic] <- 
-    part$na_string[logic]
+      as.character(roundSafe(part$value[logic], as.numeric(part$round[logic])))
   
   #* Bold and italic
   part$value[part$bold] <- paste0("\\textbf{", part$value[part$bold], "}")
@@ -117,16 +96,47 @@ part_prep_latex <- function(part, head=FALSE, col_halign)
     paste0("{\\fontsize{", part$font_size[logic],
            part$font_size_units[logic], "}{1em}\\selectfont ",
            part$value[logic], "}")
+
+  #* Alignments. Unlike with markdown, we do not assign alignments where 
+  #* none are given.  I chose not to do so because I didn't want to override
+  #* any CSS settings that may exist elsewhere in the document.
+  part$halign[part$halign %in% c("", "center")] <- "\\centering"
+  part$halign[part$halign == "left"] <- "\\raggedright"
+  part$halign[part$halign == "right"] <- "\\raggedleft"
   
+  part$valign[part$valign %in% c("", "center")] <- "c"
+  part$valign[part$valign == "top"] <- "t"
+  part$valign[part$valign == "bottom"] <- "b"
+  
+  #* Define default cell widths to be the width of the page divided
+  #* by the number of columns
+  
+  logic <- part$width == ""
+  part$width[logic] <- paste0(round(1/max(part$col), 3), "\\textwidth")
+  
+  logic <- part$width_units == "%"
+  part$width[logic] <- paste0(as.numeric(part$width[logic]) / 100, "\\textwidth")
+  
+  logic <- !grepl("textwidth", part$width)
+  part$width[logic] <- paste0(part$width[logic], 
+                               part$width_units[logic])
+  
+  # Cell Height
+  part$height_units[part$height_units %in% c("", "px")] <- "pt"
+  
+  logic <- part$height != ""
+  part$height[logic] <- paste0(part$height[logic],
+                               part$height_units[logic])
+  
+  logic <- part$height_units == "%"
+  part$height[logic] <- paste0(as.numeric(part$height_units[logic])/100, "\\textwidth")
+
   #** Background
   logic <- part$bg != ""
   part$bg[logic] <- 
     paste0("\\cellcolor", vapply(part$bg[logic],
                                  convertColor,
                                  character(1)))
-  
-  part$value[logic] <- paste(part$bg[logic], part$value[logic])
-  
   
   #** Borders
   logic <- part$left_border != ""
@@ -157,69 +167,63 @@ part_prep_latex <- function(part, head=FALSE, col_halign)
     dplyr::select(-row) %>%
     apply(1, paste0, collapse = "")
   
+    
   
-  #* Column alignment for cells that differ from the default
-  logic <- part$require_multicol
+  part$value <- 
+    paste0("\\multicolumn{", part$colspan, "}",
+           "{", part$left_border, "p{", part$width, "}", part$right_border, "}",
+           "{\\parbox[][", part$height, "][", part$valign, "]",
+           "{", part$width, "}{", part$bg, " ",
+           part$halign, " ", part$value, "}}")
+   
+  #* Set NA (missing) values to na_string
+  logic <- is.na(part$value) & !is.na(part$na_string)
   part$value[logic] <- 
-    paste0("\\multicolumn{", part$colspan[logic], "}", 
-           "{", part$left_border[logic], " ", part$halign[logic], " ", part$right_border[logic], "}",
-           "{", part$value[logic], "}")
-  
+    part$na_string[logic]
+
+#   
+#   #* Text Rotation
+#   logic <- part$rotate_degree != ""
+#   part$rotate_degree[logic] <- 
+#     with(part, rotate_tag(rotate_degree[logic]))
+# 
+#   #* Replace some of the potentially problematic symbols with HTML codes
+#   #* At some point, this should be handled by a 'sanitize' like function
+#   #* (see xtable)
+#   part$value <- gsub("[<]", "&lt; ", part$value)
+#   part$value <- gsub("[>]", "&gt; ", part$value)
+#   
   ncol <- max(part$col)
   part <- dplyr::filter_(part, "!(rowspan == 0 | colspan == 0)")
-  
+# 
+# 
+# #   part$value[part$rowspan == 0] <- ""
+# #   part$value[part$colspan == 0] <- ""
+
   #* Spread to wide format for printing
   part <- dplyr::select_(part, "row", "col", "value") %>%
-    tidyr::spread_("col", "value", fill = NA) %>%
+    tidyr::spread_("col", "value", fill = "") %>%
     dplyr::select_("-row")
   
   if (ncol(part) != ncol){
     part <- dplyr::bind_cols(part, 
-                             do.call("cbind",
-                                     lapply(1:(ncol - ncol(part)), 
-                                            function(i) dplyr::data_frame(value = NA))))
+                     do.call("cbind",
+                             lapply(1:(ncol - ncol(part)), 
+                            function(i) dplyr::data_frame(value = ""))))
     names(part) <- 1:ncol
   }
-  
   cbind(top_borders, bottom_borders, part)
 }
 
-#* Converts the data frame object to one line of LaTeX
-#* code per row.
-
 paste_latex_part <- function(part, newline = " \\\\"){
-  paste_row <- function(r) paste(r[!is.na(r)], collapse = " & ")
-  
   if (is.null(part)) return("")
-  #* This commented line existed when I had horizontal 
-  #* borders worked out.  It may be needed again.
-  apply(part[, -(1:2), drop = FALSE], 1, paste_row) %>%
-  # apply(part[, , drop = FALSE], 1, paste_row) %>%
+  apply(part[, -(1:2)], 1, paste, collapse = " & ") %>%
     paste(newline) %>%
-    paste(part[, 2]) %>%     #* also from borders
-    paste(part[, 1], .) %>%  #* also from borders
+    paste(part[, 2]) %>%
+    paste(part[, 1], .) %>%
     paste0(collapse = "\n")
 }
-  
 
-#**************************************************
-#**************************************************
-#* Combine the four table parts for convenience of looking for common traits
-joint_reference_table <- function(x){
-  addPartCol <- function(p, part_name) {
-    if (is.null(p)) return(NULL)
-    p$part <- part_name 
-    return(p)
-  }
-  mapply(addPartCol,
-         x[c("head", "body", "foot", "interfoot")],
-         part_name = c("head", "body", "foot", "interfoot"),
-         SIMPLIFY = FALSE) %>%
-    dplyr::bind_rows()
-}
-
-#**************************************************
-#**************************************************
 convertColor <- function(color){
   if (length(color) == 0) return(character(0))
   
@@ -233,61 +237,6 @@ convertColor <- function(color){
   else return(paste0("{", color, "}"))
 }
 
-#**************************************************
-#**************************************************
-#* Get the default column alignments.
-#* Right aligned for numeric, otherwise, left aligned
-
-get_column_halign <- function(Joint){
-
-  Joint$halign[Joint$halign == ""] <- 
-    vapply(Joint$col_class[Joint$halign == ""],
-           default_halign,
-           character(1))
-  Joint <- Joint %>%
-    mutate(halign = substr(halign, 1, 1)) %>%
-    group_by(col) %>%
-    summarise(col_halign = names(sort(table(halign), decreasing = TRUE))[1])
-  Joint$col_halign
-}
-
-default_halign <- function(col_class){
-  if (col_class %in% c("numeric", "int", "double")) "r" else "l"
-}
-
-#**************************************************
-#**************************************************
-#* Get the column widths.
-#* Because of differing units, the following 
-#* hierarchy is adopted.
-#* in > cm > % > pt
-
-
-#**************************************************
-#**************************************************
-#* Writes the code that is necessary to force
-#* longtable breaks at the user-specified number 
-#* of lines
-numeric_longtable_newline <- function(n, redefine = FALSE){
-  if (redefine)
-    return(paste0("\\newcount\\mylineno \n",
-                  "\\mylineno=0 \n",
-                  "\\def\\ltabnewline{% \n", 
-                  "\\global\\advance\\mylineno by 1 \n", 
-                  "\\ifnum\\mylineno=", n, " \n",
-                  "\\global\\mylineno=0 \n",
-                  "\\\\ \n",
-                  "\\newpage \n",
-                  "\\else \n",
-                  "\\\\ \n",
-                  "\\fi \n",
-                  "}"))
-  else return("")
-}
-
-#**************************************************
-#**************************************************
-#* Prepares code for vertical borders
 latex_vertical_border_code <- function(x){
   border <- stringr::str_split_fixed(x, " ", 3)
   border[, 1] <- gsub("px", "pt", border[, 1])
@@ -306,9 +255,7 @@ latex_vertical_border_code <- function(x){
   }
 }
 
-#**************************************************
-#**************************************************
-#* Prepares code for horizontal borders
+
 latex_horizontal_border_code <- function(x, col){
   border <- stringr::str_split_fixed(x, " ", 3)
   border[, 1] <- gsub("px", "pt", border[, 1])
@@ -324,7 +271,26 @@ latex_horizontal_border_code <- function(x, col){
   }
   if (border[, 2] %in% c("solid", "double")){
     border_code <- paste0("\\arrayrulecolor", convertColor(border[, 3]), 
-                          "\\cline{", col, "-", col, "}")
+                          "\\hdashline{", col, "-", col, "}")
     return(border_code)
   }
 }
+
+numeric_longtable_newline <- function(n, redefine = FALSE){
+  if (redefine)
+    return(paste0("\\newcount\\mylineno \n",
+                  "\\mylineno=0 \n",
+                  "\\def\\ltabnewline{% \n", 
+                  "\\global\\advance\\mylineno by 1 \n", 
+                  "\\ifnum\\mylineno=", n, " \n",
+                  "\\global\\mylineno=0 \n",
+                  "\\\\ \n",
+                  "\\newpage \n",
+                  "\\else \n",
+                  "\\\\ \n",
+                  "\\fi \n",
+                  "}"))
+  else return("")
+}
+
+utils::globalVariables(c('bottom_border', 'top_border'))

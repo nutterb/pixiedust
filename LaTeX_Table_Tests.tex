@@ -1,0 +1,200 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+    \usepackage{xltxtra,xunicode}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={Benjamin Nutter},
+            pdftitle={LaTeX Table Tests},
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\ImportTok}[1]{{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{{#1}}}}
+\newcommand{\BuiltInTok}[1]{{#1}}
+\newcommand{\ExtensionTok}[1]{{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\NormalTok}[1]{{#1}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{LaTeX Table Tests}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \author{Benjamin Nutter}
+  \preauthor{\centering\large\emph}
+  \postauthor{\par}
+  \predate{\centering\large\emph}
+  \postdate{\par}
+  \date{October 1, 2015}
+
+\usepackage{longtable}
+\usepackage[dvipsnames,table]{xcolor}
+\usepackage{array}
+\usepackage{arydshln}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\makeatletter
+\newcommand*\vdashline{\rotatebox[origin=c]{90}{$\dabar@\dabar@\dabar@$}}
+\makeatother
+
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+\begin{document}
+\maketitle
+
+\begin{verbatim}
+## 
+## Attaching package: 'dplyr'
+## 
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+## 
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(x <-}\StringTok{ }\KeywordTok{dust}\NormalTok{(mtcars2, }\DataTypeTok{keep_rownames =} \OtherTok{TRUE}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{redust}\NormalTok{(custom_head, }\DataTypeTok{part =} \StringTok{"head"}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{redust}\NormalTok{(custom_foot, }\DataTypeTok{part =} \StringTok{"foot"}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{sprinkle}\NormalTok{(}\DataTypeTok{bg =} \StringTok{"gray"}\NormalTok{, }\DataTypeTok{part =} \StringTok{"head"}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{sprinkle}\NormalTok{(}\DataTypeTok{bg =} \StringTok{"lightgray"}\NormalTok{, }\DataTypeTok{part =} \StringTok{"foot"}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{sprinkle}\NormalTok{(}\DataTypeTok{rows =} \DecValTok{2}\NormalTok{:}\DecValTok{3}\NormalTok{, }\DataTypeTok{cols =} \DecValTok{3}\NormalTok{:}\DecValTok{4}\NormalTok{, }
+           \DataTypeTok{font_color =} \StringTok{"Blue"}\NormalTok{, }
+           \DataTypeTok{bold =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{italic =} \OtherTok{TRUE}\NormalTok{,}
+           \DataTypeTok{halign =} \StringTok{"left"}\NormalTok{, }
+           \DataTypeTok{font_size =} \DecValTok{20}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{sprinkle}\NormalTok{(}\DataTypeTok{rows =} \DecValTok{2}\NormalTok{:}\DecValTok{3}\NormalTok{, }\DataTypeTok{border =} \StringTok{"top"}\NormalTok{) %>%}
+\StringTok{  }\CommentTok{# sprinkle(cols = 3, border = c("left", "right"), border_style = "dashed", border_color = "Red") %>%}
+\StringTok{  }\KeywordTok{sprinkle}\NormalTok{(}\DataTypeTok{rows =} \DecValTok{7}\NormalTok{, }\DataTypeTok{border =} \KeywordTok{c}\NormalTok{(}\StringTok{"top"}\NormalTok{, }\StringTok{"bottom"}\NormalTok{), }\DataTypeTok{border_color =} \StringTok{"Red"}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{sprinkle_table}\NormalTok{(}\DataTypeTok{round =} \DecValTok{2}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{sprinkle_print_method}\NormalTok{(}\StringTok{"latex"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: attributes are not identical across measure variables; they will
+## be dropped
+\end{verbatim}
+
+\begin{verbatim}
+## Joining by: "col"
+## Joining by: "col"
+## Joining by: "col"
+\end{verbatim}
+
+\begin{tabular}{lrrrr}
+  \cellcolor{gray}  & \cellcolor{gray} mpg & \cellcolor{gray} cyl & \cellcolor{gray} disp & \cellcolor{gray} hp  \\ 
+ \cellcolor{gray}  & \cellcolor{gray} Gas Mileage & \cellcolor{gray} Cylinders & \cellcolor{gray} Displacement & \cellcolor{gray} Horse Power  \\ 
+ Mazda RX4 & 21 & 6 & 160 & 110  \\ 
+\arrayrulecolor{Black}\cline{1-1}\arrayrulecolor{Black}\cline{2-2}\arrayrulecolor{Black}\cline{3-3}\arrayrulecolor{Black}\cline{4-4}\arrayrulecolor{Black}\cline{5-5} \multicolumn{1}{ l }{Mazda RX4 Wag} & \multicolumn{1}{ r }{21} & \multicolumn{1}{ l }{{\fontsize{20pt}{1em}\selectfont \textcolor{Blue}{\emph{\textbf{6}}}}} & \multicolumn{1}{ l }{{\fontsize{20pt}{1em}\selectfont \textcolor{Blue}{\emph{\textbf{160}}}}} & \multicolumn{1}{ r }{110}  \\ 
+\arrayrulecolor{Black}\cline{1-1}\arrayrulecolor{Black}\cline{2-2}\arrayrulecolor{Black}\cline{3-3}\arrayrulecolor{Black}\cline{4-4}\arrayrulecolor{Black}\cline{5-5} \multicolumn{1}{ l }{Datsun 710} & \multicolumn{1}{ r }{22.8} & \multicolumn{1}{ l }{{\fontsize{20pt}{1em}\selectfont \textcolor{Blue}{\emph{\textbf{4}}}}} & \multicolumn{1}{ l }{{\fontsize{20pt}{1em}\selectfont \textcolor{Blue}{\emph{\textbf{108}}}}} & \multicolumn{1}{ r }{93}  \\ 
+ Hornet 4 Drive & 21.4 & 6 & 258 & 110  \\ 
+ Hornet Sportabout & 18.7 & 8 & 360 & 175  \\ 
+ Valiant & 18.1 & 6 & 225 & 105  \\ 
+\arrayrulecolor{Red}\cline{1-1}\arrayrulecolor{Red}\cline{2-2}\arrayrulecolor{Red}\cline{3-3}\arrayrulecolor{Red}\cline{4-4}\arrayrulecolor{Red}\cline{5-5} \multicolumn{1}{ l }{Duster 360} & \multicolumn{1}{ r }{14.3} & \multicolumn{1}{ r }{8} & \multicolumn{1}{ r }{360} & \multicolumn{1}{ r }{245}  \\ \arrayrulecolor{Red}\cline{1-1}\arrayrulecolor{Red}\cline{2-2}\arrayrulecolor{Red}\cline{3-3}\arrayrulecolor{Red}\cline{4-4}\arrayrulecolor{Red}\cline{5-5}
+ Merc 240D & 24.4 & 4 & 146.7 & 62  \\ 
+ Merc 230 & 22.8 & 4 & 140.8 & 95  \\ 
+ Merc 280 & 19.2 & 6 & 167.6 & 123  \\ 
+ \cellcolor{lightgray}  & \cellcolor{lightgray} 20.37 & \cellcolor{lightgray} 5.8 & \cellcolor{lightgray} 208.61 & \cellcolor{lightgray} 122.8  \\ 
+ \cellcolor{lightgray}  & \cellcolor{lightgray} 2.91 & \cellcolor{lightgray} 1.48 & \cellcolor{lightgray} 90.37 & \cellcolor{lightgray} 51.45  \\ 
+ \end{tabular}
+
+\end{document}

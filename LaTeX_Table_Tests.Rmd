@@ -2,7 +2,9 @@
 title: "LaTeX Table Tests"
 author: "Benjamin Nutter"
 date: "October 1, 2015"
-output: pdf_document
+output: 
+  pdf_document: 
+    keep_tex: yes
 header-includes:
  - \usepackage{longtable}
  - \usepackage[dvipsnames,table]{xcolor}
@@ -15,76 +17,53 @@ header-includes:
  - \makeatother
 ---
 
-```{r}
+```{r, echo = FALSE}
 library(dplyr)
 library(pixiedust)
 
-mtcars2 <- mtcars[1:10, ]
+mtcars2 <- mtcars[1:10, 1:4]
 
 Hmisc::label(mtcars2$mpg) <- "Gas Mileage"
 Hmisc::label(mtcars2$cyl) <- "Cylinders"
 Hmisc::label(mtcars2$disp) <- "Displacement"
 Hmisc::label(mtcars2$hp) <- "Horse Power"
-Hmisc::label(mtcars2$drat) <- "Rear Axle Ratio"
-Hmisc::label(mtcars2$wt) <- "Weight"
-Hmisc::label(mtcars2$qsec) <- "1/4 mile time"
-Hmisc::label(mtcars2$vs) <- "V/S"
-Hmisc::label(mtcars2$am) <- "Transmission"
-Hmisc::label(mtcars2$gear) <- "Forward Gears"
-Hmisc::label(mtcars2$carb) <- "Carburetors"
+# Hmisc::label(mtcars2$drat) <- "Rear Axle Ratio"
+# Hmisc::label(mtcars2$wt) <- "Weight"
+# Hmisc::label(mtcars2$qsec) <- "1/4 mile time"
+# Hmisc::label(mtcars2$vs) <- "V/S"
+# Hmisc::label(mtcars2$am) <- "Transmission"
+# Hmisc::label(mtcars2$gear) <- "Forward Gears"
+# Hmisc::label(mtcars2$carb) <- "Carburetors"
 
 custom_head <- rbind(names(mtcars2), Hmisc::label(mtcars2)) %>%
-  as.data.frame(stringsAsFactors = FALSE)
+  cbind(c("", ""), .) %>%
+  as.data.frame(stringsAsFactors = FALSE) 
+  
 
 custom_foot <- rbind(vapply(mtcars2, mean, numeric(1)),
                      vapply(mtcars2, sd, numeric(1))) %>%
-  as.data.frame(stringsAsFactors = FALSE)
+  cbind(c("", ""), .) %>%
+  as.data.frame(stringsAsFactors = FALSE) 
+
+custom_interfoot <- data.frame("To Be Continued", 
+                               "", "", "", "")
 ```
 
-## Longtable
-
 ```{r}
-custom_interfoot <- data.frame("To Be Continued", 
-                               "", "", "", "", "", "",
-                               "", "", "", "")
-
-(x <- dust(mtcars2) %>%
+(x <- dust(mtcars2, keep_rownames = TRUE) %>%
   redust(custom_head, part = "head") %>%
   redust(custom_foot, part = "foot") %>%
-  redust(custom_interfoot, part = "interfoot") %>%
-  sprinkle_table(round = 2, longtable = 4) %>%
   sprinkle(bg = "gray", part = "head") %>%
   sprinkle(bg = "lightgray", part = "foot") %>%
-  sprinkle(bg = "lightgray", part = "interfoot") %>%
+  sprinkle(rows = 2:3, cols = 3:4, 
+           font_color = "Blue", 
+           bold = TRUE, italic = TRUE,
+           halign = "left", 
+           font_size = 20) %>%
+  sprinkle(rows = 2:3, border = "top") %>%
+  # sprinkle(cols = 3, border = c("left", "right"), border_style = "dashed", border_color = "Red") %>%
+  sprinkle(rows = 7, border = c("top", "bottom"), border_color = "Red") %>%
+  sprinkle_table(round = 2) %>%
   sprinkle_print_method("latex"))
 ```
 
-\begin{center}
-\begin{longtable}{|c|c|c|c|}
-\caption{A simple longtable example}\\
-
-\textbf{First entry} & \textbf{Second entry} & \textbf{Third entry} & \textbf{Fourth entry} \\
-\endfirsthead
-
-\textbf{First entry} & \textbf{Second entry} & \textbf{Third entry} & \textbf{Fourth entry} \\
-\endhead
-
-\multicolumn{4}{r}{Continued on next page} \\
-\endfoot
-
-\endlastfoot
-1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\
-1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\
-1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\
-1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\
-1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\
-1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\
-1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\
-1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\
-1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\
-1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\
-1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\
-1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \\
-\end{longtable}
-\end{center}
-\end{document}
