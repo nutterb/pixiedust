@@ -7,7 +7,7 @@
 #' @importFrom tidyr spread_
 
 
-print_dust_latex <- function(x, ..., asis)
+print_dust_latex <- function(x, ..., asis=TRUE)
 {
   
   #* Determine the number of divisions
@@ -71,7 +71,7 @@ part_prep_latex <- function(part, head=FALSE, col_halign)
                            data.frame(col = 1:length(col_halign),
                                       col_halign = col_halign,
                                       stringsAsFactors = FALSE)) %>%
-    mutate(require_multicol = (halign != "" & halign != col_halign) |
+    dplyr::mutate(require_multicol = (halign != "" & halign != col_halign) |
                               (left_border != "" | right_border != "" | 
                                  bottom_border != "" | top_border != ""),
            halign = ifelse(require_multicol & halign == "",
@@ -245,9 +245,9 @@ get_column_halign <- function(Joint){
            default_halign,
            character(1))
   Joint <- Joint %>%
-    mutate(halign = substr(halign, 1, 1)) %>%
-    group_by(col) %>%
-    summarise(col_halign = names(sort(table(halign), decreasing = TRUE))[1])
+    dplyr::mutate(halign = substr(halign, 1, 1)) %>%
+    dplyr::group_by(col) %>%
+    dplyr::summarise(col_halign = names(sort(table(halign), decreasing = TRUE))[1])
   Joint$col_halign
 }
 
@@ -328,3 +328,8 @@ latex_horizontal_border_code <- function(x, col){
     return(border_code)
   }
 }
+
+
+utils::globalVariables(c("halign", "left_border", "right_border", 
+                         "bottom_border", "top_border",
+                         "require_multicol"))

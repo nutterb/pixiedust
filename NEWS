@@ -1,3 +1,14 @@
+#### 0.5.3 (5 November 2015)
+* Due to a great deal of difficulty getting the last couple of 
+  features to play nicely, I decided to take a different 
+  approach to the LaTeX output.  Most features are 
+  available, but I have yet to include column widths, 
+  column heights, or multirow output.
+* An option is added to the print method that 
+  turns off the `knitr::asis_output` return.
+  The motivation behind this was to be able to 
+  use the HTML code in shiny applications.
+
 #### 0.5.2 (4 November 2015)
 * Longtable support is added
 * Documentation on cell borders is up to date
