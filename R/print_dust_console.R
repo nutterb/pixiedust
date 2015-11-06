@@ -5,7 +5,7 @@
 #' @importFrom dplyr ungroup
 #' @importFrom tidyr spread
 
-print_dust_console <- function(x, ..., return_df = FALSE)
+print_dust_console <- function(x, ..., return_df = FALSE, asis=TRUE)
 {
   
   #* Determine the number of divisions

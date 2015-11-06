@@ -6,7 +6,7 @@
 #' @importFrom tidyr spread_
 
 
-print_dust_html <- function(x, ...)
+print_dust_html <- function(x, ..., asis=TRUE)
 {
   
   #* Determine the number of divisions
@@ -49,16 +49,17 @@ print_dust_html <- function(x, ...)
   
     #* When interactive, write to a temporary file so that it 
     #* can be displayed in the viewer
-    if (interactive()){
+    if (interactive() & asis){
       write(html_code, tmpfile, append = i > 1)
     }
     else non_interactive <- paste0(non_interactive, html_code)
   }
   # print(html_code)
-  if (interactive()){
+  if (interactive() & asis){
     getOption("viewer")(tmpfile)
   }
-  else knitr::asis_output(htmltools::htmlPreserve(non_interactive))
+  else if (asis) knitr::asis_output(htmltools::htmlPreserve(non_interactive))
+  else htmltools::htmlPreserve(non_interactive)
   
 }
 
@@ -159,8 +160,8 @@ part_prep_html <- function(part, head=FALSE)
   #* Replace some of the potentially problematic symbols with HTML codes
   #* At some point, this should be handled by a 'sanitize' like function
   #* (see xtable)
-  part$value <- gsub("[<]", "&lt; ", part$value)
-  part$value <- gsub("[>]", "&gt; ", part$value)
+#   part$value <- gsub("[<]", "&lt; ", part$value)
+#   part$value <- gsub("[>]", "&gt; ", part$value)
   
   #* Generate css style definitions for each cell.
   part$value <- 

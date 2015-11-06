@@ -6,8 +6,14 @@
 \alias{sprinkle_table}
 \title{Define Customizations to a Table}
 \source{
-Altering the number of rows in a LaTeX longtable
+Altering the number of rows in a LaTeX longtable \cr
 http://tex.stackexchange.com/questions/19710/how-can-i-set-the-maximum-number-of-rows-in-a-page-for-longtable
+
+Vertical dashed cell borders in LaTeX table \cr
+http://www.latex-community.org/forum/viewtopic.php?f=45&t=3149
+
+Colored Cell border \cr
+http://tex.stackexchange.com/questions/40666/how-to-change-line-color-in-tabular
 }
 \usage{
 sprinkle(x, rows = NULL, cols = NULL, ..., part = c("body", "head",

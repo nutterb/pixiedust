@@ -7,7 +7,7 @@
 #' @importFrom tidyr spread_
 
 
-print_dust_latex <- function(x, ...)
+print_dust_latex <- function(x, ..., asis)
 {
   
   #* Determine the number of divisions
@@ -54,7 +54,8 @@ print_dust_latex <- function(x, ...)
   
   tbl <- paste(tbl, collapse = "\n")
   
-  knitr::asis_output(paste(prebegin, begin, tbl, end, collapse = "\n"))
+  if (asis) knitr::asis_output(paste(prebegin, begin, tbl, end, collapse = "\n"))
+  else paste(prebegin, begin, tbl, end, collapse = "\n")
 }
 
 #**** Helper functions

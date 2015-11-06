@@ -5,7 +5,7 @@
 #' @importFrom knitr kable
 #' @importFrom tidyr spread
 
-print_dust_markdown <- function(x, ...)
+print_dust_markdown <- function(x, ..., asis=TRUE)
 {
   
   #* Determine the number of divisions
@@ -81,7 +81,8 @@ print_dust_markdown <- function(x, ...)
                                "\n", linebreak, "\n", linebreak, "\n"), 
                              collapse = "\n"))
   }
-  knitr::asis_output(tbl_code)
+  if (asis) knitr::asis_output(tbl_code)
+  else tbl_code
   
 }
 
