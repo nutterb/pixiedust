@@ -105,6 +105,11 @@ part_prep_html <- function(part, head=FALSE)
   part$bg[logic] <- 
     with(part, paste0("background-color:", bg[logic], ";"))
   
+  #* Font Family
+  logic <- part$font_family != ""
+  part$font_family[logic] <-
+    with(part, paste0("font-family:", font_family[logic], ";"))
+  
   #* Font Color
   logic <- part$font_color != ""
   part$font_color[logic] <- 
@@ -169,7 +174,7 @@ part_prep_html <- function(part, head=FALSE)
                       " colspan = '", colspan, "'; ", 
                       "rowspan = '", rowspan, "'; ",
                       "style='", 
-                      bold, italic, halign, valign, bg, font_color, 
+                      bold, italic, halign, valign, bg, font_family, font_color, 
                       font_size, height, width,
                       top_border, bottom_border, left_border, right_border,
                       rotate_degree, pad,

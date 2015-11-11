@@ -134,6 +134,10 @@ list of which sprinkles are recognized by each output type, see
   \item{\code{fn} }{A function to apply to values in cells.  The function
      should be an expression that acts on the variable \code{value}. For
      example, \code{quote(round(value, 3))}.}
+  \item{\code{font_family} }{A character string denoting the font family
+     for the text. This option is only recognized in HTML output.
+     A short list of web safe fonts is available at
+     http://www.w3schools.com/cssref/css_websafe_fonts.asp}
   \item{\code{font_color} }{A character string denoting the color of the
      font.  See "Colors".}
   \item{\code{font_size} }{A numeric value denoting the size of the font.}

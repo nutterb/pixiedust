@@ -1,3 +1,6 @@
+#### 0.5.4 (10 November 2015)
+* Added the `font_family` sprinkle for HTML output
+
 #### 0.5.3 (5 November 2015)
 * Due to a great deal of difficulty getting the last couple of 
   features to play nicely, I decided to take a different 

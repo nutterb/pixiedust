@@ -112,6 +112,10 @@
 #'   \item{\code{fn} }{A function to apply to values in cells.  The function 
 #'      should be an expression that acts on the variable \code{value}. For
 #'      example, \code{quote(round(value, 3))}.}
+#'   \item{\code{font_family} }{A character string denoting the font family 
+#'      for the text. This option is only recognized in HTML output.
+#'      A short list of web safe fonts is available at 
+#'      http://www.w3schools.com/cssref/css_websafe_fonts.asp}
 #'   \item{\code{font_color} }{A character string denoting the color of the
 #'      font.  See "Colors".}
 #'   \item{\code{font_size} }{A numeric value denoting the size of the font.}
@@ -446,6 +450,11 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
       msg = "The 'border_collapse' argument must be logical.",
       argcheck = Check)
   
+  if ("font_family" %in% names(sprinkles) & !is.character(sprinkles$font_family))
+    ArgumentCheck::addError(
+      msg = "The 'font_family' argument must be a character string",
+      argcheck = Check)
+  
   if ("font_color" %in% names(sprinkles) & !is.character(sprinkles$font_color))
     ArgumentCheck::addError(
       msg = "The 'font_color' argument must be a character string.",
@@ -718,7 +727,7 @@ sprinkle_names <- function()
     "bold", "border", "border_thickness", 
     "border_units", "border_style", "border_color", 
     "border_collapse",
-    "fn", "font_color", "font_size", "font_size_units", "halign", 
+    "fn", "font_family", "font_color", "font_size", "font_size_units", "halign", 
     "height", "height_units", "italic", "longtable", 
     "merge", "merge_rowval", "merge_colval", "na_string", "pad", 
     "replace", "rotate_degree", 

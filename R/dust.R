@@ -234,6 +234,7 @@ cell_attributes_frame <- function(nrow, ncol)
               halign = "",
               valign = "",
               bg = "",
+              font_family = "",
               font_color = "",
               font_size = "",
               font_size_units = "",
