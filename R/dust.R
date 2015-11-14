@@ -118,7 +118,7 @@ dust <- function(object, ...,
   #* as given.  All other objects are tidied.
   if (!inherits(object, "data.frame") | tidy_df) 
     tidy_object <- broom::tidy(object, ...)
-  
+
   else if (inherits(object, "data.frame")){
     if (inherits(object, "data.table"))
       object <- as.data.frame(object)
@@ -142,7 +142,7 @@ dust <- function(object, ...,
   }
   
   ArgumentCheck::finishArgCheck(Check)
- 
+
   #* Create the table head
   head <- as.data.frame(t(names(tidy_object)),
                         stringsAsFactors=FALSE)
@@ -159,7 +159,7 @@ dust <- function(object, ...,
   else {
     foot <- NULL
   }
-  
+
   #* Eventually, by default, glance statistics will be inserted into
   #* the 'foot' object.  Objects passed as data frames should not have
   #* glance statistics by default.  Perhaps an option for glance_df should
@@ -173,7 +173,7 @@ dust <- function(object, ...,
                  longtable = FALSE,
                  print_method = getOption("pixiedust_print_method")),
             class = "dust")
-  
+
 }
 
 #***********************************************************
