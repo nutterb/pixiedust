@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.7.23)  6 NOV 2015 06:43
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.7.23)  4 DEC 2015 15:09
 entering extended mode
 **LaTeX_Table_Tests.tex
 (C:\Users\Nutter\Documents\GitHub\pixiedust\LaTeX_Table_Tests.tex
@@ -923,48 +923,36 @@ LaTeX Info: Redefining \nameref on input line 97.
 \makeMPintoPDFobject=\count137
 \everyMPtoPDFconversion=\toks30
 )
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 100.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 100.
 
- ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\t1lmtt.fd"
-File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-LaTeX Font Info:    Try loading font information for TS1+lmtt on input line 111
-.
-
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\ts1lmtt.fd"
-File: ts1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 124.
-
-
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\ot1lmr.fd"
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\ot1lmr.fd"
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 124.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 100.
 
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\omllmm.fd"
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 124
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 100
 .
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\omslmsy.fd"
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 124
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 100
 .
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\omxlmex.fd"
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 124.
+(Font)              <10> on input line 100.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 124.
+(Font)              <7> on input line 100.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 124.
-LaTeX Font Info:    Try loading font information for U+msa on input line 124.
+(Font)              <5> on input line 100.
+LaTeX Font Info:    Try loading font information for U+msa on input line 100.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -972,7 +960,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\microtype\mt-msa.cfg"
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 124.
+LaTeX Font Info:    Try loading font information for U+msb on input line 100.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -980,30 +968,87 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\microtype\mt-msb.cfg"
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-! Undefined control sequence.
-\@sharp ->\toprule 
-                   \multirow {4}{*}{\begin {tabular}[b]{c}4\end {tabular}}
-l.144 ...{*}{\begin{tabular}[b]{c}4\end{tabular}}}
-                                                   & 6 & 7 & 8 & 9 \\
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+Underfull \hbox (badness 10000) in paragraph at lines 103--103
+[]\T1/lmr/m/n/10 (+20) fjkd
+ []
 
-)
-! Emergency stop.
-<*> LaTeX_Table_Tests.tex
-                         
-*** (job aborted, no legal \end found)
 
- 
+Underfull \hbox (badness 10000) in paragraph at lines 103--103
+\T1/lmr/m/n/10 (+20) al;fjdk
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 103--103
+\T1/lmr/m/n/10 (+20) l;ajf
+ []
+
+
+Overfull \hbox (2.76402pt too wide) in paragraph at lines 103--103
+\T1/lmr/m/n/10 (-20) kel;ajfiea;
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 103--103
+\T1/lmr/m/n/10 (+20) jfio;eaj
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 103--103
+\T1/lmr/m/n/10 (+20) fke;ajf;e
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 103--103
+\T1/lmr/m/n/10 (+20) jafie;jf
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 103--103
+\T1/lmr/m/n/10 (+20) iae;j
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 103--103
+\T1/lmr/m/n/10 (+20) fiae;fi
+ []
+
+
+Overfull \vbox (92.83318pt too high) detected at line 103
+ []
+
+
+Overfull \hbox (3.33333pt too wide) in paragraph at lines 103--103
+[]|[]| 
+ []
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 108.
+[1
+
+{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 108.
+
+(C:\Users\Nutter\Documents\GitHub\pixiedust\LaTeX_Table_Tests.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 108.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 108.
+Package rerunfilecheck Info: File `LaTeX_Table_Tests.out' has not changed.
+(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 108.
+ ) 
 Here is how much of TeX's memory you used:
- 12920 strings out of 493921
- 185373 string characters out of 3144873
- 297000 words of memory out of 3000000
- 16024 multiletter control sequences out of 15000+200000
- 42868 words of font info for 48 fonts, out of 3000000 for 9000
+ 12838 strings out of 493921
+ 184084 string characters out of 3144873
+ 287000 words of memory out of 3000000
+ 15947 multiletter control sequences out of 15000+200000
+ 30696 words of font info for 43 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 41i,16n,35p,323b,272s stack positions out of 5000i,500n,10000p,200000b,50000s
-!  ==> Fatal error occurred, no output PDF file produced!
+ 41i,12n,35p,242b,338s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ec.enc}<C:/Program F
+iles (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr10.pfb><C:/Program Files (x86)/M
+iKTeX 2.9/fonts/type1/public/lm/lmr17.pfb><C:/Program Files (x86)/MiKTeX 2.9/fo
+nts/type1/public/lm/lmri12.pfb>
+Output written on LaTeX_Table_Tests.pdf (1 page, 67014 bytes).
+PDF statistics:
+ 24 PDF objects out of 1000 (max. 8388607)
+ 2 named destinations out of 1000 (max. 500000)
+ 8193 words of extra memory for PDF output out of 10000 (max. 10000000)
+

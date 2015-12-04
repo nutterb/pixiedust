@@ -12,4 +12,8 @@
 ^LaTeX_Table_Tests.Rmd$
 ^LaTeX_Table_Tests.tex$
 ^LaTeX_Table_Tests.log$
+^LaTeX_Table_Tests.synctex.gz$
 ^print_dust_latex_original.R$
+^BuildingComplexTables.Rmd$
+^BuildingComplexTables.pdf$
+

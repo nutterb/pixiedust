@@ -171,6 +171,9 @@ dust <- function(object, ...,
                  foot = foot,
                  border_collapse = TRUE,
                  longtable = FALSE,
+                 table_width = 6,
+                 tabcolsep = 6,
+                 tabrowsep = 6,
                  print_method = getOption("pixiedust_print_method")),
             class = "dust")
 
@@ -253,7 +256,8 @@ cell_attributes_frame <- function(nrow, ncol)
               na_string = NA,
               stringsAsFactors=FALSE) %>%
     mutate_(html_row = ~row,
-            html_col = ~col)
+            html_col = ~col,
+            merge = ~FALSE)
 }
 
 

@@ -97,57 +97,13 @@
 \begin{document}
 \maketitle
 
-\begin{verbatim}
-## 
-## Attaching package: 'dplyr'
-## 
-## The following objects are masked from 'package:stats':
-## 
-##     filter, lag
-## 
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-\end{verbatim}
+\begin{tabular}{llp{18pt}p{18pt}}
+ left & \parbox[]{250pt}{\raggedright col1} & \parbox[]{18pt}{\raggedright col2} & \parbox[]{18pt}{\raggedright col3}   \\
+\cellcolor{White} row 1 & \parbox[]{250pt}{\raggedright \cellcolor{White} 1} & \parbox[]{18pt}{\raggedright \cellcolor{White} 2} & \parbox[]{18pt}{\raggedright \cellcolor{White} 3}   \\
+\cellcolor{Gray} row 2 & \multicolumn{3}{l}{\multirow{2}{*}{\parbox[b]{250pt}{\raggedright \cellcolor{Gray} \textcolor{Blue}{This is a longer string of text to test multicolumn This is a longer string of text to test multicolumn This is a longer string of text to test multicolumn This is a longer string of text to test multicolumn This is a longer string of text to test multicolumn This is a longer string of text to test multicolumn This is a longer string of text to test multicolumn This is a longer string of text to test multicolumn This is a longer string of text to test multicolumn This is a longer string of text to test multicolumn This is a longer string of text to test multicolumn This is a longer string of text to test multicolumn This is a longer string of text to test multicolumn This is a longer string of text to test multicolumn}}}} \\[144.54pt]  \\
+\cellcolor{White} row 3 & \multicolumn{3}{c}{}   \\
+\cellcolor{Gray} row 4 & \parbox[]{250pt}{\raggedright \cellcolor{Gray} something different} & \parbox[]{18pt}{\raggedright \cellcolor{Gray} 2} & \parbox[]{18pt}{\raggedright \cellcolor{Gray} 3}   \\
 
-\begin{verbatim}
-## Warning: attributes are not identical across measure variables; they will
-## be dropped
-\end{verbatim}
-
-\begin{verbatim}
-## Joining by: "col"
-## Joining by: "col"
-## Joining by: "col"
-\end{verbatim}
-
-\begin{tabular}{lrrrr}
-  \cellcolor{gray}  & \cellcolor{gray} mpg & \cellcolor{gray} cyl & \cellcolor{gray} disp & \cellcolor{gray} hp  \\ 
- \cellcolor{gray}  & \cellcolor{gray} Gas Mileage & \cellcolor{gray} Cylinders & \cellcolor{gray} Displacement & \cellcolor{gray} Horse Power  \\ 
- Mazda RX4 & 21 & 6 & 160 & 110  \\ 
-\arrayrulecolor{Black}\cline{3-3}\arrayrulecolor{Black}\cline{4-4} Mazda RX4 Wag & 21 & \multicolumn{2}{!{\color{Black}\vrule width 1pt} c !{\color{Black}\vrule width 1pt}}{\multirow{2}{*}{{\fontsize{20pt}{1em}\selectfont \textcolor{Blue}{\emph{\textbf{6}}}}}} & 110  \\ 
- Datsun 710 & 22.8 & \multicolumn{2}{!{\color{Black}\vrule width 1pt}c!{\color{Black}\vrule width 1pt}}{} & 93  \\ \arrayrulecolor{Black}\cline{3-3}\arrayrulecolor{Black}\cline{4-4}
- Hornet 4 Drive & 21.4 & 6 & 258 & 110  \\ 
- Hornet Sportabout & 18.7 & 8 & 360 & 175  \\ 
- Valiant & 18.1 & 6 & 225 & 105  \\ 
- Duster 360 & 14.3 & 8 & 360 & 245  \\ 
- Merc 240D & 24.4 & 4 & 146.7 & 62  \\ 
- Merc 230 & 22.8 & 4 & 140.8 & 95  \\ 
- Merc 280 & 19.2 & 6 & 167.6 & 123  \\ 
- \cellcolor{lightgray}  & \cellcolor{lightgray} 20.37 & \cellcolor{lightgray} 5.8 & \cellcolor{lightgray} 208.61 & \cellcolor{lightgray} 122.8  \\ 
- \cellcolor{lightgray}  & \cellcolor{lightgray} 2.91 & \cellcolor{lightgray} 1.48 & \cellcolor{lightgray} 90.37 & \cellcolor{lightgray} 51.45  \\ 
  \end{tabular}
-
-\begin{tabular}{ccc p{1.5cm} r cccc}
-1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
-1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
-1 & 2 & 3 & \multicolumn{2}{l}{\multirow{4}{3.4cm}{I think it isn't wrapping because there are no word breaks}} & 6 & 7 & 8 & 9 \\
-1 & 2 & 3 & \multicolumn{2}{c}{} & 6 & 7 & 8 & 9 \\
-1 & 2 & 3 & \multicolumn{2}{c}{} & 6 & 7 & 8 & 9 \\
-1 & 2 & 3 & \multicolumn{2}{c}{} & 6 & 7 & 8 & 9 \\
-1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
-1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
-1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
-\end{tabular}
 
 \end{document}

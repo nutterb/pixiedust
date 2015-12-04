@@ -14,7 +14,8 @@ test_that("dust object has expected names",
   x <- dust(fit)
   
   expect_equal(names(x), c("head", "body", "interfoot", "foot", 
-                           "border_collapse", "longtable", "print_method"))
+                           "border_collapse", "longtable", "table_width", "tabcolsep", 
+                           "tabrowsep", "print_method"))
 })
 
 test_that("dust object body component has correct dimensions",
@@ -28,8 +29,8 @@ test_that("dust object body component has correct dimensions",
                dim(x$foot))
   
   expect_equal(Dims, 
-               list(c(5, 31), 
-                    c(30, 31),
+               list(c(5, 32), 
+                    c(30, 32),
                     NULL,
                     NULL))
 })

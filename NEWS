@@ -1,3 +1,15 @@
+#### 0.5.5 (04 December 2015)
+* Revamped the LateX output again, pretty much started over entirely.  But now
+  the only thing missing is cell borders, and my previous work will accommodate 
+  those.
+* Added `tablewidth`, `tabcolsep`, and `tabrowsep` elements to the dust object.
+  `tablewidth` allows the user to define cell width in terms of a percentage of 
+  the total expected table width.  Not really recommended, but at least preserves
+  some continuity between HTML and LaTeX output.
+* `tabcolsep` and `tabrowsep` control the distance between columns and rows in tables, 
+  but this feature isn't yet implemented.
+* Documentation is lacking on `tablewidth`, `tabcolsep`, and `tabrowsep`
+
 #### 0.5.4 (10 November 2015)
 * Added the `font_family` sprinkle for HTML output
 
