@@ -1,5 +1,5 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Travis-CI Build Status](https://travis-ci.org/nutterb/pixiedust.svg?branch=master)](https://travis-ci.org/nutterb/pixiedust) ![](http://cranlogs.r-pkg.org/badges/grand-total/pixiedust) [![Coverage Status](https://coveralls.io/repos/nutterb/pixiedust/badge.svg?branch=multirow-headers&service=github)](https://coveralls.io/github/nutterb/pixiedust?branch=multirow-headers)
+[![Travis-CI Build Status](https://travis-ci.org/nutterb/pixiedust.svg?branch=master)](https://travis-ci.org/nutterb/pixiedust) ![](http://cranlogs.r-pkg.org/badges/grand-total/pixiedust) [![Coverage Status](https://coveralls.io/repos/nutterb/pixiedust/badge.svg?branch=master&service=github)](https://coveralls.io/github/nutterb/pixiedust?branch=master)
 
 pixiedust
 =========
@@ -45,6 +45,7 @@ Tables can be customized by row, column, or even by a single cell by adding spri
 | colnames          | x           | x       | x        | x    | x     |
 | fn                | x           | x       | x        | x    | x     |
 | font\_color       | x           |         |          | x    | x     |
+| font\_family      | x           |         |          | x    |       |
 | font\_size        | x           |         |          | x    | x     |
 | font\_size\_units | x           |         |          | x    | x     |
 | halign            | x           |         |          | x    | x     |
@@ -52,12 +53,12 @@ Tables can be customized by row, column, or even by a single cell by adding spri
 | height\_units     | x           |         |          | x    | x     |
 | italic            | x           | x       | x        | x    | x     |
 | longtable         | x           | x       | x        | x    | x     |
-| merge             | x           | x       | x        | x    | o     |
+| merge             | x           | x       | x        | x    | x     |
 | na\_string        | x           | x       | x        | x    | x     |
 | padding           | x           |         |          | x    |       |
 | replace           | x           | x       | x        | x    | x     |
 | round             | x           | x       | x        | x    | x     |
-| rotate\_degree    | x           |         |          | x    | o     |
+| rotate\_degree    | x           |         |          | x    | x     |
 | valign            | x           |         |          | x    | x     |
 | width             | x           |         |          | x    | x     |
 | width\_units      | x           |         |          | x    | x     |
@@ -199,11 +200,11 @@ Are there other features you want or need? Please submit an issue, or contribute
 |  **0.5.0**| LaTeX output for simple table                      |  15 Oct 2015| 15 Oct 2015  |
 |           | Adjustable cell heights and widths in LaTeX tables |             |              |
 |           | Add `medley` for batch customizations              |             |              |
-|      0.6.0| Borders and backgrounds for LaTeX tables           |   1 Dec 2015|              |
+|      0.6.0| Borders and backgrounds for LaTeX tables           |   1 Dec 2015| 9 Dec 2015   |
 |           | Multicolumn and multirow support for LaTeX tables  |             |              |
 |           | Longtable support for LaTeX tables                 |             |              |
 |           | Rotated text for LaTeX tables                      |             |              |
-|  **1.0.0**| Release of basic, stable package                   |             |              |
+|  **1.0.0**| Release of basic, stable package                   |   1 Apr 2015|              |
 
 **bold version numbers** indicate a planned release to CRAN.
 

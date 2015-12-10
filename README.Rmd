@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 [![Travis-CI Build Status](https://travis-ci.org/nutterb/pixiedust.svg?branch=master)](https://travis-ci.org/nutterb/pixiedust)
 ![](http://cranlogs.r-pkg.org/badges/grand-total/pixiedust)
-[![Coverage Status](https://coveralls.io/repos/nutterb/pixiedust/badge.svg?branch=multirow-headers&service=github)](https://coveralls.io/github/nutterb/pixiedust?branch=multirow-headers)
+[![Coverage Status](https://coveralls.io/repos/nutterb/pixiedust/badge.svg?branch=master&service=github)](https://coveralls.io/github/nutterb/pixiedust?branch=master)
 
 # pixiedust
 After tidying up your analyses with the `broom` package, go ahead and grab the `pixiedust`.  Customize your table output and write it to markdown, HTML, LaTeX, or even just the console.  `pixiedust` makes it easy to customize the appearance of your tables in all of these formats by adding any number of "sprinkles", much in the same way you can add layers to a `ggplot`.
@@ -128,11 +128,11 @@ Are there other features you want or need?  Please submit an issue, or contribut
 |**0.5.0**| LaTeX output for simple table                      | 15 Oct 2015 | 15 Oct 2015 |
 |         | Adjustable cell heights and widths in LaTeX tables |             | |
 |         | Add `medley` for batch customizations              |             | |
-| 0.6.0   | Borders and backgrounds for LaTeX tables           | 1 Dec 2015  | |
+| 0.6.0   | Borders and backgrounds for LaTeX tables           | 1 Dec 2015  | 9 Dec 2015 |
 |         | Multicolumn and multirow support for LaTeX tables  |             | |
 |         | Longtable support for LaTeX tables                 |             | |
 |         | Rotated text for LaTeX tables                      |             | |
-|**1.0.0**| Release of basic, stable package                   |             | |
+|**1.0.0**| Release of basic, stable package                   | 1 Apr 2015  | |
 
 **bold version numbers** indicate a planned release to CRAN.
 

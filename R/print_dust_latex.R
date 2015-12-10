@@ -38,6 +38,8 @@ print_dust_latex <- function(x, ..., asis=TRUE)
   
   #* Write the LaTeX Code
   prebegin <- numeric_longtable_newline(longtable_rows, is.numeric(x$longtable))
+  prebegin <- paste0(prebegin, 
+                     "\\setlength{\\tabcolsep}{", x$tabcolsep, "pt}", sep = "\n")
   
   begin <- paste0("\\begin{", tab_env, "}{", 
                   paste0(col_halign_default$default_halign, collapse = ""), "}\n")
@@ -136,6 +138,10 @@ part_prep_latex <- function(part, col_width, col_halign_default, head=FALSE)
            part$font_size_units[logic], "}{1em}\\selectfont ",
            part$value[logic], "}")
   
+  logic <- part$rotate_degree != ""
+  part$value[logic] <- 
+    paste0("\\rotatebox{", part$rotate_degree[logic], "}{", part$value[logic], "}")
+  
   #** Background
   logic <- part$bg != ""
   part$bg[logic] <- 
@@ -145,7 +151,39 @@ part_prep_latex <- function(part, col_width, col_halign_default, head=FALSE)
   
   part$value[logic] <- paste(part$bg[logic], part$value[logic])
   
-  parbox = needs_parbox(part)
+  #** Borders
+  logic <- part$left_border != ""
+  part$left_border[logic] <- 
+    vapply(part$left_border[logic], latex_vertical_border_code, character(1))
+  
+  logic <- part$right_border != ""
+  part$right_border[logic] <- 
+    vapply(part$right_border[logic], latex_vertical_border_code, character(1))
+  
+  logic <- part$bottom_border != ""
+  part$bottom_border[logic] <- 
+    mapply(latex_horizontal_border_code, 
+           part$bottom_border[logic],
+           part$col[logic])
+  bottom_borders <- dplyr::select(part, row, col, bottom_border) %>%
+    tidyr::spread(col, bottom_border) %>%
+    dplyr::select(-row) %>%
+    apply(1, paste0, collapse = "")
+  
+  logic <- part$top_border != ""
+  part$top_border[logic] <- 
+    mapply(latex_horizontal_border_code, 
+           part$top_border[logic],
+           part$col[logic])
+  top_borders <- dplyr::select(part, row, col, top_border) %>%
+    tidyr::spread(col, top_border) %>%
+    dplyr::select(-row) %>%
+    apply(1, paste0, collapse = "")
+  
+  
+  
+  
+  parbox <- needs_parbox(part)
   
   
   part$halign_parbox <- part$halign
@@ -172,23 +210,27 @@ part_prep_latex <- function(part, col_width, col_halign_default, head=FALSE)
   part$value[logic] <- paste0("\\multicolumn{", part$colspan[logic], "}",
                               "{", part$left_border[logic], "c", part$right_border[logic], "}{}")
   part$rowspan[logic] <- -1
-  part$colspan[logic] <- -1
+  part$colspan[logic] <- part$colspan[logic] * -1
   
   #* Place multicolumn tags where needed
-  logic <- part$colspan > 1
+  logic <- part$colspan > 1 | (part$left_border != "" | part$right_border != "") | 
+            !(part$html_row != part$row & part$html_col == part$col)
   part$value[logic] <- 
     paste0("\\multicolumn{", part$colspan[logic], "}{", 
-           substr(part$halign[logic], 1, 1), "}{", part$value[logic], "}")
+           part$left_border[logic], 
+           substr(part$halign[logic], 1, 1), 
+           part$right_border[logic], "}{", part$value[logic], "}")
   
   #* Remove value where a merged cell is not the display cell
   ncol <- max(part$col)
   part %<>% dplyr::filter(!(rowspan == 0 | colspan == 0))
   
-    
-  
-  dplyr::select(part, row, col, value) %>%
-    tidyr::spread(col, value, fill = NA) %>%
-    dplyr::select(-row)
+  cbind(top_borders, 
+        bottom_borders,
+        dplyr::select(part, row, col, value) %>%
+          tidyr::spread(col, value, fill = NA) %>%
+          dplyr::select(-row)
+  )
 }
 
 #* Converts the data frame object to one line of LaTeX
@@ -199,12 +241,12 @@ paste_latex_part <- function(part, row_height, newline = " \\\\"){
   if (is.null(part)) return("")
   #* This commented line existed when I had horizontal 
   #* borders worked out.  It may be needed again.
-  # apply(part[, -(1:2), drop = FALSE], 1, paste_row) %>%
-    apply(part[, , drop = FALSE], 1, paste_row) %>%
+  apply(part[, -(1:2), drop = FALSE], 1, paste_row) %>%
+    # apply(part[, , drop = FALSE], 1, paste_row) %>%
     paste(row_height) %>%
     paste(newline) %>%
-#     paste(part[, 2]) %>%     #* also from borders
-#     paste(part[, 1], .) %>%  #* also from borders
+    paste(part[, 2]) %>%     #* also from borders
+    paste(part[, 1], .) %>%  #* also from borders
     paste0(collapse = "\n")
 }
 
@@ -365,6 +407,50 @@ get_column_halign <- function(Joint){
 
 default_halign <- function(col_class){
   if (col_class %in% c("numeric", "int", "double")) "r" else "l"
+}
+
+#**************************************************
+#**************************************************
+#* Prepares code for vertical borders
+latex_vertical_border_code <- function(x){
+  border <- stringr::str_split_fixed(x, " ", 3)
+  border[, 1] <- gsub("px", "pt", border[, 1])
+  border[, 2] <- ifelse(border[, 2] %in% c("dashed", "dotted"), 
+                        "dashed",
+                        ifelse(border[, 2] %in% c("groove", "ridge", "inset", "outset", "hidden"),
+                               "solid", border[, 2]))
+  if (border[, 2] %in% c("hidden", "none")) return("")
+  if (border[, 2] == "dashed"){
+    border_code <- paste("!{\\color", convertColor(border[, 3]), "\\vdashline}")
+    return(border_code)
+  }
+  if (border[, 2] %in% c("solid", "double")){
+    border_code <- paste0("!{\\color", convertColor(border[, 3]), "\\vrule width ", border[, 1], "}")
+    return(border_code)
+  }
+}
+
+#**************************************************
+#**************************************************
+#* Prepares code for horizontal borders
+latex_horizontal_border_code <- function(x, col){
+  border <- stringr::str_split_fixed(x, " ", 3)
+  border[, 1] <- gsub("px", "pt", border[, 1])
+  border[, 2] <- ifelse(border[, 2] %in% c("dashed", "dotted"), 
+                        "dashed",
+                        ifelse(border[, 2] %in% c("groove", "ridge", "inset", "outset", "hidden"),
+                               "solid", border[, 2]))
+  if (border[, 2] %in% c("hidden", "none")) return("")
+  if (border[, 2] == "dashed"){
+    border_code <- paste0("\\arrayrulecolor", convertColor(border[, 3]), 
+                          "\\cdashline{", col, "-", col, "}")
+    return(border_code)
+  }
+  if (border[, 2] %in% c("solid", "double")){
+    border_code <- paste0("\\arrayrulecolor", convertColor(border[, 3]), 
+                          "\\cline{", col, "-", col, "}")
+    return(border_code)
+  }
 }
 
 

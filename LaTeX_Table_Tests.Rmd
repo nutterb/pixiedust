@@ -21,25 +21,10 @@ header-includes:
 ```{r, echo = FALSE}
 library(pixiedust)
 
-(x <- data.frame(
-  left = c("row 1", "row 2", "row 3", "row 4"),
-  col1 = c(1, paste0(rep("This is a longer string of text to test multicolumn", 14), collapse = " "), 
-           "This text should not appear when multirow works correctly",
-           "something different"),
-  col2 = c(2, 2, 2, 2), 
-  col3 = c(3, 3, 3, 3),
-  stringsAsFactors = FALSE) %>%
-  dust() %>%
-  sprinkle(rows = 2:3, cols = 2:4, merge = TRUE,
-           halign = "left", valign = "bottom",
-           font_color = "Blue") %>%
-  sprinkle(rows = 2, height = 2, height_units = "in") %>%
-  sprinkle(cols = 2, width = 250, width_units = "pt") %>%
-  sprinkle(bg_pattern_by = "rows") %>%
+(x <- dust(mtcars) %>%
+  sprinkle(border = "all",
+           border_color = "Red",
+           rotate_degree = 45) %>%
   sprinkle_print_method("latex"))
 ```
-
-
-           
-
 

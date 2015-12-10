@@ -174,6 +174,8 @@
 #'      This means that `sprinkle(x, round=3)` would round all numerical values in a table to three 
 #'      decimal places without affecting any true character values; there is no need to limit
 #'      the `round` sprinkle to known numerical values.}
+#'   \item{\code{tabcolsep} }{A numerical value setting the space in \code{pt} between 
+#'      columns in the table.}
 #'   \item{\code{valign} }{A character string giving the vertical alignment for the
 #'      cells.  Accepts the values \code{"top"}, \code{"middle"}, or \code{"bottom"}
 #'      with partial matching.}
@@ -578,6 +580,17 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
                                                  c("middle", "top", "bottom"),
                                                  argcheck = Check)
   
+  if ("tabcolsep" %in% names(sprinkles)){
+    if (!is.numeric(sprinkles$tabcolsep)){
+      ArgumentCheck::addError(
+        msg = "The 'tabcolsep' argument must be numeric",
+        argcheck = Check)
+    }
+    
+    x$tabcolsep <- sprinkles$tabcolsep
+    sprinkles$tabcolsep <- NULL
+  }
+  
   if ("width" %in% names(sprinkles) & !is.numeric(sprinkles$width))
     ArgumentCheck::addError(
       msg = "The 'width' argument must be numeric",
@@ -730,7 +743,7 @@ sprinkle_names <- function()
     "height", "height_units", "italic", "longtable", 
     "merge", "merge_rowval", "merge_colval", "na_string", "pad", 
     "replace", "rotate_degree", 
-    "round", "valign", "width", "width_units")
+    "round", "tabcolsep", "valign", "width", "width_units")
 }
 
 #* Default sprinkle values.  Used mostly for sprinkles that come in

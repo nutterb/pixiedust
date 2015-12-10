@@ -1,3 +1,13 @@
+#### 0.6.0 (09 December 2015)
+* LaTeX output is fully implemented
+* `tabrowsep` element was removed from the `dust` object since it apparently 
+  isn't a real thing.
+* Implemented rotated text.
+* Pushed version to 0.6.0
+
+#### 0.5.6 (06 December 2015)
+* Finished the borders for LaTeX output.  This completes the baseline LaTeX output.
+
 #### 0.5.5 (04 December 2015)
 * Revamped the LateX output again, pretty much started over entirely.  But now
   the only thing missing is cell borders, and my previous work will accommodate 

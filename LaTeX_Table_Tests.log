@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.7.23)  4 DEC 2015 15:09
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.7.23)  6 DEC 2015 06:36
 entering extended mode
 **LaTeX_Table_Tests.tex
 (C:\Users\Nutter\Documents\GitHub\pixiedust\LaTeX_Table_Tests.tex
@@ -968,85 +968,35 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\microtype\mt-msb.cfg"
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-Underfull \hbox (badness 10000) in paragraph at lines 103--103
-[]\T1/lmr/m/n/10 (+20) fjkd
+Overfull \vbox (142.48878pt too high) detected at line 103
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 103--103
-\T1/lmr/m/n/10 (+20) al;fjdk
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 103--103
-\T1/lmr/m/n/10 (+20) l;ajf
- []
-
-
-Overfull \hbox (2.76402pt too wide) in paragraph at lines 103--103
-\T1/lmr/m/n/10 (-20) kel;ajfiea;
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 103--103
-\T1/lmr/m/n/10 (+20) jfio;eaj
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 103--103
-\T1/lmr/m/n/10 (+20) fke;ajf;e
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 103--103
-\T1/lmr/m/n/10 (+20) jafie;jf
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 103--103
-\T1/lmr/m/n/10 (+20) iae;j
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 103--103
-\T1/lmr/m/n/10 (+20) fiae;fi
- []
-
-
-Overfull \vbox (92.83318pt too high) detected at line 103
- []
-
-
-Overfull \hbox (3.33333pt too wide) in paragraph at lines 103--103
-[]|[]| 
- []
-
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 108.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 115.
 [1
 
 {C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 108.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 115.
 
 (C:\Users\Nutter\Documents\GitHub\pixiedust\LaTeX_Table_Tests.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 108.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 108.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 115.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 115.
 Package rerunfilecheck Info: File `LaTeX_Table_Tests.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 108.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 115.
  ) 
 Here is how much of TeX's memory you used:
- 12838 strings out of 493921
- 184084 string characters out of 3144873
- 287000 words of memory out of 3000000
+ 12842 strings out of 493921
+ 184124 string characters out of 3144873
+ 289000 words of memory out of 3000000
  15947 multiletter control sequences out of 15000+200000
- 30696 words of font info for 43 fonts, out of 3000000 for 9000
+ 30862 words of font info for 45 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 41i,12n,35p,242b,338s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,11n,35p,974b,338s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ec.enc}<C:/Program F
 iles (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr10.pfb><C:/Program Files (x86)/M
 iKTeX 2.9/fonts/type1/public/lm/lmr17.pfb><C:/Program Files (x86)/MiKTeX 2.9/fo
 nts/type1/public/lm/lmri12.pfb>
-Output written on LaTeX_Table_Tests.pdf (1 page, 67014 bytes).
+Output written on LaTeX_Table_Tests.pdf (1 page, 68912 bytes).
 PDF statistics:
  24 PDF objects out of 1000 (max. 8388607)
  2 named destinations out of 1000 (max. 500000)
