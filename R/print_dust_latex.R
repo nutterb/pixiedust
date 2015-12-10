@@ -7,7 +7,7 @@
 #' @importFrom tidyr spread_
 
 
-print_dust_latex <- function(x, ...)
+print_dust_latex <- function(x, ..., asis=TRUE)
 {
   
   #* Determine the number of divisions
@@ -19,36 +19,83 @@ print_dust_latex <- function(x, ...)
   else if (!is.numeric(x$longtable) & !x$longtable) longtable_rows <- max(x$body$row)
   else longtable_rows <- x$longtable
   
-#   Divisions <- data.frame(div_num = rep(1:ceiling(max(x$body$row) / longtable_rows),
-#                                         each = longtable_rows)[1:max(x$body$row)],
-#                           row_num = 1:max(x$body$row))
-#   total_div <- max(Divisions$div_num)
+  tab_env <- if (is.numeric(x$longtable) || x$longtable) "longtable" else "tabular"
   
+  Joint <- joint_reference_table(x)
   
-  #* Format the table parts
-  head <- part_prep_latex(x$head, head = TRUE)
-  body <- part_prep_latex(x$body)
-  foot <- if (!is.null(x$foot)) part_prep_latex(x$foot) else NULL
-  interfoot <- if (!is.null(x$interfoot)) part_prep_latex(x$interfoot) else NULL
+  col_width <- determine_column_width(Joint)
+  col_halign_default <- get_column_halign(Joint)
   
-  
+  row_height <- lapply(list(x$head, x$body, x$foot, x$interfoot), 
+                       determine_row_height)
+                       
 
-  begin <- paste0("\\begin{tabular}{", 
-                  paste0(rep("c", max(x$body$col)), collapse = ""), "}\n")
-  end <- "\\end{tabular}"
+  #* Format the table parts
+  head <- part_prep_latex(x$head, col_width, col_halign_default, head = TRUE)
+  body <- part_prep_latex(x$body, col_width, col_halign_default)
+  foot <- if (!is.null(x$foot)) part_prep_latex(x$foot, col_width, col_halign_default) else NULL
+  interfoot <- if (!is.null(x$interfoot)) part_prep_latex(x$interfoot, col_width, col_halign_default) else NULL
   
-  tbl <- paste0(vapply(list(head, body, foot, interfoot),
-                 paste_latex_part,
-                 character(1)),
-          collapse = "\n")
+  #* Write the LaTeX Code
+  prebegin <- numeric_longtable_newline(longtable_rows, is.numeric(x$longtable))
+  prebegin <- paste0(prebegin, 
+                     "\\setlength{\\tabcolsep}{", x$tabcolsep, "pt}", sep = "\n")
   
-  knitr::asis_output(paste(begin, tbl, end, collapse = "\n"))
+  begin <- paste0("\\begin{", tab_env, "}{", 
+                  paste0(col_halign_default$default_halign, collapse = ""), "}\n")
+  end <- paste0("\\end{", tab_env, "}")
+  
+  #* Convert each part into a character string
+  #* Returns a character vector of length 4.
+  tbl <- mapply(paste_latex_part,
+                list(head, body, foot, interfoot),
+                row_height,
+                MoreArgs = list(newline = if (is.numeric(x$longtable)) " \\ltabnewline" else " \\\\"))
+
+  #* Append longtable tags
+  if (is.numeric(x$longtable) || x$longtable){
+    tbl <- paste0(tbl[c(1, 4, 3, 2)], 
+                  c("\n\\endhead\n", "\n\\endfoot\n", "\n\\endlastfoot\n", ""))
+  }
+  
+  tbl <- paste(tbl, collapse = "\n")
+  
+  if (asis) knitr::asis_output(paste(prebegin, begin, tbl, end, collapse = "\n"))
+  else paste(prebegin, begin, tbl, end, collapse = "\n")
+
+ 
 }
 
-#**** Helper functions
-
-part_prep_latex <- function(part, head=FALSE)
+#* Prepare Cell Values for Printing
+part_prep_latex <- function(part, col_width, col_halign_default, head=FALSE)
 {
+  part %<>% 
+    dplyr::select(-width) %>%
+    dplyr::left_join(col_width, by = c("col" = "col")) %>%
+    dplyr::left_join(col_halign_default, by = c("col" = "col")) %>%
+    dplyr::mutate(width_units = "pt",
+                  halign = ifelse(halign == "", default_halign, halign)) 
+   
+    #* Calculate the row cell width for multicolumn cells
+    
+    Widths <- part %>%
+      dplyr::select(html_row, html_col, width, merge) %>%
+      dplyr::distinct() %>%
+      dplyr::group_by(html_row, html_col) %>%
+      dplyr::mutate(width = ifelse(merge == TRUE, 
+                            sum(width[merge]),
+                            width)) %>%
+      dplyr::ungroup()
+    
+    part %>% 
+      dplyr::select(-width) %>%
+      dplyr::left_join(Widths,
+                        by = c("html_row" = "html_row", 
+                               "html_col" = "html_col",
+                               "merge" = "merge")) %>%
+      dplyr::mutate(width = ifelse(is.na(width), "", width))
+
+  
   numeric_classes <- c("double", "numeric")
   
   #* apply a function, if any is indicated
@@ -58,12 +105,19 @@ part_prep_latex <- function(part, head=FALSE)
   logic <- part$round != "" & part$col_class %in% numeric_classes
   if (any(logic))
     part$value[logic] <- 
-      as.character(roundSafe(part$value[logic], as.numeric(part$round[logic])))
-  
+    as.character(roundSafe(part$value[logic], as.numeric(part$round[logic])))
+
   #* Bold and italic
-  part$value[part$bold] <- paste0("\\textbf{", part$value[part$bold], "}")
+  boldify <- part$bold
+  part$value[boldify] <- paste0("\\textbf{", part$value[boldify], "}")
+
+  italicize <- part$italic
+  part$value[italicize] <- paste0("\\emph{", part$value[italicize], "}")
   
-  part$value[part$italic] <- paste0("\\emph{", part$value[part$italic], "}")
+  #* Set NA (missing) values to na_string
+  logic <- is.na(part$value) & !is.na(part$na_string)
+  part$value[logic] <- 
+    part$na_string[logic]
   
   #* Font Color
   logic <- part$font_color != ""
@@ -83,137 +137,121 @@ part_prep_latex <- function(part, head=FALSE)
     paste0("{\\fontsize{", part$font_size[logic],
            part$font_size_units[logic], "}{1em}\\selectfont ",
            part$value[logic], "}")
-
-  #* Alignments. Unlike with markdown, we do not assign alignments where 
-  #* none are given.  I chose not to do so because I didn't want to override
-  #* any CSS settings that may exist elsewhere in the document.
-  part$halign[part$halign %in% c("", "center")] <- "\\centering"
-  part$halign[part$halign == "left"] <- "\\raggedright"
-  part$halign[part$halign == "right"] <- "\\raggedleft"
   
-  part$valign[part$valign %in% c("", "center")] <- "c"
-  part$valign[part$valign == "top"] <- "t"
-  part$valign[part$valign == "bottom"] <- "b"
+  logic <- part$rotate_degree != ""
+  part$value[logic] <- 
+    paste0("\\rotatebox{", part$rotate_degree[logic], "}{", part$value[logic], "}")
   
-  #* Define default cell widths to be the width of the page divided
-  #* by the number of columns
-  
-  logic <- part$width == ""
-  part$width[logic] <- paste0(1/max(part$col), "\\textwidth")
-  
-  logic <- part$width_units == "%"
-  part$width[logic] <- paste0(as.numeric(part$width[logic]) / 100, "\\textwidth")
-  
-  logic <- !grepl("textwidth", part$width)
-  part$width[logic] <- paste0(part$width[logic], 
-                               part$width_units[logic])
-  
-  # Cell Height
-  part$height_units[part$height_units %in% c("", "px")] <- "pt"
-  
-  logic <- part$height != ""
-  part$height[logic] <- paste0(part$height[logic],
-                               part$height_units[logic])
-  
-  logic <- part$height_units == "%"
-  part$height[logic] <- paste0(as.numeric(part$height_units[logic])/100, "\\textwidth")
-
   #** Background
   logic <- part$bg != ""
   part$bg[logic] <- 
     paste0("\\cellcolor", vapply(part$bg[logic],
                                  convertColor,
                                  character(1)))
-    
   
-  part$value <- 
-    paste0("\\multicolumn{", part$colspan, "}{p{", part$width, "}}",
-           "{\\parbox[][", part$height, "][", part$valign, "]",
-           "{", part$width, "}{", part$bg, " ",
-           part$halign, " ", part$value, "}}")
-   
- 
-
-#   
-#   #* Borders
-#   logic <- part$top_border != ""
-#   part$top_border[logic] <- 
-#     with(part, paste0("border-top:", top_border[logic], "; "))
-#   
-#   logic <- part$bottom_border != ""
-#   part$bottom_border[logic] <- 
-#     with(part, paste0("border-bottom:", bottom_border[logic], "; "))
-#   
-#   logic <- part$left_border != ""
-#   part$left_border[logic] <- 
-#     with(part, paste0("border-left:", left_border[logic], "; "))
-#   
-#   logic <- part$right_border != ""
-#   part$right_border[logic] <- 
-#     with(part, paste0("border-right:", right_border[logic], "; "))
-#   
-  #* Set NA (missing) values to na_string
-  logic <- is.na(part$value) & !is.na(part$na_string)
+  part$value[logic] <- paste(part$bg[logic], part$value[logic])
+  
+  #** Borders
+  logic <- part$left_border != ""
+  part$left_border[logic] <- 
+    vapply(part$left_border[logic], latex_vertical_border_code, character(1))
+  
+  logic <- part$right_border != ""
+  part$right_border[logic] <- 
+    vapply(part$right_border[logic], latex_vertical_border_code, character(1))
+  
+  logic <- part$bottom_border != ""
+  part$bottom_border[logic] <- 
+    mapply(latex_horizontal_border_code, 
+           part$bottom_border[logic],
+           part$col[logic])
+  bottom_borders <- dplyr::select(part, row, col, bottom_border) %>%
+    tidyr::spread(col, bottom_border) %>%
+    dplyr::select(-row) %>%
+    apply(1, paste0, collapse = "")
+  
+  logic <- part$top_border != ""
+  part$top_border[logic] <- 
+    mapply(latex_horizontal_border_code, 
+           part$top_border[logic],
+           part$col[logic])
+  top_borders <- dplyr::select(part, row, col, top_border) %>%
+    tidyr::spread(col, top_border) %>%
+    dplyr::select(-row) %>%
+    apply(1, paste0, collapse = "")
+  
+  
+  
+  
+  parbox <- needs_parbox(part)
+  
+  
+  part$halign_parbox <- part$halign
+  part$halign_parbox[parbox] <- 
+    c("r" = "\\raggedleft", 
+      "c" = "\\centering", 
+      "l" = "\\raggedright", 
+      "p" = "\\raggedright")[substr(part$halign[parbox], 1, 1)]
+  
+  part$value[parbox] <- 
+    paste0("\\parbox[", substr(part$valign[parbox], 1, 1), "]{", part$width[parbox], "pt}{", 
+               part$halign_parbox[parbox], " ",
+               part$value[parbox], "}")
+  
+  #* Add the multirow tag where appropriate
+  logic <- part$rowspan > 1
   part$value[logic] <- 
-    part$na_string[logic]
-#   
-#   #* Padding
-#   logic <- part$pad != ""
-#   part$pad[logic] <- 
-#     with(part, paste0("padding:", pad[logic], "px;"))
-#   
-#   #* Text Rotation
-#   logic <- part$rotate_degree != ""
-#   part$rotate_degree[logic] <- 
-#     with(part, rotate_tag(rotate_degree[logic]))
-# 
-#   #* Replace some of the potentially problematic symbols with HTML codes
-#   #* At some point, this should be handled by a 'sanitize' like function
-#   #* (see xtable)
-#   part$value <- gsub("[<]", "&lt; ", part$value)
-#   part$value <- gsub("[>]", "&gt; ", part$value)
-#   
-#   #* Generate css style definitions for each cell.
-#   part$value <- 
-#     with(part, paste0("<", dh, 
-#                       " colspan = '", colspan, "'; ", 
-#                       "rowspan = '", rowspan, "'; ",
-#                       "style='", 
-#                       bold, italic, halign, valign, bg, font_color, 
-#                       font_size, height, width,
-#                       top_border, bottom_border, left_border, right_border,
-#                       rotate_degree, pad,
-#                       "'>", value, "</", dh, ">"))
-#   
-  ncol <- max(part$col)
-  part <- dplyr::filter_(part, "!(rowspan == 0 | colspan == 0)")
-# 
-# 
-# #   part$value[part$rowspan == 0] <- ""
-# #   part$value[part$colspan == 0] <- ""
-
-  #* Spread to wide format for printing
-  part <- dplyr::select_(part, "row", "col", "value") %>%
-    tidyr::spread_("col", "value", fill = "") %>%
-    dplyr::select_("-row")
+    paste0("\\multirow{", part$rowspan[logic], "}{*}{", part$value[logic], "}")
   
-  if (ncol(part) != ncol){
-    part <- dplyr::bind_cols(part, 
-                     do.call("cbind",
-                             lapply(1:(ncol - ncol(part)), 
-                            function(i) dplyr::data_frame(value = ""))))
-    names(part) <- 1:ncol
-  }
-  part
+  #* Add blank multicolumn tags to fill multirow spaces
+  #* set the colspan and rowspan to prevent deletion.
+  #*   They are set to -1 to indicate that they are fillers
+  logic <- part$html_row != part$row & part$html_col == part$col
+  part$value[logic] <- paste0("\\multicolumn{", part$colspan[logic], "}",
+                              "{", part$left_border[logic], "c", part$right_border[logic], "}{}")
+  part$rowspan[logic] <- -1
+  part$colspan[logic] <- part$colspan[logic] * -1
+  
+  #* Place multicolumn tags where needed
+  logic <- part$colspan > 1 | (part$left_border != "" | part$right_border != "") | 
+            !(part$html_row != part$row & part$html_col == part$col)
+  part$value[logic] <- 
+    paste0("\\multicolumn{", part$colspan[logic], "}{", 
+           part$left_border[logic], 
+           substr(part$halign[logic], 1, 1), 
+           part$right_border[logic], "}{", part$value[logic], "}")
+  
+  #* Remove value where a merged cell is not the display cell
+  ncol <- max(part$col)
+  part %<>% dplyr::filter(!(rowspan == 0 | colspan == 0))
+  
+  cbind(top_borders, 
+        bottom_borders,
+        dplyr::select(part, row, col, value) %>%
+          tidyr::spread(col, value, fill = NA) %>%
+          dplyr::select(-row)
+  )
 }
 
-paste_latex_part <- function(part){
+#* Converts the data frame object to one line of LaTeX
+#* code per row.
+paste_latex_part <- function(part, row_height, newline = " \\\\"){
+  paste_row <- function(r) paste(r[!is.na(r)], collapse = " & ")
+  
   if (is.null(part)) return("")
-  apply(part, 1, paste, collapse = " & ") %>%
-    paste0(" \\\\") %>%
+  #* This commented line existed when I had horizontal 
+  #* borders worked out.  It may be needed again.
+  apply(part[, -(1:2), drop = FALSE], 1, paste_row) %>%
+    # apply(part[, , drop = FALSE], 1, paste_row) %>%
+    paste(row_height) %>%
+    paste(newline) %>%
+    paste(part[, 2]) %>%     #* also from borders
+    paste(part[, 1], .) %>%  #* also from borders
     paste0(collapse = "\n")
 }
 
+#**************************************************
+#**************************************************
 convertColor <- function(color){
   if (length(color) == 0) return(character(0))
   
@@ -226,4 +264,199 @@ convertColor <- function(color){
   }
   else return(paste0("{", color, "}"))
 }
+
+#**************************************************
+#**************************************************
+#* Writes the code that is necessary to force
+#* longtable breaks at the user-specified number 
+#* of lines
+numeric_longtable_newline <- function(n, redefine = FALSE){
+  if (redefine)
+    return(paste0("\\newcount\\mylineno \n",
+                  "\\mylineno=0 \n",
+                  "\\def\\ltabnewline{% \n", 
+                  "\\global\\advance\\mylineno by 1 \n", 
+                  "\\ifnum\\mylineno=", n, " \n",
+                  "\\global\\mylineno=0 \n",
+                  "\\\\ \n",
+                  "\\newpage \n",
+                  "\\else \n",
+                  "\\\\ \n",
+                  "\\fi \n",
+                  "}"))
+  else return("")
+}
+
+#**************************************************
+#**************************************************
+#* Determine if the cell needs a parbox
+
+needs_parbox <- function(x)
+{
+  !is.na(x$width) | 
+    (x$halign != x$default_halign) | 
+    x$valign != "" | 
+    x$merge
+}
+
+#**************************************************
+#**************************************************
+#* Combine the four table parts for convenience of looking for common traits
+joint_reference_table <- function(x){
+  numeric_classes <- c("double", "numeric")
   
+  addPartCol <- function(p, part_name) {
+    if (is.null(p)) return(NULL)
+    p$part <- part_name 
+    return(p)
+  }
+
+  Joint <- 
+    mapply(addPartCol,
+         x[c("head", "body", "foot", "interfoot")],
+         part_name = c("head", "body", "foot", "interfoot"),
+         SIMPLIFY = FALSE) %>%
+    dplyr::bind_rows() %>%
+    dplyr::mutate(width = as.numeric(width),
+                  table_width = x$table_width * 72.27,
+                  width = ifelse(width_units == "in",
+                                 width * 72.27,
+                                 ifelse(width_units == "cm",
+                                        width * 28.45, 
+                                        ifelse(width_units == "%",
+                                               width/100 * table_width, 
+                                               width)))) %>%
+  #* apply a function, if any is indicated
+  perform_function() 
+  
+  #* Perform any rounding
+  logic <- Joint$round != "" & Joint$col_class %in% numeric_classes
+  if (any(logic))
+    Joint$value[logic] <- 
+    as.character(roundSafe(Joint$value[logic], as.numeric(Joint$round[logic])))
+  
+  Joint$halign[Joint$halign == ""] <- 
+    vapply(Joint$col_class[Joint$halign == ""],
+           default_halign,
+           character(1))
+  
+  Joint %>%
+    dplyr::mutate(halign = substr(halign, 1, 1)) %>%
+    dplyr::group_by(col) %>%
+    dplyr::mutate(default_halign = names(sort(table(halign), decreasing = TRUE))[1]) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(parbox = needs_parbox(.),
+                  width_by_char = nchar(value) * 4.5) %>%
+    dplyr::group_by(col) %>%
+    dplyr::mutate(replace = all(is.na(width)) && any(parbox),
+                  width_by_char = max(width_by_char, na.rm=TRUE)) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(width = ifelse(replace,
+                                 width_by_char,
+                                 width)) %>%
+    dplyr::select(col, row, width, default_halign)
+}
+
+#**************************************************
+#**************************************************
+#* Get the default column alignments.
+#* Right aligned for numeric, otherwise, left aligned
+determine_column_width <- function(Joint, x)
+{
+  Joint %>%
+    dplyr::select(row, col, width) %>%
+    dplyr::group_by(col) %>%
+    dplyr::summarise(width = max(width, na.rm=TRUE)) %>%
+    dplyr::ungroup() 
+}
+
+determine_row_height <- function(part)
+{
+  if (is.null(part)) return("")
+  part %>%
+    dplyr::select(row, col, height, height_units) %>%
+    dplyr::mutate(height = as.numeric(height), 
+                  height = ifelse(height_units == "in", 
+                                  height * 72.27, 
+                                  ifelse(height_units == "cm",
+                                         height * 28.45,
+                                         height))) %>%
+    dplyr::group_by(row) %>%
+    dplyr::summarise(height = max(height, na.rm=TRUE)) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(height = ifelse(is.na(height),
+                         "", paste0("\\\\[", height, "pt]"))) %>%
+    '$'("height") 
+}
+
+#**************************************************
+#**************************************************
+#* Get the default column alignments.
+#* Right aligned for numeric, otherwise, left aligned
+
+get_column_halign <- function(Joint){
+  Joint %>%
+    dplyr::mutate(default_halign = ifelse(is.na(width),
+                                          default_halign,
+                                          paste0("p{", width, "pt}"))) %>%
+    dplyr::select(row, col, default_halign) %>%
+    dplyr::group_by(col) %>%
+    dplyr::summarise(default_halign = default_halign[1]) %>%
+    dplyr::ungroup() 
+}
+
+default_halign <- function(col_class){
+  if (col_class %in% c("numeric", "int", "double")) "r" else "l"
+}
+
+#**************************************************
+#**************************************************
+#* Prepares code for vertical borders
+latex_vertical_border_code <- function(x){
+  border <- stringr::str_split_fixed(x, " ", 3)
+  border[, 1] <- gsub("px", "pt", border[, 1])
+  border[, 2] <- ifelse(border[, 2] %in% c("dashed", "dotted"), 
+                        "dashed",
+                        ifelse(border[, 2] %in% c("groove", "ridge", "inset", "outset", "hidden"),
+                               "solid", border[, 2]))
+  if (border[, 2] %in% c("hidden", "none")) return("")
+  if (border[, 2] == "dashed"){
+    border_code <- paste("!{\\color", convertColor(border[, 3]), "\\vdashline}")
+    return(border_code)
+  }
+  if (border[, 2] %in% c("solid", "double")){
+    border_code <- paste0("!{\\color", convertColor(border[, 3]), "\\vrule width ", border[, 1], "}")
+    return(border_code)
+  }
+}
+
+#**************************************************
+#**************************************************
+#* Prepares code for horizontal borders
+latex_horizontal_border_code <- function(x, col){
+  border <- stringr::str_split_fixed(x, " ", 3)
+  border[, 1] <- gsub("px", "pt", border[, 1])
+  border[, 2] <- ifelse(border[, 2] %in% c("dashed", "dotted"), 
+                        "dashed",
+                        ifelse(border[, 2] %in% c("groove", "ridge", "inset", "outset", "hidden"),
+                               "solid", border[, 2]))
+  if (border[, 2] %in% c("hidden", "none")) return("")
+  if (border[, 2] == "dashed"){
+    border_code <- paste0("\\arrayrulecolor", convertColor(border[, 3]), 
+                          "\\cdashline{", col, "-", col, "}")
+    return(border_code)
+  }
+  if (border[, 2] %in% c("solid", "double")){
+    border_code <- paste0("\\arrayrulecolor", convertColor(border[, 3]), 
+                          "\\cline{", col, "-", col, "}")
+    return(border_code)
+  }
+}
+
+
+utils::globalVariables(c("halign", "left_border", "right_border", 
+                         "bottom_border", "top_border",
+                         "require_multicol", "height", "width",
+                         "height_units", "width_units", "table_width",
+                         "parbox", "width_by_char", "html_row", 
+                         "html_col", "rowspan", "colspan"))

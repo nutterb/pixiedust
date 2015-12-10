@@ -5,6 +5,16 @@
 \alias{sprinkle_print_method}
 \alias{sprinkle_table}
 \title{Define Customizations to a Table}
+\source{
+Altering the number of rows in a LaTeX longtable \cr
+http://tex.stackexchange.com/questions/19710/how-can-i-set-the-maximum-number-of-rows-in-a-page-for-longtable
+
+Vertical dashed cell borders in LaTeX table \cr
+http://www.latex-community.org/forum/viewtopic.php?f=45&t=3149
+
+Colored Cell border \cr
+http://tex.stackexchange.com/questions/40666/how-to-change-line-color-in-tabular
+}
 \usage{
 sprinkle(x, rows = NULL, cols = NULL, ..., part = c("body", "head",
   "foot", "interfoot", "table"))
@@ -100,22 +110,34 @@ list of which sprinkles are recognized by each output type, see
   \item{\code{border} }{This is one of the few exceptions to the length 1 rule.
      Accepts values \code{"left"}, \code{"right"}, \code{"top"},
      \code{"bottom"}, and \code{"all"} with partial matching.  The border will be added
-     to the sides indicated.}
+     to the sides indicated. In LaTeX output with merged cells, horizontal
+     borders are placed on all rows identified, making it possible to run
+     borders through the merged cell.}
   \item{\code{border_thickness} }{A numeric value denoting the thickness
-     of the border.  Defaults to \code{1}.}
+     of the border.  Defaults to \code{1}.  This setting is ignored in
+     LaTeX output when \code{border_style = "dashed"} and for all
+     horizontal borders.}
   \item{\code{border_units} }{A character string taking any one of the
      values \code{"px"} or \code{"pt"} with partial matching.  Defaults
-     to \code{"px"}.}
+     to \code{"px"}.  For LaTeX output, both \code{"px"} and \code{"pt"},
+     are rendered as \code{"pt"}.}
   \item{\code{border_style} }{A character string taking any one of the
      values \code{"solid"}, \code{"dashed"}, \code{"dotted"},
      \code{"double"}, \code{"groove"}, \code{"ridge"}, \code{"inset"},
      \code{"outset"}, \code{"hidden"}, or \code{"none"}.  Defaults
-     to \code{"solid"}.}
+     to \code{"solid"}. LaTeX output only makes use of \code{"solid"},
+     \code{"dashed"}, and \code{"none"}. If \code{"dotted"},
+     is passed to LaTeX output, it is quietly changed to \code{"dashed"}. All
+     other options are quietly changed to \code{"solid"}.}
   \item{\code{border_color} }{A character string denoting the color
      for the border.  See "Colors".}
   \item{\code{fn} }{A function to apply to values in cells.  The function
      should be an expression that acts on the variable \code{value}. For
      example, \code{quote(round(value, 3))}.}
+  \item{\code{font_family} }{A character string denoting the font family
+     for the text. This option is only recognized in HTML output.
+     A short list of web safe fonts is available at
+     http://www.w3schools.com/cssref/css_websafe_fonts.asp}
   \item{\code{font_color} }{A character string denoting the color of the
      font.  See "Colors".}
   \item{\code{font_size} }{A numeric value denoting the size of the font.}
@@ -140,7 +162,8 @@ list of which sprinkles are recognized by each output type, see
     indicating that only one table is printed (default); \code{TRUE} that the table should be
     split into multiple tables with the default number of rows per table (see "Longtable"); or a
     positive integer indicating how many rows per table to include. All other values are
-    interpreted as \code{FALSE}.}
+    interpreted as \code{FALSE}.  In LaTeX output, remember that after each section, a page
+    break is forced.}
   \item{\code{merge} }{Logical.  If \code{TRUE}, the cells indicated in
     \code{rows} and \code{cols} are merged into a single cell.  An error is
     cast if the cells do not form an adjacent block. Specifying
@@ -173,6 +196,8 @@ list of which sprinkles are recognized by each output type, see
      This means that `sprinkle(x, round=3)` would round all numerical values in a table to three
      decimal places without affecting any true character values; there is no need to limit
      the `round` sprinkle to known numerical values.}
+  \item{\code{tabcolsep} }{A numerical value setting the space in \code{pt} between
+     columns in the table.}
   \item{\code{valign} }{A character string giving the vertical alignment for the
      cells.  Accepts the values \code{"top"}, \code{"middle"}, or \code{"bottom"}
      with partial matching.}
@@ -261,7 +286,30 @@ required, are listed below:
   Sprinkle \tab LaTeX Package(s) \cr
   \code{font_color} \tab \code{\\usepackage[dvipsnames]\{xcolor\}} \cr
   \code{bg, bg_pattern} \tab \code{\\usepackage[dvipsnames,table]\{xcolor\}} \cr
+  \code{border_style} \tab \code{\\usepackage\{arydshln\}} \cr
+      \tab  \code{\\usepackage\{amssymb\}} \cr
+      (with vertical dashed lines) \tab \\usepackage\{graphicx\} \cr
+      \tab \code{\\makeatletter} \cr
+      \tab \code{\\newcommand*\\vdashline\{\\rotatebox[origin=c]\{90\}\{\$\\dabar@\\dabar@\\dabar@\$\}\}} \cr
+      \tab \code{\\makeatother} \cr
+  \code{longtable} \tab \code{\\usepackage\{longtable\}} \cr
+      \tab (Must be loaded before \code{arydshln}) \cr
+  \code{merge} \tab \code{\\usepackage\{multirow\}}
 }
+
+In order to ensure all features are available, the recommended code block (accounting for
+the proper order to load packages) is:
+
+\code{header-includes:} \cr
+\code{ - \\usepackage[dvipsnames,table]\{xcolor\}} \cr
+\code{ - \\usepackage\{longtable\}} \cr
+\code{ - \\usepackage\{arydshln\}} \cr
+\code{ - \\usepackage\{amssymb\}} \cr
+\code{ - \\usepackage\{graphicx\}} \cr
+\code{ - \\usepackage\{multirow\}} \cr
+\code{ - \\makeatletter} \cr
+\code{ - \\newcommand*\\vdashline\{\\rotatebox[origin=c]\{90\}\{\$\\dabar@\\dabar@\\dabar@\$\}\}} \cr
+\code{ - \\makeatother}
 }
 \examples{
 x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars))

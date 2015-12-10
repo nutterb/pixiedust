@@ -1,5 +1,5 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Travis-CI Build Status](https://travis-ci.org/nutterb/pixiedust.svg?branch=master)](https://travis-ci.org/nutterb/pixiedust) ![](http://cranlogs.r-pkg.org/badges/grand-total/pixiedust) [![Coverage Status](https://coveralls.io/repos/nutterb/pixiedust/badge.svg?branch=multirow-headers&service=github)](https://coveralls.io/github/nutterb/pixiedust?branch=multirow-headers)
+[![Travis-CI Build Status](https://travis-ci.org/nutterb/pixiedust.svg?branch=master)](https://travis-ci.org/nutterb/pixiedust) ![](http://cranlogs.r-pkg.org/badges/grand-total/pixiedust) [![Coverage Status](https://coveralls.io/repos/nutterb/pixiedust/badge.svg?branch=master&service=github)](https://coveralls.io/github/nutterb/pixiedust?branch=master)
 
 pixiedust
 =========
@@ -32,31 +32,33 @@ Tables can be customized by row, column, or even by a single cell by adding spri
 
 | sprinkle          | implemented | console | markdown | html | latex |
 |:------------------|:------------|:--------|:---------|:-----|:------|
-| bg                | x           |         |          | x    | o     |
-| bg\_pattern       | x           |         |          | x    | o     |
-| bg\_pattern\_by   | x           |         |          | x    | o     |
+| bg                | x           |         |          | x    | x     |
+| bg\_pattern       | x           |         |          | x    | x     |
+| bg\_pattern\_by   | x           |         |          | x    | x     |
 | bold              | x           | x       | x        | x    | x     |
 | border\_collapse  | x           |         |          | x    |       |
-| border            | x           |         |          | x    | o     |
-| border\_thickness | x           |         |          | x    | o     |
-| border\_units     | x           |         |          | x    | o     |
-| border\_style     | x           |         |          | x    | o     |
-| border\_color     | x           |         |          | x    | o     |
+| border            | x           |         |          | x    | x     |
+| border\_thickness | x           |         |          | x    | x     |
+| border\_units     | x           |         |          | x    | x     |
+| border\_style     | x           |         |          | x    | x     |
+| border\_color     | x           |         |          | x    | x     |
 | colnames          | x           | x       | x        | x    | x     |
 | fn                | x           | x       | x        | x    | x     |
 | font\_color       | x           |         |          | x    | x     |
+| font\_family      | x           |         |          | x    |       |
 | font\_size        | x           |         |          | x    | x     |
 | font\_size\_units | x           |         |          | x    | x     |
 | halign            | x           |         |          | x    | x     |
 | height            | x           |         |          | x    | x     |
 | height\_units     | x           |         |          | x    | x     |
 | italic            | x           | x       | x        | x    | x     |
-| merge             | x           | x       | x        | x    | o     |
+| longtable         | x           | x       | x        | x    | x     |
+| merge             | x           | x       | x        | x    | x     |
 | na\_string        | x           | x       | x        | x    | x     |
 | padding           | x           |         |          | x    |       |
 | replace           | x           | x       | x        | x    | x     |
 | round             | x           | x       | x        | x    | x     |
-| rotate\_degree    | x           |         |          | x    | o     |
+| rotate\_degree    | x           |         |          | x    | x     |
 | valign            | x           |         |          | x    | x     |
 | width             | x           |         |          | x    | x     |
 | width\_units      | x           |         |          | x    | x     |
@@ -195,14 +197,14 @@ Are there other features you want or need? Please submit an issue, or contribute
 |      0.3.0| Multicolumn and multirow cells in HTML             |  15 Sep 2015| 15 Sept 2015 |
 |      0.4.0| Glance statistics in table footer                  |   1 Oct 2015| 25 Sept 2015 |
 |           | Add variable labels and levels to `broom` output   |             |              |
-|  **0.5.0**| LaTeX output for simple table                      |  15 Oct 2015|              |
+|  **0.5.0**| LaTeX output for simple table                      |  15 Oct 2015| 15 Oct 2015  |
 |           | Adjustable cell heights and widths in LaTeX tables |             |              |
 |           | Add `medley` for batch customizations              |             |              |
-|      0.6.0| Borders and backgrounds for LaTeX tables           |  15 Nov 2015|              |
-|      0.7.0| Multicolumn and multirow support for LaTeX tables  |  15 Dec 2015|              |
-|  **0.8.0**| Longtable support for LaTeX tables                 |     Jan 2016|              |
-|      0.9.0| Rotated text for LaTeX tables                      |     Mar 2016|              |
-|  **1.0.0**| Release of basic, stable package                   |     Jun 2016|              |
+|      0.6.0| Borders and backgrounds for LaTeX tables           |   1 Dec 2015| 9 Dec 2015   |
+|           | Multicolumn and multirow support for LaTeX tables  |             |              |
+|           | Longtable support for LaTeX tables                 |             |              |
+|           | Rotated text for LaTeX tables                      |             |              |
+|  **1.0.0**| Release of basic, stable package                   |   1 Apr 2015|              |
 
 **bold version numbers** indicate a planned release to CRAN.
 

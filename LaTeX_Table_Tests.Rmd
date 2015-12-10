@@ -2,31 +2,29 @@
 title: "LaTeX Table Tests"
 author: "Benjamin Nutter"
 date: "October 1, 2015"
-output: pdf_document
+output: 
+  pdf_document: 
+    keep_tex: yes
 header-includes:
- - \usepackage[dvipsnames]{xcolor}
+ - \usepackage{longtable}
+ - \usepackage[dvipsnames,table]{xcolor}
+ - \usepackage{array}
+ - \usepackage{arydshln}
+ - \usepackage{amssymb}
+ - \usepackage{graphicx}
+ - \usepackage{multirow}
+ - \makeatletter
+ - \newcommand*\vdashline{\rotatebox[origin=c]{90}{$\dabar@\dabar@\dabar@$}}
+ - \makeatother
 ---
 
-```{r}
+```{r, echo = FALSE}
 library(pixiedust)
-fit <- lm(mpg ~ qsec + factor(am) + wt * factor(gear), data = mtcars)
-x <- dust(fit) %>%
-  sprinkle(cols = 2:4, round = 2) %>%
-  sprinkle(cols = 5, fn = quote(pvalString(value))) %>%
-  sprinkle(cols = 3, bold = TRUE, font_color = "rgb(218 112 214, .75)") %>%
-  sprinkle(cols = 2, italic = TRUE, bold = TRUE) %>%
-  sprinkle(cols = 1, rows = 2, halign = "right") %>%
-  sprinkle(cols = 4, font_size = 15, font_size_units = "%") %>%
-  sprinkle_colnames(estimate = "Estimate", p.value = "P") %>%
-  sprinkle_print_method("latex")
+
+(x <- dust(mtcars) %>%
+  sprinkle(border = "all",
+           border_color = "Red",
+           rotate_degree = 45) %>%
+  sprinkle_print_method("latex"))
 ```
 
-```{r}
-x
-```
-
-```{r}
-dust(anova(fit)) %>%
-  sprinkle(round = 3, na_string = "N/A") %>%
-  sprinkle_print_method("latex")
-```

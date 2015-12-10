@@ -1,3 +1,46 @@
+#### 0.6.0 (09 December 2015)
+* LaTeX output is fully implemented
+* `tabrowsep` element was removed from the `dust` object since it apparently 
+  isn't a real thing.
+* Implemented rotated text.
+* Pushed version to 0.6.0
+
+#### 0.5.6 (06 December 2015)
+* Finished the borders for LaTeX output.  This completes the baseline LaTeX output.
+
+#### 0.5.5 (04 December 2015)
+* Revamped the LateX output again, pretty much started over entirely.  But now
+  the only thing missing is cell borders, and my previous work will accommodate 
+  those.
+* Added `tablewidth`, `tabcolsep`, and `tabrowsep` elements to the dust object.
+  `tablewidth` allows the user to define cell width in terms of a percentage of 
+  the total expected table width.  Not really recommended, but at least preserves
+  some continuity between HTML and LaTeX output.
+* `tabcolsep` and `tabrowsep` control the distance between columns and rows in tables, 
+  but this feature isn't yet implemented.
+* Documentation is lacking on `tablewidth`, `tabcolsep`, and `tabrowsep`
+
+#### 0.5.4 (10 November 2015)
+* Added the `font_family` sprinkle for HTML output
+
+#### 0.5.3 (5 November 2015)
+* Due to a great deal of difficulty getting the last couple of 
+  features to play nicely, I decided to take a different 
+  approach to the LaTeX output.  Most features are 
+  available, but I have yet to include column widths, 
+  column heights, or multirow output.
+* An option is added to the print method that 
+  turns off the `knitr::asis_output` return.
+  The motivation behind this was to be able to 
+  use the HTML code in shiny applications.
+
+#### 0.5.2 (4 November 2015)
+* Longtable support is added
+* Documentation on cell borders is up to date
+
+#### 0.5.1 (3 November 2015)
+* Cell borders.  Documentation still needs review.
+
 #### 0.5.0 (Change Log Highlights since last CRAN Release)
 * `pixiedust` no longer uses the `+` operator.  
    Please use `%>%` instead.

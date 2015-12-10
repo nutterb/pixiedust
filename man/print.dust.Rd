@@ -4,12 +4,15 @@
 \alias{print.dust}
 \title{Print A \code{dust} Table}
 \usage{
-\method{print}{dust}(x, ...)
+\method{print}{dust}(x, ..., asis = TRUE)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}
 
 \item{...}{Additional arguments to pass to the print method.  Currently ignored.}
+
+\item{asis}{A logical value that controls if the output is printed using
+  \code{knitr::asis_output}.  See Details.}
 }
 \description{
 Print A \code{dust} Table

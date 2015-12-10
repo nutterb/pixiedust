@@ -88,22 +88,34 @@
 #'   \item{\code{border} }{This is one of the few exceptions to the length 1 rule.  
 #'      Accepts values \code{"left"}, \code{"right"}, \code{"top"}, 
 #'      \code{"bottom"}, and \code{"all"} with partial matching.  The border will be added
-#'      to the sides indicated.}
+#'      to the sides indicated. In LaTeX output with merged cells, horizontal 
+#'      borders are placed on all rows identified, making it possible to run 
+#'      borders through the merged cell.}
 #'   \item{\code{border_thickness} }{A numeric value denoting the thickness
-#'      of the border.  Defaults to \code{1}.}
+#'      of the border.  Defaults to \code{1}.  This setting is ignored in
+#'      LaTeX output when \code{border_style = "dashed"} and for all
+#'      horizontal borders.}
 #'   \item{\code{border_units} }{A character string taking any one of the
 #'      values \code{"px"} or \code{"pt"} with partial matching.  Defaults
-#'      to \code{"px"}.}
+#'      to \code{"px"}.  For LaTeX output, both \code{"px"} and \code{"pt"},
+#'      are rendered as \code{"pt"}.}
 #'   \item{\code{border_style} }{A character string taking any one of the
 #'      values \code{"solid"}, \code{"dashed"}, \code{"dotted"}, 
 #'      \code{"double"}, \code{"groove"}, \code{"ridge"}, \code{"inset"},
 #'      \code{"outset"}, \code{"hidden"}, or \code{"none"}.  Defaults
-#'      to \code{"solid"}.}
+#'      to \code{"solid"}. LaTeX output only makes use of \code{"solid"}, 
+#'      \code{"dashed"}, and \code{"none"}. If \code{"dotted"},
+#'      is passed to LaTeX output, it is quietly changed to \code{"dashed"}. All
+#'      other options are quietly changed to \code{"solid"}.}
 #'   \item{\code{border_color} }{A character string denoting the color 
 #'      for the border.  See "Colors".}
 #'   \item{\code{fn} }{A function to apply to values in cells.  The function 
 #'      should be an expression that acts on the variable \code{value}. For
 #'      example, \code{quote(round(value, 3))}.}
+#'   \item{\code{font_family} }{A character string denoting the font family 
+#'      for the text. This option is only recognized in HTML output.
+#'      A short list of web safe fonts is available at 
+#'      http://www.w3schools.com/cssref/css_websafe_fonts.asp}
 #'   \item{\code{font_color} }{A character string denoting the color of the
 #'      font.  See "Colors".}
 #'   \item{\code{font_size} }{A numeric value denoting the size of the font.}
@@ -128,7 +140,8 @@
 #'     indicating that only one table is printed (default); \code{TRUE} that the table should be 
 #'     split into multiple tables with the default number of rows per table (see "Longtable"); or a 
 #'     positive integer indicating how many rows per table to include. All other values are 
-#'     interpreted as \code{FALSE}.}
+#'     interpreted as \code{FALSE}.  In LaTeX output, remember that after each section, a page 
+#'     break is forced.}
 #'   \item{\code{merge} }{Logical.  If \code{TRUE}, the cells indicated in 
 #'     \code{rows} and \code{cols} are merged into a single cell.  An error is
 #'     cast if the cells do not form an adjacent block. Specifying 
@@ -161,6 +174,8 @@
 #'      This means that `sprinkle(x, round=3)` would round all numerical values in a table to three 
 #'      decimal places without affecting any true character values; there is no need to limit
 #'      the `round` sprinkle to known numerical values.}
+#'   \item{\code{tabcolsep} }{A numerical value setting the space in \code{pt} between 
+#'      columns in the table.}
 #'   \item{\code{valign} }{A character string giving the vertical alignment for the
 #'      cells.  Accepts the values \code{"top"}, \code{"middle"}, or \code{"bottom"}
 #'      with partial matching.}
@@ -241,9 +256,42 @@
 #'   Sprinkle \tab LaTeX Package(s) \cr
 #'   \code{font_color} \tab \code{\\usepackage[dvipsnames]\{xcolor\}} \cr
 #'   \code{bg, bg_pattern} \tab \code{\\usepackage[dvipsnames,table]\{xcolor\}} \cr
+#'   \code{border_style} \tab \code{\\usepackage\{arydshln\}} \cr
+#'       \tab  \code{\\usepackage\{amssymb\}} \cr
+#'       (with vertical dashed lines) \tab \\usepackage\{graphicx\} \cr
+#'       \tab \code{\\makeatletter} \cr
+#'       \tab \code{\\newcommand*\\vdashline\{\\rotatebox[origin=c]\{90\}\{\$\\dabar@@\\dabar@@\\dabar@@\$\}\}} \cr
+#'       \tab \code{\\makeatother} \cr
+#'   \code{longtable} \tab \code{\\usepackage\{longtable\}} \cr
+#'       \tab (Must be loaded before \code{arydshln}) \cr
+#'   \code{merge} \tab \code{\\usepackage\{multirow\}}
 #' }
+#' 
+#' In order to ensure all features are available, the recommended code block (accounting for 
+#' the proper order to load packages) is:
+#' 
+#' \code{header-includes:} \cr
+#' \code{ - \\usepackage[dvipsnames,table]\{xcolor\}} \cr
+#' \code{ - \\usepackage\{longtable\}} \cr
+#' \code{ - \\usepackage\{arydshln\}} \cr
+#' \code{ - \\usepackage\{amssymb\}} \cr
+#' \code{ - \\usepackage\{graphicx\}} \cr
+#' \code{ - \\usepackage\{multirow\}} \cr
+#' \code{ - \\makeatletter} \cr
+#' \code{ - \\newcommand*\\vdashline\{\\rotatebox[origin=c]\{90\}\{\$\\dabar@@\\dabar@@\\dabar@@\$\}\}} \cr
+#' \code{ - \\makeatother}
 #'
 #' @seealso \code{\link{sprinkle_colnames}} for changing column names in a table.
+#' 
+#' @source 
+#' Altering the number of rows in a LaTeX longtable \cr
+#' http://tex.stackexchange.com/questions/19710/how-can-i-set-the-maximum-number-of-rows-in-a-page-for-longtable
+#' 
+#' Vertical dashed cell borders in LaTeX table \cr
+#' http://www.latex-community.org/forum/viewtopic.php?f=45&t=3149
+#' 
+#' Colored Cell border \cr
+#' http://tex.stackexchange.com/questions/40666/how-to-change-line-color-in-tabular
 #' 
 #' @author Benjamin Nutter
 #' 
@@ -404,6 +452,11 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
       msg = "The 'border_collapse' argument must be logical.",
       argcheck = Check)
   
+  if ("font_family" %in% names(sprinkles) & !is.character(sprinkles$font_family))
+    ArgumentCheck::addError(
+      msg = "The 'font_family' argument must be a character string",
+      argcheck = Check)
+  
   if ("font_color" %in% names(sprinkles) & !is.character(sprinkles$font_color))
     ArgumentCheck::addError(
       msg = "The 'font_color' argument must be a character string.",
@@ -527,6 +580,17 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
                                                  c("middle", "top", "bottom"),
                                                  argcheck = Check)
   
+  if ("tabcolsep" %in% names(sprinkles)){
+    if (!is.numeric(sprinkles$tabcolsep)){
+      ArgumentCheck::addError(
+        msg = "The 'tabcolsep' argument must be numeric",
+        argcheck = Check)
+    }
+    
+    x$tabcolsep <- sprinkles$tabcolsep
+    sprinkles$tabcolsep <- NULL
+  }
+  
   if ("width" %in% names(sprinkles) & !is.numeric(sprinkles$width))
     ArgumentCheck::addError(
       msg = "The 'width' argument must be numeric",
@@ -646,7 +710,6 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
                                        0),
                      html_row = min(rows),
                      html_col = min(cols),
-                     merge = ~NULL,
                      merge_rowval = ~NULL,
                      merge_colval = ~NULL)
   }
@@ -676,11 +739,11 @@ sprinkle_names <- function()
     "bold", "border", "border_thickness", 
     "border_units", "border_style", "border_color", 
     "border_collapse",
-    "fn", "font_color", "font_size", "font_size_units", "halign", 
+    "fn", "font_family", "font_color", "font_size", "font_size_units", "halign", 
     "height", "height_units", "italic", "longtable", 
     "merge", "merge_rowval", "merge_colval", "na_string", "pad", 
     "replace", "rotate_degree", 
-    "round", "valign", "width", "width_units")
+    "round", "tabcolsep", "valign", "width", "width_units")
 }
 
 #* Default sprinkle values.  Used mostly for sprinkles that come in
@@ -694,7 +757,7 @@ default_sprinkles <- function(setting)
          "border_thickness" = 1,
          "border_units" = "px",
          "border_style" = "solid",
-         "border_color" = "black",
+         "border_color" = "Black",
          "font_size_units" = "pt",
          "height_units" = "pt",
          "width_units" = "pt")

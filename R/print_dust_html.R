@@ -6,7 +6,7 @@
 #' @importFrom tidyr spread_
 
 
-print_dust_html <- function(x, ...)
+print_dust_html <- function(x, ..., asis=TRUE)
 {
   
   #* Determine the number of divisions
@@ -17,26 +17,26 @@ print_dust_html <- function(x, ...)
   if (!is.numeric(x$longtable) & x$longtable) longtable_rows <- 25
   else if (!is.numeric(x$longtable) & !x$longtable) longtable_rows <- max(x$body$row)
   else longtable_rows <- x$longtable
-  
+ 
   Divisions <- data.frame(div_num = rep(1:ceiling(max(x$body$row) / longtable_rows),
                                         each = longtable_rows)[1:max(x$body$row)],
                           row_num = 1:max(x$body$row))
   total_div <- max(Divisions$div_num)
   
-  
+
   #* Format the table parts
   head <- part_prep_html(x$head, head = TRUE)
   body <- part_prep_html(x$body)
   foot <- if (!is.null(x$foot)) part_prep_html(x$foot) else NULL
   interfoot <- if (!is.null(x$interfoot)) part_prep_html(x$interfoot) else NULL
-  
+
   tmpfile <- tempfile(fileext=".html")
   non_interactive <- ""
-  
+
   #* Run a for loop to build all the table divisions
   for (i in 1:total_div){
     tbl <- dplyr::bind_rows(head, 
-                            body[Divisions$row_num[Divisions$div_num == i], ], 
+                            body[Divisions$row_num[Divisions$div_num == i], , drop=FALSE], 
                             if (i == total_div) foot else interfoot)
     rows <- apply(tbl, 1, paste0, collapse = "\n")
     rows <- paste0("<tr>", rows, "</tr>", sep = "\n")
@@ -49,16 +49,17 @@ print_dust_html <- function(x, ...)
   
     #* When interactive, write to a temporary file so that it 
     #* can be displayed in the viewer
-    if (interactive()){
+    if (interactive() & asis){
       write(html_code, tmpfile, append = i > 1)
     }
     else non_interactive <- paste0(non_interactive, html_code)
   }
   # print(html_code)
-  if (interactive()){
+  if (interactive() & asis){
     getOption("viewer")(tmpfile)
   }
-  else knitr::asis_output(htmltools::htmlPreserve(non_interactive))
+  else if (asis) knitr::asis_output(htmltools::htmlPreserve(non_interactive))
+  else htmltools::htmlPreserve(non_interactive)
   
 }
 
@@ -103,6 +104,11 @@ part_prep_html <- function(part, head=FALSE)
   logic <- part$bg != ""
   part$bg[logic] <- 
     with(part, paste0("background-color:", bg[logic], ";"))
+  
+  #* Font Family
+  logic <- part$font_family != ""
+  part$font_family[logic] <-
+    with(part, paste0("font-family:", font_family[logic], ";"))
   
   #* Font Color
   logic <- part$font_color != ""
@@ -159,8 +165,8 @@ part_prep_html <- function(part, head=FALSE)
   #* Replace some of the potentially problematic symbols with HTML codes
   #* At some point, this should be handled by a 'sanitize' like function
   #* (see xtable)
-  part$value <- gsub("[<]", "&lt; ", part$value)
-  part$value <- gsub("[>]", "&gt; ", part$value)
+#   part$value <- gsub("[<]", "&lt; ", part$value)
+#   part$value <- gsub("[>]", "&gt; ", part$value)
   
   #* Generate css style definitions for each cell.
   part$value <- 
@@ -168,7 +174,7 @@ part_prep_html <- function(part, head=FALSE)
                       " colspan = '", colspan, "'; ", 
                       "rowspan = '", rowspan, "'; ",
                       "style='", 
-                      bold, italic, halign, valign, bg, font_color, 
+                      bold, italic, halign, valign, bg, font_family, font_color, 
                       font_size, height, width,
                       top_border, bottom_border, left_border, right_border,
                       rotate_degree, pad,

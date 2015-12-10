@@ -74,7 +74,7 @@ test_that("sprinkles: border",
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
   expect_equal(sprinkle(x, rows = 1, cols = 1, 
                         border = c("left", "right"))$body$left_border[1],
-               "1px solid black")
+               "1px solid Black")
 })
 
 test_that("sprinkles: border errors",
@@ -91,7 +91,7 @@ test_that("sprinkles: border_thickness",
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
   expect_equal(sprinkle(x, rows = 1, cols = 1, 
                         border_thickness = 2)$body$top_border[1],
-               "2px solid black")
+               "2px solid Black")
 })
 
 test_that("sprinkles: border_thickness errors",
@@ -106,7 +106,7 @@ test_that("sprinkles: border_units",
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
   expect_equal(sprinkle(x, rows = 1, cols = 1, 
                         border_units = "px")$body$top_border[1],
-               "1px solid black")
+               "1px solid Black")
 })
 
 test_that("sprinkles: border_units errors",
@@ -123,7 +123,7 @@ test_that("sprinkles: border_style",
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
   expect_equal(sprinkle(x, rows = 1, cols = 1, 
                         border_style = "dashed")$body$top_border[1],
-               "1px dashed black")
+               "1px dashed Black")
 })
 
 test_that("sprinkles: border_style errors",
@@ -139,8 +139,8 @@ test_that("sprinkles: border_color",
 {
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
   expect_equal(sprinkle(x, rows = 1, cols = 1, 
-                        border_color = "black")$body$top_border[1],
-               "1px solid black")
+                        border_color = "Black")$body$top_border[1],
+               "1px solid Black")
 })
 
 test_that("sprinkles: border_color errors",
