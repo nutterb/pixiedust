@@ -1,7 +1,7 @@
 Package: pixiedust
-Date: 2015-12-09
+Date: 2016-01-08
 Title: Tables so Beautifully Fine-Tuned You Will Believe It's Magic
-Version: 0.6.0
+Version: 0.6.1
 Authors@R: person("Benjamin", "Nutter", email = "nutter@battelle.org", role = c("aut", "cre"))
 Description: The introduction of the broom package has made converting model objects into data 
   frames as simple as a single function.  While the broom package focuses on providing tidy

@@ -2,29 +2,29 @@
 title: "LaTeX Table Tests"
 author: "Benjamin Nutter"
 date: "October 1, 2015"
-output: 
-  pdf_document: 
+output:
+  html_document: default
+  pdf_document:
     keep_tex: yes
 header-includes:
- - \usepackage{longtable}
- - \usepackage[dvipsnames,table]{xcolor}
- - \usepackage{array}
- - \usepackage{arydshln}
- - \usepackage{amssymb}
- - \usepackage{graphicx}
- - \usepackage{multirow}
- - \makeatletter
- - \newcommand*\vdashline{\rotatebox[origin=c]{90}{$\dabar@\dabar@\dabar@$}}
- - \makeatother
+- \usepackage{longtable}
+- \usepackage[dvipsnames,table]{xcolor}
+- \usepackage{array}
+- \usepackage{arydshln}
+- \usepackage{amssymb}
+- \usepackage{graphicx}
+- \usepackage{multirow}
 ---
 
 ```{r, echo = FALSE}
 library(pixiedust)
 
-(x <- dust(mtcars) %>%
-  sprinkle(border = "all",
-           border_color = "Red",
-           rotate_degree = 45) %>%
-  sprinkle_print_method("latex"))
+(x <- dust(mtcars,
+           caption = "mtcars Dataset") %>%
+  sprinkle(#border = "all",
+           # border_color = "Red",
+           rotate_degree = 45,
+           longtable = FALSE) %>%
+  sprinkle_print_method("html"))
 ```
 

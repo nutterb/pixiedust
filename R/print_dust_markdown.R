@@ -8,6 +8,8 @@
 print_dust_markdown <- function(x, ..., asis=TRUE)
 {
   
+  if (!is.null(x$caption)) increment_pixie_count()
+  
   #* Determine the number of divisions
   #* It looks more complicated than it is, but the gist of it is
   #* total number of divisions: ceiling(total_rows / longtable_rows)
@@ -80,6 +82,9 @@ print_dust_markdown <- function(x, ..., asis=TRUE)
                                             align = alignments$halign),
                                "\n", linebreak, "\n", linebreak, "\n"), 
                              collapse = "\n"))
+    
+    if (!is.null(x$caption)) 
+      tbl_code <- paste0("Table ", get_pixie_count(), ": ", x$caption, "\n", tbl_code)
   }
   if (asis) knitr::asis_output(tbl_code)
   else tbl_code

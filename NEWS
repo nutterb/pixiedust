@@ -1,3 +1,8 @@
+#### 0.6.1 (8 January 2016)
+* Table Captions are now implemented.
+* Added parameter to place LaTeX tables in a float environment.  This was 
+  necessary to make table captions functional in non-longtable situations.
+
 #### 0.6.0 (09 December 2015)
 * LaTeX output is fully implemented
 * `tabrowsep` element was removed from the `dust` object since it apparently 
