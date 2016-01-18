@@ -26,5 +26,29 @@ library(pixiedust)
            rotate_degree = 45,
            longtable = FALSE) %>%
   sprinkle_print_method("html"))
+
+(x <- dust(mtcars,
+           caption = "mtcars Dataset") %>%
+  sprinkle(#border = "all",
+           # border_color = "Red",
+           rotate_degree = 45,
+           longtable = FALSE) %>%
+  sprinkle_print_method("html"))
+
+(x <- dust(mtcars,
+           caption = "mtcars Dataset") %>%
+  sprinkle(#border = "all",
+           # border_color = "Red",
+           rotate_degree = 45,
+           longtable = FALSE) %>%
+  sprinkle_print_method("html"))
+
+(x <- dust(mtcars,
+           caption = "mtcars Dataset") %>%
+  sprinkle(#border = "all",
+           # border_color = "Red",
+           rotate_degree = 45,
+           longtable = FALSE) %>%
+  sprinkle_print_method("html"))
 ```
 

@@ -161,7 +161,8 @@ dust <- function(object, ...,
                                       descriptors = descriptors,
                                       numeric_level = numeric_level,
                                       argcheck = Check) %>%
-      dplyr::bind_cols(., tidy_object[, -1, drop = FALSE])
+      dplyr::left_join(tidy_object, .,
+                       by = c("term" = "term"))
   }
   
   ArgumentCheck::finishArgCheck(Check)
