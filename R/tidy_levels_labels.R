@@ -160,7 +160,11 @@ tidy_levels_labels <- function(object,
   
   lnl <- levels_and_labels(object) %>%
     level_label_interactions(broom::tidy(object), numeric_level)
-  lnl[, descriptors, drop = FALSE]
+  
+  if (! "term" %in% descriptors)
+    lnl[, c("term", descriptors), drop = FALSE]
+  else 
+    lnl[, descriptors, drop = FALSE]
 }
 
 levels_and_labels <- function(object, ...){

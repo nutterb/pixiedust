@@ -157,12 +157,19 @@ dust <- function(object, ...,
   }
 
   if (!inherits(object, "data.frame") & any(!descriptors %in% "term")){
+    nms <- names(tidy_object)
+    
     tidy_object <- tidy_levels_labels(object,
                                       descriptors = descriptors,
                                       numeric_level = numeric_level,
                                       argcheck = Check) %>%
       dplyr::left_join(tidy_object, .,
                        by = c("term" = "term"))
+    
+    if (!"term" %in% descriptors)
+      nms <- nms[!nms %in% "term"]
+    
+    tidy_object <- dplyr::select_(tidy_object, .dots = c(descriptors, nms))
   }
   
   ArgumentCheck::finishArgCheck(Check)
@@ -280,7 +287,7 @@ cell_attributes_frame <- function(nrow, ncol)
               colspan = 1,
               na_string = NA,
               stringsAsFactors=FALSE) %>%
-    mutate_(html_row = ~row,
+    dplyr::mutate_(html_row = ~row,
             html_col = ~col,
             merge = ~FALSE)
 }
@@ -293,4 +300,4 @@ primaryClass <- function(x){
 }
 
 
-utils::globalVariables(".")
+utils::globalVariables(c(".", "term"))
