@@ -81,3 +81,12 @@ test_that("dust with glance_foot and col_pairs a divisor of total_cols",
                    glance_foot = TRUE, col_pairs = 3),
               not(throws_error()))
 })
+
+test_that("dust with caption and non-floating environment gives warning",
+{
+  fit <- lm(mpg ~ qsec + factor(am) + wt * factor(gear), data = mtcars)
+  x <- dust(fit, 
+            caption = "Table Caption", float = FALSE) %>%
+    sprinkle_print_method("latex")
+  expect_that(print(x), gives_warning())
+})
