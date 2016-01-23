@@ -211,7 +211,7 @@
 #' are.  If you desire to be able to toggle your output between HTML and LaTeX,
 #' it is recommended that you use the color names under the dvips section of 
 #' page 38 of the LaTeX package \code{xcolor} manual 
-#' (\url{http://ctan.mirrorcatalogs.com/macros/latex/contrib/xcolor/xcolor.pdf}.
+#' (\url{https://www.ctan.org/pkg/xcolor}.
 #' 
 #' @section LaTeX Colors:
 #' Use of color in LaTeX requirements requires that you have the LaTeX \code{color}
@@ -227,7 +227,7 @@
 #' HTML names are not.  If the ability to switch between output methods is 
 #' something you desire, you should adopt the capitalization used in the dvips 
 #' names (See page 38 of the \code{xcolor} manual; 
-#' \url{http://ctan.mirrorcatalogs.com/macros/latex/contrib/xcolor/xcolor.pdf}). 
+#' \url{https://www.ctan.org/pkg/xcolor}). 
 #' 
 #' If desired, you may also use the \code{[x11names]} option to have the X11 
 #' color names available to you.

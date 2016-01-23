@@ -10,6 +10,8 @@
 print_dust_latex <- function(x, ..., asis=TRUE)
 {
   
+  if (!is.null(x$caption)) increment_pixie_count()
+  
   #* Determine the number of divisions
   #* It looks more complicated than it is, but the gist of it is
   #* total number of divisions: ceiling(total_rows / longtable_rows)
@@ -42,8 +44,22 @@ print_dust_latex <- function(x, ..., asis=TRUE)
                      "\\setlength{\\tabcolsep}{", x$tabcolsep, "pt}", sep = "\n")
   
   begin <- paste0("\\begin{", tab_env, "}{", 
-                  paste0(col_halign_default$default_halign, collapse = ""), "}\n")
+                  paste0(col_halign_default$default_halign, collapse = ""), "}\n",
+                  if (tab_env == "longtable" && !is.null(x$caption))
+                    paste0("\\caption{", x$caption, "}\\\\") 
+                  else "")
   end <- paste0("\\end{", tab_env, "}")
+  
+  if (tab_env != "longtable" & x$float)
+  {
+    begin <- paste0("\\begin{table}\n",
+                    if (!is.null(x$caption)) paste0("\\caption{", x$caption, "}\n") else "",
+                    begin)
+    end <- paste0(end, "\n\\end{table}\n")
+  }
+  
+  
+  
   
   #* Convert each part into a character string
   #* Returns a character vector of length 4.

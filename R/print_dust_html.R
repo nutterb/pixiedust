@@ -9,6 +9,8 @@
 print_dust_html <- function(x, ..., asis=TRUE)
 {
   
+  if (!is.null(x$caption)) increment_pixie_count()
+  
   #* Determine the number of divisions
   #* It looks more complicated than it is, but the gist of it is
   #* total number of divisions: ceiling(total_rows / longtable_rows)
@@ -46,6 +48,11 @@ print_dust_html <- function(x, ..., asis=TRUE)
                      paste0(rows, collapse = "\n"),
                      "</table><br/><br/>", 
                      sep = "\n")
+    
+    if (!is.null(x$caption)) 
+      html_code <- sub(">", 
+                       paste0(">\n<caption>Table ", get_pixie_count(), ": ", x$caption, "</caption>"),
+                       html_code)
   
     #* When interactive, write to a temporary file so that it 
     #* can be displayed in the viewer

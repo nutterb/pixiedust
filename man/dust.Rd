@@ -8,7 +8,7 @@
 dust(object, ..., tidy_df = FALSE, keep_rownames = FALSE,
   glance_foot = FALSE, glance_stats = NULL, col_pairs = 2,
   byrow = FALSE, descriptors = "term", numeric_level = c("term",
-  "term_plain", "label"))
+  "term_plain", "label"), caption = NULL, float = TRUE, longtable = FALSE)
 
 redust(x, table, part = c("head", "foot", "interfoot", "body"))
 }
@@ -61,6 +61,21 @@ is used for numeric variables in the \code{"level_detail"} descriptor
 when a numeric has an interaction with a factor.  Acceptable inputs
 are \code{"term"}, \code{"term_plain"}, and \code{"label"}.
 See the full documentation for the unexported function \code{\link{tidy_levels_labels}}.}
+
+\item{caption}{A character string giving the caption for the table.}
+
+\item{float}{A logical used only in LaTeX output.  When \code{TRUE}, the table is
+set within a \code{table} environment.  The default is \code{TRUE}, as with
+\code{xtable}.}
+
+\item{longtable}{Allows the user to print a table in multiple sections.
+This is useful when
+a table has more rows than will fit on a printed page.  Acceptable inputs are \code{FALSE},
+indicating that only one table is printed (default); \code{TRUE} that the table should be
+split into multiple tables with the default number of rows per table (see "Longtable"); or a
+positive integer indicating how many rows per table to include. All other values are
+interpreted as \code{FALSE}.  In LaTeX output, remember that after each section, a page
+break is forced. This setting may also be set from \code{sprinkle}.}
 
 \item{x}{A dust object}
 

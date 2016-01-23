@@ -36,6 +36,20 @@
 
 print.dust <- function(x, ..., asis = TRUE)
 {
+  Check <- ArgumentCheck::newArgCheck()
+  
+  if (!is.null(x$caption) & !x$float & !x$longtable & x$print_method == "latex")
+  {
+    ArgumentCheck::addWarning(
+      msg = paste0("You have requested a caption in a non-floating environment; ",
+                   "the caption will be ignored \n  ",
+                   "Either change set 'float = TRUE' or 'longtable = TRUE' in 'dust'"),
+      argcheck = Check)
+    x$caption <- NULL
+  }
+                   
+  ArgumentCheck::finishArgCheck(Check)
+  
   switch(x$print_method,
         "console" = print_dust_console(x, ..., asis = asis),
         "markdown" = print_dust_markdown(x, ..., asis = asis),

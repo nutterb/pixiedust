@@ -53,6 +53,18 @@
 #'   when a numeric has an interaction with a factor.  Acceptable inputs
 #'   are \code{"term"}, \code{"term_plain"}, and \code{"label"}.
 #'   See the full documentation for the unexported function \code{\link{tidy_levels_labels}}.
+#' @param caption A character string giving the caption for the table.
+#' @param float A logical used only in LaTeX output.  When \code{TRUE}, the table is 
+#'   set within a \code{table} environment.  The default is \code{TRUE}, as with 
+#'   \code{xtable}.
+#' @param longtable Allows the user to print a table in multiple sections.  
+#'     This is useful when 
+#'     a table has more rows than will fit on a printed page.  Acceptable inputs are \code{FALSE},
+#'     indicating that only one table is printed (default); \code{TRUE} that the table should be 
+#'     split into multiple tables with the default number of rows per table (see "Longtable"); or a 
+#'     positive integer indicating how many rows per table to include. All other values are 
+#'     interpreted as \code{FALSE}.  In LaTeX output, remember that after each section, a page 
+#'     break is forced. This setting may also be set from \code{sprinkle}. 
 #' @param ... Additional arguments to pass to \code{tidy}
 #' 
 #' @details The \code{head} object describes what each column of the table
@@ -118,7 +130,10 @@ dust <- function(object, ...,
                  glance_foot = FALSE, glance_stats = NULL, 
                  col_pairs = 2, byrow = FALSE,
                  descriptors = "term", 
-                 numeric_level = c("term", "term_plain", "label"))
+                 numeric_level = c("term", "term_plain", "label"),
+                 caption = NULL,
+                 float = TRUE,
+                 longtable = FALSE)
 {
   Check <- ArgumentCheck::newArgCheck()
   
@@ -142,11 +157,19 @@ dust <- function(object, ...,
   }
 
   if (!inherits(object, "data.frame") & any(!descriptors %in% "term")){
+    nms <- names(tidy_object)
+    
     tidy_object <- tidy_levels_labels(object,
                                       descriptors = descriptors,
                                       numeric_level = numeric_level,
                                       argcheck = Check) %>%
-      dplyr::bind_cols(., tidy_object[, -1, drop = FALSE])
+      dplyr::left_join(tidy_object, .,
+                       by = c("term" = "term"))
+    
+    if (!"term" %in% descriptors)
+      nms <- nms[!nms %in% "term"]
+    
+    tidy_object <- dplyr::select_(tidy_object, .dots = c(descriptors, nms))
   }
   
   ArgumentCheck::finishArgCheck(Check)
@@ -178,7 +201,9 @@ dust <- function(object, ...,
                  interfoot = NULL,
                  foot = foot,
                  border_collapse = TRUE,
-                 longtable = FALSE,
+                 caption = caption,
+                 float = float,
+                 longtable = longtable,
                  table_width = 6,
                  tabcolsep = 6,
                  print_method = getOption("pixiedust_print_method")),
@@ -262,7 +287,7 @@ cell_attributes_frame <- function(nrow, ncol)
               colspan = 1,
               na_string = NA,
               stringsAsFactors=FALSE) %>%
-    mutate_(html_row = ~row,
+    dplyr::mutate_(html_row = ~row,
             html_col = ~col,
             merge = ~FALSE)
 }
@@ -275,4 +300,4 @@ primaryClass <- function(x){
 }
 
 
-utils::globalVariables(".")
+utils::globalVariables(c(".", "term"))
