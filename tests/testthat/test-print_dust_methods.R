@@ -29,7 +29,7 @@ test_that("print_dust_console",
              width = 15,
              width_units = "%")
   
-  expect_that(print_dust_console(x), not(throws_error()))
+  expect_output(print_dust_console(x))
 })
 
 test_that("print_dust_html",
@@ -62,7 +62,7 @@ test_that("print_dust_html",
              width_units = "%") %>%
     sprinkle_print_method("html")
             
-  expect_that(print_dust_html(x), not(throws_error()))
+  expect_silent(print_dust_html(x))
 })
 
 test_that("print_dust_html: correction for multiple cell merge",
@@ -89,7 +89,7 @@ test_that("print_dust_html: correction for multiple cell merge",
      sprinkle(merge = TRUE, halign = "center", part = "interfoot") %>%
      sprinkle_print_method("html")
   
-  expect_that(print_dust_html(x), not(throws_error()))
+  expect_silent(print_dust_html(x))
 })
 
 test_that("print_dust_markdown",
@@ -122,8 +122,7 @@ test_that("print_dust_markdown",
              width_units = "%") %>%
     sprinkle_print_method("markdown")
   
-  expect_that(print_dust_markdown(x),
-              not(throws_error()))
+  expect_silent(print_dust_markdown(x))
 })
 
 
@@ -157,8 +156,7 @@ test_that("print_dust_latex",
                        width_units = "%") %>%
               sprinkle_print_method("latex")
             
-            expect_that(print_dust_latex(x),
-                        not(throws_error()))
+            expect_silent(print_dust_latex(x))
           })
 
 test_that("convertColor",

@@ -306,9 +306,8 @@ test_that("sprinkles: longtable- character resolve to FALSE",
 test_that("sprinkles: merge",
 {
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-  expect_that(sprinkle(x, rows = 3:4, cols = 1:2, merge = TRUE,
-                       merge_rowval = 4, merge_colval = 2),
-              not(throws_error()))
+  expect_silent(sprinkle(x, rows = 3:4, cols = 1:2, merge = TRUE,
+                       merge_rowval = 4, merge_colval = 2))
 })
 
 test_that("sprinkles: merge is not logical",

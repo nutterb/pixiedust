@@ -50,10 +50,15 @@ print.dust <- function(x, ..., asis = TRUE)
                    
   ArgumentCheck::finishArgCheck(Check)
   
-  switch(x$print_method,
-        "console" = print_dust_console(x, ..., asis = asis),
-        "markdown" = print_dust_markdown(x, ..., asis = asis),
-        "html" = print_dust_html(x, ..., asis = asis),
-        "latex" = print_dust_latex(x, ..., asis = asis),
+  print_method <- x$print_method
+  if (print_method == "latex" & getOption("pixiedust_latex_hhline"))
+    print_method <- "latex_hhline"
+  
+  switch(print_method,
+        "console"      = print_dust_console(x, ..., asis = asis),
+        "markdown"     = print_dust_markdown(x, ..., asis = asis),
+        "html"         = print_dust_html(x, ..., asis = asis),
+        "latex"        = print_dust_latex(x, ..., asis = asis),
+        "latex_hhline" = print_dust_latex_hhline(x, ..., asis = asis),
         stop(paste0("'", x$print_method, "' is not an valid print method")))
 }

@@ -103,10 +103,14 @@
 #'      values \code{"solid"}, \code{"dashed"}, \code{"dotted"}, 
 #'      \code{"double"}, \code{"groove"}, \code{"ridge"}, \code{"inset"},
 #'      \code{"outset"}, \code{"hidden"}, or \code{"none"}.  Defaults
-#'      to \code{"solid"}. LaTeX output only makes use of \code{"solid"}, 
+#'      to \code{"solid"}. LaTeX output using 
+#'      \code{options(pixiedust_latex_hhline = FALSE} only makes use of \code{"solid"}, 
 #'      \code{"dashed"}, and \code{"none"}. If \code{"dotted"},
 #'      is passed to LaTeX output, it is quietly changed to \code{"dashed"}. All
-#'      other options are quietly changed to \code{"solid"}.}
+#'      other options are quietly changed to \code{"solid"}.  When using 
+#'      \code{options(pixiedust_latex_hhline = TRUE)}, the options \code{"solid"} 
+#'      and \code{"double"} are used, with all others reverting to \code{"solid"}.
+#'      (Except for \code{"hidden"} and \code{"none"}, which print no border.}
 #'   \item{\code{border_color} }{A character string denoting the color 
 #'      for the border.  See "Colors".}
 #'   \item{\code{fn} }{A function to apply to values in cells.  The function 
@@ -258,28 +262,38 @@
 #'   \code{bg, bg_pattern} \tab \code{\\usepackage[dvipsnames,table]\{xcolor\}} \cr
 #'   \code{border_style} \tab \code{\\usepackage\{arydshln\}} \cr
 #'       \tab  \code{\\usepackage\{amssymb\}} \cr
+#'       \tab  \code{\\usepackage\{hhline\}} \cr
 #'       (with vertical dashed lines) \tab \\usepackage\{graphicx\} \cr
 #'       \tab \code{\\makeatletter} \cr
 #'       \tab \code{\\newcommand*\\vdashline\{\\rotatebox[origin=c]\{90\}\{\$\\dabar@@\\dabar@@\\dabar@@\$\}\}} \cr
 #'       \tab \code{\\makeatother} \cr
 #'   \code{longtable} \tab \code{\\usepackage\{longtable\}} \cr
 #'       \tab (Must be loaded before \code{arydshln}) \cr
-#'   \code{merge} \tab \code{\\usepackage\{multirow\}}
+#'   \code{merge} \tab \code{\\usepackage\{multirow\}} 
 #' }
+#' 
+#' Note that \code{hhline} is used to make horizontal lines when 
+#' \code{options(pixiedust_latex_hhline = TRUE)} (the package default is \code{FALSE}), 
+#' otherwise the \code{cline} command is used.  In my opinion, the lines 
+#' drawn by \code{cline} have a slightly better appearance that \code{hhline}, 
+#' but they overwrite horizontal cell borders. If using both backgrounds and borders, 
+#' it is advantageous to use the \code{hhline} option. 
 #' 
 #' In order to ensure all features are available, the recommended code block (accounting for 
 #' the proper order to load packages) is:
 #' 
 #' \code{header-includes:} \cr
-#' \code{ - \\usepackage[dvipsnames,table]\{xcolor\}} \cr
-#' \code{ - \\usepackage\{longtable\}} \cr
-#' \code{ - \\usepackage\{arydshln\}} \cr
 #' \code{ - \\usepackage\{amssymb\}} \cr
+#' \code{ - \\usepackage\{arydshln\}} \cr
 #' \code{ - \\usepackage\{graphicx\}} \cr
+#' \code{ - \\usepackage\{hhline\}} \cr
+#' \code{ - \\usepackage\{longtable\}} \cr
 #' \code{ - \\usepackage\{multirow\}} \cr
+#' \code{ - \\usepackage[dvipsnames,table]\{xcolor\}} \cr
 #' \code{ - \\makeatletter} \cr
 #' \code{ - \\newcommand*\\vdashline\{\\rotatebox[origin=c]\{90\}\{\$\\dabar@@\\dabar@@\\dabar@@\$\}\}} \cr
 #' \code{ - \\makeatother}
+#' 
 #'
 #' @seealso \code{\link{sprinkle_colnames}} for changing column names in a table.
 #' 

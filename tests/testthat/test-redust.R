@@ -17,7 +17,6 @@ test_that("redust: catch mismatched column counts, perhaps from someone adding a
 test_that("redust: how about a working example",
 {
   x <- dust(mtcars[1:10, ])
-  expect_that(redust(x, mtcars[1:2, ], part = "head"),
-              not(throws_error()))
+  expect_silent(redust(x, mtcars[1:2, ], part = "head"))
 })
   
