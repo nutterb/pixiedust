@@ -1,0 +1,89 @@
+---
+title: "`xtable` vs `pixiedust`: Speed Comparison"
+author: "Benjamin Nutter"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    fig_caption: no
+    number_section: yes
+    toc: yes
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{xtable vs pixiedust: Speed Comparison}
+  \usepackage[utf8]{inputenc}
+---
+
+The process for comparing the speed of `xtable` and `pixiedust` will be a random sample of `r format(1e4, big.mark = ",")` rows from the `mtcars` dataset, with replacement.  A table with this many rows is certainly at the fringe of the size of tables people my try to produce using either package and is large enough to give us some idea of how the two packages differ in terms of speed.
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(microbenchmark)
+library(stargazer)
+library(xtable)
+set.seed(100)
+LargeTable <- mtcars[sample(1:nrow(mtcars), 1000, replace = TRUE), ]
+```
+
+The `xtable` times are calculated as follows:
+
+```{r, results = 'hide'}
+Xtable <- microbenchmark(xtable = print.xtable(xtable(LargeTable, type = "html"), type = "html",
+                                      print.results = FALSE),
+                         times = 10, unit = "ms")
+```
+
+The `stargazer` times are calculated in a similar manner.
+
+```{r, results = 'hide'}
+Stargazer <- microbenchmark(stargazer = {x <- capture.output(stargazer(LargeTable, 
+                                                          type = "html", summary = FALSE))},
+                            times = 10, unit = "ms")
+```
+
+The `pixiedust` times are calculated below.  We apply the default background pattern just to add a little more complexity to the table.  This should elaborate if adding more sprinkles adds to the processing time.  Further investigation will be needed to determine if the time is added in the `sprinkle` function, or in the printing.
+
+```{r, results='hide'}
+libs <- list.files("F:/pixiedust_library", full.names = TRUE)
+lib_versions <- gsub("Version", "", basename(libs))
+
+for (i in seq_along(libs)){
+  library(pixiedust, lib.loc=libs[i])
+  
+  if (lib_versions[i] %in% c("0.1.1", "0.1.1-2")) {
+    Pixie <- microbenchmark({dust(LargeTable) + 
+                               sprinkle_print_method("html") + 
+                               sprinkle(bg_pattern_by = "rows")},
+                            times = 10, units = "ms")
+    Pixie$expr <- paste0("pixiedust ", lib_versions[i])
+  }
+  else {
+    Pixie <- microbenchmark({dust(LargeTable) %>% 
+                             sprinkle_print_method("html") %>%
+                             sprinkle(bg_pattern_by = "rows")},
+                            times = 10, unit = "ms")
+    Pixie$expr <- paste0("pixiedust ", lib_versions[i])
+  }
+  
+  assign(paste0("Pixie_", lib_versions[i]), Pixie)
+  
+  detach("package:pixiedust", unload=TRUE)
+}
+rm(list = c("Pixie", "lib_versions", "libs", "LargeTable", "i", "x"))
+```
+
+```{r, fig.height = 6, fig.width = 8}
+Compare <- bind_rows(mget(x = ls()))
+
+ggplot(Compare,
+       aes(x = expr, y = time)) + 
+  geom_boxplot() + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+Median <- Compare %>%
+  group_by(expr) %>%
+  summarise(median_time = median(time)) %>%
+  mutate(relative_time = median_time / min(median_time)) %>%
+  print()
+```
+

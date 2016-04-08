@@ -1,0 +1,10 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.gitignore$
+^\.travis.yml$
+^\.travis\.yml$
+^cran-comments.md$
+^README\.Rmd$
+^README-.*\.png$
+^xtable_vs_pixiedust.html$
+^xtable_vs_pixiedust.Rmd$

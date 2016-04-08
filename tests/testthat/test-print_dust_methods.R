@@ -1,0 +1,181 @@
+context("print_dust_methods")
+
+test_that("print_dust_console",
+{
+  fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
+  x <- dust(fit) %>% 
+    sprinkle(rows = 2:4,
+             cols = 2:4,
+             bg = "black",
+             bold = TRUE,
+             border_collapse = FALSE,
+             border = c("left", "right"),
+             border_thickness = 2,
+             border_units = "px",
+             border_style = "solid",
+             border_color = "purple",
+             halign = "left",
+             height = 7,
+             height_units = "px",
+             fn = quote(value * -1),
+             font_color = "orchid",
+             font_size = 14,
+             font_size_units = "px",
+             italic = TRUE,
+             pad = 8,
+             round = 3,
+             rotate_degree = -45,
+             valign = "bottom",
+             width = 15,
+             width_units = "%")
+  
+  expect_that(print_dust_console(x), not(throws_error()))
+})
+
+test_that("print_dust_html",
+{
+  fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
+  x <- dust(fit) %>% 
+    sprinkle(rows = 2:4,
+             cols = 2:4,
+             bg = "black",
+             bold = TRUE,
+             border_collapse = FALSE,
+             border = c("left", "right"),
+             border_thickness = 2,
+             border_units = "px",
+             border_style = "solid",
+             border_color = "purple",
+             halign = "left",
+             height = 7,
+             height_units = "px",
+             fn = quote(value * -1),
+             font_color = "orchid",
+             font_size = 14,
+             font_size_units = "px",
+             italic = TRUE,
+             pad = 8,
+             round = 3,
+             rotate_degree = -45,
+             valign = "bottom",
+             width = 15,
+             width_units = "%") %>%
+    sprinkle_print_method("html")
+            
+  expect_that(print_dust_html(x), not(throws_error()))
+})
+
+test_that("print_dust_html: correction for multiple cell merge",
+{
+  custom_head <- rbind(names(mtcars), Hmisc::label(mtcars)) %>%
+    as.data.frame(stringsAsFactors = FALSE)
+  
+  custom_foot <- rbind(vapply(mtcars, mean, numeric(1)),
+                       vapply(mtcars, sd, numeric(1))) %>%
+    as.data.frame(stringsAsFactors = FALSE)
+  
+  custom_interfoot <- data.frame("To Be Continued", 
+                                 "", "", "", "", "", "",
+                                 "", "", "", "")
+  
+  x <- dust(mtcars) %>%
+     redust(custom_head, part = "head") %>%
+     redust(custom_foot, part = "foot") %>%
+     redust(custom_interfoot, part = "interfoot") %>%
+     sprinkle_table(round = 2, longtable = 4) %>%
+     sprinkle(bg = "gray", part = "head") %>%
+     sprinkle(bg = "lightgray", part = "foot") %>%
+     sprinkle(bg = "lightgray", part = "interfoot") %>%
+     sprinkle(merge = TRUE, halign = "center", part = "interfoot") %>%
+     sprinkle_print_method("html")
+  
+  expect_that(print_dust_html(x), not(throws_error()))
+})
+
+test_that("print_dust_markdown",
+{
+  fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
+  x <- dust(fit) %>% 
+    sprinkle(rows = 2:4,
+             cols = 2:4,
+             bg = "black",
+             bold = TRUE,
+             border_collapse = FALSE,
+             border = c("left", "right"),
+             border_thickness = 2,
+             border_units = "px",
+             border_style = "solid",
+             border_color = "purple",
+             halign = "left",
+             height = 7,
+             height_units = "px",
+             fn = quote(value * -1),
+             font_color = "orchid",
+             font_size = 14,
+             font_size_units = "px",
+             italic = TRUE,
+             pad = 8,
+             round = 3,
+             rotate_degree = -45,
+             valign = "bottom",
+             width = 15,
+             width_units = "%") %>%
+    sprinkle_print_method("markdown")
+  
+  expect_that(print_dust_markdown(x),
+              not(throws_error()))
+})
+
+
+test_that("print_dust_latex",
+          {
+            fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
+            x <- dust(fit) %>% 
+              sprinkle(rows = 2:4,
+                       cols = 2:4,
+                       bg = "black",
+                       bold = TRUE,
+                       border_collapse = FALSE,
+                       border = c("left", "right"),
+                       border_thickness = 2,
+                       border_units = "px",
+                       border_style = "solid",
+                       border_color = "purple",
+                       halign = "left",
+                       height = 7,
+                       height_units = "px",
+                       fn = quote(value * -1),
+                       font_color = "orchid",
+                       font_size = 14,
+                       font_size_units = "px",
+                       italic = TRUE,
+                       pad = 8,
+                       round = 3,
+                       rotate_degree = -45,
+                       valign = "bottom",
+                       width = 15,
+                       width_units = "%") %>%
+              sprinkle_print_method("latex")
+            
+            expect_that(print_dust_latex(x),
+                        not(throws_error()))
+          })
+
+test_that("convertColor",
+{
+  expect_equal(convertColor("rgba(128,0,0, .5)"),
+               "[RGB]{128,0,0}")
+})
+
+test_that("convertColor",
+{
+  expect_equal(convertColor("rgb(128,0,0)"),
+               "[RGB]{128,0,0}")
+})
+
+test_that("convertColor Hex",
+{
+  expect_equal(convertColor("#E46C6C"),
+               "[HTML]{E46C6C}")
+})
+  
