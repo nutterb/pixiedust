@@ -322,7 +322,8 @@ required, are listed below:
       \tab \code{\\makeatother} \cr
   \code{longtable} \tab \code{\\usepackage\{longtable\}} \cr
       \tab (Must be loaded before \code{arydshln}) \cr
-  \code{merge} \tab \code{\\usepackage\{multirow\}}
+  \code{merge} \tab \code{\\usepackage\{multirow\}} \cr
+  \code{captions} for non floats \tab \code{\\usepackage\{caption\}}
 }
 
 Note that \code{hhline} is used to make horizontal lines when
@@ -338,6 +339,7 @@ the proper order to load packages) is:
 \code{header-includes:} \cr
 \code{ - \\usepackage\{amssymb\}} \cr
 \code{ - \\usepackage\{arydshln\}} \cr
+\code{ - \\usepackage\{caption\}}  \cr
 \code{ - \\usepackage\{graphicx\}} \cr
 \code{ - \\usepackage\{hhline\}} \cr
 \code{ - \\usepackage\{longtable\}} \cr

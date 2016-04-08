@@ -43,22 +43,35 @@ print_dust_latex <- function(x, ..., asis=TRUE)
   prebegin <- paste0(prebegin, 
                      "\\setlength{\\tabcolsep}{", x$tabcolsep, "pt}", sep = "\n")
   
-  begin <- paste0("\\begin{", tab_env, "}{", 
-                  paste0(col_halign_default$default_halign, collapse = ""), "}\n",
-                  if (tab_env == "longtable" && !is.null(x$caption))
-                    paste0("\\caption{", x$caption, "}\\\\") 
-                  else "")
-  end <- paste0("\\end{", tab_env, "}")
-  
-  if (tab_env != "longtable" & x$float)
+  if (tab_env == "longtable")
+  {
+    begin <- paste0("\\begin{longtable}{",
+                    paste0(col_halign_default$default_halign, collapse = ""), "}\n",
+                    if (!is.null(x$caption))
+                      paste("\\caption{", x$caption, "}\\\\")
+                    else "")
+    end <- "\\end{longtable}"
+  }
+  else if (x$float)
   {
     begin <- paste0("\\begin{table}\n",
-                    if (!is.null(x$caption)) paste0("\\caption{", x$caption, "}\n") else "",
-                    begin)
-    end <- paste0(end, "\n\\end{table}\n")
+                    if (!is.null(x$caption))
+                      paste0("\\caption{", x$caption, "}\n")
+                    else "",
+                    "\\begin{tabular}{",
+                    paste0(col_halign_default$default_halign, collapse = ""), "}\n")
+    
+    end <- "\\end{tabular}\n\\end{table}\n"
   }
-  
-  
+  else
+  {
+    begin <- paste0(if (!is.null(x$caption))
+                     paste0("\\captionof{table}{", x$caption, "}")
+                    else "",
+                    "\\begin{tabular}{",
+                    paste0(col_halign_default$default_halign, collapse = ""), "}\n")
+    end <- "\\end{tabular}"
+  }
   
   
   #* Convert each part into a character string
