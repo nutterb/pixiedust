@@ -1,0 +1,16 @@
+---
+title: "`pixiedust` Supplemental Documentation"
+author: "Benjamin Nutter"
+date: '`r Sys.Date()`'
+output: html_document
+---
+
+While I try to keep the documentation for `pixiedust` up-to-date and useful, it is sometimes difficult to understand the true implications of some of the sprinkles on different report formats.  The purpose of the supplemental documentation is to augment the package documentation with visual representations that aren't possible in the standard R documentation.  (Vignettes would be useful here, but the process of making vignettes for every output type and sprinkle would be cumbersome and bloat the package files).
+
+If there are examples in topics you are particularly interested in, please [file an issue](https://github.com/nutterb/pixiedust/issues).  I'll work on updating this site as time permits.
+
+## Medleys
+
+## Sprinkles
+
+## Multiple Tables

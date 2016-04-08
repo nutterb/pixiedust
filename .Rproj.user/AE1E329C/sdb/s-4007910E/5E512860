@@ -1,0 +1,18 @@
+{
+    "contents" : "devtools::document(\"C:/Users/Nutter/Documents/GitHub/pixiedust\")\ndevtools::install_local(\"C:/Users/Nutter/Documents/GitHub/pixiedust\")#, build_vignettes = TRUE)\ndevtools::test(\"C:/Users/Nutter/Documents/GitHub/pixiedust\")\ndevtools::check(\"C:/Users/Nutter/Documents/GitHub/pixiedust\", args=\"--as-cran\")\n\n",
+    "created" : 1439253657462.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "591113374",
+    "id" : "5E512860",
+    "lastKnownWriteTime" : 7011605692497750387,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

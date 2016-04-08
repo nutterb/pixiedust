@@ -1,0 +1,18 @@
+{
+    "contents" : "---\ntitle: \"`pixiedust` Supplemental Documentation\"\nauthor: \"Benjamin Nutter\"\ndate: '`r Sys.Date()`'\noutput: html_document\n---\n\nWhile I try to keep the documentation for `pixiedust` up-to-date and useful, it is sometimes difficult to understand the true implications of some of the sprinkles on different report formats.  The purpose of the supplemental documentation is to augment the package documentation with visual representations that aren't possible in the standard R documentation.  (Vignettes would be useful here, but the process of making vignettes for every output type and sprinkle would be cumbersome and bloat the package files).\n\nIf there are examples in topics you are particularly interested in, please [file an issue](https://github.com/nutterb/pixiedust/issues).  I'll work on updating this site as time permits.\n\n## Medleys\n\n## Sprinkles\n\n## Multiple Tables",
+    "created" : 1460126374195.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "146878766",
+    "id" : "F3F0F81D",
+    "lastKnownWriteTime" : 1460127129,
+    "path" : "~/GitHub/pixiedust/supplementalDocumentation/main.Rmd",
+    "project_path" : "supplementalDocumentation/main.Rmd",
+    "properties" : {
+        "tempName" : "Untitled3"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "type" : "r_markdown"
+}
