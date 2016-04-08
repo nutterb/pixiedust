@@ -12,6 +12,7 @@ header-includes:
 - \usepackage{hhline} 
 - \usepackage{longtable} 
 - \usepackage{multirow} 
+- \usepackage{placeins}
 - \usepackage[dvipsnames,table]{xcolor} 
 - \makeatletter 
 - \newcommand*\vdashline{\rotatebox[origin=c]{90}{\$\dabar@\dabar@\dabar@\$}} 
@@ -80,7 +81,7 @@ dust(fit,
 ```
 
 This can be avoided by only assigning one vertical border.
-
+\FloatBarrier
 ```{r}
 dust(fit,
      caption = "Table borders using xcolor",
@@ -95,7 +96,7 @@ dust(fit,
 ```
 
 `pixiedust` provides a medley (`medley_all_borders`) that performs this task for you.
-
+\FloatBarrier
 
 ```{r}
 dust(fit,
