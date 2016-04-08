@@ -2,7 +2,9 @@
 title: "Appearance of `medley_bw`"
 author: "Benjamin Nutter"
 date: '`r Sys.Date()`'
-output: html_document
+output: 
+  html_document:
+    toc: true
 ---
 
 The most basic medley that ships with `pixiedust` is `medley_bw`.  It is characterized by 
@@ -11,7 +13,7 @@ The most basic medley that ships with `pixiedust` is `medley_bw`.  It is charact
 * A solid line border below the bottom row of the table header
 * A solid line border below the bottom row of the table body
 
-### Sample Table
+## Sample Table
 
 The sample table for this medley is built from a linear model.
 
@@ -23,6 +25,7 @@ fit <- lm(mpg ~ wt + qsec + factor(am),
 ```
 
 ## Appearance
+For sample below rendered in LaTeX, an image of the output is provided.
 
 ### Console Output
 
@@ -48,7 +51,7 @@ dust(fit) %>%
 
 While it appears that `medley_bw` has been applied to the LaTeX output shown below, the formatting is actually the default formatting from `knitr::kable`.
 
-```{r}
+```{r, eval = FALSE}
 dust(fit) %>%
   medley_bw() %>%
   sprinkle_print_method("markdown")
@@ -58,7 +61,7 @@ dust(fit) %>%
 
 Observe that nothing changes when we remove `medley_bw` from the code.
 
-```{r}
+```{r, eval = FALSE}
 dust(fit) %>%
   sprinkle_print_method("markdown")
 ```
@@ -82,6 +85,7 @@ dust(fit) %>%
   sprinkle_print_method("latex")
 ```
 
+![images/medley-appearance-medley-bw3.png](images/medley-appearance-medley-bw3.png)
 
 ### LaTeX Output with hhline
 
@@ -91,3 +95,5 @@ dust(fit,
   medley_bw() %>%
   sprinkle_print_method("latex")
 ```
+
+![images/medley-appearance-medley-bw4.png](images/medley-appearance-medley-bw4.png)
