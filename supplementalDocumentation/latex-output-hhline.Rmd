@@ -8,6 +8,7 @@ output:
 header-includes: 
 - \usepackage{amssymb} 
 - \usepackage{arydshln} 
+- \usepackage{caption}
 - \usepackage{graphicx} 
 - \usepackage{hhline} 
 - \usepackage{longtable} 
@@ -41,6 +42,7 @@ output: pdf_document
 header-includes: 
 - \usepackage{amssymb} 
 - \usepackage{arydshln} 
+- \usepackage{caption}
 - \usepackage{graphicx} 
 - \usepackage{hhline} 
 - \usepackage{longtable} 
@@ -69,13 +71,15 @@ In both styles, vertical borders can become thicker than expected when adjoining
 ```{r}
 dust(fit,
      caption = "Table borders using xcolor",
-     hhline = FALSE) %>%
+     hhline = FALSE,
+     float = FALSE) %>%
   medley_model() %>%
   sprinkle(border = "all")
 
 dust(fit, 
      caption = "Table borders using hhline",
-     hhline = TRUE) %>%
+     hhline = TRUE,
+     float = FALSE) %>%
   medley_model() %>%
   sprinkle(border = "all")
 ```
@@ -85,7 +89,8 @@ This can be avoided by only assigning one vertical border.
 ```{r}
 dust(fit,
      caption = "Table borders using xcolor",
-     hhline = FALSE) %>%
+     hhline = FALSE,
+     float = FALSE) %>%
   medley_model() %>%
   #* Left border on all columns
   sprinkle(cols = 1:5, 
@@ -101,7 +106,8 @@ dust(fit,
 ```{r}
 dust(fit,
      caption = "Table borders using the all borders medley",
-     hhline = FALSE) %>%
+     hhline = FALSE,
+     float = FALSE) %>%
   medley_model() %>%
   medley_all_borders()
 ```
