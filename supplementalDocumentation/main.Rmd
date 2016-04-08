@@ -19,4 +19,8 @@ Medleys are functions that consist of a collection of `sprinkles` in order to qu
 
 ## Sprinkles
 
-## Multiple Tables
+## Miscellaneous
+
+Working with multiple tables (coming soon)
+
+[LaTeX Tables and `hhline`](latex-output-hhline.pdf) (in progress)
