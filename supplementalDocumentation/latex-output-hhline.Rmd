@@ -96,6 +96,7 @@ dust(fit,
 
 `pixiedust` provides a medley (`medley_all_borders`) that performs this task for you.
 
+
 ```{r}
 dust(fit,
      caption = "Table borders using the all borders medley",
@@ -103,6 +104,7 @@ dust(fit,
   medley_model() %>%
   medley_all_borders()
 ```
+
 
 ## Dashed Borders
 
