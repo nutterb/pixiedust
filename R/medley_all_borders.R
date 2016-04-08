@@ -17,6 +17,9 @@
 #'   "head", "interfoot", "foot", "table"}.  When any element is 
 #'   \code{"table"}, the borders are drawn in all parts of the table.
 #'   
+#' @author Benjamin Nutter
+#'   
+#' @export
 
 medley_all_borders <- function(x, rows=NULL, cols=NULL, 
                                horizontal = TRUE, vertical = TRUE,
