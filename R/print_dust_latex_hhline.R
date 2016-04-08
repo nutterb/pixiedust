@@ -104,7 +104,7 @@ part_prep_latex_hhline <- function(part, col_width, col_halign_default, head=FAL
     
     Widths <- part %>%
       dplyr::select(html_row, html_col, width, merge) %>%
-      dplyr::distinct(html_row, html_col, width, merge) %>%
+      dplyr::distinct() %>%
       dplyr::group_by(html_row, html_col) %>%
       dplyr::mutate(width = ifelse(merge == TRUE, 
                             sum(width[merge]),
