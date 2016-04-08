@@ -11,6 +11,12 @@ If there are examples in topics you are particularly interested in, please [file
 
 ## Medleys
 
+Medleys are functions that consist of a collection of `sprinkles` in order to quickly and efficiently apply customizations to a table.  They are akin to `theme`s in `ggplot2`.
+
+`pixiedust` ships with two medleys--`medley_bw`, and `medley_model`.  These medleys are really only examples.  I haven't tried to define a collection of "standardized" medleys, mostly because I have no idea what a "standardized" format might look like.  If you have ideas for medleys that would fit the general interest, please let me know.
+
+[Appearance of `medley_bw`](medley-appearance-medley-bw.html)
+
 ## Sprinkles
 
 ## Multiple Tables
