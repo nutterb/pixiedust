@@ -22,7 +22,7 @@ sprinkle_print_method.default <- function(x,
                          add = coll)
   
   checkmate::assertSubset(print_method,
-                          c("console", "markdown", "html", "latex", "FlexTable"),
+                          c("console", "markdown", "html", "latex"),
                           add = coll)
 
   checkmate::reportAssertions(coll)

@@ -60,7 +60,6 @@ print.dust <- function(x, ..., asis = TRUE)
         "html"         = print_dust_html(x, ..., asis = asis),
         "latex"        = print_dust_latex(x, ..., asis = asis),
         "latex_hhline" = print_dust_latex_hhline(x, ..., asis = asis),
-        "FlexTable"    = print_dust_flextable(x, ...),
         stop(paste0("'", x$print_method, "' is not an valid print method")))
 }
 

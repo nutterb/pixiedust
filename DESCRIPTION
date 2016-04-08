@@ -23,7 +23,6 @@ Imports:
     knitr,
     lazyWeave,
     magrittr,
-    ReporteRs,
     stringr,
     tidyr
 Suggests:

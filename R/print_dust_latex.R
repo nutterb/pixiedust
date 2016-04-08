@@ -475,4 +475,5 @@ utils::globalVariables(c("halign", "left_border", "right_border",
                          "require_multicol", "height", "width",
                          "height_units", "width_units", "table_width",
                          "parbox", "width_by_char", "html_row", 
-                         "html_col", "rowspan", "colspan"))
+                         "html_col", "rowspan", "colspan", "value", "col_name",
+                         "col_class"))
