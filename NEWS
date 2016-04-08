@@ -1,3 +1,10 @@
+#### 0.6.3 (8 April 2016)
+* Converted `dust`, `sprinkle` functions, and `print` to S3 methods. 
+  This allows for lists of data frames to be processed as 
+  separate tables.
+* Added `dust.grouped_df` to give the option of ungrouping a 
+  grouped_df object, or splitting it.
+
 #### 0.6.2 (15 March 2016)
 * Implemented a new printing method that makes use of the `hhline` 
   LaTeX package.  This allows borders to be drawn over background

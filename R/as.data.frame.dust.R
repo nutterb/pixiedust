@@ -1,6 +1,6 @@
 #' @name as.data.frame.dust
 #' 
-#' @title Convert \code{dust} Object to Data Frame
+#' @title Convert \code{dust} Object to Data Frame (or FlexTable)
 #' @description Sprinkles are applied to the \code{dust} object
 #'   as if it were being prepared for printing to the console.
 #'   However, instead of printing, the object is returned 
@@ -65,6 +65,23 @@ as.data.frame.dust <- function(x, ..., sprinkled = TRUE){
     X
   }
   
+}
+
+#' @rdname as.data.frame.dust
+#' @export
+
+as.data.frame.dust_list <- function(x, ...)
+{
+  lapply(x,
+         as.data.frame.dust)
+}
+
+#' @rdname as.data.frame.dust
+#' @export
+
+as.FlexTable.dust <- function(x, ...)
+{
+  print_dust_flextable(x, return_ft = TRUE)
 }
 
 utils::globalVariables(c("value", "col_name", "col_class"))

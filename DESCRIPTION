@@ -1,7 +1,6 @@
 Package: pixiedust
-Date: 2016-01-08
 Title: Tables so Beautifully Fine-Tuned You Will Believe It's Magic
-Version: 0.6.2
+Version: 0.6.3
 Authors@R: person("Benjamin", "Nutter", email = "nutter@battelle.org", role = c("aut", "cre"))
 Description: The introduction of the broom package has made converting model
     objects into data frames as simple as a single function. While the broom
@@ -17,12 +16,14 @@ Depends:
 Imports:
     ArgumentCheck,
     broom,
+    checkmate,
     dplyr,
     Hmisc (>= 3.14-6),
     htmltools,
     knitr,
     lazyWeave,
     magrittr,
+    ReporteRs,
     stringr,
     tidyr
 Suggests:

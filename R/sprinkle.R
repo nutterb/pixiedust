@@ -104,11 +104,12 @@
 #'      \code{"double"}, \code{"groove"}, \code{"ridge"}, \code{"inset"},
 #'      \code{"outset"}, \code{"hidden"}, or \code{"none"}.  Defaults
 #'      to \code{"solid"}. LaTeX output using 
-#'      \code{options(pixiedust_latex_hhline = FALSE} only makes use of \code{"solid"}, 
+#'      \code{hhline = FALSE} (see the \code{hhline} argument in \code{\link{dust}})
+#'       only makes use of \code{"solid"}, 
 #'      \code{"dashed"}, and \code{"none"}. If \code{"dotted"},
 #'      is passed to LaTeX output, it is quietly changed to \code{"dashed"}. All
 #'      other options are quietly changed to \code{"solid"}.  When using 
-#'      \code{options(pixiedust_latex_hhline = TRUE)}, the options \code{"solid"} 
+#'      \code{hhline = TRUE}, the options \code{"solid"} 
 #'      and \code{"double"} are used, with all others reverting to \code{"solid"}.
 #'      (Except for \code{"hidden"} and \code{"none"}, which print no border.}
 #'   \item{\code{border_color} }{A character string denoting the color 
@@ -316,7 +317,19 @@
 #'   sprinkle(rows = 2, bold = TRUE)
 #'
 
-sprinkle <- function(x, rows=NULL, cols=NULL, ..., 
+#' @rdname sprinkle
+#' @export
+
+sprinkle <- function(x, rows = NULL, cols = NULL, ...,
+                     part = c("body", "head", "foot", "interfoot", "table"))
+{
+  UseMethod("sprinkle")
+}
+
+#' @rdname sprinkle
+#' @export
+
+sprinkle.default <- function(x, rows=NULL, cols=NULL, ..., 
                           part = c("body", "head", "foot", "interfoot", "table"))
 {
   Check <- ArgumentCheck::newArgCheck()
@@ -740,6 +753,24 @@ sprinkle <- function(x, rows=NULL, cols=NULL, ...,
   x[[part_name]] <- part
   x
 }
+
+#' @rdname sprinkle
+#' @export
+
+sprinkle.dust_list <- function(x, rows = NULL, cols = NULL, ...,
+                               part = c("body", "head", "foot", "interfoot", "table"))
+{
+  structure(
+    lapply(X = x,
+           FUN = sprinkle,
+           rows = rows,
+           cols = cols,
+           part = part,
+           ...),
+    class = "dust_list"
+  )
+}
+           
 
 #****************
 #* List of acceptable sprinkle names.

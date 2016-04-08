@@ -29,7 +29,7 @@ test_that("print_dust_console",
              width = 15,
              width_units = "%")
   
-  expect_output(print_dust_console(x))
+  expect_output(print_dust_console(x), "")
 })
 
 test_that("print_dust_html",

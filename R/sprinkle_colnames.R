@@ -36,7 +36,19 @@
 #' # Causes an error due to too few unnamed arguments
 #' x %>% sprinkle_colnames("Term", "Estimate")
 #' }
+
+#' @rdname sprinkle_colnames
+#' @export
+
 sprinkle_colnames <- function(x, ...)
+{
+  UseMethod("sprinkle_colnames")
+}
+
+#' @rdname sprinkle_colnames
+#' @export
+
+sprinkle_colnames.default <- function(x, ...)
 {
   Check <- ArgumentCheck::newArgCheck()
   if (class(x) != "dust")
@@ -100,4 +112,17 @@ sprinkle_colnames <- function(x, ...)
     x$head$value <- new_names
   }
   x
+}
+
+#' @rdname sprinkle_colnames
+#' @export
+
+sprinkle_colnames.dust_list <- function(x, ...)
+{
+  structure(
+    lapply(X = x,
+           FUN = sprinkle_colnames,
+           ...),
+    class = "dust_list"
+  )
 }

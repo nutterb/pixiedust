@@ -51,7 +51,7 @@ print.dust <- function(x, ..., asis = TRUE)
   ArgumentCheck::finishArgCheck(Check)
   
   print_method <- x$print_method
-  if (print_method == "latex" & getOption("pixiedust_latex_hhline"))
+  if (print_method == "latex" & x$hhline)
     print_method <- "latex_hhline"
   
   switch(print_method,
@@ -60,5 +60,16 @@ print.dust <- function(x, ..., asis = TRUE)
         "html"         = print_dust_html(x, ..., asis = asis),
         "latex"        = print_dust_latex(x, ..., asis = asis),
         "latex_hhline" = print_dust_latex_hhline(x, ..., asis = asis),
+        "FlexTable"    = print_dust_flextable(x, ...),
         stop(paste0("'", x$print_method, "' is not an valid print method")))
+}
+
+#' @rdname print.dust
+#' @export
+
+print.dust_list <- function(x, ..., asis = TRUE)
+{
+  lapply(X = x,
+         FUN = print.dust,
+         asis = asis)
 }

@@ -30,38 +30,38 @@ dust(fit) %>%
 
 Tables can be customized by row, column, or even by a single cell by adding sprinkles to the `dust` object. The table below shows the currently planned and implemented sprinkles. In the "implemented" column, an 'x' indicates a customization that has been implemented, while a blank cell suggests that the customization is planned but has not yet been implemented. In the remaining columns, an 'x' indicates that the sprinkle is already implemented for the output format; an 'o' indicates that implementation is planned but not yet completed; and a blank cell indicates that the sprinkle will not be implemented (usually because the output format doesn't support the option).
 
-| sprinkle          | implemented | console | markdown | html | latex |
-|:------------------|:------------|:--------|:---------|:-----|:------|
-| bg                | x           |         |          | x    | x     |
-| bg\_pattern       | x           |         |          | x    | x     |
-| bg\_pattern\_by   | x           |         |          | x    | x     |
-| bold              | x           | x       | x        | x    | x     |
-| border\_collapse  | x           |         |          | x    |       |
-| border            | x           |         |          | x    | x     |
-| border\_thickness | x           |         |          | x    | x     |
-| border\_units     | x           |         |          | x    | x     |
-| border\_style     | x           |         |          | x    | x     |
-| border\_color     | x           |         |          | x    | x     |
-| colnames          | x           | x       | x        | x    | x     |
-| fn                | x           | x       | x        | x    | x     |
-| font\_color       | x           |         |          | x    | x     |
-| font\_family      | x           |         |          | x    |       |
-| font\_size        | x           |         |          | x    | x     |
-| font\_size\_units | x           |         |          | x    | x     |
-| halign            | x           |         |          | x    | x     |
-| height            | x           |         |          | x    | x     |
-| height\_units     | x           |         |          | x    | x     |
-| italic            | x           | x       | x        | x    | x     |
-| longtable         | x           | x       | x        | x    | x     |
-| merge             | x           | x       | x        | x    | x     |
-| na\_string        | x           | x       | x        | x    | x     |
-| padding           | x           |         |          | x    |       |
-| replace           | x           | x       | x        | x    | x     |
-| round             | x           | x       | x        | x    | x     |
-| rotate\_degree    | x           |         |          | x    | x     |
-| valign            | x           |         |          | x    | x     |
-| width             | x           |         |          | x    | x     |
-| width\_units      | x           |         |          | x    | x     |
+| sprinkle          | implemented | console | markdown | html | latex | FlexTable |
+|:------------------|:------------|:--------|:---------|:-----|:------|:----------|
+| bg                | x           |         |          | x    | x     | o         |
+| bg\_pattern       | x           |         |          | x    | x     | o         |
+| bg\_pattern\_by   | x           |         |          | x    | x     | o         |
+| bold              | x           | x       | x        | x    | x     | o         |
+| border\_collapse  | x           |         |          | x    | x     | o         |
+| border            | x           |         |          | x    | x     | o         |
+| border\_thickness | x           |         |          | x    | x     | o         |
+| border\_units     | x           |         |          | x    | x     |           |
+| border\_style     | x           |         |          | x    | x     | o         |
+| border\_color     | x           |         |          | x    | x     | o         |
+| colnames          | x           | x       | x        | x    | x     | o         |
+| fn                | x           | x       | x        | x    | x     | o         |
+| font\_color       | x           |         |          | x    | x     | o         |
+| font\_family      | x           |         |          | x    |       |           |
+| font\_size        | x           |         |          | x    | x     | o         |
+| font\_size\_units | x           |         |          | x    | x     | o         |
+| halign            | x           |         |          | x    | x     |           |
+| height            | x           |         |          | x    | x     | o         |
+| height\_units     | x           |         |          | x    | x     |           |
+| italic            | x           | x       | x        | x    | x     | o         |
+| longtable         | x           | x       | x        | x    | x     | o         |
+| merge             | x           | x       | x        | x    | x     | o         |
+| na\_string        | x           | x       | x        | x    | x     | o         |
+| padding           | x           |         |          | x    |       | o         |
+| replace           | x           | x       | x        | x    | x     | o         |
+| round             | x           | x       | x        | x    | x     | o         |
+| rotate\_degree    | x           |         |          | x    | x     |           |
+| valign            | x           |         |          | x    | x     | o         |
+| width             | x           |         |          | x    | x     | o         |
+| width\_units      | x           |         |          | x    | x     |           |
 
 ### A Brief Example
 
@@ -204,7 +204,7 @@ Are there other features you want or need? Please submit an issue, or contribute
 |           | Multicolumn and multirow support for LaTeX tables  |             |              |
 |           | Longtable support for LaTeX tables                 |             |              |
 |           | Rotated text for LaTeX tables                      |             |              |
-|  **1.0.0**| Release of basic, stable package                   |   1 Apr 2015|              |
+|  **1.0.0**| Release of basic, stable package                   |  1 June 2015|              |
 
 **bold version numbers** indicate a planned release to CRAN.
 

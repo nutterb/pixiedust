@@ -65,7 +65,19 @@
 #'     positive integer indicating how many rows per table to include. All other values are 
 #'     interpreted as \code{FALSE}.  In LaTeX output, remember that after each section, a page 
 #'     break is forced. This setting may also be set from \code{sprinkle}. 
+#' @param hhline Logical.  When \code{FALSE}, the default, horizontal LaTeX cell borders 
+#'   are drawn using the \code{\\cline} command.  These don't necessarily 
+#'   play well with cell backgrounds, however.  Using \code{hhline = TRUE} 
+#'   prints horizontal borders using the \code{\\hhline} command.  While the 
+#'   \code{hhline} output isn't disrupted by cell backgrounds, it may require 
+#'   more careful coding of the desired borders.  In \code{hhline}, cells with 
+#'   adjoining borders tend to double up and look thicker than when using 
+#'   \code{cline}.
 #' @param ... Additional arguments to pass to \code{tidy}
+#' @param ungroup Used when a \code{grouped_df} object is passed to \code{dust}.
+#'   When \code{TRUE} (the default), the object is ungrouped and dusted 
+#'   as a single table. When \code{FALSE}, the object is split and each element
+#'   is dusted separately.
 #' 
 #' @details The \code{head} object describes what each column of the table
 #'   represents.  By default, the head is a single row, but multi row headers
@@ -123,9 +135,14 @@
 #' x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars))
 #' x
 
+dust <- function(object, ...)
+{
+  UseMethod("dust")
+}
+
 #' @rdname dust
 #' @export
-dust <- function(object, ..., 
+dust.default <- function(object, ..., 
                  tidy_df = FALSE, keep_rownames = FALSE,
                  glance_foot = FALSE, glance_stats = NULL, 
                  col_pairs = 2, byrow = FALSE,
@@ -133,7 +150,8 @@ dust <- function(object, ...,
                  numeric_level = c("term", "term_plain", "label"),
                  caption = NULL,
                  float = TRUE,
-                 longtable = FALSE)
+                 longtable = FALSE,
+                 hhline = FALSE)
 {
   Check <- ArgumentCheck::newArgCheck()
   
@@ -206,9 +224,51 @@ dust <- function(object, ...,
                  longtable = longtable,
                  table_width = 6,
                  tabcolsep = 6,
+                 hhline = hhline,
                  print_method = getOption("pixiedust_print_method")),
             class = "dust")
 
+}
+
+#' @rdname dust
+#' @export
+
+dust.grouped_df <- function(object, ungroup = TRUE, ...)
+{
+  if (ungroup)
+  {
+    dust.default(dplyr::ungroup(object), ...)
+  }
+  else
+  {
+    split_var <- attr(object, "var")
+    object <- dplyr::ungroup(object)
+    object <- split(object, object[, as.character(split_var)])
+    dust.list(object, ...)
+  }
+}
+
+dust.list <- function(object, ...)
+{
+  all_df <- 
+    vapply(X = object,
+           FUN = checkmate::checkClass,
+           FUN.VALUE = logical(1),
+           classes = "data.frame")
+  
+  if (!all(all_df)) 
+  {
+    failed <- which(!all_df)
+    stop("All elements of `object` must inherit from `data.frame`. ",
+         "(Elements ", paste0(failed, collapse = ", "), "are not)")
+  }
+  
+  structure(
+    lapply(X = object, 
+           FUN = dust, 
+           ...),
+    class = "dust_list"
+  )
 }
 
 #***********************************************************
