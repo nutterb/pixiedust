@@ -7,10 +7,6 @@
 ## R CMD check results
 There were no ERRORS or WARNINGS in any of the checks.
 
-NOTE: on Travis-CI 
-No repository set, so cyclic dependency check skipped
-This NOTE was not observed in the other checks.
-
 NOTE: on win-builder (devel and release)
 The note flags potentially misspelled words in the package
 description.  All words are correctly spelled.
