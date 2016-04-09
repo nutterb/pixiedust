@@ -14,8 +14,11 @@ dust(object, ...)
 \method{dust}{default}(object, ..., tidy_df = FALSE, keep_rownames = FALSE,
   glance_foot = FALSE, glance_stats = NULL, col_pairs = 2,
   byrow = FALSE, descriptors = "term", numeric_level = c("term",
-  "term_plain", "label"), caption = NULL, float = TRUE, longtable = FALSE,
-  hhline = FALSE)
+  "term_plain", "label"), label = NULL, caption = NULL,
+  float = getOption("pixie_float", TRUE),
+  longtable = getOption("pixie_longtable", FALSE),
+  hhline = getOption("pixie_hhline", FALSE),
+  bookdown = getOption("pixie_bookdown", FALSE))
 
 \method{dust}{grouped_df}(object, ungroup = TRUE, ...)
 
@@ -77,6 +80,11 @@ when a numeric has an interaction with a factor.  Acceptable inputs
 are \code{"term"}, \code{"term_plain"}, and \code{"label"}.
 See the full documentation for the unexported function \code{\link{tidy_levels_labels}}.}
 
+\item{label}{\code{character(1)}. An optional string for assigning labels with
+which tables can be referenced elsewhere in the document.  If \code{NULL},
+the label \code{pixie-n} is assigned, where \code{n} is the current value
+of \code{options()$pixie_count}.}
+
 \item{caption}{A character string giving the caption for the table.}
 
 \item{float}{A logical used only in LaTeX output.  When \code{TRUE}, the table is
@@ -100,6 +108,9 @@ prints horizontal borders using the \code{\\hhline} command.  While the
 more careful coding of the desired borders.  In \code{hhline}, cells with
 adjoining borders tend to double up and look thicker than when using
 \code{cline}.}
+
+\item{bookdown}{Logical. When \code{TRUE}, \code{bookdown} style labels are
+generated.  Defaults to \code{FALSE}.}
 
 \item{ungroup}{Used when a \code{grouped_df} object is passed to \code{dust}.
   When \code{TRUE} (the default), the object is ungrouped and dusted

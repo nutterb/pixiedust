@@ -4,6 +4,13 @@
   separate tables.
 * Added `dust.grouped_df` to give the option of ungrouping a 
   grouped_df object, or splitting it.
+* Added the `bookdown` attribute (and sprinkle) to allow use with 
+  the `bookdown` package.
+* Added labeling.
+* Added `caption`, `hhline`, and `float` as sprinkles.
+* Changed the default colors for `bg_pattern` to "#FFFFFF#" and "#DDDDDD".
+  The gray in this pattern is a little lighter and should do better when 
+  printed in black and white.
 
 #### 0.6.2 (15 March 2016)
 * Implemented a new printing method that makes use of the `hhline` 

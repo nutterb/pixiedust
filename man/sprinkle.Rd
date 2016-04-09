@@ -125,6 +125,8 @@ list of which sprinkles are recognized by each output type, see
      it is not necessary to explicitly define \code{bg_pattern_by} unless
      changing an existing or default setting.}
   \item{\code{bold} }{Logical value.  If \code{TRUE}, text is rendered in bold.}
+  \item{\code{bookdown} }{Logical value. Set to \code{TRUE} if \code{bookdown}
+     style labels are needed.}
   \item{\code{border_collapse} }{Logical.  Defaults to \code{TRUE}.
      This element is only applicable to
      \code{part = "table"} and will be applied to the table regardless
@@ -158,6 +160,10 @@ list of which sprinkles are recognized by each output type, see
      (Except for \code{"hidden"} and \code{"none"}, which print no border.}
   \item{\code{border_color} }{A character string denoting the color
      for the border.  See "Colors".}
+  \item{\code{caption} }{A character string for the table caption.}
+  \item{\code{float} }{A logical value.  In LaTeX output, this determines
+    if the table is placed in a floating environment.  Ignored when
+    \code{longtable = TRUE}.}
   \item{\code{fn} }{A function to apply to values in cells.  The function
      should be an expression that acts on the variable \code{value}. For
      example, \code{quote(round(value, 3))}.}
@@ -182,6 +188,9 @@ list of which sprinkles are recognized by each output type, see
     \code{"in"} and \code{"\%"}. Defaults to \code{"pt"}.  LaTeX formats
     do not recognize \code{"px"} and this will be coerced to \code{"pt"} when
     submitted for LaTeX output.}
+  \item{\code{hhline} }{A logical value.  For LaTeX output, determines if
+    horizontal cell borders are drawn with the LaTeX package \code{hhline}.
+    Defaults to \code{FALSE}.}
   \item{\code{italic} }{Logical value.  If \code{TRUE}, text is rendered in italics.}
   \item{\code{longtable} }{ Allows the user to print a table in multiple sections.
     This is useful when

@@ -81,6 +81,8 @@
 #'      it is not necessary to explicitly define \code{bg_pattern_by} unless 
 #'      changing an existing or default setting.}
 #'   \item{\code{bold} }{Logical value.  If \code{TRUE}, text is rendered in bold.}
+#'   \item{\code{bookdown} }{Logical value. Set to \code{TRUE} if \code{bookdown}
+#'      style labels are needed.}
 #'   \item{\code{border_collapse} }{Logical.  Defaults to \code{TRUE}. 
 #'      This element is only applicable to 
 #'      \code{part = "table"} and will be applied to the table regardless
@@ -114,6 +116,10 @@
 #'      (Except for \code{"hidden"} and \code{"none"}, which print no border.}
 #'   \item{\code{border_color} }{A character string denoting the color 
 #'      for the border.  See "Colors".}
+#'   \item{\code{caption} }{A character string for the table caption.}
+#'   \item{\code{float} }{A logical value.  In LaTeX output, this determines
+#'     if the table is placed in a floating environment.  Ignored when 
+#'     \code{longtable = TRUE}.}
 #'   \item{\code{fn} }{A function to apply to values in cells.  The function 
 #'      should be an expression that acts on the variable \code{value}. For
 #'      example, \code{quote(round(value, 3))}.}
@@ -138,6 +144,9 @@
 #'     \code{"in"} and \code{"\%"}. Defaults to \code{"pt"}.  LaTeX formats
 #'     do not recognize \code{"px"} and this will be coerced to \code{"pt"} when
 #'     submitted for LaTeX output.}
+#'   \item{\code{hhline} }{A logical value.  For LaTeX output, determines if 
+#'     horizontal cell borders are drawn with the LaTeX package \code{hhline}. 
+#'     Defaults to \code{FALSE}.}
 #'   \item{\code{italic} }{Logical value.  If \code{TRUE}, text is rendered in italics.}
 #'   \item{\code{longtable} }{ Allows the user to print a table in multiple sections.  
 #'     This is useful when 
@@ -448,6 +457,16 @@ sprinkle.default <- function(x, rows=NULL, cols=NULL, ...,
       msg = "The 'bold' argument must be logical",
       argcheck = Check)
   
+  if ("bookdown" %in% names(sprinkles) & !is.logical(sprinkles[["bookdown"]]))
+  {
+    ArgumentCheck::addError(
+      msg = "The 'bookdown' argument must be logical",
+      argcheck = Check)
+    
+    x[["bookdown"]] <- sprinkles[["bookdown"]]
+    sprinkles[["bookdown"]] <- NULL
+  }
+  
   if ("border" %in% names(sprinkles))
     sprinkles$border <- ArgumentCheck::match_arg(sprinkles[["border"]], 
                                                  c("all", "left", "right", "top", "bottom"),
@@ -480,6 +499,26 @@ sprinkle.default <- function(x, rows=NULL, cols=NULL, ...,
     ArgumentCheck::addError(
       msg = "The 'border_collapse' argument must be logical.",
       argcheck = Check)
+  
+  if ("caption" %in% names(sprinkles) & !is.character(sprinkles[["caption"]]))
+  {
+    ArgumentCheck::addError(
+      msg = "The 'caption' argument must be a character string.",
+      argcheck = Check)
+    
+    x[["caption"]] <- sprinkles[["caption"]]
+    sprinkles[["caption"]] <- NULL
+  }
+  
+  if ("float" %in% names(sprinkles) & !is.logical(sprinkles[["float"]]))
+  {
+    ArgumentCheck::addError(
+      msg = "The 'float' argument must be a logical value.",
+      argcheck = Check)
+    
+    x[["float"]] <- sprinkles[["float"]]
+    sprinkles[["float"]] <- NULL
+  }
   
   if ("font_family" %in% names(sprinkles) & !is.character(sprinkles$font_family))
     ArgumentCheck::addError(
@@ -516,10 +555,29 @@ sprinkle.default <- function(x, rows=NULL, cols=NULL, ...,
                                                        c("px", "pt", "in", "cm", "%"),
                                                        argcheck = Check)
   
+  if ("hhline" %in% names(sprinkles) & !is.logical(sprinkles[["hhline"]]))
+  {
+    ArgumentCheck::addError(
+      msg = "The 'hhline' argument must be a logical value",
+      argcheck = Check)
+    
+    x[["hhline"]] <- sprinkles[["hhline"]]
+    sprinkles[["hhline"]] <- NULL
+  }
+  
   if ("italic" %in% names(sprinkles) & !is.logical(sprinkles$italic))
     ArgumentCheck::addError(
       msg = "The 'italic' argument must be logical",
       argcheck = Check)
+  
+  if ("label" %in% names(sprinkles) & !is.character(sprinkles[["label"]]))
+  {
+    ArgumentCheck::addError(
+      msg = "The 'label' argument must be a character string",
+      argcheck = Check)
+    x[["label"]] <- sprinkles[["label"]]
+    sprinkles[["label"]] <- NULL
+  }
   
   if ("longtable" %in% names(sprinkles)){
     if (!is.logical(sprinkles$longtable)){
@@ -782,15 +840,19 @@ sprinkle.dust_list <- function(x, rows = NULL, cols = NULL, ...,
 
 sprinkle_names <- function()
 {
-  c("bg", "bg_pattern", "bg_pattern_by", 
-    "bold", "border", "border_thickness", 
-    "border_units", "border_style", "border_color", 
-    "border_collapse",
-    "fn", "font_family", "font_color", "font_size", "font_size_units", "halign", 
-    "height", "height_units", "italic", "longtable", 
-    "merge", "merge_rowval", "merge_colval", "na_string", "pad", 
-    "replace", "rotate_degree", 
-    "round", "tabcolsep", "valign", "width", "width_units")
+  c("bg",              "bg_pattern",      "bg_pattern_by", 
+    "bold",            "bookdown",        "border",          
+    "border_thickness", 
+    "border_units",    "border_style",    "border_color", 
+    "border_collapse", "caption",         "float",
+    "fn",              "font_family",     "font_color", 
+    "font_size",       "font_size_units", "halign", 
+    "height",          "height_units",    "hhline", 
+    "italic",          "label",           "longtable", 
+    "merge",           "merge_rowval",    "merge_colval", 
+    "na_string",       "pad",             "replace", 
+    "rotate_degree",   "round",           "tabcolsep", 
+    "valign",          "width",           "width_units")
 }
 
 #* Default sprinkle values.  Used mostly for sprinkles that come in
@@ -798,7 +860,7 @@ sprinkle_names <- function()
 default_sprinkles <- function(setting)
 {
   switch(setting,
-         "bg_pattern" = c("White", "Gray"),
+         "bg_pattern" = c("#FFFFFF", "#DDDDDD"),
          "bg_pattern_by" = "rows",
          "border" = "all",
          "border_thickness" = 1,

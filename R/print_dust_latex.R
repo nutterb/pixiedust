@@ -12,6 +12,26 @@ print_dust_latex <- function(x, ..., asis=TRUE)
   
   if (!is.null(x$caption)) increment_pixie_count()
   
+  label <- 
+    if (is.null(x[["label"]]))
+    {
+      paste0("tab:pixie-", getOption("pixie_count"))
+    }
+    else
+    {
+      paste0("tab:", x[["label"]])
+    }
+  
+  label <- 
+    if (x[["bookdown"]])
+    {
+      paste0("(\\#", label, ")")
+    }
+    else
+    {
+      paste0("\\label{", label, "}")
+    }
+  
   #* Determine the number of divisions
   #* It looks more complicated than it is, but the gist of it is
   #* total number of divisions: ceiling(total_rows / longtable_rows)
@@ -49,7 +69,8 @@ print_dust_latex <- function(x, ..., asis=TRUE)
                     paste0(col_halign_default$default_halign, collapse = ""), "}\n",
                     if (!is.null(x$caption))
                       paste("\\caption{", x$caption, "}\\\\")
-                    else "")
+                    else "", 
+                    "\n", label, "\\\\ \n")
     end <- "\\end{longtable}"
   }
   else if (x$float)
@@ -57,7 +78,8 @@ print_dust_latex <- function(x, ..., asis=TRUE)
     begin <- paste0("\\begin{table}\n",
                     if (!is.null(x$caption))
                       paste0("\\caption{", x$caption, "}\n")
-                    else "",
+                    else "", 
+                    "\n", label,
                     "\\begin{tabular}{",
                     paste0(col_halign_default$default_halign, collapse = ""), "}\n")
     
@@ -67,7 +89,8 @@ print_dust_latex <- function(x, ..., asis=TRUE)
   {
     begin <- paste0(if (!is.null(x$caption))
                      paste0("\\captionof{table}{", x$caption, "}")
-                    else "",
+                    else "", 
+                    "\n", label,
                     "\\begin{tabular}{",
                     paste0(col_halign_default$default_halign, collapse = ""), "}\n")
     end <- "\\end{tabular}"

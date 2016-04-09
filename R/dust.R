@@ -73,6 +73,12 @@
 #'   more careful coding of the desired borders.  In \code{hhline}, cells with 
 #'   adjoining borders tend to double up and look thicker than when using 
 #'   \code{cline}.
+#' @param label \code{character(1)}. An optional string for assigning labels with 
+#'   which tables can be referenced elsewhere in the document.  If \code{NULL}, 
+#'   the label \code{pixie-n} is assigned, where \code{n} is the current value 
+#'   of \code{options()$pixie_count}.
+#' @param bookdown Logical. When \code{TRUE}, \code{bookdown} style labels are
+#'   generated.  Defaults to \code{FALSE}.
 #' @param ... Additional arguments to pass to \code{tidy}
 #' @param ungroup Used when a \code{grouped_df} object is passed to \code{dust}.
 #'   When \code{TRUE} (the default), the object is ungrouped and dusted 
@@ -148,10 +154,12 @@ dust.default <- function(object, ...,
                  col_pairs = 2, byrow = FALSE,
                  descriptors = "term", 
                  numeric_level = c("term", "term_plain", "label"),
+                 label = NULL,
                  caption = NULL,
-                 float = TRUE,
-                 longtable = FALSE,
-                 hhline = FALSE)
+                 float = getOption("pixie_float", TRUE),
+                 longtable = getOption("pixie_longtable", FALSE),
+                 hhline = getOption("pixie_hhline", FALSE),
+                 bookdown = getOption("pixie_bookdown", FALSE))
 {
   Check <- ArgumentCheck::newArgCheck()
   
@@ -220,11 +228,13 @@ dust.default <- function(object, ...,
                  foot = foot,
                  border_collapse = TRUE,
                  caption = caption,
+                 label = label,
                  float = float,
                  longtable = longtable,
                  table_width = 6,
                  tabcolsep = 6,
                  hhline = hhline,
+                 bookdown = bookdown,
                  print_method = getOption("pixiedust_print_method")),
             class = "dust")
 

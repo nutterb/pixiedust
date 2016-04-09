@@ -13,10 +13,11 @@ test_that("dust object has expected names",
 {
   x <- dust(fit)
   
-  expect_equal(names(x), c("head", "body", "interfoot", "foot", 
-                           "border_collapse", "caption", "float", 
-                           "longtable", "table_width", "tabcolsep", 
-                           "hhline", "print_method"))
+  expect_equal(names(x), 
+               c("head",            "body",        "interfoot", "foot", 
+                 "border_collapse", "caption",     "label",     "float", 
+                 "longtable",       "table_width", "tabcolsep", "hhline", 
+                 "bookdown",        "print_method"))
 })
 
 test_that("dust object body component has correct dimensions",
@@ -79,11 +80,3 @@ test_that("dust with glance_foot and col_pairs a divisor of total_cols",
                      col_pairs = 3))
 })
 
-test_that("dust with caption and non-floating environment gives warning",
-{
-  fit <- lm(mpg ~ qsec + factor(am) + wt * factor(gear), data = mtcars)
-  x <- dust(fit, 
-            caption = "Table Caption", float = FALSE) %>%
-    sprinkle_print_method("latex")
-  expect_warning(print(x))
-})

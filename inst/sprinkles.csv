@@ -3,13 +3,16 @@ bg,                         x,      ,        ,   x,    x
 bg_pattern,                 x,      ,        ,   x,    x
 bg_pattern_by,              x,      ,        ,   x,    x
 bold,                       x,     x,       x,   x,    x
+bookdown,                   x,      ,        ,    ,    x
 border_collapse,            x,      ,        ,   x,    x
 border,                     x,      ,        ,   x,    x
 border_thickness,           x,      ,        ,   x,    x
 border_units,               x,      ,        ,   x,    x
 border_style,               x,      ,        ,   x,    x
 border_color,               x,      ,        ,   x,    x
+caption,                    x,     x,       x,   x,    x
 colnames,                   x,     x,       x,   x,    x
+float,                      x,      ,        ,    ,    x
 fn,                         x,     x,       x,   x,    x
 font_color,                 x,      ,        ,   x,    x
 font_family,                x,      ,        ,   x,     
@@ -18,7 +21,9 @@ font_size_units,            x,      ,        ,   x,    x
 halign,                     x,      ,        ,   x,    x 
 height,                     x,      ,        ,   x,    x
 height_units,               x,      ,        ,   x,    x
+hhline,                     x,      ,        ,    ,    x
 italic,                     x,     x,       x,   x,    x
+label,                      x,      ,        ,   x,    x
 longtable,                  x,     x,       x,   x,    x
 merge,                      x,     x,       x,   x,    x
 na_string,                  x,     x,       x,   x,    x
