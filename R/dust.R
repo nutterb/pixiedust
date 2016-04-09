@@ -258,21 +258,11 @@ dust.grouped_df <- function(object, ungroup = TRUE, ...)
   }
 }
 
+#' @rdname dust
+#' @export
+
 dust.list <- function(object, ...)
 {
-  all_df <- 
-    vapply(X = object,
-           FUN = checkmate::checkClass,
-           FUN.VALUE = logical(1),
-           classes = "data.frame")
-  
-  if (!all(all_df)) 
-  {
-    failed <- which(!all_df)
-    stop("All elements of `object` must inherit from `data.frame`. ",
-         "(Elements ", paste0(failed, collapse = ", "), "are not)")
-  }
-  
   structure(
     lapply(X = object, 
            FUN = dust, 

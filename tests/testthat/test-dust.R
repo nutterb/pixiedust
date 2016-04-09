@@ -1,4 +1,4 @@
-context("Create a dust object")
+# context("Create a dust object")
 
 fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
 
@@ -78,5 +78,12 @@ test_that("dust with glance_foot and col_pairs a divisor of total_cols",
                      descriptors = c("label", "level_detail"),
                      glance_foot = TRUE, 
                      col_pairs = 3))
+})
+
+
+test_that("dust a list",
+{
+  x <- split(mtcars, list(mtcars$am, mtcars$vs))
+  expect_silent(dust(x))
 })
 

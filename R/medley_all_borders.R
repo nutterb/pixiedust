@@ -41,26 +41,28 @@ medley_all_borders <- function(x, rows=NULL, cols=NULL,
   {
     if (!is.null(x[[p]]))
     {
-      part_rows <- if (is.null(rows)) max(x[[p]][["row"]]) else rows
-      part_cols <- if (is.null(cols)) max(x[[p]][["col"]]) else cols
+      part_rows <- if (is.null(rows)) 1:max(x[[p]][["row"]]) else rows
+      part_cols <- if (is.null(cols)) 1:max(x[[p]][["col"]]) else cols
       
       x <- sprinkle(x, 
-                    rows = 1:part_rows,
-                    cols = 1:part_cols,
+                    rows = part_rows,
+                    cols = part_cols,
                     border = c(if (vertical) "left" else NULL, 
                                if (horizontal) "bottom" else NULL),
                     part = p)
       if (horizontal)
       {
         x <- sprinkle(x,
-                      rows = 1,
+                      rows = head(part_rows, 1),
+                      cols = part_cols,
                       border = "top",
                       part = p)
       }
       if (vertical)
       {
         x <- sprinkle(x,
-                      cols = part_cols,
+                      rows = part_rows,
+                      cols = tail(part_cols, 1),
                       border = "right",
                       part = p)
       }

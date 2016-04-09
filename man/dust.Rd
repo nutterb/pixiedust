@@ -4,6 +4,7 @@
 \alias{dust}
 \alias{dust.default}
 \alias{dust.grouped_df}
+\alias{dust.list}
 \alias{redust}
 \alias{redust.default}
 \alias{redust.dust_list}
@@ -21,6 +22,8 @@ dust(object, ...)
   bookdown = getOption("pixie_bookdown", FALSE))
 
 \method{dust}{grouped_df}(object, ungroup = TRUE, ...)
+
+\method{dust}{list}(object, ...)
 
 redust(x, table, part = c("head", "foot", "interfoot", "body"))
 
