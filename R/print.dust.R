@@ -3,7 +3,7 @@
 #' @method print dust
 #' 
 #' @title Print A \code{dust} Table
-#' @details Apply the formatting to a \code{dust} object and print the table.
+#' @description Apply the formatting to a \code{dust} object and print the table.
 #' 
 #' @param x An object of class \code{dust}
 #' @param ... Additional arguments to pass to the print method.  Currently ignored.
