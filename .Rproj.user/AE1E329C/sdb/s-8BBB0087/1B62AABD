@@ -1,0 +1,18 @@
+{
+    "contents" : "devtools::document(\"C:/Users/Nutter/Documents/GitHub/pixiedust\")\ndevtools::install_local(\"C:/Users/Nutter/Documents/GitHub/pixiedust\")\ndevtools::test(\"C:/Users/Nutter/Documents/GitHub/pixiedust\")\ndevtools::check(\"C:/Users/Nutter/Documents/GitHub/pixiedust\",\n                args = \"--as-cran\")\ndevtools::build_win(\"C:/Users/Nutter/Documents/GitHub/pixiedust\")\n\n\nlibrary(pixiedust)\nfit <- lm(mpg ~ qsec + wt + factor(am),\n          data = mtcars)\n\nx <- dust(fit) %>% medley_model() %>% sprinkle_print_method(\"html\")\n\nx <- dust(fit,\n          caption = \"This is the table caption\", \n          float = FALSE,\n          hhline = TRUE) %>%\n  sprinkle(halign = \"l\")\n  \nx %>%\n  sprinkle(cols = 5, \n           fn = quote(pvalString(value))) %>%\n  sprinkle_print_method(\"html\") \n\nx",
+    "created" : 1460164185281.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "2572795288",
+    "id" : "1B62AABD",
+    "lastKnownWriteTime" : 7011605692497750387,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
