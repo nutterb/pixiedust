@@ -1,0 +1,18 @@
+{
+    "contents" : "devtools::document(\"C:/Users/Nutter/Documents/GitHub/pixiedust\")\ndevtools::test(\"C:/Users/Nutter/Documents/GitHub/pixiedust\")\ndevtools::check(\"C:/Users/Nutter/Documents/GitHub/pixiedust\", \n                args = \"--as-cran\")\ndevtools::install_local(\"C:/Users/Nutter/Documents/GitHub/pixiedust\")\n\nlibrary(pixiedust)\nfit <- lm(mpg ~ qsec + factor(am) + wt * factor(gear), data = mtcars)\nx <- dust(fit, \n     justify = \"left\") %>%\n  sprinkle(justify = \"right\")\n\n\nsource(\"https://gist.githubusercontent.com/nutterb/f9fb89d35766022b0f75c90b24d45033/raw/e48041dcccee51f7cfada65df13b844c69833114/directorySearch\")\ndirectorySearch(\"C:/Users/Nutter/Documents/GitHub/pixiedust/R\",\n                \"opt_current\")\n",
+    "created" : 1460507456030.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "2450527535",
+    "id" : "BC8383EE",
+    "lastKnownWriteTime" : 7011605692497750387,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

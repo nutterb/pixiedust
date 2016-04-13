@@ -1,0 +1,151 @@
+---
+title: "Shiny renderTable add.to.row"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+[Shiny renderTable add.to.row](http://stackoverflow.com/questions/35704056/shiny-rendertable-add-to-row)
+
+## The Question
+
+I have a dataframe that could look like this
+
+```
+> df
+Product    noPat     Val  Tot TotVal
+Product A  -318 -108.12 1356 461.04
+Product C   403  544.05  462  623.7
+Product D   -32  -39.68  529 655.96
+Product B   N/A     N/A  N/A    N/A
+```
+
+I would like to add two multicolumns using the `add.to.row` argmument in the `xtable` function.
+
+```
+print(xtable(df, digits=2, caption=strCaption, label="Test_table"), 
+      size="footnotesize", #Change size; useful for bigger tables
+      include.rownames=FALSE, #Don't print rownames
+      caption.placement="top", 
+      hline.after=NULL, #We don't need hline; we use booktabs
+      add.to.row = list(pos = list(-1, 
+                                   nrow(df)),
+                        command = c(paste("\\hline \n",
+                                          "& \\multicolumn{2}{c}{Growth} & \\multicolumn{2}{c}{Total} \\\\ \n",
+                                          "\\hline \n"),
+                                    "\\hline \n")
+      )
+)
+```
+
+Which generates the desired latex output:
+
+```
+\begin{table}[ht]
+\centering
+\caption{test} 
+\label{Test_table}
+\begingroup\footnotesize
+\begin{tabular}{lllll}
+  \hline 
+ & \multicolumn{2}{c}{Growth} & \multicolumn{2}{c}{Total} \\ 
+ \hline 
+Product & noPat & Val & Tot & TotVal \\ 
+ Product A & -318 & -108.12 & 1356 & 461.04 \\ 
+  Product C & 403 & 544.05 & 462 & 623.7 \\ 
+  Product D & -32 & -39.68 & 529 & 655.96 \\ 
+  Product B & N/A & N/A & N/A & N/A \\ 
+   \hline 
+\end{tabular}
+\endgroup
+\end{table}
+```
+
+Which is the format I want. I would like Shiny to output this, but Shiny just adds the add.to.row argument as text output just above the table.
+
+My implementation in Shiny:
+
+### Server.R
+
+```{r, eval = FALSE}
+output$tabletest <- renderTable({
+        rows <<- nrow(df)
+        xtable(df, digits=2)
+
+      },
+
+      caption = "Sample Data",
+      caption.placement = getOption("xtable.caption.placement", "bottom"), 
+      caption.width = getOption("xtable.caption.width", NULL),
+      include.rownames=getOption("xtable.include.rownames", FALSE), #Don't print rownames
+      add.to.row = getOption("xtable.add.to.row",list(pos = list(-1, 
+                                   rows),
+                        command = c(paste("\\hline \n",
+                                          "& \\multicolumn{2}{c}{Growth} & \\multicolumn{2}{c}{Total} \\\\ \n",
+                                          "\\hline \n"),
+                                    "\\hline \n")))
+      )
+```
+
+### UI.R
+
+```{r, eval = FALSE}
+tableOutput("tabletest")
+```
+
+(See the question on Stack Overflow for more)
+
+
+## The Solution
+
+For this solution, we won't worry about building all of the shiny code, but just generate the table.
+
+The data for the table are
+
+```{r}
+df <- 
+  data.frame(Product = sprintf("Product %s", c("A", "C", "D", "B")),
+             noPat = c(-318, 403, -32, "N/A"),
+             Val = c(-108.12, 544.05, -39.68, "N/A"),
+             Tot = c(1356, 462, 529, "N/A"),
+             TotVal = c(461.04, 623.7, 655.96, "N/A"),
+             stringsAsFactors = FALSE)
+  
+```
+
+Generating the table:
+
+```{r}
+library(pixiedust)
+
+new_head <- 
+  rbind(c("", "Growth", "", "Total", ""),
+        names(df)) %>%
+  as.data.frame(stringsAsFactors = FALSE)
+
+(out_table <- 
+  dust(df) %>%
+  redust(new_head, part = "head") %>%
+  sprinkle(rows = 1, 
+           cols = 2:3,
+           merge = TRUE,
+           part = "head") %>%
+  sprinkle(rows = 1,
+           cols = 4:5,
+           merge = TRUE,
+           part = "head") %>%
+  #* A little extra for formatting
+  sprinkle_table(pad = 3,
+          border = "all",
+          border_color = "#DCDCDC") %>%
+  sprinkle_print_method("html"))
+```
+
+For use in Shiny applications, the raw HTML needs to be given to `renderUI`, and can be done via
+
+```{r, eval = FALSE}
+out_table %>%
+  print(asis = FALSE) %>%
+  shiny::HTML()
+```
+
+In the end, `pixiedust` is probably a little bit more code that the `xtable` solution, but didn't require any knowledge of either LaTeX or HTML, and the solution is transferrable across both output formats.  

@@ -30,3 +30,5 @@ Working with multiple tables (coming soon)
 I know, this is kind of a lame section, but looking at what people are trying to do with `xtable` helps me find flaws and opportunities for improving `pixiedust`.  Some of these may appear on StackOverflow as answers, most probably won't.  
 
 [R, Latex and RMarkdown: table() input for xtable() missing column and row labels?](xtable-SO-01.pdf)
+
+[Shiny renderTable add.to.row](xtable-SO-02.html)

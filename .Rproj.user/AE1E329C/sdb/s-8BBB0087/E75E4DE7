@@ -1,0 +1,18 @@
+{
+    "contents" : "---\ntitle: \"`pixiedust` Supplemental Documentation\"\nauthor: \"Benjamin Nutter\"\ndate: '`r Sys.Date()`'\noutput: html_document\n---\n\nWhile I try to keep the documentation for `pixiedust` up-to-date and useful, it is sometimes difficult to understand the true implications of some of the sprinkles on different report formats.  The purpose of the supplemental documentation is to augment the package documentation with visual representations that aren't possible in the standard R documentation.  (Vignettes would be useful here, but the process of making vignettes for every output type and sprinkle would be cumbersome and bloat the package files).\n\nIf there are examples in topics you are particularly interested in, please [file an issue](https://github.com/nutterb/pixiedust/issues).  I'll work on updating this site as time permits.\n\n## Medleys\n\nMedleys are functions that consist of a collection of `sprinkles` in order to quickly and efficiently apply customizations to a table.  They are akin to `theme`s in `ggplot2`.\n\n`pixiedust` ships with two medleys--`medley_bw`, and `medley_model`.  These medleys are really only examples.  I haven't tried to define a collection of \"standardized\" medleys, mostly because I have no idea what a \"standardized\" format might look like.  If you have ideas for medleys that would fit the general interest, please let me know.\n\n[Appearance of `medley_bw`](medley-appearance-medley-bw.html)\n\n## Sprinkles\n\n## Miscellaneous\n\nWorking with multiple tables (coming soon)\n\n[LaTeX Tables and `hhline`](latex-output-hhline.pdf) (in progress)\n\n## Answers to `xtable` questions on StackOverflow\n\nI know, this is kind of a lame section, but looking at what people are trying to do with `xtable` helps me find flaws and opportunities for improving `pixiedust`.  Some of these may appear on StackOverflow as answers, most probably won't.  \n\n[R, Latex and RMarkdown: table() input for xtable() missing column and row labels?](xtable-SO-01.pdf)\n\n[Shiny renderTable add.to.row](xtable-SO-02.html)\n",
+    "created" : 1460516693310.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "439144178",
+    "id" : "E75E4DE7",
+    "lastKnownWriteTime" : 1460516782,
+    "path" : "~/GitHub/pixiedust/supplementalDocumentation/main.Rmd",
+    "project_path" : "supplementalDocumentation/main.Rmd",
+    "properties" : {
+        "tempName" : "Untitled3"
+    },
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "type" : "r_markdown"
+}
