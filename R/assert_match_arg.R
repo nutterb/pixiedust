@@ -20,7 +20,7 @@
 assert_match_arg <- function(x, choices, several_ok = FALSE, ...)
 {
   x <- choices[pmatch(x, choices, nomatch = 0L, duplicates.ok = several_ok)]
-  if (several_ok) assertSubset(x, choices, ...)
-  else assertChoice(x, choices, ...)
+  if (several_ok) checkmate::assertSubset(x, choices, empty.ok = FALSE, ...)
+  else checkmate::assertChoice(x, choices, ...)
   x
 }

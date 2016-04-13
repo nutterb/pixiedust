@@ -1,5 +1,6 @@
 #' @rdname sprinkle
-#' @param print_method A character string giving the print method for the table.  
+#' @param print_method A character string giving the print method for the table. 
+#'   Note: \code{"docx"} is synonymous with \code{"markdown"}.  
 #' @export
 
 sprinkle_print_method <- function(x, 
@@ -13,7 +14,7 @@ sprinkle_print_method <- function(x,
 
 sprinkle_print_method.default <- function(x, 
                                           print_method = c("console", "markdown", 
-                                                           "html", "latex"))
+                                                           "html", "latex", "docx"))
 {
   coll <- checkmate::makeAssertCollection()
   
@@ -22,7 +23,7 @@ sprinkle_print_method.default <- function(x,
                          add = coll)
   
   checkmate::assertSubset(print_method,
-                          c("console", "markdown", "html", "latex"),
+                          c("console", "markdown", "html", "latex", "docx"),
                           add = coll)
 
   checkmate::reportAssertions(coll)

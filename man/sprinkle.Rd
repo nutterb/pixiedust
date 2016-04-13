@@ -35,7 +35,7 @@ sprinkle_print_method(x, print_method = c("console", "markdown", "html",
   "latex"))
 
 \method{sprinkle_print_method}{default}(x, print_method = c("console",
-  "markdown", "html", "latex"))
+  "markdown", "html", "latex", "docx"))
 
 \method{sprinkle_print_method}{dust_list}(x, print_method = c("console",
   "markdown", "html", "latex"))
@@ -60,7 +60,8 @@ for the given cells.  See "Sprinkles" for a listing of these arguments.}
 
 \item{part}{A character string denoting which part of the table to modify.}
 
-\item{print_method}{A character string giving the print method for the table.}
+\item{print_method}{A character string giving the print method for the table. 
+Note: \code{"docx"} is synonymous with \code{"markdown"}.}
 }
 \description{
 Customizations to a \code{dust} table are added by "sprinkling"
@@ -192,6 +193,11 @@ list of which sprinkles are recognized by each output type, see
     horizontal cell borders are drawn with the LaTeX package \code{hhline}. 
     Defaults to \code{FALSE}.}
   \item{\code{italic} }{Logical value.  If \code{TRUE}, text is rendered in italics.}
+  \item{\code{justify} }{A character string, either \code{"left"}, \code{"center"}, 
+    or \code{"right"}, that justifies the entire table in the document.  Defaults 
+    to \code{"center"}. Note that LaTeX output currently only understands 
+    \code{"center"}, and 
+    any other value will result in a table rendered to the left side of the page.}
   \item{\code{longtable} }{ Allows the user to print a table in multiple sections.  
     This is useful when 
     a table has more rows than will fit on a printed page.  Acceptable inputs are \code{FALSE},

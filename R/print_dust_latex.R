@@ -15,7 +15,11 @@ print_dust_latex <- function(x, ..., asis=TRUE)
   label <- 
     if (is.null(x[["label"]]))
     {
-      paste0("tab:pixie-", getOption("pixie_count"))
+      chunk_label <- knitr::opts_current$get("label")
+      if (is.null(chunk_label))
+        paste0("tab:pixie-", getOption("pixie_count"))
+      else
+        paste0("tab:", chunk_label)
     }
     else
     {
@@ -65,7 +69,8 @@ print_dust_latex <- function(x, ..., asis=TRUE)
   
   if (tab_env == "longtable")
   {
-    begin <- paste0("\\begin{longtable}{",
+    begin <- paste0("\\begin{longtable}[",
+                    substr(x[["justify"]], 1, 1), "]{",
                     paste0(col_halign_default$default_halign, collapse = ""), "}\n",
                     if (!is.null(x$caption))
                       paste("\\caption{", x$caption, "}\\\\")
@@ -76,6 +81,7 @@ print_dust_latex <- function(x, ..., asis=TRUE)
   else if (x$float)
   {
     begin <- paste0("\\begin{table}\n",
+                    if (x[["justify"]] == "center") "\\centering\n" else "",
                     if (!is.null(x$caption))
                       paste0("\\caption{", x$caption, "}\n")
                     else "", 
@@ -83,17 +89,25 @@ print_dust_latex <- function(x, ..., asis=TRUE)
                     "\\begin{tabular}{",
                     paste0(col_halign_default$default_halign, collapse = ""), "}\n")
     
-    end <- "\\end{tabular}\n\\end{table}\n"
+    end <- paste0("\\end{tabular}\n\\end{table}\n")
   }
   else
   {
-    begin <- paste0(if (!is.null(x$caption))
+    begin <- paste0(if (x[["justify"]] == "center")
+                      "\\begin{center}\n"
+                    else
+                      "",
+                    if (!is.null(x$caption))
                      paste0("\\captionof{table}{", x$caption, "}")
                     else "", 
                     "\n", label,
                     "\\begin{tabular}{",
                     paste0(col_halign_default$default_halign, collapse = ""), "}\n")
-    end <- "\\end{tabular}"
+    end <- paste0("\\end{tabular}\n",
+                  if (x[["justify"]] == "center")
+                    "\\end{center}\n"
+                  else
+                    "")
   }
   
   

@@ -75,8 +75,14 @@
 #'   \code{cline}.
 #' @param label \code{character(1)}. An optional string for assigning labels with 
 #'   which tables can be referenced elsewhere in the document.  If \code{NULL}, 
-#'   the label \code{pixie-n} is assigned, where \code{n} is the current value 
-#'   of \code{options()$pixie_count}.
+#'   \code{pixiedust} attempts to name the label \code{tab:[chunk-name]}, where 
+#'   \code{[chunk-name]} is the name of the \code{knitr} chunk.  If this also
+#'   resolves to \code{NULL} (for instance, when you aren't using \code{knitr}, 
+#'   the label \code{tab:pixie-[n]} is assigned, where \code{[n]} is the current value 
+#'   of \code{options()$pixie_count}.  Note that rendering multiple tables in a 
+#'   chunk without specifying a label will result in label conflicts.
+#' @param justify \code{character(1)}. Specifies the justification of the table on 
+#'   the page.  May be \code{"center"} (default), \code{"left"}, or \code{"right"}.
 #' @param bookdown Logical. When \code{TRUE}, \code{bookdown} style labels are
 #'   generated.  Defaults to \code{FALSE}.
 #' @param ... Additional arguments to pass to \code{tidy}
@@ -156,6 +162,7 @@ dust.default <- function(object, ...,
                  numeric_level = c("term", "term_plain", "label"),
                  label = NULL,
                  caption = NULL,
+                 justify = "center",
                  float = getOption("pixie_float", TRUE),
                  longtable = getOption("pixie_longtable", FALSE),
                  hhline = getOption("pixie_hhline", FALSE),
@@ -222,6 +229,10 @@ dust.default <- function(object, ...,
   #* glance statistics by default.  Perhaps an option for glance_df should
   #* be provided here.
 
+  print_method <- knitr::opts_knit$get("rmarkdown.pandoc.to")
+  
+  if (is.null(print_method)) print_method <- getOption("pixiedust_print_method")
+  
   structure(list(head = component_table(head, tidy_object),
                  body = component_table(tidy_object),
                  interfoot = NULL,
@@ -229,13 +240,14 @@ dust.default <- function(object, ...,
                  border_collapse = TRUE,
                  caption = caption,
                  label = label,
+                 justify = justify,
                  float = float,
                  longtable = longtable,
                  table_width = 6,
                  tabcolsep = 6,
                  hhline = hhline,
                  bookdown = bookdown,
-                 print_method = getOption("pixiedust_print_method")),
+                 print_method = print_method),
             class = "dust")
 
 }

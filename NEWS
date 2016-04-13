@@ -1,3 +1,16 @@
+#### 0.6.4 (12 April 2016)
+* Added justification for tables.  Use the `justify` argument in 
+  `dust` and the `justify` sprinkle to move the table to the left,
+  or right side of the page.  Defaults to centered.
+* Added auto-detection of the print method.  When a document is being
+  knit, the output format is read from `knitr::opts_knit$get("rmarkdown.pandoc.to")`.
+  If this resolves to `NULL`, the value of `getOption("pixiedust_print_method")`
+  is used.
+* Added `docx` as a valid print method, which is synonymous with `markdown`.
+* labels for HTML and LaTeX tables are automatically generated when 
+  `label = NULL`.  First, an attempt is made to generate a label from the 
+  chunk label, and if that fails, a label is generated from `getOption("pixie_count")`
+
 #### 0.6.3 (8 April 2016)
 * Converted `dust`, `sprinkle` functions, and `print` to S3 methods. 
   This allows for lists of data frames to be processed as 

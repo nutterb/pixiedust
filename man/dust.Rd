@@ -16,7 +16,7 @@ dust(object, ...)
   glance_foot = FALSE, glance_stats = NULL, col_pairs = 2,
   byrow = FALSE, descriptors = "term", numeric_level = c("term",
   "term_plain", "label"), label = NULL, caption = NULL,
-  float = getOption("pixie_float", TRUE),
+  justify = "center", float = getOption("pixie_float", TRUE),
   longtable = getOption("pixie_longtable", FALSE),
   hhline = getOption("pixie_hhline", FALSE),
   bookdown = getOption("pixie_bookdown", FALSE))
@@ -85,10 +85,17 @@ See the full documentation for the unexported function \code{\link{tidy_levels_l
 
 \item{label}{\code{character(1)}. An optional string for assigning labels with 
 which tables can be referenced elsewhere in the document.  If \code{NULL}, 
-the label \code{pixie-n} is assigned, where \code{n} is the current value 
-of \code{options()$pixie_count}.}
+\code{pixiedust} attempts to name the label \code{tab:[chunk-name]}, where 
+\code{[chunk-name]} is the name of the \code{knitr} chunk.  If this also
+resolves to \code{NULL} (for instance, when you aren't using \code{knitr}, 
+the label \code{tab:pixie-[n]} is assigned, where \code{[n]} is the current value 
+of \code{options()$pixie_count}.  Note that rendering multiple tables in a 
+chunk without specifying a label will result in label conflicts.}
 
 \item{caption}{A character string giving the caption for the table.}
+
+\item{justify}{\code{character(1)}. Specifies the justification of the table on 
+the page.  May be \code{"center"} (default), \code{"left"}, or \code{"right"}.}
 
 \item{float}{A logical used only in LaTeX output.  When \code{TRUE}, the table is 
 set within a \code{table} environment.  The default is \code{TRUE}, as with 

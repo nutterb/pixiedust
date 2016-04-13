@@ -139,6 +139,11 @@
 #'     horizontal cell borders are drawn with the LaTeX package \code{hhline}. 
 #'     Defaults to \code{FALSE}.}
 #'   \item{\code{italic} }{Logical value.  If \code{TRUE}, text is rendered in italics.}
+#'   \item{\code{justify} }{A character string, either \code{"left"}, \code{"center"}, 
+#'     or \code{"right"}, that justifies the entire table in the document.  Defaults 
+#'     to \code{"center"}. Note that LaTeX output currently only understands 
+#'     \code{"center"}, and 
+#'     any other value will result in a table rendered to the left side of the page.}
 #'   \item{\code{longtable} }{ Allows the user to print a table in multiple sections.  
 #'     This is useful when 
 #'     a table has more rows than will fit on a printed page.  Acceptable inputs are \code{FALSE},
@@ -885,14 +890,22 @@ assert_sprinkles <- function(sprinkles, coll)
       names(args) <- sub(pattern = "arg_",
                          replacement = "",
                          x = names(args))
-      
+
       do.call(
         what = #* generate the function call
           eval(
             parse(
               text = 
-                paste0("checkmate::", 
-                       SprinkleRef[["assert_fn"]][ref_row])
+                sprintf("%s%s",
+                        if (SprinkleRef[["assert_fn"]][ref_row] == "assert_match_arg")
+                        {
+                          ""
+                        }
+                        else
+                        {
+                          "checkmate::"
+                        },
+                        SprinkleRef[["assert_fn"]][ref_row])
             )
           ),
         args = c(list(sprinkles[[i]], 

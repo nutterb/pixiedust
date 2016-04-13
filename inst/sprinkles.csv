@@ -23,6 +23,7 @@ height,                     x,      ,        ,   x,    x
 height_units,               x,      ,        ,   x,    x
 hhline,                     x,      ,        ,    ,    x
 italic,                     x,     x,       x,   x,    x
+justify,                    x,      ,        ,   x,    x
 label,                      x,      ,        ,   x,    x
 longtable,                  x,     x,       x,   x,    x
 merge,                      x,     x,       x,   x,    x

@@ -14,7 +14,11 @@ print_dust_html <- function(x, ..., asis=TRUE)
   label <-
     if (is.null(x[["label"]]))
     {
-      paste0("tab:pixie-", getOption("pixie_count"))
+      chunk_label <- knitr::opts_current$get("label")
+      if (is.null(chunk_label))
+        paste0("tab:pixie-", getOption("pixie_count"))
+      else
+        paste0("tab:", chunk_label)
     }
   else
   {
@@ -64,7 +68,8 @@ print_dust_html <- function(x, ..., asis=TRUE)
     rows <- apply(tbl, 1, paste0, collapse = "\n")
     rows <- paste0("<tr>", rows, "</tr>", sep = "\n")
 
-    html_code <- paste0("<table style = 'border-collapse:",
+    html_code <- paste0("<table align = '", x[["justify"]], "' ",
+                        "style = 'border-collapse:",
                         if (x$border_collapse) "collapse" else "separate" , ";'>",
                      paste0(rows, collapse = "\n"),
                      "</table><br/><br/>",

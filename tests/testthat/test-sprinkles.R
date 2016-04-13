@@ -148,12 +148,12 @@ test_that("sprinkles: halign",
                "left")
 })
 
-# test_that("sprinkles: halign errors",
-# {
-#   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-#   expect_error(sprinkle(x, rows = 1, cols = 1, halign = c("left", "right")),
-#                "")
-# })
+test_that("sprinkles: halign errors",
+{
+  x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
+  expect_error(sprinkle(x, rows = 1, cols = 1, halign = c("left", "right")),
+               "")
+})
                
 test_that("sprinkles: height",
 {

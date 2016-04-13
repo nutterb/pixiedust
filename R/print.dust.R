@@ -56,6 +56,7 @@ print.dust <- function(x, ..., asis = TRUE)
   
   switch(print_method,
         "console"      = print_dust_console(x, ..., asis = asis),
+        "docx"         = print_dust_markdown(x, ..., asis = asis),
         "markdown"     = print_dust_markdown(x, ..., asis = asis),
         "html"         = print_dust_html(x, ..., asis = asis),
         "latex"        = print_dust_latex(x, ..., asis = asis),
