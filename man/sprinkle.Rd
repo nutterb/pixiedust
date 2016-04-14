@@ -112,143 +112,375 @@ only sprinkles recognized by that output type will be applied.  For a complete
 list of which sprinkles are recognized by each output type, see 
 \code{vignette("sprinkles", package = "pixiedust")}.
 
-\itemize{
-  \item{\code{bg} }{A character string denoting the color 
-     for the background.  See "Colors".}
-  \item{\code{bg_pattern} }{This is one of the few exceptions to the length 1 rule.
-     This accepts a vector of any length.  Background colors are recycled in a 
-     pattern. See "Colors". If left unspecified but \code{bg_pattern_by} is 
-     specified, this will default to \code{c("White", "Gray")}.}
-  \item{\code{bg_pattern_by} }{A character string denoting if the background 
-     pattern is recycled over rows or columns.  Accepts either \code{"rows"},
-     or \code{"columns"} with partial matching and defaults to \code{"rows"}.
-     If \code{bg_pattern} is provided, \code{bg_pattern_by} is assumed, meaning
-     it is not necessary to explicitly define \code{bg_pattern_by} unless 
-     changing an existing or default setting.}
-  \item{\code{bold} }{Logical value.  If \code{TRUE}, text is rendered in bold.}
-  \item{\code{bookdown} }{Logical value. Set to \code{TRUE} if \code{bookdown}
-     style labels are needed.}
-  \item{\code{border_collapse} }{Logical.  Defaults to \code{TRUE}. 
-     This element is only applicable to 
-     \code{part = "table"} and will be applied to the table regardless
-     the value of \code{part} in the call.}
-  \item{\code{border} }{This is one of the few exceptions to the length 1 rule.  
-     Accepts values \code{"left"}, \code{"right"}, \code{"top"}, 
-     \code{"bottom"}, and \code{"all"} with partial matching.  The border will be added
-     to the sides indicated. In LaTeX output with merged cells, horizontal 
-     borders are placed on all rows identified, making it possible to run 
-     borders through the merged cell.}
-  \item{\code{border_thickness} }{A numeric value denoting the thickness
-     of the border.  Defaults to \code{1}.  This setting is ignored in
-     LaTeX output when \code{border_style = "dashed"} and for all
-     horizontal borders.}
-  \item{\code{border_units} }{A character string taking any one of the
-     values \code{"px"} or \code{"pt"} with partial matching.  Defaults
-     to \code{"px"}.  For LaTeX output, both \code{"px"} and \code{"pt"},
-     are rendered as \code{"pt"}.}
-  \item{\code{border_style} }{A character string taking any one of the
-     values \code{"solid"}, \code{"dashed"}, \code{"dotted"}, 
-     \code{"double"}, \code{"groove"}, \code{"ridge"}, \code{"inset"},
-     \code{"outset"}, \code{"hidden"}, or \code{"none"}.  Defaults
-     to \code{"solid"}. LaTeX output using 
-     \code{hhline = FALSE} (see the \code{hhline} argument in \code{\link{dust}})
-      only makes use of \code{"solid"}, 
-     \code{"dashed"}, and \code{"none"}. If \code{"dotted"},
-     is passed to LaTeX output, it is quietly changed to \code{"dashed"}. All
-     other options are quietly changed to \code{"solid"}.  When using 
-     \code{hhline = TRUE}, the options \code{"solid"} 
-     and \code{"double"} are used, with all others reverting to \code{"solid"}.
-     (Except for \code{"hidden"} and \code{"none"}, which print no border.}
-  \item{\code{border_color} }{A character string denoting the color 
-     for the border.  See "Colors".}
-  \item{\code{caption} }{A character string for the table caption.}
-  \item{\code{float} }{A logical value.  In LaTeX output, this determines
-    if the table is placed in a floating environment.  Ignored when 
-    \code{longtable = TRUE}.}
-  \item{\code{fn} }{A function to apply to values in cells.  The function 
-     should be an expression that acts on the variable \code{value}. For
-     example, \code{quote(round(value, 3))}.}
-  \item{\code{font_family} }{A character string denoting the font family 
-     for the text. This option is only recognized in HTML output.
-     A short list of web safe fonts is available at 
-     http://www.w3schools.com/cssref/css_websafe_fonts.asp}
-  \item{\code{font_color} }{A character string denoting the color of the
-     font.  See "Colors".}
-  \item{\code{font_size} }{A numeric value denoting the size of the font.}
-  \item{\code{font_size_units} }{A character string giving the units 
-    of the font size.  Accepts values \code{"px"}, \code{"pt"}, \code{"\%"},
-    and \code{"em"}.  Defaults to \code{"pt"}.  LaTeX formats only recognize
-    \code{"pt"} and \code{"em"}, and other units specifications will be 
-    coerced to \code{"pt"}, which may result in an unexpected appearance.}
-  \item{\code{halign} }{A character string denoting the horizontal alignment.
-    Accepts any one of the values \code{"left"}, \code{"center"}, or 
-    \code{"right"}, with partial matching.}
-  \item{\code{height} }{A numerical value giving the height of the cells.}
-  \item{\code{height_units} }{A character string giving the units for the 
-    \code{height} argument.  Accepts \code{"px"}, \code{"pt"}, \code{"cm"}, 
-    \code{"in"} and \code{"\%"}. Defaults to \code{"pt"}.  LaTeX formats
-    do not recognize \code{"px"} and this will be coerced to \code{"pt"} when
-    submitted for LaTeX output.}
-  \item{\code{hhline} }{A logical value.  For LaTeX output, determines if 
-    horizontal cell borders are drawn with the LaTeX package \code{hhline}. 
-    Defaults to \code{FALSE}.}
-  \item{\code{italic} }{Logical value.  If \code{TRUE}, text is rendered in italics.}
-  \item{\code{justify} }{A character string, either \code{"left"}, \code{"center"}, 
-    or \code{"right"}, that justifies the entire table in the document.  Defaults 
-    to \code{"center"}. Note that LaTeX output currently only understands 
-    \code{"center"}, and 
-    any other value will result in a table rendered to the left side of the page.}
-  \item{\code{longtable} }{ Allows the user to print a table in multiple sections.  
-    This is useful when 
-    a table has more rows than will fit on a printed page.  Acceptable inputs are \code{FALSE},
-    indicating that only one table is printed (default); \code{TRUE} that the table should be 
-    split into multiple tables with the default number of rows per table (see "Longtable"); or a 
-    positive integer indicating how many rows per table to include. All other values are 
-    interpreted as \code{FALSE}.  In LaTeX output, remember that after each section, a page 
-    break is forced.}
-  \item{\code{merge} }{Logical.  If \code{TRUE}, the cells indicated in 
-    \code{rows} and \code{cols} are merged into a single cell.  An error is
-    cast if the cells do not form an adjacent block. Specifying 
-    \code{merge_rowval} or \code{merge_colval} without \code{merge} results
-    in an error; \code{pixiedust} is conservative and will not assume you 
-    mean to merge cells--it must be explicitly declared.}
-  \item{\code{merge_rowval} }{A numeric value of length 1 indicating the 
-    row position of the merged cells with the desired display text.  The 
-    value given must be an element of \code{rows}.  If no value is provided,
-    the smallest value of \code{rows} is used.}
-  \item{\code{merge_colval} }{A numeric value of length 1 indicating the 
-    column position of the merged cells with the desired display text. The
-    value given must be an element of \code{cols}.  If no value is provided,
-    the smallest value of \code{cols} is used.}
-  \item{\code{na_string} }{A character value of length 1. Specifies how missing
-    values (\code{NA}) are to be represented in the table.  Defaults to an 
-    empty character string (\code{""}).}
-  \item{\code{pad} }{A numerical value giving the cell padding in pixels.}
-  \item{\code{replace} }{A character vector (or vector to be coerced to character) that
-    will replace the cells identified by \code{rows} and \code{cols}.  Replacement 
-    is always performed moving down columns first, then across rows from left to right.
-    The operating assumption is that the most frequent use of this argument will be 
-    to replace entire columns.}
-  \item{\code{rotate_degree} }{A numerical value that determines the angle of rotation
-     in the clockwise direction.  Use negative values to rotate counter clockwise.}
-  \item{\code{round} }{A numerical value for the number of decimal places to 
-     which numerical values are rounded.  This can also be accomplished through
-     the \code{fn} argument, but this argument makes it a bit easier to do.  In cases where
-     character values are indicated for rounding (such a a term name), no action is taken.  
-     This means that `sprinkle(x, round=3)` would round all numerical values in a table to three 
-     decimal places without affecting any true character values; there is no need to limit
-     the `round` sprinkle to known numerical values.}
-  \item{\code{tabcolsep} }{A numerical value setting the space in \code{pt} between 
-     columns in the table.}
-  \item{\code{valign} }{A character string giving the vertical alignment for the
-     cells.  Accepts the values \code{"top"}, \code{"middle"}, or \code{"bottom"}
-     with partial matching.}
-  \item{\code{width} }{A numerical value giving the width of the cells.}
-  \item{\code{width_units} }{A character string giving the units for the 
-    \code{width} argument.  Accepts \code{"px"}, \code{"pt"}, \code{"cm"}, 
-    \code{"in"} and \code{"\%"}. Defaults to \code{"px"}.  LaTeX formats
-    do not recognize \code{"px"} and this will be coerced to \code{"pt"} when
-    submitted for LaTeX output.}
+\tabular{lll}{
+bg  \tab           \tab  \cr
+    \tab action    \tab Modifies the background color of a cell. \cr
+    \tab default   \tab  \cr
+    \tab accepts   \tab dvips color names; rgb(R,G,B); rgba(R,G,B,A); \cr
+    \tab           \tab  #RRGGBB; #RRGGBBAA \cr
+    \tab console   \tab Not recognized \cr
+    \tab markdown  \tab Not recognized \cr
+    \tab html      \tab Accepts any of the listed formats; \cr
+    \tab           \tab recognizes transparency \cr
+    \tab latex     \tab Accepts any of the listed formats, \cr
+    \tab           \tab but ignores transparency \cr
+bg_pattern \tab    \tab  \cr
+ \tab action       \tab Generates a pattern of background colors.  \cr
+ \tab              \tab Can be used to make striping \cr
+ \tab              \tab by rows or by columns. \cr
+ \tab default      \tab c("#FFFFFF", "#DDDDDD") \cr
+ \tab accepts      \tab A vector of color names: \cr
+ \tab              \tab dvips color names; rgb(R,G,B); rgba(R,G,B,A); \cr 
+ \tab              \tab #RRGGBB; #RRGGBBAA \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Accepts any of the listed formats; \cr
+ \tab              \tab recognizes transparency \cr
+ \tab latex        \tab Accepts any of the listed formats, \cr
+ \tab              \tab but ignores transparency \cr
+bg_pattern_by  \tab  \tab  \cr
+ \tab action       \tab Determines if a `bg_pattern` is patterned \cr 
+ \tab              \tab by row or by columns. \cr
+ \tab default      \tab "rows" \cr
+ \tab accepts      \tab "rows", "columns", "cols" \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
+bold \tab  \tab  \cr
+ \tab action       \tab Renders text within a cell in bold. \cr
+ \tab default      \tab FALSE \cr
+ \tab accepts      \tab logical(1) \cr
+ \tab console      \tab Recognized; rendered as double asterisks on either\cr
+ \tab              \tab side of the text \cr
+ \tab markdown     \tab Recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
+border_collapse \tab  \tab  \cr
+ \tab action       \tab Sets the `border-collapse` property in an \cr
+ \tab              \tab HTML table.  The property sets whether the \cr
+ \tab              \tab table borders are collapsed into a  \cr
+ \tab              \tab single border or detached as in standard HTML. \cr
+ \tab default      \tab TRUE \cr
+ \tab accepts      \tab logical(1) \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Not recognized \cr
+border \tab  \tab  \cr
+ \tab action       \tab Sets a border on the specified side of a cell. \cr
+ \tab default      \tab  \cr
+ \tab accepts      \tab Any combination of "all", "bottom", "left", "top",\cr
+ \tab              \tab "right".  Using  "all" results in all borders \cr
+ \tab              \tab being drawn, regardless of what other values are \cr
+ \tab              \tab passed with it. \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
+border_color \tab  \tab  \cr
+ \tab action       \tab Sets the color of the borders specified for a cell. \cr
+ \tab default      \tab "Black" \cr
+ \tab accepts      \tab character(1) \cr
+ \tab              \tab dvips color names; rgb(R,G,B); rgba(R,G,B,A); \cr
+ \tab              \tab #RRGGBB; #RRGGBBAA \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
+border_style \tab  \tab  \cr
+ \tab action       \tab Sets the border style for a specified cell \cr
+ \tab default      \tab "solid" \cr
+ \tab accepts      \tab character(1) \cr
+ \tab              \tab "solid", "dashed", "dotted", "double", "groove", \cr
+ \tab              \tab "ridge", "inset", "outset", "hidden", "none" \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Accepts any of the values listed. \cr
+ \tab latex; hhline = FALSE \tab accepts "solid", "dashed", "dotted",  \cr
+ \tab              \tab  "hidden", "none" \cr
+ \tab              \tab "dotted" is silently changed to "dashed" \cr
+ \tab              \tab "hidden" and "none" are equivalent. \cr
+ \tab latex; hhline = TRUE \tab accepts "solid", "double", "hidden", "none" \cr
+ \tab              \tab "hidden" and "none" are equivalent. \cr
+border_thickness \tab  \tab  \cr
+ \tab action       \tab Sets the thickness of the specified border \cr
+ \tab default      \tab 1 \cr
+ \tab accepts      \tab numeric(1) \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
+border_units \tab  \tab  \cr
+ \tab action       \tab Sets the unit of measure for the specified border \cr
+ \tab              \tab thickness \cr
+ \tab default      \tab "pt" \cr
+ \tab accepts      \tab "pt", "px" \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Silently changes "px" to "pt" \cr
+caption \tab  \tab  \cr
+ \tab action       \tab Adds or alters the `caption` property \cr
+ \tab default      \tab  \cr
+ \tab accepts      \tab character(1) \cr
+ \tab console      \tab Recognized \cr
+ \tab markdown     \tab Recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
+float \tab  \tab  \cr
+ \tab action       \tab Sets the `float` property \cr
+ \tab default      \tab TRUE \cr
+ \tab accepts      \tab logical(1) \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Not recognized \cr
+ \tab latex        \tab Recognized \cr
+fn \tab  \tab  \cr
+ \tab action       \tab Applies a function to the value of a cell. \cr
+ \tab              \tab The function should be an \cr
+ \tab              \tab expression that acts on the variable `value`.  \cr 
+ \tab              \tab For example, \code{quote(format(value, nsmall = 3))} \cr
+ \tab default      \tab  \cr
+ \tab accepts      \tab call \cr
+ \tab console      \tab Recognized \cr
+ \tab markdown     \tab Recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
+font_color \tab  \tab  \cr
+ \tab action       \tab Sets the color of the cell text \cr
+ \tab default      \tab Black \cr
+ \tab accepts      \tab dvips color names; rgb(R,G,B); rgba(R,G,B,A); \cr
+ \tab              \tab #RRGGBB; #RRGGBBAA \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized; transparency recognized \cr
+ \tab latex        \tab Recognized; transparency ignored \cr
+font_family \tab  \tab  \cr
+ \tab action       \tab Sets the font for the text \cr
+ \tab default      \tab Times New Roman \cr
+ \tab accepts      \tab character(1) \cr
+ \tab              \tab http://www.w3schools.com/cssref/css_websafe_fonts.asp \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Not recognized \cr
+font_size \tab  \tab  \cr
+ \tab action       \tab Sets the size of the font in the cell \cr
+ \tab default      \tab  \cr
+ \tab accepts      \tab numeric(1) \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
+font_size_units \tab  \tab  \cr
+ \tab action       \tab Determines the units in which `font_size` \cr
+ \tab              \tab is measured \cr
+ \tab default      \tab "px" \cr
+ \tab accepts      \tab "px", "pt", "\%", "em" \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Only recognizes "pt" and "em".  \cr
+ \tab              \tab All others are coerced to "pt" \cr
+halign \tab  \tab  \cr
+ \tab action       \tab Sets the horizontal alignment of the text in \cr
+ \tab              \tab the cell \cr
+ \tab default      \tab  \cr
+ \tab accepts      \tab "left", "center", "right" \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Recognized; numeric values will auto align to the \cr
+ \tab              \tab right if no value given. \cr
+ \tab html         \tab Recognized.  Does not currently employ auto \cr
+ \tab              \tab alignment of numeric values, but this may change. \cr
+ \tab latex        \tab Recognized; numeric values will auto align to \cr
+ \tab              \tab the right if no value given. \cr
+height \tab  \tab  \cr
+ \tab action       \tab Sets the height of the cell \cr
+ \tab default      \tab  \cr
+ \tab accepts      \tab numeric(1) \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
+height_units \tab  \tab  \cr
+ \tab action       \tab Determines the units in which `height` is measured \cr
+ \tab default      \tab "pt" \cr
+ \tab accepts      \tab "px", "pt", "cm", "in", "\%" \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized; "px" is coerced to "pt" \cr
+hhline \tab  \tab  \cr
+ \tab action       \tab Toggles the option for cell border drawing with \cr 
+ \tab              \tab the `hhline` LaTeX package \cr
+ \tab default      \tab FALSE \cr
+ \tab accepts      \tab logical(1) \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Not recognized \cr
+ \tab latex        \tab Recognized.  When `FALSE` double borders are \cr 
+ \tab              \tab not available. \cr
+ \tab              \tab When `TRUE`, colored and dashed borders are not \cr
+ \tab              \tab available. This is usually the better option \cr
+ \tab              \tab when using colored backgrounds in table cells. \cr
+italic \tab  \tab  \cr
+ \tab action       \tab Renders the text in the cell in italic \cr
+ \tab default      \tab FALSE \cr
+ \tab accepts      \tab logical(1) \cr
+ \tab console      \tab Recognized; rendered as an underscore on either \cr
+ \tab              \tab side of the text. \cr
+ \tab markdown     \tab Recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
+justify \tab  \tab  \cr
+ \tab action       \tab Justifies the entire table on the page. \cr
+ \tab default      \tab "center" \cr
+ \tab accepts      \tab character(1) \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognizes "center", but both "left" and "right" \cr
+ \tab              \tab are rendered as left justified.  This may change \cr
+ \tab              \tab if a satisfactory solution is found.  \cr
+ \tab              \tab Usually, tables are best left centered. \cr
+longtable \tab  \tab  \cr
+ \tab action       \tab Toggles the use of the LaTeX `longtable` style \cr
+ \tab              \tab tables, namely allowing long tables to be broken \cr
+ \tab              \tab into multiple sections. The table header appears \cr 
+ \tab              \tab at the top of each section. The table interfoot \cr
+ \tab              \tab appears at the bottom of each section, except \cr
+ \tab              \tab for the last. \cr
+ \tab              \tab The table foot appears at the bottom of the \cr
+ \tab              \tab last section. \cr
+ \tab              \tab May accept either a logical or a numerical value.  \cr
+ \tab              \tab If numerical, each section will have the specified \cr
+ \tab              \tab number of rows. \cr
+ \tab default      \tab FALSE \cr
+ \tab accepts      \tab logical(1); numeric(1) \cr
+ \tab console      \tab Recognized; when `TRUE`, defaults to 25 rows \cr
+ \tab              \tab per section. \cr
+ \tab markdown     \tab Recognized; when `TRUE`, defaults to 25 rows \cr
+ \tab              \tab per section. \cr
+ \tab html         \tab Recognized; when `TRUE`, defaults to 25 rows \cr
+ \tab              \tab per section. \cr
+ \tab latex        \tab Recognized; when `TRUE`, `longtable`'s own algorithm \cr 
+ \tab              \tab will determine the number of rows per section. \cr
+ \tab              \tab When numeric, breaks are forced at the specified \cr
+ \tab              \tab number of rows. \cr
+merge \tab  \tab  \cr
+ \tab action       \tab Merges cells in the specified range into a \cr
+ \tab              \tab single cell. In cases where \cr
+ \tab              \tab either `merge_rowval` or `merge_colval` is \cr
+ \tab              \tab specified, they will only be  \cr
+ \tab              \tab honored if `merge = TRUE`.  You must opt in to \cr
+ \tab              \tab this action. \cr
+ \tab default      \tab FALSE \cr
+ \tab accepts      \tab logical(1) \cr
+ \tab console      \tab Recognized \cr
+ \tab markdown     \tab Recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
+merge_rowval \tab  \tab  \cr
+ \tab action       \tab Specifies the row value of the merged range to \cr
+ \tab              \tab print in the table \cr
+ \tab default      \tab minimum row value of the merged range \cr
+ \tab accepts      \tab numeric(1) \cr
+ \tab console      \tab Recognized \cr
+ \tab markdown     \tab Recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
+merge_colval \tab  \tab  \cr
+ \tab action       \tab Specifies the column value of the merged range \cr
+ \tab              \tab to print in the table \cr
+ \tab default      \tab minimum col value of the merged range \cr
+ \tab accepts      \tab numeric(1) \cr
+ \tab console      \tab Recognized \cr
+ \tab markdown     \tab Recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
+na_string \tab  \tab  \cr
+ \tab action       \tab Designates the character string to use in place \cr
+ \tab              \tab of missing values \cr
+ \tab default      \tab NA \cr
+ \tab accepts      \tab character(1) \cr
+ \tab console      \tab Recognized \cr
+ \tab markdown     \tab Recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
+pad \tab  \tab  \cr
+ \tab action       \tab Designates the padding to place between cell \cr
+ \tab              \tab text and boundaries \cr
+ \tab              \tab Measured in pixels. \cr
+ \tab default      \tab 0 \cr
+ \tab accepts      \tab numeric(1) \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Not recognized \cr
+replace \tab  \tab  \cr
+ \tab action       \tab Replaces existing cell values with user-specified \cr
+ \tab              \tab content. Replacement occurs moving down columns \cr
+ \tab              \tab from left to right. \cr
+ \tab default      \tab  \cr
+ \tab accepts      \tab character vector of the same length as the number \cr
+ \tab              \tab of cells being replaced. \cr
+ \tab console      \tab Recognized \cr
+ \tab markdown     \tab Recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
+rotate_degree \tab  \tab  \cr
+ \tab action       \tab Rotates text in cells by the designated angle \cr
+ \tab              \tab in degrees \cr
+ \tab default      \tab  \cr
+ \tab accepts      \tab numeric(1) \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
+round \tab  \tab  \cr
+ \tab action       \tab Applies the `round` function to values in the \cr 
+ \tab              \tab cell.  Skips any character values it encounters. \cr
+ \tab default      \tab  \cr
+ \tab accepts      \tab numeric(1) \cr
+ \tab console      \tab Recognized \cr
+ \tab markdown     \tab Recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
+tabcolsep \tab  \tab  \cr
+ \tab action       \tab Modifies the LaTeX `tabcolsep` parameter of tables \cr
+ \tab              \tab This is similar to `pad` for HTML tables, but only  \cr
+ \tab              \tab affects the space between columns. Measured in "pt" \cr
+ \tab default      \tab 6 \cr
+ \tab accepts      \tab numeric(1) \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Not recognized \cr
+ \tab latex        \tab Recognized \cr
+valign \tab  \tab  \cr
+ \tab action       \tab Designates the vertical alignment of a cell. \cr
+ \tab default      \tab  \cr
+ \tab accepts      \tab "top", "middle", "bottom" \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
+width \tab  \tab  \cr
+ \tab action       \tab Sets the width of the cell \cr
+ \tab default      \tab  \cr
+ \tab accepts      \tab numeric(1) \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
+width_units \tab  \tab  \cr
+ \tab action       \tab Determines the units in which `width` is measured \cr
+ \tab default      \tab "pt" \cr
+ \tab accepts      \tab "px", "pt", "cm", "in", "\%" \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized; "px" is coerced to "pt" \cr
 }
 }
 
