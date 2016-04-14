@@ -17,6 +17,10 @@ Medleys are functions that consist of a collection of `sprinkles` in order to qu
 
 [Appearance of `medley_bw`](medley-appearance-medley-bw.html)
 
+## Colors
+
+TO DO: Put tips and links here about using colors that are multiple-format safe.
+
 ## Sprinkles
 
 [Sprinkles and Print Methods](Sprinkles-print-methods.html)
