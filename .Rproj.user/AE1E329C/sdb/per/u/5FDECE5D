@@ -1,0 +1,18 @@
+{
+    "contents" : "devtools::document(\"C:/Users/Nutter/Documents/GitHub/pixiedust\")\ndevtools::check(\"C:/Users/Nutter/Documents/GitHub/pixiedust\")\ndevtools::install_local(\"C:/Users/Nutter/Documents/GitHub/pixiedust\")\n\n?pixiedust::sprinkle\n\nlibrary(pixiedust)\ndust(head(mtcars, 1)) %>%\n       sprinkle_print_method(\"html\") %>%\n  print(asis = FALSE)\n\n\nshowPDFmanual <- function(package, lib.loc=NULL) \n{ \n  path <- find.package(package, lib.loc) \n  system(paste(shQuote(file.path(R.home(\"bin\"), \"R\")), \n               \"CMD\", \"Rd2pdf\", \n               shQuote(path))) \n} \n\n\ndevtools::document(\"C:/Users/Nutter/Documents/GitHub/pixiedust\")\ndevtools::install_local(\"C:/Users/Nutter/Documents/GitHub/pixiedust\")\n\nfile.remove(\"pixiedust.pdf\")\nshowPDFmanual(\"pixiedust\")\n",
+    "created" : 1460545219778.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "861654836",
+    "id" : "5FDECE5D",
+    "lastKnownWriteTime" : 7011605692497750387,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

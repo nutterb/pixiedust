@@ -1,0 +1,25 @@
+{
+    "contents" : "",
+    "created" : 1460602204599.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "DB63ECF7",
+    "lastKnownWriteTime" : 7011605692497750387,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "7d5cm81wiz",
+        "caption" : "SprinkleDocs",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=SprinkleDocs&cache_key=7d5cm81wiz",
+        "displayedObservations" : "294",
+        "environment" : "",
+        "object" : "SprinkleDocs",
+        "totalObservations" : "294",
+        "variables" : "5"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

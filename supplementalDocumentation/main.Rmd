@@ -19,6 +19,11 @@ Medleys are functions that consist of a collection of `sprinkles` in order to qu
 
 ## Sprinkles
 
+[Sprinkles and Print Methods](Sprinkles-print-methods.html)
+
+[Sprinkle Usage Overview](Sprinkles-usage.html) (A Duplicate of the `?sprinkle` documentation from the package)
+
+
 ## Miscellaneous
 
 Working with multiple tables (coming soon)

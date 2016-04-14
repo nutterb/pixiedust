@@ -1,0 +1,25 @@
+{
+    "contents" : "",
+    "created" : 1460601367685.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "EB1D8B10",
+    "lastKnownWriteTime" : 13229740524830817,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "d5tcwjomj3",
+        "caption" : "Sprinkles",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=Sprinkles&cache_key=d5tcwjomj3",
+        "displayedObservations" : 36,
+        "environment" : "",
+        "object" : "Sprinkles",
+        "totalObservations" : 36,
+        "variables" : 6
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}
