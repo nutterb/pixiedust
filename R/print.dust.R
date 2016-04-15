@@ -36,20 +36,6 @@
 
 print.dust <- function(x, ..., asis = TRUE)
 {
-  Check <- ArgumentCheck::newArgCheck()
-  
-#   if (!is.null(x$caption) & !x$float & !x$longtable & x$print_method == "latex")
-#   {
-#     ArgumentCheck::addWarning(
-#       msg = paste0("You have requested a caption in a non-floating environment; ",
-#                    "the caption will be ignored \n  ",
-#                    "Either change set 'float = TRUE' or 'longtable = TRUE' in 'dust'"),
-#       argcheck = Check)
-#     x$caption <- NULL
-#   }
-                   
-  ArgumentCheck::finishArgCheck(Check)
-  
   print_method <- x$print_method
   if (print_method == "latex" & x$hhline)
     print_method <- "latex_hhline"
@@ -61,7 +47,8 @@ print.dust <- function(x, ..., asis = TRUE)
         "html"         = print_dust_html(x, ..., asis = asis),
         "latex"        = print_dust_latex(x, ..., asis = asis),
         "latex_hhline" = print_dust_latex_hhline(x, ..., asis = asis),
-        stop(paste0("'", x$print_method, "' is not an valid print method")))
+        stop(sprintf("'%s' is not an valid print method",
+                     x[["print_method"]])))
 }
 
 #' @rdname print.dust

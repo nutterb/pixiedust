@@ -178,11 +178,14 @@ part_prep_latex_hhline <- function(part, col_width, col_halign_default, head=FAL
   part <- perform_function(part) 
   
   #* Perform any rounding
-  logic <- part$round != "" & part$col_class %in% numeric_classes
+  logic <- part$round == "" & part$col_class %in% numeric_classes
+  part$round[logic] <- getOption("digits")
+  
+  logic <- part$col_class %in% numeric_classes
   if (any(logic))
-    part$value[logic] <- 
+    part$value[logic] <-
     as.character(roundSafe(part$value[logic], as.numeric(part$round[logic])))
-
+  
   #* Bold and italic
   boldify <- part$bold
   part$value[boldify] <- paste0("\\textbf{", part$value[boldify], "}")

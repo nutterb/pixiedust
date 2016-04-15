@@ -255,7 +255,7 @@ rotate_degree,,
 ,latex,Recognized
 round,,
 ,action,Applies the `round` function to values in the cell.  Skips any character values it encounters.
-,default,
+,default,"`getOption(""digits"")`"
 ,accepts,numeric(1)
 ,console,Recognized
 ,markdown,Recognized

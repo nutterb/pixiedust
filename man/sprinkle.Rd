@@ -454,7 +454,7 @@ rotate_degree \tab  \tab  \cr
 round \tab  \tab  \cr
  \tab action       \tab Applies the `round` function to values in the \cr 
  \tab              \tab cell.  Skips any character values it encounters. \cr
- \tab default      \tab  \cr
+ \tab default      \tab \code{getOption("digits")} \cr
  \tab accepts      \tab numeric(1) \cr
  \tab console      \tab Recognized \cr
  \tab markdown     \tab Recognized \cr

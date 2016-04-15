@@ -16,7 +16,7 @@ perform_function <- function(obj)
     #* strings. The if clause allows numeric functions to be
     #* performed.
     if (obj$col_class[i] %in% c("double", "numeric", "integer"))
-      value <- do.call(paste0("as.", obj$col_class[i]), 
+      value <- do.call(sprintf("as.%s", obj$col_class[i]), 
                        list(obj$value[i]))
     #* The else statement allows functions to act on character strings.
     else value <- obj$value[i]

@@ -64,37 +64,37 @@ glance_foot <- function(fit, col_pairs, total_cols,
   
   g <- broom::glance(fit)
   
-  Check <- ArgumentCheck::newArgCheck()
+  coll <- checkmate::makeAssertCollection()
   
-  if (col_pairs > total_cols/2){
-    ArgumentCheck::addError(
-      msg = "'col_pairs' must be less than 'total_cols/2'",
-      argcheck = Check)
+  if (col_pairs > total_cols/2)
+  {
+    coll$push("'col_pairs' must be less than 'total_cols/2'")
   }
   
-  if (is.null(glance_stats)) glance_stats <- names(g)
-  else {
+  if (is.null(glance_stats)) 
+    glance_stats <- names(g)
+  else 
+  {
     invalid_stats <- glance_stats[!glance_stats %in% names(g)]
     glance_stats <- glance_stats[glance_stats %in% names(g)]
-    if (length(invalid_stats) > 0){
-      ArgumentCheck::addWarning(
-        msg = paste0("The following statistics were requested but are not ",
-                     "available for models of class ", 
-                     paste0(class(fit), collapse = "; "), ":",
-                     "\n    ", paste0(invalid_stats, collapse = ", ")),
-        argcheck = Check)
+    if (length(invalid_stats) > 0)
+    {
+      warning("The following statistics were requested but are not ",
+              "available for models of class ", 
+              paste0(class(fit), collapse = "; "), ":",
+              "\n    ", paste0(invalid_stats, collapse = ", "))
     }
     
-    if (length(glance_stats) == 0){
-      ArgumentCheck::addError(
-        msg = paste0("None of the statistics requested are available for models ",
-                     "of class ", 
-                     paste0(class(fit), collapse = "; ")),
-        argcheck = Check)
+    if (length(glance_stats) == 0)
+    {
+      coll$push(
+        sprintf("None of the statistics requested are available for models of class %s", 
+                paste0(class(fit), collapse = "; "))
+      )
     }
   }
   
-  ArgumentCheck::finishArgCheck(Check)
+  checkmate::reportAssertions(coll)
   
   g <- broom::tidy(t(g[glance_stats])) 
   # return(g)

@@ -168,11 +168,14 @@ part_prep_latex <- function(part, col_width, col_halign_default, head=FALSE)
   part <- perform_function(part) 
   
   #* Perform any rounding
-  logic <- part$round != "" & part$col_class %in% numeric_classes
+  logic <- part$round == "" & part$col_class %in% numeric_classes
+  part$round[logic] <- getOption("digits")
+  
+  logic <- part$col_class %in% numeric_classes
   if (any(logic))
-    part$value[logic] <- 
+    part$value[logic] <-
     as.character(roundSafe(part$value[logic], as.numeric(part$round[logic])))
-
+  
   #* Bold and italic
   boldify <- part$bold
   part$value[boldify] <- paste0("\\textbf{", part$value[boldify], "}")
@@ -471,8 +474,12 @@ get_column_halign <- function(Joint){
     dplyr::ungroup() 
 }
 
-default_halign <- function(col_class){
-  if (col_class %in% c("numeric", "int", "double")) "r" else "l"
+default_halign <- function(col_class, print_method = "latex"){
+  tag <- 
+    if (print_method == "latex") c("r", "l") 
+    else c("right", "left")
+  
+  if (col_class %in% c("numeric", "int", "double")) tag[1] else tag[2]
 }
 
 #**************************************************

@@ -54,7 +54,7 @@ as.data.frame.dust <- function(x, ..., sprinkled = TRUE){
     
     classes <- dplyr::group_by(x$body, col) %>%
       dplyr::summarise(col_class = col_class[1])
-    classes <- paste0("as.", classes$col_class)
+    classes <- sprintf("as.%s", classes$col_class)
     
     for (i in seq_along(X)){
       X[[i]] <- get(classes[i])(X[[i]])

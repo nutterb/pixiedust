@@ -118,26 +118,19 @@ tidy(fit)
 
 It has been observed by some, however, that even this summary isn't quite ready for publication. There are too many decimal places, the p-value employ scientific notation, and column titles like "statistic" don't specify what type of statistic. These kinds of details aren't the purview of `broom`, however, as `broom` is focused on tidying the results of a model for further analysis (particularly with respect to comparing slightly varying models).
 
-The `pixiedust` package diverts from `broom`'s mission here and provides the ability to customize the `broom` output for presentation. The initial `dust` object returns a table that is largely similar to the `broom` output. Truthfully, it may be less desirable because it has converted all of those numerical values into character strings. This has the consequence of losing the numerical formatting employed by printing a data frame.
+The `pixiedust` package diverts from `broom`'s mission here and provides the ability to customize the `broom` output for presentation. The initial `dust` object returns a table that is similar to the `broom` output.
 
 ``` r
 library(pixiedust)
 dust(fit) %>%
   sprinkle_print_method("console")
-#>            term           estimate         std.error          statistic
-#> 1   (Intercept)   9.36504430865836  8.37301612033658   1.11847919245161
-#> 2          qsec   1.24492121340088 0.382847869162145    3.2517386504602
-#> 3   factor(am)1   3.15051775932893  1.94051711270669   1.62354546563854
-#> 4            wt   -3.9263021501002 0.742756198609962   -5.2861250534807
-#> 5 factor(gear)4 -0.268163000929796  1.65546166120695 -0.161986838604456
-#> 6 factor(gear)5 -0.269746805223248   2.0631829212229 -0.130743039043461
-#>                p.value
-#> 1    0.273590282784449
-#> 2  0.00316812765022556
-#> 3    0.116536745986852
-#> 4 1.58173505907644e-05
-#> 5    0.872568516561885
-#> 6    0.896984955536724
+#>            term   estimate std.error  statistic   p.value
+#> 1   (Intercept)  9.3650443 8.3730161  1.1184792 0.2735903
+#> 2          qsec  1.2449212 0.3828479  3.2517387 0.0031681
+#> 3   factor(am)1  3.1505178 1.9405171  1.6235455 0.1165367
+#> 4            wt -3.9263022 0.7427562 -5.2861251  1.58e-05
+#> 5 factor(gear)4  -0.268163 1.6554617 -0.1619868 0.8725685
+#> 6 factor(gear)5 -0.2697468 2.0631829  -0.130743  0.896985
 ```
 
 Where `pixiedust` shows its strength is the ease of which these tables can be customized. The code below rounds the columns `estimate`, `std.error`, and `statistic` to three decimal places each, and then formats the `p.value` into a format that happens to be one that I like.
@@ -180,15 +173,6 @@ x
 #> 5 factor(gear)4   -0.268   1.655      -0.162      0.87  
 #> 6 factor(gear)5    -0.27   2.063      -0.131       0.9
 ```
-
-### Upcoming Developments
-
-We're just getting started! While there are a number of customizations already available or planned, here are some other ideas that I hope to implement in the future.
-
-1.  Perhaps an `htmlTables` engine
-2.  An engine for `flexTables` (`ReporteRs` package)
-
-Are there other features you want or need? Please submit an issue, or contribute functionality yourself.
 
 ### Development Schedule
 

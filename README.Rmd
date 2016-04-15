@@ -69,7 +69,7 @@ tidy(fit)
 
 It has been observed by some, however, that even this summary isn't quite ready for publication.  There are too many decimal places, the p-value employ scientific notation, and column titles like "statistic" don't specify what type of statistic.  These kinds of details aren't the purview of `broom`, however, as `broom` is focused on tidying the results of a model for further analysis (particularly with respect to comparing slightly varying models).
 
-The `pixiedust` package diverts from `broom`'s mission here and provides the ability to customize the `broom` output for presentation.  The initial `dust` object returns a table that is largely similar to the `broom` output.  Truthfully, it may be less desirable because it has converted all of those numerical values into character strings.  This has the consequence of losing the numerical formatting employed by printing a data frame.
+The `pixiedust` package diverts from `broom`'s mission here and provides the ability to customize the `broom` output for presentation.  The initial `dust` object returns a table that is similar to the `broom` output.  
 
 ```{r}
 library(pixiedust)
@@ -103,15 +103,6 @@ x <- x %>%
 
 x
 ```
-
-### Upcoming Developments
-
-We're just getting started!  While there are a number of customizations already available or planned, here are some other ideas that I hope to implement in the future.
-
-1. Perhaps an `htmlTables` engine
-2. An engine for `flexTables` (`ReporteRs` package)
-
-Are there other features you want or need?  Please submit an issue, or contribute functionality yourself.  
 
 ### Development Schedule
 | Version | Release Description                                | Target Date | Actual Date |
