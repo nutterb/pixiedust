@@ -132,7 +132,7 @@ Are there other features you want or need?  Please submit an issue, or contribut
 |         | Multicolumn and multirow support for LaTeX tables  |             | |
 |         | Longtable support for LaTeX tables                 |             | |
 |         | Rotated text for LaTeX tables                      |             | |
-|**1.0.0**| Release of basic, stable package                   | 1 Apr 2015  | |
+|**1.0.0**| Release of basic, stable package                   | 1 Apr 2016  | |
 
 **bold version numbers** indicate a planned release to CRAN.
 
