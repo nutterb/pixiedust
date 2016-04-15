@@ -4,7 +4,8 @@
 \alias{assert_match_arg}
 \title{Checkmate Compatible Version of \code{match.arg}}
 \usage{
-assert_match_arg(x, choices, several_ok = FALSE, ...)
+assert_match_arg(x, choices, several_ok = FALSE, .var.name = vname(x),
+  add = NULL)
 }
 \arguments{
 \item{x}{A character vecotr (of length one unless \code{several.ok} is \code{TRUE}

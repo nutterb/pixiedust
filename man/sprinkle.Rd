@@ -26,7 +26,8 @@ sprinkle(x, rows = NULL, cols = NULL, ..., part = c("body", "head",
   "foot", "interfoot", "table"))
 
 \method{sprinkle}{default}(x, rows = NULL, cols = NULL, ...,
-  part = c("body", "head", "foot", "interfoot", "table"))
+  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"))
 
 \method{sprinkle}{dust_list}(x, rows = NULL, cols = NULL, ...,
   part = c("body", "head", "foot", "interfoot", "table"))
@@ -59,6 +60,18 @@ column names) to sprinkle.  See details for more about sprinkling.}
 for the given cells.  See "Sprinkles" for a listing of these arguments.}
 
 \item{part}{A character string denoting which part of the table to modify.}
+
+\item{fixed}{\code{logical(1)} indicating if the values in \code{rows} 
+and \code{cols} should be read as fixed coordinate pairs.  By default, 
+sprinkles are applied at the intersection of \code{rows} and \code{cols}, 
+meaning that the arguments do not have to share the same length.  
+When \code{fixed = TRUE}, they must share the same length.}
+
+\item{recycle}{A \code{character} one that determines how sprinkles are 
+managed when the sprinkle input doesn't match the length of the region
+to be sprinkled.  By default, recycling is turned off.  Recycling 
+may be performed across rows first (left to right, top to bottom), 
+or down columns first (top to bottom, left to right).}
 
 \item{print_method}{A character string giving the print method for the table. 
 Note: \code{"docx"} is synonymous with \code{"markdown"}.}

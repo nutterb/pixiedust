@@ -13,6 +13,16 @@
 #' @param cols A numeric (or character) vector specifying the columns (or 
 #'   column names) to sprinkle.  See details for more about sprinkling.
 #' @param part A character string denoting which part of the table to modify.
+#' @param fixed \code{logical(1)} indicating if the values in \code{rows} 
+#'   and \code{cols} should be read as fixed coordinate pairs.  By default, 
+#'   sprinkles are applied at the intersection of \code{rows} and \code{cols}, 
+#'   meaning that the arguments do not have to share the same length.  
+#'   When \code{fixed = TRUE}, they must share the same length.
+#' @param recycle A \code{character} one that determines how sprinkles are 
+#'   managed when the sprinkle input doesn't match the length of the region
+#'   to be sprinkled.  By default, recycling is turned off.  Recycling 
+#'   may be performed across rows first (left to right, top to bottom), 
+#'   or down columns first (top to bottom, left to right).
 #' @param ... named arguments, each of length 1, defining the customizations
 #'   for the given cells.  See "Sprinkles" for a listing of these arguments.
 #'   
@@ -569,7 +579,9 @@ sprinkle <- function(x, rows = NULL, cols = NULL, ...,
 #' @export
 
 sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
-                             part = c("body", "head", "foot", "interfoot", "table"))
+                             part = c("body", "head", "foot", "interfoot", "table"),
+                             fixed = FALSE, 
+                             recycle = c("none", "rows", "cols", "columns"))
 {
   coll <- checkmate::makeAssertCollection()
   
@@ -580,7 +592,23 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
   checkmate::assertSubset(x = part,
                           choices = c("body", "head", "foot", "interfoot", "table"),
                           add = coll)
+
+  recycle <- assert_match_arg(x = recycle, 
+                              choices = c("none", "rows", "cols", "columns"),
+                              add = add,
+                              .var.name = "recycle")
+
+  if (recycle == "columns") recycle <- "cols"
+
+  recycle_arrange <- 
+    if (recycle == "rows") 
+      c("row", "col")
+    else
+      c("col", "row")
+  
   part <- part[1]
+  
+  x[[part]] <- dplyr::arrange_(x[[part]], recycle_arrange)
   
   if (length(part))
   {
@@ -594,7 +622,11 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
       
       cols_str <- match(cols, 
                         unique(x[["head"]][["col_name"]]))
-      cols <- unique(c(cols_num, cols_str))
+      
+      #* We don't want to restrict ourselves to just the unique 
+      #* columns if we are doing fixed coordinate pairs
+      if (!fixed) cols <- unique(c(cols_num, cols_str))
+      
       cols <- cols[!is.na(cols)]
     }
     
@@ -610,10 +642,27 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
       cols <- 1:max(x[[part]][["col"]])
     }
   }  # End if (length(part))
-  
+
   #* Determine the indices of the table part to be changed.
-  indices <- x[[part]][["row"]] %in% rows & 
-              x[[part]][["col"]] %in% cols
+  if (fixed)
+  {
+    indices <- 
+      data.frame(rows = rows,
+                 cols = cols) %>%
+      dplyr::mutate(i = TRUE) %>%
+      dplyr::left_join(x[[part]],
+                       .,
+                       by = c("row" = "rows", 
+                              "col" = "cols")) %>%
+      dplyr::arrange_(recycle_arrange) %>%
+      `[[`("i")
+    indices[is.na(indices)] <- FALSE
+  }
+  else
+  {
+    indices <- x[[part]][["row"]] %in% rows & 
+                x[[part]][["col"]] %in% cols
+  }
   
   checkmate::assertNumeric(x = rows,
                            add = coll)
@@ -648,7 +697,8 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
   #* and is used internally to expedite tests on sprinkles.
 
   assert_sprinkles(sprinkles = sprinkles,
-                   coll = coll)
+                   coll = coll,
+                   recycle = recycle)
   
   #* Additional assertions
   
@@ -669,7 +719,7 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
                        sum(indices)))
     }
   }
-  
+
   #* Return any errors found.
   checkmate::reportAssertions(coll)
 
@@ -700,7 +750,7 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
                               bg_pattern = sprinkles[["bg_pattern"]], 
                               bg_pattern_by = sprinkles[["bg_pattern_by"]])
   }
-  
+
   #* Sprinkles in the `border` group
   if (any(names(sprinkles) %in% 
       SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "border"]))
@@ -739,7 +789,7 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
   }
   
   
-  
+
   #* Sprinkles in the `merge` group
   if (any(names(sprinkles) %in% 
           SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "merge"]))
@@ -770,6 +820,9 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
     x[[part]][["value"]][to_replace] <- x[[part]][["replace"]][to_replace]
     x[["replace"]] <- NULL
   }
+  
+  #* Restore original sorting
+  x[[part]] <- dplyr::arrange(x[[part]], col, row)
   
   x
 }
@@ -844,7 +897,7 @@ simple_sprinkles <- function(x, sprinkles, part, indices)
   which_simple <- 
     which(names(sprinkles) %in%
             SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "simple"])
-  
+
   for (spr in names(sprinkles)[which_simple])
   {
     if (spr == "fn") 
@@ -1071,7 +1124,7 @@ width_sprinkles <- function(x, part, indices,
 #* arguments for the checks are also defined in that 
 #* data frame.
 
-assert_sprinkles <- function(sprinkles, coll)
+assert_sprinkles <- function(sprinkles, coll, recycle)
 {
   #* The longtable sprinkle needs some special love.
   #* It may be either logical or numerical, with values less
@@ -1116,6 +1169,12 @@ assert_sprinkles <- function(sprinkles, coll)
       if (any(names(args) == "arg_choices"))
       {
         args[["arg_choices"]] <- eval(parse(text = args[["arg_choices"]]))
+      }
+      
+      #* If recycling, remove the length 1 constraint
+      if (recycle != "none")
+      {
+        args[["arg_len"]] <- NULL
       }
       
       #* Remove the 'arg_' prefix from the argument names.
