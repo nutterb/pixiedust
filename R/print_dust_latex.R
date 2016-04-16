@@ -175,6 +175,15 @@ part_prep_latex <- function(part, col_width, col_halign_default, head=FALSE)
   if (any(logic))
     part$value[logic] <-
     as.character(roundSafe(part$value[logic], as.numeric(part$round[logic])))
+
+  #* Set NA (missing) values to na_string
+  logic <- is.na(part$value) & !is.na(part$na_string)
+  part$value[logic] <- 
+    part$na_string[logic]
+  
+  #* Sanitize value strings
+  logic <- !is.na(part[["value"]])
+  part[["value"]][logic] <- Hmisc::latexTranslate(part[["value"]][logic])
   
   #* Bold and italic
   boldify <- part$bold
@@ -182,11 +191,6 @@ part_prep_latex <- function(part, col_width, col_halign_default, head=FALSE)
 
   italicize <- part$italic
   part$value[italicize] <- paste0("\\emph{", part$value[italicize], "}")
-  
-  #* Set NA (missing) values to na_string
-  logic <- is.na(part$value) & !is.na(part$na_string)
-  part$value[logic] <- 
-    part$na_string[logic]
   
   #* Font Color
   logic <- part$font_color != ""

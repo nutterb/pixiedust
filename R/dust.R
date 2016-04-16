@@ -197,7 +197,12 @@ dust.default <- function(object, ...,
                                       numeric_level = numeric_level,
                                       argcheck = Check) %>%
       dplyr::left_join(tidy_object, .,
-                       by = c("term" = "term"))
+                       by = c("term" = "term")) %>%
+      dplyr::mutate(
+        label = ifelse(grepl("([(]|)Intercept([)]|)", term),
+                       term,
+                       label)
+      )
     
     if (!"term" %in% descriptors)
       nms <- nms[!nms %in% "term"]
