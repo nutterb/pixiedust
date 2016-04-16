@@ -153,13 +153,13 @@ part_prep_latex <- function(part, col_width, col_halign_default, head=FALSE)
                             width)) %>%
       dplyr::ungroup()
     
-    part %>% 
-      dplyr::select(-width) %>%
-      dplyr::left_join(Widths,
-                        by = c("html_row" = "html_row", 
-                               "html_col" = "html_col",
-                               "merge" = "merge")) %>%
-      dplyr::mutate(width = ifelse(is.na(width), "", width))
+#     part %>% 
+#       dplyr::select(-width) %>%
+#       dplyr::left_join(Widths,
+#                         by = c("html_row" = "html_row", 
+#                                "html_col" = "html_col",
+#                                "merge" = "merge")) %>%
+#       dplyr::mutate(width = ifelse(is.na(width), "", width))
 
   
   numeric_classes <- c("double", "numeric")
@@ -248,12 +248,8 @@ part_prep_latex <- function(part, col_width, col_halign_default, head=FALSE)
     tidyr::spread(col, top_border) %>%
     dplyr::select(-row) %>%
     apply(1, paste0, collapse = "")
-  
-  
-  
-  
+
   parbox <- needs_parbox(part)
-  
   
   part$halign_parbox <- part$halign
   part$halign_parbox[parbox] <- 
@@ -286,13 +282,30 @@ part_prep_latex <- function(part, col_width, col_halign_default, head=FALSE)
             !(part$html_row != part$row & part$html_col == part$col)
   part$value[logic] <- 
     paste0("\\multicolumn{", part$colspan[logic], "}{", 
-           part$left_border[logic], 
-           substr(part$halign[logic], 1, 1), 
+           part$left_border[logic],
+           #* 'p' isn't a valid alignment in 'multicol', so we replace it with 'r'
+           sub("p", "r", substr(part$halign[logic], 1, 1)), 
            part$right_border[logic], "}{", part$value[logic], "}")
   
   #* Remove value where a merged cell is not the display cell
   ncol <- max(part$col)
   part %<>% dplyr::filter(!(rowspan == 0 | colspan == 0))
+
+  #* In order to get the multirow to render correctly, the cell with 
+  #* the multirow needs to be at the top of the block.  This 
+  #* rearranges the merged cells so that the multirow is at the top.
+  
+  proper_multirow <- 
+    part[part$colspan != 1, ] %>%
+    dplyr::mutate(group = paste0(html_row, html_col)) %>%
+    dplyr::group_by(group) %>%
+    dplyr::arrange(dplyr::desc(colspan)) %>%
+    dplyr::mutate(row = sort(row)) %>%
+    dplyr::ungroup()
+  
+  part %<>%
+    dplyr::filter(colspan == 1) %>%
+    dplyr::bind_rows(proper_multirow)
   
   cbind(top_borders, 
         bottom_borders,
@@ -533,4 +546,4 @@ utils::globalVariables(c("halign", "left_border", "right_border",
                          "height_units", "width_units", "table_width",
                          "parbox", "width_by_char", "html_row", 
                          "html_col", "rowspan", "colspan", "value", "col_name",
-                         "col_class"))
+                         "col_class", "group"))

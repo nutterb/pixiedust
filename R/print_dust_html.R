@@ -32,7 +32,7 @@ print_dust_html <- function(x, ..., asis=TRUE)
     }
   else
   {
-    sprintf("Table %s", ": ")
+    sprintf("Table %s: ", get_pixie_count())
   }
   
   
@@ -75,7 +75,7 @@ print_dust_html <- function(x, ..., asis=TRUE)
     
     if (!is.null(x$caption))
       html_code <- sub(">",
-                       spritf(">\n<caption>%s %s</caption>", 
+                       sprintf(">\n<caption>%s %s</caption>", 
                               label, x$caption),
                        html_code)
     
@@ -216,7 +216,16 @@ part_prep_html <- function(part, head=FALSE)
                        value, dh))
 
   ncol <- max(part$col)
+  
   part <- dplyr::filter_(part, "!(rowspan == 0 | colspan == 0)")
+  
+  logic <-
+    part[["row"]] == part[["html_row"]] & 
+    part[["col"]] == part[["html_col"]] & 
+    part[["colspan"]] > 1
+  
+  part[["html_row"]][logic] <- part[["html_row_pos"]][logic]
+  part[["html_col"]][logic] <- part[["html_col_pos"]][logic]
   
   #* Spread to wide format for printing
   part <- dplyr::select_(part, "html_row", "html_col", "value") %>%

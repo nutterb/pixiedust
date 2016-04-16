@@ -4,8 +4,8 @@
 \alias{assert_match_arg}
 \title{Checkmate Compatible Version of \code{match.arg}}
 \usage{
-assert_match_arg(x, choices, several_ok = FALSE, .var.name = vname(x),
-  add = NULL)
+assert_match_arg(x, choices, several_ok = FALSE,
+  .var.name = checkmate::vname(x), add = NULL)
 }
 \arguments{
 \item{x}{A character vecotr (of length one unless \code{several.ok} is \code{TRUE}
@@ -15,6 +15,13 @@ or \code{NULL}.}
 
 \item{several_ok}{logical specifying if \code{arg} should be allowed to have more 
 than one element.}
+
+\item{.var.name}{\code{character(1)}, name of the checked object to print in 
+assertions.  Defaults to the heuristic implemented in 
+\code{\link[checkmate]{vname}}}
+
+\item{add}{\code{AssertCollection}, Colleciton to store assertion messages.
+See \code{link[checkmate]{AssertCollection}}.}
 
 \item{...}{Additional arguments to pass to either 
 \code{\link[checkmate]{assertChoice}} or \code{\link[checkmate]{assertSubset}}.

@@ -1,4 +1,4 @@
-# context("Create a dust object")
+context("Create a dust object")
 
 fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
 
@@ -31,8 +31,8 @@ test_that("dust object body component has correct dimensions",
                dim(x$foot))
   
   expect_equal(Dims, 
-               list(c(5, 32), 
-                    c(30, 32),
+               list(c(5, 34), 
+                    c(30, 34),
                     NULL,
                     NULL))
 })

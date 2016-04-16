@@ -361,6 +361,8 @@ cell_attributes_frame <- function(nrow, ncol)
               stringsAsFactors=FALSE) %>%
     dplyr::mutate_(html_row = ~row,
             html_col = ~col,
+            merge_rowval = ~row,
+            merge_colval = ~col,
             merge = ~FALSE)
 }
 

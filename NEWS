@@ -16,6 +16,7 @@
   decimal places as would be printed in the console.
 * Sprinkle recycling is added with `recycle` argument.
 * Fixed coordinate pairs is added with `fixed` argument.
+* Added recognition of all colors in `colors()`
 
 #### 0.6.3 (8 April 2016)
 * Converted `dust`, `sprinkle` functions, and `print` to S3 methods. 

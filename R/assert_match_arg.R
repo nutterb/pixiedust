@@ -9,6 +9,11 @@
 #' @param choices A character vector of candidate values
 #' @param several_ok logical specifying if \code{arg} should be allowed to have more 
 #'   than one element.
+#' @param .var.name \code{character(1)}, name of the checked object to print in 
+#'   assertions.  Defaults to the heuristic implemented in 
+#'   \code{\link[checkmate]{vname}}
+#' @param add \code{AssertCollection}, Colleciton to store assertion messages.
+#'   See \code{link[checkmate]{AssertCollection}}.
 #' @param ... Additional arguments to pass to either 
 #'   \code{\link[checkmate]{assertChoice}} or \code{\link[checkmate]{assertSubset}}.
 #'   \code{assertChoice} is used when \code{several_ok = FALSE}, otherwise 
@@ -18,7 +23,7 @@
 #'   \code{\link[checkmate]{assertSubset}}
 
 assert_match_arg <- function(x, choices, several_ok = FALSE, 
-                             .var.name = vname(x), add = NULL)
+                             .var.name = checkmate::vname(x), add = NULL)
 {
   if (identical(x, choices))
     if (several_ok) return(x) else return(x[1])
@@ -27,7 +32,7 @@ assert_match_arg <- function(x, choices, several_ok = FALSE,
   {
     if (!checkmate::checkCharacter(x, len = 1))
     {
-      coll$push(sprintf("Assertions on '%s' failed: must have length 1, but has length %s",
+      add$push(sprintf("Assertions on '%s' failed: must have length 1, but has length %s",
                         .var.name, length(x)))
       #* If an AssertCollection is used, we want to mimic a failure
       #* to find a match.

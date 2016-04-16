@@ -43,7 +43,7 @@ library(pixiedust)
 dust(fit)
 ```
 
-Realistically, the `dust` output is probably even less desirable than the `broom` output.  The `broom` output retains the class of the variables.  `term` is a character vector, the other vectors are numeric.  When this output is `dust`ed, however, these are all turned into character values.  The consequence is that we lose the benefit of the default formatting of numerical values.  Don't panic, though.  This isn't a disadvantage, it's the key feature of `pixiedust`.  `dust` converts the `broom` output into a table where each cell in the table is represented by a row (Take a look at `dust(fit)$body` to see what I mean).  This is the process by which we get control over every last detail of the table.  By the time we're done, we'll easily produce tables that look like this:
+Realistically, the `dust` output is very similar to the `broom` output.  Some differences are that the `broom` output retains the class of the variables.  `term` is a character vector, the other vectors are numeric.  When this output is `dust`ed, however, these are all turned into character values (but with a reference to its original class).  Don't panic, though.  This isn't a disadvantage, it's the key feature of `pixiedust`.  `dust` converts the `broom` output into a table where each cell in the table is represented by a row (Take a look at `dust(fit)$body` to see what I mean).  This is the process by which we get control over every last detail of the table.  By the time we're done, we'll easily produce tables that look like this:
 
 ```{r, echo=FALSE}
 dust(fit) %>%
