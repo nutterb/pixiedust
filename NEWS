@@ -1,4 +1,11 @@
 #### 0.6.4 (15 April 2016)
+* Backward compatibility: The way `pixiedust` deals with 
+  colors has changed.  If you are using custom defined colors in your 
+  LaTeX preamble, these will no longer work.  `pixiedust` will only accept
+  colors names in `colors()`, or in the `rgb`, `rgba`, `#RRGGBB`, or
+  `#RRDDBBAA` formats.  This only affects LaTeX output, and provides a 
+  better interface for ensuring all HTML and LaTeX output are as similar
+  as possible.
 * Added justification for tables.  Use the `justify` argument in 
   `dust` and the `justify` sprinkle to move the table to the left,
   or right side of the page.  Defaults to centered.

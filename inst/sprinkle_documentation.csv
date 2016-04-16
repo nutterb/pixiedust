@@ -58,7 +58,7 @@ border_color,,
 border_style,,
 ,action,Sets the border style for a specified cell
 ,default,"""solid"""
-,accepts,"character(1); ""solid"", ""dashed"", ""dotted"",""double"", ""groove"", ""ridge"", ""inset"", ""outset"", ""hidden"", ""none"""
+,accepts,"character(1); ""solid"", ""dashed"", ""dotted"", ""double"", ""groove"", ""ridge"", ""inset"", ""outset"", ""hidden"", ""none"""
 ,console,Not recognized
 ,markdown,Not recognized
 ,html,Accepts any of the values listed.
