@@ -77,7 +77,7 @@ test_that("print_dust_html: correction for multiple cell merge",
   custom_interfoot <- data.frame("To Be Continued", 
                                  "", "", "", "", "", "",
                                  "", "", "", "")
-  
+  suppressWarnings(
   x <- dust(mtcars) %>%
      redust(custom_head, part = "head") %>%
      redust(custom_foot, part = "foot") %>%
@@ -88,6 +88,7 @@ test_that("print_dust_html: correction for multiple cell merge",
      sprinkle(bg = "lightgray", part = "interfoot") %>%
      sprinkle(merge = TRUE, halign = "center", part = "interfoot") %>%
      sprinkle_print_method("html")
+  )
   
   expect_silent(print_dust_html(x))
 })
