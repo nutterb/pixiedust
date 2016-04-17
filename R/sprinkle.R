@@ -1101,7 +1101,7 @@ color_sprinkles <- function(sprinkles, coll)
   sprinkles <- sprinkles[!vapply(sprinkles, is.null, logical(1))]
   for (i in seq_along(sprinkles))
   {
-    is_color <- tolower(sprinkles[[i]]) %in% tolower(colors())
+    is_color <- tolower(sprinkles[[i]]) %in% tolower(grDevices::colors())
     is_rgb <- grepl("^rgb[(]\\d{1,3},\\d{1,3},\\d{1,3}[)]",sprinkles[[i]]) | 
               grepl("^rgba[(]\\d{1,3},\\d{1,3},\\d{1,3},(\\d{1,4}|)[.]\\d{1,9}[)]$", sprinkles[[i]]) 
     is_hex <- grepl("^#[0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f]$", sprinkles[[i]]) | 
@@ -1120,7 +1120,7 @@ color_sprinkles <- function(sprinkles, coll)
       vapply(sprinkles[[i]][is_color | is_hex],
              function(x)
              {
-               col2rgb(x, alpha = TRUE) %>%
+               grDevices::col2rgb(x, alpha = TRUE) %>%
                paste0(., collapse = ",") %>%
                sprintf(fmt = "rgba(%s)",
                        .)

@@ -1,7 +1,7 @@
 ## Test environments
 * local Windows install (R-3.2.4)
 * x86_64-pc-linux-gnu (64-bit) (on travis-ci), R 3.2.4
-* win-builder (devel and release)
+* win-builder (devel 3.3.0 and release 3.2.5)
 
 ## R CMD check results
 There were no ERRORS or WARNINGS in any of the checks.
@@ -20,3 +20,6 @@ later this month.
 `tadaatoolbox` checks return the NOTE "Note: found 1 marked UTF-8 string",
 which is also found in its check results on CRAN.  `tadaatoolbox` otherwise
 passes all checks.
+
+Thanks,
+Benjamin

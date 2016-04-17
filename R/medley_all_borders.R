@@ -53,7 +53,7 @@ medley_all_borders <- function(x, rows=NULL, cols=NULL,
       if (horizontal)
       {
         x <- sprinkle(x,
-                      rows = head(part_rows, 1),
+                      rows = utils::head(part_rows, 1),
                       cols = part_cols,
                       border = "top",
                       part = p)
@@ -62,7 +62,7 @@ medley_all_borders <- function(x, rows=NULL, cols=NULL,
       {
         x <- sprinkle(x,
                       rows = part_rows,
-                      cols = tail(part_cols, 1),
+                      cols = utils::tail(part_cols, 1),
                       border = "right",
                       part = p)
       }
