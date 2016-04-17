@@ -1,7 +1,6 @@
 ## Test environments
-* local Windows install (devel[2015-01-22 r69985])
-* local Windows install (R-3.2.2)
-* x86_64-pc-linux-gnu (64-bit) (on travis-ci), R 3.2.2
+* local Windows install (R-3.2.4)
+* x86_64-pc-linux-gnu (64-bit) (on travis-ci), R 3.2.4
 * win-builder (devel and release)
 
 ## R CMD check results
@@ -13,7 +12,11 @@ description.  All words are correctly spelled.
 
 
 ## Downstream dependencies
-There are no downstream dependencies for this package
-at this time.
+`HydeNet` fails checks due to errors in the unit tests.  This is related
+to updates in the `testthat` package.  I am the maintainer of `HydeNet` 
+and am planning to submit an update to `HydeNet` after `dplyr` is updated
+later this month.
 
-Many thanks.
+`tadaatoolbox` checks return the NOTE "Note: found 1 marked UTF-8 string",
+which is also found in its check results on CRAN.  `tadaatoolbox` otherwise
+passes all checks.

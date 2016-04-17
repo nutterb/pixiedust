@@ -197,19 +197,33 @@ dust.default <- function(object, ...,
                                       numeric_level = numeric_level,
                                       argcheck = Check) %>%
       dplyr::left_join(tidy_object, .,
-                       by = c("term" = "term")) %>%
-      dplyr::mutate(
-        label = ifelse(grepl("([(]|)Intercept([)]|)", term),
-                       term,
-                       label)
-      )
+                       by = c("term" = "term"))
+     if ("label" %in% names(tidy_object))
+     {
+       tidy_object %<>%
+         dplyr::mutate(
+           label = ifelse(grepl("([(]|)Intercept([)]|)", term),
+                          term,
+                          label)
+         )
+     }
+  
+    if ("term_plain" %in% names(tidy_object))
+    {
+      tidy_object %<>%
+        dplyr::mutate(
+          label = ifelse(grepl("([(]|)Intercept([)]|)", term),
+                         term,
+                         term_plain)
+        )
+    }
     
     if (!"term" %in% descriptors)
       nms <- nms[!nms %in% "term"]
     
     tidy_object <- dplyr::select_(tidy_object, .dots = c(descriptors, nms))
   }
-  
+
   ArgumentCheck::finishArgCheck(Check)
 
   #* Create the table head
@@ -379,4 +393,4 @@ primaryClass <- function(x){
 }
 
 
-utils::globalVariables(c(".", "term"))
+utils::globalVariables(c(".", "term", "term_plain"))

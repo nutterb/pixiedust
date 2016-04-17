@@ -1,4 +1,4 @@
-#### 0.6.4 (15 April 2016)
+#### 0.7.0 (15 April 2016)
 * Backward compatibility: The way `pixiedust` deals with 
   colors has changed.  If you are using custom defined colors in your 
   LaTeX preamble, these will no longer work.  `pixiedust` will only accept
