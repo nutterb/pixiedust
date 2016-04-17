@@ -5,7 +5,7 @@ test_that("printing to console succeeds with defaults",
   fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
   x <- dust(fit)
   
-  expect_that(x, not(throws_error()))
+  expect_silent(x)
 })
 
 test_that("printing to console succeeds with sprinkles",
@@ -37,7 +37,7 @@ test_that("printing to console succeeds with sprinkles",
              width = 15,
              width_units = "%")
   
-  expect_that(x, not(throws_error()))
+  expect_silent(x)
 })
 
 test_that("printing to console succeeds with sprinkles",
@@ -70,7 +70,7 @@ test_that("printing to console succeeds with sprinkles",
              width_units = "%") %>% 
     sprinkle_print_method("markdown")
           
-  expect_that(x, not(throws_error()))
+  expect_silent(x)
 })
 
 test_that("printing to console succeeds with sprinkles",
@@ -103,5 +103,5 @@ test_that("printing to console succeeds with sprinkles",
              width_units = "%") %>% 
     sprinkle_print_method("html")
           
-  expect_that(x, not(throws_error()))
+  expect_silent(x)
 })

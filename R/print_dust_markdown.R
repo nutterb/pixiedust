@@ -100,10 +100,13 @@ part_prep_markdown <- function(part)
   part <- perform_function(part)
   
   #* Perform any rounding
-  logic <- part$round != "" & part$col_class %in% numeric_classes
+  logic <- part$round == "" & part$col_class %in% numeric_classes
+  part$round[logic] <- getOption("digits")
+  
+  logic <- part$col_class %in% numeric_classes
   if (any(logic))
-    part$value[logic] <- 
-    with(part, as.character(roundSafe(value[logic], as.numeric(round[logic]))))
+    part$value[logic] <-
+    as.character(roundSafe(part$value[logic], as.numeric(part$round[logic])))
   
   #* Bold text
   logic <- part$bold

@@ -31,7 +31,8 @@ dust(fit) %>%
                     estimate = "Estimate", 
                      std.error = "SE",
                      statistic = "T-statistic", 
-                     p.value = "P-value")
+                     p.value = "P-value") %>%
+  sprinkle_print_method("console")
 ```
 
 ### Customizing with Sprinkles
@@ -68,11 +69,12 @@ tidy(fit)
 
 It has been observed by some, however, that even this summary isn't quite ready for publication.  There are too many decimal places, the p-value employ scientific notation, and column titles like "statistic" don't specify what type of statistic.  These kinds of details aren't the purview of `broom`, however, as `broom` is focused on tidying the results of a model for further analysis (particularly with respect to comparing slightly varying models).
 
-The `pixiedust` package diverts from `broom`'s mission here and provides the ability to customize the `broom` output for presentation.  The initial `dust` object returns a table that is largely similar to the `broom` output.  Truthfully, it may be less desirable because it has converted all of those numerical values into character strings.  This has the consequence of losing the numerical formatting employed by printing a data frame.
+The `pixiedust` package diverts from `broom`'s mission here and provides the ability to customize the `broom` output for presentation.  The initial `dust` object returns a table that is similar to the `broom` output.  
 
 ```{r}
 library(pixiedust)
-dust(fit)
+dust(fit) %>%
+  sprinkle_print_method("console")
 ```
 
 Where `pixiedust` shows its strength is the ease of which these tables can be customized.  The code below rounds the columns `estimate`, `std.error`, and `statistic` to three decimal places each, and then formats the `p.value` into a format that happens to be one that I like.
@@ -80,7 +82,8 @@ Where `pixiedust` shows its strength is the ease of which these tables can be cu
 ```{r}
 x <- dust(fit) %>% 
   sprinkle(col = 2:4, round = 3) %>% 
-  sprinkle(col = 5, fn = quote(pvalString(value)))
+  sprinkle(col = 5, fn = quote(pvalString(value))) %>%
+  sprinkle_print_method("console")
 x
 ```
 
@@ -95,27 +98,11 @@ x <- x %>%
                 estimate = "Estimate", 
                 std.error = "SE",
                 statistic = "T-statistic", 
-                p.value = "P-value")
+                p.value = "P-value") %>%
+  sprinkle_print_method("console")
 
 x
 ```
-
-### Upcoming Developments
-
-We're just getting started!  While there are a number of customizations already available or planned, here are some other ideas that I hope to implement in the future.
-
-1. Support for multi-row table headings
-2. Support for `longtable`s in LaTeX (and a similar rendering in markdown and HTML).  
-3. An option to use `broom`'s `glance` output in the table foot.
-4. Multicolumn and multirow support
-5. Perhaps an `htmlTables` engine
-6. An engine for `flexTables` (`ReporteRs` package)
-7. Option to add variable labels to `broom` output (if labels were given using the `Hmisc::label` functions
-8. Option to add factor levels as a separate column to `broom` output
-9. Functionality to define your own default settings.
-10. 
-
-Are there other features you want or need?  Please submit an issue, or contribute functionality yourself.  
 
 ### Development Schedule
 | Version | Release Description                                | Target Date | Actual Date |
@@ -132,7 +119,14 @@ Are there other features you want or need?  Please submit an issue, or contribut
 |         | Multicolumn and multirow support for LaTeX tables  |             | |
 |         | Longtable support for LaTeX tables                 |             | |
 |         | Rotated text for LaTeX tables                      |             | |
-|**1.0.0**| Release of basic, stable package                   | 1 Apr 2015  | |
+|**0.7.0**| `bookdown` support                                 | 30 Apr 2016 | |
+|         | Auto detect output format (supports knitr/Rmarkdown)|            | |
+|         | `fixed` coordinate pairing for sprinkles           |             | |
+|         | Sprinkle recycling                                 |             | |
+|         | Captions, floating environments, labels            |             | |
+|         | `hhline` option allows background colors and borders|            | |
+|         | Methods for grouped and split data frames          |             | |
+|**1.0.0**| Release of basic, stable package                   | 1 June 2016 | |
 
 **bold version numbers** indicate a planned release to CRAN.
 
@@ -140,18 +134,18 @@ Are there other features you want or need?  Please submit an issue, or contribut
 
 The markdown output from `pixiedust` is somewhat limited due to the limitations of `Rmarkdown` itself.  If/when more features become available for `Rmarkdown` output, I'll be sure to include them.  But what can you do if you _really_ want all of the flexibility of the HTML tables but need the MS Word document?
 
-With a little help from the `Grmd` package, you can have the best of both worlds.  `Grmd` isn't available on CRAN yet, but if you're willing to install it from GitHub, you can render a `docx` file.  Install `Grmd` with 
+With a little help from the `Gmisc` package, you can have the best of both worlds.  `Gmisc` isn't available on CRAN yet, but if you're willing to install it from GitHub, you can render a `docx` file.  Install `Gmisc` with 
 
-`devtools::install_github("gforge/Grmd")`
+`install.packages("Gmisc")`
 
 Then use in your YAML header
 
 ```
 ---
-output: Grmd::docx_document
+output: Gmisc::docx_document
 ---
 ```
 
 When you knit your document, it knits as an HTML file, but I've had no problems with the rendering when I right-click the file and open with MS Word.
 
-Read more at http://gforge.se/2014/07/fast-track-publishing-using-rmarkdown/
+Read more at http://gforge.se/2014/07/fast-track-publishing-using-rmarkdown/ (but note that this blog post was written about the `Grmd` package before it was moved into the `Gmisc` package).

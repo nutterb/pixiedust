@@ -67,10 +67,13 @@ part_prep_console <- function(part)
   part <- perform_function(part)
   
   #* Perform any rounding
-  logic <- part$round != "" & part$col_class %in% numeric_classes
+  logic <- part$round == "" & part$col_class %in% numeric_classes
+  part$round[logic] <- getOption("digits")
+  
+  logic <- part$col_class %in% numeric_classes
   if (any(logic))
-    part$value[logic] <- 
-    with(part, as.character(roundSafe(value[logic], as.numeric(round[logic]))))
+    part$value[logic] <-
+    as.character(roundSafe(part$value[logic], as.numeric(part$round[logic])))
   
   
     #* Bold text.  In the console, bold text is denoted by "**".  In order
@@ -79,16 +82,17 @@ part_prep_console <- function(part)
     #* text, the unbolded text gets two spaces on either side to make the 
     #* columns the same width.
     dplyr::group_by_(part, "col_name") %>%
-    dplyr::mutate_(value = ~if (any(bold)) ifelse(bold, 
-                                                  paste0("**", value, "**"),
-                                                  paste0("  ", value, "  "))
+    dplyr::mutate_(
+      value = ~if (any(bold)) ifelse(bold, 
+                                     sprintf("**%s**", value),
+                                     sprintf("  %s  ", value))
                    else value) %>%
     dplyr::ungroup() %>%
     #* Italic. Follows the same process as bold text.
     dplyr::group_by_("col_name") %>%
     dplyr::mutate_(value = ~if (any(italic)) ifelse(italic, 
-                                                    paste0("_", value, "_"),
-                                                    paste0(" ", value, " "))
+                                                    sprintf("_%s_", value),
+                                                    sprintf(" %s_", value))
                    else value) %>%
     dplyr::ungroup() %>%
     #* For merged cells not chosen for printing, set value to an empty character

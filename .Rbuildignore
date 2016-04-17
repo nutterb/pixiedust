@@ -8,3 +8,4 @@
 ^README-.*\.png$
 ^xtable_vs_pixiedust.html$
 ^xtable_vs_pixiedust.Rmd$
+^\inst\save_sprinkles_rda.R$

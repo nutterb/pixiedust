@@ -1,7 +1,16 @@
 #' @rdname sprinkle
 #' @export
-sprinkle_table <- function(x, cols=NULL, ..., 
-                           part = "table"){
+
+sprinkle_table <- function(x, cols = NULL, ..., part = "table")
+{
+  UseMethod("sprinkle_table")
+}
+
+#' @rdname sprinkle
+#' @export
+
+sprinkle_table.default <- function(x, cols=NULL, ..., 
+                                   part = "table"){
   Check <- ArgumentCheck::newArgCheck()
   
   part_names <- ArgumentCheck::match_arg(part, 
@@ -21,4 +30,20 @@ sprinkle_table <- function(x, cols=NULL, ...,
     x <- sprinkle(x, cols=cols, ..., part = "interfoot")
   
   return(x)
+}
+
+#' @rdname sprinkle
+#' @export
+
+sprinkle_table.dust_list <- function(x, cols=NULL, ..., 
+                                     part = "table")
+{
+  structure(
+    lapply(X = x,
+           FUN = sprinkle_table,
+           cols = cols,
+           part = part,
+           ...),
+    class = "dust_list"
+  )
 }

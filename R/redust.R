@@ -3,9 +3,20 @@
 #' @param x A dust object
 #' @param table A data frame of similar dimensions of the part being replaced.
 #' @param part The part of the table to replace with \code{table}
-#' 
+
+#' @rdname dust
 #' @export 
-redust <- function(x, table, part = c("head", "foot", "interfoot", "body")){
+
+redust <- function(x, table, part = c("head", "foot", "interfoot", "body"))
+{
+  UseMethod("redust")
+}
+
+#' @rdname dust
+#' @export
+
+redust.default <- function(x, table, part = c("head", "foot", "interfoot", "body"))
+{
   Check <- ArgumentCheck::newArgCheck()
   
   #* x must have class 'dust'
@@ -53,6 +64,20 @@ redust <- function(x, table, part = c("head", "foot", "interfoot", "body")){
   x[[part_str]] <- part
   
   x
+}
+
+#' @rdname dust
+#' @export
+
+redust.dust_list <- function(x, table, part = c("head", "foot", "interfoot", "body"))
+{
+  structure(
+    lapply(X = x,
+           FUN = redust.default,
+           table = table,
+           part = part),
+    class = "dust_list"
+  )
 }
 
 #*****

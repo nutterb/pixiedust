@@ -16,7 +16,8 @@ dust(fit) %>%
                     estimate = "Estimate", 
                      std.error = "SE",
                      statistic = "T-statistic", 
-                     p.value = "P-value")
+                     p.value = "P-value") %>%
+  sprinkle_print_method("console")
 #>            Term Estimate    SE T-statistic P-value
 #> 1   (Intercept)    9.365 8.373       1.118    0.27
 #> 2          qsec    1.245 0.383       3.252   0.003
@@ -36,13 +37,16 @@ Tables can be customized by row, column, or even by a single cell by adding spri
 | bg\_pattern       | x           |         |          | x    | x     |
 | bg\_pattern\_by   | x           |         |          | x    | x     |
 | bold              | x           | x       | x        | x    | x     |
-| border\_collapse  | x           |         |          | x    |       |
+| bookdown          | x           |         |          |      | x     |
+| border\_collapse  | x           |         |          | x    | x     |
 | border            | x           |         |          | x    | x     |
 | border\_thickness | x           |         |          | x    | x     |
 | border\_units     | x           |         |          | x    | x     |
 | border\_style     | x           |         |          | x    | x     |
 | border\_color     | x           |         |          | x    | x     |
+| caption           | x           | x       | x        | x    | x     |
 | colnames          | x           | x       | x        | x    | x     |
+| float             | x           |         |          |      | x     |
 | fn                | x           | x       | x        | x    | x     |
 | font\_color       | x           |         |          | x    | x     |
 | font\_family      | x           |         |          | x    |       |
@@ -51,7 +55,10 @@ Tables can be customized by row, column, or even by a single cell by adding spri
 | halign            | x           |         |          | x    | x     |
 | height            | x           |         |          | x    | x     |
 | height\_units     | x           |         |          | x    | x     |
+| hhline            | x           |         |          |      | x     |
 | italic            | x           | x       | x        | x    | x     |
+| justify           | x           |         |          | x    | x     |
+| label             | x           |         |          | x    | x     |
 | longtable         | x           | x       | x        | x    | x     |
 | merge             | x           | x       | x        | x    | x     |
 | na\_string        | x           | x       | x        | x    | x     |
@@ -111,25 +118,19 @@ tidy(fit)
 
 It has been observed by some, however, that even this summary isn't quite ready for publication. There are too many decimal places, the p-value employ scientific notation, and column titles like "statistic" don't specify what type of statistic. These kinds of details aren't the purview of `broom`, however, as `broom` is focused on tidying the results of a model for further analysis (particularly with respect to comparing slightly varying models).
 
-The `pixiedust` package diverts from `broom`'s mission here and provides the ability to customize the `broom` output for presentation. The initial `dust` object returns a table that is largely similar to the `broom` output. Truthfully, it may be less desirable because it has converted all of those numerical values into character strings. This has the consequence of losing the numerical formatting employed by printing a data frame.
+The `pixiedust` package diverts from `broom`'s mission here and provides the ability to customize the `broom` output for presentation. The initial `dust` object returns a table that is similar to the `broom` output.
 
 ``` r
 library(pixiedust)
-dust(fit)
-#>            term           estimate         std.error          statistic
-#> 1   (Intercept)   9.36504430865836  8.37301612033658   1.11847919245161
-#> 2          qsec   1.24492121340088 0.382847869162145    3.2517386504602
-#> 3   factor(am)1   3.15051775932893  1.94051711270669   1.62354546563854
-#> 4            wt   -3.9263021501002 0.742756198609962   -5.2861250534807
-#> 5 factor(gear)4 -0.268163000929796  1.65546166120695 -0.161986838604456
-#> 6 factor(gear)5 -0.269746805223248   2.0631829212229 -0.130743039043461
-#>                p.value
-#> 1    0.273590282784449
-#> 2  0.00316812765022556
-#> 3    0.116536745986852
-#> 4 1.58173505907644e-05
-#> 5    0.872568516561885
-#> 6    0.896984955536724
+dust(fit) %>%
+  sprinkle_print_method("console")
+#>            term   estimate std.error  statistic   p.value
+#> 1   (Intercept)  9.3650443 8.3730161  1.1184792 0.2735903
+#> 2          qsec  1.2449212 0.3828479  3.2517387 0.0031681
+#> 3   factor(am)1  3.1505178 1.9405171  1.6235455 0.1165367
+#> 4            wt -3.9263022 0.7427562 -5.2861251  1.58e-05
+#> 5 factor(gear)4  -0.268163 1.6554617 -0.1619868 0.8725685
+#> 6 factor(gear)5 -0.2697468 2.0631829  -0.130743  0.896985
 ```
 
 Where `pixiedust` shows its strength is the ease of which these tables can be customized. The code below rounds the columns `estimate`, `std.error`, and `statistic` to three decimal places each, and then formats the `p.value` into a format that happens to be one that I like.
@@ -137,7 +138,8 @@ Where `pixiedust` shows its strength is the ease of which these tables can be cu
 ``` r
 x <- dust(fit) %>% 
   sprinkle(col = 2:4, round = 3) %>% 
-  sprinkle(col = 5, fn = quote(pvalString(value)))
+  sprinkle(col = 5, fn = quote(pvalString(value))) %>%
+  sprinkle_print_method("console")
 x
 #>            term estimate std.error statistic p.value
 #> 1   (Intercept)    9.365     8.373     1.118    0.27
@@ -159,7 +161,8 @@ x <- x %>%
                 estimate = "Estimate", 
                 std.error = "SE",
                 statistic = "T-statistic", 
-                p.value = "P-value")
+                p.value = "P-value") %>%
+  sprinkle_print_method("console")
 
 x
 #>            Term   Estimate    SE T-statistic     P-value
@@ -171,40 +174,30 @@ x
 #> 6 factor(gear)5    -0.27   2.063      -0.131       0.9
 ```
 
-### Upcoming Developments
-
-We're just getting started! While there are a number of customizations already available or planned, here are some other ideas that I hope to implement in the future.
-
-1.  Support for multi-row table headings
-2.  Support for `longtable`s in LaTeX (and a similar rendering in markdown and HTML).
-3.  An option to use `broom`'s `glance` output in the table foot.
-4.  Multicolumn and multirow support
-5.  Perhaps an `htmlTables` engine
-6.  An engine for `flexTables` (`ReporteRs` package)
-7.  Option to add variable labels to `broom` output (if labels were given using the `Hmisc::label` functions
-8.  Option to add factor levels as a separate column to `broom` output
-9.  Functionality to define your own default settings.
-10. 
-
-Are there other features you want or need? Please submit an issue, or contribute functionality yourself.
-
 ### Development Schedule
 
-|    Version| Release Description                                |  Target Date| Actual Date  |
-|----------:|:---------------------------------------------------|------------:|--------------|
-|  **0.1.0**| Console, markdown and HTML output for simple table |   1 Aug 2015| 3 Aug 2015   |
-|      0.2.0| Multirow table headers; footers; multipage tables  |  20 Aug 2015| 18 Aug 2015  |
-|      0.3.0| Multicolumn and multirow cells in HTML             |  15 Sep 2015| 15 Sept 2015 |
-|      0.4.0| Glance statistics in table footer                  |   1 Oct 2015| 25 Sept 2015 |
-|           | Add variable labels and levels to `broom` output   |             |              |
-|  **0.5.0**| LaTeX output for simple table                      |  15 Oct 2015| 15 Oct 2015  |
-|           | Adjustable cell heights and widths in LaTeX tables |             |              |
-|           | Add `medley` for batch customizations              |             |              |
-|      0.6.0| Borders and backgrounds for LaTeX tables           |   1 Dec 2015| 9 Dec 2015   |
-|           | Multicolumn and multirow support for LaTeX tables  |             |              |
-|           | Longtable support for LaTeX tables                 |             |              |
-|           | Rotated text for LaTeX tables                      |             |              |
-|  **1.0.0**| Release of basic, stable package                   |   1 Apr 2015|              |
+|    Version| Release Description                                  |  Target Date| Actual Date  |
+|----------:|:-----------------------------------------------------|------------:|--------------|
+|  **0.1.0**| Console, markdown and HTML output for simple table   |   1 Aug 2015| 3 Aug 2015   |
+|      0.2.0| Multirow table headers; footers; multipage tables    |  20 Aug 2015| 18 Aug 2015  |
+|      0.3.0| Multicolumn and multirow cells in HTML               |  15 Sep 2015| 15 Sept 2015 |
+|      0.4.0| Glance statistics in table footer                    |   1 Oct 2015| 25 Sept 2015 |
+|           | Add variable labels and levels to `broom` output     |             |              |
+|  **0.5.0**| LaTeX output for simple table                        |  15 Oct 2015| 15 Oct 2015  |
+|           | Adjustable cell heights and widths in LaTeX tables   |             |              |
+|           | Add `medley` for batch customizations                |             |              |
+|      0.6.0| Borders and backgrounds for LaTeX tables             |   1 Dec 2015| 9 Dec 2015   |
+|           | Multicolumn and multirow support for LaTeX tables    |             |              |
+|           | Longtable support for LaTeX tables                   |             |              |
+|           | Rotated text for LaTeX tables                        |             |              |
+|  **0.7.0**| `bookdown` support                                   |  30 Apr 2016|              |
+|           | Auto detect output format (supports knitr/Rmarkdown) |             |              |
+|           | `fixed` coordinate pairing for sprinkles             |             |              |
+|           | Sprinkle recycling                                   |             |              |
+|           | Captions, floating environments, labels              |             |              |
+|           | `hhline` option allows background colors and borders |             |              |
+|           | Methods for grouped and split data frames            |             |              |
+|  **1.0.0**| Release of basic, stable package                     |  1 June 2016|              |
 
 **bold version numbers** indicate a planned release to CRAN.
 
@@ -213,16 +206,16 @@ A cool, free tip!
 
 The markdown output from `pixiedust` is somewhat limited due to the limitations of `Rmarkdown` itself. If/when more features become available for `Rmarkdown` output, I'll be sure to include them. But what can you do if you *really* want all of the flexibility of the HTML tables but need the MS Word document?
 
-With a little help from the `Grmd` package, you can have the best of both worlds. `Grmd` isn't available on CRAN yet, but if you're willing to install it from GitHub, you can render a `docx` file. Install `Grmd` with
+With a little help from the `Gmisc` package, you can have the best of both worlds. `Gmisc` isn't available on CRAN yet, but if you're willing to install it from GitHub, you can render a `docx` file. Install `Gmisc` with
 
-`devtools::install_github("gforge/Grmd")`
+`install.packages("Gmisc")`
 
 Then use in your YAML header
 
     ---
-    output: Grmd::docx_document
+    output: Gmisc::docx_document
     ---
 
 When you knit your document, it knits as an HTML file, but I've had no problems with the rendering when I right-click the file and open with MS Word.
 
-Read more at <http://gforge.se/2014/07/fast-track-publishing-using-rmarkdown/>
+Read more at <http://gforge.se/2014/07/fast-track-publishing-using-rmarkdown/> (but note that this blog post was written about the `Grmd` package before it was moved into the `Gmisc` package).

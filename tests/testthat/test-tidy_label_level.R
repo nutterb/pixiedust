@@ -16,11 +16,10 @@ fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars2)
 
 test_that("output for a model with no interactions",
 {
-  expect_that(tidy_levels_labels(fit, 
+  expect_silent(tidy_levels_labels(fit, 
                                  descriptors = c("term", "term_plain", "label", 
                                                  "level", "level_detail"),
-                                 numeric_level = "term"),
-              not(throws_error()))
+                                 numeric_level = "term"))
 })
  
 #* Assign factors ahead of the model. This allows 
@@ -48,11 +47,10 @@ fit <- lm(mpg ~ qsec + am * wt + factor(gear), data = mtcars2)
 
 test_that("use an interaction",
 {
-  expect_that(tidy_levels_labels(fit, 
+  expect_silent(tidy_levels_labels(fit, 
                                  descriptors = c("term", "term_plain", "label", 
                                                  "level", "level_detail"),
-                                 numeric_level = "term"),
-              not(throws_error()))
+                                 numeric_level = "term"))
 })
  
 #* Now observe how 'level' and 'level_detail' change 
@@ -61,34 +59,30 @@ test_that("use an interaction",
 
 test_that("use an interaction with term_plain",
 {
-  expect_that(tidy_levels_labels(fit, 
+  expect_silent(tidy_levels_labels(fit, 
                                  descriptors = c("term", "term_plain", "label", 
                                                  "level", "level_detail"),
-                                 numeric_level = "term_plain"),
-              not(throws_error()))
+                                 numeric_level = "term_plain"))
 })
    
 test_that("use an interaction with label",
 {
-  expect_that(tidy_levels_labels(fit, 
+  expect_silent(tidy_levels_labels(fit, 
                                  descriptors = c("term", "term_plain", "label", 
                                                  "level", "level_detail"),
-                                 numeric_level = "label"),
-              not(throws_error()))
+                                 numeric_level = "label"))
 })
 
 test_that("tidy_labels_levels with bad descriptor list",
 {
-  expect_that(tidy_levels_labels(fit,
+  expect_error(tidy_levels_labels(fit,
                                  descriptors = c("term_boring"),
-                                 numeric_level = "term"),
-              throws_error())
+                                 numeric_level = "term"))
 })
 
 test_that("tidy_labels_levels with bad numeric_level",
 {
-  expect_that(tidy_levels_labels(fit,
+  expect_error(tidy_levels_labels(fit,
                                  descriptors = c("term"),
-                                 numeric_level = "term_boring"),
-              throws_error())
+                                 numeric_level = "term_boring"))
 })

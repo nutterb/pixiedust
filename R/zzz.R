@@ -1,6 +1,6 @@
 .onLoad <- function(libname,pkgname)
 {
-  options(pixiedust_print_method="console",
+  options(pixiedust_print_method = "console",
           pixie_count = 0)
 }
 

@@ -1,0 +1,295 @@
+sprinkle,action_format,description
+bg,,
+,action,Modifies the background color of a cell.
+,default,
+,accepts,"dvips color names; rgb(R,G,B); rgba(R,G,B,A); #RRGGBB; #RRGGBBAA"
+,console,Not recognized
+,markdown,Not recognized
+,html,Accepts any of the listed formats; recognizes transparency
+,latex,"Accepts any of the listed formats, but ignores transparency"
+bg_pattern,,
+,action,Generates a pattern of background colors.  Can be used to make striping by rows or by columns.
+,default,"c(""#FFFFFF"", ""#DDDDDD"")"
+,accepts,"A vector of color names: dvips color names; rgb(R,G,B); rgba(R,G,B,A); #RRGGBB; #RRGGBBAA"
+,console,Not recognized
+,markdown,Not recognized
+,html,Accepts any of the listed formats; recognizes transparency
+,latex,"Accepts any of the listed formats, but ignores transparency"
+bg_pattern_by,,
+,action,Determines if a `bg_pattern` is patterned by row or by columns.
+,default,"""rows"""
+,accepts,"""rows"", ""columns"", ""cols"""
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,Recognized
+bold,,
+,action,Renders text within a cell in bold.
+,default,FALSE
+,accepts,logical(1)
+,console,Recognized; rendered as double asterisks on either side fo the text
+,markdown,Recognized
+,html,Recognized
+,latex,Recognized
+border_collapse,,
+,action,Sets the `border-collapse` property in an HTML table.  The property sets whether the table borders are collapsed into a single border or detached as in standard HTML.
+,default,TRUE
+,accepts,logical(1)
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,Not recognized
+border,,
+,action,Sets a border on the specified side of a cell.
+,default,
+,accepts,"Any combination of ""all"", ""bottom"", ""left"", ""top"", ""right"".  Using ""all"" results in all borders being drawn, regardless of what other values are passed with it."
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,Recognized
+border_color,,
+,action,Sets the color of the borders specified for a cell.
+,default,"""Black"""
+,accepts,"character(1); dvips color names; rgb(R,G,B); rgba(R,G,B,A); #RRGGBB; #RRGGBBAA"
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,Recognized
+border_style,,
+,action,Sets the border style for a specified cell
+,default,"""solid"""
+,accepts,"character(1); ""solid"", ""dashed"", ""dotted"", ""double"", ""groove"", ""ridge"", ""inset"", ""outset"", ""hidden"", ""none"""
+,console,Not recognized
+,markdown,Not recognized
+,html,Accepts any of the values listed.
+,latex; hhline = FALSE,"accepts ""solid"", ""dashed"", ""dotted"", ""hidden"", ""none"". ""dotted"" is silently changed to ""dashed"". ""hidden"" and ""none"" are equivalent."
+,latex; hhline = TRUE,"accepts ""solid"", ""double"", ""hidden"", ""none"". ""hidden"" and ""none"" are equivalent."
+border_thickness,,
+,action,Sets the thickness of the specified border
+,default,1
+,accepts,numeric(1)
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,Recognized
+border_units,,
+,action,Sets the unit of measure for the specified border thickness
+,default,"""pt"""
+,accepts,"""pt"", ""px"""
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,"Silently changes ""px"" to ""pt"""
+caption,,
+,action,Adds or alters the `caption` property
+,default,
+,accepts,character(1)
+,console,Recognized
+,markdown,Recognized
+,html,Recognized
+,latex,Recognized
+float,,
+,action,Sets the `float` property
+,default,TRUE
+,accepts,logical(1)
+,console,Not recognized
+,markdown,Not recognized
+,html,Not recognized
+,latex,Recognized
+fn,,
+,action,"Applies a function to the value of a cell. The function should be an expression that acts on the variable `value`.  For example, `quote(format(value, nsmall = 3))`"
+,default,
+,accepts,call
+,console,Recognized
+,markdown,Recognized
+,html,Recognized
+,latex,Recognized
+font_color,,
+,action,Sets the color of the cell text
+,default,Black
+,accepts,"dvips color names; rgb(R,G,B); rgba(R,G,B,A); #RRGGBB; #RRGGBBAA"
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized; transparency recognized
+,latex,Recognized; transparency ignored
+font_family,,
+,action,Sets the font for the text
+,default,Times New Roman
+,accepts,character(1)
+,,http://www.w3schools.com/cssref/css_websafe_fonts.asp
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,Not recognized
+font_size,,
+,action,Sets the size of the font in the cell
+,default,
+,accepts,numeric(1)
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,Recognized
+font_size_units,,
+,action,Determines the units in which `font_size` is measured
+,default,"""px"""
+,accepts,"""px"", ""pt"", ""%"", ""%em"""
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,"Only recognizes ""pt"" and ""em"".  All others are coerced to ""pt"""
+halign,,
+,action,Sets the horizontal alignment of the text in the cell
+,default,
+,accepts,"""left"", ""center"", ""right"""
+,console,Not recognized
+,markdown,Recognized; numeric values will auto align to the right if no
+,,value given.
+,html,Recognized.  Does not currently employ auto alignment of
+,,"numeric values, but this may change."
+,latex,Recognized; numeric values will auto align to the right if no
+,,value given.
+height,,
+,action,Sets the height of the cell
+,default,
+,accepts,numeric(1)
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,Recognized
+height_units,,
+,action,Determines the units in which `height` is measured
+,default,"""pt"""
+,accepts,"""px"", ""pt"", ""cm"", ""in"", ""%"""
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,"Recognized; ""px"" is coerced to ""pt"""
+hhline,,
+,action,Toggles the option for cell border drawing with the `hhline`
+,,LaTeX package
+,default,FALSE
+,accepts,logical(1)
+,console,Not recognized
+,markdown,Not recognized
+,html,Not recognized
+,latex,"Recognized.  When `FALSE` double borders are not available. When `TRUE`, colored and dashed borders are not available. This is usually the better option when using colored backgrounds in table cells."
+italic,,
+,action,Renders the text in the cell in italic
+,default,FALSE
+,accepts,logical(1)
+,console,Recognized; rendered as an underscore on either side of the text.
+,markdown,Recognized
+,html,Recognized
+,latex,Recognized
+justify,,
+,action,Justifies the entire table on the page.
+,default,"""center"""
+,accepts,character(1)
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,"Recognizes ""center"", but both ""left"" and ""right"" are rendered as left justified.  This may change if a satisfactory solution is found.  Usually, tables are best left centered."
+longtable,,
+,action,"Toggles the use of the LaTeX `longtable` style tables, namely allowing long tables to be broken into multiple sections. The table header appears at the top of each section. The table interfoot appears at the bottom of each section, except the last The table foot appears at the bottom of the last section. May accept either a logical or a numerical value.  If numerical each section will have the specified number of rows."
+,default,FALSE
+,accepts,logical(1); numeric(1)
+,console,"Recognized; when `TRUE`, defaults to 25 rows per section."
+,markdown,"Recognized; when `TRUE`, defaults to 25 rows per section."
+,html,"Recognized; when `TRUE`, defaults to 25 rows per section."
+,latex,"Recognized; when `TRUE`, `longtable`'s own algorithm will determine the number of rows per section.  When numeric, breaks are forced at the specified number of rows."
+merge,,
+,action,"Merges cells in the specified range into a single cell. In cases where either `merge_rowval` or `merge_colval` is specified, they will only be honored if `merge = TRUE`.  You must opt in to this action."
+,default,FALSE
+,accepts,logical(1)
+,console,Recognized
+,markdown,Recognized
+,html,Recognized
+,latex,Recognized
+merge_rowval,,
+,action,Specifies the row value of the merged range to print in the table
+,default,minimum row value of the merged range
+,accepts,numeric(1)
+,console,Recognized
+,markdown,Recognized
+,html,Recognized
+,latex,Recognized
+merge_colval,,
+,action,Specifies the column value of the merged range to print in the table
+,default,minimum col value of the merged range
+,accepts,numeric(1)
+,console,Recognized
+,markdown,Recognized
+,html,Recognized
+,latex,Recognized
+na_string,,
+,action,Designates the character string to use in place of missing values
+,default,NA
+,accepts,character(1)
+,console,Recognized
+,markdown,Recognized
+,html,Recognized
+,latex,Recognized
+pad,,
+,action,Designates the padding to place between cell text and boundaries Measured in pixels.
+,default,0
+,accepts,numeric(1)
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,Not recognized
+replace,,
+,action,Replaces existing cell values with user-specified content. Replacement occurs moving down columns from left to right.
+,default,
+,accepts,character vector of the same length as the number of cells being replaced.
+,console,Recognized
+,markdown,Recognized
+,html,Recognized
+,latex,Recognized
+rotate_degree,,
+,action,Rotates text in cells by the designated angle in degrees
+,default,
+,accepts,numeric(1)
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,Recognized
+round,,
+,action,Applies the `round` function to values in the cell.  Skips any character values it encounters.
+,default,"`getOption(""digits"")`"
+,accepts,numeric(1)
+,console,Recognized
+,markdown,Recognized
+,html,Recognized
+,latex,Recognized
+tabcolsep,,
+,action,"Modifies the LaTeX `tabcolsep` parameter of tables. This is similar to `pad` for HTML tables, but only affects the space between columns. Measured in ""pt"""
+,default,6
+,accepts,numeric(1)
+,console,Not recognized
+,markdown,Not recognized
+,html,Not recognized
+,latex,Recognized
+valign,,
+,action,Designates the vertical alignment of a cell.
+,default,
+,accepts,"""top"", ""middle"", ""bottom"""
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,Recognized
+width,,
+,action,Sets the width of the cell
+,default,
+,accepts,numeric(1)
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,Recognized
+width_units,,
+,action,Determines the units in which `width` is measured
+,default,"""pt"""
+,accepts,"""px"", ""pt"", ""cm"", ""in"", ""%"""
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,"Recognized; ""px"" is coerced to ""pt"""

@@ -1,6 +1,6 @@
 #' @name as.data.frame.dust
 #' 
-#' @title Convert \code{dust} Object to Data Frame
+#' @title Convert \code{dust} Object to Data Frame 
 #' @description Sprinkles are applied to the \code{dust} object
 #'   as if it were being prepared for printing to the console.
 #'   However, instead of printing, the object is returned 
@@ -54,7 +54,7 @@ as.data.frame.dust <- function(x, ..., sprinkled = TRUE){
     
     classes <- dplyr::group_by(x$body, col) %>%
       dplyr::summarise(col_class = col_class[1])
-    classes <- paste0("as.", classes$col_class)
+    classes <- sprintf("as.%s", classes$col_class)
     
     for (i in seq_along(X)){
       X[[i]] <- get(classes[i])(X[[i]])
@@ -66,5 +66,15 @@ as.data.frame.dust <- function(x, ..., sprinkled = TRUE){
   }
   
 }
+
+#' @rdname as.data.frame.dust
+#' @export
+
+as.data.frame.dust_list <- function(x, ...)
+{
+  lapply(x,
+         as.data.frame.dust)
+}
+
 
 utils::globalVariables(c("value", "col_name", "col_class"))

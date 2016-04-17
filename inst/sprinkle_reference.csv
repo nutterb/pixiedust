@@ -1,0 +1,39 @@
+sprinkle,group,assert_fn,class,arg_len,arg_classes,arg_choices,arg_several_ok,default
+bg,simple,assertCharacter,character,1,,,,
+bg_pattern,bg_pattern,assertCharacter,character,,,,,"c(""#FFFFFF"", ""#DDDDDD"")"
+bg_pattern_by,bg_pattern,assert_match_arg,character,,,"c(""rows"", ""cols"", ""columns"")",,
+bold,simple,assertLogical,logical,1,,,,
+bookdown,option,assertLogical,logical,1,,,,
+border,border,assert_match_arg,character,,,"c(""all"", ""bottom"", ""left"", ""top"", ""right"")",TRUE,all
+border_thickness,border,assertNumeric,numeric,1,,,,1
+border_units,border,assert_match_arg,character,,,"c(""px"", ""pt"")",,px
+border_style,border,assert_match_arg,character,,,"c(""solid"", ""dashed"", ""dotted"", ""double"", ""groove"", ""ridge"", ""inset"", ""outset"", ""hidden"", ""none"")",,solid
+border_color,border,assertCharacter,,1,,,,Black
+border_collapse,option,assertLogical,,1,,,,
+caption,option,assertCharacter,,1,,,,
+float,option,assertLogical,,1,,,,
+fn,simple,assertClass,,,call,,,
+font_family,simple,assertCharacter,,1,,,,
+font_color,simple,assertCharacter,,1,,,,
+font_size,font_size,assertNumeric,,1,,,,
+font_size_units,font_size,assert_match_arg,,,,"c(""px"", ""pt"", ""%"", ""em"")",,pt
+halign,simple,assert_match_arg,,,,"c(""left"", ""center"", ""right"")",,
+height,height,assertNumeric,,1,,,,
+height_units,height,assert_match_arg,,,,"c(""px"", ""pt"", ""cm"", ""in"", ""%"")",,pt
+hhline,option,assertLogical,,1,,,,
+italic,simple,assertLogical,,1,,,,
+justify,option,assert_match_arg,character,,,"c(""center"", ""left"", ""right"")",,"""center"""
+label,option,assertCharacter,,1,,,,
+longtable,option,assertLogical,,1,,,,
+merge,merge,assertLogical,,1,,,,
+merge_rowval,merge,assertNumeric,,1,,,,
+merge_colval,merge,assertNumeric,,1,,,,
+na_string,simple,assertCharacter,,1,,,,
+pad,simple,assertNumeric,,1,,,,
+replace,simple,assertVector,,,,,,
+rotate_degree,simple,assertNumeric,,1,,,,
+round,simple,assertNumeric,,1,,,,
+tabcolsep,option,assertNumeric,,1,,,,
+valign,simple,assert_match_arg,,,,"c(""top"", ""middle"", ""bottom"")",,
+width,width,assertNumeric,,1,,,,
+width_units,width,assert_match_arg,,,,"c(""px"", ""pt"", ""cm"", ""in"", ""%"")",,pt

@@ -3,7 +3,7 @@
 #' @method print dust
 #' 
 #' @title Print A \code{dust} Table
-#' @details Apply the formatting to a \code{dust} object and print the table.
+#' @description Apply the formatting to a \code{dust} object and print the table.
 #' 
 #' @param x An object of class \code{dust}
 #' @param ... Additional arguments to pass to the print method.  Currently ignored.
@@ -36,24 +36,27 @@
 
 print.dust <- function(x, ..., asis = TRUE)
 {
-  Check <- ArgumentCheck::newArgCheck()
+  print_method <- x$print_method
+  if (print_method == "latex" & x$hhline)
+    print_method <- "latex_hhline"
   
-  if (!is.null(x$caption) & !x$float & !x$longtable & x$print_method == "latex")
-  {
-    ArgumentCheck::addWarning(
-      msg = paste0("You have requested a caption in a non-floating environment; ",
-                   "the caption will be ignored \n  ",
-                   "Either change set 'float = TRUE' or 'longtable = TRUE' in 'dust'"),
-      argcheck = Check)
-    x$caption <- NULL
-  }
-                   
-  ArgumentCheck::finishArgCheck(Check)
-  
-  switch(x$print_method,
-        "console" = print_dust_console(x, ..., asis = asis),
-        "markdown" = print_dust_markdown(x, ..., asis = asis),
-        "html" = print_dust_html(x, ..., asis = asis),
-        "latex" = print_dust_latex(x, ..., asis = asis),
-        stop(paste0("'", x$print_method, "' is not an valid print method")))
+  switch(print_method,
+        "console"      = print_dust_console(x, ..., asis = asis),
+        "docx"         = print_dust_markdown(x, ..., asis = asis),
+        "markdown"     = print_dust_markdown(x, ..., asis = asis),
+        "html"         = print_dust_html(x, ..., asis = asis),
+        "latex"        = print_dust_latex(x, ..., asis = asis),
+        "latex_hhline" = print_dust_latex_hhline(x, ..., asis = asis),
+        stop(sprintf("'%s' is not an valid print method",
+                     x[["print_method"]])))
+}
+
+#' @rdname print.dust
+#' @export
+
+print.dust_list <- function(x, ..., asis = TRUE)
+{
+  lapply(X = x,
+         FUN = print.dust,
+         asis = asis)
 }

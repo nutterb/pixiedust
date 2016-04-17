@@ -1,19 +1,48 @@
 #' @rdname sprinkle
-#' @param print_method A character string giving the print method for the table.  
+#' @param print_method A character string giving the print method for the table. 
+#'   Note: \code{"docx"} is synonymous with \code{"markdown"}.  
 #' @export
-sprinkle_print_method <- function(x, print_method = c("console", "markdown", "html", "latex"))
+
+sprinkle_print_method <- function(x, 
+                                  print_method = c("console", "markdown", "html", "latex"))
 {
-  Check <- ArgumentCheck::newArgCheck()
-  if (class(x) != "dust")
-    ArgumentCheck::addError(
-      msg = "Sprinkles may only be added to objects of class 'dust'",
-      argcheck = Check)
+  UseMethod("sprinkle_print_method")
+}
+
+#' @rdname sprinkle
+#' @export
+
+sprinkle_print_method.default <- function(x, 
+                                          print_method = c("console", "markdown", 
+                                                           "html", "latex", "docx"))
+{
+  coll <- checkmate::makeAssertCollection()
   
-  print_method <- ArgumentCheck::match_arg(print_method,
-                                           c("console", "markdown", "html", "latex"),
-                                           argcheck = Check)
-  ArgumentCheck::finishArgCheck(Check)
+  checkmate::assertClass(x, 
+                         classes = "dust",
+                         add = coll)
   
-  x$print_method <- print_method
+  checkmate::assertSubset(print_method,
+                          c("console", "markdown", "html", "latex", "docx"),
+                          add = coll)
+
+  checkmate::reportAssertions(coll)
+
+  x[["print_method"]] <- print_method
   x
+}
+
+#' @rdname sprinkle
+#' @export
+
+sprinkle_print_method.dust_list <- function(x, 
+                                          print_method = c("console", "markdown", 
+                                                           "html", "latex"))
+{
+  structure(
+    lapply(X = x,
+           FUN = sprinkle_print_method,
+           print_method = print_method),
+    class = "dust_list"
+  )
 }

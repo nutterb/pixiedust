@@ -1,3 +1,51 @@
+#### 0.7.0 (15 April 2016)
+* Backward compatibility: The way `pixiedust` deals with 
+  colors has changed.  If you are using custom defined colors in your 
+  LaTeX preamble, these will no longer work.  `pixiedust` will only accept
+  colors names in `colors()`, or in the `rgb`, `rgba`, `#RRGGBB`, or
+  `#RRDDBBAA` formats.  This only affects LaTeX output, and provides a 
+  better interface for ensuring all HTML and LaTeX output are as similar
+  as possible.
+* Added justification for tables.  Use the `justify` argument in 
+  `dust` and the `justify` sprinkle to move the table to the left,
+  or right side of the page.  Defaults to centered.
+* Added auto-detection of the print method.  When a document is being
+  knit, the output format is read from `knitr::opts_knit$get("rmarkdown.pandoc.to")`.
+  If this resolves to `NULL`, the value of `getOption("pixiedust_print_method")`
+  is used.
+* Added `docx` as a valid print method, which is synonymous with `markdown`.
+* labels for HTML and LaTeX tables are automatically generated when 
+  `label = NULL`.  First, an attempt is made to generate a label from the 
+  chunk label, and if that fails, a label is generated from `getOption("pixie_count")`
+* Added default horizontal alignments for HTML tables
+* Added default rounding for numerical values. If the user does not give a value,
+  the value of `getOption("digits")` is used. This effectively prints as many
+  decimal places as would be printed in the console.
+* Sprinkle recycling is added with `recycle` argument.
+* Fixed coordinate pairs is added with `fixed` argument.
+* Added recognition of all colors in `colors()`
+
+#### 0.6.3 (8 April 2016)
+* Converted `dust`, `sprinkle` functions, and `print` to S3 methods. 
+  This allows for lists of data frames to be processed as 
+  separate tables.
+* Added `dust.grouped_df` to give the option of ungrouping a 
+  grouped_df object, or splitting it.
+* Added the `bookdown` attribute (and sprinkle) to allow use with 
+  the `bookdown` package.
+* Added labeling.
+* Added `caption`, `hhline`, and `float` as sprinkles.
+* Changed the default colors for `bg_pattern` to "#FFFFFF#" and "#DDDDDD".
+  The gray in this pattern is a little lighter and should do better when 
+  printed in black and white.
+
+#### 0.6.2 (15 March 2016)
+* Implemented a new printing method that makes use of the `hhline` 
+  LaTeX package.  This allows borders to be drawn over background
+  colors.  In the existing method, the cell borders are hidden 
+  by background colors.  The hhline method can be used by setting
+  `options(pixiedust_latex_hhline = TRUE)`.
+
 #### 0.6.1 (8 January 2016)
 * Table Captions are now implemented.
 * Added parameter to place LaTeX tables in a float environment.  This was 

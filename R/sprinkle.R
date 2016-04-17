@@ -1,14 +1,5 @@
 #' @name sprinkle
 #' @export sprinkle
-#' @importFrom ArgumentCheck newArgCheck
-#' @importFrom ArgumentCheck addError
-#' @importFrom ArgumentCheck addMessage
-#' @importFrom ArgumentCheck finishArgCheck
-#' @importFrom ArgumentCheck match_arg
-#' @importFrom dplyr left_join
-#' @importFrom dplyr mutate_
-#' @importFrom dplyr select_
-#' @importFrom tidyr spread_
 #' 
 #' @title Define Customizations to a Table
 #' @description Customizations to a \code{dust} table are added by "sprinkling"
@@ -22,19 +13,25 @@
 #' @param cols A numeric (or character) vector specifying the columns (or 
 #'   column names) to sprinkle.  See details for more about sprinkling.
 #' @param part A character string denoting which part of the table to modify.
+#' @param fixed \code{logical(1)} indicating if the values in \code{rows} 
+#'   and \code{cols} should be read as fixed coordinate pairs.  By default, 
+#'   sprinkles are applied at the intersection of \code{rows} and \code{cols}, 
+#'   meaning that the arguments do not have to share the same length.  
+#'   When \code{fixed = TRUE}, they must share the same length.
+#' @param recycle A \code{character} one that determines how sprinkles are 
+#'   managed when the sprinkle input doesn't match the length of the region
+#'   to be sprinkled.  By default, recycling is turned off.  Recycling 
+#'   may be performed across rows first (left to right, top to bottom), 
+#'   or down columns first (top to bottom, left to right).
 #' @param ... named arguments, each of length 1, defining the customizations
 #'   for the given cells.  See "Sprinkles" for a listing of these arguments.
 #'   
-#' @details Sprinkling is done over the intersection of rows and columns.  If
+#' @details Sprinkling is done over the intersection of rows and columns 
+#'   (unless \code{fixed = TRUE}.  If
 #'   rows but no columns are specified, sprinkling is performed over all columns
 #'   of the given given rows. The reverse is true for when columns but no rows
 #'   are specified.  If neither columns nor rows are specified, the attribute 
 #'   is applied over all of the cells in the table part denoted in \code{part}.
-#'
-#'   Whenever \code{part = "table"}, \code{rows} and \code{columns} are ignored
-#'   and the attributes are applied to the entire table. This feature is not
-#'   yet implemented (2015-08-05) and may be removed, depending on how useful 
-#'   it turns out to be.
 #'
 #'   If at least one of \code{border}, \code{border_thickness}, \code{border_units},
 #'   \code{border_style} or \code{border_color} is specified, the remaining
@@ -49,142 +46,389 @@
 #'   A more detailed demonstration of the use of sprinkles is available in 
 #'   \code{vignette("pixiedust", package = "pixiedust")}
 #'   
-#'   In \code{sprinkle}, when \code{part = "table"}, the attributes are assigned to 
-#'   the entire table.  This is not yet active and may be removed entirely.
-#'   
-#'   The \code{sprinkle_table}, sprinkles may be applied to the columns of multiple tables. Table
+#'   Using \code{sprinkle_table}, sprinkles may be applied to the columns of multiple tables. Table
 #'   parts are required to have the same number of columns, but not necessarily the same number 
 #'   of rows, which is why the \code{rows} argument is not available for the \code{sprinkle_table}.
-#'   In contrast to \code{sprinkle}, the \code{part} argument in \code{sprinkle} table will 
+#'   In contrast to \code{sprinkle}, the \code{part} argument in \code{sprinkle_table} will 
 #'   accept multiple parts.  If any of the named parts is \code{"table"}, the sprinkle will be 
 #'   applied to the columns of all of the parts.
 #'   
-#'   
 #' @section Sprinkles:
-#' The following list describes the valid sprinkles that may be defined in the 
+#' The following table describes the valid sprinkles that may be defined in the 
 #' \code{...} dots argument.  All sprinkles may be defined for any output type, but 
-#' only sprinkles recognized by that output type will be applied.  For a complete
-#' list of which sprinkles are recognized by each output type, see 
+#' only sprinkles recognized by that output type will be applied when printed.  
+#' A more readable format of this information is available in  
 #' \code{vignette("sprinkles", package = "pixiedust")}.
 #' 
-#' \itemize{
-#'   \item{\code{bg} }{A character string denoting the color 
-#'      for the background.  See "Colors".}
-#'   \item{\code{bg_pattern} }{This is one of the few exceptions to the length 1 rule.
-#'      This accepts a vector of any length.  Background colors are recycled in a 
-#'      pattern. See "Colors". If left unspecified but \code{bg_pattern_by} is 
-#'      specified, this will default to \code{c("White", "Gray")}.}
-#'   \item{\code{bg_pattern_by} }{A character string denoting if the background 
-#'      pattern is recycled over rows or columns.  Accepts either \code{"rows"},
-#'      or \code{"columns"} with partial matching and defaults to \code{"rows"}.
-#'      If \code{bg_pattern} is provided, \code{bg_pattern_by} is assumed, meaning
-#'      it is not necessary to explicitly define \code{bg_pattern_by} unless 
-#'      changing an existing or default setting.}
-#'   \item{\code{bold} }{Logical value.  If \code{TRUE}, text is rendered in bold.}
-#'   \item{\code{border_collapse} }{Logical.  Defaults to \code{TRUE}. 
-#'      This element is only applicable to 
-#'      \code{part = "table"} and will be applied to the table regardless
-#'      the value of \code{part} in the call.}
-#'   \item{\code{border} }{This is one of the few exceptions to the length 1 rule.  
-#'      Accepts values \code{"left"}, \code{"right"}, \code{"top"}, 
-#'      \code{"bottom"}, and \code{"all"} with partial matching.  The border will be added
-#'      to the sides indicated. In LaTeX output with merged cells, horizontal 
-#'      borders are placed on all rows identified, making it possible to run 
-#'      borders through the merged cell.}
-#'   \item{\code{border_thickness} }{A numeric value denoting the thickness
-#'      of the border.  Defaults to \code{1}.  This setting is ignored in
-#'      LaTeX output when \code{border_style = "dashed"} and for all
-#'      horizontal borders.}
-#'   \item{\code{border_units} }{A character string taking any one of the
-#'      values \code{"px"} or \code{"pt"} with partial matching.  Defaults
-#'      to \code{"px"}.  For LaTeX output, both \code{"px"} and \code{"pt"},
-#'      are rendered as \code{"pt"}.}
-#'   \item{\code{border_style} }{A character string taking any one of the
-#'      values \code{"solid"}, \code{"dashed"}, \code{"dotted"}, 
-#'      \code{"double"}, \code{"groove"}, \code{"ridge"}, \code{"inset"},
-#'      \code{"outset"}, \code{"hidden"}, or \code{"none"}.  Defaults
-#'      to \code{"solid"}. LaTeX output only makes use of \code{"solid"}, 
-#'      \code{"dashed"}, and \code{"none"}. If \code{"dotted"},
-#'      is passed to LaTeX output, it is quietly changed to \code{"dashed"}. All
-#'      other options are quietly changed to \code{"solid"}.}
-#'   \item{\code{border_color} }{A character string denoting the color 
-#'      for the border.  See "Colors".}
-#'   \item{\code{fn} }{A function to apply to values in cells.  The function 
-#'      should be an expression that acts on the variable \code{value}. For
-#'      example, \code{quote(round(value, 3))}.}
-#'   \item{\code{font_family} }{A character string denoting the font family 
-#'      for the text. This option is only recognized in HTML output.
-#'      A short list of web safe fonts is available at 
-#'      http://www.w3schools.com/cssref/css_websafe_fonts.asp}
-#'   \item{\code{font_color} }{A character string denoting the color of the
-#'      font.  See "Colors".}
-#'   \item{\code{font_size} }{A numeric value denoting the size of the font.}
-#'   \item{\code{font_size_units} }{A character string giving the units 
-#'     of the font size.  Accepts values \code{"px"}, \code{"pt"}, \code{"\%"},
-#'     and \code{"em"}.  Defaults to \code{"pt"}.  LaTeX formats only recognize
-#'     \code{"pt"} and \code{"em"}, and other units specifications will be 
-#'     coerced to \code{"pt"}, which may result in an unexpected appearance.}
-#'   \item{\code{halign} }{A character string denoting the horizontal alignment.
-#'     Accepts any one of the values \code{"left"}, \code{"center"}, or 
-#'     \code{"right"}, with partial matching.}
-#'   \item{\code{height} }{A numerical value giving the height of the cells.}
-#'   \item{\code{height_units} }{A character string giving the units for the 
-#'     \code{height} argument.  Accepts \code{"px"}, \code{"pt"}, \code{"cm"}, 
-#'     \code{"in"} and \code{"\%"}. Defaults to \code{"pt"}.  LaTeX formats
-#'     do not recognize \code{"px"} and this will be coerced to \code{"pt"} when
-#'     submitted for LaTeX output.}
-#'   \item{\code{italic} }{Logical value.  If \code{TRUE}, text is rendered in italics.}
-#'   \item{\code{longtable} }{ Allows the user to print a table in multiple sections.  
-#'     This is useful when 
-#'     a table has more rows than will fit on a printed page.  Acceptable inputs are \code{FALSE},
-#'     indicating that only one table is printed (default); \code{TRUE} that the table should be 
-#'     split into multiple tables with the default number of rows per table (see "Longtable"); or a 
-#'     positive integer indicating how many rows per table to include. All other values are 
-#'     interpreted as \code{FALSE}.  In LaTeX output, remember that after each section, a page 
-#'     break is forced.}
-#'   \item{\code{merge} }{Logical.  If \code{TRUE}, the cells indicated in 
-#'     \code{rows} and \code{cols} are merged into a single cell.  An error is
-#'     cast if the cells do not form an adjacent block. Specifying 
-#'     \code{merge_rowval} or \code{merge_colval} without \code{merge} results
-#'     in an error; \code{pixiedust} is conservative and will not assume you 
-#'     mean to merge cells--it must be explicitly declared.}
-#'   \item{\code{merge_rowval} }{A numeric value of length 1 indicating the 
-#'     row position of the merged cells with the desired display text.  The 
-#'     value given must be an element of \code{rows}.  If no value is provided,
-#'     the smallest value of \code{rows} is used.}
-#'   \item{\code{merge_colval} }{A numeric value of length 1 indicating the 
-#'     column position of the merged cells with the desired display text. The
-#'     value given must be an element of \code{cols}.  If no value is provided,
-#'     the smallest value of \code{cols} is used.}
-#'   \item{\code{na_string} }{A character value of length 1. Specifies how missing
-#'     values (\code{NA}) are to be represented in the table.  Defaults to an 
-#'     empty character string (\code{""}).}
-#'   \item{\code{pad} }{A numerical value giving the cell padding in pixels.}
-#'   \item{\code{replace} }{A character vector (or vector to be coerced to character) that
-#'     will replace the cells identified by \code{rows} and \code{cols}.  Replacement 
-#'     is always performed moving down columns first, then across rows from left to right.
-#'     The operating assumption is that the most frequent use of this argument will be 
-#'     to replace entire columns.}
-#'   \item{\code{rotate_degree} }{A numerical value that determines the angle of rotation
-#'      in the clockwise direction.  Use negative values to rotate counter clockwise.}
-#'   \item{\code{round} }{A numerical value for the number of decimal places to 
-#'      which numerical values are rounded.  This can also be accomplished through
-#'      the \code{fn} argument, but this argument makes it a bit easier to do.  In cases where
-#'      character values are indicated for rounding (such a a term name), no action is taken.  
-#'      This means that `sprinkle(x, round=3)` would round all numerical values in a table to three 
-#'      decimal places without affecting any true character values; there is no need to limit
-#'      the `round` sprinkle to known numerical values.}
-#'   \item{\code{tabcolsep} }{A numerical value setting the space in \code{pt} between 
-#'      columns in the table.}
-#'   \item{\code{valign} }{A character string giving the vertical alignment for the
-#'      cells.  Accepts the values \code{"top"}, \code{"middle"}, or \code{"bottom"}
-#'      with partial matching.}
-#'   \item{\code{width} }{A numerical value giving the width of the cells.}
-#'   \item{\code{width_units} }{A character string giving the units for the 
-#'     \code{width} argument.  Accepts \code{"px"}, \code{"pt"}, \code{"cm"}, 
-#'     \code{"in"} and \code{"\%"}. Defaults to \code{"px"}.  LaTeX formats
-#'     do not recognize \code{"px"} and this will be coerced to \code{"pt"} when
-#'     submitted for LaTeX output.}
+#' \tabular{lll}{
+#' bg  \tab           \tab  \cr
+#'     \tab action    \tab Modifies the background color of a cell. \cr
+#'     \tab default   \tab  \cr
+#'     \tab accepts   \tab dvips color names; rgb(R,G,B); rgba(R,G,B,A); \cr
+#'     \tab           \tab  #RRGGBB; #RRGGBBAA \cr
+#'     \tab console   \tab Not recognized \cr
+#'     \tab markdown  \tab Not recognized \cr
+#'     \tab html      \tab Accepts any of the listed formats; \cr
+#'     \tab           \tab recognizes transparency \cr
+#'     \tab latex     \tab Accepts any of the listed formats, \cr
+#'     \tab           \tab but ignores transparency \cr
+#' bg_pattern \tab    \tab  \cr
+#'  \tab action       \tab Generates a pattern of background colors.  \cr
+#'  \tab              \tab Can be used to make striping \cr
+#'  \tab              \tab by rows or by columns. \cr
+#'  \tab default      \tab c("#FFFFFF", "#DDDDDD") \cr
+#'  \tab accepts      \tab A vector of color names: \cr
+#'  \tab              \tab dvips color names; rgb(R,G,B); rgba(R,G,B,A); \cr 
+#'  \tab              \tab #RRGGBB; #RRGGBBAA \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Accepts any of the listed formats; \cr
+#'  \tab              \tab recognizes transparency \cr
+#'  \tab latex        \tab Accepts any of the listed formats, \cr
+#'  \tab              \tab but ignores transparency \cr
+#' bg_pattern_by  \tab  \tab  \cr
+#'  \tab action       \tab Determines if a `bg_pattern` is patterned \cr 
+#'  \tab              \tab by row or by columns. \cr
+#'  \tab default      \tab "rows" \cr
+#'  \tab accepts      \tab "rows", "columns", "cols" \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' bold \tab  \tab  \cr
+#'  \tab action       \tab Renders text within a cell in bold. \cr
+#'  \tab default      \tab FALSE \cr
+#'  \tab accepts      \tab logical(1) \cr
+#'  \tab console      \tab Recognized; rendered as double asterisks on either\cr
+#'  \tab              \tab side of the text \cr
+#'  \tab markdown     \tab Recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' border_collapse \tab  \tab  \cr
+#'  \tab action       \tab Sets the `border-collapse` property in an \cr
+#'  \tab              \tab HTML table.  The property sets whether the \cr
+#'  \tab              \tab table borders are collapsed into a  \cr
+#'  \tab              \tab single border or detached as in standard HTML. \cr
+#'  \tab default      \tab TRUE \cr
+#'  \tab accepts      \tab logical(1) \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Not recognized \cr
+#' border \tab  \tab  \cr
+#'  \tab action       \tab Sets a border on the specified side of a cell. \cr
+#'  \tab default      \tab  \cr
+#'  \tab accepts      \tab Any combination of "all", "bottom", "left", "top",\cr
+#'  \tab              \tab "right".  Using  "all" results in all borders \cr
+#'  \tab              \tab being drawn, regardless of what other values are \cr
+#'  \tab              \tab passed with it. \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' border_color \tab  \tab  \cr
+#'  \tab action       \tab Sets the color of the borders specified for a cell. \cr
+#'  \tab default      \tab "Black" \cr
+#'  \tab accepts      \tab character(1) \cr
+#'  \tab              \tab dvips color names; rgb(R,G,B); rgba(R,G,B,A); \cr
+#'  \tab              \tab #RRGGBB; #RRGGBBAA \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' border_style \tab  \tab  \cr
+#'  \tab action       \tab Sets the border style for a specified cell \cr
+#'  \tab default      \tab "solid" \cr
+#'  \tab accepts      \tab character(1) \cr
+#'  \tab              \tab "solid", "dashed", "dotted", "double", "groove", \cr
+#'  \tab              \tab "ridge", "inset", "outset", "hidden", "none" \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Accepts any of the values listed. \cr
+#'  \tab latex; hhline = FALSE \tab accepts "solid", "dashed", "dotted",  \cr
+#'  \tab              \tab  "hidden", "none" \cr
+#'  \tab              \tab "dotted" is silently changed to "dashed" \cr
+#'  \tab              \tab "hidden" and "none" are equivalent. \cr
+#'  \tab latex; hhline = TRUE \tab accepts "solid", "double", "hidden", "none" \cr
+#'  \tab              \tab "hidden" and "none" are equivalent. \cr
+#' border_thickness \tab  \tab  \cr
+#'  \tab action       \tab Sets the thickness of the specified border \cr
+#'  \tab default      \tab 1 \cr
+#'  \tab accepts      \tab numeric(1) \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' border_units \tab  \tab  \cr
+#'  \tab action       \tab Sets the unit of measure for the specified border \cr
+#'  \tab              \tab thickness \cr
+#'  \tab default      \tab "pt" \cr
+#'  \tab accepts      \tab "pt", "px" \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Silently changes "px" to "pt" \cr
+#' caption \tab  \tab  \cr
+#'  \tab action       \tab Adds or alters the `caption` property \cr
+#'  \tab default      \tab  \cr
+#'  \tab accepts      \tab character(1) \cr
+#'  \tab console      \tab Recognized \cr
+#'  \tab markdown     \tab Recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' float \tab  \tab  \cr
+#'  \tab action       \tab Sets the `float` property \cr
+#'  \tab default      \tab TRUE \cr
+#'  \tab accepts      \tab logical(1) \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Not recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' fn \tab  \tab  \cr
+#'  \tab action       \tab Applies a function to the value of a cell. \cr
+#'  \tab              \tab The function should be an \cr
+#'  \tab              \tab expression that acts on the variable `value`.  \cr 
+#'  \tab              \tab For example, \code{quote(format(value, nsmall = 3))} \cr
+#'  \tab default      \tab  \cr
+#'  \tab accepts      \tab call \cr
+#'  \tab console      \tab Recognized \cr
+#'  \tab markdown     \tab Recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' font_color \tab  \tab  \cr
+#'  \tab action       \tab Sets the color of the cell text \cr
+#'  \tab default      \tab Black \cr
+#'  \tab accepts      \tab dvips color names; rgb(R,G,B); rgba(R,G,B,A); \cr
+#'  \tab              \tab #RRGGBB; #RRGGBBAA \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized; transparency recognized \cr
+#'  \tab latex        \tab Recognized; transparency ignored \cr
+#' font_family \tab  \tab  \cr
+#'  \tab action       \tab Sets the font for the text \cr
+#'  \tab default      \tab Times New Roman \cr
+#'  \tab accepts      \tab character(1) \cr
+#'  \tab              \tab http://www.w3schools.com/cssref/css_websafe_fonts.asp \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Not recognized \cr
+#' font_size \tab  \tab  \cr
+#'  \tab action       \tab Sets the size of the font in the cell \cr
+#'  \tab default      \tab  \cr
+#'  \tab accepts      \tab numeric(1) \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' font_size_units \tab  \tab  \cr
+#'  \tab action       \tab Determines the units in which `font_size` \cr
+#'  \tab              \tab is measured \cr
+#'  \tab default      \tab "px" \cr
+#'  \tab accepts      \tab "px", "pt", "\%", "em" \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Only recognizes "pt" and "em".  \cr
+#'  \tab              \tab All others are coerced to "pt" \cr
+#' halign \tab  \tab  \cr
+#'  \tab action       \tab Sets the horizontal alignment of the text in \cr
+#'  \tab              \tab the cell \cr
+#'  \tab default      \tab  \cr
+#'  \tab accepts      \tab "left", "center", "right" \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Recognized; numeric values will auto align to the \cr
+#'  \tab              \tab right if no value given. \cr
+#'  \tab html         \tab Recognized.  Does not currently employ auto \cr
+#'  \tab              \tab alignment of numeric values, but this may change. \cr
+#'  \tab latex        \tab Recognized; numeric values will auto align to \cr
+#'  \tab              \tab the right if no value given. \cr
+#' height \tab  \tab  \cr
+#'  \tab action       \tab Sets the height of the cell \cr
+#'  \tab default      \tab  \cr
+#'  \tab accepts      \tab numeric(1) \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' height_units \tab  \tab  \cr
+#'  \tab action       \tab Determines the units in which `height` is measured \cr
+#'  \tab default      \tab "pt" \cr
+#'  \tab accepts      \tab "px", "pt", "cm", "in", "\%" \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized; "px" is coerced to "pt" \cr
+#' hhline \tab  \tab  \cr
+#'  \tab action       \tab Toggles the option for cell border drawing with \cr 
+#'  \tab              \tab the `hhline` LaTeX package \cr
+#'  \tab default      \tab FALSE \cr
+#'  \tab accepts      \tab logical(1) \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Not recognized \cr
+#'  \tab latex        \tab Recognized.  When `FALSE` double borders are \cr 
+#'  \tab              \tab not available. \cr
+#'  \tab              \tab When `TRUE`, colored and dashed borders are not \cr
+#'  \tab              \tab available. This is usually the better option \cr
+#'  \tab              \tab when using colored backgrounds in table cells. \cr
+#' italic \tab  \tab  \cr
+#'  \tab action       \tab Renders the text in the cell in italic \cr
+#'  \tab default      \tab FALSE \cr
+#'  \tab accepts      \tab logical(1) \cr
+#'  \tab console      \tab Recognized; rendered as an underscore on either \cr
+#'  \tab              \tab side of the text. \cr
+#'  \tab markdown     \tab Recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' justify \tab  \tab  \cr
+#'  \tab action       \tab Justifies the entire table on the page. \cr
+#'  \tab default      \tab "center" \cr
+#'  \tab accepts      \tab character(1) \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognizes "center", but both "left" and "right" \cr
+#'  \tab              \tab are rendered as left justified.  This may change \cr
+#'  \tab              \tab if a satisfactory solution is found.  \cr
+#'  \tab              \tab Usually, tables are best left centered. \cr
+#' longtable \tab  \tab  \cr
+#'  \tab action       \tab Toggles the use of the LaTeX `longtable` style \cr
+#'  \tab              \tab tables, namely allowing long tables to be broken \cr
+#'  \tab              \tab into multiple sections. The table header appears \cr 
+#'  \tab              \tab at the top of each section. The table interfoot \cr
+#'  \tab              \tab appears at the bottom of each section, except \cr
+#'  \tab              \tab for the last. \cr
+#'  \tab              \tab The table foot appears at the bottom of the \cr
+#'  \tab              \tab last section. \cr
+#'  \tab              \tab May accept either a logical or a numerical value.  \cr
+#'  \tab              \tab If numerical, each section will have the specified \cr
+#'  \tab              \tab number of rows. \cr
+#'  \tab default      \tab FALSE \cr
+#'  \tab accepts      \tab logical(1); numeric(1) \cr
+#'  \tab console      \tab Recognized; when `TRUE`, defaults to 25 rows \cr
+#'  \tab              \tab per section. \cr
+#'  \tab markdown     \tab Recognized; when `TRUE`, defaults to 25 rows \cr
+#'  \tab              \tab per section. \cr
+#'  \tab html         \tab Recognized; when `TRUE`, defaults to 25 rows \cr
+#'  \tab              \tab per section. \cr
+#'  \tab latex        \tab Recognized; when `TRUE`, `longtable`'s own algorithm \cr 
+#'  \tab              \tab will determine the number of rows per section. \cr
+#'  \tab              \tab When numeric, breaks are forced at the specified \cr
+#'  \tab              \tab number of rows. \cr
+#' merge \tab  \tab  \cr
+#'  \tab action       \tab Merges cells in the specified range into a \cr
+#'  \tab              \tab single cell. In cases where \cr
+#'  \tab              \tab either `merge_rowval` or `merge_colval` is \cr
+#'  \tab              \tab specified, they will only be  \cr
+#'  \tab              \tab honored if `merge = TRUE`.  You must opt in to \cr
+#'  \tab              \tab this action. \cr
+#'  \tab default      \tab FALSE \cr
+#'  \tab accepts      \tab logical(1) \cr
+#'  \tab console      \tab Recognized \cr
+#'  \tab markdown     \tab Recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' merge_rowval \tab  \tab  \cr
+#'  \tab action       \tab Specifies the row value of the merged range to \cr
+#'  \tab              \tab print in the table \cr
+#'  \tab default      \tab minimum row value of the merged range \cr
+#'  \tab accepts      \tab numeric(1) \cr
+#'  \tab console      \tab Recognized \cr
+#'  \tab markdown     \tab Recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' merge_colval \tab  \tab  \cr
+#'  \tab action       \tab Specifies the column value of the merged range \cr
+#'  \tab              \tab to print in the table \cr
+#'  \tab default      \tab minimum col value of the merged range \cr
+#'  \tab accepts      \tab numeric(1) \cr
+#'  \tab console      \tab Recognized \cr
+#'  \tab markdown     \tab Recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' na_string \tab  \tab  \cr
+#'  \tab action       \tab Designates the character string to use in place \cr
+#'  \tab              \tab of missing values \cr
+#'  \tab default      \tab NA \cr
+#'  \tab accepts      \tab character(1) \cr
+#'  \tab console      \tab Recognized \cr
+#'  \tab markdown     \tab Recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' pad \tab  \tab  \cr
+#'  \tab action       \tab Designates the padding to place between cell \cr
+#'  \tab              \tab text and boundaries \cr
+#'  \tab              \tab Measured in pixels. \cr
+#'  \tab default      \tab 0 \cr
+#'  \tab accepts      \tab numeric(1) \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Not recognized \cr
+#' replace \tab  \tab  \cr
+#'  \tab action       \tab Replaces existing cell values with user-specified \cr
+#'  \tab              \tab content. Replacement occurs moving down columns \cr
+#'  \tab              \tab from left to right. \cr
+#'  \tab default      \tab  \cr
+#'  \tab accepts      \tab character vector of the same length as the number \cr
+#'  \tab              \tab of cells being replaced. \cr
+#'  \tab console      \tab Recognized \cr
+#'  \tab markdown     \tab Recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' rotate_degree \tab  \tab  \cr
+#'  \tab action       \tab Rotates text in cells by the designated angle \cr
+#'  \tab              \tab in degrees \cr
+#'  \tab default      \tab  \cr
+#'  \tab accepts      \tab numeric(1) \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' round \tab  \tab  \cr
+#'  \tab action       \tab Applies the `round` function to values in the \cr 
+#'  \tab              \tab cell.  Skips any character values it encounters. \cr
+#'  \tab default      \tab \code{getOption("digits")} \cr
+#'  \tab accepts      \tab numeric(1) \cr
+#'  \tab console      \tab Recognized \cr
+#'  \tab markdown     \tab Recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' tabcolsep \tab  \tab  \cr
+#'  \tab action       \tab Modifies the LaTeX `tabcolsep` parameter of tables \cr
+#'  \tab              \tab This is similar to `pad` for HTML tables, but only  \cr
+#'  \tab              \tab affects the space between columns. Measured in "pt" \cr
+#'  \tab default      \tab 6 \cr
+#'  \tab accepts      \tab numeric(1) \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Not recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' valign \tab  \tab  \cr
+#'  \tab action       \tab Designates the vertical alignment of a cell. \cr
+#'  \tab default      \tab  \cr
+#'  \tab accepts      \tab "top", "middle", "bottom" \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' width \tab  \tab  \cr
+#'  \tab action       \tab Sets the width of the cell \cr
+#'  \tab default      \tab  \cr
+#'  \tab accepts      \tab numeric(1) \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' width_units \tab  \tab  \cr
+#'  \tab action       \tab Determines the units in which `width` is measured \cr
+#'  \tab default      \tab "pt" \cr
+#'  \tab accepts      \tab "px", "pt", "cm", "in", "\%" \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized; "px" is coerced to "pt" \cr
 #' }
 #' 
 #' @section Longtable:
@@ -201,46 +445,22 @@
 #' \code{interfoot} is provided, it is appended to the bottom of each section, with the 
 #' exception of the last section.  The last section has the \code{foot} appended.
 #'
-#' @section HTML Colors:
-#' Color specifications accept X11 color names (\code{"orchid"}), 
-#' hexidecimal names (\code{"#DA70D6"}), rgb names (\code{"rgb(218 112 214)"}),
-#' and rgba (rgb+alpha transparency; \code{"rgba(218, 112, 214, .75)"}).
-#' Refer to \url{https://en.wikipedia.org/wiki/Web_colors#X11_color_names}.
+#' @section Colors:
+#' Colors may be declared as any of the color names in \code{colors()}, 
+#' as rgb character strings such as \code{"rgb(rrr,ggg,bbb)"} or as 
+#' hexidecimal character strings such as \code{"#rrggbb"}.  
 #' 
-#' HTML color names are not case sensitive, but the color names in LaTeX output
-#' are.  If you desire to be able to toggle your output between HTML and LaTeX,
-#' it is recommended that you use the color names under the dvips section of 
-#' page 38 of the LaTeX package \code{xcolor} manual 
-#' (\url{https://www.ctan.org/pkg/xcolor}.
+#' Transparency is also recognized by HTML output, and may be indicated 
+#' in the rgba format \code{"rgba(rrr,ggg,bbb,aa)"}, where \code{aa} is a 
+#' number between 0 and 1, inclusive.  Alternative, transparency may be 
+#' given as \code{"#rrggbbAA"}, where \code{AA} is a hexidecimal 
+#' representation of transparency with "00" being completely transparent 
+#' and "FF" being completely opaque.
 #' 
-#' @section LaTeX Colors:
-#' Use of color in LaTeX requirements requires that you have the LaTeX \code{color}
-#' package included in your document preamble (\code{\\usepackage\{color\}}). 
-#' Rmarkdown documents include the color package automatically. The 
-#' standard colors available in LaTeX are "white", "black", "red", "green", 
-#' "blue", "cyan", "magenta", and "yellow".
-#' 
-#' Additional colors may be made available using the LaTeX package \code{xcolor}.
-#' To be consistent with color names used in the HTML tables, it is recommended
-#' that you use the option \code{\\usepackage[dvipsnames]\{xcolor\}} in your 
-#' preamble.  Please note that color names in LaTeX are case-sensitive, but the 
-#' HTML names are not.  If the ability to switch between output methods is 
-#' something you desire, you should adopt the capitalization used in the dvips 
-#' names (See page 38 of the \code{xcolor} manual; 
-#' \url{https://www.ctan.org/pkg/xcolor}). 
-#' 
-#' If desired, you may also use the \code{[x11names]} option to have the X11 
-#' color names available to you.
-#' 
-#' The LaTeX output will accept hexidecimal names (\code{"#DA70D6"}) and 
-#' rgb names (\code{"rgb(218 112 214)"}), similar to the HTML colors described
-#' above.  However, transparency is not supported.  If the transparency 
-#' value is provided, it is silently ignored.  
-#' 
-#' Custom color definitions may also be defined by defining the color in the
-#' preamble.  The process for color definitions is described in the \code{xcolor}
-#' documentation.  Keep in mind that custom color designations in LaTeX output
-#' will not transfer the other output formats.
+#' LaTeX output does not recognize transparency and will quietly drop the 
+#' transparency parameter.
+#'
+#' All colors are internally translated into rgb format and are case insensitive.
 #' 
 #' @section Required LaTeX Packages:
 #' If you will be using the LaTeX output, some sprinkles will require you 
@@ -258,30 +478,46 @@
 #'   \code{bg, bg_pattern} \tab \code{\\usepackage[dvipsnames,table]\{xcolor\}} \cr
 #'   \code{border_style} \tab \code{\\usepackage\{arydshln\}} \cr
 #'       \tab  \code{\\usepackage\{amssymb\}} \cr
+#'       \tab  \code{\\usepackage\{hhline\}} \cr
 #'       (with vertical dashed lines) \tab \\usepackage\{graphicx\} \cr
 #'       \tab \code{\\makeatletter} \cr
 #'       \tab \code{\\newcommand*\\vdashline\{\\rotatebox[origin=c]\{90\}\{\$\\dabar@@\\dabar@@\\dabar@@\$\}\}} \cr
 #'       \tab \code{\\makeatother} \cr
 #'   \code{longtable} \tab \code{\\usepackage\{longtable\}} \cr
 #'       \tab (Must be loaded before \code{arydshln}) \cr
-#'   \code{merge} \tab \code{\\usepackage\{multirow\}}
+#'   \code{merge} \tab \code{\\usepackage\{multirow\}} \cr
+#'   \code{captions} for non floats \tab \code{\\usepackage\{caption\}} 
 #' }
+#' 
+#' Note that \code{hhline} is used to make horizontal lines when 
+#' \code{options(pixiedust_latex_hhline = TRUE)} (the package default is \code{FALSE}), 
+#' otherwise the \code{cline} command is used.  
+#' 
+#' Use of \code{cline} permits colored borders and dashed borders, but 
+#' borders around cells with background colors are sometimes (often) lost.
+#' 
+#' Use of \code{hhline} preserves borders around cells with background colors 
+#' and permits double borders, but colored and dashed borders are not available.
 #' 
 #' In order to ensure all features are available, the recommended code block (accounting for 
 #' the proper order to load packages) is:
 #' 
 #' \code{header-includes:} \cr
-#' \code{ - \\usepackage[dvipsnames,table]\{xcolor\}} \cr
-#' \code{ - \\usepackage\{longtable\}} \cr
-#' \code{ - \\usepackage\{arydshln\}} \cr
 #' \code{ - \\usepackage\{amssymb\}} \cr
+#' \code{ - \\usepackage\{arydshln\}} \cr
+#' \code{ - \\usepackage\{caption\}}  \cr
 #' \code{ - \\usepackage\{graphicx\}} \cr
+#' \code{ - \\usepackage\{hhline\}} \cr
+#' \code{ - \\usepackage\{longtable\}} \cr
 #' \code{ - \\usepackage\{multirow\}} \cr
+#' \code{ - \\usepackage[dvipsnames,table]\{xcolor\}} \cr
 #' \code{ - \\makeatletter} \cr
 #' \code{ - \\newcommand*\\vdashline\{\\rotatebox[origin=c]\{90\}\{\$\\dabar@@\\dabar@@\\dabar@@\$\}\}} \cr
 #' \code{ - \\makeatother}
+#' 
 #'
-#' @seealso \code{\link{sprinkle_colnames}} for changing column names in a table.
+#' @seealso 
+#' \code{\link{sprinkle_colnames}} for changing column names in a table.
 #' 
 #' @source 
 #' Altering the number of rows in a LaTeX longtable \cr
@@ -302,463 +538,699 @@
 #'   sprinkle(rows = 2, bold = TRUE)
 #'
 
-sprinkle <- function(x, rows=NULL, cols=NULL, ..., 
-                          part = c("body", "head", "foot", "interfoot", "table"))
+#' @rdname sprinkle
+#' @export
+
+sprinkle <- function(x, rows = NULL, cols = NULL, ...,
+                     part = c("body", "head", "foot", "interfoot", "table"))
 {
-  Check <- ArgumentCheck::newArgCheck()
+  UseMethod("sprinkle")
+}
+
+#' @rdname sprinkle
+#' @export
+
+sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
+                             part = c("body", "head", "foot", "interfoot", "table"),
+                             fixed = FALSE, 
+                             recycle = c("none", "rows", "cols", "columns"))
+{
+  coll <- checkmate::makeAssertCollection()
   
-  #* Buckle up.  There's a lot of argument checking happening here.
+  checkmate::assertClass(x = x,
+                         classes = "dust",
+                         add = coll)
   
-  #* x must have class 'dust'
-  if (class(x) != "dust")
-    ArgumentCheck::addError(
-      msg = "Sprinkles may only be added to objects of class 'dust'",
-      argcheck = Check)
+  checkmate::assertSubset(x = part,
+                          choices = c("body", "head", "foot", "interfoot", "table"),
+                          add = coll)
+
+  recycle <- assert_match_arg(x = recycle, 
+                              choices = c("none", "rows", "cols", "columns"),
+                              add = coll,
+                              .var.name = "recycle")
+
+  if (recycle == "columns") recycle <- "cols"
+
+  recycle_arrange <- 
+    if (recycle == "rows") 
+      c("row", "col")
+    else
+      c("col", "row")
   
-  #* Make sure the given 'part_name' can be found in the dust object
-  part_name <- ArgumentCheck::match_arg(part, 
-                                   c("body", "head", "foot", "interfoot", "table"),
-                                   argcheck = Check)
+  part <- part[1]
   
-  #* The ArgumentCheck version of match_arg returns a character(0) if no match
-  #* is found.  This allows the error to be delayed until all checks are done.
-  #* However, we need to generate a couple of objects before all the checks are
-  #* done in order to get the 'replace' sprinkle to work correctly.  This
-  #* block creates these objects only when a suitable match for the 'part' 
-  #* argument has been provided.
-  if (length(part_name) > 0)
+  x[[part]] <- dplyr::arrange_(x[[part]], recycle_arrange)
+  
+  if (length(part))
   {
-    #* The table part
-    part <- x[[part_name]]
-    
     #* The cols argument allows character and numeric values to be 
     #* given simultaneously. This block matches the character values
     #* to numeric column indices
-    if (!is.null(cols)){
+    if (!is.null(cols))
+    {
       cols_num <- suppressWarnings(as.numeric(cols))
       cols_num <- cols_num[!is.na(cols_num)]
-    
-      cols_str <- match(cols, unique(x$head$col_name))
-      cols <- unique(c(cols_num, cols_str))
+      
+      cols_str <- match(cols, 
+                        unique(x[["head"]][["col_name"]]))
+      
+      #* We don't want to restrict ourselves to just the unique 
+      #* columns if we are doing fixed coordinate pairs
+      if (!fixed) cols <- unique(c(cols_num, cols_str))
+      
       cols <- cols[!is.na(cols)]
     }
-
+    
     #* If rows or cols isn't given, assume the sprinkle should be applied
     #* across the entire dimension.
-    if (is.null(rows) | length(rows) == 0) rows <- 1:max(part$row)
-    if (is.null(cols) | length(cols) == 0) cols <- 1:max(part$col)
-  
+    if (is.null(rows) | length(rows) == 0)
+    {
+      rows <- 1:max(x[[part]][["row"]])
+    }
+    
+    if (is.null(cols) | length(cols) == 0)
+    {
+      cols <- 1:max(x[[part]][["col"]])
+    }
+  }  # End if (length(part))
+
+  #* Determine the indices of the table part to be changed.
+  if (fixed)
+  {
+    indices <- 
+      data.frame(rows = rows,
+                 cols = cols) %>%
+      dplyr::mutate(i = TRUE) %>%
+      dplyr::left_join(x[[part]],
+                       .,
+                       by = c("row" = "rows", 
+                              "col" = "cols")) %>%
+      dplyr::arrange_(recycle_arrange) %>%
+      `[[`("i")
+    indices[is.na(indices)] <- FALSE
+  }
+  else
+  {
+    indices <- x[[part]][["row"]] %in% rows & 
+                x[[part]][["col"]] %in% cols
   }
   
-  #* Start checking the sprinkles.  The messages in the argument checks should
-  #* describe what the checks are looking for.
+  checkmate::assertNumeric(x = rows,
+                           add = coll)
   
+
   sprinkles <- list(...)
-  
-  if (length(sprinkles) == 0)
-    ArgumentCheck::addError(
-      msg = "No sprinkles declared. You must define at least one sprinkle in '...'",
-      argcheck = Check)
-  
-  if (any(names(sprinkles) %in% "") | is.null(names(sprinkles))){
-    unnamed_pos <- which(names(sprinkles) %in% "")
-    if (length(unnamed_pos) == 0) unnamed_pos = 1:length(sprinkles)
-    ArgumentCheck::addError(
-      msg = paste0("All arguments in '...' must be named. ",
-                   "Check arguments in position(s) ", 
-                   paste0(unnamed_pos, collapse=", ")),
-      argcheck = Check)
-  }
-  
-  #* No actual argument checking is performed on the 'fn' sprinkle.
-  #* It is converted to a character string so that it can pass the 
-  #* length 1 check.
-  if ("fn" %in% names(sprinkles))
-    sprinkles$fn <- deparse(sprinkles$fn)
-  
-  #* Identify sprinkles with length > 1
-  too_long <- names(sprinkles)[vapply(sprinkles, 
-                                      function(x) length(x) != 1,
-                                      TRUE)]
-  
-  #* Exempt a few sprinkles that accept vectors with length > 1
-  too_long <- too_long[!too_long %in% c("bg_pattern", "border", "replace")]
-  
-  if (length(too_long) > 0)
-    ArgumentCheck::addError(
-      msg = paste0("Arguments in '...' must have length 1.",
-                   " Please check ", paste0(too_long, collapse=", "), "."),
-      argcheck = Check)
-  
-  #* Reject any sprinkles not in the allowable list.
-  #* The allowable list is accessed as a utility function
-  #* 'sprinkle_names()' at the end of this script.
-  bad_sprinkles <- names(sprinkles)[!names(sprinkles) %in% sprinkle_names()]
-  if (length(bad_sprinkles) > 0)
-    ArgumentCheck::addError(
-      msg = paste0("The following arguments in '...' are not valid ",
-                   "sprinkles: ", paste0(bad_sprinkles, collapse = ", ")),
-      argcheck = Check)
-  
-  if ("bg" %in% names(sprinkles) & !is.character(sprinkles[["bg"]]))
-    ArgumentCheck::addError(
-      msg = "The 'bg' argument must be a character string.",
-      argcheck = Check)
-  
-  if (all(c("bg", "bg_pattern") %in% names(sprinkles)))
-    ArgumentCheck::addError(
-      msg = "The 'bg' and 'bg_pattern' arguments cannot be specified together",
-      argcheck = Check)
-  
-  if ("bg_pattern_by" %in% names(sprinkles))
-    sprinkles$bg_pattern_by <- ArgumentCheck::match_arg(sprinkles[["bg_pattern_by"]], c("rows", "columns"), 
-                                                        argcheck = Check)
-  
-  if ("bold" %in% names(sprinkles) & !is.logical(sprinkles$bold))
-    ArgumentCheck::addError(
-      msg = "The 'bold' argument must be logical",
-      argcheck = Check)
-  
-  if ("border" %in% names(sprinkles))
-    sprinkles$border <- ArgumentCheck::match_arg(sprinkles[["border"]], 
-                                                 c("all", "left", "right", "top", "bottom"),
-                                                 several.ok = TRUE,
-                                                 argcheck = Check)
-  
-  if ("border_thickness" %in% names(sprinkles) & !is.numeric(sprinkles$border_thickness))
-    ArgumentCheck::addError(
-      msg = "The 'border_thickness' arguments must be numeric",
-      argcheck = Check)
-  
-  if ("border_units" %in% names(sprinkles))
-    sprinkles$border_units <- ArgumentCheck::match_arg(sprinkles[["border_units"]],
-                                                       c("px", "pt"),
-                                                       argcheck = Check)
-  
-  if ("border_style" %in% names(sprinkles))
-    sprinkles$border_style <- ArgumentCheck::match_arg(sprinkles[["border_style"]],
-                                                       c("solid", "dashed", "dotted", "double", 
-                                                         "grooved", "ridge", "inset", "outset",
-                                                         "hidden"),
-                                                       argcheck = Check)
-  
-  if ("border_color" %in% names(sprinkles) & !is.character(sprinkles$border_color))
-    ArgumentCheck::addError(
-      msg = "The 'border_color' argument must be a character string.",
-      argcheck = Check)
-  
-  if ("border_collapse" %in% names(sprinkles) & !is.logical(sprinkles$border_collapse))
-    ArgumentCheck::addError(
-      msg = "The 'border_collapse' argument must be logical.",
-      argcheck = Check)
-  
-  if ("font_family" %in% names(sprinkles) & !is.character(sprinkles$font_family))
-    ArgumentCheck::addError(
-      msg = "The 'font_family' argument must be a character string",
-      argcheck = Check)
-  
-  if ("font_color" %in% names(sprinkles) & !is.character(sprinkles$font_color))
-    ArgumentCheck::addError(
-      msg = "The 'font_color' argument must be a character string.",
-      argcheck = Check)
-  
-  if ("font_size" %in% names(sprinkles) & !is.numeric(sprinkles$font_size))
-    ArgumentCheck::addError(
-      msg = "The 'font_size' argument must be numeric",
-      argcheck = Check)
-  
-  if ("font_size_units" %in% names(sprinkles))
-    sprinkles$font_size_units <- ArgumentCheck::match_arg(sprinkles[["font_size_units"]],
-                                                          c("px", "pt", "%", "em"),
-                                                          argcheck = Check)
-  
-  if ("halign" %in% names(sprinkles))
-    sprinkles$halign <- ArgumentCheck::match_arg(sprinkles[["halign"]],
-                                                 c("left", "center", "right"),
-                                                 argcheck = Check)
-  
-  if ("height" %in% names(sprinkles) & !is.numeric(sprinkles[["height"]]))
-    ArgumentCheck::addError(
-      msg = "The 'height' argument must be numeric",
-      argcheck = Check)
-  
-  if ("height_units" %in% names(sprinkles))
-    sprinkles$height_units <- ArgumentCheck::match_arg(sprinkles[["height_units"]],
-                                                       c("px", "pt", "in", "cm", "%"),
-                                                       argcheck = Check)
-  
-  if ("italic" %in% names(sprinkles) & !is.logical(sprinkles$italic))
-    ArgumentCheck::addError(
-      msg = "The 'italic' argument must be logical",
-      argcheck = Check)
-  
-  if ("longtable" %in% names(sprinkles)){
-    if (!is.logical(sprinkles$longtable)){
-      if (is.numeric(sprinkles$longtable) & sprinkles$longtable < 1) sprinkles$longtable <- FALSE
-      else if (!is.numeric(sprinkles$longtable)) sprinkles$longtable <- FALSE
-    }
-    
-    x$longtable <- sprinkles$longtable
-    sprinkles$longtable <- NULL
-  }
-  
-  if ("merge" %in% names(sprinkles)){
-    if (!is.logical(sprinkles$merge)){
-      ArgumentCheck::addError(
-        msg = "The 'merge' sprinkle must be logical with length 1",
-        argcheck = Check)
-    }
-    if (is.null(sprinkles$merge_rowval))
-      sprinkles$merge_rowval <- if (is.null(rows)) 1 else min(rows)
-    if (is.null(sprinkles$merge_colval))
-      sprinkles$merge_colval <- if (is.null(cols)) 1 else min(cols)
-  }
-  
-  if (("merge_rowval" %in% names(sprinkles) | "merge_colval" %in% names(sprinkles)) &
-      !"merge" %in% names(sprinkles)){
-    ArgumentCheck::addError(
-      msg = paste0("The sprinkles 'merge_rowval' and 'merge_colval' ",
-                   "can only be used when the 'merge' sprinkle is used"),
-      argcheck = Check)
-  }
-  
-  if ("na_string" %in% names(sprinkles)){
-    if (!is.character(sprinkles$na_string)){
-      ArgumentCheck::addError(
-        msg = "The 'na_string' sprinkle must be character with length 1",
-        argcheck = Check)
-    }
-  }
-  
-  if ("pad" %in% names(sprinkles) & !is.numeric(sprinkles$pad))
-    ArgumentCheck::addError(
-      msg = "The 'pad' argument must be numeric",
-      argcheck = Check)
-  
-  #* The replacement sprinkle takes some special care.
-  #* First, if an invalid 'part_name' was given, a warning is 
-  #* cast that the 'replace' argument isn't being checked.  
-  #* The actual error check compares the number of cells to be replaced
-  #* (as identified by rows and cols) with the length of the vector
-  #* in 'replace'.  We can't determine if these lengths match without knowing
-  #* the part of the table to work in.
-  if (length(part_name) == 0 & "replace" %in% names(sprinkles))
-    ArgumentCheck::addMessage(
-      msg = paste0("'replace' argument could not be checked because the ",
-                   "value to 'part' was invalid."),
-      argcheck = Check)
-  
-  #* Generate the replacement table
-  if ("replace" %in% names(sprinkles)){
-    ReplaceTable <- expand.grid(row = rows, col = cols)
-           
-    if (length(sprinkles$replace) != nrow(ReplaceTable))
-      ArgumentCheck::addError(
-        msg = paste0("The 'replace' argument should have length ", nrow(ReplaceTable), 
-                     " (based on the cross section of 'rows' and 'cols')"),
-        argcheck = Check)
-    else {
-      #* There is no column for the 'replace' sprinkle.  Instead, the replacements
-      #* are placed directly into the table.  
-      ReplaceTable$value = sprinkles$replace
-      sprinkles$replace <- NULL
-    }
-  }
-  
-  if ("rotate_degree" %in% names(sprinkles) & !is.numeric(sprinkles$rotate_degree))
-    ArgumentCheck::addError(
-      msg = "The 'rotate_degree' argument must be numeric",
-      argcheck = Check)
-  
-  if ("round" %in% names(sprinkles) & !is.numeric(sprinkles$round))
-    ArgumentCheck::addError(
-      msg = "The 'round' argument must be numeric",
-      argcheck = Check)
-  
-  if ("valign" %in% names(sprinkles))
-    sprinkles$valign <- ArgumentCheck::match_arg(sprinkles[["valign"]],
-                                                 c("middle", "top", "bottom"),
-                                                 argcheck = Check)
-  
-  if ("tabcolsep" %in% names(sprinkles)){
-    if (!is.numeric(sprinkles$tabcolsep)){
-      ArgumentCheck::addError(
-        msg = "The 'tabcolsep' argument must be numeric",
-        argcheck = Check)
-    }
-    
-    x$tabcolsep <- sprinkles$tabcolsep
-    sprinkles$tabcolsep <- NULL
-  }
-  
-  if ("width" %in% names(sprinkles) & !is.numeric(sprinkles$width))
-    ArgumentCheck::addError(
-      msg = "The 'width' argument must be numeric",
-      argcheck = Check)
-  
-  if ("width_units" %in% names(sprinkles))
-    sprinkles$width_units <- ArgumentCheck::match_arg(sprinkles[["width_units"]],
-                                                      c("px", "pt", "cm", "in", "%"),
-                                                      argcheck = Check)
-  ArgumentCheck::finishArgCheck(Check)
 
-  #* For borders, set unspecified attributes to their defaults
-  border_attributes <- c("border", "border_thickness", "border_units", "border_style", "border_color")
-  if (any(border_attributes %in% names(sprinkles)))
+  if (!length(sprinkles))
   {
-    border_not_given <-  border_attributes[!border_attributes %in% names(sprinkles)]
-    sprinkles[border_not_given] <- lapply(border_not_given,
-                                          default_sprinkles)
+    coll$push("No sprinkles in `...` to `sprinkle`")
   }
   
-  #* The next several lines set default sprinkle values.
-  #* Some sprinkles come in groups, like font_size and font_size units.
-  #* If one member of the pair is specified, but the second is not, we assume
-  #* the user wants the default specified.
-  if (any(sprinkles[["border"]] == "all")) sprinkles$border <- c("left", "right", "top", "bottom")
-  
-  if (is.null(sprinkles[["bg_pattern"]]) & !is.null(sprinkles$bg_pattern_by))
-    sprinkles[["bg_pattern"]] <- default_sprinkles("bg_pattern")
-  
-  if (!is.null(sprinkles[["bg_pattern"]]) & is.null(sprinkles$bg_pattern_by))
-    sprinkles$bg_pattern_by <- default_sprinkles("bg_pattern_by")
-  
-  if (!is.null(sprinkles[["font_size"]]) & is.null(sprinkles$font_size_units))
-    sprinkles$font_size_units <- default_sprinkles("font_size_units")
-  
-  if (!is.null(sprinkles[["height"]]) & is.null(sprinkles$height_units))
-    sprinkles$height_units <- default_sprinkles("height_units")
-  
-  if (!is.null(sprinkles[["width"]]) & is.null(sprinkles$width_units))
-    sprinkles$width_units <- default_sprinkles("width_units")
-
-  #* Generate the border_collapse sprinkle
-  if (!is.null(sprinkles$border_collapse))
+  #* Some love for longtable.  Characters given to longtable
+  #* are assumed to be FALSE
+  if ("longtable" %in% names(sprinkles))
   {
-    x$border_collapse <- sprinkles$border_collapse
-    sprinkles$border_collapse <- NULL
-  }
-  
-  #* Generate the background pattern sprinkle
-  if (!is.null(sprinkles[["bg_pattern"]])){
-    x$bg_pattern <- sprinkles$bg_pattern
-    x$bg_pattern_by <- sprinkles$bg_pattern_by
-    
-    bg_pattern <- sprinkles$bg_pattern
-    pattern_by <- sprinkles$bg_pattern_by
-    
-    sprinkles$bg_pattern <- NULL
-    sprinkles$bg_pattern_by <- NULL
-  }
-
-  #* Generate a table of all of the other sprinkles to be implemented.
-  #* This occurs after the border and bg_pattern sprinkles are constructed so 
-  #* that those sprinkles can be set to NULL.  Those are multiple column
-  #* sprinkles that aren't going to play nicely in expand.grid.
-  Cells <- expand.grid(c(list(row = rows,
-                              col = cols),
-                         sprinkles),
-                       stringsAsFactors = FALSE)
-  
-  #* merge in border specifications, if any
-  if ("border" %in% names(Cells))
-    Cells <- dplyr::mutate_(Cells,
-                            border = ~paste0(border, "_border"),
-                            border_spec = ~paste0(border_thickness, border_units, " ",
-                                                  border_style, " ", border_color)) %>%
-    dplyr::select_("-border_thickness", "-border_units", "-border_style", "-border_color") %>%
-    tidyr::spread_("border", "border_spec")
-
-  #* Merge in background patterns, if any
-  if (exists("bg_pattern")){
-    #* pattern by row
-    if (pattern_by == "rows"){
-      bg_frame <- dplyr::data_frame(row = unique(Cells$row))
-      bg_frame[["bg"]] <- rep(bg_pattern, length.out = nrow(bg_frame))
-      Cells <- dplyr::left_join(Cells, bg_frame, by = c("row" = "row"))
-      if ("bg.x" %in% names(Cells)){
-        Cells <- dplyr::rename_(Cells, "bg" = "bg.y") %>%
-          dplyr::select_("-bg.x")
+    if (!is.logical(sprinkles[["longtable"]]))
+    {
+      if (is.numeric(sprinkles[["longtable"]]) & sprinkles[["longtable"]] < 1)
+      {
+        sprinkles[["longtable"]] <- FALSE
       }
-    }
-    else {
-      #* pattern by column
-      bg_frame <- dplyr::data_frame(col = unique(Cells$col))
-      bg_frame[["bg"]] <- rep(bg_pattern, length.out = nrow(bg_frame))
-      Cells <- dplyr::left_join(Cells, bg_frame, by = c("col" = "col"))
-      if ("bg.x" %in% names(Cells)){
-        Cells <- dplyr::rename_(Cells, "bg" = "bg.y") %>%
-          dplyr::select_("-bg.x")
+      else if (!is.numeric(sprinkles[["longtable"]]))
+      {
+        sprinkles[["longtable"]] <- FALSE
       }
     }
   }
+  #* Use the unexported function `assert_sprinkles` to test
+  #* the assertions defined in the `SprinkleRef` data frame.
+  #* SprinkleRef is defined in the `inst/sprinkle_ref.csv' file
+  #* and is used internally to expedite tests on sprinkles.
 
-  #* merge in replacement sprinkle
-  if (exists("ReplaceTable")){
-    Cells <- dplyr::left_join(Cells, ReplaceTable,
-                              by = c("row" = "row", "col" = "col"))
+  assert_sprinkles(sprinkles = sprinkles,
+                   coll = coll,
+                   recycle = recycle)
+  
+  #* Additional assertions
+  
+  #* Cast an error if merge_rowval or merge_colval is given but not merge
+  if (("merge_rowval" %in% names(sprinkles) | 
+       "merge_colval" %in% names(sprinkles)) & 
+      !"merge" %in% names(sprinkles))
+  {
+    coll$push("`merge` must be specified when `merge_rowval` or `merge_colval` is given")
+  }
+
+  #* Cast an error if `replace` is not the same length as `indices`
+  if ("replace" %in% names(sprinkles))
+  {
+    if (length(sprinkles[["replace"]]) != sum(indices))
+    {
+      coll$push(paste0("The `replace` sprinkle should have length ",
+                       sum(indices)))
+    }
   }
   
-  #* Set rowspan and colspan values
-  if ("merge" %in% names(Cells)){
-    Cells <- dplyr::mutate_(Cells,
-                     rowspan = ~ifelse(row == merge_rowval, 
-                                       length(rows),
-                                       0),
-                     colspan = ~ifelse(col == merge_colval,
-                                       length(cols),
-                                       0),
-                     html_row = min(rows),
-                     html_col = min(cols),
-                     merge_rowval = ~NULL,
-                     merge_colval = ~NULL)
+  #* Convert colors to rgb
+  if (any(!vapply(sprinkles[c("bg", "border_color", "font_color")], 
+                  is.null, 
+                  logical(1))))
+  {
+    color_sprinkles(sprinkles = sprinkles[c("bg", "border_color", "font_color")],
+                    coll = coll)
   }
- 
-  #* determine the cell indices to replace
-  replace <- vapply(1:nrow(Cells), 
-                    function(r) which(part$row == Cells$row[r] & part$col == Cells$col[r]), 
-                    1)
 
-  #* Implement the sprinkles, assign the new part back into the dust object
-  #* and return.
-  part[replace, names(Cells)[-(1:2)]] <- Cells[, -(1:2), drop=FALSE]
+  #* Return any errors found.
+  checkmate::reportAssertions(coll)
 
-  x[[part_name]] <- part
+  
+  #* Sprinkles in the `option` group.
+  #* These are sprinkles that affect options found in `dust`,
+  #* such as longtable, caption, and label.
+  
+  x <- option_sprinkles(x = x, 
+                        sprinkles = sprinkles)
+  
+  #* Sprinkles in the `simple` group.
+  #* These sprinkles do not associate with any other sprinkles and may be
+  #* directly modified without much difficulty.
+
+  x <- simple_sprinkles(x = x, 
+                        sprinkles = sprinkles, 
+                        part = part, 
+                        indices = indices)
+
+  #* Sprinkles in the bg_pattern group
+  if (any(names(sprinkles)  %in% 
+      SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "bg_pattern"]))
+  {
+    x <- bg_pattern_sprinkles(x = x, 
+                              part = part, 
+                              indices = indices, 
+                              bg_pattern = sprinkles[["bg_pattern"]], 
+                              bg_pattern_by = sprinkles[["bg_pattern_by"]])
+  }
+
+  #* Sprinkles in the `border` group
+  if (any(names(sprinkles) %in% 
+      SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "border"]))
+  {
+    x <- border_sprinkles(x = x, 
+                          part = part, 
+                          indices = indices,
+                          border = sprinkles[["border"]],
+                          border_thickness = sprinkles[["border_thickness"]],
+                          border_units = sprinkles[["border_units"]],
+                          border_style = sprinkles[["border_style"]],
+                          border_color = sprinkles[["border_color"]])
+  }
+  
+  #* Sprinkles in the `font_size` group
+  if (any(names(sprinkles) %in% 
+          SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "font_size"]))
+  {
+    x <- font_size_sprinkles(x = x, 
+                             part = part, 
+                             indices = indices,
+                             font_size = sprinkles[["font_size"]],
+                             font_size_units = sprinkles[["font_size_units"]])
+  }
+  
+
+  #* Sprinkles in the `height` group
+  if (any(names(sprinkles) %in% 
+          SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "height"]))
+  {
+    x <- height_sprinkles(x = x, 
+                          part = part, 
+                          indices = indices,
+                          height = sprinkles[["height"]],
+                          height_units = sprinkles[["height_units"]])
+  }
+  
+  
+
+  #* Sprinkles in the `merge` group
+  if (any(names(sprinkles) %in% 
+          SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "merge"]))
+  {
+    x <- merge_sprinkles(x = x, 
+                         part = part, 
+                         indices = indices,
+                         merge = sprinkles[["merge"]],
+                         merge_rowval = sprinkles[["merge_rowval"]],
+                         merge_colval = sprinkles[["merge_colval"]])
+  }
+  
+  #* Sprinkles in the `width` group
+  if (any(names(sprinkles) %in% 
+          SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "width"]))
+  {
+    x <- width_sprinkles(x = x, 
+                         part = part, 
+                         indices = indices,
+                         width = sprinkles[["width"]],
+                         width_units = sprinkles[["width_units"]])
+  }
+  
+  #* Move replacement sprinkle into `value`
+  if ("replace" %in% names(x[[part]]))
+  {
+    to_replace <- !is.na(x[[part]][["replace"]])
+    x[[part]][["value"]][to_replace] <- x[[part]][["replace"]][to_replace]
+    x[["replace"]] <- NULL
+  }
+  
+  #* Restore original sorting
+  x[[part]] <- dplyr::arrange(x[[part]], col, row)
+  
   x
 }
 
-#****************
-#* List of acceptable sprinkle names.
-#* Whenever I add a sprinkle, I'll likely forget to add 
-#* it to this list.  And it will likely take me way 
-#* too long to figure that out.
+#' @rdname sprinkle
+#' @export
 
-sprinkle_names <- function()
+sprinkle.dust_list <- function(x, rows = NULL, cols = NULL, ...,
+                               part = c("body", "head", "foot", "interfoot", "table"))
 {
-  c("bg", "bg_pattern", "bg_pattern_by", 
-    "bold", "border", "border_thickness", 
-    "border_units", "border_style", "border_color", 
-    "border_collapse",
-    "fn", "font_family", "font_color", "font_size", "font_size_units", "halign", 
-    "height", "height_units", "italic", "longtable", 
-    "merge", "merge_rowval", "merge_colval", "na_string", "pad", 
-    "replace", "rotate_degree", 
-    "round", "tabcolsep", "valign", "width", "width_units")
+  structure(
+    lapply(X = x,
+           FUN = sprinkle,
+           rows = rows,
+           cols = cols,
+           part = part,
+           ...),
+    class = "dust_list"
+  )
 }
 
-#* Default sprinkle values.  Used mostly for sprinkles that come in
-#* pairs, but only one of the pair is specified.
-default_sprinkles <- function(setting)
+#**********************************************************
+#**********************************************************
+#* Sprinkle functions
+#* These functions are not exported.  They perform the 
+#* actual work of sprinkling.  Sprinkles have been divided
+#* into groups of similar content for ease of management.
+#* Sprinkles that are part of a system are grouped together,
+#* and sprinkles that have similar features are grouped 
+#* together.
+#*
+#* 1. option_sprinkles
+#* 2. simple_sprinkles
+#* 3. bg_pattern_sprinkles
+#* 4. border_sprinkles
+#* 5. font_size sprinkles
+#* 6. height_sprinkles
+#* 7. merge_sprinkles
+#* 8. width_sprinkles
+
+
+#**********************************************************
+#* 1. option sprinkles
+#* These are sprinkles that can also be set in the `dust` call.
+#* Generally, they apply to the entire table object, not just
+#* to one of the parts. `longtable`, `float`, and `caption` 
+#* are examples
+
+option_sprinkles <- function(x, sprinkles)
 {
-  switch(setting,
-         "bg_pattern" = c("White", "Gray"),
-         "bg_pattern_by" = "rows",
-         "border" = "all",
-         "border_thickness" = 1,
-         "border_units" = "px",
-         "border_style" = "solid",
-         "border_color" = "Black",
-         "font_size_units" = "pt",
-         "height_units" = "pt",
-         "width_units" = "pt")
+  which_option <- 
+    which(names(sprinkles) %in%
+            SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "option"])
+  
+  for (spr in names(sprinkles)[which_option])
+  {
+    x[[spr]] <- sprinkles[[spr]]
+  }
+  
+  x
+}
+
+#**********************************************************
+#* 2. simple_sprinkles
+#* This group comprises the majority of sprinkles.  These 
+#* are sprinkles that impact a component of a table but 
+#* do not require interaction with other sprinkles.
+#* Examples include `bold`, `italic`, and `font_color`
+
+simple_sprinkles <- function(x, sprinkles, part, indices)
+{
+  which_simple <- 
+    which(names(sprinkles) %in%
+            SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "simple"])
+
+  for (spr in names(sprinkles)[which_simple])
+  {
+    if (spr == "fn") 
+    {
+      x[[part]][[spr]][indices] <- deparse(sprinkles[[spr]])
+    }
+    else
+    {
+      x[[part]][[spr]][indices] <- sprinkles[[spr]]
+    }
+  }
+  
+  x
+}
+
+#**********************************************************
+#* 3. bg_pattern_sprinkles
+#* For striping by either row or column, both the 
+#* `bg_pattern` and `bg_pattern_by` sprinkles require a 
+#* value.  For convenience of the user, assigning one of 
+#* these a value will still work and we assign the other
+#* a default value.
+
+bg_pattern_sprinkles <- function(x, part, indices, bg_pattern, bg_pattern_by)
+{
+  #* Assign default values
+  if (is.null(bg_pattern)) bg_pattern <- c("#FFFFFF", "#DDDDDD")
+  if (is.null(bg_pattern_by)) bg_pattern_by <- "rows"
+  
+  #* Use only the first element of `bg_pattern_by` (in case the user
+  #* provided more than one value).
+  if (length(bg_pattern_by) > 1) bg_pattern_by <- bg_pattern_by[1]
+  
+  if (bg_pattern_by == "rows")
+  {
+    pattern <- data.frame(row = sort(unique(x[[part]][["row"]][indices])))
+    pattern[["bg"]] <- rep(bg_pattern, 
+                           length.out = nrow(pattern))
+    
+    pattern <- 
+      dplyr::left_join(pattern,
+                       dplyr::select(x[[part]][indices, ], 
+                                     row, col),
+                     by = c("row" = "row")) %>%
+      dplyr::arrange(col, row)
+   
+    x[[part]][["bg"]][indices] <- pattern[["bg"]]
+  }
+  else 
+  {
+    pattern <- data.frame(col = sort(unique(x[[part]][["col"]][indices])))
+    pattern[["bg"]] <- rep(bg_pattern, 
+                           length.out = nrow(pattern))
+    
+    pattern <- 
+      dplyr::left_join(pattern,
+                       dplyr::select(x[[part]][indices, ], 
+                                     row, col),
+                       by = c("col" = "col")) %>%
+      dplyr::arrange(col,row)
+    
+    x[[part]][["bg"]][indices] <- pattern[["bg"]]
+  }
+  
+  x
+}
+
+#**********************************************************
+#* 4. border_sprinkles
+#* The cell borders are perhaps the most complex system
+#* of sprinkles, requiring a side, thickness, unit, style,
+#* and color to be defined.  To simplify calls for the 
+#* user, defining at least one will result any remaining, 
+#* undefined sprinkles to take a default value.
+
+border_sprinkles <- function(x, part, indices,
+                             border, border_thickness,
+                             border_units, border_style, 
+                             border_color)
+{
+  if (is.null(border)) border <- c("bottom", "left", "top", "right")
+  if ("all" %in% border) border <- c("bottom", "left", "top", "right")
+  if (is.null(border_thickness)) border_thickness <- 1
+  if (is.null(border_units)) border_units <- "px"
+  if (is.null(border_style)) border_style <- "solid"
+  if (is.null(border_color)) border_color <- "Black"
+  
+  border_define <- sprintf("%s%s %s %s",
+                           border_thickness,
+                           border_units,
+                           border_style,
+                           border_color)
+  for (side in border){
+    x[[part]][[sprintf("%s_border", side)]][indices] <- border_define
+  }
+  
+  x
+}
+
+#**********************************************************
+#* 5. font_size_sprinkles
+#* The default font size is to allow the style/format of 
+#* the document to dictate the size.  Thus, declaring a
+#* font_size_unit without a font_size won't actually do
+#* anything.  On the other hand, if a font_size is 
+#* declared, but no units, the unit "pt" is assumed.
+
+font_size_sprinkles <- function(x, part, indices,
+                             font_size, font_size_units)
+{
+  if (is.null(font_size)) font_size <- ""
+  if (is.null(font_size_units)) font_size_units <- "pt"
+
+  x[[part]][["font_size"]][indices] <- font_size
+  x[[part]][["font_size_units"]][indices] <- font_size_units
+  
+  x
+}
+
+#**********************************************************
+#* 5. height_sprinkles
+#* Behaves similarly to `font_size_sprinkles`  With some
+#* cleverness, I could probably come up with a way to 
+#* work these into one function, but I'm not sure the
+#* generalization would create much improvement in 
+#* performance.
+
+height_sprinkles <- function(x, part, indices,
+                             height, height_units)
+{
+  if (is.null(height)) height = ""
+  if (is.null(height_units)) height_units <- "pt"
+  
+  x[[part]][["height"]][indices] <- height
+  x[[part]][["height_units"]][indices] <- height_units
+  
+  x
+}
+
+#**********************************************************
+#* 6. merge_sprinkles
+#* This is the most difficult sprinkle, conceptually speaking.
+#* This handles merging cells.  
+#* Merged cells require a few components
+#*   a. display cell definition: The cell in the merged group 
+#*      which has the content to be displayed.  By default, 
+#*      this is the smallest row number/cell number combination.
+#*   b. rowspan definition: The number of rows the merged
+#*      cell should span.
+#*   c. colspan definition: The number of cells the merged
+#*      cell should span. 
+#* 
+#* Non-display cells are assigned a rowspan and colspan of 0.
+#* This suppresses them from printing, but preserves the content 
+#* of the cell within the `dust` object. Preservation is imporant
+#* in case a merged cell is unmerged in a subsequent call.
+
+merge_sprinkles <- function(x, part, indices,
+                             merge, merge_rowval, merge_colval)
+{
+  #* If the `merge` argument is NULL or FALSE, there's nothing to 
+  #* be done.  Return `x`
+  if (is.null(merge)) return(x)
+  if (!merge) return(x)
+  
+  #* If the display row and column aren't specified, choose the 
+  #* minimum row or cell.
+  if (is.null(merge_rowval)) merge_rowval <- min(x[[part]][["row"]][indices])
+  if (is.null(merge_colval)) merge_colval <- min(x[[part]][["col"]][indices])
+  
+  #* Map the cells to the display cell
+  x[[part]][["html_row"]][indices] <- merge_rowval
+  x[[part]][["html_col"]][indices] <- merge_colval
+  
+  #* Set colspan and rowspan of non-display cells to 0.  This suppresses 
+  #* them from display.
+  x[[part]][["rowspan"]][indices] [x[[part]][["row"]][indices] != merge_rowval] <- 0
+  x[[part]][["colspan"]][indices] [x[[part]][["col"]][indices] != merge_colval] <- 0
+  
+  #* Record the upper left most cell of the merged area.
+  #* This will be needed for HTML table to place the cell in the correct
+  #* location.
+  x[[part]][["html_row_pos"]][indices] <- min(x[[part]][["row"]][indices])
+  x[[part]][["html_col_pos"]][indices] <- min(x[[part]][["col"]][indices])
+  
+  #* Set the colspan and rowspan of the display cells.
+  x[[part]][["rowspan"]][indices] [x[[part]][["row"]][indices] == merge_rowval] <- 
+    x[[part]][["row"]][indices] %>%
+    unique() %>%
+    length()
+  x[[part]][["colspan"]][indices] [x[[part]][["col"]][indices] == merge_colval] <- 
+    x[[part]][["col"]][indices] %>%
+    unique() %>%
+    length()
+  
+  x
+}
+
+#**********************************************************
+#* 7. width_sprinkles
+#* See the note for '5. height_sprinkles'
+
+width_sprinkles <- function(x, part, indices,
+                             width, width_units)
+{
+  if (is.null(width)) width = ""
+  if (is.null(width_units)) width_units <- "pt"
+  
+  x[[part]][["width"]][indices] <- width
+  x[[part]][["width_units"]][indices] <- width_units
+  
+  x
+}
+
+
+#* Color sprinkles
+
+color_sprinkles <- function(sprinkles, coll)
+{
+  sprinkles <- sprinkles[!vapply(sprinkles, is.null, logical(1))]
+  for (i in seq_along(sprinkles))
+  {
+    is_color <- tolower(sprinkles[[i]]) %in% tolower(grDevices::colors())
+    is_rgb <- grepl("^rgb[(]\\d{1,3},\\d{1,3},\\d{1,3}[)]",sprinkles[[i]]) | 
+              grepl("^rgba[(]\\d{1,3},\\d{1,3},\\d{1,3},(\\d{1,4}|)[.]\\d{1,9}[)]$", sprinkles[[i]]) 
+    is_hex <- grepl("^#[0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f]$", sprinkles[[i]]) | 
+              grepl("^#[0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f]$", sprinkles[[i]])
+    
+    not_colors <- sprinkles[[i]][!(is_color | is_rgb | is_hex)]
+    
+    if (length(not_colors))
+    {
+      coll$push(sprintf("Colors in '%s' are not valid colors: %s",
+                        names(sprinkles)[i],
+                        paste0(not_colors, collapse = ", ")))
+    }
+
+    sprinkles[[i]][is_color | is_hex] <- 
+      vapply(sprinkles[[i]][is_color | is_hex],
+             function(x)
+             {
+               grDevices::col2rgb(x, alpha = TRUE) %>%
+               paste0(., collapse = ",") %>%
+               sprintf(fmt = "rgba(%s)",
+                       .)
+             },
+             character(1)
+      )
+               
+  }
+  sprinkles
+}
+
+
+#**********************************************************
+#**********************************************************
+#* assert_sprinkles
+#* Early versions of `pixiedust` performed a long series
+#* of checks that tested for the existence of a sprinkle 
+#* and then tested the characteristics of the sprinkle.
+#* This was time consuming and tedious to write.
+#* The function below allows us to test only the 
+#* sprinkles that are given, eliminating the need to 
+#* test for the existence of sprinkles.  It also uses
+#* `checkmate`, which is somewhat faster.
+#* The `assert*` function used for each sprinkle is 
+#* defined in the `SprinkleRef` data frame, which 
+#* exists in the 'R/sysdata.rda` object, and is defined
+#* by the `inst/sprinkle_ref.csv` file.  The 
+#* arguments for the checks are also defined in that 
+#* data frame.
+
+assert_sprinkles <- function(sprinkles, coll, recycle)
+{
+  #* The longtable sprinkle needs some special love.
+  #* It may be either logical or numerical, with values less
+  #* than 0 being interpreted as FALSE
+  if ("longtable" %in% names(sprinkles))
+  {
+    if (!is.numeric(sprinkles[["longtable"]]) & !is.logical(sprinkles[["longtable"]]))
+    {
+      coll$push("`longtable` must be either logical or numerical")
+    }
+  } #* END if ("longtable" %in% names(sprinkles))
+  
+  else
+  {
+    for (i in seq_along(sprinkles))
+    {
+      #* Determine the reference row in the `SprinkleRef` data frame
+      #* This data frame is saved to /R/sysdata.rda
+      ref_row <- which(SprinkleRef[["sprinkle"]] == names(sprinkles)[i])
+      
+      #* For the `fn` sprinkle, we need to rewrap it in `quote` 
+      #* to prevent checkmate from trying to evaluate it 
+      #* (this isn't a problem with checkmate, but a result 
+      #* of how we're passing the call.
+      if (inherits(sprinkles[[i]], "call"))
+      {
+        sprinkles[[i]] <- quote(sprinkles[[i]])
+      }
+      
+      #* Arguments to the assert functions are prefixed with 'arg_'
+      #* First we extract them from `SprinkleRef`, then we 
+      #* remove any missing values.
+      args <- SprinkleRef[ref_row, 
+                          names(SprinkleRef)[grepl("arg_", names(SprinkleRef))],
+                          drop = FALSE]
+      args <- lapply(X = args,
+                     FUN = function(x) if (is.na(x)) NULL else x)
+      args <- args[!vapply(args, is.null, logical(1))]
+      
+      #* For assertions with a `choices` argument, convert the character string
+      #* to a vector.
+      if (any(names(args) == "arg_choices"))
+      {
+        args[["arg_choices"]] <- eval(parse(text = args[["arg_choices"]]))
+      }
+      
+      #* If recycling, remove the length 1 constraint
+      if (recycle != "none")
+      {
+        args[["arg_len"]] <- NULL
+      }
+      
+      #* Remove the 'arg_' prefix from the argument names.
+      names(args) <- sub(pattern = "arg_",
+                         replacement = "",
+                         x = names(args))
+
+      do.call(
+        what = #* generate the function call
+          eval(
+            parse(
+              text = 
+                sprintf("%s%s",
+                        if (SprinkleRef[["assert_fn"]][ref_row] == "assert_match_arg")
+                        {
+                          ""
+                        }
+                        else
+                        {
+                          "checkmate::"
+                        },
+                        SprinkleRef[["assert_fn"]][ref_row])
+            )
+          ),
+        args = c(list(sprinkles[[i]], 
+                      add = coll,
+                      .var.name = names(sprinkles)[i]),
+                 args)
+      )
+    }  #* End for loop
+  } #* End else
 }

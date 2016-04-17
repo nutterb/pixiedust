@@ -65,7 +65,31 @@
 #'     positive integer indicating how many rows per table to include. All other values are 
 #'     interpreted as \code{FALSE}.  In LaTeX output, remember that after each section, a page 
 #'     break is forced. This setting may also be set from \code{sprinkle}. 
+#' @param hhline Logical.  When \code{FALSE}, the default, horizontal LaTeX cell borders 
+#'   are drawn using the \code{\\cline} command.  These don't necessarily 
+#'   play well with cell backgrounds, however.  Using \code{hhline = TRUE} 
+#'   prints horizontal borders using the \code{\\hhline} command.  While the 
+#'   \code{hhline} output isn't disrupted by cell backgrounds, it may require 
+#'   more careful coding of the desired borders.  In \code{hhline}, cells with 
+#'   adjoining borders tend to double up and look thicker than when using 
+#'   \code{cline}.
+#' @param label \code{character(1)}. An optional string for assigning labels with 
+#'   which tables can be referenced elsewhere in the document.  If \code{NULL}, 
+#'   \code{pixiedust} attempts to name the label \code{tab:[chunk-name]}, where 
+#'   \code{[chunk-name]} is the name of the \code{knitr} chunk.  If this also
+#'   resolves to \code{NULL} (for instance, when you aren't using \code{knitr}, 
+#'   the label \code{tab:pixie-[n]} is assigned, where \code{[n]} is the current value 
+#'   of \code{options()$pixie_count}.  Note that rendering multiple tables in a 
+#'   chunk without specifying a label will result in label conflicts.
+#' @param justify \code{character(1)}. Specifies the justification of the table on 
+#'   the page.  May be \code{"center"} (default), \code{"left"}, or \code{"right"}.
+#' @param bookdown Logical. When \code{TRUE}, \code{bookdown} style labels are
+#'   generated.  Defaults to \code{FALSE}.
 #' @param ... Additional arguments to pass to \code{tidy}
+#' @param ungroup Used when a \code{grouped_df} object is passed to \code{dust}.
+#'   When \code{TRUE} (the default), the object is ungrouped and dusted 
+#'   as a single table. When \code{FALSE}, the object is split and each element
+#'   is dusted separately.
 #' 
 #' @details The \code{head} object describes what each column of the table
 #'   represents.  By default, the head is a single row, but multi row headers
@@ -123,17 +147,26 @@
 #' x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars))
 #' x
 
+dust <- function(object, ...)
+{
+  UseMethod("dust")
+}
+
 #' @rdname dust
 #' @export
-dust <- function(object, ..., 
+dust.default <- function(object, ..., 
                  tidy_df = FALSE, keep_rownames = FALSE,
                  glance_foot = FALSE, glance_stats = NULL, 
                  col_pairs = 2, byrow = FALSE,
                  descriptors = "term", 
                  numeric_level = c("term", "term_plain", "label"),
+                 label = NULL,
                  caption = NULL,
-                 float = TRUE,
-                 longtable = FALSE)
+                 justify = "center",
+                 float = getOption("pixie_float", TRUE),
+                 longtable = getOption("pixie_longtable", FALSE),
+                 hhline = getOption("pixie_hhline", FALSE),
+                 bookdown = getOption("pixie_bookdown", FALSE))
 {
   Check <- ArgumentCheck::newArgCheck()
   
@@ -165,13 +198,32 @@ dust <- function(object, ...,
                                       argcheck = Check) %>%
       dplyr::left_join(tidy_object, .,
                        by = c("term" = "term"))
+     if ("label" %in% names(tidy_object))
+     {
+       tidy_object %<>%
+         dplyr::mutate(
+           label = ifelse(grepl("([(]|)Intercept([)]|)", term),
+                          term,
+                          label)
+         )
+     }
+  
+    if ("term_plain" %in% names(tidy_object))
+    {
+      tidy_object %<>%
+        dplyr::mutate(
+          label = ifelse(grepl("([(]|)Intercept([)]|)", term),
+                         term,
+                         term_plain)
+        )
+    }
     
     if (!"term" %in% descriptors)
       nms <- nms[!nms %in% "term"]
     
     tidy_object <- dplyr::select_(tidy_object, .dots = c(descriptors, nms))
   }
-  
+
   ArgumentCheck::finishArgCheck(Check)
 
   #* Create the table head
@@ -196,19 +248,58 @@ dust <- function(object, ...,
   #* glance statistics by default.  Perhaps an option for glance_df should
   #* be provided here.
 
+  print_method <- knitr::opts_knit$get("rmarkdown.pandoc.to")
+  
+  if (is.null(print_method)) print_method <- getOption("pixiedust_print_method")
+  
   structure(list(head = component_table(head, tidy_object),
                  body = component_table(tidy_object),
                  interfoot = NULL,
                  foot = foot,
                  border_collapse = TRUE,
                  caption = caption,
+                 label = label,
+                 justify = justify,
                  float = float,
                  longtable = longtable,
                  table_width = 6,
                  tabcolsep = 6,
-                 print_method = getOption("pixiedust_print_method")),
+                 hhline = hhline,
+                 bookdown = bookdown,
+                 print_method = print_method),
             class = "dust")
 
+}
+
+#' @rdname dust
+#' @export
+
+dust.grouped_df <- function(object, ungroup = TRUE, ...)
+{
+  if (ungroup)
+  {
+    dust.default(dplyr::ungroup(object), ...)
+  }
+  else
+  {
+    split_var <- attr(object, "var")
+    object <- dplyr::ungroup(object)
+    object <- split(object, object[, as.character(split_var)])
+    dust.list(object, ...)
+  }
+}
+
+#' @rdname dust
+#' @export
+
+dust.list <- function(object, ...)
+{
+  structure(
+    lapply(X = object, 
+           FUN = dust, 
+           ...),
+    class = "dust_list"
+  )
 }
 
 #***********************************************************
@@ -289,6 +380,8 @@ cell_attributes_frame <- function(nrow, ncol)
               stringsAsFactors=FALSE) %>%
     dplyr::mutate_(html_row = ~row,
             html_col = ~col,
+            merge_rowval = ~row,
+            merge_colval = ~col,
             merge = ~FALSE)
 }
 
@@ -300,4 +393,4 @@ primaryClass <- function(x){
 }
 
 
-utils::globalVariables(c(".", "term"))
+utils::globalVariables(c(".", "term", "term_plain"))

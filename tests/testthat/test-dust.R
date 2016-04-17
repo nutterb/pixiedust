@@ -13,10 +13,11 @@ test_that("dust object has expected names",
 {
   x <- dust(fit)
   
-  expect_equal(names(x), c("head", "body", "interfoot", "foot", 
-                           "border_collapse", "caption", "float", 
-                           "longtable", "table_width", "tabcolsep", 
-                           "print_method"))
+  expect_equal(names(x), 
+               c("head",            "body",        "interfoot",   "foot", 
+                 "border_collapse", "caption",     "label",       "justify", 
+                 "float",           "longtable",   "table_width", "tabcolsep", 
+                 "hhline",          "bookdown",    "print_method"))
 })
 
 test_that("dust object body component has correct dimensions",
@@ -30,20 +31,20 @@ test_that("dust object body component has correct dimensions",
                dim(x$foot))
   
   expect_equal(Dims, 
-               list(c(5, 32), 
-                    c(30, 32),
+               list(c(5, 34), 
+                    c(30, 34),
                     NULL,
                     NULL))
 })
 
 test_that("dust runs when passed a data frame with tidy_df = FALSE",
 {
-  expect_output(dust(mtcars, tidy_df = FALSE), "mpg")
+  expect_silent(dust(mtcars, tidy_df = FALSE))
 })
 
 test_that("dust runs when passed a data frame with tidy_df = TRUE",
 {
-  expect_output(dust(mtcars, tidy_df = TRUE), "column")
+  expect_silent(dust(mtcars, tidy_df = TRUE))
 })
 
 test_that("dust with keep_rownames = TRUE adds rownames to object",
@@ -54,39 +55,35 @@ test_that("dust with keep_rownames = TRUE adds rownames to object",
 
 test_that("dust with additional descriptors",
 {
-  expect_that(dust(fit, 
-                    descriptors = c("label", "level_detail")),
-               not(throws_error()))
+  expect_silent(dust(fit, 
+                    descriptors = c("label", "level_detail")))
 })
 
 test_that("dust with additional descriptors and term_plain numeric_label",
 {
-  expect_that(dust(fit,
+  expect_silent(dust(fit,
                    descriptors = c("label", "level_detail"),
-                   numeric_label = "term_plain"),
-              not(throws_error()))
+                   numeric_label = "term_plain"))
 })
 
 test_that("dust with glance_foot",
 {
-  expect_that(dust(fit, glance_foot = TRUE),
-              not(throws_error()))
+  expect_silent(dust(fit, glance_foot = TRUE))
 })
 
 test_that("dust with glance_foot and col_pairs a divisor of total_cols",
 {
   fit <- lm(mpg ~ qsec + factor(am) + wt * factor(gear), data = mtcars)
-  expect_that(dust(fit,
-                   descriptors = c("label", "level_detail"),
-                   glance_foot = TRUE, col_pairs = 3),
-              not(throws_error()))
+  expect_silent(dust(fit,
+                     descriptors = c("label", "level_detail"),
+                     glance_foot = TRUE, 
+                     col_pairs = 3))
 })
 
-test_that("dust with caption and non-floating environment gives warning",
+
+test_that("dust a list",
 {
-  fit <- lm(mpg ~ qsec + factor(am) + wt * factor(gear), data = mtcars)
-  x <- dust(fit, 
-            caption = "Table Caption", float = FALSE) %>%
-    sprinkle_print_method("latex")
-  expect_that(print(x), gives_warning())
+  x <- split(mtcars, list(mtcars$am, mtcars$vs))
+  expect_silent(dust(x))
 })
+
