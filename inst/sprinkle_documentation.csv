@@ -261,6 +261,21 @@ round,,
 ,markdown,Recognized
 ,html,Recognized
 ,latex,Recognized
+sanitize,,
+,action,Sanitizes character values that may cause difficulties for the rendered format.  
+,default,FALSE
+,accepts,logical(1)
+,console,Not recognized
+,markdown,Not recognized
+,html,Not recognized
+,latex,Recognized.  Sanitization is performed using `Hmisc::latexTranslate`
+sanitize_args,action,Passes additional arguments to `Hmisc::latexTranslate`
+,default,list()
+,accepts,list.  See documentation for `Hmisc::latexTranslate` for details
+,console,Not recognized
+,markdown,Not recognized
+,html,Not recognized
+,latex,Recognized
 tabcolsep,,
 ,action,"Modifies the LaTeX `tabcolsep` parameter of tables. This is similar to `pad` for HTML tables, but only affects the space between columns. Measured in ""pt"""
 ,default,6

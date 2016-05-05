@@ -453,6 +453,25 @@ round \tab  \tab  \cr
  \tab markdown     \tab Recognized \cr
  \tab html         \tab Recognized \cr
  \tab latex        \tab Recognized \cr
+sanitize \tab  \tab  \cr
+ \tab action	      \tab Sanitizes character values that may cause \cr
+ \tab              \tab difficulties for the rendered format.  \cr
+ \tab default	    \tab FALSE      \cr
+ \tab accepts	    \tab logical(1) \cr
+ \tab console	    \tab Not recognized \cr
+ \tab markdown	    \tab Not recognized \cr
+ \tab html         \tab Not recognized \cr
+ \tab latex	      \tab Recognized.  Sanitization is performed using \cr
+ \tab              \tab \code{\link[Hmisc]{latexTranslate}} \cr
+sanitize_args	\tab \tab \cr
+ \tab action	      \tab Passes additional arguments to \code{\link[Hmisc]{latexTranslate}} \cr
+ \tab default	    \tab \code{list()} \cr
+ \tab accepts	    \tab list.  See documentation for \code{\link[Hmisc]{latexTranslate}} \cr
+ \tab              \tab for details \cr
+ \tab console	    \tab Not recognized \cr
+ \tab markdown	    \tab Not recognized \cr
+ \tab html	        \tab Not recognized \cr
+ \tab latex	      \tab Recognized \cr
 tabcolsep \tab  \tab  \cr
  \tab action       \tab Modifies the LaTeX `tabcolsep` parameter of tables \cr
  \tab              \tab This is similar to `pad` for HTML tables, but only  \cr
