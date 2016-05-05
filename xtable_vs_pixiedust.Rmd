@@ -15,7 +15,7 @@ vignette: >
 
 The process for comparing the speed of `xtable` and `pixiedust` will be a random sample of `r format(1e4, big.mark = ",")` rows from the `mtcars` dataset, with replacement.  A table with this many rows is certainly at the fringe of the size of tables people my try to produce using either package and is large enough to give us some idea of how the two packages differ in terms of speed.
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 library(dplyr)
 library(ggplot2)
 library(microbenchmark)
@@ -45,25 +45,18 @@ The `pixiedust` times are calculated below.  We apply the default background pat
 
 ```{r, results='hide'}
 libs <- list.files("F:/pixiedust_library", full.names = TRUE)
-lib_versions <- gsub("Version", "", basename(libs))
+lib_versions <- gsub("(pixiedust-|[.]tar[.]gz)", "", basename(libs))
 
 for (i in seq_along(libs)){
-  library(pixiedust, lib.loc=libs[i])
+  library(pixiedust, 
+          lib.loc=file.path("F:/pixiedust_library", lib_versions[i]))
   
-  if (lib_versions[i] %in% c("0.1.1", "0.1.1-2")) {
-    Pixie <- microbenchmark({dust(LargeTable) + 
-                               sprinkle_print_method("html") + 
-                               sprinkle(bg_pattern_by = "rows")},
-                            times = 10, units = "ms")
-    Pixie$expr <- paste0("pixiedust ", lib_versions[i])
-  }
-  else {
-    Pixie <- microbenchmark({dust(LargeTable) %>% 
+  Pixie <- microbenchmark({dust(LargeTable) %>% 
                              sprinkle_print_method("html") %>%
                              sprinkle(bg_pattern_by = "rows")},
                             times = 10, unit = "ms")
-    Pixie$expr <- paste0("pixiedust ", lib_versions[i])
-  }
+  Pixie$expr <- paste0("pixiedust ", lib_versions[i])
+
   
   assign(paste0("Pixie_", lib_versions[i]), Pixie)
   

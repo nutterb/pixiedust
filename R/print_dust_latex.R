@@ -182,8 +182,11 @@ part_prep_latex <- function(part, col_width, col_halign_default, head=FALSE)
     part$na_string[logic]
   
   #* Sanitize value strings
-  logic <- !is.na(part[["value"]])
-  part[["value"]][logic] <- Hmisc::latexTranslate(part[["value"]][logic])
+  logic <- part[["sanitize"]]
+  part[["value"]][logic] <- sanitize(part[["value"]][logic],
+                                     part[["sanitize_args"]][logic])
+
+
   
   #* Bold and italic
   boldify <- part$bold
@@ -340,6 +343,8 @@ paste_latex_part <- function(part, row_height, newline = " \\\\"){
 #**************************************************
 convertColor <- function(color){
   if (length(color) == 0) return(character(0))
+  
+  color <- gsub("rgba[(]255,255,255,0[)]", "", color)
   
   if (grepl("#", color)){
     return(paste0("[HTML]{", sub("#", "", color), "}"))
@@ -541,6 +546,21 @@ latex_horizontal_border_code <- function(x, col){
                           "\\cline{", col, "-", col, "}")
     return(border_code)
   }
+}
+
+#* NA safe sanitization function
+sanitize <- function(x, args)
+{
+  sanitize_index <- !is.na(x)
+  if (sum(sanitize_index))
+  {
+    x[sanitize_index] <- 
+      do.call(what = Hmisc::latexTranslate,
+              args = c(list(object = x[sanitize_index]),
+                       eval(parse(text = args[sanitize_index])))
+      )
+  }
+  x
 }
 
 

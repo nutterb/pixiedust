@@ -395,6 +395,25 @@
 #'  \tab markdown     \tab Recognized \cr
 #'  \tab html         \tab Recognized \cr
 #'  \tab latex        \tab Recognized \cr
+#' sanitize \tab  \tab  \cr
+#'  \tab action	      \tab Sanitizes character values that may cause \cr
+#'  \tab              \tab difficulties for the rendered format.  \cr
+#'  \tab default	    \tab FALSE      \cr
+#'  \tab accepts	    \tab logical(1) \cr
+#'  \tab console	    \tab Not recognized \cr
+#'  \tab markdown	    \tab Not recognized \cr
+#'  \tab html         \tab Not recognized \cr
+#'  \tab latex	      \tab Recognized.  Sanitization is performed using \cr
+#'  \tab              \tab \code{\link[Hmisc]{latexTranslate}} \cr
+#' sanitize_args	\tab \tab \cr
+#'  \tab action	      \tab Passes additional arguments to \code{\link[Hmisc]{latexTranslate}} \cr
+#'  \tab default	    \tab \code{list()} \cr
+#'  \tab accepts	    \tab list.  See documentation for \code{\link[Hmisc]{latexTranslate}} \cr
+#'  \tab              \tab for details \cr
+#'  \tab console	    \tab Not recognized \cr
+#'  \tab markdown	    \tab Not recognized \cr
+#'  \tab html	        \tab Not recognized \cr
+#'  \tab latex	      \tab Recognized \cr
 #' tabcolsep \tab  \tab  \cr
 #'  \tab action       \tab Modifies the LaTeX `tabcolsep` parameter of tables \cr
 #'  \tab              \tab This is similar to `pad` for HTML tables, but only  \cr
@@ -693,12 +712,19 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
   }
   
   #* Convert colors to rgb
-  if (any(!vapply(sprinkles[c("bg", "border_color", "font_color")], 
-                  is.null, 
-                  logical(1))))
+  given_color_sprinkles <- 
+      !vapply(sprinkles[c("bg", "border_color", "font_color")], 
+              is.null, 
+              logical(1))
+  given_color_sprinkles <- 
+    c("bg", "border_color", "font_color")[given_color_sprinkles]
+
+    
+  if (length(given_color_sprinkles))
   {
-    color_sprinkles(sprinkles = sprinkles[c("bg", "border_color", "font_color")],
-                    coll = coll)
+    sprinkles[given_color_sprinkles] <- 
+      color_sprinkles(sprinkles = sprinkles[given_color_sprinkles],
+                      coll = coll)
   }
 
   #* Return any errors found.
@@ -711,6 +737,14 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
   
   x <- option_sprinkles(x = x, 
                         sprinkles = sprinkles)
+  
+  #* Special care for the `sanitize_args` sprinkle
+  if ("sanitize_args" %in% names(sprinkles))
+  {
+    sprinkles[["sanitize_args"]] <- 
+      deparse(sprinkles[["sanitize_args"]]) %>%
+      paste0(collapse = "")
+  }
   
   #* Sprinkles in the `simple` group.
   #* These sprinkles do not associate with any other sprinkles and may be
@@ -1098,12 +1132,22 @@ width_sprinkles <- function(x, part, indices,
 
 color_sprinkles <- function(sprinkles, coll)
 {
-  sprinkles <- sprinkles[!vapply(sprinkles, is.null, logical(1))]
+
+  sprinkles <- 
+    lapply(sprinkles,
+           function(x)
+           {
+             x <- gsub("[[:space:]]", "", x)
+             x[x == "transparent"] <- "rgba(255,255,255,0.0)"
+             x
+           }
+    )
   for (i in seq_along(sprinkles))
   {
     is_color <- tolower(sprinkles[[i]]) %in% tolower(grDevices::colors())
     is_rgb <- grepl("^rgb[(]\\d{1,3},\\d{1,3},\\d{1,3}[)]",sprinkles[[i]]) | 
-              grepl("^rgba[(]\\d{1,3},\\d{1,3},\\d{1,3},(\\d{1,4}|)[.]\\d{1,9}[)]$", sprinkles[[i]]) 
+              grepl("^rgba[(]\\d{1,3},\\d{1,3},\\d{1,3},(\\d{1,4}|)[.]\\d{1,9}[)]$", sprinkles[[i]])  | 
+              grepl("^rgba[(]\\d{1,3},\\d{1,3},\\d{1,3},0[)]$", sprinkles[[i]])
     is_hex <- grepl("^#[0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f]$", sprinkles[[i]]) | 
               grepl("^#[0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f]$", sprinkles[[i]])
     

@@ -1,3 +1,16 @@
+#### 0.7.1 (4 May 2016)
+* the sprinkles `bg`, `border_color` and `font_color` now interpret
+  "transparent" as a valid color. In HTML, it is interpreted as 
+  `"rgba(255,255,255,0)"`; in LaTeX it is interpreted as `""`.
+* New Sprinkle: `sanitize`. Defaults to `FALSE` and replaces automatic
+  sanitization of text in LaTeX output via `Hmisc::latexTranslate`.
+  This is not backward compatible with 0.7.0, but _is_ consistent with
+  earlier versions of `pixiedust`.  You must opt in to sanitization now.
+* New Sprinkle: `sanitize_args`. Takes a list of arguments to pass 
+  to `Hmisc::latexTranslate`, allowing sanitization to be extended to
+  character sets defined by the user.
+
+
 #### 0.7.0 (15 April 2016)
 * Backward compatibility: The way `pixiedust` deals with 
   colors has changed.  If you are using custom defined colors in your 

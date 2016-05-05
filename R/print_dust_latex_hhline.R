@@ -192,9 +192,11 @@ part_prep_latex_hhline <- function(part, col_width, col_halign_default, head=FAL
     part$na_string[logic]
   
   #* Sanitize value strings
-  logic <- !is.na(part[["value"]])
-  part[["value"]][logic] <- Hmisc::latexTranslate(part[["value"]][logic])
-  
+  #* `sanitize` is defined in `print_dust_latex.R`
+  logic <- part[["sanitize"]]
+  part[["value"]][logic] <- sanitize(part[["value"]][logic],
+                                     part[["sanitize_args"]][logic])
+
   #* Bold and italic
   boldify <- part$bold
   part$value[boldify] <- paste0("\\textbf{", part$value[boldify], "}")

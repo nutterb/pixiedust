@@ -373,6 +373,8 @@ cell_attributes_frame <- function(nrow, ncol)
               width = "",
               width_units = "",
               rotate_degree = "",
+              sanitize = FALSE,
+              sanitize_args = "",
               pad = "",
               rowspan = 1,
               colspan = 1,

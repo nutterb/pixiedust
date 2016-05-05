@@ -32,7 +32,9 @@ padding,                    x,      ,        ,   x,
 replace,                    x,     x,       x,   x,    x
 round,                      x,     x,       x,   x,    x
 rotate_degree,              x,      ,        ,   x,    x
+sanitize,                    ,      ,        ,    ,    x
+sanitize_args,               ,      ,        ,    ,    x
+tabcolsep,                   ,      ,        ,    ,    x
 valign,                     x,      ,        ,   x,    x
 width,                      x,      ,        ,   x,    x
 width_units,                x,      ,        ,   x,    x
-
