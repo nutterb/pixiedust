@@ -1,3 +1,6 @@
+#### 0.7.2 (19 May 2016)
+* Fixed the padding specification in HTML tables.
+
 #### 0.7.1 (4 May 2016)
 * the sprinkles `bg`, `border_color` and `font_color` now interpret
   "transparent" as a valid color. In HTML, it is interpreted as 
