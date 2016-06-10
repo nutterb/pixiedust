@@ -30,4 +30,15 @@ test_that("medley_all_borders with vertical = FALSE",
       sprinkle_print_method("html")
   )
 })
+
+test_that(
+  "medley_all_borders with part = 'table'",
+  {
+    expect_silent(
+      dust(fit) %>% medley_all_borders(part = "table") %>%
+        sprinkle_print_method("html")
+    )
+  }
+)
+            
   

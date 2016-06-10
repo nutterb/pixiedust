@@ -87,3 +87,12 @@ test_that("dust a list",
   expect_silent(dust(x))
 })
 
+
+test_that(
+  "dust with descriptors",
+  {
+    expect_silent(
+      dust(fit, descriptors = c("term_plain", "label", "level"))
+    )
+  }
+)

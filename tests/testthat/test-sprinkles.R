@@ -453,4 +453,31 @@ test_that("sprinkles: mixture of named and unnamed sprinkles",
   expect_error(sprinkle(x, rows = 1, cols = 1, border_color = "green", "dotted"),
                "")
 })
+
+
+test_that(
+  "sprinkles: fixed argument",
+  {
+    expect_silent(
+      dust(fit) %>%
+        sprinkle(cols = 1:5,
+                 rows = 1:5,
+                 bg = "green",
+                 fixed = TRUE) %>%
+        sprinkle_print_method("html")
+    )
+  }
+)
+
+
+test_that(
+  "sprinkles: longtable",
+  {
+    expect_silent(
+      dust(mtcars) %>%
+        sprinkle(longtable = 10)
+    )
+  }
+)
+          
   
