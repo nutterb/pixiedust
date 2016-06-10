@@ -458,14 +458,12 @@ test_that("sprinkles: mixture of named and unnamed sprinkles",
 test_that(
   "sprinkles: fixed argument",
   {
-    expect_silent(
-      dust(fit) %>%
-        sprinkle(cols = 1:5,
-                 rows = 1:5,
-                 bg = "green",
-                 fixed = TRUE) %>%
-        sprinkle_print_method("html")
-    )
+    x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars)) %>%
+      sprinkle(cols = 1:5,
+               rows = 1:5,
+               bg = "green",
+               fixed = TRUE) 
+    expect_output(print(x))
   }
 )
 

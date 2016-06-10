@@ -177,15 +177,14 @@ test_that(
 test_that(
   "html tables with bookdown label",
   {
-    expect_match(
-      dust(fit,
-           caption = "Table heading",
-           label = "table-ref",
-           bookdown = TRUE) %>%
-        sprinkle_print_method("html") %>%
-        print(asis = FALSE),
-      "#tab:table-ref"
-    )
+    fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
+    x <- dust(fit,
+              caption = "Table heading",
+              label = "table-ref",
+              bookdown = TRUE) %>%
+      sprinkle_print_method("html") %>%
+      print(asis = FALSE)
+    expect_match(x, "#tab:table-ref")
   }
 )
   

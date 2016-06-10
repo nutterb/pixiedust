@@ -13,7 +13,7 @@
 #'   line break tags \code{</br>} appended to the end of the table in order to 
 #'   generate whitespace between then end of the table and the subsequent
 #'   element.  By default, two line breaks are used.
-#' 
+#'   
 #' @details The printing format is drawn from \code{options()$dustpan_output} and may take any of
 #'   the values \code{"console"}, \code{"markdown"}, \code{"html"}, or \code{"latex"}
 #'   
@@ -38,7 +38,7 @@
 #' @examples 
 #' dust(lm(mpg ~ qsec + factor(am), data = mtcars))
 
-print.dust <- function(x, ..., asis = TRUE)
+print.dust <- function(x, ..., asis = TRUE, linebreak_at_end = 2)
 {
   print_method <- x$print_method
   if (print_method == "latex" & x$hhline)
@@ -48,7 +48,7 @@ print.dust <- function(x, ..., asis = TRUE)
         "console"      = print_dust_console(x, ..., asis = asis),
         "docx"         = print_dust_markdown(x, ..., asis = asis),
         "markdown"     = print_dust_markdown(x, ..., asis = asis),
-        "html"         = print_dust_html(x, ..., asis = asis),
+        "html"         = print_dust_html(x, ..., asis = asis, linebreak_at_end = linebreak_at_end),
         "latex"        = print_dust_latex(x, ..., asis = asis),
         "latex_hhline" = print_dust_latex_hhline(x, ..., asis = asis),
         stop(sprintf("'%s' is not an valid print method",

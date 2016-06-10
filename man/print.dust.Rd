@@ -5,7 +5,7 @@
 \alias{print.dust_list}
 \title{Print A \code{dust} Table}
 \usage{
-\method{print}{dust}(x, ..., asis = TRUE)
+\method{print}{dust}(x, ..., asis = TRUE, linebreak_at_end = 2)
 
 \method{print}{dust_list}(x, ..., asis = TRUE)
 }
@@ -16,6 +16,11 @@
 
 \item{asis}{A logical value that controls if the output is printed using
 \code{knitr::asis_output}.  See Details.}
+
+\item{linebreak_at_end}{Used only in HTML tables; defines the number of 
+line break tags \code{</br>} appended to the end of the table in order to 
+generate whitespace between then end of the table and the subsequent
+element.  By default, two line breaks are used.}
 }
 \description{
 Apply the formatting to a \code{dust} object and print the table.
