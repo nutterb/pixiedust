@@ -7,6 +7,7 @@
   had been applied in `sprinkle`, which violated the philosophy
   of not changing the content of the data frame until the last
   possible moment.
+* Added some extra unit tests.
 
 #### 0.7.2 (19 May 2016)
 * Fixed the padding specification in HTML tables.
