@@ -203,7 +203,7 @@ part_prep_html <- function(part, head=FALSE)
   #* Padding
   logic <- part$pad != ""
   part$pad[logic] <-
-    with(part, sprintf("padding:%s;", pad[logic]))
+    with(part, sprintf("padding:%spx;", pad[logic]))
   
   #* Text Rotation
   logic <- part$rotate_degree != ""
