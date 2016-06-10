@@ -372,6 +372,7 @@ cell_attributes_frame <- function(nrow, ncol)
               height_units = "",
               width = "",
               width_units = "",
+              replace = NA,
               rotate_degree = "",
               sanitize = FALSE,
               sanitize_args = "",

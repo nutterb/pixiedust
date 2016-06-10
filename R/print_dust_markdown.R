@@ -108,6 +108,10 @@ part_prep_markdown <- function(part)
     part$value[logic] <-
     as.character(roundSafe(part$value[logic], as.numeric(part$round[logic])))
   
+  #* Replacement
+  logic <- !is.na(part[["replace"]])
+  part[["value"]][logic] <- part[["replace"]][logic]
+  
   #* Bold text
   logic <- part$bold
   part$value[logic] <- 

@@ -176,6 +176,10 @@ part_prep_latex <- function(part, col_width, col_halign_default, head=FALSE)
     part$value[logic] <-
     as.character(roundSafe(part$value[logic], as.numeric(part$round[logic])))
 
+  #* Replacement
+  logic <- !is.na(part[["replace"]])
+  part[["value"]][logic] <- part[["replace"]][logic]
+  
   #* Set NA (missing) values to na_string
   logic <- is.na(part$value) & !is.na(part$na_string)
   part$value[logic] <- 

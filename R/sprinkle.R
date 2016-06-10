@@ -828,13 +828,13 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
                          width_units = sprinkles[["width_units"]])
   }
   
-  #* Move replacement sprinkle into `value`
-  if ("replace" %in% names(x[[part]]))
-  {
-    to_replace <- !is.na(x[[part]][["replace"]])
-    x[[part]][["value"]][to_replace] <- x[[part]][["replace"]][to_replace]
-    x[["replace"]] <- NULL
-  }
+  # #* Move replacement sprinkle into `value`
+  # if ("replace" %in% names(x[[part]]))
+  # {
+  #   to_replace <- !is.na(x[[part]][["replace"]])
+  #   x[[part]][["value"]][to_replace] <- x[[part]][["replace"]][to_replace]
+  #   x[["replace"]] <- NULL
+  # }
   
   #* Restore original sorting
   x[[part]] <- dplyr::arrange(x[[part]], col, row)

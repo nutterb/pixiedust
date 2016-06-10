@@ -342,7 +342,7 @@ test_that("sprinkles: pad errors",
 test_that("sprinkles: replace",
 {
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-  expect_equal(sprinkle(x, rows = 1, cols = 1, replace = "Intercept")$body$value[1],
+  expect_equal(sprinkle(x, rows = 1, cols = 1, replace = "Intercept")$body$replace[1],
               "Intercept")
 })
 

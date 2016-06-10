@@ -9,6 +9,10 @@
 #' @param ... Additional arguments to pass to the print method.  Currently ignored.
 #' @param asis A logical value that controls if the output is printed using
 #'   \code{knitr::asis_output}.  See Details.
+#' @param linebreak_at_end Used only in HTML tables; defines the number of 
+#'   line break tags \code{</br>} appended to the end of the table in order to 
+#'   generate whitespace between then end of the table and the subsequent
+#'   element.  By default, two line breaks are used.
 #' 
 #' @details The printing format is drawn from \code{options()$dustpan_output} and may take any of
 #'   the values \code{"console"}, \code{"markdown"}, \code{"html"}, or \code{"latex"}

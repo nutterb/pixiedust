@@ -75,6 +75,9 @@ part_prep_console <- function(part)
     part$value[logic] <-
     as.character(roundSafe(part$value[logic], as.numeric(part$round[logic])))
   
+  #* Replacement
+  logic <- !is.na(part[["replace"]])
+  part[["value"]][logic] <- part[["replace"]][logic]
   
     #* Bold text.  In the console, bold text is denoted by "**".  In order
     #* to keep the all of the formatting lined up in columns, the data 
