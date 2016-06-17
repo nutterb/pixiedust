@@ -377,8 +377,8 @@ cell_attributes_frame <- function(nrow, ncol)
               sanitize = FALSE,
               sanitize_args = "",
               pad = "",
-              rowspan = 1,
-              colspan = 1,
+              rowspan = 1L,
+              colspan = 1L,
               na_string = NA,
               stringsAsFactors=FALSE) %>%
     dplyr::mutate_(html_row = ~row,

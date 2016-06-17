@@ -8,7 +8,7 @@
 \usage{
 medley_bw(x)
 
-medley_model(x, round = 2)
+medley_model(x, round = 2e+00)
 }
 \arguments{
 \item{x}{a \code{dust} object.}

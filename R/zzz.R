@@ -1,7 +1,7 @@
 .onLoad <- function(libname,pkgname)
 {
   options(pixiedust_print_method = "console",
-          pixie_count = 0)
+          pixie_count = 0L)
 }
 
 .onUnload <- function(libPath)

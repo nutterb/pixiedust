@@ -915,14 +915,12 @@ simple_sprinkles <- function(x, sprinkles, part, indices)
 
   for (spr in names(sprinkles)[which_simple])
   {
-    if (spr == "fn") 
-    {
-      x[[part]][[spr]][indices] <- deparse(sprinkles[[spr]])
-    }
-    else
-    {
-      x[[part]][[spr]][indices] <- sprinkles[[spr]]
-    }
+    x[[part]][[spr]][indices] <- 
+      switch(spr,
+             "fn" = deparse(sprinkles[[spr]]),
+             "pad" = format(sprinkles[[spr]], scientific = FALSE),
+             "rotate_degree" = format(sprinkles[[spr]], scientific = FALSE),
+             sprinkles[[spr]])
   }
   
   x
@@ -1026,7 +1024,7 @@ font_size_sprinkles <- function(x, part, indices,
   if (is.null(font_size)) font_size <- ""
   if (is.null(font_size_units)) font_size_units <- "pt"
 
-  x[[part]][["font_size"]][indices] <- font_size
+  x[[part]][["font_size"]][indices] <- format(font_size, scientific = FALSE)
   x[[part]][["font_size_units"]][indices] <- font_size_units
   
   x
@@ -1046,7 +1044,7 @@ height_sprinkles <- function(x, part, indices,
   if (is.null(height)) height = ""
   if (is.null(height_units)) height_units <- "pt"
   
-  x[[part]][["height"]][indices] <- height
+  x[[part]][["height"]][indices] <- format(height, scientific = FALSE)
   x[[part]][["height_units"]][indices] <- height_units
   
   x
@@ -1084,29 +1082,32 @@ merge_sprinkles <- function(x, part, indices,
   if (is.null(merge_colval)) merge_colval <- min(x[[part]][["col"]][indices])
   
   #* Map the cells to the display cell
-  x[[part]][["html_row"]][indices] <- merge_rowval
-  x[[part]][["html_col"]][indices] <- merge_colval
+  x[[part]][["html_row"]][indices] <- as.integer(merge_rowval)
+  x[[part]][["html_col"]][indices] <- as.integer(merge_colval)
   
   #* Set colspan and rowspan of non-display cells to 0.  This suppresses 
   #* them from display.
-  x[[part]][["rowspan"]][indices] [x[[part]][["row"]][indices] != merge_rowval] <- 0
-  x[[part]][["colspan"]][indices] [x[[part]][["col"]][indices] != merge_colval] <- 0
+  x[[part]][["rowspan"]][indices] [x[[part]][["row"]][indices] != merge_rowval] <- 0L
+  x[[part]][["colspan"]][indices] [x[[part]][["col"]][indices] != merge_colval] <- 0L
   
   #* Record the upper left most cell of the merged area.
   #* This will be needed for HTML table to place the cell in the correct
   #* location.
-  x[[part]][["html_row_pos"]][indices] <- min(x[[part]][["row"]][indices])
-  x[[part]][["html_col_pos"]][indices] <- min(x[[part]][["col"]][indices])
+  x[[part]][["html_row_pos"]][indices] <- as.integer(min(x[[part]][["row"]][indices]))
+  x[[part]][["html_col_pos"]][indices] <- as.integer(min(x[[part]][["col"]][indices]))
   
   #* Set the colspan and rowspan of the display cells.
   x[[part]][["rowspan"]][indices] [x[[part]][["row"]][indices] == merge_rowval] <- 
     x[[part]][["row"]][indices] %>%
     unique() %>%
-    length()
+    length() %>%
+    as.integer()
+  
   x[[part]][["colspan"]][indices] [x[[part]][["col"]][indices] == merge_colval] <- 
     x[[part]][["col"]][indices] %>%
     unique() %>%
-    length()
+    length() %>%
+    as.integer()
   
   x
 }
@@ -1121,7 +1122,7 @@ width_sprinkles <- function(x, part, indices,
   if (is.null(width)) width = ""
   if (is.null(width_units)) width_units <- "pt"
   
-  x[[part]][["width"]][indices] <- width
+  x[[part]][["width"]][indices] <- format(width, scientific = FALSE)
   x[[part]][["width_units"]][indices] <- width_units
   
   x

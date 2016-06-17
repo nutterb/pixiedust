@@ -16,7 +16,7 @@ get_pixie_count()
 
 set_pixie_count(value)
 
-increment_pixie_count(increment = 1)
+increment_pixie_count(increment = 1e+00)
 }
 \arguments{
 \item{value}{The value at which to set the pixie counter.}
