@@ -14,8 +14,7 @@ sprinkle_table.default <- function(x, cols=NULL, ...,
 
   part_names <- assert_match_arg(x = part, 
                                  choices = c("table", "body", "head", "foot", "interfoot"),
-                                 several_ok = TRUE,
-                                 add = Check)
+                                 several_ok = TRUE)
 
   if (length(part_names) > 0)
     if (any(part_names %in% "table")) part_names <- c("body", "head", "foot", "interfoot")
