@@ -13,7 +13,7 @@
 dust(object, ...)
 
 \method{dust}{default}(object, ..., tidy_df = FALSE, keep_rownames = FALSE,
-  glance_foot = FALSE, glance_stats = NULL, col_pairs = 2e+00,
+  glance_foot = FALSE, glance_stats = NULL, col_pairs = 2,
   byrow = FALSE, descriptors = "term", numeric_level = c("term",
   "term_plain", "label"), label = NULL, caption = NULL,
   justify = "center", float = getOption("pixie_float", TRUE),

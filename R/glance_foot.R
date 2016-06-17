@@ -1,11 +1,4 @@
 #' @name glance_foot
-#' @importFrom ArgumentCheck addError
-#' @importFrom ArgumentCheck addWarning
-#' @importFrom ArgumentCheck finishArgCheck
-#' @importFrom ArgumentCheck newArgCheck
-#' @importFrom broom glance
-#' @importFrom broom tidy
-#' @importFrom dplyr bind_rows
 #' 
 #' @title Prepare Glance Statistics for \code{pixiedust} Table Footer
 #' @description Retrieves the \code{broom::glance} output for a model object and 

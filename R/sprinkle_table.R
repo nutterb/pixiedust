@@ -11,15 +11,12 @@ sprinkle_table <- function(x, cols = NULL, ..., part = "table")
 
 sprinkle_table.default <- function(x, cols=NULL, ..., 
                                    part = "table"){
-  Check <- ArgumentCheck::newArgCheck()
-  
-  part_names <- ArgumentCheck::match_arg(part, 
-                                         c("table", "body", "head", "foot", "interfoot"),
-                                         several.ok = TRUE,
-                                         argcheck = Check)
-  
-  ArgumentCheck::finishArgCheck(Check)
-  
+
+  part_names <- assert_match_arg(x = part, 
+                                 choices = c("table", "body", "head", "foot", "interfoot"),
+                                 several_ok = TRUE,
+                                 add = Check)
+
   if (length(part_names) > 0)
     if (any(part_names %in% "table")) part_names <- c("body", "head", "foot", "interfoot")
   

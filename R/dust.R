@@ -1,7 +1,5 @@
 #' @name dust
 #' @export dust
-#' @importFrom ArgumentCheck newArgCheck
-#' @importFrom ArgumentCheck finishArgCheck
 #' @importFrom dplyr bind_cols
 #' @importFrom dplyr distinct
 #' @importFrom dplyr left_join
@@ -168,7 +166,13 @@ dust.default <- function(object, ...,
                  hhline = getOption("pixie_hhline", FALSE),
                  bookdown = getOption("pixie_bookdown", FALSE))
 {
-  Check <- ArgumentCheck::newArgCheck()
+  coll <- checkmate::makeAssertCollection()
+  
+  descriptors <- assert_match_arg(x = descriptors,
+                                  choices = c("term", "term_plain", "label",
+                                              "level", "level_detail"),
+                                  several_ok = TRUE,
+                                  add = coll)
   
   #* By default, we assume data.frame-like objects are to be printed
   #* as given.  All other objects are tidied.
@@ -195,7 +199,7 @@ dust.default <- function(object, ...,
     tidy_object <- tidy_levels_labels(object,
                                       descriptors = descriptors,
                                       numeric_level = numeric_level,
-                                      argcheck = Check) %>%
+                                      argcheck = coll) %>%
       dplyr::left_join(tidy_object, .,
                        by = c("term" = "term"))
      if ("label" %in% names(tidy_object))
@@ -207,7 +211,7 @@ dust.default <- function(object, ...,
                           label)
          )
      }
-  
+
     if ("term_plain" %in% names(tidy_object))
     {
       tidy_object %<>%
@@ -217,14 +221,14 @@ dust.default <- function(object, ...,
                          term_plain)
         )
     }
-    
+
     if (!"term" %in% descriptors)
       nms <- nms[!nms %in% "term"]
     
     tidy_object <- dplyr::select_(tidy_object, .dots = c(descriptors, nms))
   }
 
-  ArgumentCheck::finishArgCheck(Check)
+  checkmate::reportAssertions(coll)
 
   #* Create the table head
   head <- as.data.frame(t(names(tidy_object)),

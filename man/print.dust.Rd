@@ -5,7 +5,7 @@
 \alias{print.dust_list}
 \title{Print A \code{dust} Table}
 \usage{
-\method{print}{dust}(x, ..., asis = TRUE, linebreak_at_end = 2e+00)
+\method{print}{dust}(x, ..., asis = TRUE, linebreak_at_end = 2)
 
 \method{print}{dust_list}(x, ..., asis = TRUE)
 }
