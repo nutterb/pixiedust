@@ -1,0 +1,30 @@
+# Colors
+
+Colors may be used for cell borders and backgrounds. `pixiedust` works hard to make it easy to use colors while also giving a great deal of flexibility.
+
+## Named Colors
+
+Designating a color can be a simple as providing a name, so long as you know the valid color names.  Fortunately, `pixiedust` recognizes all of the DVIPS color names recognized by R itself. The full list of colors can be seen by running `colors()` at the command line.  We show the first 30 colors here:
+
+```{r}
+head(colors(), 30)
+```
+
+A good resource for seeing what these colors looks like is http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
+
+`pixiedust` also recognizes an additional name, `"transparent"`, for when you wish to remove a color that may have already been applied.  
+
+
+## RGB Colors
+
+Colors may also be specified as an RGB character string of the format `"rgb(RRR, GGG, BBB)"` where `RRR`, `GGG`, and `BBB` are integers between 0 and 255.
+
+## HEX Colors
+
+Hexadecimal color codes are a common way to define colors, especially in HTML formats.  `RColorBrewer` is a package that returns color codes in hexadecimal format.
+
+To specify a hexidecimal color in `pixiedust`, use a character string in `"#RRGGBB"` format where `RR`, `GG`, and `BB` are hexidecimal values between `00` and `FF`.  
+
+## Transparency
+
+`pixiedust` supports color transparency for HTML tables only.  To use transparency, define your colors as `"rgba(RRR, GGG, BBB, AA)`" where `AA` is a value between 0 (fully transparent) and 1 (fully opaque).  Hexidecimal colors are specified by `"#RRGGBBAA"` where `AA` is a two digit number from 00 (fully transparent) and 99 (fully opaque).
