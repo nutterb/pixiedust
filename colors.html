@@ -25,7 +25,7 @@
 
 <meta name="author" content="Benjamin Nutter">
 
-<meta name="date" content="2016-08-17">
+<meta name="date" content="2016-08-18">
 
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,7 +33,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="sprinkling.html">
+<link rel="prev" href="chapter-sprinkles.html">
 <link rel="next" href="latex-configuration.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
@@ -113,10 +113,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="1.1.4" data-path="index.html"><a href="index.html#pixiedust-is-not"><i class="fa fa-check"></i><b>1.1.4</b> <code>pixiedust</code> Is Not …</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="dusting-objects.html"><a href="dusting-objects.html"><i class="fa fa-check"></i><b>2</b> <code>dust</code>ing Objects</a></li>
-<li class="chapter" data-level="3" data-path="sprinkling.html"><a href="sprinkling.html"><i class="fa fa-check"></i><b>3</b> Sprinkling</a><ul>
-<li class="chapter" data-level="3.1" data-path="sprinkling.html"><a href="sprinkling.html#table-valued-sprinkles"><i class="fa fa-check"></i><b>3.1</b> Table-valued Sprinkles</a></li>
-<li class="chapter" data-level="3.2" data-path="sprinkling.html"><a href="sprinkling.html#cell-valued-sprinkles"><i class="fa fa-check"></i><b>3.2</b> Cell-valued Sprinkles</a></li>
+<li class="chapter" data-level="2" data-path="dusting-objects.html"><a href="dusting-objects.html"><i class="fa fa-check"></i><b>2</b> <code>dust</code>ing Objects</a><ul>
+<li class="chapter" data-level="2.1" data-path="dusting-objects.html"><a href="dusting-objects.html#table-wide-options"><i class="fa fa-check"></i><b>2.1</b> Table-wide options</a></li>
+<li class="chapter" data-level="2.2" data-path="dusting-objects.html"><a href="dusting-objects.html#dust-anatomy"><i class="fa fa-check"></i><b>2.2</b> Anatomy of the <code>dust</code> Object</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="chapter-sprinkles.html"><a href="chapter-sprinkles.html"><i class="fa fa-check"></i><b>3</b> Sprinkling</a><ul>
+<li class="chapter" data-level="3.1" data-path="chapter-sprinkles.html"><a href="chapter-sprinkles.html#table-valued-sprinkles"><i class="fa fa-check"></i><b>3.1</b> Table-valued Sprinkles</a></li>
+<li class="chapter" data-level="3.2" data-path="chapter-sprinkles.html"><a href="chapter-sprinkles.html#cell-valued-sprinkles"><i class="fa fa-check"></i><b>3.2</b> Cell-valued Sprinkles</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="colors.html"><a href="colors.html"><i class="fa fa-check"></i><b>4</b> Colors</a><ul>
 <li class="chapter" data-level="4.1" data-path="colors.html"><a href="colors.html#named-colors"><i class="fa fa-check"></i><b>4.1</b> Named Colors</a></li>
@@ -126,6 +129,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="5" data-path="latex-configuration.html"><a href="latex-configuration.html"><i class="fa fa-check"></i><b>5</b> LaTeX Configuration</a></li>
 <li class="chapter" data-level="6" data-path="medleys.html"><a href="medleys.html"><i class="fa fa-check"></i><b>6</b> Medleys</a></li>
+<li class="chapter" data-level="7" data-path="table-numbering-and-referencing.html"><a href="table-numbering-and-referencing.html"><i class="fa fa-check"></i><b>7</b> Table Numbering and Referencing</a></li>
+<li class="chapter" data-level="8" data-path="working-with-lists-of-tables.html"><a href="working-with-lists-of-tables.html"><i class="fa fa-check"></i><b>8</b> Working with Lists of Tables</a></li>
 <li class="divider"></li>
 <li>Benjamin Nutter</li>
 
@@ -163,19 +168,224 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## [29] &quot;blue3&quot;          &quot;blue4&quot;</code></pre>
 <p>A good resource for seeing what these colors looks like is <a href="http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf" class="uri">http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf</a></p>
 <p><code>pixiedust</code> also recognizes an additional name, <code>&quot;transparent&quot;</code>, for when you wish to remove a color that may have already been applied.</p>
+<p>In the example below, we’ll add a background color to the non-intercept rows in the model summary that are statistically significant.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>qsec +<span class="st"> </span><span class="kw">factor</span>(gear) +<span class="st"> </span>wt, <span class="dt">data =</span> mtcars)
+
+<span class="kw">dust</span>(fit) %&gt;%
+<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">rows =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">5</span>),
+           <span class="dt">bg =</span> <span class="st">&quot;lightgreen&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%<span class="st"> </span>cat</code></pre></div>
+<table align = 'center' style = 'border-collapse:collapse;'>
+<tr>
+<th colspan = '1'; rowspan = '1'; style='text-align:left;'>term</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>estimate</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>std.error</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>statistic</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>p.value</th>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;'>(Intercept)</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>16.9629385</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>7.1503505</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2.3723227</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0.025061</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;background-color:rgba(144,238,144,255);'>qsec</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(144,238,144,255);'>0.9531255</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(144,238,144,255);'>0.3481294</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(144,238,144,255);'>2.7378486</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(144,238,144,255);'>0.0108106</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;'>factor(gear)4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.4053374</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.3340693</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.0534216</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0.3014842</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;'>factor(gear)5</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.4936744</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.8064949</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0.8268357</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0.4155779</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;background-color:rgba(144,238,144,255);'>wt</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(144,238,144,255);'>-4.5519623</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(144,238,144,255);'>0.6539171</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(144,238,144,255);'>-6.9610696</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(144,238,144,255);'>2e-07</td>
+</tr>
+</table></br></br>
 </div>
 <div id="rgb-colors" class="section level2">
 <h2><span class="header-section-number">4.2</span> RGB Colors</h2>
-<p>Colors may also be specified as an RGB character string of the format <code>&quot;rgb(RRR, GGG, BBB)&quot;</code> where <code>RRR</code>, <code>GGG</code>, and <code>BBB</code> are integers between 0 and 255.</p>
+<p>The <code>colors()</code> named in R offer you 657 unique colors. But colors may also be specified as an RGB character string of the format <code>&quot;rgb(RRR, GGG, BBB)&quot;</code> where <code>RRR</code>, <code>GGG</code>, and <code>BBB</code> are integers between 0 and 255. With 256 values of each of those three spots, that provides you with a total of 16,777,216 distinct colors available for use.</p>
+<p>We can replicate the table from the previous example using the <code>&quot;rgb()&quot;</code> color specification as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>qsec +<span class="st"> </span><span class="kw">factor</span>(gear) +<span class="st"> </span>wt, <span class="dt">data =</span> mtcars)
+
+<span class="kw">dust</span>(fit) %&gt;%
+<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">rows =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">5</span>),
+           <span class="dt">bg =</span> <span class="st">&quot;rgb(144, 238, 144)&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%<span class="st"> </span>cat</code></pre></div>
+<table align = 'center' style = 'border-collapse:collapse;'>
+<tr>
+<th colspan = '1'; rowspan = '1'; style='text-align:left;'>term</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>estimate</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>std.error</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>statistic</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>p.value</th>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;'>(Intercept)</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>16.9629385</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>7.1503505</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2.3723227</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0.025061</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;background-color:rgb(144,238,144);'>qsec</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgb(144,238,144);'>0.9531255</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgb(144,238,144);'>0.3481294</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgb(144,238,144);'>2.7378486</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgb(144,238,144);'>0.0108106</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;'>factor(gear)4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.4053374</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.3340693</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.0534216</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0.3014842</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;'>factor(gear)5</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.4936744</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.8064949</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0.8268357</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0.4155779</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;background-color:rgb(144,238,144);'>wt</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgb(144,238,144);'>-4.5519623</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgb(144,238,144);'>0.6539171</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgb(144,238,144);'>-6.9610696</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgb(144,238,144);'>2e-07</td>
+</tr>
+</table></br></br>
 </div>
 <div id="hex-colors" class="section level2">
 <h2><span class="header-section-number">4.3</span> HEX Colors</h2>
-<p>Hexadecimal color codes are a common way to define colors, especially in HTML formats. <code>RColorBrewer</code> is a package that returns color codes in hexadecimal format.</p>
-<p>To specify a hexidecimal color in <code>pixiedust</code>, use a character string in <code>&quot;#RRGGBB&quot;</code> format where <code>RR</code>, <code>GG</code>, and <code>BB</code> are hexidecimal values between <code>00</code> and <code>FF</code>.</p>
+<p>Hexadecimal color codes are another common way to define colors, especially in HTML formats. <code>RColorBrewer</code> is a package that returns color codes in hexadecimal format.</p>
+<p>To specify a hexidecimal color in <code>pixiedust</code>, use a character string in <code>&quot;#RRGGBB&quot;</code> format where <code>RR</code>, <code>GG</code>, and <code>BB</code> are hexidecimal values between <code>00</code> and <code>FF</code>. Our previous example is replicated again using hex codes as</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>qsec +<span class="st"> </span><span class="kw">factor</span>(gear) +<span class="st"> </span>wt, <span class="dt">data =</span> mtcars)
+
+<span class="kw">dust</span>(fit) %&gt;%
+<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">rows =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">5</span>),
+           <span class="dt">bg =</span> <span class="st">&quot;#90EE90&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%<span class="st"> </span>cat</code></pre></div>
+<table align = 'center' style = 'border-collapse:collapse;'>
+<tr>
+<th colspan = '1'; rowspan = '1'; style='text-align:left;'>term</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>estimate</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>std.error</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>statistic</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>p.value</th>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;'>(Intercept)</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>16.9629385</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>7.1503505</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2.3723227</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0.025061</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;background-color:rgba(144,238,144,255);'>qsec</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(144,238,144,255);'>0.9531255</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(144,238,144,255);'>0.3481294</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(144,238,144,255);'>2.7378486</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(144,238,144,255);'>0.0108106</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;'>factor(gear)4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.4053374</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.3340693</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.0534216</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0.3014842</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;'>factor(gear)5</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.4936744</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.8064949</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0.8268357</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0.4155779</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;background-color:rgba(144,238,144,255);'>wt</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(144,238,144,255);'>-4.5519623</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(144,238,144,255);'>0.6539171</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(144,238,144,255);'>-6.9610696</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(144,238,144,255);'>2e-07</td>
+</tr>
+</table></br></br>
 </div>
 <div id="transparency" class="section level2">
 <h2><span class="header-section-number">4.4</span> Transparency</h2>
-<p><code>pixiedust</code> supports color transparency for HTML tables only. To use transparency, define your colors as <code>&quot;rgba(RRR, GGG, BBB, AA)</code>&quot; where <code>AA</code> is a value between 0 (fully transparent) and 1 (fully opaque). Hexidecimal colors are specified by <code>&quot;#RRGGBBAA&quot;</code> where <code>AA</code> is a two digit number from 00 (fully transparent) and 99 (fully opaque).</p>
+<p><code>pixiedust</code> supports color transparency for HTML tables only. To use transparency, define your colors as <code>&quot;rgba(RRR, GGG, BBB, AA)</code>&quot; where <code>AA</code> is a value between 0 (fully transparent) and 1 (fully opaque). Hexidecimal colors are specified by <code>&quot;#RRGGBBAA&quot;</code> where <code>AA</code> is a hexidecimal number from 00 (fully transparent) and FF (fully opaque).</p>
+<p>We will do a variation of the previous example where we shade the statistically significant rows in black, and use transparency to ensure the text is still visible (it’s a silly thing to do, since we could just use gray, but it’s a good way to illustrate the point)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>qsec +<span class="st"> </span><span class="kw">factor</span>(gear) +<span class="st"> </span>wt, <span class="dt">data =</span> mtcars)
+
+<span class="kw">dust</span>(fit) %&gt;%
+<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">rows =</span> <span class="dv">2</span>,
+           <span class="dt">bg =</span> <span class="st">&quot;#0000003F&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">rows =</span> <span class="dv">4</span>,
+           <span class="dt">bg =</span> <span class="st">&quot;rgba(00,00,00,.25)&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%<span class="st"> </span>cat</code></pre></div>
+<table align = 'center' style = 'border-collapse:collapse;'>
+<tr>
+<th colspan = '1'; rowspan = '1'; style='text-align:left;'>term</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>estimate</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>std.error</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>statistic</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>p.value</th>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;'>(Intercept)</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>16.9629385</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>7.1503505</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2.3723227</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0.025061</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;background-color:rgba(0,0,0,63);'>qsec</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(0,0,0,63);'>0.9531255</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(0,0,0,63);'>0.3481294</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(0,0,0,63);'>2.7378486</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(0,0,0,63);'>0.0108106</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;'>factor(gear)4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.4053374</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.3340693</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.0534216</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0.3014842</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;background-color:rgba(00,00,00,.25);'>factor(gear)5</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(00,00,00,.25);'>1.4936744</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(00,00,00,.25);'>1.8064949</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(00,00,00,.25);'>0.8268357</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(00,00,00,.25);'>0.4155779</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;'>wt</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>-4.5519623</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0.6539171</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>-6.9610696</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2e-07</td>
+</tr>
+</table></br></br>
 
 </div>
 </div>
@@ -184,7 +394,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-<a href="sprinkling.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="chapter-sprinkles.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="latex-configuration.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

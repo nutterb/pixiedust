@@ -1,1 +1,6 @@
 # `dust`ing Objects
+
+## Table-wide options
+
+## Anatomy of the `dust` Object {#dust-anatomy}
+

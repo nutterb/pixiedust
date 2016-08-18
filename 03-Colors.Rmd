@@ -14,17 +14,61 @@ A good resource for seeing what these colors looks like is http://www.stat.colum
 
 `pixiedust` also recognizes an additional name, `"transparent"`, for when you wish to remove a color that may have already been applied.  
 
+In the example below, we'll add a background color to the non-intercept rows in the model summary that are statistically significant.
+
+```{r, results = 'asis'}
+fit <- lm(mpg ~ qsec + factor(gear) + wt, data = mtcars)
+
+dust(fit) %>%
+  sprinkle(rows = c(2, 5),
+           bg = "lightgreen") %>%
+  print(asis = FALSE) %>% cat
+```
 
 ## RGB Colors
 
-Colors may also be specified as an RGB character string of the format `"rgb(RRR, GGG, BBB)"` where `RRR`, `GGG`, and `BBB` are integers between 0 and 255.
+The `colors()` named in R offer you `r length(colors())` unique colors. But colors may also be specified as an RGB character string of the format `"rgb(RRR, GGG, BBB)"` where `RRR`, `GGG`, and `BBB` are integers between 0 and 255.  With 256 values of each of those three spots, that provides you with a total of `r format(256^3, big.mark = ",")` distinct colors available for use.  
+
+We can replicate the table from the previous example using the `"rgb()"` color specification as follows:
+
+```{r, results = 'asis'}
+fit <- lm(mpg ~ qsec + factor(gear) + wt, data = mtcars)
+
+dust(fit) %>%
+  sprinkle(rows = c(2, 5),
+           bg = "rgb(144, 238, 144)") %>%
+  print(asis = FALSE) %>% cat
+```
+
 
 ## HEX Colors
 
-Hexadecimal color codes are a common way to define colors, especially in HTML formats.  `RColorBrewer` is a package that returns color codes in hexadecimal format.
+Hexadecimal color codes are another common way to define colors, especially in HTML formats.  `RColorBrewer` is a package that returns color codes in hexadecimal format.
 
-To specify a hexidecimal color in `pixiedust`, use a character string in `"#RRGGBB"` format where `RR`, `GG`, and `BB` are hexidecimal values between `00` and `FF`.  
+To specify a hexidecimal color in `pixiedust`, use a character string in `"#RRGGBB"` format where `RR`, `GG`, and `BB` are hexidecimal values between `00` and `FF`.  Our previous example is replicated again using hex codes as
+
+```{r, results = 'asis'}
+fit <- lm(mpg ~ qsec + factor(gear) + wt, data = mtcars)
+
+dust(fit) %>%
+  sprinkle(rows = c(2, 5),
+           bg = "#90EE90") %>%
+  print(asis = FALSE) %>% cat
+```
 
 ## Transparency
 
-`pixiedust` supports color transparency for HTML tables only.  To use transparency, define your colors as `"rgba(RRR, GGG, BBB, AA)`" where `AA` is a value between 0 (fully transparent) and 1 (fully opaque).  Hexidecimal colors are specified by `"#RRGGBBAA"` where `AA` is a two digit number from 00 (fully transparent) and 99 (fully opaque).
+`pixiedust` supports color transparency for HTML tables only.  To use transparency, define your colors as `"rgba(RRR, GGG, BBB, AA)`" where `AA` is a value between 0 (fully transparent) and 1 (fully opaque).  Hexidecimal colors are specified by `"#RRGGBBAA"` where `AA` is a hexidecimal number from 00 (fully transparent) and FF (fully opaque).
+
+We will do a variation of the previous example where we shade the statistically significant rows in black, and use transparency to ensure the text is still visible (it's a silly thing to do, since we could just use gray, but it's a good way to illustrate the point)
+
+```{r, results = 'asis'}
+fit <- lm(mpg ~ qsec + factor(gear) + wt, data = mtcars)
+
+dust(fit) %>%
+  sprinkle(rows = 2,
+           bg = "#0000003F") %>%
+  sprinkle(rows = 4,
+           bg = "rgba(00,00,00,.25)") %>%
+  print(asis = FALSE) %>% cat
+```

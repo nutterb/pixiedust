@@ -11,12 +11,17 @@ bookdown::gitbook:
       scroll_highlight: true
       before: null
       after: null
+bookdown::pdf_book:
+  keep_tex: yes
 documentclass: book
 bibliography: 
 biblio-style: apalike
 link-citations: yes
 github-repo: nutterb/pixiedust
 description: "A Guide to Formatting Tables with the Pixiedust Package"
+output: 
+  pdf_document: 
+    keep_tex: yes
 ---
 
 ```{r, warning = FALSE, message = FALSE, echo = FALSE}
@@ -92,7 +97,7 @@ as.data.frame(Example, sprinkled = FALSE)
 2. The user should be able to apply as many customizations to a cell as is desired in one call.
 3. The user should be able to designate rows and columns by positional reference and named reference.
 
-`pixiedust` comes with two core functions. The `dust` function converts an object to a tabular structure associated with its formatting choices.  The `sprinkle` function acts on the `dust` object to change those associations as directed by the user.
+`pixiedust` comes with two core functions. The `dust` function converts an object to a tabular structure associated with its formatting choices.  The `sprinkle` function acts on the `dust` object to change those associations as directed by the user.  `dust` is described in more detail in Section \@ref(dust-anatomy). Chapter \@ref(chapter-sprinkles) is dedicated to the details of sprinkling.
 
 Additionally, there are some variants on `sprinkle`, namely `sprinkle_colnames` for changing how column names are printed in the table; `sprinkle_table` for applying a sprinkle to multiple parts of a table (header, body, and footer); and `sprinkle_print_method` for changing the print method for a table.  
 

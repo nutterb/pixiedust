@@ -1,1 +1,45 @@
 # LaTeX Configuration
+
+In order to produce LaTeX output, you will need to ensure the following packages are installed and in use in your document.
+
+* `amssymb`
+* `arydshln`
+* `caption`
+* `graphicx`
+* `hhline`
+* `longtable`
+* `multirow`
+* `xcolor` (with the `dvipsnames`, and `table` options.)
+
+If you are using an Rmarkdown document, I recommend including the following text in your YAML front matter. The new command defined in this block is necessary if you wish to use dashed borders. If you don't intend to use dashed borders, it is usually harmless to leave the new command definition in your front matter.  There are, however, certain circumstances where this definition cause LaTeX rendering to fail.  Unfortunately, I haven't quite narrowed down what the boundaries of those circumstances are.  If you aren't using dashed borders and are getting odd messages, you may try removing the last three lines from this block to make it work.
+
+```
+header-includes: 
+- \usepackage{amssymb} 
+- \usepackage{arydshln} 
+- \usepackage{caption} 
+- \usepackage{graphicx} 
+- \usepackage{hhline} 
+- \usepackage{longtable} 
+- \usepackage{multirow} 
+- \usepackage[dvipsnames,table]{xcolor} 
+- \makeatletter 
+- \newcommand*\vdashline{\rotatebox[origin=c]{90}{\$\dabar@\dabar@\dabar@\$}} 
+- \makeatother
+```
+
+If you are using Sweave, or just need the straight LaTeX code without the YAML format, here's a convenient place from which to copy it.
+
+```
+\usepackage{amssymb} 
+\usepackage{arydshln} 
+\usepackage{caption} 
+\usepackage{graphicx} 
+\usepackage{hhline} 
+\usepackage{longtable} 
+\usepackage{multirow} 
+\usepackage[dvipsnames,table]{xcolor} 
+\makeatletter 
+\newcommand*\vdashline{\rotatebox[origin=c]{90}{\$\dabar@\dabar@\dabar@\$}} 
+\makeatother
+```

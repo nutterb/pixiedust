@@ -25,7 +25,7 @@
 
 <meta name="author" content="Benjamin Nutter">
 
-<meta name="date" content="2016-08-17">
+<meta name="date" content="2016-08-18">
 
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -113,10 +113,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="1.1.4" data-path="index.html"><a href="index.html#pixiedust-is-not"><i class="fa fa-check"></i><b>1.1.4</b> <code>pixiedust</code> Is Not …</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="dusting-objects.html"><a href="dusting-objects.html"><i class="fa fa-check"></i><b>2</b> <code>dust</code>ing Objects</a></li>
-<li class="chapter" data-level="3" data-path="sprinkling.html"><a href="sprinkling.html"><i class="fa fa-check"></i><b>3</b> Sprinkling</a><ul>
-<li class="chapter" data-level="3.1" data-path="sprinkling.html"><a href="sprinkling.html#table-valued-sprinkles"><i class="fa fa-check"></i><b>3.1</b> Table-valued Sprinkles</a></li>
-<li class="chapter" data-level="3.2" data-path="sprinkling.html"><a href="sprinkling.html#cell-valued-sprinkles"><i class="fa fa-check"></i><b>3.2</b> Cell-valued Sprinkles</a></li>
+<li class="chapter" data-level="2" data-path="dusting-objects.html"><a href="dusting-objects.html"><i class="fa fa-check"></i><b>2</b> <code>dust</code>ing Objects</a><ul>
+<li class="chapter" data-level="2.1" data-path="dusting-objects.html"><a href="dusting-objects.html#table-wide-options"><i class="fa fa-check"></i><b>2.1</b> Table-wide options</a></li>
+<li class="chapter" data-level="2.2" data-path="dusting-objects.html"><a href="dusting-objects.html#dust-anatomy"><i class="fa fa-check"></i><b>2.2</b> Anatomy of the <code>dust</code> Object</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="chapter-sprinkles.html"><a href="chapter-sprinkles.html"><i class="fa fa-check"></i><b>3</b> Sprinkling</a><ul>
+<li class="chapter" data-level="3.1" data-path="chapter-sprinkles.html"><a href="chapter-sprinkles.html#table-valued-sprinkles"><i class="fa fa-check"></i><b>3.1</b> Table-valued Sprinkles</a></li>
+<li class="chapter" data-level="3.2" data-path="chapter-sprinkles.html"><a href="chapter-sprinkles.html#cell-valued-sprinkles"><i class="fa fa-check"></i><b>3.2</b> Cell-valued Sprinkles</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="colors.html"><a href="colors.html"><i class="fa fa-check"></i><b>4</b> Colors</a><ul>
 <li class="chapter" data-level="4.1" data-path="colors.html"><a href="colors.html#named-colors"><i class="fa fa-check"></i><b>4.1</b> Named Colors</a></li>
@@ -126,6 +129,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="5" data-path="latex-configuration.html"><a href="latex-configuration.html"><i class="fa fa-check"></i><b>5</b> LaTeX Configuration</a></li>
 <li class="chapter" data-level="6" data-path="medleys.html"><a href="medleys.html"><i class="fa fa-check"></i><b>6</b> Medleys</a></li>
+<li class="chapter" data-level="7" data-path="table-numbering-and-referencing.html"><a href="table-numbering-and-referencing.html"><i class="fa fa-check"></i><b>7</b> Table Numbering and Referencing</a></li>
+<li class="chapter" data-level="8" data-path="working-with-lists-of-tables.html"><a href="working-with-lists-of-tables.html"><i class="fa fa-check"></i><b>8</b> Working with Lists of Tables</a></li>
 <li class="divider"></li>
 <li>Benjamin Nutter</li>
 
@@ -150,7 +155,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1 class="title">Get Your Sparkle On</h1>
 <h3 class="subtitle"><em>A Guide to Using the Magic of <code>pixiedust</code></em></h3>
 <h4 class="author"><em>Benjamin Nutter</em></h4>
-<h4 class="date"><em>2016-08-17</em></h4>
+<h4 class="date"><em>2016-08-18</em></h4>
 </div>
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
@@ -228,7 +233,7 @@ Example %&gt;%<span class="st"> </span><span class="kw">print</span>(<span class
 <li>The user should be able to apply as many customizations to a cell as is desired in one call.</li>
 <li>The user should be able to designate rows and columns by positional reference and named reference.</li>
 </ol>
-<p><code>pixiedust</code> comes with two core functions. The <code>dust</code> function converts an object to a tabular structure associated with its formatting choices. The <code>sprinkle</code> function acts on the <code>dust</code> object to change those associations as directed by the user.</p>
+<p><code>pixiedust</code> comes with two core functions. The <code>dust</code> function converts an object to a tabular structure associated with its formatting choices. The <code>sprinkle</code> function acts on the <code>dust</code> object to change those associations as directed by the user. <code>dust</code> is described in more detail in Section <a href="dusting-objects.html#dust-anatomy">2.2</a>. Chapter <a href="chapter-sprinkles.html#chapter-sprinkles">3</a> is dedicated to the details of sprinkling.</p>
 <p>Additionally, there are some variants on <code>sprinkle</code>, namely <code>sprinkle_colnames</code> for changing how column names are printed in the table; <code>sprinkle_table</code> for applying a sprinkle to multiple parts of a table (header, body, and footer); and <code>sprinkle_print_method</code> for changing the print method for a table.</p>
 <p>Some less commonly used functions that are included with the package are <code>pixieply</code>, a variant of <code>mapply</code> that permits <code>sprinkle</code> to function over a list of <code>dust</code> objects; an <code>as.data.frame</code> method for converting <code>dust</code> objects to data frames; and a <code>print</code> method.</p>
 <p>Lastly, there are a handful of utility functions for managing table numbering. These can be seen by calling <code>?pixie_count</code>.</p>

@@ -1,4 +1,4 @@
-# Sprinkling
+# Sprinkling {#chapter-sprinkles}
 
 ## Table-valued Sprinkles
 
