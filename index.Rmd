@@ -35,8 +35,6 @@ library(tidyr)
 palette <- brewer.pal(9, "PRGn")
 ```
 
-
-
 # Introduction
 
 Tables are a powerful tool for communicating information. They are pervasive in statistical literature in many forms. We see them in text books as references for standard normal probabilities. Some tables organize analysis methods for differing strata in a population. We may even find tables displaying conference schedules.
