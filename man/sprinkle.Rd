@@ -25,9 +25,9 @@ http://tex.stackexchange.com/questions/40666/how-to-change-line-color-in-tabular
 sprinkle(x, rows = NULL, cols = NULL, ..., part = c("body", "head",
   "foot", "interfoot", "table"))
 
-\method{sprinkle}{default}(x, rows = NULL, cols = NULL, ...,
-  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
-  recycle = c("none", "rows", "cols", "columns"))
+\method{sprinkle}{default}(x, rows = NULL, cols = NULL,
+  logical_rows = NULL, ..., part = c("body", "head", "foot", "interfoot",
+  "table"), fixed = FALSE, recycle = c("none", "rows", "cols", "columns"))
 
 \method{sprinkle}{dust_list}(x, rows = NULL, cols = NULL, ...,
   part = c("body", "head", "foot", "interfoot", "table"))
@@ -60,6 +60,12 @@ column names) to sprinkle.  See details for more about sprinkling.}
 for the given cells.  See "Sprinkles" for a listing of these arguments.}
 
 \item{part}{A character string denoting which part of the table to modify.}
+
+\item{logical_rows}{An object with class `call` generated as `quote([expr])` where
+the expression resolves to a logical vector based equal in length to the
+number of rows in the table.  This is used to dynamically identify rows
+in the table that will be sprinkled.  An example of input would be 
+\code{quote(col_name == value)}.}
 
 \item{fixed}{\code{logical(1)} indicating if the values in \code{rows} 
 and \code{cols} should be read as fixed coordinate pairs.  By default, 
