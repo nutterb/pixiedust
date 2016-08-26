@@ -55,3 +55,21 @@ pixieply <- function(X, FUN, ...)
     class = "dust_list"
   )
 }
+
+#' @rdname pixieply
+#' @export
+
+pixiemap <- function(X, FUN, ..., MoreArgs = NULL, SIMPLIFY = FALSE, USE.NAMES = TRUE)
+{
+  checkmate::assertClass(X, "dust_list")
+  
+  structure(
+    mapply(FUN = FUN, 
+           X,
+           ...,
+           MoreArgs = MoreArgs,
+           SIMPLIFY = SIMPLIFY,
+           USE.NAMES = USE.NAMES),
+    class = "dust_list"
+  )
+}
