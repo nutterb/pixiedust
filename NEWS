@@ -1,3 +1,8 @@
+### 0.7.5 (26 August 2016)
+* Add `pixiemap` for applying differing sprinkles across a `dust_list`
+* Add the argument `logical_rows` for dynamically locating rows to sprinkle
+* Include a link to the pixiedust webpage for documentation augmentation.
+
 ### 0.7.4 (17 June 2016)
 * Guard against changes to `options()$scipen` (Issue #62)
 * Remove remaining use of `ArgumentCheck` and replace with `checkmate`

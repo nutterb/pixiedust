@@ -17,7 +17,7 @@ test_that(
   "apply unique captions to dust_list",
   {
     mtcars %>%
-      group_by(gear) %>%
+      dplyr::group_by(gear) %>%
       dust(ungroup = FALSE) %>%
       pixiemap(FUN = sprinkle,
                caption = sprintf("gear = %s", sort(unique(mtcars$gear)))) %>%
