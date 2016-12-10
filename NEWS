@@ -1,3 +1,6 @@
+### 0.7.6 (15 October 2016)
+* Removed CSS styling for tables from the vignettes.  (Issue #69)
+
 ### 0.7.5 (26 August 2016)
 * Add `pixiemap` for applying differing sprinkles across a `dust_list`
 * Add the argument `logical_rows` for dynamically locating rows to sprinkle
