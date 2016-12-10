@@ -1,6 +1,55 @@
 # `dust`ing Objects
 
+> ...no one can fly unless the fairy dust has been blown on him. Fortunately, as we have mentioned, one of [Peter's] hands was messy with it, and he blew some on each of them, with the most superb results.
+>
+> "Now just wiggle your shoulders this way," he said, "and let go."
+>
+> They were all on their beds, and gallant Michael let go first. He did not quite mean to let go, but he did it, and immediately he was borne across the room.
+>
+> "I flewed!" he screamed while still in mid-air.
+
+--J.M. Barrie, _Peter Pan_, Ch. 3, Come, Come Away
+
+The primary feature of the `pixiedust` package is very fine control over each individual cell of a table.  This level of control requires maintaining attributes of the output for each cell separately.  Tabular structures as we like to view them are not well suited to storing all of these attributes, and so the `dust` function is used to convert a tabular object into a particular format where we are able to set and alter the display attributes at will.
+
+The underlying mechanics of `dust`ing objects aren't particularly interesting, and for most users, it is sufficient to know that you must apply an initial dusting of pixiedust before you can begin sprinkling specific columns with your desired magic.  If you choose to read beyond the table-wide options created during `dust`, you will learn more about the anatomy of the `dust` object itself.
+
 ## Table-wide options
+
+Table wide options are those options that necessarily apply to the entire table. These may include the caption, the justification on the page, the total width of the table, etc.  The table-wide options in the dust object are listed below:
+
+#### `caption`
+
+The `caption` option determines the text that is placed above the table, and is usually used to provide a summary of the table, or used as a title.  When a caption is given, it is numbered automatically by `pixiedust`.
+
+```{r, results = 'asis'}
+dust(head(mtcars),
+     caption = "The first six lines of mtcars") %>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
+#### `border_collapse`
+
+Relevant only to HTML tables, the `border-collapse` option determines if the borders of a table should overlap (or lay on top of) each other. When set to `FALSE`, a small space will appear between the cell borders.  
+
+```{r, results = 'asis'}
+dust(head(mtcars)) %>%
+  sprinkle(border = "all",
+           border_collapse = TRUE) %>%
+  print(asis = FALSE) %>%
+  cat()
+
+dust(head(mtcars)) %>%
+  sprinkle(border = "all",
+           border_collapse = FALSE) %>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
+By default, `border_collapse = TRUE` when a `dust` object is created.
+
+
 
 ## Anatomy of the `dust` Object {#dust-anatomy}
 
