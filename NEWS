@@ -1,3 +1,9 @@
+### 0.7.7 (31 Dec 2016)
+* Added the `discrete` and `discrete_colors` sprinkles. (Issue #56)
+* Added the `gradient`, `gradient_n`, `gradient_cut`, and `gradient_colors`
+  sprinkles. (Issue #56)
+  
+
 ### 0.7.6 (15 October 2016)
 * Removed CSS styling for tables from the vignettes.  (Issue #69)
 

@@ -244,6 +244,32 @@ caption \tab  \tab  \cr
  \tab markdown     \tab Recognized \cr
  \tab html         \tab Recognized \cr
  \tab latex        \tab Recognized \cr
+discrete \tab \tab \cr
+ \tab action       \tab Adds distinct background colors based on \cr
+ \tab              \tab discrete values in the selected region. \cr
+ \tab              \tab May not be used concurrently with \code{bg}. \cr
+ \tab              \tab \code{"font"} is an alias for \code{"font_color"} \cr
+ \tab              \tab and \code{"border"} is an alias for \cr
+ \tab              \tab all borders. \cr
+ \tab default      \tab "bg" \cr
+ \tab accepts      \tab "bg", "font", "font_color", "border", \cr
+ \tab              \tab "left_border", "top_border", "right_border", \cr
+ \tab              \tab "bottom_border" \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
+discrete_color \tab \tab \cr
+ \tab action       \tab Sets the color palette from which \code{discrete} \cr
+ \tab              \tab selects background colors. If \code{NULL} \cr
+ \tab              \tab colors are automatically selected using \cr
+ \tab              \tab the \code{scales} package. \cr
+ \tab default      \tab \code{getOption("pixiedust_discrete_pal", NULL)} \cr
+ \tab accepts      \tab character \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
 float \tab  \tab  \cr
  \tab action       \tab Sets the `float` property \cr
  \tab default      \tab TRUE \cr
@@ -301,6 +327,52 @@ font_size_units \tab  \tab  \cr
  \tab html         \tab Recognized \cr
  \tab latex        \tab Only recognizes "pt" and "em".  \cr
  \tab              \tab All others are coerced to "pt" \cr
+gradient \tab  \tab  \cr
+ \tab action       \tab Adds distinct background colors based on \cr
+ \tab              \tab progressively increasing values in the \cr
+ \tab              \tab selected region. May not be used concurrently \cr 
+ \tab              \tab with \code{bg}. \cr
+ \tab              \tab \code{"font"} is an alias for \code{"font_color"} \cr
+ \tab              \tab and \code{"border"} is an alias for \cr
+ \tab              \tab all borders. \cr
+ \tab default      \tab "bg" \cr
+ \tab accepts      \tab "bg", "font", "font_color", "border", \cr
+ \tab              \tab "left_border", "top_border", "right_border", \cr
+ \tab              \tab "bottom_border" \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
+gradient_colors \tab \tab \cr
+ \tab action       \tab Provides the colors between which to \cr
+ \tab              \tab shade gradients. \cr
+ \tab default      \tab \code{getOptions("pixiedust_gradient_pal", NULL)} \cr
+ \tab accepts      \tab character \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
+gradient_cut \tab  \tab  \cr
+ \tab action       \tab Determines the breaks points for the \cr
+ \tab              \tab gradient shading. When \code{NULL}  \cr
+ \tab              \tab equally spaced quantiles are used, the \cr
+ \tab              \tab number of which are determined by \cr
+ \tab              \tab \code{gradient_n}. \cr
+ \tab default      \tab NULL \cr
+ \tab accepts      \tab numeric \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
+gradient_n \tab  \tab  \cr
+ \tab action       \tab Determines the number of shades to use \cr
+ \tab              \tab between the colors in \code{gradient_colors}.\cr
+ \tab default      \tab 10 \cr
+ \tab accepts      \tab numeric \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
 halign \tab  \tab  \cr
  \tab action       \tab Sets the horizontal alignment of the text in \cr
  \tab              \tab the cell \cr

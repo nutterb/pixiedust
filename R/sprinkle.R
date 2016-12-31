@@ -187,6 +187,32 @@
 #'  \tab markdown     \tab Recognized \cr
 #'  \tab html         \tab Recognized \cr
 #'  \tab latex        \tab Recognized \cr
+#' discrete \tab \tab \cr
+#'  \tab action       \tab Adds distinct background colors based on \cr
+#'  \tab              \tab discrete values in the selected region. \cr
+#'  \tab              \tab May not be used concurrently with \code{bg}. \cr
+#'  \tab              \tab \code{"font"} is an alias for \code{"font_color"} \cr
+#'  \tab              \tab and \code{"border"} is an alias for \cr
+#'  \tab              \tab all borders. \cr
+#'  \tab default      \tab "bg" \cr
+#'  \tab accepts      \tab "bg", "font", "font_color", "border", \cr
+#'  \tab              \tab "left_border", "top_border", "right_border", \cr
+#'  \tab              \tab "bottom_border" \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' discrete_color \tab \tab \cr
+#'  \tab action       \tab Sets the color palette from which \code{discrete} \cr
+#'  \tab              \tab selects background colors. If \code{NULL} \cr
+#'  \tab              \tab colors are automatically selected using \cr
+#'  \tab              \tab the \code{scales} package. \cr
+#'  \tab default      \tab \code{getOption("pixiedust_discrete_pal", NULL)} \cr
+#'  \tab accepts      \tab character \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
 #' float \tab  \tab  \cr
 #'  \tab action       \tab Sets the `float` property \cr
 #'  \tab default      \tab TRUE \cr
@@ -244,6 +270,52 @@
 #'  \tab html         \tab Recognized \cr
 #'  \tab latex        \tab Only recognizes "pt" and "em".  \cr
 #'  \tab              \tab All others are coerced to "pt" \cr
+#' gradient \tab  \tab  \cr
+#'  \tab action       \tab Adds distinct background colors based on \cr
+#'  \tab              \tab progressively increasing values in the \cr
+#'  \tab              \tab selected region. May not be used concurrently \cr 
+#'  \tab              \tab with \code{bg}. \cr
+#'  \tab              \tab \code{"font"} is an alias for \code{"font_color"} \cr
+#'  \tab              \tab and \code{"border"} is an alias for \cr
+#'  \tab              \tab all borders. \cr
+#'  \tab default      \tab "bg" \cr
+#'  \tab accepts      \tab "bg", "font", "font_color", "border", \cr
+#'  \tab              \tab "left_border", "top_border", "right_border", \cr
+#'  \tab              \tab "bottom_border" \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' gradient_colors \tab \tab \cr
+#'  \tab action       \tab Provides the colors between which to \cr
+#'  \tab              \tab shade gradients. \cr
+#'  \tab default      \tab \code{getOptions("pixiedust_gradient_pal", NULL)} \cr
+#'  \tab accepts      \tab character \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' gradient_cut \tab  \tab  \cr
+#'  \tab action       \tab Determines the breaks points for the \cr
+#'  \tab              \tab gradient shading. When \code{NULL}  \cr
+#'  \tab              \tab equally spaced quantiles are used, the \cr
+#'  \tab              \tab number of which are determined by \cr
+#'  \tab              \tab \code{gradient_n}. \cr
+#'  \tab default      \tab NULL \cr
+#'  \tab accepts      \tab numeric \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' gradient_n \tab  \tab  \cr
+#'  \tab action       \tab Determines the number of shades to use \cr
+#'  \tab              \tab between the colors in \code{gradient_colors}.\cr
+#'  \tab default      \tab 10 \cr
+#'  \tab accepts      \tab numeric \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
 #' halign \tab  \tab  \cr
 #'  \tab action       \tab Sets the horizontal alignment of the text in \cr
 #'  \tab              \tab the cell \cr
@@ -863,6 +935,23 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, logical_rows = NULL, .
                              font_size_units = sprinkles[["font_size_units"]])
   }
   
+  #* Sprinkles in the `gradient` group
+  
+  if (any(names(sprinkles) %in%
+          SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "gradient"]))
+  {
+    x <- gradient_sprinkles(x = x,
+                            part = part,
+                            indices = indices,
+                            gradient = sprinkles[["gradient"]],
+                            gradient_colors = sprinkles[["gradient_colors"]],
+                            gradient_cut = sprinkles[["gradient_cut"]],
+                            gradient_n = sprinkles[["gradient_n"]],
+                            border_style = sprinkles[["border_style"]],
+                            border_thickness = sprinkles[["border_thickness"]],
+                            border_units = sprinkles[["border_units"]])
+  }
+  
   #* Sprinkles in the `height` group
   if (any(names(sprinkles) %in% 
           SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "height"]))
@@ -1250,22 +1339,25 @@ discrete_sprinkles <- function(x, part, indices,
   
   ux <- unique(x[[part]][["value"]][indices])
   
+  if (is.null(discrete_colors)) 
+  {
+    discrete_colors <- getOption("pixiedust_discrete_pal", NULL)
+  }
+  
   if (is.null(discrete_colors))
   {
     discrete_colors <- scales::hue_pal()(length(ux))
   }
 
   checkmate::makeAssertion(x = discrete_colors,
-                           if (length(discrete_colors) == length(ux))
+                           if (length(discrete_colors) >= length(ux))
                            {
                              TRUE
                            }
                            else
                            {
-                             print(sprintf("`discrete_color` must have the same length as the number of unique values (%s)",
-                                           length(ux)))
-                             sprintf("`discrete_color` must have the same length as the number of unique values (%s)",
-                                     length(ux))
+                             sprintf("`discrete_color` must have at least the same length as the number of unique values (>= %s)",
+                                           length(ux))
                            },
                            var.name = "discrete_color",
                            collection = NULL)
@@ -1291,6 +1383,80 @@ discrete_sprinkles <- function(x, part, indices,
         discrete_colors[as.numeric(as.factor(x[[part]][["value"]][indices]))]
     }
   }
+  x
+}
+
+# Gradient Sprinkles ------------------------------------------------
+
+gradient_sprinkles <- function(x, part, indices,
+                               gradient, gradient_colors,
+                               gradient_cut, gradient_n,
+                               border_thickness, border_units,
+                               border_style)
+{
+  
+  checkmate::assert_subset(x = x[[part]][["col_class"]][indices],
+                           choices = c("numeric", "integer", "double"),
+                           empty.ok = FALSE)
+  
+  gradient["font" %in% gradient] <- "font_color"
+  
+  if (is.null(gradient_n)) gradient_n <- 10
+  
+  if ("border" %in% gradient)
+  {
+    gradient <- c(sprintf("%s_border", 
+                          c("top", "left", "right", "bottom")),
+                  gradient)
+    gradient <- unique(gradient[!gradient %in% "border"])
+  }
+  
+  if (is.null(gradient_colors))
+  {
+    gradient_colors <- getOption("pixiedust_gradient_pal", 
+                                 c("#132B43", "#56B1F7"))
+  }
+  
+  gradient_colors <- 
+    scales::gradient_n_pal(gradient_colors)(seq(0, 1, length.out = gradient_n))
+  
+  if (is.null(border_thickness)) border_thickness <- 1
+  if (is.null(border_units)) border_units <- "px"
+  if (is.null(border_style)) border_style <- "solid"
+  
+  gradient_split <- 
+    if (is.null(gradient_cut))
+    {
+    cut(as.numeric(x[[part]][["value"]][indices]),
+        breaks = quantile(as.numeric(x[[part]][["value"]][indices]), 
+                          probs = seq(0, 1, length.out = gradient_n)),
+        include.lowest = TRUE)
+    }
+    else
+    {
+      cut(as.numeric(x[[part]][["value"]][indices]),
+          breaks = gradient_cut,
+          include.lowest = TRUE)
+    }
+  
+  for (i in seq_along(gradient))
+  {
+    if (grepl("border", gradient[i]))
+    {
+      x[[part]][[gradient[i]]][indices] <- 
+        sprintf("%s%s %s %s",
+                border_thickness,
+                border_units,
+                border_style,
+                gradient_colors[as.numeric(gradient_split)])
+    }
+    else 
+    {
+      x[[part]][[gradient[i]]][indices] <- 
+        gradient_colors[as.numeric(gradient_split)]
+    }
+  }
+  
   x
 }
 
