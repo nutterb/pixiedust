@@ -23,6 +23,7 @@ gradient,gradient,assert_match_arg,character,,,"c(""bg"", ""font"", ""font_color
 gradient_colors,gradient,assertCharacter,,,,,,"getOption("pixiedust_gradient_pal", 10)"
 gradient_cut,gradient,assertNumeric,,,,,,
 gradient_n,gradient,assertNumeric,,1,,,,10
+gradient_na,gradient,assertCharacter,,1,,,,"grey"
 halign,simple,assert_match_arg,,,,"c(""left"", ""center"", ""right"")",,
 height,height,assertNumeric,,1,,,,
 height_units,height,assert_match_arg,,,,"c(""px"", ""pt"", ""cm"", ""in"", ""%"")",,pt

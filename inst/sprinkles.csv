@@ -24,6 +24,7 @@ gradient,                   x,      ,        ,   x,    x
 gradient_colors,            x,      ,        ,   x,    x
 gradient_cut,               x,      ,        ,   x,    x
 gradient_n,                 x,      ,        ,   x,    x
+gradient_na,                x,      ,        ,   x,    x
 halign,                     x,      ,        ,   x,    x 
 height,                     x,      ,        ,   x,    x
 height_units,               x,      ,        ,   x,    x

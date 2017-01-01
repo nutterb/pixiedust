@@ -184,6 +184,14 @@ The \code{head} object describes what each column of the table
   the \code{print} method is invoked.  The default is to print to the 
   console.
 }
+\section{Symbols and Greek Letters}{
+
+When using markdown, math symbols and greek letters may be employed as 
+they would within a markdown document.  For example, \code{"$\alpha$"}
+will render as the lower case Greek alpha.  Math symbols may be rendered
+in the same manner.
+}
+
 \section{Upcoming Developments}{
 
 \itemize{

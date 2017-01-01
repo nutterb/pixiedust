@@ -373,6 +373,15 @@ gradient_n \tab  \tab  \cr
  \tab markdown     \tab Not recognized \cr
  \tab html         \tab Recognized \cr
  \tab latex        \tab Recognized \cr
+gradient_na \tab  \tab  \cr
+ \tab action       \tab Sets the color of NA values when gradients \cr
+ \tab              \tab are shaded. \cr
+ \tab default      \tab grey \cr
+ \tab accepts      \tab character(1) \cr
+ \tab console      \tab Not recognized \cr
+ \tab markdown     \tab Not recognized \cr
+ \tab html         \tab Recognized \cr
+ \tab latex        \tab Recognized \cr
 halign \tab  \tab  \cr
  \tab action       \tab Sets the horizontal alignment of the text in \cr
  \tab              \tab the cell \cr

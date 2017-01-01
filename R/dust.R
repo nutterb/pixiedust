@@ -1,10 +1,5 @@
 #' @name dust
 #' @export dust
-#' @importFrom dplyr bind_cols
-#' @importFrom dplyr distinct
-#' @importFrom dplyr left_join
-#' @importFrom dplyr mutate_
-#' @importFrom tidyr gather_
 #' 
 #' @title Dust Table Construction
 #' @description Dust tables consist of four primary components that are 
@@ -130,6 +125,12 @@
 #'   console.
 #'   
 #' @return Returns an object of class \code{dust}
+#' 
+#' @section Symbols and Greek Letters:
+#' When using markdown, math symbols and greek letters may be employed as 
+#' they would within a markdown document.  For example, \code{"$\alpha$"}
+#' will render as the lower case Greek alpha.  Math symbols may be rendered
+#' in the same manner.
 #'
 #' @section Upcoming Developments:
 #' \itemize{
@@ -176,37 +177,47 @@ dust.default <- function(object, ...,
   
   #* By default, we assume data.frame-like objects are to be printed
   #* as given.  All other objects are tidied.
-  if (!inherits(object, "data.frame") | tidy_df) 
+  if (!inherits(object, "data.frame") | tidy_df)
+  {
     tidy_object <- broom::tidy(object, ...)
-
-  else if (inherits(object, "data.frame")){
+  }
+  else if (inherits(object, "data.frame"))
+  {
     if (inherits(object, "data.table"))
+    {
       object <- as.data.frame(object)
-    if (keep_rownames){
-      tidy_object <- cbind(rownames(object), object)
+    }
+    if (keep_rownames)
+    {
+      tidy_object <- cbind(rownames(object), 
+                           object)
       rownames(tidy_object) <- NULL
       tidy_object[, 1] <- as.character(tidy_object[, 1])
       names(tidy_object)[1] <- ".rownames"
     }
-    else{
+    else
+    {
       tidy_object <- object
     }
   }
 
-  if (!inherits(object, "data.frame") & any(!descriptors %in% "term")){
+  if (!inherits(object, "data.frame") & any(!descriptors %in% "term"))
+  {
     nms <- names(tidy_object)
     
     tidy_object <- tidy_levels_labels(object,
                                       descriptors = descriptors,
                                       numeric_level = numeric_level,
                                       argcheck = coll) %>%
-      dplyr::left_join(tidy_object, .,
+      dplyr::left_join(x = tidy_object, 
+                       y = .,
                        by = c("term" = "term"))
      if ("label" %in% names(tidy_object))
      {
        tidy_object %<>%
          dplyr::mutate(
-           label = ifelse(grepl("([(]|)Intercept([)]|)", term),
+           label = ifelse(grepl(pattern = "([(]|)Intercept([)]|)", 
+                                x = term),
                           term,
                           label)
          )
@@ -216,16 +227,20 @@ dust.default <- function(object, ...,
     {
       tidy_object %<>%
         dplyr::mutate(
-          label = ifelse(grepl("([(]|)Intercept([)]|)", term),
+          label = ifelse(grepl(pattern = "([(]|)Intercept([)]|)", 
+                               x = term),
                          term,
                          term_plain)
         )
     }
 
     if (!"term" %in% descriptors)
+    {
       nms <- nms[!nms %in% "term"]
+    }
     
-    tidy_object <- dplyr::select_(tidy_object, .dots = c(descriptors, nms))
+    tidy_object <- dplyr::select_(tidy_object, 
+                                  .dots = c(descriptors, nms))
   }
 
   checkmate::reportAssertions(coll)
@@ -235,7 +250,8 @@ dust.default <- function(object, ...,
                         stringsAsFactors=FALSE)
   names(head) <- names(tidy_object)
 
-  if (glance_foot){
+  if (glance_foot)
+  {
     foot <- glance_foot(object,
                         col_pairs = col_pairs,
                         total_cols = ncol(tidy_object),
@@ -243,7 +259,8 @@ dust.default <- function(object, ...,
                         byrow = byrow) %>%
       component_table()
   }
-  else {
+  else 
+  {
     foot <- NULL
   }
 
@@ -254,7 +271,10 @@ dust.default <- function(object, ...,
 
   print_method <- knitr::opts_knit$get("rmarkdown.pandoc.to")
   
-  if (is.null(print_method)) print_method <- getOption("pixiedust_print_method")
+  if (is.null(print_method))
+  {
+    print_method <- getOption("pixiedust_print_method")
+  }
   
   structure(list(head = component_table(head, tidy_object),
                  body = component_table(tidy_object),
@@ -393,7 +413,8 @@ cell_attributes_frame <- function(nrow, ncol)
 }
 
 
-primaryClass <- function(x){
+primaryClass <- function(x)
+{
   acceptedClasses <- c("integer", "double", "numeric", "character", "factor", "logical")
   class_vector <- class(x)
   class_vector[class_vector %in% acceptedClasses][1]

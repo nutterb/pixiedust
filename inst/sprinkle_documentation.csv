@@ -196,6 +196,14 @@ gradient_n,,
 ,markdown,Not recognized
 ,html,Recognized
 ,latex,Recognized
+gradient_na,,
+,action,Sets the color of NA values when gradients are shaded.
+,default,grey,
+,accepts,character
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,Recognized
 height,,
 ,action,Sets the height of the cell
 ,default,

@@ -316,6 +316,15 @@
 #'  \tab markdown     \tab Not recognized \cr
 #'  \tab html         \tab Recognized \cr
 #'  \tab latex        \tab Recognized \cr
+#' gradient_na \tab  \tab  \cr
+#'  \tab action       \tab Sets the color of NA values when gradients \cr
+#'  \tab              \tab are shaded. \cr
+#'  \tab default      \tab grey \cr
+#'  \tab accepts      \tab character(1) \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
 #' halign \tab  \tab  \cr
 #'  \tab action       \tab Sets the horizontal alignment of the text in \cr
 #'  \tab              \tab the cell \cr
@@ -667,6 +676,7 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, logical_rows = NULL, .
                              fixed = FALSE, 
                              recycle = c("none", "rows", "cols", "columns"))
 {
+  
 # Argument validations ----------------------------------------------
   coll <- checkmate::makeAssertCollection()
   
@@ -947,6 +957,7 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, logical_rows = NULL, .
                             gradient_colors = sprinkles[["gradient_colors"]],
                             gradient_cut = sprinkles[["gradient_cut"]],
                             gradient_n = sprinkles[["gradient_n"]],
+                            gradient_na = sprinkles[["gradient_na"]],
                             border_style = sprinkles[["border_style"]],
                             border_thickness = sprinkles[["border_thickness"]],
                             border_units = sprinkles[["border_units"]])
@@ -1391,6 +1402,7 @@ discrete_sprinkles <- function(x, part, indices,
 gradient_sprinkles <- function(x, part, indices,
                                gradient, gradient_colors,
                                gradient_cut, gradient_n,
+                               gradient_na,
                                border_thickness, border_units,
                                border_style)
 {
@@ -1402,6 +1414,11 @@ gradient_sprinkles <- function(x, part, indices,
   gradient["font" %in% gradient] <- "font_color"
   
   if (is.null(gradient_n)) gradient_n <- 10
+  
+  if (is.null(gradient_na))
+  {
+    gradient_na <- "grey"
+  }
   
   if ("border" %in% gradient)
   {
@@ -1429,15 +1446,19 @@ gradient_sprinkles <- function(x, part, indices,
     {
     cut(as.numeric(x[[part]][["value"]][indices]),
         breaks = quantile(as.numeric(x[[part]][["value"]][indices]), 
-                          probs = seq(0, 1, length.out = gradient_n)),
+                          probs = seq(0, 1, length.out = gradient_n),
+                          na.rm = TRUE),
         include.lowest = TRUE)
     }
     else
     {
       cut(as.numeric(x[[part]][["value"]][indices]),
           breaks = gradient_cut,
-          include.lowest = TRUE)
+          include.lowest = TRUE,
+          na.rm = TRUE)
     }
+  
+  na_val <- which(is.na(gradient_split))
   
   for (i in seq_along(gradient))
   {
@@ -1449,11 +1470,21 @@ gradient_sprinkles <- function(x, part, indices,
                 border_units,
                 border_style,
                 gradient_colors[as.numeric(gradient_split)])
+      
+      x[[part]][[gradient[i]]][indices][na_val] <- 
+        sprintf("%s%s %s %s",
+                border_thickness,
+                border_units,
+                border_style,
+                gradient_na)
     }
     else 
     {
       x[[part]][[gradient[i]]][indices] <- 
         gradient_colors[as.numeric(gradient_split)]
+      
+      x[[part]][[gradient[i]]][indices][na_val] <- 
+        gradient_na
     }
   }
   
