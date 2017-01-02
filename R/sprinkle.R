@@ -791,6 +791,27 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, logical_rows = NULL, .
   {
     coll$push("No sprinkles in `...` to `sprinkle`")
   }
+  else
+  {
+    sprinkle_match <- 
+      SprinkleRef$sprinkle[pmatch(names(sprinkles), 
+                                  SprinkleRef$sprinkle)]
+    
+    unmatched_sprinkle <- 
+      names(sprinkles)[which(is.na(sprinkle_match))]
+    
+    names(sprinkles) <- sprinkle_match
+    
+    if (length(unmatched_sprinkle))
+    {
+      coll$push(
+        sprintf("The following arguments could not be matched to an existing sprinkle (check spelling and partial matching): %s",
+                paste(unmatched_sprinkle, collapse = ", "))
+      )
+      
+      sprinkles <- sprinkles[!is.na(names(sprinkles))]
+    }
+  }
   
   #* Some love for longtable.  Characters given to longtable
   #* are assumed to be FALSE
