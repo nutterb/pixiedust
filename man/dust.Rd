@@ -191,14 +191,6 @@ they would within a markdown document.  For example, \code{"$\alpha$"}
 will render as the lower case Greek alpha.  Math symbols may be rendered
 in the same manner.
 }
-
-\section{Upcoming Developments}{
-
-\itemize{
-  \item{dust_part }{A wrapper for extracting objects from a \code{dust} 
-     object.  This is intended to assist in building custom heads and feet.}
-}
-}
 \examples{
 x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars))
 x
@@ -208,5 +200,8 @@ Benjamin Nutter
 }
 \seealso{
 \code{\link[broom]{tidy}} \code{\link{glance_foot}} \code{\link{tidy_levels_labels}}
+
+\code{\link{get_dust_part}} for extracting parts of the \code{dust} object
+in order to build custom headers and/or footers.
 }
 
