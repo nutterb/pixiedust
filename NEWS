@@ -2,6 +2,7 @@
 * Added the `discrete` and `discrete_colors` sprinkles. (Issue #56)
 * Added the `gradient`, `gradient_n`, `gradient_cut`, and `gradient_colors`
   sprinkles. (Issue #56)
+* Fix hexadecimal color transparency bug (Issue #66)
   
 
 ### 0.7.6 (15 October 2016)
