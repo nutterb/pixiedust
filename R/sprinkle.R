@@ -1319,8 +1319,10 @@ color_sprinkles <- function(sprinkles, coll)
       vapply(sprinkles[[i]][is_color | is_hex],
              function(x)
              {
-               grDevices::col2rgb(x, alpha = TRUE) %>%
-               paste0(., collapse = ",") %>%
+               col <- grDevices::col2rgb(x, alpha = TRUE) 
+               if (length(col) == 4) col[4] <- col[4] / 255
+               
+               paste0(col, collapse = ",") %>%
                sprintf(fmt = "rgba(%s)",
                        .)
              },
