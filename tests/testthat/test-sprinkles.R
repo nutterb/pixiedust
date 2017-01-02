@@ -4,7 +4,7 @@ test_that("sprinkles: bg",
 {
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
   expect_equal(sprinkle(x, rows = 1, cols = 1, bg = "orchid")$body$bg[1],
-               "rgba(218,112,214,255)")
+               "rgba(218,112,214,1)")
 })
 
 test_that("sprinkles: bg casts an error when 'bg' has length > 1",
@@ -130,7 +130,7 @@ test_that("sprinkles: border_color",
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
   expect_equal(sprinkle(x, rows = 1, cols = 1, 
                         border_color = "Black")$body$top_border[1],
-               "1px solid rgba(0,0,0,255)")
+               "1px solid rgba(0,0,0,1)")
 })
 
 test_that("sprinkles: border_color errors",
@@ -197,7 +197,7 @@ test_that("sprinkles: font_color",
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
   expect_equal(sprinkle(x, rows = 1, cols = 1, 
                         font_color = "orchid")$body$font_color[1],
-               "rgba(218,112,214,255)")
+               "rgba(218,112,214,1)")
 })
            
 test_that("sprinkles: font_color error",

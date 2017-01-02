@@ -26,6 +26,17 @@
 #'   
 #' @author Benjamin Nutter
 #' 
+#' @section Functional Requirements: 
+#' \enumerate{
+#'  \item Accepts an object of class \code{dust} or \code{dust_list}
+#'  \item Accepts a \code{logical(1)} indicating if the sprinkles should
+#'    be applied to the data.
+#'  \item For a \code{dust} object, returns an object of class 
+#'    \code{data.frame}
+#'  \item For a \code{dust_list} object, returns a list of objects of class
+#'    \code{data.frame}
+#' }
+#' 
 #' @examples 
 #' fit <- lm(mpg ~ qsec + factor(am) + wt * factor(gear), data = mtcars)
 #' Dust <- dust(fit) %>%
@@ -38,11 +49,27 @@
 #' 
 #' @export
 
-as.data.frame.dust <- function(x, ..., sprinkled = TRUE){
-  if (sprinkled){
+as.data.frame.dust <- function(x, ..., sprinkled = TRUE)
+{
+  coll <- checkmate::makeAssertCollection()
+  
+  checkmate::assert_class(x = x,
+                          classes = "dust",
+                          add = coll)
+  
+  checkmate::assert_logical(x = sprinkled,
+                            len = 1,
+                            add = coll)
+  
+  checkmate::reportAssertions(coll)
+  
+  
+  if (sprinkled)
+  {
     return(print_dust_console(x, return_df = TRUE))
   }
-  else {
+  else 
+  {
     X <- dplyr::select(x$body, 
                        row, col, value) %>%
       tidyr::spread(col, value) %>%
@@ -72,8 +99,12 @@ as.data.frame.dust <- function(x, ..., sprinkled = TRUE){
 
 as.data.frame.dust_list <- function(x, ...)
 {
+  checkmate::assert_class(x = x,
+                          classes = "dust_list")
+  
   lapply(x,
-         as.data.frame.dust)
+         as.data.frame.dust,
+         ...)
 }
 
 

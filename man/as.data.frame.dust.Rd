@@ -37,6 +37,18 @@ In its current state, this can be a fairly ineffcient function
   at least pull out the object as a data frame and do your own 
   post processing).
 }
+\section{Functional Requirements}{
+ 
+\enumerate{
+ \item Accepts an object of class \code{dust} or \code{dust_list}
+ \item Accepts a \code{logical(1)} indicating if the sprinkles should
+   be applied to the data.
+ \item For a \code{dust} object, returns an object of class 
+   \code{data.frame}
+ \item For a \code{dust_list} object, returns a list of objects of class
+   \code{data.frame}
+}
+}
 \examples{
 fit <- lm(mpg ~ qsec + factor(am) + wt * factor(gear), data = mtcars)
 Dust <- dust(fit) \%>\%

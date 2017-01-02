@@ -22,6 +22,7 @@ Imports:
     knitr,
     lazyWeave,
     magrittr,
+    scales,
     stringr,
     tidyr
 Suggests:

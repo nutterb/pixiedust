@@ -14,7 +14,7 @@
 #'   retrieve.  May be one of \code{"head"}, \code{"foot"}, \code{"interfoot"},
 #'   or \code{"body"}.
 #'   
-#' @returns an object of class \code{data.frame}
+#' @return an object of class \code{data.frame}
 #' 
 #' @export
 

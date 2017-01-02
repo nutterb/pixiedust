@@ -13,6 +13,9 @@ get_dust_part(x, part = c("head", "foot", "interfoot", "body"))
 retrieve.  May be one of \code{"head"}, \code{"foot"}, \code{"interfoot"},
 or \code{"body"}.}
 }
+\value{
+an object of class \code{data.frame}
+}
 \description{
 Making customized table headers and footers requires a
   data frame be added to the \code{dust} object that has the same
