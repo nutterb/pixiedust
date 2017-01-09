@@ -34,22 +34,155 @@ dust(head(mtcars),
 Relevant only to HTML tables, the `border-collapse` option determines if the borders of a table should overlap (or lay on top of) each other. When set to `FALSE`, a small space will appear between the cell borders.  
 
 ```{r, results = 'asis'}
-dust(head(mtcars)) %>%
-  sprinkle(border = "all",
-           border_collapse = TRUE) %>%
+dust(head(mtcars),
+     border_collapse = TRUE) %>%
+  sprinkle(border = "all") %>%
   print(asis = FALSE) %>%
   cat()
 
-dust(head(mtcars)) %>%
-  sprinkle(border = "all",
-           border_collapse = FALSE) %>%
+dust(head(mtcars),
+     border_collapse = FALSE) %>%
+  sprinkle(border = "all") %>%
   print(asis = FALSE) %>%
   cat()
 ```
 
 By default, `border_collapse = TRUE` when a `dust` object is created.
 
+### `justify`
 
+The `justify` option determines the horizontal placement of the entire table on the page.  The option may be given `"center"`, `"left"`, or `"right"`, and defaults to `"center"`. This setting has no effect on the horizontal alignment of the contents of a table's cells.
+
+```{r, results = 'asis'}
+dust(head(mtcars),
+     justify = "center") %>%
+  print(asis = FALSE) %>%
+  cat()
+
+dust(head(mtcars),
+     justify = "left") %>%
+  print(asis = FALSE) %>%
+  cat()
+
+dust(head(mtcars),
+     justify = "right") %>%
+  print(asis = FALSE) %>%
+  cat()
+  
+  
+```
+
+The default value for this option is `"center"`.
+
+### `longtable`
+
+This option is named after the LATEX package `longtable`, which is used to break tables with many rows into multiple parts. Each part of the broken table is displayed on a separate page.  The default value of the `longtable` option in `pixiedust` is `FALSE`, which retains the table as one unit.  
+
+If the table is too long to display on a page, you may set the value to `TRUE` or to an integer value. The behavior of `pixiedust` will vary slightly, depending on your output type.  
+
+When `longtable = TRUE` and the output is LATEX, the table will be divided according to the settings in the LATEX document.  For all other formats, the table will be divided such that each table has no more than 25 rows.
+
+When `longtable` is an integer, each section of the table will contain no more than that number of rows, regardless of the format.  In all formats, each section of the table will retain the header component of the `dust` object.  The last section of table will have the `foot` object, and all other sections will have the `interfoot` object at its end.  If the table has a caption, each section of the table will retain the caption and all will have the same number.
+
+```{r, results = 'asis'}
+dust(head(mtcars),
+     longtable = FALSE,
+     caption = "The table caption") %>%
+  print(asis = FALSE) %>%
+  cat()
+
+dust(head(mtcars),
+     longtable = 2,
+     caption = "Notice that the multiple sections of table have the same number") %>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
+Use of headers and footers in conjunction with the `longtable` option is covered in more detail in Chapter \@ref(chapter-header-footer)
+
+### `label`
+
+The `label` option accepts a string that makes a LATEX like label to associate with the table.  The label may then be used to make references to the table from elsewhere in the document.  These labels work with LATEX output, and with HTML output when `bookdown = TRUE`. 
+
+```{r, results = 'asis'}
+dust(head(mtcars),
+     caption = "A table that has a label",
+     label = "label-ref",
+     bookdown = TRUE) %>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
+When choosing to reference the table above as Table \@ref(tab:label-ref), you must use the label with a `tab:` prefix.  For the above example, we used `tab:label-ref`.
+
+### `float`
+
+This option impacts only LATEX output.  It determines if the table is placed in a floating environment (that is, one that can be moved based on the LATEX engine's decision of optimal location for the typesetting). By default, this is `TRUE`.  You may set it to `FALSE` to force the table to appear where it occurs relative to the rest of your document.  No example is generated here, as it has no impact on HTML output.
+
+### `hhline`
+
+This is another option that impacts only LATEX output.  When using colored cell backgrounds in conjunction with cell borders, the default LATEX cell borders can be overwritten by the colored backgrounds.  If you wish to have the cell borders _and_ colors, you should set `hhline = TRUE`. Note, however, that this may restrict you to using solid cell borders, as the dashed borders are not supported by `hhline`.  (Or maybe it's colored dashed borders.  I need to look into that again.  But in any case, simplicity is probably your friend here).
+
+### `bookdown`
+
+If you are using the `bookdown` package, it is recommended that you set `bookdown = TRUE` so that you may make use of `bookdown`'s referencing syntax, which supports HTML references.  
+
+### Setting Options Globally
+
+Most of the options discussed above may be set as a global option.  Doing so will reduce the code required to apply these settings to each table.  The code below shows an example of how to set all of the available options to the default values.
+
+```{r, eval =  FALSE}
+options(pixie_float = TRUE,
+        pixie_longtable = FALSE,
+        pixie_hhline = FALSE,
+        pixie_bookdown = FALSE)
+```
 
 ## Anatomy of the `dust` Object {#dust-anatomy}
 
+Now let's get into the nitty-gritty and take a look at what `dust` is doing to your objects.
+
+To start, let's first recognize that `dust` is dependent of having tabular data.  The first thing it will try to do is force any object it receives into a two-dimensional table.  If, for example, you give it an `lm` object, `dust` will attempt to normalize the object to a data frame via the `tidy` methods in the `broom` package.  
+
+Once the object has been coereced to a data frame, `dust` will break the table into two parts: the header, and the body.  A footer may be added to objects that have a `glance` method when `glance_foot = TRUE`, otherwise, it is assumed there is no footer.  It is always assumed there is no interfoot; if this feature is desired it must be added later using the `redust` function.  Details on these features are discussed more in Chapter \@ref(chapter-header-footer).
+
+The key feature of `pixiedust` is its ability to offer fine control over each and every cell of the table.  To accomplish this, it is necessary to build a reference table that maps each cell to it's attributes.  
+
+Let us consider the table below:
+
+```{r}
+example <- 
+  data.frame(x1 = c("r1, c1", "r2, c1", "r3, c1"),
+             x2 = c("r1, c2", "r2, c2", "r3, c2"),
+             x3 = c("r1, c3", "r2, c3", "r3, c3"),
+             stringsAsFactors = FALSE)
+
+example
+```
+
+The layout of the body of the table is formed in the `body` component of the `dust` object after reshaping the data frame as follows:
+
+```{r}
+example %>%
+  mutate(row = 1:n()) %>%
+  gather_("col", "value", 
+         names(example)[!names(example) %in% "row"]) %>%
+  mutate_(col_name = ~factor(col, colnames(example)),
+                   col = ~as.numeric(col_name),
+                   col_name = ~as.character(col_name),
+                   value = ~as.character(value))
+```
+
+Notice that for a simple 3x3 table, a data frame of nine rows is required to begin to capture the cell attributes, which we have not yet displayed.  An additional three cells are required in the `head` object when the header has only one row.  In general, the cell attributes of each table are captured in a data frame with $r \times c$ rows where $r$ is the number of rows in the table, and $c$ is the number of columns.
+
+Let's take a look at the `body` component of the `dust`ed `example` table.
+
+```{r}
+tbl <- dust(example)
+
+tbl[["body"]]
+```
+
+We take note that the `body` component is a data frame with `r nrow(tbl[["body"]])` rows and `r ncol(tbl[["body"]])` columns.  This is a much larger data frame than the initial object, which accounts for both the bloated size of dust objects  (`example` is `r format(as.numeric(object.size(example)), big.mark = ",")` bytes while `tbl` is `r format(as.numeric(object.size(tbl)), big.mark = ",")` bytes). 
+
+It also accounts for the slowness of `pixiedust` when compared to other table generating functions like `knitr::kable` and `xtable`.   `pixiedust` runs in about 20 milliseconds to process `example` without any sprinkles, while it takes `knitr::kable` about 1 millisecond.  These speed differences are indiscernable to humans for one table at a time, but if you will be processing hundreds or thousands of tables that need to be completed quickly (such as in a web application), `pixiedust` may not be your best option. But for individual tables that require fine-tuned formatting, it is a good compromise of control and ease of use.

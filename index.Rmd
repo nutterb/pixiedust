@@ -3,25 +3,24 @@ title: "Get Your Sparkle On"
 subtitle: "A Guide to Using the Magic of `pixiedust`"
 author: "Benjamin Nutter"
 date: "`r Sys.Date()`"
-site: bookdown::bookdown_site
-bookdown::gitbook:
-  config:
-    toc:
-      collapse: section
-      scroll_highlight: true
-      before: null
-      after: null
-bookdown::pdf_book:
-  keep_tex: yes
+output:
+  bookdown::gitbook:
+    config:
+      toc:
+        collapse: section
+        scroll_highlight: true
+        before: null
+        after: null
+      theme: null
+      css: ".book .book-body .page-wrapper .page-inner section.normal table td, .book .book-body .page-wrapper .page-inner section.normal table th { border-left: none; border-right: none; }"
+  bookdown::pdf_book:
+    keep_tex: yes
 documentclass: book
 bibliography: 
 biblio-style: apalike
 link-citations: yes
 github-repo: nutterb/pixiedust
 description: "A Guide to Formatting Tables with the Pixiedust Package"
-output: 
-  pdf_document: 
-    keep_tex: yes
 ---
 
 ```{r, warning = FALSE, message = FALSE, echo = FALSE}
