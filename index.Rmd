@@ -12,7 +12,6 @@ output:
         before: null
         after: null
       theme: null
-      css: ".book .book-body .page-wrapper .page-inner section.normal table td, .book .book-body .page-wrapper .page-inner section.normal table th { border-left: none; border-right: none; }"
   bookdown::pdf_book:
     keep_tex: yes
 documentclass: book
@@ -35,6 +34,25 @@ palette <- brewer.pal(9, "PRGn")
 ```
 
 # Introduction
+
+```{r results="asis", echo=FALSE}
+cat("
+<style>
+.book .book-body .page-wrapper .page-inner section.normal table
+{
+  width:auto;
+}
+.book .book-body .page-wrapper .page-inner section.normal table td,
+.book .book-body .page-wrapper .page-inner section.normal table th,
+.book .book-body .page-wrapper .page-inner section.normal table tr
+{
+  padding:0;
+  border:0;
+  background-color:#fff;
+}
+</style>
+")
+```
 
 Tables are a powerful tool for communicating information. They are pervasive in statistical literature in many forms. We see them in text books as references for standard normal probabilities. Some tables organize analysis methods for differing strata in a population. We may even find tables displaying conference schedules.
 

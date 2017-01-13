@@ -26,7 +26,7 @@
 <meta name="author" content="Benjamin Nutter">
 
 
-<meta name="date" content="2017-01-08">
+<meta name="date" content="2017-01-13">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -158,10 +158,24 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1 class="title">Get Your Sparkle On</h1>
 <h3 class="subtitle"><em>A Guide to Using the Magic of <code>pixiedust</code></em></h3>
 <h4 class="author"><em>Benjamin Nutter</em></h4>
-<h4 class="date"><em>2017-01-08</em></h4>
+<h4 class="date"><em>2017-01-13</em></h4>
 </div>
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
+<style>
+.book .book-body .page-wrapper .page-inner section.normal table
+{
+  width:auto;
+}
+.book .book-body .page-wrapper .page-inner section.normal table td,
+.book .book-body .page-wrapper .page-inner section.normal table th,
+.book .book-body .page-wrapper .page-inner section.normal table tr
+{
+  padding:0;
+  border:0;
+  background-color:#fff;
+}
+</style>
 <p>Tables are a powerful tool for communicating information. They are pervasive in statistical literature in many forms. We see them in text books as references for standard normal probabilities. Some tables organize analysis methods for differing strata in a population. We may even find tables displaying conference schedules.</p>
 <p>For statisticians, the table is an inevitable tool for conveying the results of any variety of statistical tables. In some cases, we begin to rely on a specific style of table we like for a specific kind of analysis, such as one we might use in exploratory data analysis. Other times, we may need to custom fit a table to a rare or novel analysis worthy of special attention.</p>
 <p>Creating tables in R is not a new endeavor. Many have attempted it, and many have performed it well. Perhaps most notably, the <code>xtable</code> package has streamlined the process of turning table - like objects into presentation - ready formats. Likewise, <code>knitr</code>’s <code>kable</code> function provides a rapid and reliable method to convert two dimensional grids into aesthetically pleasing tables.</p>
@@ -307,8 +321,7 @@ gitbook.start({
 "collapse": "section",
 "scroll_highlight": true
 },
-"theme": null,
-"css": ".book .book-body .page-wrapper .page-inner section.normal table td, .book .book-body .page-wrapper .page-inner section.normal table th { border-left: none; border-right: none; }"
+"theme": null
 });
 });
 </script>

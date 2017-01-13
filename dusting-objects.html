@@ -26,7 +26,7 @@
 <meta name="author" content="Benjamin Nutter">
 
 
-<meta name="date" content="2017-01-08">
+<meta name="date" content="2017-01-13">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -156,6 +156,20 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
             <section class="normal" id="section-">
 <div id="dusting-objects" class="section level1">
 <h1><span class="header-section-number">2</span> <code>dust</code>ing Objects</h1>
+<style>
+.book .book-body .page-wrapper .page-inner section.normal table
+{
+  width:auto;
+}
+.book .book-body .page-wrapper .page-inner section.normal table td,
+.book .book-body .page-wrapper .page-inner section.normal table th,
+.book .book-body .page-wrapper .page-inner section.normal table tr
+{
+  padding:0;
+  border:0;
+  background-color:#fff;
+}
+</style>
 <blockquote>
 <p>…no one can fly unless the fairy dust has been blown on him. Fortunately, as we have mentioned, one of [Peter’s] hands was messy with it, and he blew some on each of them, with the most superb results.</p>
 <p>“Now just wiggle your shoulders this way,” he said, “and let go.”</p>
@@ -176,7 +190,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
 <span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
-<caption>Table 35:  The first six lines of mtcars</caption>
+<caption>Table 21:  The first six lines of mtcars</caption>
 <tr>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>mpg</th>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>cyl</th>
@@ -779,7 +793,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
 <span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
-<caption>Table 36:  The table caption</caption>
+<caption>Table 22:  The table caption</caption>
 <tr>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>mpg</th>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>cyl</th>
@@ -878,7 +892,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
 <span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
-<caption>Table 37:  Notice that the multiple sections of table have the same number</caption>
+<caption>Table 23:  Notice that the multiple sections of table have the same number</caption>
 <tr>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>mpg</th>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>cyl</th>
@@ -919,7 +933,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
 </tr>
 </table></br></br><table align = 'center' style = 'border-collapse:collapse;'>
-<caption>Table 37:  Notice that the multiple sections of table have the same number</caption>
+<caption>Table 23:  Notice that the multiple sections of table have the same number</caption>
 <tr>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>mpg</th>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>cyl</th>
@@ -960,7 +974,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
 </tr>
 </table></br></br><table align = 'center' style = 'border-collapse:collapse;'>
-<caption>Table 37:  Notice that the multiple sections of table have the same number</caption>
+<caption>Table 23:  Notice that the multiple sections of table have the same number</caption>
 <tr>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>mpg</th>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>cyl</th>
@@ -1278,8 +1292,7 @@ gitbook.start({
 "collapse": "section",
 "scroll_highlight": true
 },
-"theme": null,
-"css": ".book .book-body .page-wrapper .page-inner section.normal table td, .book .book-body .page-wrapper .page-inner section.normal table th { border-left: none; border-right: none; }"
+"theme": null
 });
 });
 </script>

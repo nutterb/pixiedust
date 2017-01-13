@@ -1,5 +1,24 @@
 # `dust`ing Objects
 
+```{r results="asis", echo=FALSE}
+cat("
+<style>
+.book .book-body .page-wrapper .page-inner section.normal table
+{
+  width:auto;
+}
+.book .book-body .page-wrapper .page-inner section.normal table td,
+.book .book-body .page-wrapper .page-inner section.normal table th,
+.book .book-body .page-wrapper .page-inner section.normal table tr
+{
+  padding:0;
+  border:0;
+  background-color:#fff;
+}
+</style>
+")
+```
+
 > ...no one can fly unless the fairy dust has been blown on him. Fortunately, as we have mentioned, one of [Peter's] hands was messy with it, and he blew some on each of them, with the most superb results.
 >
 > "Now just wiggle your shoulders this way," he said, "and let go."
@@ -32,6 +51,8 @@ dust(head(mtcars),
 #### `border_collapse`
 
 Relevant only to HTML tables, the `border-collapse` option determines if the borders of a table should overlap (or lay on top of) each other. When set to `FALSE`, a small space will appear between the cell borders.  
+
+
 
 ```{r, results = 'asis'}
 dust(head(mtcars),
