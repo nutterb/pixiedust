@@ -31,27 +31,33 @@ library(RColorBrewer)
 library(tidyr)
 
 palette <- brewer.pal(9, "PRGn")
+
+options(pixie_bookdown = TRUE)
 ```
 
 # Introduction
 
 ```{r results="asis", echo=FALSE}
-cat("
+get_your_sparkle_css <- "
 <style>
 .book .book-body .page-wrapper .page-inner section.normal table
 {
-  width:auto;
+  width:auto;  
+  border-collapse:collapse;
+  border-spacing:2px;
 }
 .book .book-body .page-wrapper .page-inner section.normal table td,
 .book .book-body .page-wrapper .page-inner section.normal table th,
 .book .book-body .page-wrapper .page-inner section.normal table tr
 {
-  padding:0;
+  padding:2;
   border:0;
   background-color:#fff;
 }
 </style>
-")
+"
+
+cat(get_your_sparkle_css)
 ```
 
 Tables are a powerful tool for communicating information. They are pervasive in statistical literature in many forms. We see them in text books as references for standard normal probabilities. Some tables organize analysis methods for differing strata in a population. We may even find tables displaying conference schedules.
@@ -135,6 +141,8 @@ The `sprinkle` function has only four formal arguments.  The massive flexibility
 Not all of the customizations are relevant to every format.  For example, backgrounds and borders are not supported by console or markdown output.  Font families are supported in HTML, but not in LaTex.  When a sprinkle is applied that isn't supported by the format, the request is stored in the `dust` object, but is quietly ignored at the `print` request.  The advantage to this arrangement is that there are no errors for applying a sprinkle to an unsupported format.  The disadvantage is that you may not always realize that your sprinkle won't show up in your output.  Generally, I find that being able to have near-identical tables across multiple formats to outweigh the disadvantage.
 
 Since `pixiedust` is intended to work with Rmarkdown scripts, it is unnecessary to explicitly declare the output format. `pixiedust` will make use of `knitr::opts_knit$get("rmarkdown.pandoc.to")` to determine the output format for you and make the appropriate adjustments.
+
+One last important feature of `pixiedust` is that, by design, it imposes the minimum intervention possible.  If you are using CSS (HTML) templates or LaTeX templates, the settings in those templates should only be superceded by `pixiedust` when the user requests it explicitly.  The tables displayed in this manual have two Cascading Style Sheet (CSS) elements defined: the space between cells is 2 pixels (only applies with `border-collapse:separate`), and the cell paddign is set to 2 pixels.  These settings have been chosen only to help the reader visualize the effect each call has on the table output.  Depending on the templates on which your reports are based, the output may differ slightly from what is displayed here.
 
 ### `pixiedust` Is Not ...
 

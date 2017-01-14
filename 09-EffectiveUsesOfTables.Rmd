@@ -1,0 +1,86 @@
+# Using Tables Effectively
+```{r results="asis", echo=FALSE}
+cat(get_your_sparkle_css)
+```
+
+Tables are a tool for organizing, structuring, and communicating nuances about data.  As with most tools, they have strengths and weaknesses.  They may also be used effectively or ineffectively.  The purpose of this chapter is to show strategies for various tabular needs, and how to implement them using `pixiedust`. Some of the more tempting strategies that ought to be avoided will also be discussed.
+
+Throughout this chapter, the focus will remain on maximizing the communicative power of your tables.  The goal of any table is to convey the desired message accurately, efficiently, and without imposing unnecessary distraction.
+
+## Discriminating Lines
+
+As tables grow wider, there is a greater risk that the reader will have difficulty relating elements on one side of the table to the elements on the other side of the table.  Consider the display in Table \@ref(tab:basic-example). Owing to the cell padding, with little effort we can determine that the Duster 360 has 3 gears.  Regardless, we may use a few different strategies to reduce the visual burden for the reader to correctly associate data with the correct vehicle.
+
+```{r, results = 'asis'}
+head(mtcars, 12) %>%
+  dust(label = "basic-example",
+       caption = "A table without aids for discriminating lines",
+       keep_rownames = TRUE) %>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
+### Striping
+
+Currently, the most popular discrimination strategy is striping.  Striping alternates colors from one row to another.  This creates a visual barrier between rows to prevent the eye from drifting off of the desired row.  
+
+```{r, results = 'asis'}
+head(mtcars, 12) %>%
+  dust(label = "striped-example",
+       caption = "A table with <i>Zebra Striping</i>",
+       keep_rownames = TRUE) %>%
+  sprinkle(bg_pattern_by = "rows") %>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
+The striping strategy in Table \@ref(tab:striped-example) is great for on-screen displays. It even looks great when it is initially printed on paper.  Depending on your color selection, however, two things could happen if a printed copy is photocopied:
+
+* If the striping colors are dark, the photocopy could generate result in background colors that are too dark for the text to be seen.
+* If the striping colors are light, the photocopy may not show the striping at all.
+
+For these reasons, it is advisable to use light colors in the striping backgrounds (preferably white and gray; or at least one white).  If there is reason to believe that your output will be printed and/or photocopied, it may be better not to rely on striping and to use some other strategy.
+
+### Horizontal Borders
+
+For printed pages, using horizontal borders can be an effective way to assist with row discrimination.  This only requires printing a border at the bottom of each row.  
+
+```{r, results = 'asis'}
+head(mtcars, 12) %>%
+  dust(label = "plain-lined-example",
+       caption = "A table with solid horizontal lines",
+       keep_rownames = TRUE) %>%
+  sprinkle(border = "bottom") %>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
+An alternative look may be to use  a lighter color, as in Table \@ref(tab:gray-line-example).  However, the lighter color may fail to appear on some printed documents, and has a greater risk of not appearing on photocopies.  If photocopies are a reasonable possiblity for the future of your output, the solid black lines are your safest bet.
+
+```{r, results = 'asis'}
+
+head(mtcars, 12) %>%
+  dust(label = "gray-line-example",
+       caption = "A table with gray horizontal lines",
+       keep_rownames = TRUE) %>%
+  sprinkle(border = "bottom",
+           border_color = "#DDDDDD") %>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
+## Drawing Attention to Results
+
+There are occasions when tables display a great deal of information, but there may be a few on which you want the reader to focus.  In these situations, the most effective strategy is to use a bold or italic typeface for the targeted results.  These typefaces render well on screen and on paper, and do not suffer from the disadvantages of printing and/or photocopying.
+
+In Table \@ref(tab:bold-result-model), the regression coefficients that are significant at the 5% level are printed in bold font.
+
+```{r, results = 'asis'}
+fit <- lm(mpg ~ wt + factor(am) + hp + factor(gear),
+          data = mtcars)
+
+dust(fit) %>%
+  medley_model() %>%
+  medley_bw() %>%
+  sprinkle(logical_rows = quote(p.value <= 0.05))
+```

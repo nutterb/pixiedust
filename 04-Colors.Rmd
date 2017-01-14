@@ -1,22 +1,7 @@
 # Colors
 
 ```{r results="asis", echo=FALSE}
-cat("
-<style>
-.book .book-body .page-wrapper .page-inner section.normal table
-{
-  width:auto;
-}
-.book .book-body .page-wrapper .page-inner section.normal table td,
-.book .book-body .page-wrapper .page-inner section.normal table th,
-.book .book-body .page-wrapper .page-inner section.normal table tr
-{
-  padding:0;
-  border:0;
-  background-color:#fff;
-}
-</style>
-")
+cat(get_your_sparkle_css)
 ```
 
 Colors may be used for cell borders and backgrounds. `pixiedust` works hard to make it easy to use colors while also giving a great deal of flexibility.
