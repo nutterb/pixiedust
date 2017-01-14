@@ -7,7 +7,7 @@ Tables are a tool for organizing, structuring, and communicating nuances about d
 
 Throughout this chapter, the focus will remain on maximizing the communicative power of your tables.  The goal of any table is to convey the desired message accurately, efficiently, and without imposing unnecessary distraction.
 
-## Discriminating Lines
+## Row Discrimination
 
 As tables grow wider, there is a greater risk that the reader will have difficulty relating elements on one side of the table to the elements on the other side of the table.  Consider the display in Table \@ref(tab:basic-example). Owing to the cell padding, with little effort we can determine that the Duster 360 has 3 gears.  Regardless, we may use a few different strategies to reduce the visual burden for the reader to correctly associate data with the correct vehicle.
 
@@ -79,8 +79,35 @@ In Table \@ref(tab:bold-result-model), the regression coefficients that are sign
 fit <- lm(mpg ~ wt + factor(am) + hp + factor(gear),
           data = mtcars)
 
-dust(fit) %>%
+dust(fit,
+     label = "bold-result-model",
+     caption = "Statistically Significant Results in Bold") %>%
   medley_model() %>%
   medley_bw() %>%
-  sprinkle(logical_rows = quote(p.value <= 0.05))
+  sprinkle(logical_rows = quote(p.value <= 0.05),
+           bold = TRUE) %>%
+  print(asis = FALSE) %>%
+  cat()
 ```
+
+This strategy also works well with striping to maintain row discrimination.
+
+```{r, results = 'asis'}
+fit <- lm(mpg ~ wt + factor(am) + hp + factor(gear),
+          data = mtcars)
+
+dust(fit,
+     label = "bold-result-stripe",
+     caption = "Statistically Significant Results in Bold") %>%
+  medley_model() %>%
+  medley_bw() %>%
+  sprinkle(logical_rows = quote(p.value <= 0.05),
+           bold = TRUE) %>%
+  sprinkle(bg_pattern_by = "rows") %>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
+## Grouping
+
+## Sectioning
