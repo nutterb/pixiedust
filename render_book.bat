@@ -1,0 +1,1 @@
+R CMD BATCH "batch_render_book.R"

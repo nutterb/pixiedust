@@ -1,1 +1,103 @@
 # Medleys
+
+```{r results="asis", echo=FALSE}
+cat(get_your_sparkle_css)
+```
+
+It is a common desire to have a standard layout and general appearance for all tables in a document.  It may also be that your organization or the journal you are submitting to has specific expectations for what a table should look like.  Be design, `pixiedust` is intended not to interfere with any templates that may be defined in a LaTeX or HTML document (i.e., using custom CSS).  However, if you are not familiar with LaTeX or CSS styling, it can be daunting to generate your templates. Medleys offer an alternative solution that allows you to write a function to produce your desired look.
+
+## Constructing a Medley
+
+Strictly speaking, a medley is nothing more than a function that takes a `dust` object as an argument, and returns a `dust` object.
+
+The default styling for a table may look as plain as:
+
+```{r, results = 'asis'}
+head(mtcars) %>%
+  dust(caption = "A table with minimal formatting",
+       label = "medley-plain")
+```
+
+Suppose I desire that all of my tables have a border above the header and a border at the bottom of the table.  I can create a medley to apply these two borders by defining a function.
+
+```{r, results = 'asis'}
+medley_mine <- function(object)
+{
+  last_row <- max(object$body$row)
+  object %>%
+    sprinkle(rows = 1,
+             border = "top",
+             part = "head") %>%
+    sprinkle(rows = last_row,
+             border = "bottom")
+}
+
+head(mtcars) %>%
+  dust(caption = "A table with a little formatting",
+       label = "medley-plain") %>%
+  medley_mine() %>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
+It is possible to extend the medley to any extent.  The next segment of code adds row striping in my favorite color scheme:
+
+```{r, results = 'asis'}
+medley_mine <- function(object)
+{
+  last_row <- max(object$body$row)
+  object %>%
+    sprinkle(rows = 1,
+             border = "top",
+             part = "head") %>%
+    sprinkle(rows = last_row,
+             border = "bottom") %>%
+    sprinkle(bg_pattern = palette[c(3, 7)])
+}
+
+head(mtcars) %>%
+  dust(caption = "A table with a little formatting and striping",
+       label = "medley-plain") %>%
+  medley_mine() %>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
+When desired, you may even add additional arguments that let you add or remove features as desired.
+
+```{r, results = 'asis'}
+medley_mine <- function(object, stripe = TRUE)
+{
+  last_row <- max(object$body$row)
+  object <- 
+    object %>%
+    sprinkle(rows = 1,
+             border = "top",
+             part = "head") %>%
+    sprinkle(rows = last_row,
+             border = "bottom") 
+  if (stripe)
+  {
+    object %>%
+      sprinkle(bg_pattern = palette[c(3, 7)])
+  }
+  else
+  {
+    object
+  }
+}
+
+head(mtcars) %>%
+  dust(caption = "A table with a little formatting and optional striping turned off",
+       label = "medley-plain") %>%
+  medley_mine(stripe = FALSE) %>%
+  print(asis = FALSE) %>%
+  cat()
+
+head(mtcars) %>%
+  dust(caption = "A table with a little formatting and optional striping turned on",
+       label = "medley-plain") %>%
+  medley_mine(stripe = TRUE) %>%
+  print(asis = FALSE) %>%
+  cat()
+```

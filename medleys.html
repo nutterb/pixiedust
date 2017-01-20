@@ -26,7 +26,7 @@
 <meta name="author" content="Benjamin Nutter">
 
 
-<meta name="date" content="2017-01-13">
+<meta name="date" content="2017-01-20">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -136,17 +136,25 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="5.4" data-path="colors.html"><a href="colors.html#transparency"><i class="fa fa-check"></i><b>5.4</b> Transparency</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="latex-configuration.html"><a href="latex-configuration.html"><i class="fa fa-check"></i><b>6</b> LaTeX Configuration</a></li>
-<li class="chapter" data-level="7" data-path="medleys.html"><a href="medleys.html"><i class="fa fa-check"></i><b>7</b> Medleys</a></li>
+<li class="chapter" data-level="7" data-path="medleys.html"><a href="medleys.html"><i class="fa fa-check"></i><b>7</b> Medleys</a><ul>
+<li class="chapter" data-level="7.1" data-path="medleys.html"><a href="medleys.html#constructing-a-medley"><i class="fa fa-check"></i><b>7.1</b> Constructing a Medley</a></li>
+</ul></li>
 <li class="chapter" data-level="8" data-path="table-numbering-and-referencing.html"><a href="table-numbering-and-referencing.html"><i class="fa fa-check"></i><b>8</b> Table Numbering and Referencing</a></li>
 <li class="chapter" data-level="9" data-path="working-with-lists-of-tables.html"><a href="working-with-lists-of-tables.html"><i class="fa fa-check"></i><b>9</b> Working with Lists of Tables</a></li>
 <li class="chapter" data-level="10" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html"><i class="fa fa-check"></i><b>10</b> Using Tables Effectively</a><ul>
-<li class="chapter" data-level="10.1" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#row-discrimination"><i class="fa fa-check"></i><b>10.1</b> Row Discrimination</a><ul>
-<li class="chapter" data-level="10.1.1" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#striping"><i class="fa fa-check"></i><b>10.1.1</b> Striping</a></li>
-<li class="chapter" data-level="10.1.2" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#horizontal-borders"><i class="fa fa-check"></i><b>10.1.2</b> Horizontal Borders</a></li>
+<li class="chapter" data-level="10.1" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#guiding-principles"><i class="fa fa-check"></i><b>10.1</b> Guiding Principles</a></li>
+<li class="chapter" data-level="10.2" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#row-discrimination"><i class="fa fa-check"></i><b>10.2</b> Row Discrimination</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#striping"><i class="fa fa-check"></i><b>10.2.1</b> Striping</a></li>
+<li class="chapter" data-level="10.2.2" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#horizontal-borders"><i class="fa fa-check"></i><b>10.2.2</b> Horizontal Borders</a></li>
 </ul></li>
-<li class="chapter" data-level="10.2" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#drawing-attention-to-results"><i class="fa fa-check"></i><b>10.2</b> Drawing Attention to Results</a></li>
-<li class="chapter" data-level="10.3" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#grouping"><i class="fa fa-check"></i><b>10.3</b> Grouping</a></li>
-<li class="chapter" data-level="10.4" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#sectioning"><i class="fa fa-check"></i><b>10.4</b> Sectioning</a></li>
+<li class="chapter" data-level="10.3" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#drawing-attention-to-results"><i class="fa fa-check"></i><b>10.3</b> Drawing Attention to Results</a></li>
+<li class="chapter" data-level="10.4" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#grouping"><i class="fa fa-check"></i><b>10.4</b> Grouping</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#the-time-ordered-background-exception"><i class="fa fa-check"></i><b>10.4.1</b> The Time-Ordered Background Exception</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#sectioning"><i class="fa fa-check"></i><b>10.5</b> Sectioning</a><ul>
+<li class="chapter" data-level="10.5.1" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#row-barrier"><i class="fa fa-check"></i><b>10.5.1</b> Row Barrier</a></li>
+<li class="chapter" data-level="10.5.2" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#table-barrier"><i class="fa fa-check"></i><b>10.5.2</b> Table Barrier</a></li>
+</ul></li>
 </ul></li>
 </ul>
 
@@ -167,7 +175,479 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
             <section class="normal" id="section-">
 <div id="medleys" class="section level1">
 <h1><span class="header-section-number">7</span> Medleys</h1>
+<style>
+.book .book-body .page-wrapper .page-inner section.normal table
+{
+  width:auto;  
+  border-collapse:collapse;
+  border-spacing:2px;
+}
+.book .book-body .page-wrapper .page-inner section.normal table td,
+.book .book-body .page-wrapper .page-inner section.normal table th,
+.book .book-body .page-wrapper .page-inner section.normal table tr
+{
+  padding:2;
+  border:0;
+  background-color:#fff;
+}
+</style>
+<p>It is a common desire to have a standard layout and general appearance for all tables in a document. It may also be that your organization or the journal you are submitting to has specific expectations for what a table should look like. Be design, <code>pixiedust</code> is intended not to interfere with any templates that may be defined in a LaTeX or HTML document (i.e., using custom CSS). However, if you are not familiar with LaTeX or CSS styling, it can be daunting to generate your templates. Medleys offer an alternative solution that allows you to write a function to produce your desired look.</p>
+<div id="constructing-a-medley" class="section level2">
+<h2><span class="header-section-number">7.1</span> Constructing a Medley</h2>
+<p>Strictly speaking, a medley is nothing more than a function that takes a <code>dust</code> object as an argument, and returns a <code>dust</code> object.</p>
+<p>The default styling for a table may look as plain as:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(mtcars) %&gt;%
+<span class="st">  </span><span class="kw">dust</span>(<span class="dt">caption =</span> <span class="st">&quot;A table with minimal formatting&quot;</span>,
+       <span class="dt">label =</span> <span class="st">&quot;medley-plain&quot;</span>)</code></pre></div>
+<p>Suppose I desire that all of my tables have a border above the header and a border at the bottom of the table. I can create a medley to apply these two borders by defining a function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">medley_mine &lt;-<span class="st"> </span>function(object)
+{
+  last_row &lt;-<span class="st"> </span><span class="kw">max</span>(object$body$row)
+  object %&gt;%
+<span class="st">    </span><span class="kw">sprinkle</span>(<span class="dt">rows =</span> <span class="dv">1</span>,
+             <span class="dt">border =</span> <span class="st">&quot;top&quot;</span>,
+             <span class="dt">part =</span> <span class="st">&quot;head&quot;</span>) %&gt;%
+<span class="st">    </span><span class="kw">sprinkle</span>(<span class="dt">rows =</span> last_row,
+             <span class="dt">border =</span> <span class="st">&quot;bottom&quot;</span>)
+}
 
+<span class="kw">head</span>(mtcars) %&gt;%
+<span class="st">  </span><span class="kw">dust</span>(<span class="dt">caption =</span> <span class="st">&quot;A table with a little formatting&quot;</span>,
+       <span class="dt">label =</span> <span class="st">&quot;medley-plain&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">medley_mine</span>() %&gt;%
+<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
+<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+<table align = 'center' style = 'border-collapse:collapse;'>
+<caption><span id="tab:medley-plain">Table 7.1: </span> A table with a little formatting</caption>
+<tr>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>mpg</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>cyl</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>disp</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>hp</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>drat</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>wt</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>qsec</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>vs</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>am</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>gear</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>carb</th>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>21</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>160</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>110</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.9</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2.62</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>16.46</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>21</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>160</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>110</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.9</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2.875</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>17.02</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>22.8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>108</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>93</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.85</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2.32</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>18.61</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>21.4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>258</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>110</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.08</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.215</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>19.44</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>18.7</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>360</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>175</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.15</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.44</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>17.02</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>18.1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>225</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>105</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>2.76</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>3.46</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>20.22</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>1</td>
+</tr>
+</table></br></br>
+<p>It is possible to extend the medley to any extent. The next segment of code adds row striping in my favorite color scheme:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">medley_mine &lt;-<span class="st"> </span>function(object)
+{
+  last_row &lt;-<span class="st"> </span><span class="kw">max</span>(object$body$row)
+  object %&gt;%
+<span class="st">    </span><span class="kw">sprinkle</span>(<span class="dt">rows =</span> <span class="dv">1</span>,
+             <span class="dt">border =</span> <span class="st">&quot;top&quot;</span>,
+             <span class="dt">part =</span> <span class="st">&quot;head&quot;</span>) %&gt;%
+<span class="st">    </span><span class="kw">sprinkle</span>(<span class="dt">rows =</span> last_row,
+             <span class="dt">border =</span> <span class="st">&quot;bottom&quot;</span>) %&gt;%
+<span class="st">    </span><span class="kw">sprinkle</span>(<span class="dt">bg_pattern =</span> palette[<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">7</span>)])
+}
+
+<span class="kw">head</span>(mtcars) %&gt;%
+<span class="st">  </span><span class="kw">dust</span>(<span class="dt">caption =</span> <span class="st">&quot;A table with a little formatting and striping&quot;</span>,
+       <span class="dt">label =</span> <span class="st">&quot;medley-plain&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">medley_mine</span>() %&gt;%
+<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
+<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+<table align = 'center' style = 'border-collapse:collapse;'>
+<caption><span id="tab:medley-plain">Table 7.1: </span> A table with a little formatting and striping</caption>
+<tr>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>mpg</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>cyl</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>disp</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>hp</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>drat</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>wt</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>qsec</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>vs</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>am</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>gear</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>carb</th>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>21</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>160</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>110</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>3.9</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>2.62</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>16.46</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>4</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>21</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>160</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>110</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>3.9</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>2.875</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>17.02</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>4</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>22.8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>108</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>93</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>3.85</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>2.32</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>18.61</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>1</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>21.4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>258</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>110</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>3.08</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>3.215</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>19.44</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>1</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>18.7</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>360</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>175</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>3.15</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>3.44</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>17.02</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>2</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;border-bottom:1px solid Black;'>18.1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;border-bottom:1px solid Black;'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;border-bottom:1px solid Black;'>225</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;border-bottom:1px solid Black;'>105</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;border-bottom:1px solid Black;'>2.76</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;border-bottom:1px solid Black;'>3.46</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;border-bottom:1px solid Black;'>20.22</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;border-bottom:1px solid Black;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;border-bottom:1px solid Black;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;border-bottom:1px solid Black;'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;border-bottom:1px solid Black;'>1</td>
+</tr>
+</table></br></br>
+<p>When desired, you may even add additional arguments that let you add or remove features as desired.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">medley_mine &lt;-<span class="st"> </span>function(object, <span class="dt">stripe =</span> <span class="ot">TRUE</span>)
+{
+  last_row &lt;-<span class="st"> </span><span class="kw">max</span>(object$body$row)
+  object &lt;-<span class="st"> </span>
+<span class="st">    </span>object %&gt;%
+<span class="st">    </span><span class="kw">sprinkle</span>(<span class="dt">rows =</span> <span class="dv">1</span>,
+             <span class="dt">border =</span> <span class="st">&quot;top&quot;</span>,
+             <span class="dt">part =</span> <span class="st">&quot;head&quot;</span>) %&gt;%
+<span class="st">    </span><span class="kw">sprinkle</span>(<span class="dt">rows =</span> last_row,
+             <span class="dt">border =</span> <span class="st">&quot;bottom&quot;</span>) 
+  if (stripe)
+  {
+    object %&gt;%
+<span class="st">      </span><span class="kw">sprinkle</span>(<span class="dt">bg_pattern =</span> palette[<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">7</span>)])
+  }
+  else
+  {
+    object
+  }
+}
+
+<span class="kw">head</span>(mtcars) %&gt;%
+<span class="st">  </span><span class="kw">dust</span>(<span class="dt">caption =</span> <span class="st">&quot;A table with a little formatting and optional striping turned off&quot;</span>,
+       <span class="dt">label =</span> <span class="st">&quot;medley-plain&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">medley_mine</span>(<span class="dt">stripe =</span> <span class="ot">FALSE</span>) %&gt;%
+<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
+<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+<table align = 'center' style = 'border-collapse:collapse;'>
+<caption><span id="tab:medley-plain">Table 7.1: </span> A table with a little formatting and optional striping turned off</caption>
+<tr>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>mpg</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>cyl</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>disp</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>hp</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>drat</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>wt</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>qsec</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>vs</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>am</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>gear</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>carb</th>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>21</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>160</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>110</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.9</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2.62</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>16.46</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>21</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>160</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>110</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.9</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2.875</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>17.02</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>22.8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>108</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>93</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.85</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2.32</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>18.61</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>21.4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>258</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>110</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.08</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.215</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>19.44</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>18.7</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>360</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>175</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.15</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.44</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>17.02</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>18.1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>225</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>105</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>2.76</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>3.46</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>20.22</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>1</td>
+</tr>
+</table></br></br>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(mtcars) %&gt;%
+<span class="st">  </span><span class="kw">dust</span>(<span class="dt">caption =</span> <span class="st">&quot;A table with a little formatting and optional striping turned on&quot;</span>,
+       <span class="dt">label =</span> <span class="st">&quot;medley-plain&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">medley_mine</span>(<span class="dt">stripe =</span> <span class="ot">TRUE</span>) %&gt;%
+<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
+<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+<table align = 'center' style = 'border-collapse:collapse;'>
+<caption><span id="tab:medley-plain">Table 7.1: </span> A table with a little formatting and optional striping turned on</caption>
+<tr>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>mpg</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>cyl</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>disp</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>hp</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>drat</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>wt</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>qsec</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>vs</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>am</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>gear</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>carb</th>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>21</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>160</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>110</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>3.9</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>2.62</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>16.46</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>4</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>21</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>160</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>110</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>3.9</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>2.875</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>17.02</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>4</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>22.8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>108</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>93</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>3.85</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>2.32</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>18.61</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>1</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>21.4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>258</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>110</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>3.08</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>3.215</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>19.44</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;'>1</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>18.7</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>360</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>175</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>3.15</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>3.44</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>17.02</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;'>2</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;border-bottom:1px solid Black;'>18.1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;border-bottom:1px solid Black;'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;border-bottom:1px solid Black;'>225</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;border-bottom:1px solid Black;'>105</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;border-bottom:1px solid Black;'>2.76</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;border-bottom:1px solid Black;'>3.46</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;border-bottom:1px solid Black;'>20.22</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;border-bottom:1px solid Black;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;border-bottom:1px solid Black;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;border-bottom:1px solid Black;'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#A6DBA0;border-bottom:1px solid Black;'>1</td>
+</tr>
+</table></br></br>
+
+</div>
 </div>
             </section>
 

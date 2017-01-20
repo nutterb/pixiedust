@@ -7,6 +7,16 @@ Tables are a tool for organizing, structuring, and communicating nuances about d
 
 Throughout this chapter, the focus will remain on maximizing the communicative power of your tables.  The goal of any table is to convey the desired message accurately, efficiently, and without imposing unnecessary distraction.
 
+## Guiding Principles
+
+When developing tables for your reports and presentations, I recommend you consider the following guiding principles:
+
+1. Avoid trying to use tables the way you would a graph.
+2. If your table requires a legend, it's too complicated.  Use a graph instead.
+3. Background colors should only be used for row or group discrimination (with very rare exceptions).
+4. Subtlety is a virtue. 
+5. When using color (backgrounds, fonts, or borders), try to limit yourself to two colors.
+
 ## Row Discrimination
 
 As tables grow wider, there is a greater risk that the reader will have difficulty relating elements on one side of the table to the elements on the other side of the table.  Consider the display in Table \@ref(tab:basic-example). Owing to the cell padding, with little effort we can determine that the Duster 360 has 3 gears.  Regardless, we may use a few different strategies to reduce the visual burden for the reader to correctly associate data with the correct vehicle.
@@ -108,6 +118,222 @@ dust(fit,
   cat()
 ```
 
+Alternatively, depending on the format, you may try using colored text to draw attention to results, as in Table \@ref(tab:bold-result-red).
+
+```{r, results = 'asis'}
+fit <- lm(mpg ~ wt + factor(am) + hp + factor(gear),
+          data = mtcars)
+
+dust(fit,
+     label = "bold-result-red",
+     caption = "Statistically Significant Results in Red") %>%
+  medley_model() %>%
+  medley_bw() %>%
+  sprinkle(logical_rows = quote(p.value <= 0.05),
+           font_color = "red") %>%
+  sprinkle(bg_pattern_by = "rows") %>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
+The use of background colors to draw attention to results is discouraged.  The example in Table  \@ref(tab:background-result) uses background colors to denote the statistically signficant results.  Notice how the colors may span multiple rows, which requires an additional strategy to assist row discrimination.  When using background colors this way, horizontal borders are the best row discrimination aid.  
+
+The primary criticism against background colors to highlight results is that background colors are either too subtle (as in the shades used for row discrimination) or not subtle enough. When a color is bold enough to draw attention to the result, it usually feels a bit like TYPING IN ALL CAPS.  That is, a little jarring when done inappropriately.
+
+```{r, results = 'asis'}
+fit <- lm(mpg ~ wt + factor(am) + hp + factor(gear),
+          data = mtcars)
+
+dust(fit,
+     label = "background-result",
+     caption = "Statistically Significant Results Displayed Using Backgrounds. This practice is discouraged.") %>%
+  medley_model() %>%
+  medley_bw() %>%
+  sprinkle(logical_rows = quote(p.value <= 0.05),
+           bg = palette[2]) %>%
+  sprinkle(border = "bottom",
+           border_color = "gray") %>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
 ## Grouping
 
+It is sometimes beneficial to the user to visually discriminate groups of data from each other.  This allows the user to more easily discern similarities within and differences between groups.  The proper method for discriminating groups is to sort your data by group prior to generating the table (See Table \@ref(tab:basic-group) )
+
+```{r, results = 'asis'}
+mtcars %>%
+  arrange(gear) %>%
+  dust(caption = "Vehicular Data Sorted by Gear",
+       label = "basic-group") %>%
+  medley_bw() %>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
+If you wish to provide a little more assistance in discriminating groups, using alternating backgrounds as groups change may be a useful technique.  This technique is illustrated in Table \@ref(tab:toggle-background) and combined with borders to facilitate row discrimination.
+
+```{r, results = 'asis'}
+mtcars %>%
+  arrange(gear) %>%
+  dust(caption = "Vehicular Data Sorted by Gear with Background Toggling",
+       label = "toggle-background") %>%
+  medley_bw() %>%
+  sprinkle(logical_rows = quote(gear %in% c(3, 5)),
+           bg = "#DDDDDD",
+           border = "bottom",
+           border_color = "white") %>%
+  sprinkle(logical_rows = quote(!gear %in% c(3, 5)),
+           bg = "white",
+           border = "bottom",
+           border_color = "#DDDDDD")%>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
+In some settings, particularly within spreadsheets, it is not uncommon to see groups discriminated by various background colors.  An example of this behavior is shown in Table \@ref(tab:background-discriminate). This technique ought to be avoided as it requires the reader to remember the association of each color while trying to discern patterns and conclusions from the table.  Some might say that I've presented an unfair comparison here, and that if I were to sort the table prior to assigning the background colors, it would not be as challenging for the reader.  However, if the data have been sorted by group, there is no need for multiple background colors; instead, the alternating backgrounds used in Table \@ref(tab:toggle-background) are sufficient and do not add the difficulty of remember what the various colors mean.
+
+```{r, results = 'asis'}
+mtcars %>%
+  dust(caption = "Vehicular Data Sorted by Gear with Background Toggling",
+       label = "background-discriminate",
+       keep_rownames = TRUE) %>%
+  medley_bw() %>%
+  sprinkle(logical_rows = quote(gear  == 3),
+           bg = palette[2])  %>%
+  sprinkle(logical_rows = quote(gear  == 4),
+           bg = palette[5]) %>%
+  sprinkle(logical_rows = quote(gear  == 5),
+           bg = palette[8])%>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
+If background colors are to be used, they ought to be used to accent something meaningful about the data that cannot be displayed by a simple sort.  Consider, for example, Table \@ref{tab:group-sort-shade}, which groups the data by `gear`, sorts it within each group by `mpg`, and then applies a gradient background to the `mpg` column to give a visual depiction of the distribution of `mpg` within each group.
+
+```{r, results = 'asis'}
+mtcars %>%
+  arrange(gear, mpg) %>%
+  dust(caption = "Vehicular Data Grouped by Gear and Sorted by MPG",
+       label = "group-sort-shade") %>%
+  medley_bw() %>%
+  sprinkle(logical_rows = quote(gear %in% c(3, 5)),
+           bg = "#DDDDDD",
+           border = "bottom",
+           border_color = "white") %>%
+  sprinkle(logical_rows = quote(!gear %in% c(3, 5)),
+           bg = "white",
+           border = "bottom",
+           border_color = "#DDDDDD") %>%
+  sprinkle(cols = "mpg",
+           gradient = "bg",
+           gradient_color = palette[c(3, 7)]) %>%
+  print(asis = FALSE) %>%
+  cat()
+  
+```
+
+While Table \@ref(tab:group-sort-shade) is a reasonable and effective use of shading and grouping together, it still doesn't have anywhere the visual impact as something as simple as Figure 10.1
+
+```{r, fig.cap = '(ref:group-sort-plot)'}
+ggplot(data = mtcars,
+       mapping = aes(x = factor(gear),
+                     y = mpg)) + 
+  geom_boxplot()
+```
+
+(ref:group-sort-plot) Graphical visualizations are often a superior tool to tables to display complex concepts.
+
+### The Time-Ordered Background Exception
+
+In cases where data are to be displayed ordered by time, there may be an exception to using background colors in place of grouping.  in particular, the background color may be used to distinguish the occurrence of some event over the passage of time.  When making a table in this manner, it is still recommended to limit yourself to two colors, and to apply those colors to only once column.  An example is provided in Table \@ref(tab:temporal-table).
+
+```{r, results = 'asis'}
+library(survival)
+
+ovarian %>%
+  arrange(futime) %>%
+  dust(caption = "Arrange a Table by Time and Using Background Colors to Identify Events",
+       label = "temporal-table") %>%
+  sprinkle(bg_pattern_by = "rows") %>%
+  sprinkle(cols = "fustat",
+           discrete = "bg",
+           discrete_color = palette[c(3, 7)]) %>%
+  medley_bw() %>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
 ## Sectioning
+
+Sectioning is similar to grouping, with the added feature of putting a much stronger visual barrier between groups.  There are two variants of sectioning. The first involves a row barrier, the second involves a table barrier. 
+
+### Row Barrier
+
+A row barrier is a visual obstruction within a table that takes up an entire row to indicate to the user that there is something different about the content that follows.  An example is given in \@ref(tab:row-barrier).
+
+At the time of this writing, `pixiedust` does not offer a mechanism for generating a table in this style, and so applying additional formatting, such as row stripes, etc, can require a great deal of code.
+
+```{r, results = 'asis'}
+split(mtcars,
+      mtcars$gear) %>%
+  lapply(FUN = function(x) bind_rows(data.frame(mpg = x$gear[1]),
+                                     x)) %>%
+  bind_rows() %>%
+  dust(caption = "Table Sectioned with a Row Barrier",
+       label = "row-barrier") %>%
+  medley_bw() %>%
+  sprinkle(logical_rows = quote(is.na(gear)),
+           cols = "mpg",
+           fn = quote(sprintf("Gear = %s", value))) %>%
+  sprinkle(rows = 1,
+           merge = TRUE,
+           halign = "left",
+           bg = "#DDDDDD") %>%
+  sprinkle(rows = 17,
+           merge = TRUE,
+           halign = "left",
+           bg = "#DDDDDD") %>%
+  sprinkle(rows = 30,
+           merge = TRUE,
+           halign = "left",
+           bg = "#DDDDDD") %>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
+### Table Barrier
+
+A table barrier separates groups by putting each group in a distinct table. For example:
+
+```{r, results = 'asis'}
+split(mtcars,
+      mtcars$gear) %>%
+  dust(caption = "Table Sectioned with a Row Barrier",
+       label = "row-barrier") %>%
+  sprinkle(bg_pattern_by = "rows") %>%
+  pixieply(medley_bw) %>%
+  print(asis = FALSE) %>%
+  lapply(cat) %>%
+  invisible()
+```
+
+The tools in `pixiedust` permit more flexible formatting in this style of division, and can even be used to make a table similar in style to that of Table \@ref(tab:group-sort-shade).
+
+```{r, results = 'asis'}
+split(mtcars,
+      mtcars$gear) %>%
+  dust(caption = "Table Sectioned with a Row Barrier",
+       label = "row-barrier") %>%
+  sprinkle(bg_pattern_by = "rows") %>%
+  sprinkle(cols = "mpg",
+           gradient = "bg",
+           gradient_color = palette[c(2, 8)],
+           gradient_cut = quantile(mtcars$mpg, 
+                                   probs = seq(0, 1, length.out = 10))) %>%
+  pixieply(medley_bw) %>%
+  print(asis = FALSE) %>%
+  lapply(cat) %>%
+  invisible()
+```
+
