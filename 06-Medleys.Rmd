@@ -34,7 +34,7 @@ medley_mine <- function(object)
 
 head(mtcars) %>%
   dust(caption = "A table with a little formatting",
-       label = "medley-plain") %>%
+       label = "medley-a-bit-more") %>%
   medley_mine() %>%
   print(asis = FALSE) %>%
   cat()
@@ -57,7 +57,7 @@ medley_mine <- function(object)
 
 head(mtcars) %>%
   dust(caption = "A table with a little formatting and striping",
-       label = "medley-plain") %>%
+       label = "medley-with-stripe") %>%
   medley_mine() %>%
   print(asis = FALSE) %>%
   cat()
@@ -89,14 +89,14 @@ medley_mine <- function(object, stripe = TRUE)
 
 head(mtcars) %>%
   dust(caption = "A table with a little formatting and optional striping turned off",
-       label = "medley-plain") %>%
+       label = "medley-stripe-off") %>%
   medley_mine(stripe = FALSE) %>%
   print(asis = FALSE) %>%
   cat()
 
 head(mtcars) %>%
   dust(caption = "A table with a little formatting and optional striping turned on",
-       label = "medley-plain") %>%
+       label = "medley-stripe-on") %>%
   medley_mine(stripe = TRUE) %>%
   print(asis = FALSE) %>%
   cat()
