@@ -127,7 +127,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="3" data-path="chapter-header-footer.html"><a href="chapter-header-footer.html"><i class="fa fa-check"></i><b>3</b> Headers and Footers</a></li>
 <li class="chapter" data-level="4" data-path="chapter-sprinkles.html"><a href="chapter-sprinkles.html"><i class="fa fa-check"></i><b>4</b> Sprinkling</a><ul>
 <li class="chapter" data-level="4.1" data-path="chapter-sprinkles.html"><a href="chapter-sprinkles.html#table-valued-sprinkles"><i class="fa fa-check"></i><b>4.1</b> Table-valued Sprinkles</a></li>
-<li class="chapter" data-level="4.2" data-path="chapter-sprinkles.html"><a href="chapter-sprinkles.html#cell-valued-sprinkles"><i class="fa fa-check"></i><b>4.2</b> Cell-valued Sprinkles</a></li>
+<li class="chapter" data-level="4.2" data-path="chapter-sprinkles.html"><a href="chapter-sprinkles.html#cell-valued-sprinkles"><i class="fa fa-check"></i><b>4.2</b> Cell-valued Sprinkles</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="chapter-sprinkles.html"><a href="chapter-sprinkles.html#cell-selection"><i class="fa fa-check"></i><b>4.2.1</b> Cell Selection</a></li>
+<li class="chapter" data-level="4.2.2" data-path="chapter-sprinkles.html"><a href="chapter-sprinkles.html#sprinkle-cells-by-fixed-cell-position"><i class="fa fa-check"></i><b>4.2.2</b> Sprinkle Cells by Fixed Cell Position</a></li>
+<li class="chapter" data-level="4.2.3" data-path="chapter-sprinkles.html"><a href="chapter-sprinkles.html#recycling-sprinkles-over-cells"><i class="fa fa-check"></i><b>4.2.3</b> Recycling Sprinkles Over Cells</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="chapter-sprinkles.html"><a href="chapter-sprinkles.html#sprinkle-gallery"><i class="fa fa-check"></i><b>4.3</b> Examples</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="colors.html"><a href="colors.html"><i class="fa fa-check"></i><b>5</b> Colors</a><ul>
 <li class="chapter" data-level="5.1" data-path="colors.html"><a href="colors.html#named-colors"><i class="fa fa-check"></i><b>5.1</b> Named Colors</a></li>
@@ -211,7 +216,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
 <span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
-<caption><span id="tab:unnamed-chunk-6">Table 2.1: </span> The first six lines of mtcars</caption>
+<caption><span id="tab:unnamed-chunk-11">Table 2.1: </span> The first six lines of mtcars</caption>
 <tr>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>mpg</th>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>cyl</th>
@@ -315,7 +320,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
 <span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
-<caption><span id="tab:unnamed-chunk-7">Table 2.2: </span> A table with <font face = 'Courier New'>border_collapse = TRUE</font></caption>
+<caption><span id="tab:unnamed-chunk-12">Table 2.2: </span> A table with <font face = 'Courier New'>border_collapse = TRUE</font></caption>
 <tr>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>mpg</th>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>cyl</th>
@@ -416,7 +421,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
 <span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
 <table align = 'center' style = 'border-collapse:separate;'>
-<caption><span id="tab:unnamed-chunk-7">Table 2.2: </span> A table with <font face = 'Courier New'>border_collapse = FALSE</font></caption>
+<caption><span id="tab:unnamed-chunk-12">Table 2.2: </span> A table with <font face = 'Courier New'>border_collapse = FALSE</font></caption>
 <tr>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>mpg</th>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>cyl</th>
@@ -521,7 +526,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
 <span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
-<caption><span id="tab:unnamed-chunk-8">Table 2.3: </span> Center-justified Table</caption>
+<caption><span id="tab:unnamed-chunk-13">Table 2.3: </span> Center-justified Table</caption>
 <tr>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>mpg</th>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>cyl</th>
@@ -620,7 +625,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
 <span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
 <table align = 'left' style = 'border-collapse:collapse;'>
-<caption><span id="tab:unnamed-chunk-9">Table 2.4: </span> Left-justified Table</caption>
+<caption><span id="tab:unnamed-chunk-14">Table 2.4: </span> Left-justified Table</caption>
 <tr>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>mpg</th>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>cyl</th>
@@ -719,7 +724,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
 <span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
 <table align = 'right' style = 'border-collapse:collapse;'>
-<caption><span id="tab:unnamed-chunk-10">Table 2.5: </span> Right-justified Table</caption>
+<caption><span id="tab:unnamed-chunk-15">Table 2.5: </span> Right-justified Table</caption>
 <tr>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>mpg</th>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>cyl</th>
@@ -825,7 +830,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
 <span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
-<caption><span id="tab:unnamed-chunk-11">Table 2.6: </span> The table caption</caption>
+<caption><span id="tab:unnamed-chunk-16">Table 2.6: </span> The table caption</caption>
 <tr>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>mpg</th>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>cyl</th>
@@ -924,7 +929,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
 <span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
-<caption><span id="tab:unnamed-chunk-11">Table 2.6: </span> Notice that the multiple sections of table have the same number</caption>
+<caption><span id="tab:unnamed-chunk-16">Table 2.6: </span> Notice that the multiple sections of table have the same number</caption>
 <tr>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>mpg</th>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>cyl</th>
@@ -965,7 +970,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
 </tr>
 </table></br></br><table align = 'center' style = 'border-collapse:collapse;'>
-<caption><span id="tab:unnamed-chunk-11">Table 2.6: </span> Notice that the multiple sections of table have the same number</caption>
+<caption><span id="tab:unnamed-chunk-16">Table 2.6: </span> Notice that the multiple sections of table have the same number</caption>
 <tr>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>mpg</th>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>cyl</th>
@@ -1006,7 +1011,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
 </tr>
 </table></br></br><table align = 'center' style = 'border-collapse:collapse;'>
-<caption><span id="tab:unnamed-chunk-11">Table 2.6: </span> Notice that the multiple sections of table have the same number</caption>
+<caption><span id="tab:unnamed-chunk-16">Table 2.6: </span> Notice that the multiple sections of table have the same number</caption>
 <tr>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>mpg</th>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;'>cyl</th>
@@ -1170,7 +1175,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">  </span><span class="kw">medley_all_borders</span>() %&gt;%
 <span class="st">  </span><span class="kw">sprinkle_print_method</span>(<span class="st">&quot;latex&quot;</span>)</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
-<caption><span id="tab:unnamed-chunk-14">Table 2.8: </span> A LaTeX Table with <font face = 'Courier New'>hhline = FALSE</font>. Notice the borders between rows are not evident as requested in the code.</caption>
+<caption><span id="tab:unnamed-chunk-19">Table 2.8: </span> A LaTeX Table with <font face = 'Courier New'>hhline = FALSE</font>. Notice the borders between rows are not evident as requested in the code.</caption>
 <tr>
 <th colspan = '1'; rowspan = '1'; style='text-align:left;'></th>
 </tr>
@@ -1188,7 +1193,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <table align = 'center' style = 'border-collapse:collapse;'>
-<caption><span id="tab:unnamed-chunk-16">Table 2.9: </span> A LaTeX Table with <font face = 'Courier New'>hhline = FALSE</font>. Notice that the borders between rows are readily apparent using the hhline option..</caption>
+<caption><span id="tab:unnamed-chunk-21">Table 2.9: </span> A LaTeX Table with <font face = 'Courier New'>hhline = FALSE</font>. Notice that the borders between rows are readily apparent using the hhline option..</caption>
 <tr>
 <th colspan = '1'; rowspan = '1'; style='text-align:left;'></th>
 </tr>

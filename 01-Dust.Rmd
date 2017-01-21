@@ -18,7 +18,7 @@ The primary feature of the `pixiedust` package is very fine control over each in
 
 The underlying mechanics of `dust`ing objects aren't particularly interesting, and for most users, it is sufficient to know that you must apply an initial dusting of pixiedust before you can begin sprinkling specific columns with your desired magic.  If you choose to read beyond the table-wide options created during `dust`, you will learn more about the anatomy of the `dust` object itself.
 
-## Table-wide options
+## Table-wide options {#table-wide-options}
 
 Table wide options are those options that necessarily apply to the entire table. These may include the caption, the justification on the page, the total width of the table, etc.  The table-wide options in the dust object are listed below:
 

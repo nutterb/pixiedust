@@ -1,5 +1,178 @@
 # Sprinkling {#chapter-sprinkles}
 
+```{r results="asis", echo=FALSE}
+cat(get_your_sparkle_css)
+```
+
+The `dust` function structures the table with the most basic preparations for printing.  Customizations to the table are added by _sprinkling_ your table with additional pixiedust.  
+
+The full list of available sprinkles is provided in one of `pixiedust`'s [vignettes](https://cran.r-project.org/web/packages/pixiedust/vignettes/sprinkles.html). some of the sprinkles apply to the entire table, and some will apply only to selected cells.  
+
 ## Table-valued Sprinkles
 
+While `dust` offers a mechanism for applying certain attributes to the entire table, it is also permissible to assign these attributes through sprinkles.  Whether the attribute is set using `dust` or `sprinkle`, the effect is the same.  Table-valued sprinkles have the same name as the arguments described in Section \@ref(table-wide-options).
+
+We won't bother exploring all of these sprinkles here, but will provide a single example with the `caption` sprinkle, shown in Table \@ref(tab:sprinkle-caption).
+
+```{r, results = 'asis'}
+dust(head(mtcars)) %>%
+  sprinkle(caption = "This caption was defined in the sprinkle function",
+           label = "sprinkle-caption") %>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
+The full list of table-valued sprinkles is given in Table \@ref(tab:sprinkle-table-valued-sprinkle).
+
+```{r, echo = FALSE, results = 'asis'}
+system.file(package = "pixiedust", "sprinkle_reference.csv") %>%
+  read.csv %>%
+  filter(group == "option") %>%
+  select(sprinkle) %>%
+  dust(caption = "Table Valued Sprinkles",
+       label = "sprinkle-table-valued-sprinkle") %>%
+  sprinkle(width = 200,
+           bg_pattern_by = "rows") %>%
+  medley_bw() %>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
 ## Cell-valued Sprinkles
+
+The primary feature of `pixiedust` is the ability to fine-tune each individual cell in a table.  Cell-specific customizations in other packages often require indexing changes in long function calls with multiple arguments that can make it difficult to easily relate the customization to the targeted cells.  
+
+`pixiedust` provides a wide array of customizations, including background colors, borders, bold and italic text, fonts, and font colors.  The following sections will elaborate on how to apply sprinkles to a table.  Section \@ref(sprinkle-gallery) provides a gallery of each of the sprinkles and their affect on a table. 
+
+### Cell Selection
+
+#### Cell Selection by Index
+
+The first step in applying sprinkles is identifying the cells in the table you wish to modify.  Tabular data lends itself nicely to a two dimensional coordinate system.  `pixiedust` relies on standard matrix indexing notation where rows are indexed sequentially starting with one at the top row.  Columns are indexed sequentially starting with one at the left.
+
+When referencing cell coordinates, keep in mind that each part of the table is indexed separately.  This means that the body of the table has a [1,1] position, as does the head, the foot, and the interfoot.  Sprinkles applied to position [1,1] of the head of a table will have no effect on the [1,1] position of the body of the table.  Compare Tables \@ref(tab:sprinkle-head) and \@ref(tab:sprinkle-body).
+
+```{r, results = 'asis'}
+dust(head(mtcars),
+     caption = "Cell Indexed Sprinkle on the Header Only",
+     label = "sprinkle-head") %>%
+  medley_bw() %>%
+  sprinkle(rows = 1, 
+           cols = 1,
+           font_color = "red",
+           part = "head") %>%
+  print(asis = FALSE) %>%
+  cat()
+
+dust(head(mtcars),
+     caption = "Cell Indexed Sprinkle on the Body Only",
+     label = "sprinkle-body") %>%
+  medley_bw() %>%
+  sprinkle(rows = 1, 
+           cols = 1,
+           font_color = "red",
+           part = "body") %>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
+When multiple cells are to be modified, the default behavior is to apply the sprinkle to the intersection of rows and columns designated.  This makes `sprinkle` pretty greedy in how it assigns modifications; making identical modifications to disjointed sections of code is not its default behavior.  Table \@ref(tab:sprinkle-region1) applies a purple background to the four cells in the top left corner.  Compare this with Table \@ref(tab:sprinkle-region2), where the sprinkling is performed in all four corners.
+
+```{r, results = 'asis'}
+dust(head(mtcars),
+     caption = "Sprinkling applied to the four cells in the top left corner",
+     label = "sprinkle-region1") %>%
+  sprinkle(rows = 1:2,
+           cols = 1:2,
+           bg = palette[3]) %>%
+  medley_bw() %>%
+  print(asis = FALSE) %>%
+  cat()
+
+dust(head(mtcars),
+     caption = "Sprinkling applied to the four cells in each corner.",
+     label = "sprinkle-region2") %>%
+  sprinkle(rows = c(1:2, 5:6),
+           cols = c(1:2, 10:11),
+           bg = palette[3]) %>%
+  medley_bw() %>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
+The behavior of sprinkling in Table \@ref(tab:sprinkle-region2) can be elaborated using `expand.grid`. The call shown below identifies all of the cell coordinates where the sprinkle was applied.
+
+```{r}
+expand.grid(rows = c(1:2, 5:6),
+            cols = c(1:2, 10:11))
+```
+
+If the table we desired were to have purple cells only in the top-left and lower-right corners, we would have to apply two `sprinkle`s, as shown for Table \@ref(tab:sprinkle-region3)
+
+```{r, results = 'asis'}
+dust(head(mtcars),
+     caption = "Sprinkling applied to the four cells in each corner.",
+     label = "sprinkle-region3") %>%
+  sprinkle(rows = c(1:2),
+           cols = c(1:2),
+           bg = palette[3]) %>%
+  sprinkle(rows = c(5:6),
+           cols = c(10:11),
+           bg = palette[3]) %>%
+  medley_bw() %>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
+#### Cell Selection by Column Name
+
+Sprinkling your table by index may be intuitive, but it isn't entirely reproducible. Fortunately, the `cols` argument in `sprinkle` also accepts character vectors.  Using column names has a number of advantages, such as improving readability of the code and simplifying programmatic use.  It also means that you will get the same results even if new columns are introduced to the table after it is generated.  Compare Table \@ref(tab:sprinkle-colname1) with Table \@ref(tab:sprinkle-region1) and the code to generate these tables. 
+
+```{r, results = 'asis'}
+dust(head(mtcars),
+     caption = "Sprinkling applied to the four cells in the top left corner",
+     label = "sprinkle-colname1") %>%
+  sprinkle(rows = 1:2,
+           cols = c("mpg", "cyl"),
+           bg = palette[3]) %>%
+  medley_bw() %>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
+#### Cell Selection with Row Logic
+
+Rows for sprinkling may be selected using logical conditions to improve reproducibility as well.  Table \@ref(tab:sprinkle-logical-row1) recreates Table \@ref{tab:sprinkle-region1} using row logic and column names.  Table \@ref(tab:sprinkle-logical-row2) shows an example of sprinkling statistically significant terms in a linear model using row logic.  When using `logical_rows`, it is necessary to wrap the expression in `quote` to delay the execution of the command until `sprinkle` is ready to determine the results from the internal `dust` objects.
+
+```{r, results = 'asis'}
+dust(head(mtcars),
+     caption = "Sprinkling applied to the four cells in the top left corner",
+     label = "sprinkle-logical-row1") %>%
+  sprinkle(logical_rows = quote(mpg == 21),
+           cols = c("mpg", "cyl"),
+           bg = palette[3]) %>%
+  medley_bw() %>%
+  print(asis = FALSE) %>%
+  cat()
+
+fit <- lm(mpg ~ qsec + factor(gear) + wt, data = mtcars)
+
+dust(fit,
+     caption = "Sprinkling a Model Summary with Column Names and Row Logic",
+     label = "sprinkle-logical-row2") %>%
+  sprinkle(logical_rows = quote(as.numeric(p.value) <= 0.05),
+           bold = TRUE) %>%
+  sprinkle(cols = "p.value",
+           fn = quote(pvalString(value))) %>%
+  sprinkle(cols = c("estimate", "std.error", "statistic"),
+           round = 2) %>%
+  medley_bw() %>%
+  print(asis = FALSE) %>%
+  cat()
+```
+
+### Sprinkle Cells by Fixed Cell Position
+
+### Recycling Sprinkles Over Cells
+
+## Examples {#sprinkle-gallery}
