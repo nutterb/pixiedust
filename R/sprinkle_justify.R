@@ -1,0 +1,70 @@
+#' @name sprinkle_justify
+#' @title Change the Caption in a Dust Table
+#' 
+#' @description The justification of the table determines the horizontal 
+#'   placing of the table on the page.
+#'   
+#' @param x An object of class \code{dust}
+#' @param justify \code{character} string giving the justification of the 
+#'   entire table on the page.
+#' @param ... Additional arguments to pass to other methods. Currently ignored.
+#'
+#' @details For HTML tables, the values \code{"left"}, \code{"center"}, 
+#'   and \code{"right"} all justify the table as expected.
+#'   
+#'   In LaTeX output, both \code{"right"} and \code{"left"} justify 
+#'   to the left. This may change in the future if I find a resolution.
+#'   
+#' @author Benjamin Nutter
+#' 
+#' @seealso \code{\link{dust}}, \code{\link{sprinkle}}
+#' 
+#' @section Functional Requirements:
+#' \enumerate{
+#'  \item Change the \code{justify} attribute of the \code{dust} object.
+#'  \item Cast an error if \code{x} is not a \code{dust} object.
+#'  \item Cast an error if \code{justify} is not one of \code{"center"}, 
+#'        \code{"left"}, or \code{"right"}.
+#' }
+#' 
+#' @export
+
+sprinkle_justify <- function(x, justify = c("center", "left", "right"), ...)
+{
+  UseMethod("sprinkle_justify")
+}
+
+#' @rdname sprinkle_caption
+#' @export
+
+sprinkle_justify.default <- function(x, 
+                                     justify = c("center", "left", "right"), ...)
+{
+  coll <- checkmate::makeAssertCollection()
+  
+  checkmate::assert_class(x = x,
+                          classes = "dust",
+                          add = coll)
+  
+  justify <- checkmate::matchArg(x = justify,
+                                 choices = c("center", "left", "right"),
+                                 add = coll)
+  
+  checkmate::reportAssertions(coll)
+  
+  x[["justify"]] <- justify
+  
+  x
+}
+
+#' @rdname sprinkle_justify
+#' @export
+
+sprinkle_justify.dust_list <- function(x, 
+                                       justify = c("center", "left", "right"),
+                                       ...)
+{
+  lapply(x,
+         sprinkle_justify.default,
+         caption)
+}
