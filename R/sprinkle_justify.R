@@ -6,7 +6,8 @@
 #'   
 #' @param x An object of class \code{dust}
 #' @param justify \code{character} string giving the justification of the 
-#'   entire table on the page.
+#'   entire table on the page. May be any one of \code{"center"},
+#'   \code{"left"}, or \code{"right"}.
 #' @param ... Additional arguments to pass to other methods. Currently ignored.
 #'
 #' @details For HTML tables, the values \code{"left"}, \code{"center"}, 
@@ -25,11 +26,14 @@
 #'  \item Cast an error if \code{x} is not a \code{dust} object.
 #'  \item Cast an error if \code{justify} is not one of \code{"center"}, 
 #'        \code{"left"}, or \code{"right"}.
+#'  \item Ignore capitalization of the \code{justify} argument.
 #' }
 #' 
 #' @export
 
-sprinkle_justify <- function(x, justify = c("center", "left", "right"), ...)
+sprinkle_justify <- function(x, 
+                             justify = getOption("pixie_justify", "center"), 
+                             ...)
 {
   UseMethod("sprinkle_justify")
 }
@@ -38,7 +42,8 @@ sprinkle_justify <- function(x, justify = c("center", "left", "right"), ...)
 #' @export
 
 sprinkle_justify.default <- function(x, 
-                                     justify = c("center", "left", "right"), ...)
+                                     justify = getOption("pixie_justify", "center"), 
+                                     ...)
 {
   coll <- checkmate::makeAssertCollection()
   
@@ -46,7 +51,7 @@ sprinkle_justify.default <- function(x,
                           classes = "dust",
                           add = coll)
   
-  justify <- checkmate::matchArg(x = justify,
+  justify <- checkmate::matchArg(x = tolower(justify),
                                  choices = c("center", "left", "right"),
                                  add = coll)
   
@@ -61,7 +66,7 @@ sprinkle_justify.default <- function(x,
 #' @export
 
 sprinkle_justify.dust_list <- function(x, 
-                                       justify = c("center", "left", "right"),
+                                       justify = getOption("pixie_justify", "center"),
                                        ...)
 {
   lapply(x,

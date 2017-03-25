@@ -66,9 +66,24 @@ index_to_sprinkle <- function(x, rows, cols, fixed = FALSE,
 {
   coll <- checkmate::makeAssertCollection()
   
+# First pass at argument validation ---------------------------------
+  # The first pass validates the arguments are of the correct type.
+  # The second pass will validate characteristics that depend on 
+  # the types being correct.
+  
   checkmate::assert_class(x = x,
                           classes = "dust",
                           add = coll)
+  
+  if (!inherits(rows, "numeric") & !inherits(rows, "call"))
+  {
+    coll$push("`rows` must be either numeric or a call object (via `quote`)")
+  }
+  
+  if (!inherits(cols, "numeric") & !inherits(cols, "character"))
+  {
+    coll$push("`cols` must be a numeric or character vector")
+  }
   
   checkmate::assert_logical(x = fixed,
                             len = 1,
@@ -85,6 +100,8 @@ index_to_sprinkle <- function(x, rows, cols, fixed = FALSE,
                         add = coll)
   
   checkmate::reportAssertions(coll)
+  
+# Second pass at argument validations -------------------------------
   
   if (fixed)
   {
@@ -140,32 +157,46 @@ index_to_sprinkle <- function(x, rows, cols, fixed = FALSE,
   
   checkmate::reportAssertions(coll)
   
-  if (recycle == "columns") recycle <- "cols"
+# Functional Code ---------------------------------------------------
+  
+  # Determine the index order for recycling
+  
+  if (recycle == "columns")
+  {
+    recycle <- "cols"
+  }
   
   recycle_arrange <- 
-    if (recycle == "rows") 
+    if (recycle == "rows")
+    {
       c("row", "col")
-  else
-    c("col", "row")
+    }
+    else
+    {
+      c("col", "row")
+    }  
   
+  # Determine and arrange the indices
   
   if (fixed)
   {
-    indices <- 
-      data.frame(rows = rows,
-                 cols = cols) %>%
-      indices <- dplyr::mutate(indices, i = TRUE)
+    indices <- data.frame(rows = rows,
+                          cols = cols)
+      indices <- dplyr::mutate(indices, 
+                               i = TRUE)
       indices <- dplyr::left_join(x[[part]],
                                   indices,
                                   by = c("row" = "rows", 
                                          "col" = "cols")) 
-      indices <- dplyr::arrange_(indices, recycle_arrange)
-      `[[`("i")
+      indices <- dplyr::arrange_(indices, 
+                                 recycle_arrange)
+      indices <- indices[["i"]]
     indices[is.na(indices)] <- FALSE
   }
   else
   {
-    indices <- x[[part]][["row"]] %in% rows & 
+    indices <- 
+      x[[part]][["row"]] %in% rows & 
       x[[part]][["col"]] %in% cols
   }
   

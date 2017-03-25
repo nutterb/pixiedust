@@ -70,7 +70,7 @@ print_dust_html <- function(x, ..., asis=TRUE, linebreak_at_end = 2)
     
     html_code <- sprintf("<table align = '%s' style = 'border-collapse:%s;'>\n%s\n</table>%s",
                          x[["justify"]],
-                         if (x$border_collapse) "collapse" else "separate" , 
+                         x$border_collapse, 
                          paste0(rows, collapse = "\n"),
                          paste0(rep("</br>", linebreak_at_end), collapse = ""))
     

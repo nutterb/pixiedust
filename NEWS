@@ -1,3 +1,11 @@
+### 0.8.0 (TBD)
+
+* Backward Compatibility Break: the `border_collapse` argument was changed
+  to a character argument.  This allows the full options available in HTML.
+  The new default is `border_collapse = "collapse"`, which is the equivalent
+  of `border_collapse = TRUE`. Backward compatibility will be broken only
+  if the `border_collapse` argument was changed.
+
 ### 0.7.7 (31 Dec 2016)
 * Added the `discrete` and `discrete_colors` sprinkles. (Issue #56)
 * Added the `gradient`, `gradient_n`, `gradient_cut`, and `gradient_colors`

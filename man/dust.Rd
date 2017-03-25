@@ -16,10 +16,12 @@ dust(object, ...)
   glance_foot = FALSE, glance_stats = NULL, col_pairs = 2,
   byrow = FALSE, descriptors = "term", numeric_level = c("term",
   "term_plain", "label"), label = NULL, caption = NULL,
-  justify = "center", float = getOption("pixie_float", TRUE),
+  justify = getOption("pixied_justify", "center"),
+  float = getOption("pixie_float", TRUE),
   longtable = getOption("pixie_longtable", FALSE),
   hhline = getOption("pixie_hhline", FALSE),
-  bookdown = getOption("pixie_bookdown", FALSE))
+  bookdown = getOption("pixie_bookdown", FALSE),
+  border_collapse = getOption("pixie_border_collapse", "collapse"))
 
 \method{dust}{grouped_df}(object, ungroup = TRUE, ...)
 

@@ -158,11 +158,12 @@ dust.default <- function(object, ...,
                  numeric_level = c("term", "term_plain", "label"),
                  label = NULL,
                  caption = NULL,
-                 justify = "center",
+                 justify = getOption("pixied_justify", "center"),
                  float = getOption("pixie_float", TRUE),
                  longtable = getOption("pixie_longtable", FALSE),
                  hhline = getOption("pixie_hhline", FALSE),
-                 bookdown = getOption("pixie_bookdown", FALSE))
+                 bookdown = getOption("pixie_bookdown", FALSE),
+                 border_collapse = getOption("pixie_border_collapse", "collapse"))
 {
   coll <- checkmate::makeAssertCollection()
   
@@ -277,7 +278,7 @@ dust.default <- function(object, ...,
                  body = component_table(tidy_object),
                  interfoot = NULL,
                  foot = foot,
-                 border_collapse = TRUE,
+                 border_collapse = getOption("pixie_border_collapse", "collapse"),
                  caption = caption,
                  label = label,
                  justify = justify,
