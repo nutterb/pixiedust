@@ -124,6 +124,9 @@ adjoining borders tend to double up and look thicker than when using
 \item{bookdown}{Logical. When \code{TRUE}, \code{bookdown} style labels are
 generated.  Defaults to \code{FALSE}.}
 
+\item{border_collapse}{\code{character(1)}. One of \code{"collapse"}, 
+\code{"separate"}, \code{"initial"}, or \code{"inherit"}.}
+
 \item{ungroup}{Used when a \code{grouped_df} object is passed to \code{dust}.
 When \code{TRUE} (the default), the object is ungrouped and dusted 
 as a single table. When \code{FALSE}, the object is split and each element

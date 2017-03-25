@@ -1468,9 +1468,9 @@ gradient_sprinkles <- function(x, part, indices,
     if (is.null(gradient_cut))
     {
     cut(as.numeric(x[[part]][["value"]][indices]),
-        breaks = quantile(as.numeric(x[[part]][["value"]][indices]), 
-                          probs = seq(0, 1, length.out = gradient_n),
-                          na.rm = TRUE),
+        breaks = stats::quantile(as.numeric(x[[part]][["value"]][indices]), 
+                                 probs = seq(0, 1, length.out = gradient_n),
+                                 na.rm = TRUE),
         include.lowest = TRUE)
     }
     else

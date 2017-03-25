@@ -38,7 +38,7 @@ sprinkle_justify <- function(x,
   UseMethod("sprinkle_justify")
 }
 
-#' @rdname sprinkle_caption
+#' @rdname sprinkle_justify
 #' @export
 
 sprinkle_justify.default <- function(x, 
@@ -71,5 +71,5 @@ sprinkle_justify.dust_list <- function(x,
 {
   lapply(x,
          sprinkle_justify.default,
-         caption)
+         justify)
 }

@@ -78,6 +78,8 @@
 #'   the page.  May be \code{"center"} (default), \code{"left"}, or \code{"right"}.
 #' @param bookdown Logical. When \code{TRUE}, \code{bookdown} style labels are
 #'   generated.  Defaults to \code{FALSE}.
+#' @param border_collapse \code{character(1)}. One of \code{"collapse"}, 
+#'   \code{"separate"}, \code{"initial"}, or \code{"inherit"}.
 #' @param ... Additional arguments to pass to \code{tidy}
 #' @param ungroup Used when a \code{grouped_df} object is passed to \code{dust}.
 #'   When \code{TRUE} (the default), the object is ungrouped and dusted 

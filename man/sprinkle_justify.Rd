@@ -2,10 +2,14 @@
 % Please edit documentation in R/sprinkle_justify.R
 \name{sprinkle_justify}
 \alias{sprinkle_justify}
+\alias{sprinkle_justify.default}
 \alias{sprinkle_justify.dust_list}
 \title{Change the Caption in a Dust Table}
 \usage{
 sprinkle_justify(x, justify = getOption("pixie_justify", "center"), ...)
+
+\method{sprinkle_justify}{default}(x, justify = getOption("pixie_justify",
+  "center"), ...)
 
 \method{sprinkle_justify}{dust_list}(x, justify = getOption("pixie_justify",
   "center"), ...)
