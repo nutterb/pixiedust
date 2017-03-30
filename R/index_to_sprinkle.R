@@ -60,7 +60,7 @@
 #' }
 #'   
 
-index_to_sprinkle <- function(x, rows, cols, fixed = FALSE,
+index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
                               part = c("body", "head", "foot", "interfoot"),
                               recycle = c("none", "rows", "cols", "columns"))
 {
@@ -75,14 +75,20 @@ index_to_sprinkle <- function(x, rows, cols, fixed = FALSE,
                           classes = "dust",
                           add = coll)
   
-  if (!inherits(rows, "numeric") & !inherits(rows, "call"))
+  if (!is.null(rows))
   {
-    coll$push("`rows` must be either numeric or a call object (via `quote`)")
+    if (!inherits(rows, "numeric") & !inherits(rows, "call"))
+    {
+      coll$push("`rows` must be either numeric or a call object (via `quote`)")
+    }
   }
   
-  if (!inherits(cols, "numeric") & !inherits(cols, "character"))
+  if (!is.null(cols))
   {
-    coll$push("`cols` must be a numeric or character vector")
+    if (!inherits(cols, "numeric") & !inherits(cols, "character"))
+    {
+      coll$push("`cols` must be a numeric or character vector")
+    }
   }
   
   checkmate::assert_logical(x = fixed,
