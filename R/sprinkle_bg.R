@@ -75,25 +75,6 @@ sprinkle_bg <- function(x, rows = NULL, cols = NULL, bg,
 {
   coll <- checkmate::makeAssertCollection()
   
-  checkmate::assert_class(x = x,
-                          classes = "dust")
-  
-  if (!is.null(rows))
-  {
-    if (!is.numeric(rows) & !is.call(rows))
-    {
-      coll$push("`rows` must be either numeric or a call object (via `quote`)")
-    }
-  }
-  
-  if (!is.null(cols))
-  {
-    if (!is.numeric(cols) & !is.character(rows))
-    {
-      coll$push("`cols` must be a numeric or character vector")
-    }
-  }
-    
   checkmate::assert_character(x = bg,
                               len = 1,
                               add = coll)
@@ -105,28 +86,20 @@ sprinkle_bg <- function(x, rows = NULL, cols = NULL, bg,
                       paste0(invalid_color, collapse = ", ")))
   }
   
-  checkmate::assert_logical(x = fixed,
-                            len = 1,
-                            add = TRUE)
-  
-  part <- 
-    checkmate::matchArg(x = part,
-                        choices = c("body", "head", "foot", "interfoot"),
-                        add = coll)
-  
-  recycle <- 
-    checkmate::matchArg(x = recycle,
-                        choices = c("none", "rows", "cols", "columns"),
-                        add = coll)
-
-  checkmate::reportAssertions(coll)
-  
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
                                cols = cols, 
                                fixed = fixed,
                                part = part,
-                               recycle = recycle)
+                               recycle = recycle,
+                               coll = coll)
+  
+  checkmate::reportAssertions(coll)
+  
+  # At this point, part should have passed the assertions in 
+  # index_to_sprinkle. The first element is expected to be valid.
+  
+  part <- part[1]
   
   x[[part]][["bg"]][indices] <- bg
   
@@ -138,3 +111,34 @@ sprinkle_bg <- function(x, rows = NULL, cols = NULL, bg,
 #' @export
 
 sprinkle_background <- sprinkle_bg
+
+
+
+# Unexported Utility ------------------------------------------------
+
+# These functions are to be used inside of the general `sprinkle` call
+# When used inside `sprinkle`, the indices are already determined, 
+# the only the `bg` argument needs to be validated. 
+# The assert function is kept separate so it may be called earlier
+# without attempting to perform the assignment.
+
+sprinkle_bg_index_assert <- function(bg, coll)
+{
+  checkmate::assert_character(x = bg,
+                              len = 1,
+                              add = coll)
+  
+  if (!any(is_valid_color(bg)))
+  {
+    invalid_color <- bg[!is_valid_color(bg)]
+    coll$push(sprintf("The following colors are not valid: %s",
+                      paste0(invalid_color, collapse = ", ")))
+  }
+}
+
+sprinkle_bg_index <- function(x, index, bg, part)
+{
+  x[[part]][["bg"]][indices] <- bg
+  
+  x
+}

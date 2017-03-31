@@ -21,7 +21,12 @@
 #'   being applied to the head, body, foot, or interfoot of the table. Partial
 #'   matching is supported.
 #' @param recycle \code{character} string. Indicates how recycling is to be
-#'   preformed.  Partial matching is supported. See Details.
+#'   performed.  Partial matching is supported. See Details.
+#' @param coll An optional \code{AssertCollection} object. When \code{NULL},
+#'   an \code{AssertCollection} object will be created and reported within
+#'   the call to this function.  When not \code{NULL}, any failed assertions
+#'   will be added to the object in reported in the function that called
+#'   \code{index_to_sprinkle}.
 #'   
 #' @details When \code{fixed = FALSE}, sprinkles are applied at the 
 #'   intersection of \code{rows} and \code{cols}, meaning that the arguments 
@@ -62,10 +67,13 @@
 
 index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
                               part = c("body", "head", "foot", "interfoot"),
-                              recycle = c("none", "rows", "cols", "columns"))
+                              recycle = c("none", "rows", "cols", "columns"),
+                              coll = NULL)
 {
-  coll <- checkmate::makeAssertCollection()
+  report_here <- is.null(coll)
   
+  if (report_here) coll <- checkmate::makeAssertCollection()
+
 # First pass at argument validation ---------------------------------
   # The first pass validates the arguments are of the correct type.
   # The second pass will validate characteristics that depend on 
@@ -105,7 +113,7 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
                         choices = c("none", "rows", "cols", "columns"),
                         add = coll)
   
-  checkmate::reportAssertions(coll)
+  if (report_here) checkmate::reportAssertions(coll)
   
 # Second pass at argument validations -------------------------------
   
@@ -161,7 +169,7 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
                       paste0(invalid_col, collapse = ", ")))
   }
   
-  checkmate::reportAssertions(coll)
+  if (report_here) checkmate::reportAssertions(coll)
   
 # Functional Code ---------------------------------------------------
   

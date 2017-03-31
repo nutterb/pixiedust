@@ -6,7 +6,7 @@
 \usage{
 index_to_sprinkle(x, rows = NULL, cols = NULL, fixed = FALSE,
   part = c("body", "head", "foot", "interfoot"), recycle = c("none", "rows",
-  "cols", "columns"))
+  "cols", "columns"), coll = NULL)
 }
 \arguments{
 \item{x}{An object of class \code{dust}.}
@@ -29,7 +29,13 @@ being applied to the head, body, foot, or interfoot of the table. Partial
 matching is supported.}
 
 \item{recycle}{\code{character} string. Indicates how recycling is to be
-preformed.  Partial matching is supported. See Details.}
+performed.  Partial matching is supported. See Details.}
+
+\item{coll}{An optional \code{AssertCollection} object. When \code{NULL},
+an \code{AssertCollection} object will be created and reported within
+the call to this function.  When not \code{NULL}, any failed assertions
+will be added to the object in reported in the function that called
+\code{index_to_sprinkle}.}
 }
 \description{
 The sprinkle methods accept the rows and columns that are
