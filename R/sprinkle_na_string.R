@@ -1,10 +1,9 @@
-#' @name sprinkle_bg
-#' @title Sprinkle the Background Color of a Cell
+#' @name sprinkle_na_string
+#' @title Sprinkle Appearance of NA's
 #' 
-#' @description Background colors may be used to highlight the contents 
-#'   of cells, rows, or columns.  Most commonly, backgrounds are used to
-#'   provide row discrimination; the \code{sprinkle_bg_pattern} function
-#'   is better suited to that purpose.  
+#' @description The appearance of \code{NA} values in a table may be dependent
+#'   on the context.  \code{pixiedust} uses the \code{na_string} sprinkle
+#'   to guide the appearance of missing values in the table.
 #'   
 #' @param x An object of class \code{dust}
 #' @param rows Either a numeric vector of rows in the tabular object to be 
@@ -15,8 +14,8 @@
 #' @param cols Either a numeric vector of columns in the tabular object to
 #'   be modified, or a character vector of column names. A mixture of 
 #'   character and numeric indices is permissible.
-#' @param bg \code{character(1)} A character string giving a color for the 
-#'   background of the chosen cells.  
+#' @param na_string \code{character(1)} A character string giving desired
+#'   replacement for \code{NA} values in the selected cells.
 #' @param part A character string denoting which part of the table to modify.
 #' @param fixed \code{logical(1)} indicating if the values in \code{rows} 
 #'   and \code{cols} should be read as fixed coordinate pairs.  By default, 
@@ -28,28 +27,13 @@
 #'   to be sprinkled.  By default, recycling is turned off.  Recycling 
 #'   may be performed across rows first (left to right, top to bottom), 
 #'   or down columns first (top to bottom, left to right).
-#'   
-#' @details Colors may be a dvips color name, or in the rgb(R, G, B), 
-#' rgba(R, G, B, A), #RRGGBB, or #RRGGBBAA formats. See 
-#' \url{http://nutterb.github.io/pixiedust/colors.html} for additional
-#' details.
-#'   
-#' This sprinkle is ignored in console and markdown outputs.  HTML output
-#' will accept any of the color formats and recognize transparency.  LaTeX
-#' output will accept any of the color formats but ignore transparency.
-#' 
-#' As long as \code{bg} is required to be a \code{character(1)}, the 
-#' \code{recycle} argument is kind of useless. It is included to maintain
-#' consistency with the \code{index_to_sprinkle} function. Future development
-#' may permit a character vector of colors.
 #' 
 #' @section Functional Requirements:
 #' \enumerate{
-#'  \item Correctly reassigns the appropriate elements \code{bg} column
+#'  \item Correctly reassigns the appropriate elements \code{na_string} column
 #'    in the table part.
 #'  \item Casts an error if \code{x} is not a \code{dust} object.
 #'  \item Casts an error if \code{bg} is not a \code{character(1)}
-#'  \item Casts an error if \code{bg} is not a valid color format.
 #'  \item Casts an error if \code{part} is not one of \code{"body"}, 
 #'    \code{"head"}, \code{"foot"}, or \code{"interfoot"}
 #'  \item Casts an error if \code{fixed} is not a \code{logical(1)}
@@ -61,17 +45,16 @@
 #' is not tested for this function. It is tested and validated in the
 #' tests for \code{\link{index_to_sprinkle}}.
 #' 
-#' @seealso \code{\link{sprinkle}}, \code{\link{sprinkle_bg_pattern}}, 
+#' @seealso \code{\link{sprinkle}}, 
 #'   \code{\link{index_to_sprinkle}}
-#'   
-#' @author Benjamin Nutter
-#' 
+#'
 #' @export
 
-sprinkle_bg <- function(x, rows = NULL, cols = NULL, bg, 
-                        part = c("body", "head", "foot", "interfoot"),
-                        fixed = FALSE, 
-                        recycle = c("none", "rows", "cols", "columns"))
+sprinkle_na_string <- function(x, rows = NULL, cols = NULL,
+                               na_string = getOption("pixie_na_string", NA), 
+                               part = c("body", "head", "foot", "interfoot"),
+                               fixed = FALSE, 
+                               recycle = c("none", "rows", "cols", "columns"))
 {
   coll <- checkmate::makeAssertCollection()
   
@@ -88,22 +71,15 @@ sprinkle_bg <- function(x, rows = NULL, cols = NULL, bg,
   
   if (!is.null(cols))
   {
-    if (!is.numeric(cols) & !is.character(rows))
+    if (!is.numeric(cols) & !is.character(cols))
     {
       coll$push("`cols` must be a numeric or character vector")
     }
   }
-    
-  checkmate::assert_character(x = bg,
+  
+  checkmate::assert_character(x = na_string,
                               len = 1,
                               add = coll)
-  
-  if (!any(is_valid_color(bg)))
-  {
-    invalid_color <- bg[!is_valid_color(bg)]
-    coll$push(sprintf("The following colors are not valid: %s",
-                      paste0(invalid_color, collapse = ", ")))
-  }
   
   checkmate::assert_logical(x = fixed,
                             len = 1,
@@ -118,7 +94,7 @@ sprinkle_bg <- function(x, rows = NULL, cols = NULL, bg,
     checkmate::matchArg(x = recycle,
                         choices = c("none", "rows", "cols", "columns"),
                         add = coll)
-
+  
   checkmate::reportAssertions(coll)
   
   indices <- index_to_sprinkle(x = x, 
@@ -128,13 +104,7 @@ sprinkle_bg <- function(x, rows = NULL, cols = NULL, bg,
                                part = part,
                                recycle = recycle)
   
-  x[[part]][["bg"]][indices] <- bg
+  x[[part]][["na_string"]][indices] <- na_string
   
   x
-  
 }
-
-#' @rdname sprinkle_bg
-#' @export
-
-sprinkle_background <- sprinkle_bg

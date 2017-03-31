@@ -38,13 +38,13 @@ is_valid_color_single <- function(color)
   color <- tolower(color)
   color <- gsub("\\s", "", color)
   
-  regex_0_255 <- "\\b([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\b"
-  regex_0_1 <- "\\b(0|0[.][0-9]+|[.][0-9]+|1|1[.][0]+)\\b"
+  regex_0_255 <- "\\b([0-9]|[0-9][0-9]|0[0-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\b"
+  regex_0_1 <- ",((\\.\\d+)?|0(\\.\\d+)?|1(\\.0+)?)[)]$" 
   
   regex_rgb <- sprintf("^rgb[(]%s[)]$",
                        paste0(rep(regex_0_255, 3), collapse = ","))
   
-  regex_rgba <- sprintf("^rgba[(]%s,%s[)]$",
+  regex_rgba <- sprintf("^rgba[(]%s%s$",
                         paste0(rep(regex_0_255, 3), collapse = ","),
                         regex_0_1)
   
@@ -53,5 +53,5 @@ is_valid_color_single <- function(color)
   
   grepl(regex_rgb, color) | grepl(regex_rgba, color) | 
     grepl(regex_html, color) | grepl(regex_html_alpha, color) | 
-    color %in% colors()
+    color %in% c(colors(), "transparent")
 }

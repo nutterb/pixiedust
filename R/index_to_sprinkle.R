@@ -77,7 +77,7 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
   
   if (!is.null(rows))
   {
-    if (!inherits(rows, "numeric") & !inherits(rows, "call"))
+    if (!is.numeric(rows) & !is.call(rows))
     {
       coll$push("`rows` must be either numeric or a call object (via `quote`)")
     }
@@ -85,7 +85,7 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
   
   if (!is.null(cols))
   {
-    if (!inherits(cols, "numeric") & !inherits(cols, "character"))
+    if (!is.numeric(cols) & !is.character(cols))
     {
       coll$push("`cols` must be a numeric or character vector")
     }
