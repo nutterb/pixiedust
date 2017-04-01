@@ -77,3 +77,24 @@ sprinkle_border_collapse.dust_list <- function(x,
          sprinkle_border_collapse.default,
          border_collapse)
 }
+
+# Unexported utilities ----------------------------------------------
+# These functions carry the the `_index` suffix for consistency with 
+# the cell-valued sprinkles, but they don't actually require an 
+# index, since they change table-valued sprinkles
+
+sprinkle_border_collapse_index_assert <- function(border_collapse, coll)
+{
+  checkmate::matchArg(x = border_collapse,
+                      choices = c("collapse", "separate", "initial",
+                                  "inherit"),
+                      add = coll,
+                      .var.name = "border_collapse")
+}
+
+sprinkle_border_collapse_index <- function(x, border_collapse)
+{
+  x[["border_collapse"]] <- border_collapse
+  
+  x
+}

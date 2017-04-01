@@ -64,3 +64,23 @@ sprinkle_caption.dust_list <- function(x, caption, ...)
          sprinkle_caption.default,
          caption)
 }
+
+# Unexported utilities ----------------------------------------------
+# These functions carry the the `_index` suffix for consistency with 
+# the cell-valued sprinkles, but they don't actually require an 
+# index, since they change table-valued sprinkles
+
+sprinkle_caption_index_assert <- function(caption, coll)
+{
+  checkmate::assert_character(x = caption,
+                              len = 1,
+                              add = coll,
+                              .var.name = "caption")
+}
+
+sprinkle_caption_index <- function(x, caption)
+{
+  x[["caption"]] <- caption
+  
+  x
+}

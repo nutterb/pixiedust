@@ -54,7 +54,21 @@ sprinkle_na_string <- function(x, rows = NULL, cols = NULL,
                                na_string = getOption("pixie_na_string", NA), 
                                part = c("body", "head", "foot", "interfoot"),
                                fixed = FALSE, 
-                               recycle = c("none", "rows", "cols", "columns"))
+                               recycle = c("none", "rows", "cols", "columns"),
+                               ...)
+{
+  UseMethod("sprinkle_na_string")
+}
+
+#' @rdname sprinkle_na_string
+#' @export
+
+sprinkle_na_string.default <- function(x, rows = NULL, cols = NULL,
+                                       na_string = getOption("pixie_na_string", NA), 
+                                       part = c("body", "head", "foot", "interfoot"),
+                                       fixed = FALSE, 
+                                       recycle = c("none", "rows", "cols", "columns"),
+                                       ...)
 {
   coll <- checkmate::makeAssertCollection()
   
@@ -82,11 +96,32 @@ sprinkle_na_string <- function(x, rows = NULL, cols = NULL,
   x
 }
 
+#' @rdname sprinkle_na_string
+#' @export
+
+sprinkle_na_string.dust_list <- function(x, rows = NULL, cols = NULL,
+                                         na_string = getOption("pixie_na_string", NA), 
+                                         part = c("body", "head", "foot", "interfoot"),
+                                         fixed = FALSE, 
+                                         recycle = c("none", "rows", "cols", "columns"),
+                                         ...)
+{
+  lapply(X = x,
+         FUN = sprinkle_na_string.default,
+         rows = rows,
+         cols = cols,
+         na_string = na_string,
+         part = part,
+         fixed = fixed,
+         recycle = recyle,
+         ...)
+}
+
 # Unexported Utility ------------------------------------------------
 
 # These functions are to be used inside of the general `sprinkle` call
 # When used inside `sprinkle`, the indices are already determined, 
-# the only the `bg` argument needs to be validated. 
+# the only the `na_string` argument needs to be validated. 
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
@@ -94,10 +129,11 @@ sprinkle_na_string_index_assert <- function(na_string, coll)
 {
   checkmate::assert_character(x = na_string,
                               len = 1,
-                              add = coll)
+                              add = coll,
+                              .var.name = "na_string")
 }
 
-sprinkle_na_string_index <- function(x, index, bg, part)
+sprinkle_na_string_index <- function(x, indices, bg, part)
 {
   x[[part]][["na_string"]][indices] <- na_string
   

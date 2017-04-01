@@ -73,3 +73,23 @@ sprinkle_float.dust_list <- function(x,
          sprinkle_float.default,
          float)
 }
+
+# Unexported utilities ----------------------------------------------
+# These functions carry the the `_index` suffix for consistency with 
+# the cell-valued sprinkles, but they don't actually require an 
+# index, since they change table-valued sprinkles
+
+sprinkle_float_index_assert <- function(float, coll)
+{
+  checkmate::assert_logical(x = float,
+                            len = 1,
+                            add = coll,
+                            .var.name = "float")
+}
+
+sprinkle_float_index <- function(x, float)
+{
+  x[["float"]] <- float
+  
+  x
+}

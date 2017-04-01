@@ -73,3 +73,23 @@ sprinkle_justify.dust_list <- function(x,
          sprinkle_justify.default,
          justify)
 }
+
+# Unexported utilities ----------------------------------------------
+# These functions carry the the `_index` suffix for consistency with 
+# the cell-valued sprinkles, but they don't actually require an 
+# index, since they change table-valued sprinkles
+
+sprinkle_justify_index_assert <- function(justify, coll)
+{
+  checkmate::matchArg(x = justify,
+                      choices = c("center", "left", "right"),
+                      add = coll,
+                      .var.name = "justify")
+}
+
+sprinkle_justify_index <- function(x, justify)
+{
+  x[["justify"]] <- justify
+  
+  x
+}

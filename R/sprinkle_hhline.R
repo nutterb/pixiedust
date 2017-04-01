@@ -75,3 +75,23 @@ sprinkle_hhline.dust_list <- function(x,
          sprinkle_hhline.default,
          hhline)
 }
+
+# Unexported utilities ----------------------------------------------
+# These functions carry the the `_index` suffix for consistency with 
+# the cell-valued sprinkles, but they don't actually require an 
+# index, since they change table-valued sprinkles
+
+sprinkle_hhline_index_assert <- function(hhline, coll)
+{
+  checkmate::assert_logical(x = hhline,
+                            len = 1,
+                            add = coll,
+                            .var.name = "hhline")
+}
+
+sprinkle_hhline_index <- function(x, hhline)
+{
+  x[["hhline"]] <- hhline
+  
+  x
+}

@@ -1,10 +1,7 @@
-#' @name sprinkle_bg
-#' @title Sprinkle the Background Color of a Cell
+#' @name sprinkle_pad
+#' @title Sprinkle the Padding of a Cell
 #' 
-#' @description Background colors may be used to highlight the contents 
-#'   of cells, rows, or columns.  Most commonly, backgrounds are used to
-#'   provide row discrimination; the \code{sprinkle_bg_pattern} function
-#'   is better suited to that purpose.  
+#' @description 
 #'   
 #' @param x An object of class \code{dust}
 #' @param rows Either a numeric vector of rows in the tabular object to be 
@@ -15,7 +12,7 @@
 #' @param cols Either a numeric vector of columns in the tabular object to
 #'   be modified, or a character vector of column names. A mixture of 
 #'   character and numeric indices is permissible.
-#' @param bg \code{character(1)} A character string giving a color for the 
+#' @param pad \code{numeric(1)} A character string giving a color for the 
 #'   background of the chosen cells.  
 #' @param part A character string denoting which part of the table to modify.
 #' @param fixed \code{logical(1)} indicating if the values in \code{rows} 
@@ -38,18 +35,17 @@
 #' will accept any of the color formats and recognize transparency.  LaTeX
 #' output will accept any of the color formats but ignore transparency.
 #' 
-#' As long as \code{bg} is required to be a \code{character(1)}, the 
+#' As long as \code{pad} is required to be a \code{numeric(1)}, the 
 #' \code{recycle} argument is kind of useless. It is included to maintain
 #' consistency with the \code{index_to_sprinkle} function. Future development
 #' may permit a character vector of colors.
 #' 
 #' @section Functional Requirements:
 #' \enumerate{
-#'  \item Correctly reassigns the appropriate elements \code{bg} column
+#'  \item Correctly reassigns the appropriate elements \code{pad} column
 #'    in the table part.
 #'  \item Casts an error if \code{x} is not a \code{dust} object.
-#'  \item Casts an error if \code{bg} is not a \code{character(1)}
-#'  \item Casts an error if \code{bg} is not a valid color format.
+#'  \item Casts an error if \code{pad} is not a \code{numeric(1)}
 #'  \item Casts an error if \code{part} is not one of \code{"body"}, 
 #'    \code{"head"}, \code{"foot"}, or \code{"interfoot"}
 #'  \item Casts an error if \code{fixed} is not a \code{logical(1)}
@@ -61,26 +57,26 @@
 #' is not tested for this function. It is tested and validated in the
 #' tests for \code{\link{index_to_sprinkle}}.
 #' 
-#' @seealso \code{\link{sprinkle}}, \code{\link{sprinkle_bg_pattern}}, 
+#' @seealso \code{\link{sprinkle}},
 #'   \code{\link{index_to_sprinkle}}
 #'   
 #' @author Benjamin Nutter
 #' 
 #' @export
 
-sprinkle_bg <- function(x, rows = NULL, cols = NULL, bg, 
+sprinkle_pad <- function(x, rows = NULL, cols = NULL, pad, 
                         part = c("body", "head", "foot", "interfoot"),
                         fixed = FALSE, 
                         recycle = c("none", "rows", "cols", "columns"), 
                         ...)
 {
-  UseMethod("sprinkle_bg")
+  UseMethod("sprinkle_pad")
 }
 
-#' @rdname sprinkle_bg
+#' @rdname sprinkle_pad
 #' @export
 
-sprinkle_bg.default <- function(x, rows = NULL, cols = NULL, bg, 
+sprinkle_pad.default <- function(x, rows = NULL, cols = NULL, pad, 
                                 part = c("body", "head", "foot", "interfoot"),
                                 fixed = FALSE, 
                                 recycle = c("none", "rows", "cols", "columns"), 
@@ -88,16 +84,9 @@ sprinkle_bg.default <- function(x, rows = NULL, cols = NULL, bg,
 {
   coll <- checkmate::makeAssertCollection()
   
-  checkmate::assert_character(x = bg,
-                              len = 1,
-                              add = coll)
-  
-  if (!any(is_valid_color(bg)))
-  {
-    invalid_color <- bg[!is_valid_color(bg)]
-    coll$push(sprintf("The following colors are not valid: %s",
-                      paste0(invalid_color, collapse = ", ")))
-  }
+  checkmate::assert_numeric(x = pad,
+                            len = 1,
+                            add = coll)
   
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
@@ -114,36 +103,36 @@ sprinkle_bg.default <- function(x, rows = NULL, cols = NULL, bg,
   
   part <- part[1]
   
-  x[[part]][["bg"]][indices] <- bg
+  x[[part]][["pad"]][indices] <- pad
   
   x
   
 }
 
-#' @rdname sprinkle_bg
+#' @rdname sprinkle_pad
 #' @export
 
-sprinkle_bg.dust_list <- function(x, rows = NULL, cols = NULL, bg, 
+sprinkle_pad.dust_list <- function(x, rows = NULL, cols = NULL, pad, 
                                   part = c("body", "head", "foot", "interfoot"),
                                   fixed = FALSE, 
                                   recycle = c("none", "rows", "cols", "columns"), 
                                   ...)
 {
   lapply(X = x,
-         FUN = sprinkle_bg.default,
+         FUN = sprinkle_pad.default,
          rows = rows,
          cols = cols,
-         bg = bg,
+         pad = pad,
          part = part,
          fixed = fixed,
          recycle = recycle,
          ...)
 }
 
-#' @rdname sprinkle_bg
+#' @rdname sprinkle_pad
 #' @export
 
-sprinkle_background <- sprinkle_bg
+sprinkle_background <- sprinkle_pad
 
 
 
@@ -151,28 +140,21 @@ sprinkle_background <- sprinkle_bg
 
 # These functions are to be used inside of the general `sprinkle` call
 # When used inside `sprinkle`, the indices are already determined, 
-# the only the `bg` argument needs to be validated. 
+# the only the `pad` argument needs to be validated. 
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_bg_index_assert <- function(bg, coll)
+sprinkle_pad_index_assert <- function(pad, coll)
 {
-  checkmate::assert_character(x = bg,
-                              len = 1,
-                              add = coll,
-                              .var.name = "bg")
-  
-  if (!any(is_valid_color(bg)))
-  {
-    invalid_color <- bg[!is_valid_color(bg)]
-    coll$push(sprintf("The following colors are not valid: %s",
-                      paste0(invalid_color, collapse = ", ")))
-  }
+  checkmate::assert_numeric(x = pad,
+                            len = 1,
+                            add = coll,
+                            .var.name = "pad")
 }
 
-sprinkle_bg_index <- function(x, indices, bg, part)
+sprinkle_pad_index <- function(x, indices, pad, part)
 {
-  x[[part]][["bg"]][indices] <- bg
+  x[[part]][["pad"]][indices] <- pad
   
   x
 }

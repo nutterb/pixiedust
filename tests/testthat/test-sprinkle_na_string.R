@@ -1,4 +1,4 @@
-context("sprinkle_bg")
+context("sprinkle_na")
 
 x <- dust(head(mtcars))
 
@@ -55,7 +55,7 @@ test_that(
 test_that(
   "Casts an error if bg is not a character(1)",
   {
-    expect_error(sprinkle_bg(x, na_string = c("red", "blue")))
+    expect_error(sprinkle_na_string(x, na_string = c("red", "blue")))
   }
 )
 

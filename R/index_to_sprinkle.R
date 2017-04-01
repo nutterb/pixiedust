@@ -81,7 +81,8 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
   
   checkmate::assert_class(x = x,
                           classes = "dust",
-                          add = coll)
+                          add = coll,
+                          .var.name = "x")
   
   if (!is.null(rows))
   {
@@ -101,19 +102,33 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
   
   checkmate::assert_logical(x = fixed,
                             len = 1,
-                            add = TRUE)
+                            add = coll,
+                            .var.name = "fixed")
   
   part <- 
     checkmate::matchArg(x = part,
                         choices = c("body", "head", "foot", "interfoot"),
-                        add = coll)
+                        add = coll,
+                        .var.name = "part")
   
   recycle <- 
     checkmate::matchArg(x = recycle,
                         choices = c("none", "rows", "cols", "columns"),
-                        add = coll)
+                        add = coll,
+                        .var.name = "recycle")
   
   if (report_here) checkmate::reportAssertions(coll)
+  else if (!length(part) | 
+           !length(recycle) |
+           !checkmate::test_logical(x = fixed,
+                                    len = 1)) 
+  {
+    # If there is no match for `part`, there is no need to proceed to 
+    # the rest of the function.  If this function is called from 
+    # another with a `coll` object, return to that function's execution
+    # and report the error there.
+    return(invisible(NULL))
+  }
   
 # Second pass at argument validations -------------------------------
   

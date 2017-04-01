@@ -84,3 +84,23 @@ sprinkle_longtable.dust_list <- function(x,
          sprinkle_longtable.default,
          longtable)
 }
+
+# Unexported utilities ----------------------------------------------
+# These functions carry the the `_index` suffix for consistency with 
+# the cell-valued sprinkles, but they don't actually require an 
+# index, since they change table-valued sprinkles
+
+sprinkle_longtable_index_assert <- function(longtable, coll)
+{
+  checkmate::assert_logical(x = longtable,
+                            len = 1,
+                            add = coll,
+                            .var.name = "longtable")
+}
+
+sprinkle_longtable_index <- function(x, longtable)
+{
+  x[["longtable"]] <- longtable
+  
+  x
+}

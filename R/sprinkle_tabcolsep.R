@@ -70,3 +70,23 @@ sprinkle_tabcolsep.dust_list <- function(x,
          sprinkle_tabcolsep.default,
          tabcolsep)
 }
+
+# Unexported utilities ----------------------------------------------
+# These functions carry the the `_index` suffix for consistency with 
+# the cell-valued sprinkles, but they don't actually require an 
+# index, since they change table-valued sprinkles
+
+sprinkle_tabcolsep_index_assert <- function(tabcolsep, coll)
+{
+  checkmate::assert_integerish(x = tabcolsep,
+                               len = 1,
+                               add = coll,
+                               .var.name = "tabcolsep")
+}
+
+sprinkle_tabcolsep_index <- function(x, tabcolsep)
+{
+  x[["tabcolsep"]] <- tabcolsep
+  
+  x
+}

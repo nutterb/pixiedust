@@ -69,3 +69,23 @@ sprinkle_label.dust_list <- function(x, label = NULL, ...)
          sprinkle_label.default,
          label)
 }
+
+# Unexported utilities ----------------------------------------------
+# These functions carry the the `_index` suffix for consistency with 
+# the cell-valued sprinkles, but they don't actually require an 
+# index, since they change table-valued sprinkles
+
+sprinkle_label_index_assert <- function(label, coll)
+{
+  checkmate::assert_character(x = label,
+                              len = 1,
+                              add = coll,
+                              .var.name = "label")
+}
+
+sprinkle_label_index <- function(x, label)
+{
+  x[["label"]] <- label
+  
+  x
+}

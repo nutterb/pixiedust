@@ -75,3 +75,23 @@ sprinkle_bookdown.dust_list <- function(x,
          sprinkle_bookdown.default,
          bookdown)
 }
+
+# Unexported utilities ----------------------------------------------
+# These functions carry the the `_index` suffix for consistency with 
+# the cell-valued sprinkles, but they don't actually require an 
+# index, since they change table-valued sprinkles
+
+sprinkle_bookdown_index_assert <- function(bookdown, coll)
+{
+  checkmate::assert_logical(x = bookdown,
+                            len = 1,
+                            add = coll,
+                            .var.name = "bookdown")
+}
+
+sprinkle_bookdown_index <- function(x, bookdown)
+{
+  x[["bookdown"]] <- bookdown
+  
+  x
+}
