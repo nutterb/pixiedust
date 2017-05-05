@@ -19,7 +19,7 @@ sprinkle_bg(x, rows = NULL, cols = NULL, bg, part = c("body", "head",
   part = c("body", "head", "foot", "interfoot"), fixed = FALSE,
   recycle = c("none", "rows", "cols", "columns"), ...)
 
-sprinkle_background(x, rows = NULL, cols = NULL, pad, part = c("body",
+sprinkle_background(x, rows = NULL, cols = NULL, bg, part = c("body",
   "head", "foot", "interfoot"), fixed = FALSE, recycle = c("none", "rows",
   "cols", "columns"), ...)
 }
@@ -52,6 +52,8 @@ managed when the sprinkle input doesn't match the length of the region
 to be sprinkled.  By default, recycling is turned off.  Recycling 
 may be performed across rows first (left to right, top to bottom), 
 or down columns first (top to bottom, left to right).}
+
+\item{...}{Additional arguments to pass to other methods. Currently ignored.}
 }
 \description{
 Background colors may be used to highlight the contents 

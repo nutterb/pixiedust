@@ -27,6 +27,7 @@
 #'   to be sprinkled.  By default, recycling is turned off.  Recycling 
 #'   may be performed across rows first (left to right, top to bottom), 
 #'   or down columns first (top to bottom, left to right).
+#' @param ... Additional arguments to pass to other methods. Currently ignored.
 #' 
 #' @section Functional Requirements:
 #' \enumerate{
@@ -113,7 +114,7 @@ sprinkle_na_string.dust_list <- function(x, rows = NULL, cols = NULL,
          na_string = na_string,
          part = part,
          fixed = fixed,
-         recycle = recyle,
+         recycle = recycle,
          ...)
 }
 
@@ -133,7 +134,7 @@ sprinkle_na_string_index_assert <- function(na_string, coll)
                               .var.name = "na_string")
 }
 
-sprinkle_na_string_index <- function(x, indices, bg, part)
+sprinkle_na_string_index <- function(x, indices, na_string, part)
 {
   x[[part]][["na_string"]][indices] <- na_string
   

@@ -50,6 +50,8 @@ managed when the sprinkle input doesn't match the length of the region
 to be sprinkled.  By default, recycling is turned off.  Recycling 
 may be performed across rows first (left to right, top to bottom), 
 or down columns first (top to bottom, left to right).}
+
+\item{...}{Additional arguments to pass to other methods. Currently ignored.}
 }
 \description{
 The appearance of \code{NA} values in a table may be dependent

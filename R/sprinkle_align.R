@@ -31,6 +31,7 @@
 #'   to be sprinkled.  By default, recycling is turned off.  Recycling 
 #'   may be performed across rows first (left to right, top to bottom), 
 #'   or down columns first (top to bottom, left to right).
+#' @param ... Additional arguments to pass to other methods. Currently ignored.
 #' 
 #' @section Functional Requirements:
 #' \enumerate{
@@ -141,7 +142,7 @@ sprinkle_align.dust_list <- function(x, rows = NULL, cols = NULL,
          valign = valign,
          part = part,
          fixed = fixed,
-         recycle = recyle,
+         recycle = recycle,
          ...)
 }
 
@@ -172,7 +173,7 @@ sprinkle_align_index_assert <- function(halign, valign, coll)
   }
 }
 
-sprinkle_align_index <- function(x, indices, bg, part)
+sprinkle_align_index <- function(x, indices, halign, valign, part)
 {
   if (!is.null(halign))
   {

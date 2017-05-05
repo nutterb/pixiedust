@@ -1,7 +1,8 @@
 #' @name sprinkle_pad
 #' @title Sprinkle the Padding of a Cell
 #' 
-#' @description 
+#' @description Padding for HTML tables indicates how many pixels should
+#' be placed between the cell's content and the outside border.
 #'   
 #' @param x An object of class \code{dust}
 #' @param rows Either a numeric vector of rows in the tabular object to be 
@@ -25,6 +26,7 @@
 #'   to be sprinkled.  By default, recycling is turned off.  Recycling 
 #'   may be performed across rows first (left to right, top to bottom), 
 #'   or down columns first (top to bottom, left to right).
+#' @param ... Additional arguments to pass to other methods. Currently ignored.
 #'   
 #' @details Colors may be a dvips color name, or in the rgb(R, G, B), 
 #' rgba(R, G, B, A), #RRGGBB, or #RRGGBBAA formats. See 
@@ -128,13 +130,6 @@ sprinkle_pad.dust_list <- function(x, rows = NULL, cols = NULL, pad,
          recycle = recycle,
          ...)
 }
-
-#' @rdname sprinkle_pad
-#' @export
-
-sprinkle_background <- sprinkle_pad
-
-
 
 # Unexported Utility ------------------------------------------------
 

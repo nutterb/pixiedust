@@ -28,6 +28,7 @@
 #'   to be sprinkled.  By default, recycling is turned off.  Recycling 
 #'   may be performed across rows first (left to right, top to bottom), 
 #'   or down columns first (top to bottom, left to right).
+#' @param ... Additional arguments to pass to other methods. Currently ignored.
 #'   
 #' @details Colors may be a dvips color name, or in the rgb(R, G, B), 
 #' rgba(R, G, B, A), #RRGGBB, or #RRGGBBAA formats. See 

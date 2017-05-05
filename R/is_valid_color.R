@@ -53,5 +53,5 @@ is_valid_color_single <- function(color)
   
   grepl(regex_rgb, color) | grepl(regex_rgba, color) | 
     grepl(regex_html, color) | grepl(regex_html_alpha, color) | 
-    color %in% c(colors(), "transparent")
+    color %in% c(grDevices::colors(), "transparent")
 }
