@@ -1,3 +1,7 @@
+### 0.7.5 (05 May 2017)
+* Put in protections against factors. Prevents warnings from 
+  `dplyr::bind_rows` that will occur in an upcoming release.
+
 ### 0.7.4 (17 June 2016)
 * Guard against changes to `options()$scipen` (Issue #62)
 * Remove remaining use of `ArgumentCheck` and replace with `checkmate`
