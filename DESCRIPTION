@@ -34,8 +34,6 @@ URL: https://github.com/nutterb/pixiedust
 BugReports: https://github.com/nutterb/pixiedust/issues
 RoxygenNote: 5.0.1
 NeedsCompilation: no
-Packaged: 2016-06-17 13:12:34 UTC; Nutter
 Author: Benjamin Nutter [aut, cre]
 Maintainer: Benjamin Nutter <nutter@battelle.org>
-Repository: CRAN
-Date/Publication: 2016-06-17 21:46:30
+
