@@ -1,7 +1,7 @@
 ## Test environments
-* local Windows install (R-3.2.4)
+* local Windows install (R-3.4.0 and devel 3.5.0 2015-05-04 r72654)
 * x86_64-pc-linux-gnu (64-bit) (on travis-ci), R 3.2.4
-* win-builder (devel 3.3.0 and release 3.2.5)
+* win-builder (devel 3.5.0 and release 3.4.0)
 
 ## R CMD check results
 There were no ERRORS or WARNINGS in any of the checks.
@@ -12,14 +12,12 @@ description.  All words are correctly spelled.
 
 
 ## Downstream dependencies
-`HydeNet` fails checks due to errors in the unit tests.  This is related
-to updates in the `testthat` package.  I am the maintainer of `HydeNet` 
-and am planning to submit an update to `HydeNet` after `dplyr` is updated
-later this month.
+`HydeNet`: The changes in this version of `pixiedust`
+prevent installation errors that would be introduced by an upcoming version
+of `dplyr`. `HydeNet` passes all checks under the current and upcoming version
+of `dplyr`.
 
-`tadaatoolbox` checks return the NOTE "Note: found 1 marked UTF-8 string",
-which is also found in its check results on CRAN.  `tadaatoolbox` otherwise
-passes all checks.
+`tadaatoolbox` passes all checks.
 
 Thanks,
 Benjamin
