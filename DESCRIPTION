@@ -11,16 +11,28 @@ Description: The introduction of the broom package has made converting model
     with fine tuned control over each cell of the table. Options for output include
     printing to the console and to the common markdown formats (markdown, HTML, and
     LaTeX). With a little pixiedust (and happy thoughts) tables can really fly.
-Depends: R (>= 3.2.1)
-Imports: broom, checkmate, dplyr, Hmisc (>= 3.14-6), htmltools, knitr,
-        lazyWeave, magrittr, stringr, tidyr
-Suggests: rmarkdown, testthat
+Depends:
+    R (>= 3.2.1)
+Imports:
+    broom,
+    checkmate,
+    dplyr,
+    Hmisc (>= 3.14-6),
+    htmltools,
+    knitr,
+    lazyWeave,
+    magrittr,
+    stringr,
+    tidyr
+Suggests:
+    rmarkdown,
+    testthat
 License: MIT + file LICENSE
 LazyData: true
 VignetteBuilder: knitr
 URL: https://github.com/nutterb/pixiedust
 BugReports: https://github.com/nutterb/pixiedust/issues
-RoxygenNote: 6.0.1
+RoxygenNote: 5.0.1
 NeedsCompilation: no
 Packaged: 2016-06-17 13:12:34 UTC; Nutter
 Author: Benjamin Nutter [aut, cre]

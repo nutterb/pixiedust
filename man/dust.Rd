@@ -191,14 +191,14 @@ The \code{head} object describes what each column of the table
      object.  This is intended to assist in building custom heads and feet.}
 }
 }
-
 \examples{
 x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars))
 x
 }
-\seealso{
-\code{\link[broom]{tidy}} \code{\link{glance_foot}} \code{\link{tidy_levels_labels}}
-}
 \author{
 Benjamin Nutter
 }
+\seealso{
+\code{\link[broom]{tidy}} \code{\link{glance_foot}} \code{\link{tidy_levels_labels}}
+}
+
