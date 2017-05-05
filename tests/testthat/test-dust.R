@@ -31,8 +31,8 @@ test_that("dust object body component has correct dimensions",
                dim(x$foot))
   
   expect_equal(Dims, 
-               list(c(5, 36), 
-                    c(30, 36),
+               list(c(5, 37), 
+                    c(30, 37),
                     NULL,
                     NULL))
 })
@@ -87,3 +87,12 @@ test_that("dust a list",
   expect_silent(dust(x))
 })
 
+
+test_that(
+  "dust with descriptors",
+  {
+    expect_silent(
+      dust(fit, descriptors = c("term_plain", "label", "level"))
+    )
+  }
+)

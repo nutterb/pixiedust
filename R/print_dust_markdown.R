@@ -15,9 +15,9 @@ print_dust_markdown <- function(x, ..., asis=TRUE)
   #* total number of divisions: ceiling(total_rows / longtable_rows)
   #* The insane looking data frame is just to make a reference of what rows 
   #*   go in what division.
-  if (!is.numeric(x$longtable) & x$longtable) longtable_rows <- 25
-  else if (!is.numeric(x$longtable) & !x$longtable) longtable_rows <- max(x$body$row)
-  else longtable_rows <- x$longtable
+  if (!is.numeric(x$longtable) & x$longtable) longtable_rows <- 25L
+  else if (!is.numeric(x$longtable) & !x$longtable) longtable_rows <- as.integer(max(x$body$row))
+  else longtable_rows <- as.integer(x$longtable)
   
   Divisions <- data.frame(div_num = rep(1:ceiling(max(x$body$row) / longtable_rows),
                                         each = longtable_rows)[1:max(x$body$row)],
@@ -107,6 +107,10 @@ part_prep_markdown <- function(part)
   if (any(logic))
     part$value[logic] <-
     as.character(roundSafe(part$value[logic], as.numeric(part$round[logic])))
+  
+  #* Replacement
+  logic <- !is.na(part[["replace"]])
+  part[["value"]][logic] <- part[["replace"]][logic]
   
   #* Bold text
   logic <- part$bold

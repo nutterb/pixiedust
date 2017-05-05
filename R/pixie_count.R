@@ -39,7 +39,8 @@ get_pixie_count <- function()
 
 set_pixie_count <- function(value)
 {
-  options(pixie_count = value)
+  checkmate::assertIntegerish(value)
+  options(pixie_count = as.integer(value))
 }
 
 #' @rdname pixie_count
@@ -47,5 +48,6 @@ set_pixie_count <- function(value)
 
 increment_pixie_count <- function(increment = 1)
 {
-  options(pixie_count = getOption("pixie_count") + increment)
+  checkmate::assertIntegerish(increment)
+  options(pixie_count = getOption("pixie_count") + as.integer(increment))
 }

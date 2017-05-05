@@ -51,4 +51,3 @@ as.data.frame(Dust)
 \author{
 Benjamin Nutter
 }
-

@@ -1,11 +1,4 @@
 #' @name glance_foot
-#' @importFrom ArgumentCheck addError
-#' @importFrom ArgumentCheck addWarning
-#' @importFrom ArgumentCheck finishArgCheck
-#' @importFrom ArgumentCheck newArgCheck
-#' @importFrom broom glance
-#' @importFrom broom tidy
-#' @importFrom dplyr bind_rows
 #' 
 #' @title Prepare Glance Statistics for \code{pixiedust} Table Footer
 #' @description Retrieves the \code{broom::glance} output for a model object and 
@@ -101,7 +94,8 @@ glance_foot <- function(fit, col_pairs, total_cols,
   if (nrow(g) %% col_pairs > 0){
     n_fill <- (col_pairs - nrow(g) %% col_pairs)
     stat_fill <- data.frame(.rownames = rep("", n_fill),
-                            x = rep(NA, n_fill))
+                            x = rep(NA, n_fill),
+                            stringsAsFactors = FALSE)
     g <- dplyr::bind_rows(g, stat_fill)
   }
 

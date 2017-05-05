@@ -1,8 +1,5 @@
 #' @name sprinkle_colnames
 #' @export sprinkle_colnames
-#' @importFrom ArgumentCheck addError
-#' @importFrom ArgumentCheck finishArgCheck
-#' @importFrom ArgumentCheck newArgCheck
 #' 
 #' @title Column Names for \code{dust} Tables
 #' @description Assigns new column names to a table

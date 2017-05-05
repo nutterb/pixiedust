@@ -160,21 +160,31 @@ test_that("print_dust_latex",
             expect_silent(print_dust_latex(x))
           })
 
-test_that("convertColor",
-{
-  expect_equal(convertColor("rgba(128,0,0, .5)"),
-               "[RGB]{128,0,0}")
-})
+test_that(
+  "missing values in LaTeX output - sanitization",
+  {
+    DF <- head(mtcars)
+    DF$mpg[c(1, 3, 4)] <- NA
+    
+    expect_silent(
+      dust(DF) %>% 
+        sprinkle(sanitize = TRUE) %>% 
+        sprinkle_print_method("latex")
+    )
+  }
+)
 
-test_that("convertColor",
-{
-  expect_equal(convertColor("rgb(128,0,0)"),
-               "[RGB]{128,0,0}")
-})
-
-test_that("convertColor Hex",
-{
-  expect_equal(convertColor("#E46C6C"),
-               "[HTML]{E46C6C}")
-})
+test_that(
+  "html tables with bookdown label",
+  {
+    fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
+    x <- dust(fit,
+              caption = "Table heading",
+              label = "table-ref",
+              bookdown = TRUE) %>%
+      sprinkle_print_method("html") %>%
+      print(asis = FALSE)
+    expect_match(x, "#tab:table-ref")
+  }
+)
   

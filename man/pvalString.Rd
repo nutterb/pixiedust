@@ -45,4 +45,3 @@ When \code{format = "default"}, p-values are formatted:
  pvalString(p, format="scientific", digits=3)
  pvalString(p, format="scientific", digits=4)
 }
-

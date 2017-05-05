@@ -342,7 +342,7 @@ test_that("sprinkles: pad errors",
 test_that("sprinkles: replace",
 {
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-  expect_equal(sprinkle(x, rows = 1, cols = 1, replace = "Intercept")$body$value[1],
+  expect_equal(sprinkle(x, rows = 1, cols = 1, replace = "Intercept")$body$replace[1],
               "Intercept")
 })
 
@@ -453,4 +453,29 @@ test_that("sprinkles: mixture of named and unnamed sprinkles",
   expect_error(sprinkle(x, rows = 1, cols = 1, border_color = "green", "dotted"),
                "")
 })
+
+
+test_that(
+  "sprinkles: fixed argument",
+  {
+    x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars)) %>%
+      sprinkle(cols = 1:5,
+               rows = 1:5,
+               bg = "green",
+               fixed = TRUE) 
+    expect_output(print(x))
+  }
+)
+
+
+test_that(
+  "sprinkles: longtable",
+  {
+    expect_silent(
+      dust(mtcars) %>%
+        sprinkle(longtable = 10)
+    )
+  }
+)
+          
   

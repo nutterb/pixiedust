@@ -43,4 +43,3 @@ dust(fit, glance_foot = TRUE) \%>\%
 \author{
 Benjamin Nutter
 }
-

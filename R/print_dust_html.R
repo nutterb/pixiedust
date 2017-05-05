@@ -4,9 +4,9 @@
 #' @importFrom htmltools htmlPreserve
 #' @importFrom knitr asis_output
 #' @importFrom tidyr spread_
+#' 
 
-
-print_dust_html <- function(x, ..., asis=TRUE)
+print_dust_html <- function(x, ..., asis=TRUE, linebreak_at_end = 2)
 {
   
   if (!is.null(x$caption)) increment_pixie_count()
@@ -20,20 +20,20 @@ print_dust_html <- function(x, ..., asis=TRUE)
       else
         sprintf("tab:%s", chunk_label)
     }
-  else
-  {
-    sprintf("tab:%s", x[["label"]])
-  }
+    else
+    {
+     sprintf("tab:%s", x[["label"]])
+    }
   
   label <-
     if (x[["bookdown"]])
     {
       sprintf("(\\#%s)", label)
     }
-  else
-  {
-    sprintf("Table %s: ", get_pixie_count())
-  }
+    else
+    {
+      sprintf("Table %s: ", get_pixie_count())
+    }
   
   
   #* Determine the number of divisions
@@ -41,9 +41,9 @@ print_dust_html <- function(x, ..., asis=TRUE)
   #* total number of divisions: ceiling(total_rows / longtable_rows)
   #* The insane looking data frame is just to make a reference of what rows
   #*   go in what division.
-  if (!is.numeric(x$longtable) & x$longtable) longtable_rows <- 25
-  else if (!is.numeric(x$longtable) & !x$longtable) longtable_rows <- max(x$body$row)
-  else longtable_rows <- x$longtable
+  if (!is.numeric(x$longtable) & x$longtable) longtable_rows <- 25L
+  else if (!is.numeric(x$longtable) & !x$longtable) longtable_rows <- as.integer(max(x$body$row))
+  else longtable_rows <- as.integer(x$longtable)
   
   Divisions <- data.frame(div_num = rep(1:ceiling(max(x$body$row) / longtable_rows),
                                         each = longtable_rows)[1:max(x$body$row)],
@@ -68,10 +68,11 @@ print_dust_html <- function(x, ..., asis=TRUE)
     rows <- apply(tbl, 1, paste0, collapse = "\n")
     rows <- sprintf("<tr>\n%s\n</tr>", rows)
     
-    html_code <- sprintf("<table align = '%s' style = 'border-collapse:%s;'>\n%s\n</table><br/><br/>",
+    html_code <- sprintf("<table align = '%s' style = 'border-collapse:%s;'>\n%s\n</table>%s",
                          x[["justify"]],
                          if (x$border_collapse) "collapse" else "separate" , 
-                         paste0(rows, collapse = "\n"))
+                         paste0(rows, collapse = "\n"),
+                         paste0(rep("</br>", linebreak_at_end), collapse = ""))
     
     if (!is.null(x$caption))
       html_code <- sub(">",
@@ -114,6 +115,10 @@ part_prep_html <- function(part, head=FALSE)
   if (any(logic))
     part$value[logic] <-
     as.character(roundSafe(part$value[logic], as.numeric(part$round[logic])))
+  
+  #* Replacement
+  logic <- !is.na(part[["replace"]])
+  part[["value"]][logic] <- part[["replace"]][logic]
   
   #* Bold and italic
   boldify <- part$bold
@@ -224,8 +229,11 @@ part_prep_html <- function(part, head=FALSE)
     part[["col"]] == part[["html_col"]] & 
     part[["colspan"]] > 1
   
-  part[["html_row"]][logic] <- part[["html_row_pos"]][logic]
-  part[["html_col"]][logic] <- part[["html_col_pos"]][logic]
+  if ("html_row_pos" %in% names(part))
+    part[["html_row"]][logic] <- part[["html_row_pos"]][logic]
+  
+  if ("html_col_pos" %in% names(part))
+    part[["html_col"]][logic] <- part[["html_col_pos"]][logic]
   
   #* Spread to wide format for printing
   part <- dplyr::select_(part, "html_row", "html_col", "value") %>%
@@ -250,10 +258,11 @@ part_prep_html <- function(part, head=FALSE)
 
 rotate_tag <- function(degree)
 {
-  sprintf("-webkit-transform:rotate(%sdeg);",
-          "-moz-transform:rotate(%sdeg);",
-          "-ms-transform:rotate(%sdeg);",
-          "-o-transform:rotate(%sdeg);",
-          "transform:rotate(%sdeg);",
-          degree, degree, degree, degree, degree)
+  sprintf(
+    paste0("-webkit-transform:rotate(%sdeg);",
+           "-moz-transform:rotate(%sdeg);",
+           "-ms-transform:rotate(%sdeg);",
+           "-o-transform:rotate(%sdeg);",
+           "transform:rotate(%sdeg);"),
+    degree, degree, degree, degree, degree)
 }

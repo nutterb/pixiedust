@@ -17,17 +17,17 @@ redust <- function(x, table, part = c("head", "foot", "interfoot", "body"))
 
 redust.default <- function(x, table, part = c("head", "foot", "interfoot", "body"))
 {
-  Check <- ArgumentCheck::newArgCheck()
-  
+  coll <- checkmate::makeAssertCollection()
+
   #* x must have class 'dust'
-  if (class(x) != "dust")
-    ArgumentCheck::addError(
-      msg = "Sprinkles may only be added to objects of class 'dust'",
-      argcheck = Check)
-  
-  part_str <- ArgumentCheck::match_arg(part, c("head", "foot",
-                                               "interfoot", "body"),
-                                       argcheck = Check)
+  checkmate::assertClass(x = x,
+                         classes = "dust",
+                         add = coll)
+
+  part_str <- assert_match_arg(x = part, 
+                               choices = c("head", "foot",
+                                           "interfoot", "body"),
+                               add = coll)
   
   
   
@@ -36,22 +36,22 @@ redust.default <- function(x, table, part = c("head", "foot", "interfoot", "body
   n_colCounts <- unique(colCounts[!is.na(colCounts)])
   
   if (length(n_colCounts) > 1){
-      ArgumentCheck::addError(
-        msg = paste0("All parts of the table must have the same number of columns (or none).\n", 
-                     "    Currently: ", 
-                     paste0(paste0(c("head", "body", "foot", "interfoot"), " (", colCounts, ")"),
-                            collapse = ", ")),
-        argcheck = Check)
+      coll$push(
+        paste0("All parts of the table must have the same number of columns (or none).\n", 
+               "    Currently: ", 
+               paste0(paste0(c("head", "body", "foot", "interfoot"), " (", colCounts, ")"),
+                      collapse = ", "))
+      )
   }
   
   if (!all(colCounts[!is.na(colCounts)] %in% ncol(table)))
-    ArgumentCheck::addError(
-      msg = paste0("The current table has ", paste0(n_colCounts, collapse = "/"), " columns and you ",
-                   "are attempting to impose a part\n",
-                   "    with ", ncol(table), " columns."),
-      argcheck = Check)
+    coll$push(
+      paste0("The current table has ", paste0(n_colCounts, collapse = "/"), " columns and you ",
+             "are attempting to impose a part\n",
+             "    with ", ncol(table), " columns.")
+    )
   
-  ArgumentCheck::finishArgCheck(Check)
+  checkmate::reportAssertions(coll)
   
   col_name_class <- dplyr::filter_(x$head, "row == 1") %>%
     dplyr::select_("row", "col", "col_name", "col_class") %>%

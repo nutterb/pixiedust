@@ -41,9 +41,9 @@ print_dust_latex <- function(x, ..., asis=TRUE)
   #* total number of divisions: ceiling(total_rows / longtable_rows)
   #* The insane looking data frame is just to make a reference of what rows 
   #*   go in what division.
-  if (!is.numeric(x$longtable) & x$longtable) longtable_rows <- 25
-  else if (!is.numeric(x$longtable) & !x$longtable) longtable_rows <- max(x$body$row)
-  else longtable_rows <- x$longtable
+  if (!is.numeric(x$longtable) & x$longtable) longtable_rows <- 25L
+  else if (!is.numeric(x$longtable) & !x$longtable) longtable_rows <- as.integer(max(x$body$row))
+  else longtable_rows <- as.integer(x$longtable)
   
   tab_env <- if (is.numeric(x$longtable) || x$longtable) "longtable" else "tabular"
   
@@ -176,6 +176,10 @@ part_prep_latex <- function(part, col_width, col_halign_default, head=FALSE)
     part$value[logic] <-
     as.character(roundSafe(part$value[logic], as.numeric(part$round[logic])))
 
+  #* Replacement
+  logic <- !is.na(part[["replace"]])
+  part[["value"]][logic] <- part[["replace"]][logic]
+  
   #* Set NA (missing) values to na_string
   logic <- is.na(part$value) & !is.na(part$na_string)
   part$value[logic] <- 
