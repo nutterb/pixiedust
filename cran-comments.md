@@ -4,6 +4,8 @@
 * win-builder (devel 3.5.0 and release 3.4.0)
 
 ## R CMD check results
+Resubmission note: package names are now single-quoted in description field.
+
 There were no ERRORS or WARNINGS in any of the checks.
 
 NOTE: on win-builder (devel and release)
