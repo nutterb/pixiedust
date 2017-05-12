@@ -120,15 +120,18 @@ sprinkle_pad.dust_list <- function(x, rows = NULL, cols = NULL, pad,
                                   recycle = c("none", "rows", "cols", "columns"), 
                                   ...)
 {
-  lapply(X = x,
-         FUN = sprinkle_pad.default,
-         rows = rows,
-         cols = cols,
-         pad = pad,
-         part = part,
-         fixed = fixed,
-         recycle = recycle,
-         ...)
+  structure(
+    lapply(X = x,
+           FUN = sprinkle_pad.default,
+           rows = rows,
+           cols = cols,
+           pad = pad,
+           part = part,
+           fixed = fixed,
+           recycle = recycle,
+           ...),
+    class = "dust_list"
+  )
 }
 
 # Unexported Utility ------------------------------------------------

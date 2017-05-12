@@ -130,15 +130,18 @@ sprinkle_bg.dust_list <- function(x, rows = NULL, cols = NULL, bg,
                                   recycle = c("none", "rows", "cols", "columns"), 
                                   ...)
 {
-  lapply(X = x,
-         FUN = sprinkle_bg.default,
-         rows = rows,
-         cols = cols,
-         bg = bg,
-         part = part,
-         fixed = fixed,
-         recycle = recycle,
-         ...)
+  structure(
+    lapply(X = x,
+           FUN = sprinkle_bg.default,
+           rows = rows,
+           cols = cols,
+           bg = bg,
+           part = part,
+           fixed = fixed,
+           recycle = recycle,
+           ...),
+    class = "dust_list"
+  )
 }
 
 #' @rdname sprinkle_bg

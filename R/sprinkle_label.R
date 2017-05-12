@@ -65,9 +65,12 @@ sprinkle_label.default <- function(x, label = NULL, ...)
 
 sprinkle_label.dust_list <- function(x, label = NULL, ...)
 {
-  lapply(x,
-         sprinkle_label.default,
-         label)
+  structure(
+    lapply(x,
+           sprinkle_label.default,
+           label),
+    class = "dust_list"
+  )
 }
 
 # Unexported utilities ----------------------------------------------

@@ -60,9 +60,12 @@ sprinkle_caption.default <- function(x, caption, ...)
 
 sprinkle_caption.dust_list <- function(x, caption, ...)
 {
-  lapply(x,
-         sprinkle_caption.default,
-         caption)
+  structure(
+    lapply(x,
+           sprinkle_caption.default,
+           caption),
+    "dust_list"
+  )
 }
 
 # Unexported utilities ----------------------------------------------

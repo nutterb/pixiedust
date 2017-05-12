@@ -71,9 +71,12 @@ sprinkle_bookdown.dust_list <- function(x,
                                         bookdown = getOption("pixie_bookdown", FALSE),
                                         ...)
 {
-  lapply(x,
-         sprinkle_bookdown.default,
-         bookdown)
+  structure(
+    lapply(x,
+           sprinkle_bookdown.default,
+           bookdown),
+    class = "dust_list"
+  )
 }
 
 # Unexported utilities ----------------------------------------------

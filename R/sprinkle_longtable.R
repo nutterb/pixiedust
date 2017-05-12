@@ -80,9 +80,12 @@ sprinkle_longtable.dust_list <- function(x,
                                          longtable = getOption("pixie_longtable", FALSE),
                                          ...)
 {
-  lapply(x,
-         sprinkle_longtable.default,
-         longtable)
+  structure(
+    lapply(x,
+           sprinkle_longtable.default,
+           longtable),
+    class = "dust_list"
+  )
 }
 
 # Unexported utilities ----------------------------------------------

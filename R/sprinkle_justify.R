@@ -69,9 +69,12 @@ sprinkle_justify.dust_list <- function(x,
                                        justify = getOption("pixie_justify", "center"),
                                        ...)
 {
-  lapply(x,
-         sprinkle_justify.default,
-         justify)
+  structure(
+    lapply(x,
+           sprinkle_justify.default,
+           justify),
+    "dust_list"
+  )
 }
 
 # Unexported utilities ----------------------------------------------

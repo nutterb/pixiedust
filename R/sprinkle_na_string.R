@@ -107,15 +107,18 @@ sprinkle_na_string.dust_list <- function(x, rows = NULL, cols = NULL,
                                          recycle = c("none", "rows", "cols", "columns"),
                                          ...)
 {
-  lapply(X = x,
-         FUN = sprinkle_na_string.default,
-         rows = rows,
-         cols = cols,
-         na_string = na_string,
-         part = part,
-         fixed = fixed,
-         recycle = recycle,
-         ...)
+  structure(
+    lapply(X = x,
+           FUN = sprinkle_na_string.default,
+           rows = rows,
+           cols = cols,
+           na_string = na_string,
+           part = part,
+           fixed = fixed,
+           recycle = recycle,
+           ...),
+    class = "dust_list"
+  )
 }
 
 # Unexported Utility ------------------------------------------------

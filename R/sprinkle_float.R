@@ -69,9 +69,12 @@ sprinkle_float.dust_list <- function(x,
                                          float = getOption("pixie_float", FALSE),
                                          ...)
 {
-  lapply(x,
-         sprinkle_float.default,
-         float)
+  structure(
+    lapply(x,
+           sprinkle_float.default,
+           float),
+    "dust_list"
+  )
 }
 
 # Unexported utilities ----------------------------------------------

@@ -73,9 +73,12 @@ sprinkle_border_collapse.dust_list <- function(x,
                                       border_collapse = getOption("pixie_border_collapse", "collapse"),
                                       ...)
 {
-  lapply(x,
-         sprinkle_border_collapse.default,
-         border_collapse)
+  structure(
+    lapply(x,
+           sprinkle_border_collapse.default,
+           border_collapse),
+    class = "dust_list"
+  )
 }
 
 # Unexported utilities ----------------------------------------------

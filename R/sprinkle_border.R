@@ -193,18 +193,21 @@ sprinkle_border.dust_list <- function(x, rows = NULL, cols = NULL,
                                       recycle = c("none", "rows", "cols", "columns"), 
                                       ...)
 {
-  lapply(X = x,
-         FUN = sprinkle_border.default,
-         rows = rows,
-         cols = cols,
-         border = border,
-         border_color = border_color,
-         border_style = border_style,
-         border_units = border_units,
-         part = part,
-         fixed = fixed,
-         recycle = recycle,
-         ...)
+  structure(
+    lapply(X = x,
+           FUN = sprinkle_border.default,
+           rows = rows,
+           cols = cols,
+           border = border,
+           border_color = border_color,
+           border_style = border_style,
+           border_units = border_units,
+           part = part,
+           fixed = fixed,
+           recycle = recycle,
+           ...),
+    class = "dust_list"
+  )
 }
 
 # Unexported Utility ------------------------------------------------

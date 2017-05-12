@@ -66,9 +66,12 @@ sprinkle_tabcolsep.dust_list <- function(x,
                                          tabcolsep = getOption("pixie_tabcolsep", 6),
                                          ...)
 {
-  lapply(x,
-         sprinkle_tabcolsep.default,
-         tabcolsep)
+  structure(
+    lapply(x,
+           sprinkle_tabcolsep.default,
+           tabcolsep),
+    class = "dust_list"
+  )
 }
 
 # Unexported utilities ----------------------------------------------

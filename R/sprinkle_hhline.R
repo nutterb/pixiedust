@@ -71,9 +71,12 @@ sprinkle_hhline.dust_list <- function(x,
                                       hhline = getOption("pixie_hhline", FALSE),
                                       ...)
 {
-  lapply(x,
-         sprinkle_hhline.default,
-         hhline)
+  structure(
+    lapply(x,
+           sprinkle_hhline.default,
+           hhline),
+    "dust_list"
+  )
 }
 
 # Unexported utilities ----------------------------------------------
