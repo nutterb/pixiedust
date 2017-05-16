@@ -252,10 +252,6 @@ dust.default <- function(object, ...,
   #* glance statistics by default.  Perhaps an option for glance_df should
   #* be provided here.
 
-  print_method <- knitr::opts_knit$get("rmarkdown.pandoc.to")
-  
-  if (is.null(print_method)) print_method <- getOption("pixiedust_print_method")
-  
   structure(list(head = component_table(head, tidy_object),
                  body = component_table(tidy_object),
                  interfoot = NULL,
@@ -270,7 +266,7 @@ dust.default <- function(object, ...,
                  tabcolsep = 6,
                  hhline = hhline,
                  bookdown = bookdown,
-                 print_method = print_method),
+                 print_method = pixiedust_print_method()),
             class = "dust")
 
 }
