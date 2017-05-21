@@ -175,6 +175,15 @@ test_that(
 )
 
 test_that(
+  "print_dust_latex does not output invalid -Inf width or height", 
+  {
+    fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
+    x <- print_dust_latex(dust(fit))
+    expect_false(grepl("-Inf", x))
+  }
+)
+
+test_that(
   "html tables with bookdown label",
   {
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
