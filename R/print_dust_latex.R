@@ -388,7 +388,7 @@ numeric_longtable_newline <- function(n, redefine = FALSE){
 
 needs_parbox <- function(x)
 {
-  !is.na(x$width) | 
+  is.finite(x$width) | 
     (x$halign != x$default_halign) | 
     x$valign != "" | 
     x$merge
@@ -462,7 +462,8 @@ determine_column_width <- function(Joint, x)
     dplyr::select(row, col, width) %>%
     dplyr::group_by(col) %>%
     dplyr::summarise(width = max(width, na.rm=TRUE)) %>%
-    dplyr::ungroup() 
+    dplyr::ungroup() %>%
+    dplyr::mutate(width = ifelse(is.finite(width), width, NA))
 }
 
 determine_row_height <- function(part)
@@ -479,7 +480,7 @@ determine_row_height <- function(part)
     dplyr::group_by(row) %>%
     dplyr::summarise(height = max(height, na.rm=TRUE)) %>%
     dplyr::ungroup() %>%
-    dplyr::mutate(height = ifelse(is.na(height),
+    dplyr::mutate(height = ifelse(!is.finite(height),
                          "", paste0("\\\\[", height, "pt]"))) %>%
     '$'("height") 
 }
