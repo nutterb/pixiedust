@@ -1,9 +1,10 @@
-#' @name sprinkle_align
-#' @title Sprinkle Appearance of NA's
+#' @name sprinkle_sanitize
+#' @title Sanitize Characters for LaTeX Outputs
 #' 
-#' @description The alignment refers to the positioning of the text within
-#'   a cell.  Alignment may be given relative to the left, center, or right
-#'   of a cell, and the top, middle, or bottom of the cell.
+#' @description Certain characters in LaTeX code need to be escaped to 
+#'   prevent errors during processing.  For example, \code{\%} is the 
+#'   comment character in LaTeX, and needs to be escaped in 
+#'   order to render correctly.  
 #'   
 #' @param x An object of class \code{dust}
 #' @param rows Either a numeric vector of rows in the tabular object to be 
@@ -14,12 +15,9 @@
 #' @param cols Either a numeric vector of columns in the tabular object to
 #'   be modified, or a character vector of column names. A mixture of 
 #'   character and numeric indices is permissible.
-#' @param halign \code{character} One of \code{"left"}, \code{"center"}, 
-#'   or \code{"right"}. Defaults to \code{NULL}, for no change to the 
-#'   current value.
-#' @param valign \code{character} One of \code{"top"}, \code{"middle"}, 
-#'   or \code{"bottom"}. Defaults to \code{NULL}, for no change to the 
-#'   current value.
+#' @param sanitize \code{logical(1)}. Should the code for the cell be sanitized.
+#' @param sanitize_args A list of arguments to pass to 
+#'   \code{Hmisc::latexTranslate}
 #' @param part A character string denoting which part of the table to modify.
 #' @param fixed \code{logical(1)} indicating if the values in \code{rows} 
 #'   and \code{cols} should be read as fixed coordinate pairs.  By default, 
@@ -33,12 +31,16 @@
 #'   or down columns first (top to bottom, left to right).
 #' @param ... Additional arguments to pass to other methods. Currently ignored.
 #' 
+#' @details This sprinkle is only recognized by LaTeX output.  See 
+#'   \code{\link[Hmisc]{latexTranslate}} for more details.
+#'   
 #' @section Functional Requirements:
 #' \enumerate{
-#'  \item Correctly reassigns the appropriate elements of \code{halign} 
-#'    and \code{valign} columns in the table part.
+#'  \item Correctly reassigns the appropriate elements of \code{sanitize} 
+#'    and \code{sanitize_args} columns in the table part.
 #'  \item Casts an error if \code{x} is not a \code{dust} object.
-#'  \item Casts an error if \code{bg} is not a \code{character(1)}
+#'  \item Casts an error if \code{sanitize} is not a \code{logical(1)}
+#'  \item Casts an error if \code{sanitize_args} is not a \code{list}
 #'  \item Casts an error if \code{part} is not one of \code{"body"}, 
 #'    \code{"head"}, \code{"foot"}, or \code{"interfoot"}
 #'  \item Casts an error if \code{fixed} is not a \code{logical(1)}
@@ -52,43 +54,42 @@
 #' 
 #' @seealso \code{\link{sprinkle}}, 
 #'   \code{\link{index_to_sprinkle}}
-#'
+#'   
 #' @export
 
-sprinkle_align <- function(x, rows = NULL, cols = NULL, 
-                           halign = NULL, valign = NULL,
+sprinkle_sanitize <- function(x, rows = NULL, cols = NULL, 
+                           sanitize = NULL, sanitize_args = NULL,
                            part = c("body", "head", "foot", "interfoot"),
                            fixed = FALSE, 
                            recycle = c("none", "rows", "cols", "columns"),
                            ...)
 {
-  UseMethod("sprinkle_align")
+  UseMethod("sprinkle_sanitize")
 }
 
-#' @rdname sprinkle_align
+#' @rdname sprinkle_sanitize
 #' @export
 
-sprinkle_align.default <- function(x, rows = NULL, cols = NULL, 
-                                   halign = NULL, valign = NULL,
-                                   part = c("body", "head", "foot", "interfoot"),
-                                   fixed = FALSE, 
-                                   recycle = c("none", "rows", "cols", "columns"),
-                                   ...)
+sprinkle_sanitize.dust <- function(x, rows = NULL, cols = NULL, 
+                                sanitize = NULL, sanitize_args = NULL,
+                                part = c("body", "head", "foot", "interfoot"),
+                                fixed = FALSE, 
+                                recycle = c("none", "rows", "cols", "columns"),
+                                ...)
 {
   coll <- checkmate::makeAssertCollection()
   
-  if (!is.null(halign))
+  if (!is.null(sanitize))
   {
-    halign <- checkmate::matchArg(x = halign,
-                                  choices = c("left", "center", "right"),
-                                  add = coll)
+    checkmate::assert_logical(x = sanitize,
+                              len = 1,
+                              add = coll)
   }
   
-  if (!is.null(valign))
+  if (!is.null(sanitize_args))
   {
-    valign <- checkmate::matchArg(x = valign,
-                                  choices = c("top", "middle", "bottom"),
-                                  add = coll)
+    checkmate::assert_list(x = sanitize_args,
+                           add = coll)
   }
   
   indices <- index_to_sprinkle(x = x, 
@@ -101,34 +102,30 @@ sprinkle_align.default <- function(x, rows = NULL, cols = NULL,
   
   checkmate::reportAssertions(coll)
   
-  if (is.null(halign) & is.null(valign))
-  {
-    return(x)
-  }
-  
-  # At this point, part should have passed the assertions in 
-  # index_to_sprinkle. The first element is expected to be valid.
-  
   part <- part[1]
   
-  if (!is.null(halign))
+  if (!is.null(sanitize))
   {
-    x[[part]][["halign"]][indices] <- halign
+    x[[part]][["sanitize"]][indices] <- sanitize
   }
   
-  if (!is.null(valign))
+  if (!is.null(sanitize_args))
   {
-    x[[part]][["valign"]][indices] <- valign
+    x[[part]][["sanitize_args"]][indices] <- 
+      paste0(
+        deparse(sanitize_args),
+        collapse = ""
+      )
   }
   
   x
 }
 
-#' @rdname sprinkle_align
+#' @rdname sprinkle_sanitize
 #' @export
 
-sprinkle_align.dust_list <- function(x, rows = NULL, cols = NULL,
-                                     halign = NULL, valign = NULL, 
+sprinkle_sanitize.dust_list <- function(x, rows = NULL, cols = NULL, 
+                                     sanitize = NULL, sanitize_args = NULL,
                                      part = c("body", "head", "foot", "interfoot"),
                                      fixed = FALSE, 
                                      recycle = c("none", "rows", "cols", "columns"),
@@ -136,11 +133,11 @@ sprinkle_align.dust_list <- function(x, rows = NULL, cols = NULL,
 {
   structure(
     lapply(X = x,
-           FUN = sprinkle_align.default,
+           FUN = sprinkle_sanitize.default,
            rows = rows,
            cols = cols,
-           halign = halign,
-           valign = valign,
+           sanitize = sanitize,
+           sanitize_args = sanitize_args,
            part = part,
            fixed = fixed,
            recycle = recycle,
@@ -153,39 +150,42 @@ sprinkle_align.dust_list <- function(x, rows = NULL, cols = NULL,
 
 # These functions are to be used inside of the general `sprinkle` call
 # When used inside `sprinkle`, the indices are already determined, 
-# the only the `halign` and `valign` arguments needs to be validated. 
+# the only the `sanitize` and `sanitize_args` arguments needs to be validated. 
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
 sprinkle_align_index_assert <- function(halign, valign, coll)
 {
-  if (!is.null(halign))
+  if (!is.null(sanitize))
   {
-    halign <- checkmate::matchArg(x = halign,
-                                  choices = c("left", "center", "right"),
-                                  add = coll,
-                                  .var.name = "halign")
+    checkmate::assert_logical(x = sanitize,
+                              len = 1,
+                              add = coll,
+                              .var.name = "sanitize")
   }
   
-  if (!is.null(valign))
+  if (!is.null(sanitize_args))
   {
-    valign <- checkmate::matchArg(x = valign,
-                                  choices = c("top", "middle", "bottom"),
-                                  add = coll,
-                                  .var.name = "valign")
+    checkmate::assert_list(x = sanitize_args,
+                           add = coll,
+                           .var.name = "sanitize_args")
   }
 }
 
-sprinkle_align_index <- function(x, indices, halign, valign, part)
+sprinkle_sanitize_index <- function(x, indices, sanitize, sanitize_args, part)
 {
-  if (!is.null(halign))
+  if (!is.null(sanitize))
   {
-    x[[part]][["halign"]][indices] <- halign
+    x[[part]][["sanitize"]][indices] <- sanitize
   }
   
-  if (!is.null(valign))
+  if (!is.null(sanitize_args))
   {
-    x[[part]][["valign"]][indices] <- valign
+    x[[part]][["sanitize_args"]][indices] <- 
+      paste0(
+        deparse(sanitize_args),
+        collapse = ""
+      )
   }
   
   x
