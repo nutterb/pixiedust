@@ -1,11 +1,11 @@
-context("sprinkle_na")
+context("sprinkle_na_string")
 
 x <- dust(head(mtcars))
 
 # Functional Requirement 1 ------------------------------------------
 
 test_that(
-  "Correctly reassigns the appropriate elements bg column in the table part.",
+  "Correctly reassigns the appropriate elements of the na_string column in the table part.",
   {
     na_string <- rep(NA, nrow(x$body))
     na_string[x$body$row == 1] <- "red"
