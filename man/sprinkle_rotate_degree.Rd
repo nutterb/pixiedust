@@ -61,7 +61,7 @@ cells.
  \item Correctly reassigns the appropriate elements \code{rotate_degree} column
    in the table part.
  \item Casts an error if \code{x} is not a \code{dust} object.
- \item Casts an error if \code{bg} is not a \code{character(1)}
+ \item Casts an error if \code{rotate_degree} is not a \code{numeric(1)}
  \item Casts an error if \code{part} is not one of \code{"body"}, 
    \code{"head"}, \code{"foot"}, or \code{"interfoot"}
  \item Casts an error if \code{fixed} is not a \code{logical(1)}

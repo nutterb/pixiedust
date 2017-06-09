@@ -6,7 +6,8 @@
 #' @importFrom tidyr spread_
 #' 
 
-print_dust_html <- function(x, ..., asis=TRUE, linebreak_at_end = 2)
+print_dust_html <- function(x, ..., asis=TRUE, 
+                            linebreak_at_end = getOption("pixie_html_linebreak", 2))
 {
   
   if (!is.null(x$caption)) increment_pixie_count()

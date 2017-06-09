@@ -126,6 +126,9 @@
 #'   the \code{print} method is invoked.  The default is to print to the 
 #'   console.
 #'   
+#'   Many of these options may be set globally.  See 
+#'   \code{\link{pixiedust_option}} for a complete list of package options.
+#'   
 #' @return Returns an object of class \code{dust}
 #' 
 #' @section Symbols and Greek Letters:
@@ -160,7 +163,7 @@ dust.default <- function(object, ...,
                  numeric_level = c("term", "term_plain", "label"),
                  label = NULL,
                  caption = NULL,
-                 justify = getOption("pixied_justify", "center"),
+                 justify = getOption("pixie_justify", "center"),
                  float = getOption("pixie_float", TRUE),
                  longtable = getOption("pixie_longtable", FALSE),
                  hhline = getOption("pixie_hhline", FALSE),

@@ -10,11 +10,16 @@
 #'   \code{"left"}, or \code{"right"}.
 #' @param ... Additional arguments to pass to other methods. Currently ignored.
 #'
-#' @details For HTML tables, the values \code{"left"}, \code{"center"}, 
-#'   and \code{"right"} all justify the table as expected.
+#' @details For HTML tables, the values \code{"center"}, 
+#'   \code{"left"},  and \code{"right"} all justify the table as expected.
+#'   It is important to note, however, that \code{"left"} and \code{"right"} 
+#'   will cause subsequent elements to be rendered next to the table, not 
+#'   below it. To render the table with left alignment without this side 
+#'   effect, use \code{"none"}.
 #'   
 #'   In LaTeX output, both \code{"right"} and \code{"left"} justify 
-#'   to the left. This may change in the future if I find a resolution.
+#'   to the left. This may change in the future if I find a resolution.  Using
+#'   \code{"none"} also results in left justification.
 #'   
 #' @author Benjamin Nutter
 #' 
@@ -25,7 +30,7 @@
 #'  \item Change the \code{justify} attribute of the \code{dust} object.
 #'  \item Cast an error if \code{x} is not a \code{dust} object.
 #'  \item Cast an error if \code{justify} is not one of \code{"center"}, 
-#'        \code{"left"}, or \code{"right"}.
+#'        \code{"none"}, \code{"left"}, or \code{"right"}.
 #'  \item Ignore capitalization of the \code{justify} argument.
 #' }
 #' 
@@ -52,7 +57,7 @@ sprinkle_justify.default <- function(x,
                           add = coll)
   
   justify <- checkmate::matchArg(x = tolower(justify),
-                                 choices = c("center", "left", "right"),
+                                 choices = c("center", "none", "left", "right"),
                                  add = coll)
   
   checkmate::reportAssertions(coll)
@@ -85,7 +90,7 @@ sprinkle_justify.dust_list <- function(x,
 sprinkle_justify_index_assert <- function(justify, coll)
 {
   checkmate::matchArg(x = justify,
-                      choices = c("center", "left", "right"),
+                      choices = c("center", "none", "left", "right"),
                       add = coll,
                       .var.name = "justify")
 }

@@ -16,7 +16,7 @@ dust(object, ...)
   glance_foot = FALSE, glance_stats = NULL, col_pairs = 2,
   byrow = FALSE, descriptors = "term", numeric_level = c("term",
   "term_plain", "label"), label = NULL, caption = NULL,
-  justify = getOption("pixied_justify", "center"),
+  justify = getOption("pixie_justify", "center"),
   float = getOption("pixie_float", TRUE),
   longtable = getOption("pixie_longtable", FALSE),
   hhline = getOption("pixie_hhline", FALSE),
@@ -188,6 +188,9 @@ The \code{head} object describes what each column of the table
   The \code{print_method} object determines how the table is rendered when 
   the \code{print} method is invoked.  The default is to print to the 
   console.
+  
+  Many of these options may be set globally.  See 
+  \code{\link{pixiedust_option}} for a complete list of package options.
 }
 \section{Symbols and Greek Letters}{
 
