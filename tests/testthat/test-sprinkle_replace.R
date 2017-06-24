@@ -99,20 +99,20 @@ test_that(
 test_that(
   "Casts an error if fixed is not a logical(1)",
   {
-    expect_error(sprinkle_na_string(x, na_string = "red", fixed = "yes"))
+    expect_error(sprinkle_replace(x, replace = "red", fixed = "yes"))
   }
 )
 
 test_that(
   "Casts an error if fixed is not a logical(1)",
   {
-    expect_error(sprinkle_na_string(x, na_string = "red", fixed = c(TRUE, FALSE)))
+    expect_error(sprinkle_replace(x, replace = "red", fixed = c(TRUE, FALSE)))
   }
 )
 
 test_that(
   "Casts an error if recycle is not one of none, rows, or cols",
   {
-    expect_error(sprinkle_na_string(x, na_string = "red", recycle = "not_an_option"))
+    expect_error(sprinkle_replace(x, replace = "red", recycle = "not_an_option"))
   }
 )

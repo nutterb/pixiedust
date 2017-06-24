@@ -142,10 +142,10 @@ sprinkle_replace.dust_list <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_replace_index_assert <- function(replace, indices, coll)
 {
-  checkmate::assert_character(x = replace,
-                              len = length(indices),
-                              add = coll,
-                              .var.name = "na_string")
+  checkmate::assert_atomic_vector(x = replace,
+                                  max.len = sum(indices),
+                                  add = coll,
+                                  .var.name = "replace")
 }
 
 sprinkle_replace_index <- function(x, indices, replace, part)
