@@ -81,7 +81,7 @@ print_dust_latex_hhline <- function(x, ..., asis=TRUE)
                     substr(x[["justify"]], 1, 1), "]{",
                     paste0(col_halign_default$default_halign, collapse = ""), "}\n",
                     if (!is.null(x$caption))
-                      paste("\\caption{", x$caption, "}\\\\")
+                      paste("\\caption{", x$caption, "}\n")
                     else "", 
                     "\n", label, "\\\\ \n")
     end <- "\\end{longtable}"
