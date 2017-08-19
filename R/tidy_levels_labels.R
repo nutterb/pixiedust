@@ -168,7 +168,9 @@ levels_and_labels <- function(object, ...){
   model_data <- stats::model.frame(object)
   Labels <- Hmisc::label(model_data, default = names(model_data))
   NLevels <- vapply(model_data, modelNLevels, 1)
-  Levels <- lapply(model_data, modelFriendlyLevels) %>%
+  Levels <- 
+    lapply(model_data, 
+           modelFriendlyLevels) %>%
     dplyr::bind_rows() %>%
     dplyr::mutate_(term_plain = ~rep(names(NLevels), NLevels),
                    term = ~paste0(term_plain, level))

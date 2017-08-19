@@ -4,6 +4,8 @@
 * win-builder (devel r70793)
 
 ## R CMD check results
+Resubmission note: package names are now single-quoted in description field.
+
 There were no ERRORS or WARNINGS in any of the checks.
 
 NOTE: on win-builder 
@@ -17,9 +19,7 @@ to updates in the `testthat` package.  I am the maintainer of `HydeNet`
 and am planning to submit an update to `HydeNet` after `dplyr` is updated
 (scheduled for June 23).
 
-`tadaatoolbox` checks return the NOTE "Note: found 1 marked UTF-8 string",
-which is also found in its check results on CRAN.  `tadaatoolbox` otherwise
-passes all checks.
+`tadaatoolbox` passes all checks.
 
 Thanks,
 Benjamin

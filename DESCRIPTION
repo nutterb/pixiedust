@@ -34,3 +34,7 @@ VignetteBuilder: knitr
 URL: https://github.com/nutterb/pixiedust
 BugReports: https://github.com/nutterb/pixiedust/issues
 RoxygenNote: 5.0.1
+NeedsCompilation: no
+Author: Benjamin Nutter [aut, cre]
+Maintainer: Benjamin Nutter <nutter@battelle.org>
+

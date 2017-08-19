@@ -1,0 +1,488 @@
+---
+title: "Advanced Magic with `pixiedust`"
+author: "Benjamin Nutter"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    fig_caption: no
+    number_section: yes
+    toc: yes
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Advanced Magic with pixiedust}
+  \usepackage[utf8]{inputenc}
+---
+
+In addition to the basic cell-specific customizations covered in the "pixiedust" vignette (`vignette("pixiedust")`), `pixiedust` also supports some more advanced features for displaying tabular output.  Specifically, you can add multi-row headers and footers; display your tables in multiple divisions; and create cells that span multiple columns and/or rows.
+
+The presentation of this vignette will be a hybrid of tutorial and testing environment.  Due to the way that `pixiedust` generates output, it cannot be directly evaluated for accuracy (this may change some day, but not right now) and so the best way to see if it is doing what is expected is to generate the output.  The primary tutorial aspect of this vignette will be covered in the HTML portions, with the Markdown and Console output being provided mostly to verify that the output is as expected.
+
+For parts of this vignette, we will work with the `mtcars` data frame.  But first we make some additions to the data.  For simplicity, we will only use the first ten rows of the data frame.  Additionally, we will add labels to the variables using the `label` function from the `Hmisc` package.
+
+```{r}
+library(dplyr)
+library(pixiedust)
+
+mtcars2 <- mtcars[1:10, ]
+
+Hmisc::label(mtcars2$mpg) <- "Gas Mileage"
+Hmisc::label(mtcars2$cyl) <- "Cylinders"
+Hmisc::label(mtcars2$disp) <- "Displacement"
+Hmisc::label(mtcars2$hp) <- "Horse Power"
+Hmisc::label(mtcars2$drat) <- "Rear Axle Ratio"
+Hmisc::label(mtcars2$wt) <- "Weight"
+Hmisc::label(mtcars2$qsec) <- "1/4 mile time"
+Hmisc::label(mtcars2$vs) <- "V/S"
+Hmisc::label(mtcars2$am) <- "Transmission"
+Hmisc::label(mtcars2$gear) <- "Forward Gears"
+Hmisc::label(mtcars2$carb) <- "Carburetors"
+```
+
+In other portions of the vignette, we will use a linear model based on the full `mtcars` data set.  We will assign the same variable labels shown above.  We will also create a couple of factor variables to show how factors can be displayed.
+
+```{r, echo=FALSE}
+mtcars <- mutate(mtcars,
+                 am = factor(am, 0:1, c("Automatic", "Manual")),
+                 cyl = factor(cyl),
+                 gear = factor(gear))
+
+Hmisc::label(mtcars$mpg) <- "Gas Mileage"
+Hmisc::label(mtcars$cyl) <- "Cylinders"
+Hmisc::label(mtcars$disp) <- "Displacement"
+Hmisc::label(mtcars$hp) <- "Horse Power"
+Hmisc::label(mtcars$drat) <- "Rear Axle Ratio"
+Hmisc::label(mtcars$wt) <- "Weight"
+Hmisc::label(mtcars$qsec) <- "1/4 mile time"
+Hmisc::label(mtcars$vs) <- "V/S"
+Hmisc::label(mtcars$am) <- "Transmission"
+Hmisc::label(mtcars$gear) <- "Forward Gears"
+Hmisc::label(mtcars$carb) <- "Carburetors"
+
+fit <- lm(mpg ~ am + wt + qsec + gear, data = mtcars)
+```
+
+
+
+# HTML Output
+
+## Multirow Headers and Footers
+
+To illustrate the multirow headers and footers, we will generate a header that has both the column name and the label.  The footer will summarise the values in each column by mean and standard deviation.
+
+```{r}
+custom_head <- rbind(names(mtcars2), Hmisc::label(mtcars2)) %>%
+  as.data.frame(stringsAsFactors = FALSE)
+
+custom_foot <- rbind(vapply(mtcars2, mean, numeric(1)),
+                     vapply(mtcars2, sd, numeric(1))) %>%
+  as.data.frame(stringsAsFactors = FALSE)
+```
+
+Now we need only create a `dust` object and add our custom header and footer.  To replace components of the `dust` object, we "`redust`" the component.  We'll also shade the head and foot in different shades of gray to make them stand out.
+
+```{r}
+dust(mtcars2) %>%
+  redust(custom_head, part = "head") %>%
+  redust(custom_foot, part = "foot") %>%
+  sprinkle_table(round = 2) %>%
+  sprinkle(bg = "gray", part = "head") %>%
+  sprinkle(bg = "lightgray", part = "foot") %>%
+  sprinkle_print_method("html")
+```
+
+
+## Longtable Feature
+
+The longtable feature is named for the LaTeX package `longtable`, which will automatically break a table into multiple divisions, each of which is displayed on a separate page.  We can use the long table sprinkle to break a table into divisions of any size we like.  In this example, we'll use divisions of four rows each.  We will use the same header and footer as the previous example, and we'll also make use of the _interfoot_, which is the footer placed at the bottom of each intermediate table, while the footer is placed only at the bottom of the last table.  We'll make use of the multi-cell feature for the interfoot here, although we won't really discuss it until the next section.
+
+The code for this table is nearly identical to the previous example.  We just add a `redust` call for the interfoot and add a `longtable` argument to `sprinkle_table`.
+
+```{r}
+custom_interfoot <- data.frame("To Be Continued", 
+                               "", "", "", "", "", "",
+                               "", "", "", "")
+
+(x <- dust(mtcars2) %>%
+  redust(custom_head, part = "head") %>%
+  redust(custom_foot, part = "foot") %>%
+  redust(custom_interfoot, part = "interfoot") %>%
+  sprinkle_table(round = 2, longtable = 4) %>%
+  sprinkle(bg = "gray", part = "head") %>%
+  sprinkle(bg = "lightgray", part = "foot") %>%
+  sprinkle(bg = "lightgray", part = "interfoot") %>%
+  sprinkle_print_method("html"))
+```
+
+## Multi-cell Representations
+
+The table above doesn't look quite right, however, because the "To Be Continued" appears in one cell when it might look better spread out on a single line.  We can use the `merge` sprinkle to merge all of the cells in the `interfoot` in order to make it appear more fluid.
+
+```{r}
+x %>%
+  sprinkle(merge = TRUE, halign = "center", part = "interfoot")
+```
+
+The `merge` sprinkle may be used to join any number of conjoined cells. The following example is for illustration only, and probably wouldn't be put to use in any meaningful application.  What we will do is merge nine cells and display the value of the center cell.  Take notice of where the value `160` appears in the table below compared to the table above.
+
+```{r}
+x %>%
+  sprinkle(merge = TRUE, halign = "center", part = "interfoot") %>%
+  sprinkle(rows = 1:3, cols = 2:4,
+           merge = TRUE, merge_rowval = 2, merge_colval = 3,
+           halign = "center")
+```
+
+## Model Summaries with Fit Statistics
+
+`pixiedust` offers a few options to help simplify the preparation of model output for tabular display.  If you choose to use the `label` functions from the `Hmisc` package, these labels can be accessed for the table.  Additionally, the levels of factor variables may be printed in a more human-readable format.
+
+```{r}
+fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), 
+          data = mtcars)
+
+dust(fit, descriptors = c("label", "level")) %>%
+  sprinkle(cols = 3:5, round = 2) %>%
+  sprinkle(cols = 6, fn = quote(pvalString(value))) %>%
+  sprinkle_print_method("html")
+```
+
+Or, if we wish to see the reference value of the factors, we can request the `"level_detail"` descriptor.
+
+```{r}
+dust(fit, descriptors = c("label", "level_detail")) %>%
+  sprinkle(cols = 3:5, round = 2) %>%
+  sprinkle(cols = 6, fn = quote(pvalString(value))) %>%
+  sprinkle_print_method("html")
+```
+
+One word of caution: The labels are pulled from the data obtained by `model.frame`, and if you apply a function to a term in your formula, you might lose the label.  Consider the example below, where we include the `vs` variable, but convert it from a numeric to a factor. If retaining the label is important to you, making your conversions prior to assigning the labels will be a good habit.  Don't fret too much, however, as you can always replace a cell's content with the `replace` sprinkle.
+
+```{r}
+fit <- lm(mpg ~ qsec + am + wt + gear + factor(vs), 
+          data = mtcars)
+
+dust(fit, descriptors = c("label", "level_detail")) %>%
+  sprinkle(cols = 3:5, round = 2) %>%
+  sprinkle(cols = 6, fn = quote(pvalString(value))) %>%
+  sprinkle_print_method("html")
+```
+
+In addition to providing better labeling of terms and factor levels, `pixiedust` allows you to add model fit statistics in a similar manner that the `stargazer` package does.  Under the default settings, we can build these statistics in the following manner:
+
+```{r}
+fit <- lm(mpg ~ qsec + am + wt + gear, 
+          data = mtcars)
+
+dust(fit, descriptors = c("label", "level_detail"),
+     glance_foot = TRUE) %>%
+  sprinkle(cols = 3:5, round = 2) %>%
+  sprinkle(cols = 6, fn = quote(pvalString(value))) %>%
+  sprinkle(rows = 1, border = "top") %>%
+  sprinkle(cols = c(2, 6), round = 2, na_string = "",
+           part = "foot") %>%
+  sprinkle(rows = 1, border = "top", part = "foot") %>%
+  sprinkle_print_method("html")
+```
+
+At times, we may find the volume of these fit statistics overwhelming and may want to display only a subset of them.  This can be done with the use of the `glance_stats` argument in `dust`.  In addition to selecting the statistics to display, the order in which they are displayed may also be controlled.
+
+```{r}
+fit <- lm(mpg ~ qsec + am + wt + gear, 
+          data = mtcars)
+
+dust(fit, descriptors = c("label", "level_detail"),
+     glance_foot = TRUE,
+     glance_stats = c("AIC", "adj.r.squared", "BIC", "df"),
+     byrow = TRUE) %>%
+  sprinkle(cols = 3:5, round = 2) %>%
+  sprinkle(cols = 6, fn = quote(pvalString(value))) %>%
+  sprinkle(rows = 1, border = "top") %>%
+  sprinkle(cols = c(2, 6), round = 2, na_string = "",
+           part = "foot") %>%
+  sprinkle(rows = 1, border = "top", part = "foot") %>%
+  sprinkle_print_method("html")
+```
+
+# Console Output
+
+The console output isn't as sophisticated as the HTML output, and so not all of the sprinkles applied to the HTML table will show up in the console.  Background shading in particular doesn't appear in the console. Multirow headers and footers still work, however.
+
+## Multirow Headers and Footers
+
+To illustrate the multirow headers and footers, we will generate a header that has both the column name and the label.  The footer will summarise the values in each column by mean and standard deviation.
+
+```{r}
+custom_head <- rbind(names(mtcars2), Hmisc::label(mtcars2)) %>%
+  as.data.frame(stringsAsFactors = FALSE)
+
+custom_foot <- rbind(vapply(mtcars2, mean, numeric(1)),
+                     vapply(mtcars2, sd, numeric(1))) %>%
+  as.data.frame(stringsAsFactors = FALSE)
+```
+
+Now we need only create a `dust` object and add our custom header and footer.  To replace components of the `dust` object, we "`redust`" the component.  We'll also shade the head and foot in different shades of gray to make them stand out.
+
+```{r}
+dust(mtcars2) %>%
+  redust(custom_head, part = "head") %>%
+  redust(custom_foot, part = "foot") %>%
+  sprinkle_table(round = 2) %>%
+  sprinkle(bg = "gray", part = "head") %>%
+  sprinkle(bg = "lightgray", part = "foot") %>%
+  sprinkle_print_method("console")
+```
+
+
+## Longtable Feature
+
+The longtable feature is named for the LaTeX package `longtable`, which will automatically break a table into multiple divisions, each of which is displayed on a separate page.  We can use the long table sprinkle to break a table into divisions of any size we like.  In this example, we'll use divisions of four rows each.  We will use the same header and footer as the previous example, and we'll also make use of the _interfoot_, which is the footer placed at the bottom of each intermediate table, while the footer is placed only at the bottom of the last table.  We'll make use of the multi-cell feature for the interfoot here, although we won't really discuss it until the next section.
+
+The code for this table is nearly identical to the previous example.  We just add a `redust` call for the interfoot and add a `longtable` argument to `sprinkle_table`.
+
+```{r}
+custom_interfoot <- data.frame("To Be Continued", 
+                               "", "", "", "", "", "",
+                               "", "", "", "")
+
+(x <- dust(mtcars2) %>%
+  redust(custom_head, part = "head") %>%
+  redust(custom_foot, part = "foot") %>%
+  redust(custom_interfoot, part = "interfoot") %>%
+  sprinkle_table(round = 2, longtable = 4) %>%
+  sprinkle(bg = "gray", part = "head") %>%
+  sprinkle(bg = "lightgray", part = "foot") %>%
+  sprinkle(bg = "lightgray", part = "interfoot") %>%
+  sprinkle_print_method("console"))
+```
+
+## Multi-cell Representations
+
+The table above doesn't look quite right, however, because the "To Be Continued" appears in one cell when it might look better spread out on a single line.  With the HTML output, we could use the `merge` sprinkle to merge all of the cells in the `interfoot` in order to make it appear more fluid.  However, this feature isn't supported by the console, so the best we can get is the text in one cell.
+
+```{r}
+x %>%
+  sprinkle(merge = TRUE, halign = "center", part = "interfoot")
+```
+
+The `merge` sprinkle may be used to join any number of conjoined cells. The following example is for illustration only, and probably wouldn't be put to use in any meaningful application.  What we will do is merge nine cells and display the value of the center cell.  Take notice of where the value `160` appears in the table below compared to the table above.  In the case of markdown output, the cells aren't actually merged, but the values of the non-displayed cells are set to `""`.
+
+```{r}
+x %>%
+  sprinkle(merge = TRUE, halign = "center", part = "interfoot") %>%
+  sprinkle(rows = 1:3, cols = 2:4,
+           merge = TRUE, merge_rowval = 2, merge_colval = 3,
+           halign = "center")
+```
+
+## Model Summaries with Fit Statistics
+
+`pixiedust` offers a few options to help simplify the preparation of model output for tabular display.  If you choose to use the `label` functions from the `Hmisc` package, these labels can be accessed for the table.  Additionally, the levels of factor variables may be printed in a more human-readable format.
+
+```{r}
+fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), 
+          data = mtcars)
+
+dust(fit, descriptors = c("label", "level")) %>%
+  sprinkle(cols = 3:5, round = 2) %>%
+  sprinkle(cols = 6, fn = quote(pvalString(value))) %>%
+  sprinkle_print_method("console")
+```
+
+Or, if we wish to see the reference value of the factors, we can request the `"level_detail"` descriptor.
+
+```{r}
+dust(fit, descriptors = c("label", "level_detail")) %>%
+  sprinkle(cols = 3:5, round = 2) %>%
+  sprinkle(cols = 6, fn = quote(pvalString(value))) %>%
+  sprinkle_print_method("console")
+```
+
+One word of caution: The labels are pulled from the data obtained by `model.frame`, and if you apply a function to a term in your formula, you might lose the label.  Consider the example below, where we include the `vs` variable, but convert it from a numeric to a factor. If retaining the label is important to you, making your conversions prior to assigning the labels will be a good habit.  Don't fret too much, however, as you can always replace a cell's content with the `replace` sprinkle.
+
+```{r}
+fit <- lm(mpg ~ qsec + am + wt + gear + factor(vs), 
+          data = mtcars)
+
+dust(fit, descriptors = c("label", "level_detail")) %>%
+  sprinkle(cols = 3:5, round = 2) %>%
+  sprinkle(cols = 6, fn = quote(pvalString(value))) %>%
+  sprinkle_print_method("console")
+```
+
+In addition to providing better labeling of terms and factor levels, `pixiedust` allows you to add model fit statistics in a similar manner that the `stargazer` package does.  Under the default settings, we can build these statistics in the following manner:
+
+```{r}
+fit <- lm(mpg ~ qsec + am + wt + gear, 
+          data = mtcars)
+
+dust(fit, descriptors = c("label", "level_detail"),
+     glance_foot = TRUE) %>%
+  sprinkle(cols = 3:5, round = 2) %>%
+  sprinkle(cols = 6, fn = quote(pvalString(value))) %>%
+  sprinkle(rows = 1, border = "top") %>%
+  sprinkle(cols = c(2, 6), round = 2, na_string = "",
+           part = "foot") %>%
+  sprinkle(rows = 1, border = "top", part = "foot") %>%
+  sprinkle_print_method("console")
+```
+
+At times, we may find the volume of these fit statistics overwhelming and may want to display only a subset of them.  This can be done with the use of the `glance_stats` argument in `dust`.  In addition to selecting the statistics to display, the order in which they are displayed may also be controlled.
+
+```{r}
+fit <- lm(mpg ~ qsec + am + wt + gear, 
+          data = mtcars)
+
+dust(fit, descriptors = c("label", "level_detail"),
+     glance_foot = TRUE,
+     glance_stats = c("AIC", "adj.r.squared", "BIC", "df"),
+     byrow = TRUE) %>%
+  sprinkle(cols = 3:5, round = 2) %>%
+  sprinkle(cols = 6, fn = quote(pvalString(value))) %>%
+  sprinkle(rows = 1, border = "top") %>%
+  sprinkle(cols = c(2, 6), round = 2, na_string = "",
+           part = "foot") %>%
+  sprinkle(rows = 1, border = "top", part = "foot") %>%
+  sprinkle_print_method("console")
+```
+
+# Markdown Output
+
+Markdown output will support some of the features of `pixiedust` a little better, but they are still pretty limited.  Background colors are not supported.  Headers will appear in bold text.  To distinguish the footers, we'll print them in italics.
+
+## Multirow Headers and Footers
+
+To illustrate the multirow headers and footers, we will generate a header that has both the column name and the label.  The footer will summarise the values in each column by mean and standard deviation.
+
+```{r}
+custom_head <- rbind(names(mtcars2), Hmisc::label(mtcars2)) %>%
+  as.data.frame(stringsAsFactors = FALSE)
+
+custom_foot <- rbind(vapply(mtcars2, mean, numeric(1)),
+                     vapply(mtcars2, sd, numeric(1))) %>%
+  as.data.frame(stringsAsFactors = FALSE)
+```
+
+Now we need only create a `dust` object and add our custom header and footer.  To replace components of the `dust` object, we "`redust`" the component.  We'll also shade the head and foot in different shades of gray to make them stand out.
+
+```{r}
+dust(mtcars2) %>%
+  redust(custom_head, part = "head") %>%
+  redust(custom_foot, part = "foot") %>%
+  sprinkle_table(round = 2) %>%
+  sprinkle(bg = "gray", part = "head") %>%
+  sprinkle(bg = "lightgray", part = "foot") %>%
+  sprinkle_print_method("markdown")
+```
+
+
+## Longtable Feature
+
+The longtable feature is named for the LaTeX package `longtable`, which will automatically break a table into multiple divisions, each of which is displayed on a separate page.  We can use the long table sprinkle to break a table into divisions of any size we like.  In this example, we'll use divisions of four rows each.  We will use the same header and footer as the previous example, and we'll also make use of the _interfoot_, which is the footer placed at the bottom of each intermediate table, while the footer is placed only at the bottom of the last table.  We'll make use of the multi-cell feature for the interfoot here, although we won't really discuss it until the next section.
+
+The code for this table is nearly identical to the previous example.  We just add a `redust` call for the interfoot and add a `longtable` argument to `sprinkle_table`.
+
+```{r}
+custom_interfoot <- data.frame("To Be Continued", 
+                               "", "", "", "", "", "",
+                               "", "", "", "")
+
+(x <- dust(mtcars2) %>%
+  redust(custom_head, part = "head") %>%
+  redust(custom_foot, part = "foot") %>%
+  redust(custom_interfoot, part = "interfoot") %>%
+  sprinkle_table(round = 2, longtable = 4) %>%
+  sprinkle(bg = "gray", part = "head") %>%
+  sprinkle(bg = "lightgray", part = "foot") %>%
+  sprinkle(bg = "lightgray", part = "interfoot") %>%
+  sprinkle_print_method("markdown"))
+```
+
+## Multi-cell Representations
+
+The table above doesn't look quite right, however, because the "To Be Continued" appears in one cell when it might look better spread out on a single line.  With the HTML output, we could use the `merge` sprinkle to merge all of the cells in the `interfoot` in order to make it appear more fluid.  However, this feature isn't supported by markdown, so the best we can get is the text in one cell.
+
+```{r}
+x %>%
+  sprinkle(merge = TRUE, halign = "center", part = "interfoot")
+```
+
+The `merge` sprinkle may be used to join any number of conjoined cells. The following example is for illustration only, and probably wouldn't be put to use in any meaningful application.  What we will do is merge nine cells and display the value of the center cell.  Take notice of where the value `160` appears in the table below compared to the table above.  In the case of markdown output, the cells aren't actually merged, but the values of the non-displayed cells are set to `""`.
+
+```{r}
+x %>%
+  sprinkle(merge = TRUE, halign = "center", part = "interfoot") %>%
+  sprinkle(rows = 1:3, cols = 2:4,
+           merge = TRUE, merge_rowval = 2, merge_colval = 3,
+           halign = "center")
+```
+
+## Model Summaries with Fit Statistics
+
+`pixiedust` offers a few options to help simplify the preparation of model output for tabular display.  If you choose to use the `label` functions from the `Hmisc` package, these labels can be accessed for the table.  Additionally, the levels of factor variables may be printed in a more human-readable format.
+
+```{r}
+fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), 
+          data = mtcars)
+
+dust(fit, descriptors = c("label", "level")) %>%
+  sprinkle(cols = 3:5, round = 2) %>%
+  sprinkle(cols = 6, fn = quote(pvalString(value))) %>%
+  sprinkle_print_method("markdown")
+```
+
+Or, if we wish to see the reference value of the factors, we can request the `"level_detail"` descriptor.
+
+```{r}
+dust(fit, descriptors = c("label", "level_detail")) %>%
+  sprinkle(cols = 3:5, round = 2) %>%
+  sprinkle(cols = 6, fn = quote(pvalString(value))) %>%
+  sprinkle_print_method("markdown")
+```
+
+One word of caution: The labels are pulled from the data obtained by `model.frame`, and if you apply a function to a term in your formula, you might lose the label.  Consider the example below, where we include the `vs` variable, but convert it from a numeric to a factor. If retaining the label is important to you, making your conversions prior to assigning the labels will be a good habit.  Don't fret too much, however, as you can always replace a cell's content with the `replace` sprinkle.
+
+```{r}
+fit <- lm(mpg ~ qsec + am + wt + gear + factor(vs), 
+          data = mtcars)
+
+dust(fit, descriptors = c("label", "level_detail")) %>%
+  sprinkle(cols = 3:5, round = 2) %>%
+  sprinkle(cols = 6, fn = quote(pvalString(value))) %>%
+  sprinkle_print_method("markdown")
+```
+
+In addition to providing better labeling of terms and factor levels, `pixiedust` allows you to add model fit statistics in a similar manner that the `stargazer` package does.  Under the default settings, we can build these statistics in the following manner:
+
+```{r}
+fit <- lm(mpg ~ qsec + am + wt + gear, 
+          data = mtcars)
+
+dust(fit, descriptors = c("label", "level_detail"),
+     glance_foot = TRUE) %>%
+  sprinkle(cols = 3:5, round = 2) %>%
+  sprinkle(cols = 6, fn = quote(pvalString(value))) %>%
+  sprinkle(rows = 1, border = "top") %>%
+  sprinkle(cols = c(2, 6), round = 2, na_string = "",
+           part = "foot") %>%
+  sprinkle(rows = 1, border = "top", part = "foot") %>%
+  sprinkle_print_method("markdown")
+```
+
+At times, we may find the volume of these fit statistics overwhelming and may want to display only a subset of them.  This can be done with the use of the `glance_stats` argument in `dust`.  In addition to selecting the statistics to display, the order in which they are displayed may also be controlled.
+
+```{r}
+fit <- lm(mpg ~ qsec + am + wt + gear, 
+          data = mtcars)
+
+dust(fit, descriptors = c("label", "level_detail"),
+     glance_foot = TRUE,
+     glance_stats = c("AIC", "adj.r.squared", "BIC", "df"),
+     byrow = TRUE) %>%
+  sprinkle(cols = 3:5, round = 2) %>%
+  sprinkle(cols = 6, fn = quote(pvalString(value))) %>%
+  sprinkle(rows = 1, border = "top") %>%
+  sprinkle(cols = c(2, 6), round = 2, na_string = "",
+           part = "foot") %>%
+  sprinkle(rows = 1, border = "top", part = "foot") %>%
+  sprinkle_print_method("markdown")
+```
