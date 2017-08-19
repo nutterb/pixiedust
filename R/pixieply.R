@@ -9,10 +9,20 @@
 #'   medleys as a method that can work with both \code{dust} and \code{dust_list}
 #'   objects.  \code{pixieply} is a wrapper to \code{lapply} that preserves the
 #'   \code{dust_list} class of the object.
+#'   
+#'   \code{pixiemap} provides functionality to apply differing sprinkles over
+#'   each element of a \code{dust_list}.  The most common example is probably
+#'   adding a unique caption to each table.
 #'  
 #' @param X An object of class \code{dust_list}.
 #' @param FUN A function to apply to each element of \code{X}
 #' @param ... Additional arguments to pass to \code{FUN}
+#' @param MoreArgs a list of other arguments to FUN
+#' @param SIMPLIFY logical or character string; attempt to reduce the result 
+#'   to a vector, matrix or higher dimensional array; see the \code{simplify} 
+#'   argument of \code{\link{sapply}}
+#' @param USE.NAMES logical; use names if the first ... argument has names, 
+#'   or if it is a character vector, use that character vector as the names.
 #' 
 #' @examples 
 #' \dontrun{
@@ -52,6 +62,24 @@ pixieply <- function(X, FUN, ...)
     lapply(X = X,
            FUN = FUN,
            ...),
+    class = "dust_list"
+  )
+}
+
+#' @rdname pixieply
+#' @export
+
+pixiemap <- function(X, FUN, ..., MoreArgs = NULL, SIMPLIFY = FALSE, USE.NAMES = TRUE)
+{
+  checkmate::assertClass(X, "dust_list")
+  
+  structure(
+    mapply(FUN = FUN, 
+           X,
+           ...,
+           MoreArgs = MoreArgs,
+           SIMPLIFY = SIMPLIFY,
+           USE.NAMES = USE.NAMES),
     class = "dust_list"
   )
 }

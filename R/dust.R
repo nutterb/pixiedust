@@ -1,10 +1,5 @@
 #' @name dust
 #' @export dust
-#' @importFrom dplyr bind_cols
-#' @importFrom dplyr distinct
-#' @importFrom dplyr left_join
-#' @importFrom dplyr mutate_
-#' @importFrom tidyr gather_
 #' 
 #' @title Dust Table Construction
 #' @description Dust tables consist of four primary components that are 
@@ -83,6 +78,8 @@
 #'   the page.  May be \code{"center"} (default), \code{"left"}, or \code{"right"}.
 #' @param bookdown Logical. When \code{TRUE}, \code{bookdown} style labels are
 #'   generated.  Defaults to \code{FALSE}.
+#' @param border_collapse \code{character(1)}. One of \code{"collapse"}, 
+#'   \code{"separate"}, \code{"initial"}, or \code{"inherit"}.
 #' @param ... Additional arguments to pass to \code{tidy}
 #' @param ungroup Used when a \code{grouped_df} object is passed to \code{dust}.
 #'   When \code{TRUE} (the default), the object is ungrouped and dusted 
@@ -129,15 +126,22 @@
 #'   the \code{print} method is invoked.  The default is to print to the 
 #'   console.
 #'   
+#'   Many of these options may be set globally.  See 
+#'   \code{\link{pixiedust}} for a complete list of package options.
+#'   
 #' @return Returns an object of class \code{dust}
-#'
-#' @section Upcoming Developments:
-#' \itemize{
-#'   \item{dust_part }{A wrapper for extracting objects from a \code{dust} 
-#'      object.  This is intended to assist in building custom heads and feet.}
-#' }
 #' 
-#' @seealso \code{\link[broom]{tidy}} \code{\link{glance_foot}} \code{\link{tidy_levels_labels}}
+#' @section Symbols and Greek Letters:
+#' When using markdown, math symbols and greek letters may be employed as 
+#' they would within a markdown document.  For example, \code{"$\alpha$"}
+#' will render as the lower case Greek alpha.  Math symbols may be rendered
+#' in the same manner.
+#' 
+#' @seealso \code{\link[broom]{tidy}} \code{\link{glance_foot}} 
+#'   \code{\link{tidy_levels_labels}} \code{\link{pixiedust}}
+#' 
+#' \code{\link{get_dust_part}} for extracting parts of the \code{dust} object
+#' in order to build custom headers and/or footers.
 #' 
 #' @author Benjamin Nutter
 #' 
@@ -160,11 +164,12 @@ dust.default <- function(object, ...,
                  numeric_level = c("term", "term_plain", "label"),
                  label = NULL,
                  caption = NULL,
-                 justify = "center",
+                 justify = getOption("pixie_justify", "center"),
                  float = getOption("pixie_float", TRUE),
                  longtable = getOption("pixie_longtable", FALSE),
                  hhline = getOption("pixie_hhline", FALSE),
-                 bookdown = getOption("pixie_bookdown", FALSE))
+                 bookdown = getOption("pixie_bookdown", FALSE),
+                 border_collapse = getOption("pixie_border_collapse", "collapse"))
 {
   coll <- checkmate::makeAssertCollection()
   
@@ -176,37 +181,47 @@ dust.default <- function(object, ...,
   
   #* By default, we assume data.frame-like objects are to be printed
   #* as given.  All other objects are tidied.
-  if (!inherits(object, "data.frame") | tidy_df) 
+  if (!inherits(object, "data.frame") | tidy_df)
+  {
     tidy_object <- broom::tidy(object, ...)
-
-  else if (inherits(object, "data.frame")){
+  }
+  else if (inherits(object, "data.frame"))
+  {
     if (inherits(object, "data.table"))
+    {
       object <- as.data.frame(object)
-    if (keep_rownames){
-      tidy_object <- cbind(rownames(object), object)
+    }
+    if (keep_rownames)
+    {
+      tidy_object <- cbind(rownames(object), 
+                           object)
       rownames(tidy_object) <- NULL
       tidy_object[, 1] <- as.character(tidy_object[, 1])
       names(tidy_object)[1] <- ".rownames"
     }
-    else{
+    else
+    {
       tidy_object <- object
     }
   }
 
-  if (!inherits(object, "data.frame") & any(!descriptors %in% "term")){
+  if (!inherits(object, "data.frame") & any(!descriptors %in% "term"))
+  {
     nms <- names(tidy_object)
     
     tidy_object <- tidy_levels_labels(object,
                                       descriptors = descriptors,
                                       numeric_level = numeric_level,
                                       argcheck = coll) %>%
-      dplyr::left_join(tidy_object, .,
+      dplyr::left_join(x = tidy_object, 
+                       y = .,
                        by = c("term" = "term"))
      if ("label" %in% names(tidy_object))
      {
        tidy_object %<>%
          dplyr::mutate(
-           label = ifelse(grepl("([(]|)Intercept([)]|)", term),
+           label = ifelse(grepl(pattern = "([(]|)Intercept([)]|)", 
+                                x = term),
                           term,
                           label)
          )
@@ -216,16 +231,20 @@ dust.default <- function(object, ...,
     {
       tidy_object %<>%
         dplyr::mutate(
-          label = ifelse(grepl("([(]|)Intercept([)]|)", term),
+          label = ifelse(grepl(pattern = "([(]|)Intercept([)]|)", 
+                               x = term),
                          term,
                          term_plain)
         )
     }
 
     if (!"term" %in% descriptors)
+    {
       nms <- nms[!nms %in% "term"]
+    }
     
-    tidy_object <- dplyr::select_(tidy_object, .dots = c(descriptors, nms))
+    tidy_object <- dplyr::select_(tidy_object, 
+                                  .dots = c(descriptors, nms))
   }
 
   checkmate::reportAssertions(coll)
@@ -235,7 +254,8 @@ dust.default <- function(object, ...,
                         stringsAsFactors=FALSE)
   names(head) <- names(tidy_object)
 
-  if (glance_foot){
+  if (glance_foot)
+  {
     foot <- glance_foot(object,
                         col_pairs = col_pairs,
                         total_cols = ncol(tidy_object),
@@ -243,7 +263,8 @@ dust.default <- function(object, ...,
                         byrow = byrow) %>%
       component_table()
   }
-  else {
+  else 
+  {
     foot <- NULL
   }
 
@@ -256,7 +277,7 @@ dust.default <- function(object, ...,
                  body = component_table(tidy_object),
                  interfoot = NULL,
                  foot = foot,
-                 border_collapse = TRUE,
+                 border_collapse = border_collapse,
                  caption = caption,
                  label = label,
                  justify = justify,
@@ -389,7 +410,8 @@ cell_attributes_frame <- function(nrow, ncol)
 }
 
 
-primaryClass <- function(x){
+primaryClass <- function(x)
+{
   acceptedClasses <- c("integer", "double", "numeric", "character", "factor", "logical")
   class_vector <- class(x)
   class_vector[class_vector %in% acceptedClasses][1]

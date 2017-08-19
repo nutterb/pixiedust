@@ -1,6 +1,31 @@
-### 0.7.5 (05 May 2017)
-* Put in protections against factors. Prevents warnings from 
-  `dplyr::bind_rows` that will occur in an upcoming release.
+### 0.8.0 (TBD)  (Since last CRAN Release)
+
+* Backward Compatibility Break: the `border_collapse` argument was changed
+  to a character argument.  This allows the full options available in HTML.
+  The new default is `border_collapse = "collapse"`, which is the equivalent
+  of `border_collapse = TRUE`. Backward compatibility will be broken only
+  if the `border_collapse` argument was changed.
+* All sprinkles have individual functions to perform their specific task. Now
+  `sprinkle(bg = "blue")` may also be done via `sprinkle_bg(bg = 'blue')`. 
+  Although this isn't a much of a change to the user, it makes infrastructure
+  changes possible that will make the codebase easier to support.
+* Added the `discrete` and `discrete_colors` sprinkles. (Issue #56)
+* Added the `gradient`, `gradient_n`, `gradient_cut`, and `gradient_colors`
+  sprinkles. (Issue #56)
+* Fix hexadecimal color transparency bug (Issue #66)
+* Added `get_dust_part` to assist with generation of custom headers and 
+  footers (Issue #72)
+* Removed CSS styling for tables from the vignettes.  (Issue #69)
+* Reduced spacing between table and caption in the LaTeX `longtable` 
+  environment.
+* Fixes to support dplyr 0.5.0 (thanks to David Kretch)
+* Better control over when to print to interactive environment viewer.
+  (Issue #88)
+
+### 0.7.5 (26 August 2016)
+* Add `pixiemap` for applying differing sprinkles across a `dust_list`
+* Add the argument `logical_rows` for dynamically locating rows to sprinkle
+* Include a link to the pixiedust webpage for documentation augmentation.
 
 ### 0.7.4 (17 June 2016)
 * Guard against changes to `options()$scipen` (Issue #62)

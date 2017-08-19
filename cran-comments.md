@@ -1,23 +1,23 @@
 ## Test environments
-* local Windows install (R-3.4.0 and devel 3.5.0 2015-05-04 r72654)
-* x86_64-pc-linux-gnu (64-bit) (on travis-ci), R 3.2.4
-* win-builder (devel 3.5.0 and release 3.4.0)
+* local Windows install (R-3.3.0)
+* x86_64-pc-linux-gnu (Ubuntu precise 12.04.5 64-bit) (on travis-ci), R 3.3.0
+* win-builder (devel r70793)
 
 ## R CMD check results
 Resubmission note: package names are now single-quoted in description field.
 
 There were no ERRORS or WARNINGS in any of the checks.
 
-NOTE: on win-builder (devel and release)
+NOTE: on win-builder 
 The note flags potentially misspelled words in the package
 description.  All words are correctly spelled.
 
 
 ## Downstream dependencies
-`HydeNet`: The changes in this version of `pixiedust`
-prevent installation errors that would be introduced by an upcoming version
-of `dplyr`. `HydeNet` passes all checks under the current and upcoming version
-of `dplyr`.
+`HydeNet` fails checks due to errors in the unit tests.  This is related
+to updates in the `testthat` package.  I am the maintainer of `HydeNet` 
+and am planning to submit an update to `HydeNet` after `dplyr` is updated
+(scheduled for June 23).
 
 `tadaatoolbox` passes all checks.
 

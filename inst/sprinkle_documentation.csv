@@ -88,6 +88,22 @@ caption,,
 ,markdown,Recognized
 ,html,Recognized
 ,latex,Recognized
+discrete,,
+,action,Adds distinct background colors based on discrete values in the selected region. May not be used concurrently with bg. "font" is an alias for "font_color" and "border" is an alias for all borders.
+,default,"bg",
+,accepts,"bg, font, font_color, border, left_border, top_border, right_border, bottom_border"
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,Recognized
+discrete_color,,
+,action,"Sets the color palette from which discrete selects background colors. If NULL, colors are automatically selected using the scales package."
+,default,"getOption('pixiedust_discrete_pal', NULL)"
+,accepts,character
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,Recognized
 float,,
 ,action,Sets the `float` property
 ,default,TRUE
@@ -148,6 +164,46 @@ halign,,
 ,,"numeric values, but this may change."
 ,latex,Recognized; numeric values will auto align to the right if no
 ,,value given.
+gradient,,
+,action,Adds distinct background colors based on progressively increasing values in the selected region. May not be used concurrently with bg. "font" is an alias for "font_color" and "border" is an alias for all borders.
+,default,"bg"
+,accepts,"bg, font, font_color, border, left_border, top_border, right_border, bottom_border"
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,Recognized
+gradient_colors,,
+,action,Provides the colors between which to shade gradients.
+,default,"getOptions('pixiedust_gradient_pal', NULL)"
+,accepts,character
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,Recognized
+gradient_cut,,
+,action,"Determines the break points for the gradient shading. When NULL, equally spaced quantiles are used, the number of which is determined by gradient_n."
+,default,NULL
+,accepts,numeric vector
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,Recognized
+gradient_n,,
+,action,Determines the number of shades to use between the colors in gradient_colors.
+,default,10
+,accepts,numeric
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,Recognized
+gradient_na,,
+,action,Sets the color of NA values when gradients are shaded.
+,default,grey,
+,accepts,character
+,console,Not recognized
+,markdown,Not recognized
+,html,Recognized
+,latex,Recognized
 height,,
 ,action,Sets the height of the cell
 ,default,

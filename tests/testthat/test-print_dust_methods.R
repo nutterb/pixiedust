@@ -196,4 +196,4 @@ test_that(
     expect_match(x, "#tab:table-ref")
   }
 )
-  
+

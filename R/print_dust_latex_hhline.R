@@ -78,10 +78,10 @@ print_dust_latex_hhline <- function(x, ..., asis=TRUE)
   if (tab_env == "longtable")
   {
     begin <- paste0("\\begin{longtable}[",
-                    substr(x[["justify"]], 1, 1), "]{",
+                    sub("n", "l", substr(x[["justify"]], 1, 1)), "]{",
                     paste0(col_halign_default$default_halign, collapse = ""), "}\n",
                     if (!is.null(x$caption))
-                      paste("\\caption{", x$caption, "}\n")
+                      paste("\\caption{", x$caption, "}")
                     else "", 
                     "\n", label, "\\\\ \n")
     end <- "\\end{longtable}"

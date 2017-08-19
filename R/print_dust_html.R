@@ -6,9 +6,11 @@
 #' @importFrom tidyr spread_
 #' 
 
-print_dust_html <- function(x, ..., asis=TRUE, linebreak_at_end = 2)
+print_dust_html <- function(x, ..., asis=TRUE, 
+                            linebreak_at_end = getOption("pixie_html_linebreak", 2),
+                            interactive = getOption("pixie_interactive"))
 {
-  
+  if (is.null(interactive)) interactive <- interactive()
   if (!is.null(x$caption)) increment_pixie_count()
   
   label <-
@@ -70,7 +72,7 @@ print_dust_html <- function(x, ..., asis=TRUE, linebreak_at_end = 2)
     
     html_code <- sprintf("<table align = '%s' style = 'border-collapse:%s;'>\n%s\n</table>%s",
                          x[["justify"]],
-                         if (x$border_collapse) "collapse" else "separate" , 
+                         x$border_collapse, 
                          paste0(rows, collapse = "\n"),
                          paste0(rep("</br>", linebreak_at_end), collapse = ""))
     
@@ -82,13 +84,13 @@ print_dust_html <- function(x, ..., asis=TRUE, linebreak_at_end = 2)
     
     #* When interactive, write to a temporary file so that it
     #* can be displayed in the viewer
-    if (interactive() & asis){
+    if (interactive & asis){
       write(html_code, tmpfile, append = i > 1)
     }
     else non_interactive <- paste0(non_interactive, html_code)
   }
   # print(html_code)
-  if (interactive() & asis){
+  if (interactive & asis){
     getOption("viewer")(tmpfile)
   }
   else if (asis) knitr::asis_output(htmltools::htmlPreserve(non_interactive))

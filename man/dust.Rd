@@ -16,10 +16,12 @@ dust(object, ...)
   glance_foot = FALSE, glance_stats = NULL, col_pairs = 2,
   byrow = FALSE, descriptors = "term", numeric_level = c("term",
   "term_plain", "label"), label = NULL, caption = NULL,
-  justify = "center", float = getOption("pixie_float", TRUE),
+  justify = getOption("pixie_justify", "center"),
+  float = getOption("pixie_float", TRUE),
   longtable = getOption("pixie_longtable", FALSE),
   hhline = getOption("pixie_hhline", FALSE),
-  bookdown = getOption("pixie_bookdown", FALSE))
+  bookdown = getOption("pixie_bookdown", FALSE),
+  border_collapse = getOption("pixie_border_collapse", "collapse"))
 
 \method{dust}{grouped_df}(object, ungroup = TRUE, ...)
 
@@ -122,6 +124,9 @@ adjoining borders tend to double up and look thicker than when using
 \item{bookdown}{Logical. When \code{TRUE}, \code{bookdown} style labels are
 generated.  Defaults to \code{FALSE}.}
 
+\item{border_collapse}{\code{character(1)}. One of \code{"collapse"}, 
+\code{"separate"}, \code{"initial"}, or \code{"inherit"}.}
+
 \item{ungroup}{Used when a \code{grouped_df} object is passed to \code{dust}.
 When \code{TRUE} (the default), the object is ungrouped and dusted 
 as a single table. When \code{FALSE}, the object is split and each element
@@ -183,13 +188,16 @@ The \code{head} object describes what each column of the table
   The \code{print_method} object determines how the table is rendered when 
   the \code{print} method is invoked.  The default is to print to the 
   console.
+  
+  Many of these options may be set globally.  See 
+  \code{\link{pixiedust}} for a complete list of package options.
 }
-\section{Upcoming Developments}{
+\section{Symbols and Greek Letters}{
 
-\itemize{
-  \item{dust_part }{A wrapper for extracting objects from a \code{dust} 
-     object.  This is intended to assist in building custom heads and feet.}
-}
+When using markdown, math symbols and greek letters may be employed as 
+they would within a markdown document.  For example, \code{"$\alpha$"}
+will render as the lower case Greek alpha.  Math symbols may be rendered
+in the same manner.
 }
 \examples{
 x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars))
@@ -199,6 +207,10 @@ x
 Benjamin Nutter
 }
 \seealso{
-\code{\link[broom]{tidy}} \code{\link{glance_foot}} \code{\link{tidy_levels_labels}}
+\code{\link[broom]{tidy}} \code{\link{glance_foot}} 
+  \code{\link{tidy_levels_labels}} \code{\link{pixiedust}}
+
+\code{\link{get_dust_part}} for extracting parts of the \code{dust} object
+in order to build custom headers and/or footers.
 }
 

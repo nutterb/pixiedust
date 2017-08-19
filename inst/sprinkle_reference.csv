@@ -11,12 +11,19 @@ border_style,border,assert_match_arg,character,,,"c(""solid"", ""dashed"", ""dot
 border_color,border,assertCharacter,,1,,,,Black
 border_collapse,option,assertLogical,,1,,,,
 caption,option,assertCharacter,,1,,,,
+discrete,discrete,assert_match_arg,character,,,"c(""bg"", ""font"", ""font_color"", ""border"", ""left_border"", ""top_border"", ""right_border"", ""bottom_border"")",TRUE,bg
+discrete_colors,discrete,assertCharacter,,,,,,"getOption("pixiedust_discrete_pal", NULL)"
 float,option,assertLogical,,1,,,,
 fn,simple,assertClass,,,call,,,
 font_family,simple,assertCharacter,,1,,,,
 font_color,simple,assertCharacter,,1,,,,
 font_size,font_size,assertNumeric,,1,,,,
 font_size_units,font_size,assert_match_arg,,,,"c(""px"", ""pt"", ""%"", ""em"")",,pt
+gradient,gradient,assert_match_arg,character,,,"c(""bg"", ""font"", ""font_color"", ""border"", ""left_border"", ""top_border"", ""right_border"", ""bottom_border"")",TRUE,bg
+gradient_colors,gradient,assertCharacter,,,,,,"getOption("pixiedust_gradient_pal", 10)"
+gradient_cut,gradient,assertNumeric,,,,,,
+gradient_n,gradient,assertNumeric,,1,,,,10
+gradient_na,gradient,assertCharacter,,1,,,,"grey"
 halign,simple,assert_match_arg,,,,"c(""left"", ""center"", ""right"")",,
 height,height,assertNumeric,,1,,,,
 height_units,height,assert_match_arg,,,,"c(""px"", ""pt"", ""cm"", ""in"", ""%"")",,pt

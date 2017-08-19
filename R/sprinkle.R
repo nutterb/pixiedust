@@ -6,10 +6,15 @@
 #'   with a little extra pixie dust.  Sprinkles are a collection of attributes
 #'   to be applied over a subset of table cells.  They may be added to any 
 #'   part of the table, or to the table as a whole.
-#'   
+# Parameters --------------------------------------------------------  
 #' @param x A dust object
 #' @param rows A numeric vector specifying the rows of the table to sprinkle.
 #'   See details for more about sprinkling.
+#' @param logical_rows An object with class `call` generated as `quote([expr])` where
+#'   the expression resolves to a logical vector based equal in length to the
+#'   number of rows in the table.  This is used to dynamically identify rows
+#'   in the table that will be sprinkled.  An example of input would be 
+#'   \code{quote(col_name == value)}.
 #' @param cols A numeric (or character) vector specifying the columns (or 
 #'   column names) to sprinkle.  See details for more about sprinkling.
 #' @param part A character string denoting which part of the table to modify.
@@ -26,6 +31,7 @@
 #' @param ... named arguments, each of length 1, defining the customizations
 #'   for the given cells.  See "Sprinkles" for a listing of these arguments.
 #'   
+# Details -----------------------------------------------------------
 #' @details Sprinkling is done over the intersection of rows and columns 
 #'   (unless \code{fixed = TRUE}.  If
 #'   rows but no columns are specified, sprinkling is performed over all columns
@@ -53,6 +59,7 @@
 #'   accept multiple parts.  If any of the named parts is \code{"table"}, the sprinkle will be 
 #'   applied to the columns of all of the parts.
 #'   
+# Sprinkles ---------------------------------------------------------  
 #' @section Sprinkles:
 #' The following table describes the valid sprinkles that may be defined in the 
 #' \code{...} dots argument.  All sprinkles may be defined for any output type, but 
@@ -65,7 +72,9 @@
 #'     \tab action    \tab Modifies the background color of a cell. \cr
 #'     \tab default   \tab  \cr
 #'     \tab accepts   \tab dvips color names; rgb(R,G,B); rgba(R,G,B,A); \cr
-#'     \tab           \tab  #RRGGBB; #RRGGBBAA \cr
+#'     \tab           \tab  #RRGGBB; #RRGGBBAA. See the "Colors" section \cr
+#'     \tab           \tab  for further details or \cr 
+#'  \tab              \tab  \url{http://nutterb.github.io/pixiedust/colors.html}. \cr
 #'     \tab console   \tab Not recognized \cr
 #'     \tab markdown  \tab Not recognized \cr
 #'     \tab html      \tab Accepts any of the listed formats; \cr
@@ -131,7 +140,9 @@
 #'  \tab default      \tab "Black" \cr
 #'  \tab accepts      \tab character(1) \cr
 #'  \tab              \tab dvips color names; rgb(R,G,B); rgba(R,G,B,A); \cr
-#'  \tab              \tab #RRGGBB; #RRGGBBAA \cr
+#'  \tab              \tab #RRGGBB; #RRGGBBAA. See the "Colors" section \cr
+#'     \tab           \tab  for further details or \cr 
+#'  \tab              \tab  \url{http://nutterb.github.io/pixiedust/colors.html}. \cr
 #'  \tab console      \tab Not recognized \cr
 #'  \tab markdown     \tab Not recognized \cr
 #'  \tab html         \tab Recognized \cr
@@ -176,6 +187,32 @@
 #'  \tab markdown     \tab Recognized \cr
 #'  \tab html         \tab Recognized \cr
 #'  \tab latex        \tab Recognized \cr
+#' discrete \tab \tab \cr
+#'  \tab action       \tab Adds distinct background colors based on \cr
+#'  \tab              \tab discrete values in the selected region. \cr
+#'  \tab              \tab May not be used concurrently with \code{bg}. \cr
+#'  \tab              \tab \code{"font"} is an alias for \code{"font_color"} \cr
+#'  \tab              \tab and \code{"border"} is an alias for \cr
+#'  \tab              \tab all borders. \cr
+#'  \tab default      \tab "bg" \cr
+#'  \tab accepts      \tab "bg", "font", "font_color", "border", \cr
+#'  \tab              \tab "left_border", "top_border", "right_border", \cr
+#'  \tab              \tab "bottom_border" \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' discrete_color \tab \tab \cr
+#'  \tab action       \tab Sets the color palette from which \code{discrete} \cr
+#'  \tab              \tab selects background colors. If \code{NULL} \cr
+#'  \tab              \tab colors are automatically selected using \cr
+#'  \tab              \tab the \code{scales} package. \cr
+#'  \tab default      \tab \code{getOption("pixie_discrete_pal", NULL)} \cr
+#'  \tab accepts      \tab character \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
 #' float \tab  \tab  \cr
 #'  \tab action       \tab Sets the `float` property \cr
 #'  \tab default      \tab TRUE \cr
@@ -199,7 +236,9 @@
 #'  \tab action       \tab Sets the color of the cell text \cr
 #'  \tab default      \tab Black \cr
 #'  \tab accepts      \tab dvips color names; rgb(R,G,B); rgba(R,G,B,A); \cr
-#'  \tab              \tab #RRGGBB; #RRGGBBAA \cr
+#'  \tab              \tab #RRGGBB; #RRGGBBAA. See the "Colors" section \cr
+#'     \tab           \tab  for further details or \cr 
+#'  \tab              \tab  \url{http://nutterb.github.io/pixiedust/colors.html}. \cr
 #'  \tab console      \tab Not recognized \cr
 #'  \tab markdown     \tab Not recognized \cr
 #'  \tab html         \tab Recognized; transparency recognized \cr
@@ -231,6 +270,61 @@
 #'  \tab html         \tab Recognized \cr
 #'  \tab latex        \tab Only recognizes "pt" and "em".  \cr
 #'  \tab              \tab All others are coerced to "pt" \cr
+#' gradient \tab  \tab  \cr
+#'  \tab action       \tab Adds distinct background colors based on \cr
+#'  \tab              \tab progressively increasing values in the \cr
+#'  \tab              \tab selected region. May not be used concurrently \cr 
+#'  \tab              \tab with \code{bg}. \cr
+#'  \tab              \tab \code{"font"} is an alias for \code{"font_color"} \cr
+#'  \tab              \tab and \code{"border"} is an alias for \cr
+#'  \tab              \tab all borders. \cr
+#'  \tab default      \tab "bg" \cr
+#'  \tab accepts      \tab "bg", "font", "font_color", "border", \cr
+#'  \tab              \tab "left_border", "top_border", "right_border", \cr
+#'  \tab              \tab "bottom_border" \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' gradient_colors \tab \tab \cr
+#'  \tab action       \tab Provides the colors between which to \cr
+#'  \tab              \tab shade gradients. \cr
+#'  \tab default      \tab \code{getOptions("pixie_gradient_pal", NULL)} \cr
+#'  \tab accepts      \tab character \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' gradient_cut \tab  \tab  \cr
+#'  \tab action       \tab Determines the breaks points for the \cr
+#'  \tab              \tab gradient shading. When \code{NULL}  \cr
+#'  \tab              \tab equally spaced quantiles are used, the \cr
+#'  \tab              \tab number of which are determined by \cr
+#'  \tab              \tab \code{gradient_n}. \cr
+#'  \tab default      \tab NULL \cr
+#'  \tab accepts      \tab numeric \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' gradient_n \tab  \tab  \cr
+#'  \tab action       \tab Determines the number of shades to use \cr
+#'  \tab              \tab between the colors in \code{gradient_colors}.\cr
+#'  \tab default      \tab 10 \cr
+#'  \tab accepts      \tab numeric \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
+#' gradient_na \tab  \tab  \cr
+#'  \tab action       \tab Sets the color of NA values when gradients \cr
+#'  \tab              \tab are shaded. \cr
+#'  \tab default      \tab grey \cr
+#'  \tab accepts      \tab character(1) \cr
+#'  \tab console      \tab Not recognized \cr
+#'  \tab markdown     \tab Not recognized \cr
+#'  \tab html         \tab Recognized \cr
+#'  \tab latex        \tab Recognized \cr
 #' halign \tab  \tab  \cr
 #'  \tab action       \tab Sets the horizontal alignment of the text in \cr
 #'  \tab              \tab the cell \cr
@@ -450,6 +544,7 @@
 #'  \tab latex        \tab Recognized; "px" is coerced to "pt" \cr
 #' }
 #' 
+# Longtable details -------------------------------------------------
 #' @section Longtable:
 #' The \code{longtable} feature is named for the LaTeX package used to break very large 
 #' tables into multiple pages.  
@@ -464,6 +559,7 @@
 #' \code{interfoot} is provided, it is appended to the bottom of each section, with the 
 #' exception of the last section.  The last section has the \code{foot} appended.
 #'
+# Colors ------------------------------------------------------------
 #' @section Colors:
 #' Colors may be declared as any of the color names in \code{colors()}, 
 #' as rgb character strings such as \code{"rgb(rrr,ggg,bbb)"} or as 
@@ -481,7 +577,11 @@
 #'
 #' All colors are internally translated into rgb format and are case insensitive.
 #' 
+# LaTeX Packages ----------------------------------------------------
 #' @section Required LaTeX Packages:
+#' (Read more about \code{pixiedust} with LaTeX at 
+#' http://nutterb.github.io/pixiedust/latex-configuration.html)
+#' 
 #' If you will be using the LaTeX output, some sprinkles will require you 
 #' to include additional LaTeX packages in your document preamble.  In 
 #' \code{.Rnw} files, additional packages can be included with the 
@@ -534,7 +634,7 @@
 #' \code{ - \\newcommand*\\vdashline\{\\rotatebox[origin=c]\{90\}\{\$\\dabar@@\\dabar@@\\dabar@@\$\}\}} \cr
 #' \code{ - \\makeatother}
 #' 
-#'
+# Remaining Documentation -------------------------------------------
 #' @seealso 
 #' \code{\link{sprinkle_colnames}} for changing column names in a table.
 #' 
@@ -560,20 +660,24 @@
 #' @rdname sprinkle
 #' @export
 
+# sprinkle method ---------------------------------------------------
 sprinkle <- function(x, rows = NULL, cols = NULL, ...,
                      part = c("body", "head", "foot", "interfoot", "table"))
 {
   UseMethod("sprinkle")
 }
 
+# sprinkle.default --------------------------------------------------
 #' @rdname sprinkle
 #' @export
 
-sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
+sprinkle.default <- function(x, rows = NULL, cols = NULL, logical_rows = NULL, ...,
                              part = c("body", "head", "foot", "interfoot", "table"),
                              fixed = FALSE, 
                              recycle = c("none", "rows", "cols", "columns"))
 {
+  
+# Argument validations ----------------------------------------------
   coll <- checkmate::makeAssertCollection()
   
   checkmate::assertClass(x = x,
@@ -621,9 +725,32 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
       cols <- cols[!is.na(cols)]
     }
     
+    if (!is.null(logical_rows))
+    {
+      valid_row_logic <- 
+        checkmate::check_class(x = logical_rows,
+                               classes = "call")
+      checkmate::makeAssertion(x = logical_rows,
+                               res = valid_row_logic,
+                               collection = coll)
+      
+      if (valid_row_logic)
+      {
+        rows_by_logic <- 
+          which(
+            with(
+              as.data.frame(x), 
+              eval(logical_rows)
+            )
+          )
+        
+        rows <- unique(c(rows, rows_by_logic))
+      }
+    }
+    
     #* If rows or cols isn't given, assume the sprinkle should be applied
     #* across the entire dimension.
-    if (is.null(rows) | length(rows) == 0)
+    if (is.null(rows))
     {
       rows <- 1:max(x[[part]][["row"]])
     }
@@ -658,12 +785,32 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
   checkmate::assertNumeric(x = rows,
                            add = coll)
   
-
   sprinkles <- list(...)
 
   if (!length(sprinkles))
   {
     coll$push("No sprinkles in `...` to `sprinkle`")
+  }
+  else
+  {
+    sprinkle_match <- 
+      SprinkleRef$sprinkle[pmatch(names(sprinkles), 
+                                  SprinkleRef$sprinkle)]
+    
+    unmatched_sprinkle <- 
+      names(sprinkles)[which(is.na(sprinkle_match))]
+    
+    names(sprinkles) <- sprinkle_match
+    
+    if (length(unmatched_sprinkle))
+    {
+      coll$push(
+        sprintf("The following arguments could not be matched to an existing sprinkle (check spelling and partial matching): %s",
+                paste(unmatched_sprinkle, collapse = ", "))
+      )
+      
+      sprinkles <- sprinkles[!is.na(names(sprinkles))]
+    }
   }
   
   #* Some love for longtable.  Characters given to longtable
@@ -690,7 +837,7 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
   assert_sprinkles(sprinkles = sprinkles,
                    coll = coll,
                    recycle = recycle)
-  
+
   #* Additional assertions
   
   #* Cast an error if merge_rowval or merge_colval is given but not merge
@@ -726,18 +873,31 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
       color_sprinkles(sprinkles = sprinkles[given_color_sprinkles],
                       coll = coll)
   }
+  
+  # Prevent `discrete` and `bg` from being used together
+  if (all(c("discrete", "bg") %in% names(sprinkles)))
+  {
+    if ("bg" %in% sprinkles[["discrete"]])
+      coll$push("`discrete = 'bg'` and the `bg` sprinkle may not be used in the same call")
+  }
+
+  if (all(c("discrete", "border") %in% names(sprinkles)))
+  {
+    if ("border" %in% sprinkles[["discrete"]])
+      coll$push("`discrete = 'border' and the `border` sprinkle may not be used in the same call")
+  }
 
   #* Return any errors found.
   checkmate::reportAssertions(coll)
 
-  
+# Functional Code ---------------------------------------------------
   #* Sprinkles in the `option` group.
   #* These are sprinkles that affect options found in `dust`,
   #* such as longtable, caption, and label.
-  
+
   x <- option_sprinkles(x = x, 
                         sprinkles = sprinkles)
-  
+
   #* Special care for the `sanitize_args` sprinkle
   if ("sanitize_args" %in% names(sprinkles))
   {
@@ -745,7 +905,7 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
       deparse(sprinkles[["sanitize_args"]]) %>%
       paste0(collapse = "")
   }
-  
+
   #* Sprinkles in the `simple` group.
   #* These sprinkles do not associate with any other sprinkles and may be
   #* directly modified without much difficulty.
@@ -780,6 +940,21 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
                           border_color = sprinkles[["border_color"]])
   }
   
+  #* Sprinkles in the `discrete` group
+  
+  if (any(names(sprinkles) %in%
+          SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "discrete"]))
+  {
+    x <- discrete_sprinkles(x = x,
+                            part = part,
+                            indices = indices,
+                            discrete = sprinkles[["discrete"]],
+                            discrete_colors = sprinkles[["discrete_colors"]],
+                            border_style = sprinkles[["border_style"]],
+                            border_thickness = sprinkles[["border_thickness"]],
+                            border_units = sprinkles[["border_units"]])
+  }
+
   #* Sprinkles in the `font_size` group
   if (any(names(sprinkles) %in% 
           SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "font_size"]))
@@ -791,7 +966,24 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
                              font_size_units = sprinkles[["font_size_units"]])
   }
   
-
+  #* Sprinkles in the `gradient` group
+  
+  if (any(names(sprinkles) %in%
+          SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "gradient"]))
+  {
+    x <- gradient_sprinkles(x = x,
+                            part = part,
+                            indices = indices,
+                            gradient = sprinkles[["gradient"]],
+                            gradient_colors = sprinkles[["gradient_colors"]],
+                            gradient_cut = sprinkles[["gradient_cut"]],
+                            gradient_n = sprinkles[["gradient_n"]],
+                            gradient_na = sprinkles[["gradient_na"]],
+                            border_style = sprinkles[["border_style"]],
+                            border_thickness = sprinkles[["border_thickness"]],
+                            border_units = sprinkles[["border_units"]])
+  }
+  
   #* Sprinkles in the `height` group
   if (any(names(sprinkles) %in% 
           SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "height"]))
@@ -803,8 +995,6 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
                           height_units = sprinkles[["height_units"]])
   }
   
-  
-
   #* Sprinkles in the `merge` group
   if (any(names(sprinkles) %in% 
           SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "merge"]))
@@ -816,7 +1006,7 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
                          merge_rowval = sprinkles[["merge_rowval"]],
                          merge_colval = sprinkles[["merge_colval"]])
   }
-  
+
   #* Sprinkles in the `width` group
   if (any(names(sprinkles) %in% 
           SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "width"]))
@@ -828,20 +1018,14 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
                          width_units = sprinkles[["width_units"]])
   }
   
-  # #* Move replacement sprinkle into `value`
-  # if ("replace" %in% names(x[[part]]))
-  # {
-  #   to_replace <- !is.na(x[[part]][["replace"]])
-  #   x[[part]][["value"]][to_replace] <- x[[part]][["replace"]][to_replace]
-  #   x[["replace"]] <- NULL
-  # }
-  
   #* Restore original sorting
   x[[part]] <- dplyr::arrange(x[[part]], col, row)
   
   x
 }
 
+
+# sprinkle.dust_list ------------------------------------------------
 #' @rdname sprinkle
 #' @export
 
@@ -879,8 +1063,7 @@ sprinkle.dust_list <- function(x, rows = NULL, cols = NULL, ...,
 #* 8. width_sprinkles
 
 
-#**********************************************************
-#* 1. option sprinkles
+# option sprinkles --------------------------------------------------
 #* These are sprinkles that can also be set in the `dust` call.
 #* Generally, they apply to the entire table object, not just
 #* to one of the parts. `longtable`, `float`, and `caption` 
@@ -900,8 +1083,7 @@ option_sprinkles <- function(x, sprinkles)
   x
 }
 
-#**********************************************************
-#* 2. simple_sprinkles
+# simple_sprinkles --------------------------------------------------
 #* This group comprises the majority of sprinkles.  These 
 #* are sprinkles that impact a component of a table but 
 #* do not require interaction with other sprinkles.
@@ -926,8 +1108,7 @@ simple_sprinkles <- function(x, sprinkles, part, indices)
   x
 }
 
-#**********************************************************
-#* 3. bg_pattern_sprinkles
+# bg_pattern_sprinkles ----------------------------------------------
 #* For striping by either row or column, both the 
 #* `bg_pattern` and `bg_pattern_by` sprinkles require a 
 #* value.  For convenience of the user, assigning one of 
@@ -978,8 +1159,7 @@ bg_pattern_sprinkles <- function(x, part, indices, bg_pattern, bg_pattern_by)
   x
 }
 
-#**********************************************************
-#* 4. border_sprinkles
+# border_sprinkles --------------------------------------------------
 #* The cell borders are perhaps the most complex system
 #* of sprinkles, requiring a side, thickness, unit, style,
 #* and color to be defined.  To simplify calls for the 
@@ -1010,8 +1190,7 @@ border_sprinkles <- function(x, part, indices,
   x
 }
 
-#**********************************************************
-#* 5. font_size_sprinkles
+# font_size_sprinkles -----------------------------------------------
 #* The default font size is to allow the style/format of 
 #* the document to dictate the size.  Thus, declaring a
 #* font_size_unit without a font_size won't actually do
@@ -1030,8 +1209,7 @@ font_size_sprinkles <- function(x, part, indices,
   x
 }
 
-#**********************************************************
-#* 5. height_sprinkles
+# height_sprinkles --------------------------------------------------
 #* Behaves similarly to `font_size_sprinkles`  With some
 #* cleverness, I could probably come up with a way to 
 #* work these into one function, but I'm not sure the
@@ -1050,8 +1228,7 @@ height_sprinkles <- function(x, part, indices,
   x
 }
 
-#**********************************************************
-#* 6. merge_sprinkles
+# merge_sprinkles ---------------------------------------------------
 #* This is the most difficult sprinkle, conceptually speaking.
 #* This handles merging cells.  
 #* Merged cells require a few components
@@ -1112,8 +1289,7 @@ merge_sprinkles <- function(x, part, indices,
   x
 }
 
-#**********************************************************
-#* 7. width_sprinkles
+# width_sprinkles ---------------------------------------------------
 #* See the note for '5. height_sprinkles'
 
 width_sprinkles <- function(x, part, indices,
@@ -1128,8 +1304,7 @@ width_sprinkles <- function(x, part, indices,
   x
 }
 
-
-#* Color sprinkles
+# Color sprinkles ---------------------------------------------------
 
 color_sprinkles <- function(sprinkles, coll)
 {
@@ -1165,8 +1340,10 @@ color_sprinkles <- function(sprinkles, coll)
       vapply(sprinkles[[i]][is_color | is_hex],
              function(x)
              {
-               grDevices::col2rgb(x, alpha = TRUE) %>%
-               paste0(., collapse = ",") %>%
+               col <- grDevices::col2rgb(x, alpha = TRUE) 
+               if (length(col) == 4) col[4] <- col[4] / 255
+               
+               paste0(col, collapse = ",") %>%
                sprintf(fmt = "rgba(%s)",
                        .)
              },
@@ -1177,10 +1354,167 @@ color_sprinkles <- function(sprinkles, coll)
   sprinkles
 }
 
+# Discrete sprinkles ------------------------------------------------
 
-#**********************************************************
-#**********************************************************
-#* assert_sprinkles
+discrete_sprinkles <- function(x, part, indices,
+                               discrete, discrete_colors,
+                               border_thickness, border_units,
+                               border_style)
+{
+  discrete["font" %in% discrete] <- "font_color"
+  
+  if ("border" %in% discrete)
+  {
+    discrete <- c(sprintf("%s_border", 
+                          c("top", "left", "right", "bottom")),
+                  discrete)
+    discrete <- unique(discrete[!discrete %in% "border"])
+  }
+  
+  ux <- unique(x[[part]][["value"]][indices])
+  
+  if (is.null(discrete_colors)) 
+  {
+    discrete_colors <- getOption("pixie_discrete_pal", NULL)
+  }
+  
+  if (is.null(discrete_colors))
+  {
+    discrete_colors <- scales::hue_pal()(length(ux))
+  }
+
+  checkmate::makeAssertion(x = discrete_colors,
+                           if (length(discrete_colors) >= length(ux))
+                           {
+                             TRUE
+                           }
+                           else
+                           {
+                             sprintf("`discrete_color` must have at least the same length as the number of unique values (>= %s)",
+                                           length(ux))
+                           },
+                           var.name = "discrete_color",
+                           collection = NULL)
+  
+  if (is.null(border_thickness)) border_thickness <- 1
+  if (is.null(border_units)) border_units <- "px"
+  if (is.null(border_style)) border_style <- "solid"
+
+  for (i in seq_along(discrete))
+  {
+    if (grepl("border", discrete[i]))
+    {
+      x[[part]][[discrete[i]]][indices] <- 
+        sprintf("%s%s %s %s",
+                border_thickness,
+                border_units,
+                border_style,
+                discrete_colors[as.numeric(as.factor(x[[part]][["value"]][indices]))])
+    }
+    else 
+    {
+      x[[part]][[discrete[i]]][indices] <- 
+        discrete_colors[as.numeric(as.factor(x[[part]][["value"]][indices]))]
+    }
+  }
+  x
+}
+
+# Gradient Sprinkles ------------------------------------------------
+
+gradient_sprinkles <- function(x, part, indices,
+                               gradient, gradient_colors,
+                               gradient_cut, gradient_n,
+                               gradient_na,
+                               border_thickness, border_units,
+                               border_style)
+{
+  
+  checkmate::assert_subset(x = x[[part]][["col_class"]][indices],
+                           choices = c("numeric", "integer", "double"),
+                           empty.ok = FALSE)
+  
+  gradient["font" %in% gradient] <- "font_color"
+  
+  if (is.null(gradient_n)) gradient_n <- 10
+  
+  if (is.null(gradient_na))
+  {
+    gradient_na <- "grey"
+  }
+  
+  if ("border" %in% gradient)
+  {
+    gradient <- c(sprintf("%s_border", 
+                          c("top", "left", "right", "bottom")),
+                  gradient)
+    gradient <- unique(gradient[!gradient %in% "border"])
+  }
+  
+  if (is.null(gradient_colors))
+  {
+    gradient_colors <- getOption("pixie_gradient_pal", 
+                                 c("#132B43", "#56B1F7"))
+  }
+  
+  gradient_colors <- 
+    scales::gradient_n_pal(gradient_colors)(seq(0, 1, length.out = gradient_n))
+  
+  if (is.null(border_thickness)) border_thickness <- 1
+  if (is.null(border_units)) border_units <- "px"
+  if (is.null(border_style)) border_style <- "solid"
+  
+  gradient_split <- 
+    if (is.null(gradient_cut))
+    {
+    cut(as.numeric(x[[part]][["value"]][indices]),
+        breaks = stats::quantile(as.numeric(x[[part]][["value"]][indices]), 
+                                 probs = seq(0, 1, length.out = gradient_n),
+                                 na.rm = TRUE),
+        include.lowest = TRUE)
+    }
+    else
+    {
+      cut(as.numeric(x[[part]][["value"]][indices]),
+          breaks = gradient_cut,
+          include.lowest = TRUE,
+          na.rm = TRUE)
+    }
+  
+  na_val <- which(is.na(gradient_split))
+  
+  for (i in seq_along(gradient))
+  {
+    if (grepl("border", gradient[i]))
+    {
+      x[[part]][[gradient[i]]][indices] <- 
+        sprintf("%s%s %s %s",
+                border_thickness,
+                border_units,
+                border_style,
+                gradient_colors[as.numeric(gradient_split)])
+      
+      x[[part]][[gradient[i]]][indices][na_val] <- 
+        sprintf("%s%s %s %s",
+                border_thickness,
+                border_units,
+                border_style,
+                gradient_na)
+    }
+    else 
+    {
+      x[[part]][[gradient[i]]][indices] <- 
+        gradient_colors[as.numeric(gradient_split)]
+      
+      x[[part]][[gradient[i]]][indices][na_val] <- 
+        gradient_na
+    }
+  }
+  
+  x
+}
+
+# assert_sprinkles --------------------------------------------------
 #* Early versions of `pixiedust` performed a long series
 #* of checks that tested for the existence of a sprinkle 
 #* and then tested the characteristics of the sprinkle.
@@ -1225,13 +1559,14 @@ assert_sprinkles <- function(sprinkles, coll, recycle)
       {
         sprinkles[[i]] <- quote(sprinkles[[i]])
       }
-      
+
       #* Arguments to the assert functions are prefixed with 'arg_'
       #* First we extract them from `SprinkleRef`, then we 
       #* remove any missing values.
       args <- SprinkleRef[ref_row, 
                           names(SprinkleRef)[grepl("arg_", names(SprinkleRef))],
                           drop = FALSE]
+      
       args <- lapply(X = args,
                      FUN = function(x) if (is.na(x)) NULL else x)
       args <- args[!vapply(args, is.null, logical(1))]
@@ -1242,7 +1577,7 @@ assert_sprinkles <- function(sprinkles, coll, recycle)
       {
         args[["arg_choices"]] <- eval(parse(text = args[["arg_choices"]]))
       }
-      
+
       #* If recycling, remove the length 1 constraint
       if (recycle != "none")
       {
@@ -1253,6 +1588,7 @@ assert_sprinkles <- function(sprinkles, coll, recycle)
       names(args) <- sub(pattern = "arg_",
                          replacement = "",
                          x = names(args))
+
 
       do.call(
         what = #* generate the function call

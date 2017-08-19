@@ -5,9 +5,10 @@
 #' @importFrom knitr kable
 #' @importFrom tidyr spread
 
-print_dust_markdown <- function(x, ..., asis=TRUE)
+print_dust_markdown <- function(x, ..., asis=TRUE,
+                                interactive = getOption("pixie_interactive"))
 {
-  
+  if (is.null(interactive)) interactive <- interactive()
   if (!is.null(x$caption)) increment_pixie_count()
   
   #* Determine the number of divisions
@@ -26,7 +27,7 @@ print_dust_markdown <- function(x, ..., asis=TRUE)
   
   #* If the table is not being run interactively (ie, in an rmarkdown script)
   #* detect the type of output.  The spacing between tables is output-specific
-  if (!interactive()){
+  if (!interactive){
     output_type <- knitr::opts_knit$get('rmarkdown.pandoc.to')
     linebreak <- if (is.null(output_type)) "  "
     else if (output_type == "html") "<br>"

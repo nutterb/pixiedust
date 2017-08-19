@@ -12,12 +12,19 @@ border_style,               x,      ,        ,   x,    x
 border_color,               x,      ,        ,   x,    x
 caption,                    x,     x,       x,   x,    x
 colnames,                   x,     x,       x,   x,    x
+discrete,                   x,      ,        ,   x,    x
+discrete_colors,            x,      ,        ,   x,    x
 float,                      x,      ,        ,    ,    x
 fn,                         x,     x,       x,   x,    x
 font_color,                 x,      ,        ,   x,    x
 font_family,                x,      ,        ,   x,     
 font_size,                  x,      ,        ,   x,    x
 font_size_units,            x,      ,        ,   x,    x
+gradient,                   x,      ,        ,   x,    x
+gradient_colors,            x,      ,        ,   x,    x
+gradient_cut,               x,      ,        ,   x,    x
+gradient_n,                 x,      ,        ,   x,    x
+gradient_na,                x,      ,        ,   x,    x
 halign,                     x,      ,        ,   x,    x 
 height,                     x,      ,        ,   x,    x
 height_units,               x,      ,        ,   x,    x

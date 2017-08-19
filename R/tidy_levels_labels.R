@@ -21,7 +21,7 @@
 #'   it isn't practical to attempt to recover human-ready descriptors
 #'   for every conceivable term.  This would require recovering variable
 #'   names for any number of functions.  \code{pixiedust} only 
-#'   goes after the easiest to obtain. REplacements no managed by 
+#'   goes after the easiest to obtain. Replacements no managed by 
 #'   \code{tidy_levels_labels} may still be made with the \code{replace}
 #'   sprinkle.
 #'   
