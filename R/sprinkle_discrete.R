@@ -71,7 +71,7 @@
 
 sprinkle_discrete <- function(x, rows = NULL, cols = NULL, 
                               discrete = "bg",
-                              discrete_colors = getOption("pixiedust_discrete_pal", NULL),
+                              discrete_colors = getOption("pixie_discrete_pal", NULL),
                               part = c("body", "head", "foot", "interfoot"),
                               fixed = FALSE, 
                               recycle = c("none", "rows", "cols", "columns"),
@@ -85,7 +85,7 @@ sprinkle_discrete <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_discrete.dust <- function(x, rows = NULL, cols = NULL, 
                                    discrete = "bg",
-                                   discrete_colors = getOption("pixiedust_discrete_pal", NULL),
+                                   discrete_colors = getOption("pixie_discrete_pal", NULL),
                                    part = c("body", "head", "foot", "interfoot"),
                                    fixed = FALSE, 
                                    recycle = c("none", "rows", "cols", "columns"),
@@ -148,7 +148,7 @@ sprinkle_discrete.dust <- function(x, rows = NULL, cols = NULL,
   
   if (is.null(discrete_colors)) 
   {
-    discrete_colors <- getOption("pixiedust_discrete_pal", NULL)
+    discrete_colors <- getOption("pixie_discrete_pal", NULL)
   }
   
   if (is.null(discrete_colors))
@@ -206,7 +206,7 @@ sprinkle_discrete.dust <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_discrete.dust_list <- function(x, rows = NULL, cols = NULL, 
                                         discrete = "bg",
-                                        discrete_colors = getOption("pixiedust_discrete_pal", NULL),
+                                        discrete_colors = getOption("pixie_discrete_pal", NULL),
                                       part = c("body", "head", "foot", "interfoot"),
                                       fixed = FALSE, 
                                       recycle = c("none", "rows", "cols", "columns"),
@@ -214,7 +214,7 @@ sprinkle_discrete.dust_list <- function(x, rows = NULL, cols = NULL,
 {
   structure(
     lapply(X = x,
-           FUN = sprinkle_discrete.default,
+           FUN = sprinkle_discrete.dust,
            rows = rows,
            cols = cols,
            discrete = discrete,
@@ -249,7 +249,7 @@ sprinkle_discrete_index_assert <- function(discrete, discrete_colors, coll)
     checkmate::assert_character(x = discrete_colors,
                                 add = coll)
     
-    is_valid_color <- is_valid_color(discrete_colors)  
+    valid_color <- is_valid_color(discrete_colors)  
     if (!all(valid_color))
     {
       coll$push(sprintf("The following are not valid colors: %s",
@@ -259,7 +259,8 @@ sprinkle_discrete_index_assert <- function(discrete, discrete_colors, coll)
   }  
 }
 
-sprinkle_discrete_index <- function(x, indices, discrete, discrete_colors, part)
+sprinkle_discrete_index <- function(x, indices, discrete, discrete_colors, part,
+                                    ...)
 {
   part <- part[1]
   
@@ -281,7 +282,7 @@ sprinkle_discrete_index <- function(x, indices, discrete, discrete_colors, part)
   
   if (is.null(discrete_colors)) 
   {
-    discrete_colors <- getOption("pixiedust_discrete_pal", NULL)
+    discrete_colors <- getOption("pixie_discrete_pal", NULL)
   }
   
   if (is.null(discrete_colors))

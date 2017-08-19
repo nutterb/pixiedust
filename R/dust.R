@@ -127,7 +127,7 @@
 #'   console.
 #'   
 #'   Many of these options may be set globally.  See 
-#'   \code{\link{pixiedust_option}} for a complete list of package options.
+#'   \code{\link{pixiedust}} for a complete list of package options.
 #'   
 #' @return Returns an object of class \code{dust}
 #' 
@@ -137,7 +137,8 @@
 #' will render as the lower case Greek alpha.  Math symbols may be rendered
 #' in the same manner.
 #' 
-#' @seealso \code{\link[broom]{tidy}} \code{\link{glance_foot}} \code{\link{tidy_levels_labels}}
+#' @seealso \code{\link[broom]{tidy}} \code{\link{glance_foot}} 
+#'   \code{\link{tidy_levels_labels}} \code{\link{pixiedust}}
 #' 
 #' \code{\link{get_dust_part}} for extracting parts of the \code{dust} object
 #' in order to build custom headers and/or footers.

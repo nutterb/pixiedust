@@ -18,6 +18,13 @@
 #'   "bottom_border")}.
 #' @param gradient_colors \code{character(2)}. Gives the colors between 
 #'   which to shared gradients.
+#' @param gradient_cut \code{numeric}. Determines the breaks points for the 
+#'   gradient shading. When \code{NULL} equally spaced quantiles are used, 
+#'   the number of which are determined by \code{gradient_n}.
+#' @param gradient_n \code{numeric(1)}. Determines the number of shades to use 
+#'   between the colors in \code{gradient_colors} 
+#' @param gradient_na \code{character(1)} A valid color that sets the color of 
+#'   \code{NA} values when shading a numeric range.
 #' @param part A character string denoting which part of the table to modify.
 #' @param fixed \code{logical(1)} indicating if the values in \code{rows} 
 #'   and \code{cols} should be read as fixed coordinate pairs.  By default, 
@@ -74,7 +81,7 @@
 
 sprinkle_gradient <- function(x, rows = NULL, cols = NULL, 
                               gradient = "bg",
-                              gradient_colors = getOption("pixiedust_gradient_pal", NULL),
+                              gradient_colors = getOption("pixie_gradient_pal", NULL),
                               gradient_cut = NULL,
                               gradient_n = 10,
                               gradient_na = "grey",
@@ -91,7 +98,7 @@ sprinkle_gradient <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_gradient.dust <- function(x, rows = NULL, cols = NULL, 
                                    gradient = "bg",
-                                   gradient_colors = getOption("pixiedust_gradient_pal", 
+                                   gradient_colors = getOption("pixie_gradient_pal", 
                                                                c("#132B43", "#56B1F7")),
                                    gradient_cut = NULL,
                                    gradient_n = 10,
@@ -148,7 +155,7 @@ sprinkle_gradient.dust <- function(x, rows = NULL, cols = NULL,
                                 len = 1,
                                 add = coll)
     
-    if (!is_valid_color(gradient_na))
+    if (any(!is_valid_color(gradient_na)))
     {
       coll$push("`gradient_na` must be a valid color")
     }
@@ -184,7 +191,7 @@ sprinkle_gradient.dust <- function(x, rows = NULL, cols = NULL,
   
   if (is.null(gradient_colors)) 
   {
-    gradient_colors <- getOption("pixiedust_gradient_pal", 
+    gradient_colors <- getOption("pixie_gradient_pal", 
                                  c("#132B43", "#56B1F7"))
   }
   
@@ -278,7 +285,7 @@ sprinkle_gradient.dust <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_gradient.dust_list <- function(x, rows = NULL, cols = NULL, 
                                         gradient = "bg",
-                                        gradient_colors = getOption("pixiedust_gradient_pal", 
+                                        gradient_colors = getOption("pixie_gradient_pal", 
                                                                     c("#132B43", "#56B1F7")),
                                         gradient_cut = NULL,
                                         gradient_n = 10,
@@ -290,7 +297,7 @@ sprinkle_gradient.dust_list <- function(x, rows = NULL, cols = NULL,
 {
   structure(
     lapply(X = x,
-           FUN = sprinkle_gradient.default,
+           FUN = sprinkle_gradient.dust,
            rows = rows,
            cols = cols,
            gradient = gradient,
@@ -332,7 +339,7 @@ sprinkle_gradient_index_assert <- function(gradient, gradient_colors,
     checkmate::assert_character(x = gradient_colors,
                                 add = coll)
     
-    is_valid_color <- is_valid_color(gradient_colors)  
+    valid_color <-  is_valid_color(gradient_colors)  
     if (!all(valid_color))
     {
       coll$push(sprintf("The following are not valid colors: %s",
@@ -391,7 +398,7 @@ sprinkle_gradient_index <- function(x, indices, gradient, gradient_colors,
   
   if (is.null(gradient_colors)) 
   {
-    gradient_colors <- getOption("pixiedust_gradient_pal", 
+    gradient_colors <- getOption("pixie_gradient_pal", 
                                  c("#132B43", "#56B1F7"))
   }
   
@@ -419,7 +426,7 @@ sprinkle_gradient_index <- function(x, indices, gradient, gradient_colors,
   
   if (is.null(gradient_colors))
   {
-    gradient_colors <- getOption("pixiedust_gradient_pal", 
+    gradient_colors <- getOption("pixie_gradient_pal", 
                                  c("#132B43", "#56B1F7"))
   }
   

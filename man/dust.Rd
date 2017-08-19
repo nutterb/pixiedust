@@ -190,7 +190,7 @@ The \code{head} object describes what each column of the table
   console.
   
   Many of these options may be set globally.  See 
-  \code{\link{pixiedust_option}} for a complete list of package options.
+  \code{\link{pixiedust}} for a complete list of package options.
 }
 \section{Symbols and Greek Letters}{
 
@@ -207,7 +207,8 @@ x
 Benjamin Nutter
 }
 \seealso{
-\code{\link[broom]{tidy}} \code{\link{glance_foot}} \code{\link{tidy_levels_labels}}
+\code{\link[broom]{tidy}} \code{\link{glance_foot}} 
+  \code{\link{tidy_levels_labels}} \code{\link{pixiedust}}
 
 \code{\link{get_dust_part}} for extracting parts of the \code{dust} object
 in order to build custom headers and/or footers.

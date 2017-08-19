@@ -129,7 +129,7 @@ sprinkle_height.dust_list <- function(x, rows = NULL, cols = NULL,
 {
   structure(
     lapply(X = x,
-           FUN = sprinkle_height.default,
+           FUN = sprinkle_height.dust,
            rows = rows,
            cols = cols,
            height = height,

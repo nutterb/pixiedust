@@ -7,19 +7,19 @@
 \title{Change Color Features by Binning Numeric Values}
 \usage{
 sprinkle_gradient(x, rows = NULL, cols = NULL, gradient = "bg",
-  gradient_colors = getOption("pixiedust_gradient_pal", NULL),
+  gradient_colors = getOption("pixie_gradient_pal", NULL),
   gradient_cut = NULL, gradient_n = 10, gradient_na = "grey",
   part = c("body", "head", "foot", "interfoot"), fixed = FALSE,
   recycle = c("none", "rows", "cols", "columns"), ...)
 
 \method{sprinkle_gradient}{dust}(x, rows = NULL, cols = NULL,
-  gradient = "bg", gradient_colors = getOption("pixiedust_gradient_pal",
+  gradient = "bg", gradient_colors = getOption("pixie_gradient_pal",
   c("#132B43", "#56B1F7")), gradient_cut = NULL, gradient_n = 10,
   gradient_na = "grey", part = c("body", "head", "foot", "interfoot"),
   fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
 
 \method{sprinkle_gradient}{dust_list}(x, rows = NULL, cols = NULL,
-  gradient = "bg", gradient_colors = getOption("pixiedust_gradient_pal",
+  gradient = "bg", gradient_colors = getOption("pixie_gradient_pal",
   c("#132B43", "#56B1F7")), gradient_cut = NULL, gradient_n = 10,
   gradient_na = "grey", part = c("body", "head", "foot", "interfoot"),
   fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
@@ -43,6 +43,16 @@ character and numeric indices is permissible.}
 
 \item{gradient_colors}{\code{character(2)}. Gives the colors between 
 which to shared gradients.}
+
+\item{gradient_cut}{\code{numeric}. Determines the breaks points for the 
+gradient shading. When \code{NULL} equally spaced quantiles are used, 
+the number of which are determined by \code{gradient_n}.}
+
+\item{gradient_n}{\code{numeric(1)}. Determines the number of shades to use 
+between the colors in \code{gradient_colors}}
+
+\item{gradient_na}{\code{character(1)} A valid color that sets the color of 
+\code{NA} values when shading a numeric range.}
 
 \item{part}{A character string denoting which part of the table to modify.}
 

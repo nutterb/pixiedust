@@ -129,7 +129,7 @@ sprinkle_width.dust_list <- function(x, rows = NULL, cols = NULL,
 {
   structure(
     lapply(X = x,
-           FUN = sprinkle_width.default,
+           FUN = sprinkle_width.dust,
            rows = rows,
            cols = cols,
            width = width,

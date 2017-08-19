@@ -264,7 +264,7 @@ discrete_color \tab \tab \cr
  \tab              \tab selects background colors. If \code{NULL} \cr
  \tab              \tab colors are automatically selected using \cr
  \tab              \tab the \code{scales} package. \cr
- \tab default      \tab \code{getOption("pixiedust_discrete_pal", NULL)} \cr
+ \tab default      \tab \code{getOption("pixie_discrete_pal", NULL)} \cr
  \tab accepts      \tab character \cr
  \tab console      \tab Not recognized \cr
  \tab markdown     \tab Not recognized \cr
@@ -346,7 +346,7 @@ gradient \tab  \tab  \cr
 gradient_colors \tab \tab \cr
  \tab action       \tab Provides the colors between which to \cr
  \tab              \tab shade gradients. \cr
- \tab default      \tab \code{getOptions("pixiedust_gradient_pal", NULL)} \cr
+ \tab default      \tab \code{getOptions("pixie_gradient_pal", NULL)} \cr
  \tab accepts      \tab character \cr
  \tab console      \tab Not recognized \cr
  \tab markdown     \tab Not recognized \cr

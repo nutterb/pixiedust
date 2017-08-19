@@ -133,7 +133,7 @@ sprinkle_sanitize.dust_list <- function(x, rows = NULL, cols = NULL,
 {
   structure(
     lapply(X = x,
-           FUN = sprinkle_sanitize.default,
+           FUN = sprinkle_sanitize.dust,
            rows = rows,
            cols = cols,
            sanitize = sanitize,
