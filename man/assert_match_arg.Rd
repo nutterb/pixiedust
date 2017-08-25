@@ -36,3 +36,4 @@ the value of the selected argument.
 \code{\link{match.arg}}, \code{\link[checkmate]{assertChoice}}, 
   \code{\link[checkmate]{assertSubset}}
 }
+

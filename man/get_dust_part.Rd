@@ -25,3 +25,4 @@ Making customized table headers and footers requires a
   is correct with the current values, and provides an object suitable
   for editing.
 }
+

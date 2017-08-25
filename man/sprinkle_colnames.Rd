@@ -34,7 +34,6 @@ Assigns new column names to a table
  In other words, if one element is named, they must all be named.  Unnamed elements are assigned
  to columns in sequential order.
 }
-
 \examples{
 x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars)) 
 x
@@ -45,9 +44,10 @@ x \%>\% sprinkle_colnames("Term", "Estimate", "SE", "T-statistic", "p-value")
 x \%>\% sprinkle_colnames("Term", "Estimate")
 }
 }
-\seealso{
-\code{\link{sprinkle}}
-}
 \author{
 Benjamin Nutter
 }
+\seealso{
+\code{\link{sprinkle}}
+}
+

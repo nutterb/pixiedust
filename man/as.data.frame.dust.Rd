@@ -49,7 +49,6 @@ In its current state, this can be a fairly ineffcient function
    \code{data.frame}
 }
 }
-
 \examples{
 fit <- lm(mpg ~ qsec + factor(am) + wt * factor(gear), data = mtcars)
 Dust <- dust(fit) \%>\%
@@ -64,3 +63,4 @@ as.data.frame(Dust)
 \author{
 Benjamin Nutter
 }
+
