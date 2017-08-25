@@ -123,10 +123,10 @@ it is silently ignored.
    \code{"rows"}, or \code{"cols"}
 }
 }
-
-\seealso{
-\code{\link{sprinkle}}, \code{\link{index_to_sprinkle}}
-}
 \author{
 Benjamin Nutter
 }
+\seealso{
+\code{\link{sprinkle}}, \code{\link{index_to_sprinkle}}
+}
+

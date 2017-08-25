@@ -15,3 +15,4 @@ This is a copy of the documentation for \code{\%<>\%} in
 regarding documentation.  Please see the \code{magrittr} documenation
 for the complete and current documentation.
 }
+
