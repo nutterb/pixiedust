@@ -42,10 +42,10 @@ This property has no effect on non-LaTeX output.
  \item Cast an error if \code{tabcolsep} is not integerish and length 1.
 }
 }
-\author{
-Benjamin Nutter
-}
+
 \seealso{
 \code{\link{dust}}, \code{\link{sprinkle}}
 }
-
+\author{
+Benjamin Nutter
+}

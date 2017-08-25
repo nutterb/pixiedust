@@ -50,4 +50,3 @@ dust(lm(mpg ~ qsec + factor(am), data = mtcars))
 \author{
 Benjamin Nutter
 }
-

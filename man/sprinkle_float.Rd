@@ -45,10 +45,10 @@ This property has no effect on non-LaTeX output.
  \item Cast an error if \code{float} is not logical or length 1.
 }
 }
-\author{
-Benjamin Nutter
-}
+
 \seealso{
 \code{\link{dust}}, \code{\link{sprinkle}}
 }
-
+\author{
+Benjamin Nutter
+}

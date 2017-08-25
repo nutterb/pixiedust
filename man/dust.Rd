@@ -199,12 +199,10 @@ they would within a markdown document.  For example, \code{"$\alpha$"}
 will render as the lower case Greek alpha.  Math symbols may be rendered
 in the same manner.
 }
+
 \examples{
 x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars))
 x
-}
-\author{
-Benjamin Nutter
 }
 \seealso{
 \code{\link[broom]{tidy}} \code{\link{glance_foot}} 
@@ -213,4 +211,6 @@ Benjamin Nutter
 \code{\link{get_dust_part}} for extracting parts of the \code{dust} object
 in order to build custom headers and/or footers.
 }
-
+\author{
+Benjamin Nutter
+}

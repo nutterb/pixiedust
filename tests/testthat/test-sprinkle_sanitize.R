@@ -22,7 +22,7 @@ test_that(
     expect_equal(
       sprinkle_sanitize(x, cols = 2, sanitize_args = list(greek = TRUE))[["body"]][["sanitize_args"]],
       rep(c("", 
-            "structure(list(greek = TRUE), .Names = \"greek\")", 
+            deparse(list(greek = TRUE)), 
             ""), 
           times = c(6, 6, 6*9))
     )
