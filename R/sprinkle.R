@@ -10,11 +10,6 @@
 #' @param x A dust object
 #' @param rows A numeric vector specifying the rows of the table to sprinkle.
 #'   See details for more about sprinkling.
-#' @param logical_rows An object with class `call` generated as `quote([expr])` where
-#'   the expression resolves to a logical vector based equal in length to the
-#'   number of rows in the table.  This is used to dynamically identify rows
-#'   in the table that will be sprinkled.  An example of input would be 
-#'   \code{quote(col_name == value)}.
 #' @param cols A numeric (or character) vector specifying the columns (or 
 #'   column names) to sprinkle.  See details for more about sprinkling.
 #' @param part A character string denoting which part of the table to modify.
@@ -671,7 +666,7 @@ sprinkle <- function(x, rows = NULL, cols = NULL, ...,
 #' @rdname sprinkle
 #' @export
 
-sprinkle.default <- function(x, rows = NULL, cols = NULL, logical_rows = NULL, ...,
+sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
                              part = c("body", "head", "foot", "interfoot", "table"),
                              fixed = FALSE, 
                              recycle = c("none", "rows", "cols", "columns"))
@@ -723,29 +718,6 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, logical_rows = NULL, .
       if (!fixed) cols <- unique(c(cols_num, cols_str))
       
       cols <- cols[!is.na(cols)]
-    }
-    
-    if (!is.null(logical_rows))
-    {
-      valid_row_logic <- 
-        checkmate::check_class(x = logical_rows,
-                               classes = "call")
-      checkmate::makeAssertion(x = logical_rows,
-                               res = valid_row_logic,
-                               collection = coll)
-      
-      if (valid_row_logic)
-      {
-        rows_by_logic <- 
-          which(
-            with(
-              as.data.frame(x), 
-              eval(logical_rows)
-            )
-          )
-        
-        rows <- unique(c(rows, rows_by_logic))
-      }
     }
     
     #* If rows or cols isn't given, assume the sprinkle should be applied
