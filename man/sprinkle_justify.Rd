@@ -49,10 +49,10 @@ For HTML tables, the values \code{"center"},
  \item Ignore capitalization of the \code{justify} argument.
 }
 }
-\author{
-Benjamin Nutter
-}
+
 \seealso{
 \code{\link{dust}}, \code{\link{sprinkle}}
 }
-
+\author{
+Benjamin Nutter
+}

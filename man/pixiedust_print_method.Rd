@@ -19,4 +19,3 @@ The function \code{pixiedust_print_method} first uses
   \code{knitr::opts_knit$get("rmarkdown.pandoc.to")}. Finally, if this is also
   \code{NULL}, then the option is set to \code{"console"}.
 }
-

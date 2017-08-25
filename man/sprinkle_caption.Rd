@@ -39,10 +39,10 @@ The caption may be set during the initial \code{dust} call.  This
  \item Cast an error if \code{caption} has length greater than 1.
 }
 }
-\author{
-Benjamin Nutter
-}
+
 \seealso{
 \code{\link{dust}}, \code{\link{sprinkle}}
 }
-
+\author{
+Benjamin Nutter
+}

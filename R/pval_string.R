@@ -1,6 +1,5 @@
-#' @name pvalString
-#' @importFrom lazyWeave pvalString
-#' @export pvalString
+#' @name pval_string
+#' @export pval_string
 #' 
 #' @title Format P-values for Reports
 #' @description Convert numeric p-values to character strings according to
@@ -40,4 +39,58 @@
 #'  pvalString(p, format="scientific", digits=4)
 #'  
 
-NULL
+pval_string <- function(p, format=c("default", "exact", "scientific"),
+                       digits=3, ...){
+  
+  coll <- checkmate::makeAssertCollection()
+  
+  checkmate::assert_numeric(x = p,
+                            lower = 0,
+                            upper = 1,
+                            add = coll)
+  
+  format <- checkmate::matchArg(x = format,
+                                choices = c("default", "exact", "scientific"),
+                                add = coll)
+  
+  checkmate::assert_integerish(x = digits,
+                               len = 1,
+                               add = coll)
+  
+  checkmate::reportAssertions(coll)
+  
+  #* Alpha beta format
+  if (format == "default"){
+    ps <- ifelse(p > .99, 
+                 "> 0.99",
+                 ifelse(p > 0.10, 
+                        format(round(p, 2), 
+                               digits=2),
+                        ifelse(p > 0.001, 
+                               format(round(p, 3), 
+                                      digits=3), 
+                               "< 0.001")))
+  }
+  
+  #* exact format
+  else if (format == "exact"){
+    ps <- ifelse(p < 1*(10^-digits),
+                 format(p, 
+                        scientific=TRUE, 
+                        digits=digits),
+                 format(round(p, digits), 
+                        digits=digits))
+  }
+  
+  #* scientific notation format
+  else if (format == "scientific"){
+    ps <- format(p, scientific=TRUE, digits=digits) 
+  }
+  
+  return(ps)  
+}
+
+#' @rdname pval_string
+#' @export
+
+pvalString <- pval_string

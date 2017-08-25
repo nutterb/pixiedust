@@ -9,6 +9,5 @@ test_that("pvalString",
 
 test_that("pvalString errors",
 {
-  expect_error(pvalString(1.3),
-               "Element[(]s[)] 1 are not valid probabilities")
+  expect_error(pvalString(1.3))
 })

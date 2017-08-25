@@ -66,8 +66,8 @@ This is a rare sprinkle that doesn't use the \code{fixed} and \code{recycle}
 arguments.  They are assumed to be \code{FALSE} and \code{"none"}, 
 respectively, in order to pass through \code{index_to_sprinkle}.
 }
+
 \seealso{
 \code{\link{sprinkle_bg}}, \code{\link{sprinkle}}, 
   \code{\link{index_to_sprinkle}}
 }
-
