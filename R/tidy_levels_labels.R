@@ -143,14 +143,14 @@ tidy_levels_labels <- function(object,
   independent_check <- is.null(argcheck)
   if (is.null(argcheck)) argcheck <- checkmate::makeAssertCollection()
   
-  numeric_level <- assert_match_arg(x = numeric_level,
+  numeric_level <- checkmate::matchArg(x = numeric_level,
                                     choices = c("term", "term_plain", "label"),
                                     add = argcheck)
   
-  descriptors <- assert_match_arg(x = descriptors,
+  descriptors <- checkmate::matchArg(x = descriptors,
                                   choices = c("term", "term_plain", "label",
                                               "level", "level_detail"),
-                                  several_ok = TRUE,
+                                  several.ok = TRUE,
                                   add = argcheck)
 
   if (independent_check) checkmate::reportAssertions(argcheck)

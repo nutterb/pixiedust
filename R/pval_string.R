@@ -22,14 +22,32 @@
 #'  }
 #'  
 #'  When \code{format = "exact"}, the exact p-value is printed with the 
-#'  number of significant digits equal to \code{digits}.  P-values smaller
+#'  number of places after the deimal equal to \code{digits}.  P-values smaller
 #'  that 1*(10^-\code{digits}) are printed in scientific notation.
 #'  
 #'  When \code{format = "scientific"}, all values are printed in scientific
 #'  notation with \code{digits} digits printed before the \code{e}.
 #'  
-#'  @author Benjamin Nutter
-#'  @examples
+#' @section Functional Requirements:
+#'  \enumerate{
+#'   \item When \code{format = "default"}, print p-values greater than 
+#'     0.99 as "> 0.99"; greater than 0.10 with two digits; 
+#'     greater than 0.001 with three digits; and less than 0.001 as 
+#'     "< 0.001".
+#'   \item when \code{format = "exact"}, print the exact p-value out to at most
+#'     \code{digits} places past the decimal place.
+#'   \item When \code{format = "scientific"}, print the p-value in 
+#'     scientific notation with up to \code{digits} values ahead of the 
+#'     \code{e}.
+#'   \item Cast an error if \code{p} is not numeric on the interval [0, 1]
+#'   \item Cast an error if format is not one of \code{c("default", "exact",
+#'     "scientific")}.
+#'   \item Cast an error if \code{digits} is not \code{integerish(1)}.
+#'  }
+#'  
+#' @author Benjamin Nutter
+#'  
+#' @examples
 #'  p <- c(1, .999, .905, .505, .205, .125, .09531,
 #'         .05493, .04532, .011234, .0003431, .000000342)
 #'  pvalString(p, format="default")
@@ -65,10 +83,10 @@ pval_string <- function(p, format=c("default", "exact", "scientific"),
                  "> 0.99",
                  ifelse(p > 0.10, 
                         format(round(p, 2), 
-                               digits=2),
-                        ifelse(p > 0.001, 
+                               digits = 2),
+                        ifelse(p >= 0.001, 
                                format(round(p, 3), 
-                                      digits=3), 
+                                      digits = 3), 
                                "< 0.001")))
   }
   
@@ -76,18 +94,19 @@ pval_string <- function(p, format=c("default", "exact", "scientific"),
   else if (format == "exact"){
     ps <- ifelse(p < 1*(10^-digits),
                  format(p, 
-                        scientific=TRUE, 
+                        scientific = TRUE, 
                         digits=digits),
                  format(round(p, digits), 
-                        digits=digits))
+                        digits = digits))
   }
   
   #* scientific notation format
   else if (format == "scientific"){
-    ps <- format(p, scientific=TRUE, digits=digits) 
+    ps <- format(p, 
+                 scientific = TRUE, 
+                 digits = digits) 
   }
-  
-  return(ps)  
+  ps 
 }
 
 #' @rdname pval_string

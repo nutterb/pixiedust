@@ -683,7 +683,7 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
                           choices = c("body", "head", "foot", "interfoot", "table"),
                           add = coll)
 
-  recycle <- assert_match_arg(x = recycle, 
+  recycle <- checkmate::matchArg(x = recycle, 
                               choices = c("none", "rows", "cols", "columns"),
                               add = coll,
                               .var.name = "recycle")
@@ -1568,14 +1568,7 @@ assert_sprinkles <- function(sprinkles, coll, recycle)
             parse(
               text = 
                 sprintf("%s%s",
-                        if (SprinkleRef[["assert_fn"]][ref_row] == "assert_match_arg")
-                        {
-                          ""
-                        }
-                        else
-                        {
-                          "checkmate::"
-                        },
+                        "checkmate::",
                         SprinkleRef[["assert_fn"]][ref_row])
             )
           ),
