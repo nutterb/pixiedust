@@ -2,7 +2,7 @@
 % Please edit documentation in R/sprinkle_sanitize.R
 \name{sprinkle_sanitize}
 \alias{sprinkle_sanitize}
-\alias{sprinkle_sanitize.dust}
+\alias{sprinkle_sanitize.default}
 \alias{sprinkle_sanitize.dust_list}
 \title{Sanitize Characters for LaTeX Outputs}
 \usage{
@@ -10,7 +10,7 @@ sprinkle_sanitize(x, rows = NULL, cols = NULL, sanitize = NULL,
   sanitize_args = NULL, part = c("body", "head", "foot", "interfoot"),
   fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
 
-\method{sprinkle_sanitize}{dust}(x, rows = NULL, cols = NULL,
+\method{sprinkle_sanitize}{default}(x, rows = NULL, cols = NULL,
   sanitize = NULL, sanitize_args = NULL, part = c("body", "head", "foot",
   "interfoot"), fixed = FALSE, recycle = c("none", "rows", "cols",
   "columns"), ...)

@@ -69,7 +69,7 @@ sprinkle_width <- function(x, rows = NULL, cols = NULL,
 #' @rdname sprinkle_width
 #' @export
 
-sprinkle_width.dust <- function(x, rows = NULL, cols = NULL, 
+sprinkle_width.default <- function(x, rows = NULL, cols = NULL, 
                                  width = NULL, width_units = NULL,
                                  part = c("body", "head", "foot", "interfoot"),
                                  fixed = FALSE, 
@@ -129,7 +129,7 @@ sprinkle_width.dust_list <- function(x, rows = NULL, cols = NULL,
 {
   structure(
     lapply(X = x,
-           FUN = sprinkle_width.dust,
+           FUN = sprinkle_width.default,
            rows = rows,
            cols = cols,
            width = width,

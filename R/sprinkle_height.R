@@ -69,7 +69,7 @@ sprinkle_height <- function(x, rows = NULL, cols = NULL,
 #' @rdname sprinkle_height
 #' @export
 
-sprinkle_height.dust <- function(x, rows = NULL, cols = NULL, 
+sprinkle_height.default <- function(x, rows = NULL, cols = NULL, 
                                  height = NULL, height_units = NULL,
                                  part = c("body", "head", "foot", "interfoot"),
                                  fixed = FALSE, 
@@ -129,7 +129,7 @@ sprinkle_height.dust_list <- function(x, rows = NULL, cols = NULL,
 {
   structure(
     lapply(X = x,
-           FUN = sprinkle_height.dust,
+           FUN = sprinkle_height.default,
            rows = rows,
            cols = cols,
            height = height,

@@ -70,7 +70,7 @@ sprinkle_sanitize <- function(x, rows = NULL, cols = NULL,
 #' @rdname sprinkle_sanitize
 #' @export
 
-sprinkle_sanitize.dust <- function(x, rows = NULL, cols = NULL, 
+sprinkle_sanitize.default <- function(x, rows = NULL, cols = NULL, 
                                 sanitize = NULL, sanitize_args = NULL,
                                 part = c("body", "head", "foot", "interfoot"),
                                 fixed = FALSE, 
@@ -133,7 +133,7 @@ sprinkle_sanitize.dust_list <- function(x, rows = NULL, cols = NULL,
 {
   structure(
     lapply(X = x,
-           FUN = sprinkle_sanitize.dust,
+           FUN = sprinkle_sanitize.default,
            rows = rows,
            cols = cols,
            sanitize = sanitize,

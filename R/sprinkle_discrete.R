@@ -83,7 +83,7 @@ sprinkle_discrete <- function(x, rows = NULL, cols = NULL,
 #' @rdname sprinkle_discrete
 #' @export
 
-sprinkle_discrete.dust <- function(x, rows = NULL, cols = NULL, 
+sprinkle_discrete.default <- function(x, rows = NULL, cols = NULL, 
                                    discrete = "bg",
                                    discrete_colors = getOption("pixie_discrete_pal", NULL),
                                    part = c("body", "head", "foot", "interfoot"),
@@ -214,7 +214,7 @@ sprinkle_discrete.dust_list <- function(x, rows = NULL, cols = NULL,
 {
   structure(
     lapply(X = x,
-           FUN = sprinkle_discrete.dust,
+           FUN = sprinkle_discrete.default,
            rows = rows,
            cols = cols,
            discrete = discrete,

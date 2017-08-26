@@ -2,7 +2,7 @@
 % Please edit documentation in R/sprinkle_bg_pattern.R
 \name{sprinkle_bg_pattern}
 \alias{sprinkle_bg_pattern}
-\alias{sprinkle_bg_pattern.dust}
+\alias{sprinkle_bg_pattern.default}
 \alias{sprinkle_bg_pattern.dust_list}
 \title{Row and Column Background Striping}
 \usage{
@@ -10,7 +10,7 @@ sprinkle_bg_pattern(x, rows = NULL, cols = NULL,
   bg_pattern = c("transparent", "#DCDCDC"), bg_pattern_by = c("rows",
   "cols"), ..., part = c("body", "head", "foot", "interoot"))
 
-\method{sprinkle_bg_pattern}{dust}(x, rows = NULL, cols = NULL,
+\method{sprinkle_bg_pattern}{default}(x, rows = NULL, cols = NULL,
   bg_pattern = c("transparent", "#DCDCDC"), bg_pattern_by = c("rows",
   "cols"), ..., part = c("body", "head", "foot", "interfoot"))
 

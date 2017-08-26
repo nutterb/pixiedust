@@ -2,7 +2,7 @@
 % Please edit documentation in R/sprinkle_font.R
 \name{sprinkle_font}
 \alias{sprinkle_font}
-\alias{sprinkle_font.dust}
+\alias{sprinkle_font.default}
 \alias{sprinkle_font.dust_list}
 \title{Sprinkle the Characteristics of Text in a Cell}
 \usage{
@@ -11,7 +11,7 @@ sprinkle_font(x, rows = NULL, cols = NULL, bold = NULL, italic = NULL,
   font_family = NULL, ..., part = c("body", "head", "foot", "interfoot"),
   fixed = FALSE, recycle = "none")
 
-\method{sprinkle_font}{dust}(x, rows = NULL, cols = NULL, bold = NULL,
+\method{sprinkle_font}{default}(x, rows = NULL, cols = NULL, bold = NULL,
   italic = NULL, font_size = NULL, font_size_units = NULL,
   font_color = NULL, font_family = NULL, ..., part = c("body", "head",
   "foot", "interfoot"), fixed = FALSE, recycle = "none")

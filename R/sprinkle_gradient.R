@@ -96,7 +96,7 @@ sprinkle_gradient <- function(x, rows = NULL, cols = NULL,
 #' @rdname sprinkle_gradient
 #' @export
 
-sprinkle_gradient.dust <- function(x, rows = NULL, cols = NULL, 
+sprinkle_gradient.default <- function(x, rows = NULL, cols = NULL, 
                                    gradient = "bg",
                                    gradient_colors = getOption("pixie_gradient_pal", 
                                                                c("#132B43", "#56B1F7")),
@@ -215,14 +215,6 @@ sprinkle_gradient.dust <- function(x, rows = NULL, cols = NULL,
     gradient_na <- "grey"
   }
   
-  if ("border" %in% gradient)
-  {
-    gradient <- c(sprintf("%s_border", 
-                          c("top", "left", "right", "bottom")),
-                  gradient)
-    gradient <- unique(gradient[!gradient %in% "border"])
-  }
-  
   gradient_colors <- 
     scales::gradient_n_pal(gradient_colors)(seq(0, 1, length.out = gradient_n))
   
@@ -297,7 +289,7 @@ sprinkle_gradient.dust_list <- function(x, rows = NULL, cols = NULL,
 {
   structure(
     lapply(X = x,
-           FUN = sprinkle_gradient.dust,
+           FUN = sprinkle_gradient.default,
            rows = rows,
            cols = cols,
            gradient = gradient,

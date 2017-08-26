@@ -56,7 +56,7 @@ sprinkle_bg_pattern <- function(x, rows = NULL, cols = NULL,
 #' @rdname sprinkle_bg_pattern
 #' @export
 
-sprinkle_bg_pattern.dust <- function(x, rows = NULL, cols = NULL, 
+sprinkle_bg_pattern.default <- function(x, rows = NULL, cols = NULL, 
                                      bg_pattern = c("transparent", "#DCDCDC"),
                                      bg_pattern_by = c("rows", "cols"),
                                      ...,

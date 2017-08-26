@@ -78,7 +78,7 @@ sprinkle_justify.dust_list <- function(x,
     lapply(x,
            sprinkle_justify.default,
            justify),
-    "dust_list"
+    class = "dust_list"
   )
 }
 

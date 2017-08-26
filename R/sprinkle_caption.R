@@ -64,7 +64,7 @@ sprinkle_caption.dust_list <- function(x, caption, ...)
     lapply(x,
            sprinkle_caption.default,
            caption),
-    "dust_list"
+    class = "dust_list"
   )
 }
 

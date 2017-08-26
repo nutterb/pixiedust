@@ -102,7 +102,7 @@ sprinkle_font <- function(x, rows = NULL, cols = NULL,
 #' @rdname sprinkle_font
 #' @export
 
-sprinkle_font.dust <- function(x, rows = NULL, cols = NULL,
+sprinkle_font.default <- function(x, rows = NULL, cols = NULL,
                                bold = NULL, italic = NULL,
                                font_size = NULL, font_size_units = NULL,
                                font_color = NULL, font_family = NULL,
@@ -228,6 +228,7 @@ sprinkle_font.dust_list <- function(x, rows = NULL, cols = NULL,
 {
   structure(
     lapply(x,
+           sprinkle_font.default,
            rows = rows,
            cols = cols,
            bold = bold,

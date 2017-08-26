@@ -26,6 +26,20 @@ test_that(
   }  
 )
 
+test_that(
+  "Function succeeds when called on a dust_list object",
+  {
+    expect_silent(
+      mtcars %>% 
+        dplyr::group_by(am, vs) %>% 
+        dust(ungroup = FALSE) %>% 
+        sprinkle_width(cols = "mpg", 
+                       width = 150,
+                       width_units = "pt")
+    )
+  }
+)
+
 # Functional Requirement 2 ------------------------------------------
 
 test_that(

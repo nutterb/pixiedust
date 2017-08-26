@@ -73,7 +73,7 @@ sprinkle_float.dust_list <- function(x,
     lapply(x,
            sprinkle_float.default,
            float),
-    "dust_list"
+    class = "dust_list"
   )
 }
 

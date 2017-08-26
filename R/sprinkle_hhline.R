@@ -75,7 +75,7 @@ sprinkle_hhline.dust_list <- function(x,
     lapply(x,
            sprinkle_hhline.default,
            hhline),
-    "dust_list"
+    class = "dust_list"
   )
 }
 
