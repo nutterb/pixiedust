@@ -166,20 +166,20 @@ test_that(
         x,
         cols = "mpg",
         gradient = "font",
-        gradient_colors = c("#132B43", "#56B1F7"))[["body"]][["font_color"]][1:32],
+        gradient_colors = NULL)[["body"]][["font_color"]][1:32],
       color_range[color_index]
     )
   }
 )
 
 test_that(
-  "Correctly reassigns the color for gradient_na",
+  "Correctly reassigns the default color for gradient_na = NULL",
   {
     expect_equal(
       {X <- mtcars
        X$mpg[1] <- NA
        sprinkle_gradient(dust(X), cols = "mpg", gradient = "bg", 
-                       gradient_na = "grey")[["body"]][["bg"]][1]},
+                       gradient_na = NULL)[["body"]][["bg"]][1]},
       "grey"
     )
   }

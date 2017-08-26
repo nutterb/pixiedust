@@ -120,34 +120,12 @@ sprinkle_border.default <- function(x, rows = NULL, cols = NULL,
   checkmate::assert_class(x = x,
                           classes = "dust")
   
-  checkmate::assert_subset(x = border,
-                           choices = c("all", "bottom", "left", "top", "right"),
-                           add = coll)
-  
-  checkmate::assert_character(x = border_color,
-                              len = 1,
-                              add = coll)
-  
-  if (!any(is_valid_color(border_color)))
-  {
-    invalid_color <- border_color[!is_valid_color(border_color)]
-    coll$push(sprintf("The following colors are not valid: %s",
-                      paste0(invalid_color, collapse = ", ")))
-  }
-  
-  checkmate::assert_subset(x = border_style,
-                           choices = c("solid", "dashed", "dotted", 
-                                       "double", "groove", "ridge", "inset",
-                                       "outset", "hidden", "none"),
-                           add = coll)
-  
-  checkmate::assert_numeric(x = border_thickness,
-                            len = 1,
-                            add = coll)
-  
-  checkmate::assert_subset(x = border_units,
-                           choices = c("pt", "px"),
-                           add = coll)
+  sprinkle_border_index_assert(border = border,
+                               border_color = border_color,
+                               border_style = border_style,
+                               border_thickness = border_thickness,
+                               border_units = border_units,
+                               coll = coll)
   
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
@@ -162,22 +140,14 @@ sprinkle_border.default <- function(x, rows = NULL, cols = NULL,
   # At this point, part should have passed the assertions in 
   # index_to_sprinkle. The first element is expected to be valid.
   
-  part <- part[1]
-  border_style <- border_style[1]
-  border_units <- border_units[1]
-  
-  if (any(border == "all")) border <- c("bottom", "left", "top", "right")
-  
-  border_define <- sprintf("%s%s %s %s",
-                           border_thickness,
-                           border_units,
-                           border_style,
-                           border_color)
-  for (side in border){
-    x[[part]][[sprintf("%s_border", side)]][indices] <- border_define
-  }
-  
-  x
+  sprinkle_border_index(x = x,
+                        indices = indices,
+                        border = border,
+                        border_color = border_color,
+                        border_style = border_style,
+                        border_thickness = border_thickness,
+                        border_units = border_units,
+                        part = part)
 }
 
 #' @rdname sprinkle_border
@@ -266,6 +236,7 @@ sprinkle_border_index <- function(x, indices, border = NULL,
   if (is.null(border_units)) border_units <- "pt"
   
   part <- part[1]
+  border_units <- border_units[1]
   
   if (any(border == "all")) border <- c("bottom", "left", "top", "right")
   

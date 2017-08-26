@@ -83,9 +83,8 @@ sprinkle_fn.default <- function(x, rows = NULL, cols = NULL, fn = NULL,
                                recycle = recycle,
                                coll = coll)
   
-  checkmate::assert_class(x = fn,
-                          classes = "call",
-                          add = coll)
+  sprinkle_fn_index_assert(fn = fn,
+                           coll = coll)
   
   checkmate::reportAssertions(coll)
  
@@ -93,9 +92,10 @@ sprinkle_fn.default <- function(x, rows = NULL, cols = NULL, fn = NULL,
    
   part <- part[1]
   
-  x[[part]][["fn"]][indices] <- deparse(fn)
-  
-  x
+  sprinkle_fn_index(x = x, 
+                    indices = indices,
+                    fn = fn,
+                    part = part)
 }
 
 #' @rdname sprinkle_fn
@@ -129,14 +129,14 @@ sprinkle_fn.dust_list <- function(x, rows = NULL, cols = NULL, fn = NULL,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_replace_index_assert <- function(fn, indices, coll)
+sprinkle_fn_index_assert <- function(fn, coll)
 {
   checkmate::assert_class(x = fn,
                           class = "call",
                           add = coll)
 }
 
-sprinkle_replace_index <- function(x, indices, fn, part)
+sprinkle_fn_index <- function(x, indices, fn, part)
 {
   x[[part]][["fn"]][indices] <- deparse(fn)
   

@@ -53,24 +53,13 @@ sprinkle_longtable.default <- function(x,
                           classes = "dust",
                           add = coll)
   
-  if (is.logical(longtable))
-  {
-    checkmate::assert_logical(x = longtable,
-                              len = 1,
-                              add = coll)
-  }
-  else
-  {
-    checkmate::assert_integerish(x = longtable,
-                                 len = 1, 
-                                 add = coll)
-  }
+  sprinkle_longtable_index_assert(longtable = longtable,
+                                  coll = coll)
   
   checkmate::reportAssertions(coll)
   
-  x[["longtable"]] <- longtable
-  
-  x
+  sprinkle_longtable_index(x = x,
+                           longtable = longtable)
 }
 
 #' @rdname sprinkle_longtable
@@ -95,10 +84,20 @@ sprinkle_longtable.dust_list <- function(x,
 
 sprinkle_longtable_index_assert <- function(longtable, coll)
 {
-  checkmate::assert_logical(x = longtable,
-                            len = 1,
-                            add = coll,
-                            .var.name = "longtable")
+  if (is.logical(longtable))
+  {
+    checkmate::assert_logical(x = longtable,
+                              len = 1,
+                              add = coll,
+                              .var.name = "longtable")
+  }
+  else
+  {
+    checkmate::assert_integerish(x = longtable,
+                                 len = 1, 
+                                 add = coll,
+                                 .var.name = "longtable")
+  }
 }
 
 sprinkle_longtable_index <- function(x, longtable)

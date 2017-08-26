@@ -79,18 +79,13 @@ sprinkle_sanitize.default <- function(x, rows = NULL, cols = NULL,
 {
   coll <- checkmate::makeAssertCollection()
   
-  if (!is.null(sanitize))
-  {
-    checkmate::assert_logical(x = sanitize,
-                              len = 1,
-                              add = coll)
-  }
+  checkmate::assert_class(x = x,
+                          classes = "dust",
+                          add = coll)
   
-  if (!is.null(sanitize_args))
-  {
-    checkmate::assert_list(x = sanitize_args,
-                           add = coll)
-  }
+  sprinkle_sanitize_index_assert(sanitize = sanitize,
+                                 sanitize_args = sanitize_args, 
+                                 coll = coll)
   
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
@@ -104,21 +99,11 @@ sprinkle_sanitize.default <- function(x, rows = NULL, cols = NULL,
   
   part <- part[1]
   
-  if (!is.null(sanitize))
-  {
-    x[[part]][["sanitize"]][indices] <- sanitize
-  }
-  
-  if (!is.null(sanitize_args))
-  {
-    x[[part]][["sanitize_args"]][indices] <- 
-      paste0(
-        deparse(sanitize_args),
-        collapse = ""
-      )
-  }
-  
-  x
+  sprinkle_sanitize_index(x = x, 
+                          indices = indices, 
+                          sanitize = sanitize, 
+                          sanitize_args = sanitize_args, 
+                          part = part)
 }
 
 #' @rdname sprinkle_sanitize
@@ -154,7 +139,7 @@ sprinkle_sanitize.dust_list <- function(x, rows = NULL, cols = NULL,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_align_index_assert <- function(halign, valign, coll)
+sprinkle_sanitize_index_assert <- function(sanitize, sanitize_args, coll)
 {
   if (!is.null(sanitize))
   {

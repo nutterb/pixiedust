@@ -78,19 +78,13 @@ sprinkle_height.default <- function(x, rows = NULL, cols = NULL,
 {
   coll <- checkmate::makeAssertCollection()
   
-  if (!is.null(height))
-  {
-    checkmate::assert_numeric(x = height,
-                              len = 1,
-                              add = coll)
-  }
+  checkmate::assert_class(x = x,
+                          classes = "dust",
+                          add = coll)
   
-  if (!is.null(height_units))
-  {
-    checkmate::matchArg(x = height_units,
-                        choices = c("px", "pt", "in", "cm", "%"),
-                        add = coll)
-  }
+  sprinkle_height_index_assert(height = height, 
+                               height_units = height_units, 
+                               coll = coll)
   
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
@@ -104,17 +98,11 @@ sprinkle_height.default <- function(x, rows = NULL, cols = NULL,
   
   part <- part[1]
   
-  if (!is.null(height))
-  {
-    x[[part]][["height"]][indices] <- height
-  }
-  
-  if (!is.null(height_units))
-  {
-    x[[part]][["height_units"]][indices] <- height_units
-  }
-  
-  x
+  sprinkle_height_index(x = x, 
+                        indices = indices, 
+                        height = height, 
+                        height_units = height_units, 
+                        part = part)
 }
 
 #' @rdname sprinkle_height
@@ -150,7 +138,7 @@ sprinkle_height.dust_list <- function(x, rows = NULL, cols = NULL,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_align_index_assert <- function(halign, valign, coll)
+sprinkle_height_index_assert <- function(height, height_units, coll)
 {
   if (!is.null(height))
   {

@@ -9,7 +9,8 @@ test_that(
    bottom_border columns in the table part",
   {
     expect_equal(
-      sprinkle_border(x, border = "all", border_color = "green")$body[c("bottom_border", "left_border", "top_border", "right_border")],
+      sprinkle_border(x, border = "all", 
+                      border_color = "green")$body[c("bottom_border", "left_border", "top_border", "right_border")],
       data.frame(bottom_border = rep("1pt solid green", 66),
                  left_border = rep("1pt solid green", 66),
                  top_border = rep("1pt solid green", 66),

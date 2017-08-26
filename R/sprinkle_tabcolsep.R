@@ -48,15 +48,13 @@ sprinkle_tabcolsep.default <- function(x,
                           classes = "dust",
                           add = coll)
   
-  checkmate::assert_integerish(x = tabcolsep,
-                               len = 1,
-                               add = coll)
+  sprinkle_tabcolsep_index_assert(tabcolsep = tabcolsep, 
+                                  coll = coll)
   
   checkmate::reportAssertions(coll)
   
-  x[["tabcolsep"]] <- tabcolsep
-  
-  x
+  sprinkle_tabcolsep_index(x = x, 
+                           tabcolsep = tabcolsep)
 }
 
 #' @rdname sprinkle_tabcolsep

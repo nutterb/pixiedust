@@ -1,5 +1,5 @@
 #' @name sprinkle_align
-#' @title Sprinkle Appearance of NA's
+#' @title Sprinkle Alignment of Table Cells
 #' 
 #' @description The alignment refers to the positioning of the text within
 #'   a cell.  Alignment may be given relative to the left, center, or right
@@ -77,19 +77,9 @@ sprinkle_align.default <- function(x, rows = NULL, cols = NULL,
 {
   coll <- checkmate::makeAssertCollection()
   
-  if (!is.null(halign))
-  {
-    halign <- checkmate::matchArg(x = halign,
-                                  choices = c("left", "center", "right"),
-                                  add = coll)
-  }
-  
-  if (!is.null(valign))
-  {
-    valign <- checkmate::matchArg(x = valign,
-                                  choices = c("top", "middle", "bottom"),
-                                  add = coll)
-  }
+  sprinkle_align_index_assert(halign = halign,
+                              valign = valign,
+                              coll = coll)
   
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
@@ -111,17 +101,11 @@ sprinkle_align.default <- function(x, rows = NULL, cols = NULL,
   
   part <- part[1]
   
-  if (!is.null(halign))
-  {
-    x[[part]][["halign"]][indices] <- halign
-  }
-  
-  if (!is.null(valign))
-  {
-    x[[part]][["valign"]][indices] <- valign
-  }
-  
-  x
+  sprinkle_align_index(x = x, 
+                       indices = indices, 
+                       halign = halign, 
+                       valign = valign, 
+                       part = part)
 }
 
 #' @rdname sprinkle_align
