@@ -14,7 +14,6 @@ Description: The introduction of the 'broom' package has made converting model
 Depends:
     R (>= 3.0.0)
 Imports:
-    backports (>= 1.1.0),
     broom,
     checkmate (>= 1.8.0),
     dplyr,
