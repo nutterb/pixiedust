@@ -2,7 +2,7 @@
 % Please edit documentation in R/sprinkle_height.R
 \name{sprinkle_height}
 \alias{sprinkle_height}
-\alias{sprinkle_height.dust}
+\alias{sprinkle_height.default}
 \alias{sprinkle_height.dust_list}
 \title{Adjust Table Cell Height}
 \usage{
@@ -10,9 +10,10 @@ sprinkle_height(x, rows = NULL, cols = NULL, height = NULL,
   height_units = NULL, part = c("body", "head", "foot", "interfoot"),
   fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
 
-\method{sprinkle_height}{dust}(x, rows = NULL, cols = NULL, height = NULL,
-  height_units = NULL, part = c("body", "head", "foot", "interfoot"),
-  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
+\method{sprinkle_height}{default}(x, rows = NULL, cols = NULL,
+  height = NULL, height_units = NULL, part = c("body", "head", "foot",
+  "interfoot"), fixed = FALSE, recycle = c("none", "rows", "cols",
+  "columns"), ...)
 
 \method{sprinkle_height}{dust_list}(x, rows = NULL, cols = NULL,
   height = NULL, height_units = NULL, part = c("body", "head", "foot",

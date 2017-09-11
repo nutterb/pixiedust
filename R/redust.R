@@ -24,7 +24,7 @@ redust.default <- function(x, table, part = c("head", "foot", "interfoot", "body
                          classes = "dust",
                          add = coll)
 
-  part_str <- assert_match_arg(x = part, 
+  part_str <- checkmate::matchArg(x = part, 
                                choices = c("head", "foot",
                                            "interfoot", "body"),
                                add = coll)

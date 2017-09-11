@@ -53,15 +53,13 @@ sprinkle_bookdown.default <- function(x,
                           classes = "dust",
                           add = coll)
   
-  checkmate::assert_logical(x = bookdown,
-                            len = 1,
-                            add = coll)
+  sprinkle_bookdown_index_assert(bookdown = bookdown,
+                                 coll = coll)
   
   checkmate::reportAssertions(coll)
   
-  x[["bookdown"]] <- bookdown
-  
-  x
+  sprinkle_bookdown_index(x = x,
+                          bookdown = bookdown)
 }
 
 #' @rdname sprinkle_bookdown

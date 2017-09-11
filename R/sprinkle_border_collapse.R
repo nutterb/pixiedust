@@ -54,16 +54,13 @@ sprinkle_border_collapse.default <- function(x,
                           add = coll)
   
   border_collapse <- 
-    checkmate::matchArg(x = border_collapse,
-                        choices = c("collapse", "separate", "initial",
-                                    "inherit"),
-                        add = coll)
+    sprinkle_border_collapse_index_assert(border_collapse = border_collapse,
+                                          coll = coll)
   
   checkmate::reportAssertions(coll)
   
-  x[["border_collapse"]] <- border_collapse
-  
-  x
+  sprinkle_border_collapse_index(x = x,
+                                 border_collapse = border_collapse)
 }
 
 #' @rdname sprinkle_border_collapse

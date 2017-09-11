@@ -173,10 +173,10 @@ dust.default <- function(object, ...,
 {
   coll <- checkmate::makeAssertCollection()
   
-  descriptors <- assert_match_arg(x = descriptors,
+  descriptors <- checkmate::matchArg(x = descriptors,
                                   choices = c("term", "term_plain", "label",
                                               "level", "level_detail"),
-                                  several_ok = TRUE,
+                                  several.ok = TRUE,
                                   add = coll)
   
   #* By default, we assume data.frame-like objects are to be printed

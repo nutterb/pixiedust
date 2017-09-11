@@ -9,7 +9,8 @@ test_that(
    bottom_border columns in the table part",
   {
     expect_equal(
-      sprinkle_border(x, border = "all", border_color = "green")$body[c("bottom_border", "left_border", "top_border", "right_border")],
+      sprinkle_border(x, border = "all", 
+                      border_color = "green")$body[c("bottom_border", "left_border", "top_border", "right_border")],
       data.frame(bottom_border = rep("1pt solid green", 66),
                  left_border = rep("1pt solid green", 66),
                  top_border = rep("1pt solid green", 66),
@@ -59,6 +60,18 @@ test_that(
     expect_equal(
       sprinkle_border(x, border = "right", color = "black")$body$right_border,
       rep("1pt solid black", 66)
+    )
+  }
+)
+
+test_that(
+  "Function succeeds when called on a dust_list object",
+  {
+    expect_silent(
+      mtcars %>% 
+        dplyr::group_by(am, vs) %>% 
+        dust(ungroup = FALSE) %>% 
+        sprinkle_border(border = "right", color = "red")
     )
   }
 )

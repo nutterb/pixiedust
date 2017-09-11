@@ -2,7 +2,7 @@
 % Please edit documentation in R/sprinkle_discrete.R
 \name{sprinkle_discrete}
 \alias{sprinkle_discrete}
-\alias{sprinkle_discrete.dust}
+\alias{sprinkle_discrete.default}
 \alias{sprinkle_discrete.dust_list}
 \title{Change Color Features by Discrete Values}
 \usage{
@@ -11,7 +11,7 @@ sprinkle_discrete(x, rows = NULL, cols = NULL, discrete = "bg",
   "head", "foot", "interfoot"), fixed = FALSE, recycle = c("none", "rows",
   "cols", "columns"), ...)
 
-\method{sprinkle_discrete}{dust}(x, rows = NULL, cols = NULL,
+\method{sprinkle_discrete}{default}(x, rows = NULL, cols = NULL,
   discrete = "bg", discrete_colors = getOption("pixie_discrete_pal", NULL),
   part = c("body", "head", "foot", "interfoot"), fixed = FALSE,
   recycle = c("none", "rows", "cols", "columns"), ...)

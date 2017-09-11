@@ -4,7 +4,7 @@
 \alias{sprinkle_align}
 \alias{sprinkle_align.default}
 \alias{sprinkle_align.dust_list}
-\title{Sprinkle Appearance of NA's}
+\title{Sprinkle Alignment of Table Cells}
 \usage{
 sprinkle_align(x, rows = NULL, cols = NULL, halign = NULL,
   valign = NULL, part = c("body", "head", "foot", "interfoot"),

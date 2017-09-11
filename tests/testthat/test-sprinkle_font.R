@@ -15,6 +15,19 @@ test_that(
   }
 )
 
+test_that(
+  "Succeeds when called on a dust_list object",
+  {
+    expect_silent(
+      mtcars %>% 
+        dplyr::group_by(vs, am) %>% 
+        dust(ungroup = FALSE) %>% 
+        sprinkle_font(cols = "mpg", 
+                      bold = TRUE)
+    )
+  }
+)
+
 # Functional Requirement 2 ------------------------------------------
 
 test_that(
@@ -31,7 +44,7 @@ test_that(
 # Functional Requirement 3 ------------------------------------------
 
 test_that(
-  "Correctly change the bold column of the table part for the selected cells",
+  "Correctly change the font_size column of the table part for the selected cells",
   {
     expect_equal(
       sprinkle_font(x = x,
@@ -44,7 +57,7 @@ test_that(
 # Functional Requirement 4 ------------------------------------------
 
 test_that(
-  "Correctly change the bold column of the table part for the selected cells",
+  "Correctly change the font_size_units column of the table part for the selected cells",
   {
     expect_equal(
       sprinkle_font(x = x,
@@ -57,7 +70,7 @@ test_that(
 # Functional Requirement 5 ------------------------------------------
 
 test_that(
-  "Correctly change the bold column of the table part for the selected cells",
+  "Correctly change the font_color column of the table part for the selected cells",
   {
     expect_equal(
       sprinkle_font(x = x,
@@ -70,7 +83,7 @@ test_that(
 # Functional Requirement 6 ------------------------------------------
 
 test_that(
-  "Correctly change the bold column of the table part for the selected cells",
+  "Correctly change the font_family column of the table part for the selected cells",
   {
     expect_equal(
       sprinkle_font(x = x,

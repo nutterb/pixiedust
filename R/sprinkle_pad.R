@@ -86,9 +86,12 @@ sprinkle_pad.default <- function(x, rows = NULL, cols = NULL, pad,
 {
   coll <- checkmate::makeAssertCollection()
   
-  checkmate::assert_numeric(x = pad,
-                            len = 1,
-                            add = coll)
+  checkmate::assert_class(x = x,
+                          classes = "dust",
+                          add = coll)
+  
+  sprinkle_pad_index_assert(pad = pad,
+                            coll = coll)
   
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
@@ -105,9 +108,10 @@ sprinkle_pad.default <- function(x, rows = NULL, cols = NULL, pad,
   
   part <- part[1]
   
-  x[[part]][["pad"]][indices] <- pad
-  
-  x
+  sprinkle_pad_index(x = x, 
+                     indices = indices, 
+                     pad = pad, 
+                     part = part)
   
 }
 

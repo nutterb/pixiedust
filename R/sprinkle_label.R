@@ -48,16 +48,13 @@ sprinkle_label.default <- function(x, label = NULL, ...)
                           classes = "dust",
                           add = coll)
   
-  label <- 
-    checkmate::assert_character(x = label,
-                                len = 1,
-                                add = coll)
+  sprinkle_label_index_assert(label = label,
+                              coll = coll)
   
   checkmate::reportAssertions(coll)
   
-  x[["label"]] <- label
-  
-  x
+  sprinkle_label_index(x = x,
+                       label = label)
 }
 
 #' @rdname sprinkle_label
@@ -65,6 +62,9 @@ sprinkle_label.default <- function(x, label = NULL, ...)
 
 sprinkle_label.dust_list <- function(x, label = NULL, ...)
 {
+  warning("The same label will be applied to each table in this list. ",
+          "This will likely result in problems with referncing tables. ",
+          "Consider using `pixiemap` instead.")
   structure(
     lapply(x,
            sprinkle_label.default,

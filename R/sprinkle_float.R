@@ -51,15 +51,13 @@ sprinkle_float.default <- function(x,
                           classes = "dust",
                           add = coll)
   
-  checkmate::assert_logical(x = float,
-                            len = 1,
-                            add = coll)
+  sprinkle_float_index_assert(float = float,
+                              coll = coll)
   
   checkmate::reportAssertions(coll)
   
-  x[["float"]] <- float
-  
-  x
+  sprinkle_float_index(x = x,
+                       float = float)
 }
 
 #' @rdname sprinkle_float
@@ -73,7 +71,7 @@ sprinkle_float.dust_list <- function(x,
     lapply(x,
            sprinkle_float.default,
            float),
-    "dust_list"
+    class = "dust_list"
   )
 }
 

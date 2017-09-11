@@ -56,15 +56,14 @@ sprinkle_justify.default <- function(x,
                           classes = "dust",
                           add = coll)
   
-  justify <- checkmate::matchArg(x = tolower(justify),
-                                 choices = c("center", "none", "left", "right"),
-                                 add = coll)
+  justify <- 
+    sprinkle_justify_index_assert(justify = justify,
+                                  coll = coll)
   
   checkmate::reportAssertions(coll)
   
-  x[["justify"]] <- justify
-  
-  x
+  sprinkle_justify_index(x = x,
+                         justify = justify)
 }
 
 #' @rdname sprinkle_justify
@@ -78,7 +77,7 @@ sprinkle_justify.dust_list <- function(x,
     lapply(x,
            sprinkle_justify.default,
            justify),
-    "dust_list"
+    class = "dust_list"
   )
 }
 
@@ -89,7 +88,7 @@ sprinkle_justify.dust_list <- function(x,
 
 sprinkle_justify_index_assert <- function(justify, coll)
 {
-  checkmate::matchArg(x = justify,
+  checkmate::matchArg(x = tolower(justify),
                       choices = c("center", "none", "left", "right"),
                       add = coll,
                       .var.name = "justify")

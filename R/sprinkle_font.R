@@ -102,7 +102,7 @@ sprinkle_font <- function(x, rows = NULL, cols = NULL,
 #' @rdname sprinkle_font
 #' @export
 
-sprinkle_font.dust <- function(x, rows = NULL, cols = NULL,
+sprinkle_font.default <- function(x, rows = NULL, cols = NULL,
                                bold = NULL, italic = NULL,
                                font_size = NULL, font_size_units = NULL,
                                font_color = NULL, font_family = NULL,
@@ -117,57 +117,13 @@ sprinkle_font.dust <- function(x, rows = NULL, cols = NULL,
                           classes = "dust",
                           add = coll)
   
-  if (!is.null(bold))
-  {
-    checkmate::assert_logical(x = bold,
-                              len = 1,
-                              add = coll)
-  }
-  
-  if (!is.null(italic))
-  {
-    checkmate::assert_logical(x = italic,
-                              len = 1,
-                              add = coll)
-  }
-  
-  if (!is.null(font_size))
-  {
-    checkmate::assert_numeric(x = font_size,
-                              len = 1,
-                              add = coll)
-  }
-  
-  if (!is.null(font_size_units))
-  {
-    checkmate::assert_character(x = font_size_units,
-                                len = 1,
-                                add = coll)
-    
-    checkmate::assert_subset(x = font_size_units,
-                             choices = c("px", "pt", "em", "%"),
-                             add = coll)
-  }
-  
-  if (!is.null(font_color))
-  {
-    checkmate::assert_character(x = font_color,
-                                len = 1,
-                                add = coll)
-    
-    if (!all(is_valid_color(font_color)))
-    {
-      coll$push(sprintf("`font_color` has invalid colors: %s",
-                        font_color[!is_valid_color(font_color)]))
-    }
-  }
-  
-  if (!is.null(font_family))
-  {
-    checkmate::assert_character(x = font_family,
-                                len = 1,
-                                add = coll)
-  }
+  sprinkle_font_index_assert(bold = bold, 
+                             italic = italic,
+                             font_size = font_size, 
+                             font_size_units = font_size_units,
+                             font_color = font_color, 
+                             font_family = font_family,
+                             coll = coll)
   
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
@@ -181,37 +137,15 @@ sprinkle_font.dust <- function(x, rows = NULL, cols = NULL,
   
   part <- part[1]
   
-  if (!is.null(bold))
-  {
-    x[[part]][["bold"]][indices] <- bold
-  }
-  
-  if (!is.null(italic))
-  {
-    x[[part]][["italic"]][indices] <- italic
-  }
-  
-  if (!is.null(font_size))
-  {
-    x[[part]][["font_size"]][indices] <- font_size
-  }
-  
-  if (!is.null(font_size_units))
-  {
-    x[[part]][["font_size_units"]][indices] <- font_size_units
-  }
-  
-  if (!is.null(font_color))
-  {
-    x[[part]][["font_color"]][indices] <- font_color
-  }
-  
-  if (!is.null(font_family))
-  {
-    x[[part]][["font_family"]][indices] <- font_family
-  }
-  
-  x
+  sprinkle_font_index(x = x, 
+                      indices = indices, 
+                      bold = bold, 
+                      italic = italic,
+                      font_size = font_size, 
+                      font_size_units = font_size_units,
+                      font_color = font_color, 
+                      font_family = font_family, 
+                      part = part)
 }
 
 #' @rdname sprinkle_font
@@ -228,6 +162,7 @@ sprinkle_font.dust_list <- function(x, rows = NULL, cols = NULL,
 {
   structure(
     lapply(x,
+           sprinkle_font.default,
            rows = rows,
            cols = cols,
            bold = bold,
@@ -252,16 +187,11 @@ sprinkle_font.dust_list <- function(x, rows = NULL, cols = NULL,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_font_index_assert <- function(x, rows = NULL, cols = NULL,
-                                       bold = NULL, italic = NULL,
+sprinkle_font_index_assert <- function(bold = NULL, italic = NULL,
                                        font_size = NULL, font_size_units = NULL,
                                        font_color = NULL, font_family = NULL,
                                        coll = coll)
 {
-  checkmate::assert_class(x = x,
-                          classes = "dust",
-                          add = coll)
-  
   if (!is.null(bold))
   {
     checkmate::assert_logical(x = bold,

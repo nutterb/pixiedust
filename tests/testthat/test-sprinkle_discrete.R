@@ -47,6 +47,15 @@ test_that(
 )
 
 test_that(
+  "Selects default colors when discrete_color is NULL",
+  {
+    expect_silent(
+      sprinkle_discrete(x, cols = "gear", discrete = "bg")
+    )
+  }
+)
+
+test_that(
   "Correctly reassigns `border`",
   {
     expect_equal(
@@ -70,6 +79,19 @@ test_that(
         discrete = "right_border", 
         discrete_color = c("red", "blue", "green"))[["body"]][["right_border"]][289:320],
       sprintf("1px solid %s", c("red", "blue", "green")[match(mtcars$gear, c(3, 4, 5))])
+    )
+  }
+)
+
+test_that(
+  "Function succeeds when called on a dust_list object",
+  {
+    expect_silent(
+      dplyr::group_by(mtcars, am, vs) %>% 
+        dust(ungroup = FALSE) %>% 
+        sprinkle_discrete(cols = "gear",
+                          discrete = "bg",
+                          discrete_color = c("red", "blue", "green"))
     )
   }
 )

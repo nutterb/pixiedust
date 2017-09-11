@@ -89,16 +89,12 @@ sprinkle_bg.default <- function(x, rows = NULL, cols = NULL, bg,
 {
   coll <- checkmate::makeAssertCollection()
   
-  checkmate::assert_character(x = bg,
-                              len = 1,
-                              add = coll)
+  checkmate::assert_class(x = x,
+                          classes = "dust",
+                          add = coll)
   
-  if (!any(is_valid_color(bg)))
-  {
-    invalid_color <- bg[!is_valid_color(bg)]
-    coll$push(sprintf("The following colors are not valid: %s",
-                      paste0(invalid_color, collapse = ", ")))
-  }
+  sprinkle_bg_index_assert(bg = bg,
+                           coll = coll)
   
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
@@ -115,9 +111,10 @@ sprinkle_bg.default <- function(x, rows = NULL, cols = NULL, bg,
   
   part <- part[1]
   
-  x[[part]][["bg"]][indices] <- bg
-  
-  x
+  sprinkle_bg_index(x = x, 
+                    indices = indices, 
+                    bg = bg, 
+                    part = part)
   
 }
 

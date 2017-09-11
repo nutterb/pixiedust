@@ -69,7 +69,7 @@ sprinkle_width <- function(x, rows = NULL, cols = NULL,
 #' @rdname sprinkle_width
 #' @export
 
-sprinkle_width.dust <- function(x, rows = NULL, cols = NULL, 
+sprinkle_width.default <- function(x, rows = NULL, cols = NULL, 
                                  width = NULL, width_units = NULL,
                                  part = c("body", "head", "foot", "interfoot"),
                                  fixed = FALSE, 
@@ -78,19 +78,9 @@ sprinkle_width.dust <- function(x, rows = NULL, cols = NULL,
 {
   coll <- checkmate::makeAssertCollection()
   
-  if (!is.null(width))
-  {
-    checkmate::assert_numeric(x = width,
-                              len = 1,
-                              add = coll)
-  }
-  
-  if (!is.null(width_units))
-  {
-    checkmate::matchArg(x = width_units,
-                        choices = c("px", "pt", "in", "cm", "%"),
-                        add = coll)
-  }
+  width_units <- sprinkle_width_index_assert(width = width,
+                                             width_units = width_units, 
+                                             coll = coll)
   
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
@@ -104,17 +94,11 @@ sprinkle_width.dust <- function(x, rows = NULL, cols = NULL,
   
   part <- part[1]
   
-  if (!is.null(width))
-  {
-    x[[part]][["width"]][indices] <- width
-  }
-  
-  if (!is.null(width_units))
-  {
-    x[[part]][["width_units"]][indices] <- width_units
-  }
-  
-  x
+  sprinkle_width_index(x = x, 
+                       indices = indices, 
+                       width = width, 
+                       width_units = width_units, 
+                       part = part)
 }
 
 #' @rdname sprinkle_width
@@ -129,7 +113,7 @@ sprinkle_width.dust_list <- function(x, rows = NULL, cols = NULL,
 {
   structure(
     lapply(X = x,
-           FUN = sprinkle_width.dust,
+           FUN = sprinkle_width.default,
            rows = rows,
            cols = cols,
            width = width,
@@ -150,7 +134,7 @@ sprinkle_width.dust_list <- function(x, rows = NULL, cols = NULL,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_align_index_assert <- function(halign, valign, coll)
+sprinkle_width_index_assert <- function(width, width_units, coll)
 {
   if (!is.null(width))
   {
@@ -162,11 +146,13 @@ sprinkle_align_index_assert <- function(halign, valign, coll)
   
   if (!is.null(width_units))
   {
-    checkmate::matchArg(x = width_units,
-                        choices = c("px", "pt", "in", "cm", "%"),
-                        add = coll,
-                        .var.name = "width_units")
+    width_units <- 
+      checkmate::matchArg(x = width_units,
+                          choices = c("px", "pt", "in", "cm", "%"),
+                          add = coll,
+                          .var.name = "width_units")
   }
+  width_units
 }
 
 sprinkle_width_index <- function(x, indices, width, width_units, part)

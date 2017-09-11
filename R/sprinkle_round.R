@@ -73,12 +73,12 @@ sprinkle_round.default <- function(x, rows = NULL, cols = NULL,
 {
   coll <- checkmate::makeAssertCollection()
   
-  if (!is.null(round))
-  {
-    checkmate::assert_integerish(x = round,
-                                 len = 1,
-                                 add = coll)
-  }
+  checkmate::assert_class(x = x,
+                          classes = "dust",
+                          add = coll)
+  
+  sprinkle_round_index_assert(round = round, 
+                              coll = coll)
   
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
@@ -95,9 +95,10 @@ sprinkle_round.default <- function(x, rows = NULL, cols = NULL,
   
   part <- part[1]
   
-  x[[part]][["round"]][indices] <- round
-  
-  x
+  sprinkle_round_index(x = x, 
+                       indices = indices, 
+                       round = round, 
+                       part = part)
 }
 
 #' @rdname sprinkle_round
@@ -136,10 +137,10 @@ sprinkle_round_index_assert <- function(round, coll)
 {
   if (!is.null(round))
   {
-    checkmate::assert_character(x = round,
-                                len = 1,
-                                add = coll,
-                                .var.name = "round")
+    checkmate::assert_integerish(x = round,
+                                 len = 1,
+                                 add = coll,
+                                 .var.name = "round")
   }
 }
 

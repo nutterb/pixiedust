@@ -73,12 +73,8 @@ sprinkle_rotate_degree.default <- function(x, rows = NULL, cols = NULL,
 {
   coll <- checkmate::makeAssertCollection()
   
-  if (!is.null(rotate_degree))
-  {
-    checkmate::assert_numeric(x = rotate_degree,
-                              len = 1,
-                              add = coll)
-  }
+  sprinkle_rotate_degree_index_assert(rotate_degree = rotate_degree, 
+                                      coll = coll)
   
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
@@ -95,9 +91,10 @@ sprinkle_rotate_degree.default <- function(x, rows = NULL, cols = NULL,
   
   part <- part[1]
   
-  x[[part]][["rotate_degree"]][indices] <- rotate_degree
-  
-  x
+  sprinkle_rotate_degree_index(x = x, 
+                               indices = indices, 
+                               rotate_degree = rotate_degree, 
+                               part = part)
 }
 
 #' @rdname sprinkle_rotate_degree

@@ -76,6 +76,10 @@ sprinkle_replace.default <- function(x, rows = NULL, cols = NULL,
 {
   coll <- checkmate::makeAssertCollection()
   
+  checkmate::assert_class(x = x,
+                          classes = "dust",
+                          add = coll)
+  
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
                                cols = cols, 
@@ -84,28 +88,16 @@ sprinkle_replace.default <- function(x, rows = NULL, cols = NULL,
                                recycle = recycle,
                                coll = coll)
   
-  checkmate::assert_atomic_vector(x = replace,
-                                  max.len = sum(indices),
-                                  add = coll)
+  sprinkle_replace_index_assert(replace = replace, 
+                                indices = indices,
+                                coll = coll)
   
   checkmate::reportAssertions(coll)
   
-  if (length(replace) != 1 & (sum(indices) %% length(replace)) != 0)
-  {
-    warning("The number of cells to edit is not a multiple of ",
-            "length(replace). Values may not recycle as expected.")
-    
-    replace <- rep(replace, length.out = sum(indices))
-  }
-  
-  # At this point, part should have passed the assertions in 
-  # index_to_sprinkle. The first element is expected to be valid.
-  
-  part <- part[1]
-
-  x[[part]][["replace"]][indices] <- replace
-  
-  x
+  sprinkle_replace_index(x = x, 
+                         indices = indices, 
+                         replace = replace, 
+                         part = part)
 }
 
 #' @rdname sprinkle_replace
@@ -150,6 +142,19 @@ sprinkle_replace_index_assert <- function(replace, indices, coll)
 
 sprinkle_replace_index <- function(x, indices, replace, part)
 {
+  if (length(replace) != 1 & (sum(indices) %% length(replace)) != 0)
+  {
+    warning("The number of cells to edit is not a multiple of ",
+            "length(replace). Values may not recycle as expected.")
+    
+    replace <- rep(replace, length.out = sum(indices))
+  }
+  
+  # At this point, part should have passed the assertions in 
+  # index_to_sprinkle. The first element is expected to be valid.
+  
+  part <- part[1]
+  
   x[[part]][["replace"]][indices] <- replace
   
   x

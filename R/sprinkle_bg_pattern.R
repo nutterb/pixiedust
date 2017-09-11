@@ -56,7 +56,7 @@ sprinkle_bg_pattern <- function(x, rows = NULL, cols = NULL,
 #' @rdname sprinkle_bg_pattern
 #' @export
 
-sprinkle_bg_pattern.dust <- function(x, rows = NULL, cols = NULL, 
+sprinkle_bg_pattern.default <- function(x, rows = NULL, cols = NULL, 
                                      bg_pattern = c("transparent", "#DCDCDC"),
                                      bg_pattern_by = c("rows", "cols"),
                                      ...,
@@ -68,20 +68,10 @@ sprinkle_bg_pattern.dust <- function(x, rows = NULL, cols = NULL,
                           classes = "dust",
                           add = coll)
   
-  checkmate::assert_character(x = bg_pattern,
-                              add = coll)
-  
-  if (!all(is_valid_color(bg_pattern)))
-  {
-    coll$push(sprintf("The following elements in `bg_pattern` are not valid colors: %s",
-                      paste0(bg_pattern[!is_valid_color(bg_pattern)],
-                             collapse = ", ")))
-  }
-  
   bg_pattern_by <- 
-    checkmate::matchArg(x = bg_pattern_by,
-                        choices = c("rows", "cols"),
-                        add = coll)
+    sprinkle_bg_pattern_index_assert(bg_pattern = bg_pattern,
+                                     bg_pattern_by = bg_pattern_by, 
+                                     coll = coll)
   
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
@@ -95,40 +85,11 @@ sprinkle_bg_pattern.dust <- function(x, rows = NULL, cols = NULL,
   
   part <- part[1]
   
-  if (bg_pattern_by == "rows")
-  {
-    pattern <- data.frame(row = sort(unique(x[[part]][["row"]][indices])))
-    pattern[["bg"]] <- rep(bg_pattern, 
-                           length.out = nrow(pattern))
-    
-    pattern <- 
-      dplyr::left_join(pattern,
-                       dplyr::select(x[[part]][indices, ], 
-                                     row, col),
-                       by = c("row" = "row"))
-    pattern <- dplyr::arrange(pattern, 
-                              col, row)
-    
-    x[[part]][["bg"]][indices] <- pattern[["bg"]]
-  }
-  else 
-  {
-    pattern <- data.frame(col = sort(unique(x[[part]][["col"]][indices])))
-    pattern[["bg"]] <- rep(bg_pattern, 
-                           length.out = nrow(pattern))
-    
-    pattern <- 
-      dplyr::left_join(pattern,
-                       dplyr::select(x[[part]][indices, ], 
-                                     row, col),
-                       by = c("col" = "col"))
-    pattern <- dplyr::arrange(pattern,
-                              col, row)
-    
-    x[[part]][["bg"]][indices] <- pattern[["bg"]]
-  }
-  
-  x
+  sprinkle_bg_pattern_index(x = x, 
+                            indices = indices, 
+                            bg_pattern = bg_pattern,
+                            bg_pattern_by = bg_pattern_by, 
+                            part = part)
 }
 
 #' @rdname sprinkle_bg_pattern
@@ -181,6 +142,8 @@ sprinkle_bg_pattern_index_assert <- function(bg_pattern, bg_pattern_by, coll)
                         choices = c("rows", "cols"),
                         add = coll,
                         .var.name = "bg_pattern_by")
+  
+  bg_pattern_by
 }
 
 sprinkle_bg_pattern_index <- function(x, indices, bg_pattern,

@@ -44,15 +44,13 @@ sprinkle_caption.default <- function(x, caption, ...)
                           classes = "dust",
                           add = coll)
   
-  checkmate::assert_character(x = caption,
-                              len = 1,
-                              add = coll)
+  sprinkle_caption_index_assert(caption = caption,
+                                coll = coll)
   
   checkmate::reportAssertions(coll)
   
-  x[["caption"]] <- caption
-  
-  x
+  sprinkle_caption_index(x = x,
+                         caption = caption)
 }
 
 #' @rdname sprinkle_caption
@@ -64,7 +62,7 @@ sprinkle_caption.dust_list <- function(x, caption, ...)
     lapply(x,
            sprinkle_caption.default,
            caption),
-    "dust_list"
+    class = "dust_list"
   )
 }
 

@@ -12,9 +12,9 @@ sprinkle_table <- function(x, cols = NULL, ..., part = "table")
 sprinkle_table.default <- function(x, cols=NULL, ..., 
                                    part = "table"){
 
-  part_names <- assert_match_arg(x = part, 
+  part_names <- checkmate::matchArg(x = part, 
                                  choices = c("table", "body", "head", "foot", "interfoot"),
-                                 several_ok = TRUE)
+                                 several.ok = TRUE)
 
   if (length(part_names) > 0)
     if (any(part_names %in% "table")) part_names <- c("body", "head", "foot", "interfoot")

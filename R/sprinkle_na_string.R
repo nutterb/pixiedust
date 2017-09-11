@@ -73,9 +73,12 @@ sprinkle_na_string.default <- function(x, rows = NULL, cols = NULL,
 {
   coll <- checkmate::makeAssertCollection()
   
-  checkmate::assert_character(x = na_string,
-                              len = 1,
-                              add = coll)
+  checkmate::assert_class(x = x,
+                          classes = "dust",
+                          add = coll)
+  
+  sprinkle_na_string_index_assert(na_string = na_string, 
+                                  coll = coll)
   
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
@@ -92,9 +95,10 @@ sprinkle_na_string.default <- function(x, rows = NULL, cols = NULL,
   
   part <- part[1]
   
-  x[[part]][["na_string"]][indices] <- na_string
-  
-  x
+  sprinkle_na_string_index(x = x, 
+                           indices = indices, 
+                           na_string= na_string, 
+                           part = part)
 }
 
 #' @rdname sprinkle_na_string

@@ -83,7 +83,7 @@ sprinkle_discrete <- function(x, rows = NULL, cols = NULL,
 #' @rdname sprinkle_discrete
 #' @export
 
-sprinkle_discrete.dust <- function(x, rows = NULL, cols = NULL, 
+sprinkle_discrete.default <- function(x, rows = NULL, cols = NULL, 
                                    discrete = "bg",
                                    discrete_colors = getOption("pixie_discrete_pal", NULL),
                                    part = c("body", "head", "foot", "interfoot"),
@@ -97,26 +97,9 @@ sprinkle_discrete.dust <- function(x, rows = NULL, cols = NULL,
                           classes = "dust",
                           add = coll)
   
-  checkmate::assert_subset(x = discrete,
-                           choices = c("bg", "font", "font_color",
-                                       "border", "left_border", 
-                                       "top_border", "right_border",
-                                       "bottom_border"),
-                           add = coll)
-  
-  if (!is.null(discrete_colors))
-  {
-    checkmate::assert_character(x = discrete_colors,
-                                add = coll)
-    
-    valid_color <- is_valid_color(discrete_colors)  
-    if (!all(valid_color))
-    {
-      coll$push(sprintf("The following are not valid colors: %s",
-                        paste0(discrete_colors[!valid_color], 
-                               collapse = ", ")))
-    }
-  }  
+  sprinkle_discrete_index_assert(discrete = discrete,
+                                 discrete_colors = discrete_colors,
+                                 coll = coll) 
   
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
@@ -128,77 +111,11 @@ sprinkle_discrete.dust <- function(x, rows = NULL, cols = NULL,
   
   checkmate::reportAssertions(coll)
   
-  part <- part[1]
-  
-  if ("border" %in% discrete)
-  {
-    discrete <- c(sprintf("%s_border", 
-                          c("top", "left", "right", "bottom")),
-                  discrete)
-    discrete <- unique(discrete[!discrete %in% "border"])
-  }
-  
-  if ("font" %in% discrete)
-  {
-     discrete <- c("font_color", discrete)
-     discrete <- unique(discrete[!discrete %in% "font"])
-  }
-  
-  ux <- unique(x[[part]][["value"]][indices])
-  
-  if (is.null(discrete_colors)) 
-  {
-    discrete_colors <- getOption("pixie_discrete_pal", NULL)
-  }
-  
-  if (is.null(discrete_colors))
-  {
-    discrete_colors <- scales::hue_pal()(length(ux))
-  }
-  
-  checkmate::makeAssertion(x = discrete_colors,
-                           if (length(discrete_colors) >= length(ux))
-                           {
-                             TRUE
-                           }
-                           else
-                           {
-                             sprintf("`discrete_colors` must have at least the same length as the number of unique values (>= %s)",
-                                     length(ux))
-                           },
-                           var.name = "discrete_colors",
-                           collection = NULL)
-  
-  args <- list(...)
-  
-  border_thickness <- 
-    if ("border_thickness" %in% names(args)) args[["border_thickness"]] else 1
-
-  border_units <- 
-    if ("border_units" %in% names(args)) args[["border_units"]] else "px"
-
-  border_style <- 
-    if ("border_style" %in% names(args)) args[["border_style"]] else "solid"
-
-  for (i in seq_along(discrete))
-  {
-    if (grepl("border", discrete[i]))
-    {
-      x[[part]][[discrete[i]]][indices] <- 
-        sprintf("%s%s %s %s",
-                border_thickness,
-                border_units,
-                border_style,
-                discrete_colors[as.numeric(as.factor(x[[part]][["value"]][indices]))])
-    }
-    else 
-    {
-      x[[part]][[discrete[i]]][indices] <- 
-        discrete_colors[as.numeric(as.factor(x[[part]][["value"]][indices]))]
-    }
-  }
-  
-  x
+  sprinkle_discrete_index(x = x, 
+                          indices = indices, 
+                          discrete = discrete, 
+                          discrete_colors = discrete_colors, 
+                          part = part)
 }
 
 #' @rdname sprinkle_discrete
@@ -214,7 +131,7 @@ sprinkle_discrete.dust_list <- function(x, rows = NULL, cols = NULL,
 {
   structure(
     lapply(X = x,
-           FUN = sprinkle_discrete.dust,
+           FUN = sprinkle_discrete.default,
            rows = rows,
            cols = cols,
            discrete = discrete,

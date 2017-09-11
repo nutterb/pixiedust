@@ -28,6 +28,188 @@ test_that(
   }
 )
 
+test_that(
+  "Correctly reassigns the appropriate elements of the border columns",
+  {
+    expect_equal(
+      sprinkle_gradient(
+        x,
+        cols = "mpg",
+        gradient = "border")[["body"]][["bottom_border"]][1:32],
+      sprintf("1px solid %s", color_range[color_index])
+    )
+  }
+)
+
+test_that(
+  "Correctly reassigns the appropriate elements of the border columns",
+  {
+    expect_equal(
+      sprinkle_gradient(
+        x,
+        cols = "mpg",
+        gradient = "border")[["body"]][["left_border"]][1:32],
+      sprintf("1px solid %s", color_range[color_index])
+    )
+  }
+)
+
+test_that(
+  "Correctly reassigns the appropriate elements of the border columns",
+  {
+    expect_equal(
+      sprinkle_gradient(
+        x,
+        cols = "mpg",
+        gradient = "border")[["body"]][["top_border"]][1:32],
+      sprintf("1px solid %s", color_range[color_index])
+    )
+  }
+)
+
+test_that(
+  "Correctly reassigns the appropriate elements of the border columns",
+  {
+    expect_equal(
+      sprinkle_gradient(
+        x,
+        cols = "mpg",
+        gradient = "border")[["body"]][["right_border"]][1:32],
+      sprintf("1px solid %s", color_range[color_index])
+    )
+  }
+)
+
+test_that(
+  "Correctly reassigns the appropriate elements of the border columns",
+  {
+    expect_equal(
+      sprinkle_gradient(
+        x,
+        cols = "mpg",
+        gradient = "bottom_border")[["body"]][["bottom_border"]][1:32],
+      sprintf("1px solid %s", color_range[color_index])
+    )
+  }
+)
+
+test_that(
+  "Correctly reassigns the appropriate elements of the border columns",
+  {
+    expect_equal(
+      sprinkle_gradient(
+        x,
+        cols = "mpg",
+        gradient = "left_border")[["body"]][["left_border"]][1:32],
+      sprintf("1px solid %s", color_range[color_index])
+    )
+  }
+)
+
+test_that(
+  "Correctly reassigns the appropriate elements of the border columns",
+  {
+    expect_equal(
+      sprinkle_gradient(
+        x,
+        cols = "mpg",
+        gradient = "top_border")[["body"]][["top_border"]][1:32],
+      sprintf("1px solid %s", color_range[color_index])
+    )
+  }
+)
+
+test_that(
+  "Correctly reassigns the appropriate elements of the border columns",
+  {
+    expect_equal(
+      sprinkle_gradient(
+        x,
+        cols = "mpg",
+        gradient = "right_border")[["body"]][["right_border"]][1:32],
+      sprintf("1px solid %s", color_range[color_index])
+    )
+  }
+)
+
+test_that(
+  "Correctly reassigns the appropriate elements of the border columns",
+  {
+    expect_equal(
+      sprinkle_gradient(
+        x,
+        cols = "mpg",
+        gradient = "font")[["body"]][["font_color"]][1:32],
+      color_range[color_index]
+    )
+  }
+)
+
+test_that(
+  "Correctly reassigns the appropriate elements of the border columns",
+  {
+    expect_equal(
+      sprinkle_gradient(
+        x,
+        cols = "mpg",
+        gradient = "font_color")[["body"]][["font_color"]][1:32],
+      color_range[color_index]
+    )
+  }
+)
+
+test_that(
+  "Correctly reassigns the appropriate elements of the border columns",
+  {
+    expect_equal(
+      sprinkle_gradient(
+        x,
+        cols = "mpg",
+        gradient = "font",
+        gradient_colors = NULL)[["body"]][["font_color"]][1:32],
+      color_range[color_index]
+    )
+  }
+)
+
+test_that(
+  "Correctly reassigns the default color for gradient_na = NULL",
+  {
+    expect_equal(
+      {X <- mtcars
+       X$mpg[1] <- NA
+       sprinkle_gradient(dust(X), cols = "mpg", gradient = "bg", 
+                       gradient_na = NULL)[["body"]][["bg"]][1]},
+      "grey"
+    )
+  }
+)
+
+test_that(
+  "Correctly reassigns the color for custom cut vector",
+  {
+    expect_equal(
+      sprinkle_gradient(x, cols = "mpg", 
+                        gradient_cut = quantile(mtcars$mpg, 
+                                                probs = seq(0, 1, length.out = 10),
+                                                na.rm = TRUE))[["body"]][["bg"]][1:32],
+      color_range[color_index]
+    )
+  }
+)
+
+test_that(
+  "sprinkle_gradient succeeds on dust_list",
+  {
+    expect_silent(
+      mtcars %>% 
+        dplyr::group_by(am) %>% 
+        dust(ungroup = FALSE) %>% 
+        sprinkle_gradient(gradient = "bg", gradient_n = 5)
+    )
+  }
+)
+
 # Functional Requirement 2 ------------------------------------------
 
 test_that(

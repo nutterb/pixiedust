@@ -96,7 +96,7 @@ sprinkle_gradient <- function(x, rows = NULL, cols = NULL,
 #' @rdname sprinkle_gradient
 #' @export
 
-sprinkle_gradient.dust <- function(x, rows = NULL, cols = NULL, 
+sprinkle_gradient.default <- function(x, rows = NULL, cols = NULL, 
                                    gradient = "bg",
                                    gradient_colors = getOption("pixie_gradient_pal", 
                                                                c("#132B43", "#56B1F7")),
@@ -114,52 +114,12 @@ sprinkle_gradient.dust <- function(x, rows = NULL, cols = NULL,
                           classes = "dust",
                           add = coll)
   
-  checkmate::assert_subset(x = gradient,
-                           choices = c("bg", "font", "font_color",
-                                       "border", "left_border", 
-                                       "top_border", "right_border",
-                                       "bottom_border"),
-                           add = coll)
-  
-  if (!is.null(gradient_colors))
-  {
-    checkmate::assert_character(x = gradient_colors,
-                                len = 2,
-                                add = coll)
-    
-    valid_color <- is_valid_color(gradient_colors)  
-    if (!all(valid_color))
-    {
-      coll$push(sprintf("The following are not valid colors: %s",
-                        paste0(gradient_colors[!valid_color], 
-                               collapse = ", ")))
-    }
-  }  
-  
-  if (!is.null(gradient_cut))
-  {
-    checkmate::assert_numeric(x = gradient_cut,
-                              add = coll)
-  }
-  
-  if (!is.null(gradient_n))
-  {
-    checkmate::assert_numeric(x = gradient_n,
-                              len = 1,
-                              add = coll)
-  }
-  
-  if (!is.null(gradient_na))
-  {
-    checkmate::assert_character(x = gradient_na,
-                                len = 1,
-                                add = coll)
-    
-    if (any(!is_valid_color(gradient_na)))
-    {
-      coll$push("`gradient_na` must be a valid color")
-    }
-  }
+  sprinkle_gradient_index_assert(gradient = gradient, 
+                                 gradient_colors = gradient_colors, 
+                                 gradient_cut = gradient_cut,
+                                 gradient_n = gradient_n,
+                                 gradient_na = gradient_na,
+                                 coll = coll)
   
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
@@ -171,113 +131,15 @@ sprinkle_gradient.dust <- function(x, rows = NULL, cols = NULL,
   
   checkmate::reportAssertions(coll)
   
-  part <- part[1]
-  
-  if ("border" %in% gradient)
-  {
-    gradient <- c(sprintf("%s_border", 
-                          c("top", "left", "right", "bottom")),
-                  gradient)
-    gradient <- unique(gradient[!gradient %in% "border"])
-  }
-  
-  if ("font" %in% gradient)
-  {
-     gradient <- c("font_color", gradient)
-     gradient <- unique(gradient[!gradient %in% "font"])
-  }
-  
-  ux <- unique(x[[part]][["value"]][indices])
-  
-  if (is.null(gradient_colors)) 
-  {
-    gradient_colors <- getOption("pixie_gradient_pal", 
-                                 c("#132B43", "#56B1F7"))
-  }
-  
-  args <- list(...)
-  
-  border_thickness <- 
-    if ("border_thickness" %in% names(args)) args[["border_thickness"]] else 1
-  
-  border_units <- 
-    if ("border_units" %in% names(args)) args[["border_units"]] else "px"
-  
-  border_style <- 
-    if ("border_style" %in% names(args)) args[["border_style"]] else "solid"
-  
-  gradient["font" %in% gradient] <- "font_color"
-  
-  if (is.null(gradient_n)) gradient_n <- 10
-  
-  if (is.null(gradient_na))
-  {
-    gradient_na <- "grey"
-  }
-  
-  if ("border" %in% gradient)
-  {
-    gradient <- c(sprintf("%s_border", 
-                          c("top", "left", "right", "bottom")),
-                  gradient)
-    gradient <- unique(gradient[!gradient %in% "border"])
-  }
-  
-  gradient_colors <- 
-    scales::gradient_n_pal(gradient_colors)(seq(0, 1, length.out = gradient_n))
-  
-  if (is.null(border_thickness)) border_thickness <- 1
-  if (is.null(border_units)) border_units <- "px"
-  if (is.null(border_style)) border_style <- "solid"
-
-  gradient_split <- 
-    if (is.null(gradient_cut))
-    {
-      cut(as.numeric(x[[part]][["value"]][indices]),
-          breaks = stats::quantile(as.numeric(x[[part]][["value"]][indices]), 
-                                   probs = seq(0, 1, length.out = gradient_n),
-                                   na.rm = TRUE),
-          include.lowest = TRUE)
-    }
-  else
-  {
-    cut(as.numeric(x[[part]][["value"]][indices]),
-        breaks = gradient_cut,
-        include.lowest = TRUE,
-        na.rm = TRUE)
-  }
-  
-  na_val <- which(is.na(gradient_split))
-  
-  for (i in seq_along(gradient))
-  {
-    if (grepl("border", gradient[i]))
-    {
-      x[[part]][[gradient[i]]][indices] <- 
-        sprintf("%s%s %s %s",
-                border_thickness,
-                border_units,
-                border_style,
-                gradient_colors[as.numeric(gradient_split)])
-      
-      x[[part]][[gradient[i]]][indices][na_val] <- 
-        sprintf("%s%s %s %s",
-                border_thickness,
-                border_units,
-                border_style,
-                gradient_na)
-    }
-    else 
-    {
-      x[[part]][[gradient[i]]][indices] <- 
-        gradient_colors[as.numeric(gradient_split)]
-      
-      x[[part]][[gradient[i]]][indices][na_val] <- 
-        gradient_na
-    }
-  }
-  
-  x
+  sprinkle_gradient_index(x = x, 
+                          indices = indices, 
+                          gradient = gradient, 
+                          gradient_colors = gradient_colors, 
+                          gradient_cut = gradient_cut, 
+                          gradient_n = gradient_n, 
+                          gradient_na = gradient_na, 
+                          part = part, 
+                          ...)
 }
 
 #' @rdname sprinkle_gradient
@@ -297,7 +159,7 @@ sprinkle_gradient.dust_list <- function(x, rows = NULL, cols = NULL,
 {
   structure(
     lapply(X = x,
-           FUN = sprinkle_gradient.dust,
+           FUN = sprinkle_gradient.default,
            rows = rows,
            cols = cols,
            gradient = gradient,
@@ -337,6 +199,7 @@ sprinkle_gradient_index_assert <- function(gradient, gradient_colors,
   if (!is.null(gradient_colors))
   {
     checkmate::assert_character(x = gradient_colors,
+                                len = 2,
                                 add = coll)
     
     valid_color <-  is_valid_color(gradient_colors)  
@@ -367,7 +230,7 @@ sprinkle_gradient_index_assert <- function(gradient, gradient_colors,
                               len = 1,
                               add = coll)
     
-    if (!is_valid_color(gradient_na))
+    if (any(!is_valid_color(gradient_na)))
     {
       coll$push("`gradient_na` must be a valid color")
     }
@@ -376,7 +239,7 @@ sprinkle_gradient_index_assert <- function(gradient, gradient_colors,
 
 sprinkle_gradient_index <- function(x, indices, gradient, gradient_colors, 
                                     gradient_cut, gradient_n, 
-                                    gradient_na, part)
+                                    gradient_na, part, ...)
 {
   part <- part[1]
   
@@ -402,10 +265,16 @@ sprinkle_gradient_index <- function(x, indices, gradient, gradient_colors,
                                  c("#132B43", "#56B1F7"))
   }
   
-  if (is.null(gradient_colors))
-  {
-    gradient_colors <- scales::hue_pal()(length(ux))
-  }
+  args <- list(...)
+  
+  border_thickness <- 
+    if ("border_thickness" %in% names(args)) args[["border_thickness"]] else 1
+  
+  border_units <- 
+    if ("border_units" %in% names(args)) args[["border_units"]] else "px"
+  
+  border_style <- 
+    if ("border_style" %in% names(args)) args[["border_style"]] else "solid"
   
   gradient["font" %in% gradient] <- "font_color"
   
@@ -414,20 +283,6 @@ sprinkle_gradient_index <- function(x, indices, gradient, gradient_colors,
   if (is.null(gradient_na))
   {
     gradient_na <- "grey"
-  }
-  
-  if ("border" %in% gradient)
-  {
-    gradient <- c(sprintf("%s_border", 
-                          c("top", "left", "right", "bottom")),
-                  gradient)
-    gradient <- unique(gradient[!gradient %in% "border"])
-  }
-  
-  if (is.null(gradient_colors))
-  {
-    gradient_colors <- getOption("pixie_gradient_pal", 
-                                 c("#132B43", "#56B1F7"))
   }
   
   gradient_colors <- 

@@ -43,6 +43,17 @@ test_that(
   }
 )
 
+test_that(
+  "Function succeeds when called on a dust_list object",
+  {
+    expect_silent(
+      dplyr::group_by(mtcars, am, vs) %>% 
+        dust(ungroup = FALSE) %>% 
+        sprinkle_bg_pattern(bg_pattern = c("white", "black"))
+    )
+  }
+)
+
 # Functional Requirement 2 ------------------------------------------
 
 test_that(

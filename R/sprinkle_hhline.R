@@ -53,15 +53,13 @@ sprinkle_hhline.default <- function(x,
                           classes = "dust",
                           add = coll)
   
-  checkmate::assert_logical(x = hhline,
-                               len = 1,
-                               add = coll)
+  sprinkle_hhline_index_assert(hhline = hhline,
+                               coll = coll)
   
   checkmate::reportAssertions(coll)
   
-  x[["hhline"]] <- hhline
-  
-  x
+  sprinkle_hhline_index(x = x,
+                        hhline = hhline)
 }
 
 #' @rdname sprinkle_hhline
@@ -75,7 +73,7 @@ sprinkle_hhline.dust_list <- function(x,
     lapply(x,
            sprinkle_hhline.default,
            hhline),
-    "dust_list"
+    class = "dust_list"
   )
 }
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/sprinkle_gradient.R
 \name{sprinkle_gradient}
 \alias{sprinkle_gradient}
-\alias{sprinkle_gradient.dust}
+\alias{sprinkle_gradient.default}
 \alias{sprinkle_gradient.dust_list}
 \title{Change Color Features by Binning Numeric Values}
 \usage{
@@ -12,7 +12,7 @@ sprinkle_gradient(x, rows = NULL, cols = NULL, gradient = "bg",
   part = c("body", "head", "foot", "interfoot"), fixed = FALSE,
   recycle = c("none", "rows", "cols", "columns"), ...)
 
-\method{sprinkle_gradient}{dust}(x, rows = NULL, cols = NULL,
+\method{sprinkle_gradient}{default}(x, rows = NULL, cols = NULL,
   gradient = "bg", gradient_colors = getOption("pixie_gradient_pal",
   c("#132B43", "#56B1F7")), gradient_cut = NULL, gradient_n = 10,
   gradient_na = "grey", part = c("body", "head", "foot", "interfoot"),
