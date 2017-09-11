@@ -1,7 +1,8 @@
 Package: pixiedust
 Title: Tables so Beautifully Fine-Tuned You Will Believe It's Magic
 Version: 0.8.0
-Authors@R: person("Benjamin", "Nutter", email = "nutter@battelle.org", role = c("aut", "cre"))
+Authors@R: c(person("Benjamin", "Nutter", email = "nutter@battelle.org", role = c("aut", "cre")),
+             person("David", "Kretch", role = c("ctb")))
 Description: The introduction of the 'broom' package has made converting model
     objects into data frames as simple as a single function. While the 'broom'
     package focuses on providing tidy data frames that can be used in advanced
