@@ -42,7 +42,7 @@ Tables can be customized by row, column, or even by a single cell by adding spri
 ```{r, echo=FALSE}
 Sprinkles <- read.csv("inst/sprinkles.csv",
                         stringsAsFactors=FALSE)
-Sprinkles[,-1] <- lapply(Sprinkles[-1], trimws)
+Sprinkles[,-1] <- lapply(Sprinkles[-1], backports::trimws)
 
 dust(Sprinkles) %>%
   sprinkle(cols=1, halign = "left") %>%
