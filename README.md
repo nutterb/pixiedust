@@ -9,6 +9,7 @@ After tidying up your analyses with the `broom` package, go ahead and grab the `
 ``` r
 fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
 library(pixiedust)
+#> Additional documentation is being constructed at http://nutterb.github.io/pixiedust/index.html
 dust(fit) %>% 
   sprinkle(col = 2:4, round = 3) %>% 
   sprinkle(col = 5, fn = quote(pvalString(value))) %>% 
@@ -46,12 +47,19 @@ Tables can be customized by row, column, or even by a single cell by adding spri
 | border\_color     | x           |         |          | x    | x     |
 | caption           | x           | x       | x        | x    | x     |
 | colnames          | x           | x       | x        | x    | x     |
+| discrete          | x           |         |          | x    | x     |
+| discrete\_colors  | x           |         |          | x    | x     |
 | float             | x           |         |          |      | x     |
 | fn                | x           | x       | x        | x    | x     |
 | font\_color       | x           |         |          | x    | x     |
 | font\_family      | x           |         |          | x    |       |
 | font\_size        | x           |         |          | x    | x     |
 | font\_size\_units | x           |         |          | x    | x     |
+| gradient          | x           |         |          | x    | x     |
+| gradient\_colors  | x           |         |          | x    | x     |
+| gradient\_cut     | x           |         |          | x    | x     |
+| gradient\_n       | x           |         |          | x    | x     |
+| gradient\_na      | x           |         |          | x    | x     |
 | halign            | x           |         |          | x    | x     |
 | height            | x           |         |          | x    | x     |
 | height\_units     | x           |         |          | x    | x     |
@@ -66,6 +74,9 @@ Tables can be customized by row, column, or even by a single cell by adding spri
 | replace           | x           | x       | x        | x    | x     |
 | round             | x           | x       | x        | x    | x     |
 | rotate\_degree    | x           |         |          | x    | x     |
+| sanitize          |             |         |          |      | x     |
+| sanitize\_args    |             |         |          |      | x     |
+| tabcolsep         |             |         |          |      | x     |
 | valign            | x           |         |          | x    | x     |
 | width             | x           |         |          | x    | x     |
 | width\_units      | x           |         |          | x    | x     |
@@ -173,33 +184,6 @@ x
 #> 5 factor(gear)4   -0.268   1.655      -0.162      0.87  
 #> 6 factor(gear)5    -0.27   2.063      -0.131       0.9
 ```
-
-### Development Schedule
-
-|    Version| Release Description                                  |  Target Date| Actual Date  |
-|----------:|:-----------------------------------------------------|------------:|--------------|
-|  **0.1.0**| Console, markdown and HTML output for simple table   |   1 Aug 2015| 3 Aug 2015   |
-|      0.2.0| Multirow table headers; footers; multipage tables    |  20 Aug 2015| 18 Aug 2015  |
-|      0.3.0| Multicolumn and multirow cells in HTML               |  15 Sep 2015| 15 Sept 2015 |
-|      0.4.0| Glance statistics in table footer                    |   1 Oct 2015| 25 Sept 2015 |
-|           | Add variable labels and levels to `broom` output     |             |              |
-|  **0.5.0**| LaTeX output for simple table                        |  15 Oct 2015| 15 Oct 2015  |
-|           | Adjustable cell heights and widths in LaTeX tables   |             |              |
-|           | Add `medley` for batch customizations                |             |              |
-|      0.6.0| Borders and backgrounds for LaTeX tables             |   1 Dec 2015| 9 Dec 2015   |
-|           | Multicolumn and multirow support for LaTeX tables    |             |              |
-|           | Longtable support for LaTeX tables                   |             |              |
-|           | Rotated text for LaTeX tables                        |             |              |
-|  **0.7.0**| `bookdown` support                                   |  30 Apr 2016|              |
-|           | Auto detect output format (supports knitr/Rmarkdown) |             |              |
-|           | `fixed` coordinate pairing for sprinkles             |             |              |
-|           | Sprinkle recycling                                   |             |              |
-|           | Captions, floating environments, labels              |             |              |
-|           | `hhline` option allows background colors and borders |             |              |
-|           | Methods for grouped and split data frames            |             |              |
-|  **1.0.0**| Release of basic, stable package                     |  1 June 2016|              |
-
-**bold version numbers** indicate a planned release to CRAN.
 
 A cool, free tip!
 -----------------

@@ -1,6 +1,6 @@
 Package: pixiedust
 Title: Tables so Beautifully Fine-Tuned You Will Believe It's Magic
-Version: 0.8.0
+Version: 0.8.1
 Authors@R: c(person("Benjamin", "Nutter", email = "nutter@battelle.org", role = c("aut", "cre")),
              person("David", "Kretch", role = c("ctb")))
 Description: The introduction of the 'broom' package has made converting model
@@ -33,7 +33,7 @@ LazyData: true
 VignetteBuilder: knitr
 URL: https://github.com/nutterb/pixiedust
 BugReports: https://github.com/nutterb/pixiedust/issues
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 NeedsCompilation: no
 Author: Benjamin Nutter [aut, cre]
 Maintainer: Benjamin Nutter <nutter@battelle.org>

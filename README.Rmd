@@ -104,32 +104,6 @@ x <- x %>%
 x
 ```
 
-### Development Schedule
-| Version | Release Description                                | Target Date | Actual Date |
-|--------:|:---------------------------------------------------|------------:|-------------|
-|**0.1.0**| Console, markdown and HTML output for simple table | 1 Aug 2015  | 3 Aug 2015  |
-| 0.2.0   | Multirow table headers; footers; multipage tables  | 20 Aug 2015 | 18 Aug 2015 |
-| 0.3.0   | Multicolumn and multirow cells in HTML             | 15 Sep 2015 | 15 Sept 2015 |
-| 0.4.0   | Glance statistics in table footer                  | 1 Oct 2015  | 25 Sept 2015 |
-|         | Add variable labels and levels to `broom` output   |             | |
-|**0.5.0**| LaTeX output for simple table                      | 15 Oct 2015 | 15 Oct 2015 |
-|         | Adjustable cell heights and widths in LaTeX tables |             | |
-|         | Add `medley` for batch customizations              |             | |
-| 0.6.0   | Borders and backgrounds for LaTeX tables           | 1 Dec 2015  | 9 Dec 2015 |
-|         | Multicolumn and multirow support for LaTeX tables  |             | |
-|         | Longtable support for LaTeX tables                 |             | |
-|         | Rotated text for LaTeX tables                      |             | |
-|**0.7.0**| `bookdown` support                                 | 30 Apr 2016 | |
-|         | Auto detect output format (supports knitr/Rmarkdown)|            | |
-|         | `fixed` coordinate pairing for sprinkles           |             | |
-|         | Sprinkle recycling                                 |             | |
-|         | Captions, floating environments, labels            |             | |
-|         | `hhline` option allows background colors and borders|            | |
-|         | Methods for grouped and split data frames          |             | |
-|**1.0.0**| Release of basic, stable package                   | 1 June 2016 | |
-
-**bold version numbers** indicate a planned release to CRAN.
-
 ## A cool, free tip!
 
 The markdown output from `pixiedust` is somewhat limited due to the limitations of `Rmarkdown` itself.  If/when more features become available for `Rmarkdown` output, I'll be sure to include them.  But what can you do if you _really_ want all of the flexibility of the HTML tables but need the MS Word document?

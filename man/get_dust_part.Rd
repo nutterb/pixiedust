@@ -25,4 +25,13 @@ Making customized table headers and footers requires a
   is correct with the current values, and provides an object suitable
   for editing.
 }
+\section{Functional Requirements}{
+
+\enumerate{
+  \item Return, as a data frame, the part of the table requested in \code{part}
+  \item Cast an error if \code{x} is not a \code{dust} object.
+  \item Cast an error if \code{part} is not one of \code{c("head", "foot",
+    "interfoot", "body")}
+}
+}
 
