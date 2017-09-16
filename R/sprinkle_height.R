@@ -58,7 +58,7 @@
 
 sprinkle_height <- function(x, rows = NULL, cols = NULL, 
                             height = NULL, height_units = NULL,
-                            part = c("body", "head", "foot", "interfoot"),
+                            part = c("body", "head", "foot", "interfoot", "table"),
                             fixed = FALSE, 
                             recycle = c("none", "rows", "cols", "columns"),
                             ...)
@@ -71,7 +71,7 @@ sprinkle_height <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_height.default <- function(x, rows = NULL, cols = NULL, 
                                  height = NULL, height_units = NULL,
-                                 part = c("body", "head", "foot", "interfoot"),
+                                 part = c("body", "head", "foot", "interfoot", "table"),
                                  fixed = FALSE, 
                                  recycle = c("none", "rows", "cols", "columns"),
                                  ...)
@@ -110,7 +110,7 @@ sprinkle_height.default <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_height.dust_list <- function(x, rows = NULL, cols = NULL, 
                                       height = NULL, height_units = NULL,
-                                      part = c("body", "head", "foot", "interfoot"),
+                                      part = c("body", "head", "foot", "interfoot", "table"),
                                       fixed = FALSE, 
                                       recycle = c("none", "rows", "cols", "columns"),
                                       ...)

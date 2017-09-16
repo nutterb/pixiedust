@@ -7,17 +7,18 @@
 \title{Adjust Table Cell Height}
 \usage{
 sprinkle_height(x, rows = NULL, cols = NULL, height = NULL,
-  height_units = NULL, part = c("body", "head", "foot", "interfoot"),
-  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
+  height_units = NULL, part = c("body", "head", "foot", "interfoot",
+  "table"), fixed = FALSE, recycle = c("none", "rows", "cols", "columns"),
+  ...)
 
 \method{sprinkle_height}{default}(x, rows = NULL, cols = NULL,
   height = NULL, height_units = NULL, part = c("body", "head", "foot",
-  "interfoot"), fixed = FALSE, recycle = c("none", "rows", "cols",
+  "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows", "cols",
   "columns"), ...)
 
 \method{sprinkle_height}{dust_list}(x, rows = NULL, cols = NULL,
   height = NULL, height_units = NULL, part = c("body", "head", "foot",
-  "interfoot"), fixed = FALSE, recycle = c("none", "rows", "cols",
+  "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows", "cols",
   "columns"), ...)
 }
 \arguments{

@@ -67,7 +67,7 @@
 #' @export
 
 sprinkle_pad <- function(x, rows = NULL, cols = NULL, pad, 
-                        part = c("body", "head", "foot", "interfoot"),
+                        part = c("body", "head", "foot", "interfoot", "table"),
                         fixed = FALSE, 
                         recycle = c("none", "rows", "cols", "columns"), 
                         ...)
@@ -79,7 +79,7 @@ sprinkle_pad <- function(x, rows = NULL, cols = NULL, pad,
 #' @export
 
 sprinkle_pad.default <- function(x, rows = NULL, cols = NULL, pad, 
-                                part = c("body", "head", "foot", "interfoot"),
+                                part = c("body", "head", "foot", "interfoot", "table"),
                                 fixed = FALSE, 
                                 recycle = c("none", "rows", "cols", "columns"), 
                                 ...)
@@ -119,7 +119,7 @@ sprinkle_pad.default <- function(x, rows = NULL, cols = NULL, pad,
 #' @export
 
 sprinkle_pad.dust_list <- function(x, rows = NULL, cols = NULL, pad, 
-                                  part = c("body", "head", "foot", "interfoot"),
+                                  part = c("body", "head", "foot", "interfoot", "table"),
                                   fixed = FALSE, 
                                   recycle = c("none", "rows", "cols", "columns"), 
                                   ...)

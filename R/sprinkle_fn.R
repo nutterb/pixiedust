@@ -57,7 +57,7 @@
 #' @export
 
 sprinkle_fn <- function(x, rows = NULL, cols = NULL, fn = NULL, 
-                        part = c("body", "head", "foot", "interfoot"),
+                        part = c("body", "head", "foot", "interfoot", "table"),
                         fixed = FALSE,
                         recycle = c("none", "rows", "cols"), ...)
 {
@@ -68,7 +68,7 @@ sprinkle_fn <- function(x, rows = NULL, cols = NULL, fn = NULL,
 #' @export
 
 sprinkle_fn.default <- function(x, rows = NULL, cols = NULL, fn = NULL,
-                                part = c("body", "head", "foot", "interfoot"),
+                                part = c("body", "head", "foot", "interfoot", "table"),
                                 fixed = FALSE,
                                 recycle = c("none", "rows", "cols", "columns"), 
                                 ...)
@@ -102,7 +102,7 @@ sprinkle_fn.default <- function(x, rows = NULL, cols = NULL, fn = NULL,
 #' @export
 
 sprinkle_fn.dust_list <- function(x, rows = NULL, cols = NULL, fn = NULL,
-                                  part = c("body", "head", "foot", "interfoot"),
+                                  part = c("body", "head", "foot", "interfoot", "table"),
                                   fixed = FALSE,
                                   recycle = c("none", "rows", "cols", "columns"),
                                   ...)

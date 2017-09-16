@@ -70,7 +70,7 @@
 #' @export
 
 sprinkle_bg <- function(x, rows = NULL, cols = NULL, bg, 
-                        part = c("body", "head", "foot", "interfoot"),
+                        part = c("body", "head", "foot", "interfoot", "table"),
                         fixed = FALSE, 
                         recycle = c("none", "rows", "cols", "columns"), 
                         ...)
@@ -82,7 +82,7 @@ sprinkle_bg <- function(x, rows = NULL, cols = NULL, bg,
 #' @export
 
 sprinkle_bg.default <- function(x, rows = NULL, cols = NULL, bg, 
-                                part = c("body", "head", "foot", "interfoot"),
+                                part = c("body", "head", "foot", "interfoot", "table"),
                                 fixed = FALSE, 
                                 recycle = c("none", "rows", "cols", "columns"), 
                                 ...)
@@ -122,7 +122,7 @@ sprinkle_bg.default <- function(x, rows = NULL, cols = NULL, bg,
 #' @export
 
 sprinkle_bg.dust_list <- function(x, rows = NULL, cols = NULL, bg, 
-                                  part = c("body", "head", "foot", "interfoot"),
+                                  part = c("body", "head", "foot", "interfoot", "table"),
                                   fixed = FALSE, 
                                   recycle = c("none", "rows", "cols", "columns"), 
                                   ...)

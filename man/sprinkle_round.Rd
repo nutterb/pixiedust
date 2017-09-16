@@ -7,15 +7,15 @@
 \title{Sprinkle Appearance of NA's}
 \usage{
 sprinkle_round(x, rows = NULL, cols = NULL, round = NULL,
-  part = c("body", "head", "foot", "interfoot"), fixed = FALSE,
+  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
   recycle = c("none", "rows", "cols", "columns"), ...)
 
 \method{sprinkle_round}{default}(x, rows = NULL, cols = NULL,
-  round = NULL, part = c("body", "head", "foot", "interfoot"),
+  round = NULL, part = c("body", "head", "foot", "interfoot", "table"),
   fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
 
 \method{sprinkle_round}{dust_list}(x, rows = NULL, cols = NULL,
-  round = NULL, part = c("body", "head", "foot", "interfoot"),
+  round = NULL, part = c("body", "head", "foot", "interfoot", "table"),
   fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
 }
 \arguments{

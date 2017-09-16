@@ -59,7 +59,7 @@
 
 sprinkle_sanitize <- function(x, rows = NULL, cols = NULL, 
                            sanitize = NULL, sanitize_args = NULL,
-                           part = c("body", "head", "foot", "interfoot"),
+                           part = c("body", "head", "foot", "interfoot", "table"),
                            fixed = FALSE, 
                            recycle = c("none", "rows", "cols", "columns"),
                            ...)
@@ -72,7 +72,7 @@ sprinkle_sanitize <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_sanitize.default <- function(x, rows = NULL, cols = NULL, 
                                 sanitize = NULL, sanitize_args = NULL,
-                                part = c("body", "head", "foot", "interfoot"),
+                                part = c("body", "head", "foot", "interfoot", "table"),
                                 fixed = FALSE, 
                                 recycle = c("none", "rows", "cols", "columns"),
                                 ...)
@@ -111,7 +111,7 @@ sprinkle_sanitize.default <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_sanitize.dust_list <- function(x, rows = NULL, cols = NULL, 
                                      sanitize = NULL, sanitize_args = NULL,
-                                     part = c("body", "head", "foot", "interfoot"),
+                                     part = c("body", "head", "foot", "interfoot", "table"),
                                      fixed = FALSE, 
                                      recycle = c("none", "rows", "cols", "columns"),
                                      ...)

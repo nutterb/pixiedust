@@ -8,17 +8,17 @@
 \usage{
 sprinkle_discrete(x, rows = NULL, cols = NULL, discrete = "bg",
   discrete_colors = getOption("pixie_discrete_pal", NULL), part = c("body",
-  "head", "foot", "interfoot"), fixed = FALSE, recycle = c("none", "rows",
-  "cols", "columns"), ...)
+  "head", "foot", "interfoot", "table"), fixed = FALSE, recycle = c("none",
+  "rows", "cols", "columns"), ...)
 
 \method{sprinkle_discrete}{default}(x, rows = NULL, cols = NULL,
   discrete = "bg", discrete_colors = getOption("pixie_discrete_pal", NULL),
-  part = c("body", "head", "foot", "interfoot"), fixed = FALSE,
+  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
   recycle = c("none", "rows", "cols", "columns"), ...)
 
 \method{sprinkle_discrete}{dust_list}(x, rows = NULL, cols = NULL,
   discrete = "bg", discrete_colors = getOption("pixie_discrete_pal", NULL),
-  part = c("body", "head", "foot", "interfoot"), fixed = FALSE,
+  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
   recycle = c("none", "rows", "cols", "columns"), ...)
 }
 \arguments{

@@ -58,7 +58,7 @@
 
 sprinkle_width <- function(x, rows = NULL, cols = NULL, 
                             width = NULL, width_units = NULL,
-                            part = c("body", "head", "foot", "interfoot"),
+                            part = c("body", "head", "foot", "interfoot", "table"),
                             fixed = FALSE, 
                             recycle = c("none", "rows", "cols", "columns"),
                             ...)
@@ -71,7 +71,7 @@ sprinkle_width <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_width.default <- function(x, rows = NULL, cols = NULL, 
                                  width = NULL, width_units = NULL,
-                                 part = c("body", "head", "foot", "interfoot"),
+                                 part = c("body", "head", "foot", "interfoot", "table"),
                                  fixed = FALSE, 
                                  recycle = c("none", "rows", "cols", "columns"),
                                  ...)
@@ -106,7 +106,7 @@ sprinkle_width.default <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_width.dust_list <- function(x, rows = NULL, cols = NULL, 
                                       width = NULL, width_units = NULL,
-                                      part = c("body", "head", "foot", "interfoot"),
+                                      part = c("body", "head", "foot", "interfoot", "table"),
                                       fixed = FALSE, 
                                       recycle = c("none", "rows", "cols", "columns"),
                                       ...)

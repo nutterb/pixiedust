@@ -7,15 +7,15 @@
 \title{Replace Contents of Selected Cells}
 \usage{
 sprinkle_replace(x, rows = NULL, cols = NULL, replace, part = c("body",
-  "head", "foot", "interfoot"), fixed = FALSE, recycle = c("none", "rows",
-  "cols", "columns"), ...)
+  "head", "foot", "interfoot", "table"), fixed = FALSE, recycle = c("none",
+  "rows", "cols", "columns"), ...)
 
 \method{sprinkle_replace}{default}(x, rows = NULL, cols = NULL, replace,
-  part = c("body", "head", "foot", "interfoot"), fixed = FALSE,
+  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
   recycle = c("none", "rows", "cols", "columns"), ...)
 
 \method{sprinkle_replace}{dust_list}(x, rows = NULL, cols = NULL, replace,
-  part = c("body", "head", "foot", "interfoot"), fixed = FALSE,
+  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
   recycle = c("none", "rows", "cols", "columns"), ...)
 }
 \arguments{

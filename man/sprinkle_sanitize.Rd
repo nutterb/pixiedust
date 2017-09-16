@@ -7,17 +7,18 @@
 \title{Sanitize Characters for LaTeX Outputs}
 \usage{
 sprinkle_sanitize(x, rows = NULL, cols = NULL, sanitize = NULL,
-  sanitize_args = NULL, part = c("body", "head", "foot", "interfoot"),
-  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
+  sanitize_args = NULL, part = c("body", "head", "foot", "interfoot",
+  "table"), fixed = FALSE, recycle = c("none", "rows", "cols", "columns"),
+  ...)
 
 \method{sprinkle_sanitize}{default}(x, rows = NULL, cols = NULL,
   sanitize = NULL, sanitize_args = NULL, part = c("body", "head", "foot",
-  "interfoot"), fixed = FALSE, recycle = c("none", "rows", "cols",
+  "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows", "cols",
   "columns"), ...)
 
 \method{sprinkle_sanitize}{dust_list}(x, rows = NULL, cols = NULL,
   sanitize = NULL, sanitize_args = NULL, part = c("body", "head", "foot",
-  "interfoot"), fixed = FALSE, recycle = c("none", "rows", "cols",
+  "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows", "cols",
   "columns"), ...)
 }
 \arguments{

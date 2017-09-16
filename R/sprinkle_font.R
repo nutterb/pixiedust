@@ -92,7 +92,7 @@ sprinkle_font <- function(x, rows = NULL, cols = NULL,
                           font_size = NULL, font_size_units = NULL,
                           font_color = NULL, font_family = NULL,
                           ...,
-                          part = c("body", "head", "foot", "interfoot"),
+                          part = c("body", "head", "foot", "interfoot", "table"),
                           fixed = FALSE,
                           recycle = "none")
 {
@@ -107,7 +107,7 @@ sprinkle_font.default <- function(x, rows = NULL, cols = NULL,
                                font_size = NULL, font_size_units = NULL,
                                font_color = NULL, font_family = NULL,
                                ...,
-                               part = c("body", "head", "foot", "interfoot"),
+                               part = c("body", "head", "foot", "interfoot", "table"),
                                fixed = FALSE,
                                recycle = "none")
 {
@@ -156,7 +156,7 @@ sprinkle_font.dust_list <- function(x, rows = NULL, cols = NULL,
                                     font_size = NULL, font_size_units = NULL,
                                     font_color = NULL, font_family = NULL,
                                     ...,
-                                    part = c("body", "head", "foot", "interfoot"),
+                                    part = c("body", "head", "foot", "interfoot", "table"),
                                     fixed = FALSE,
                                     recycle = "none")
 {

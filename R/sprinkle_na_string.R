@@ -53,7 +53,7 @@
 
 sprinkle_na_string <- function(x, rows = NULL, cols = NULL,
                                na_string = getOption("pixie_na_string", NA), 
-                               part = c("body", "head", "foot", "interfoot"),
+                               part = c("body", "head", "foot", "interfoot", "table"),
                                fixed = FALSE, 
                                recycle = c("none", "rows", "cols", "columns"),
                                ...)
@@ -66,7 +66,7 @@ sprinkle_na_string <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_na_string.default <- function(x, rows = NULL, cols = NULL,
                                        na_string = getOption("pixie_na_string", NA), 
-                                       part = c("body", "head", "foot", "interfoot"),
+                                       part = c("body", "head", "foot", "interfoot", "table"),
                                        fixed = FALSE, 
                                        recycle = c("none", "rows", "cols", "columns"),
                                        ...)
@@ -106,7 +106,7 @@ sprinkle_na_string.default <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_na_string.dust_list <- function(x, rows = NULL, cols = NULL,
                                          na_string = getOption("pixie_na_string", NA), 
-                                         part = c("body", "head", "foot", "interfoot"),
+                                         part = c("body", "head", "foot", "interfoot", "table"),
                                          fixed = FALSE, 
                                          recycle = c("none", "rows", "cols", "columns"),
                                          ...)

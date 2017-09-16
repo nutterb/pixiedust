@@ -57,7 +57,7 @@
 
 sprinkle_align <- function(x, rows = NULL, cols = NULL, 
                            halign = NULL, valign = NULL,
-                           part = c("body", "head", "foot", "interfoot"),
+                           part = c("body", "head", "foot", "interfoot", "table"),
                            fixed = FALSE, 
                            recycle = c("none", "rows", "cols", "columns"),
                            ...)
@@ -70,17 +70,17 @@ sprinkle_align <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_align.default <- function(x, rows = NULL, cols = NULL, 
                                    halign = NULL, valign = NULL,
-                                   part = c("body", "head", "foot", "interfoot"),
+                                   part = c("body", "head", "foot", "interfoot", "table"),
                                    fixed = FALSE, 
                                    recycle = c("none", "rows", "cols", "columns"),
                                    ...)
 {
   coll <- checkmate::makeAssertCollection()
-  
+
   sprinkle_align_index_assert(halign = halign,
                               valign = valign,
                               coll = coll)
-  
+
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
                                cols = cols, 
@@ -88,7 +88,7 @@ sprinkle_align.default <- function(x, rows = NULL, cols = NULL,
                                part = part,
                                recycle = recycle,
                                coll = coll)
-  
+
   checkmate::reportAssertions(coll)
   
   if (is.null(halign) & is.null(valign))
@@ -100,7 +100,7 @@ sprinkle_align.default <- function(x, rows = NULL, cols = NULL,
   # index_to_sprinkle. The first element is expected to be valid.
   
   part <- part[1]
-  
+
   sprinkle_align_index(x = x, 
                        indices = indices, 
                        halign = halign, 
@@ -113,7 +113,7 @@ sprinkle_align.default <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_align.dust_list <- function(x, rows = NULL, cols = NULL,
                                      halign = NULL, valign = NULL, 
-                                     part = c("body", "head", "foot", "interfoot"),
+                                     part = c("body", "head", "foot", "interfoot", "table"),
                                      fixed = FALSE, 
                                      recycle = c("none", "rows", "cols", "columns"),
                                      ...)
