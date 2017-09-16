@@ -1,7 +1,7 @@
 ## Test environments
 * local Windows install (R-3.4.1)
 * x86_64-pc-linux-gnu (Ubuntu precise 12.04.5 64-bit) (on travis-ci), R 3.4.1
-* win-builder (devel 2017-08-25 r73125)
+* win-builder (devel 2017-09-12 r73242)
 
 ## R CMD check results
 At the request of a user, this update reduces the dependency on R to 3.1.2.  It also fixes a handful of bugs identified while developing additional tests.
