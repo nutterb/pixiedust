@@ -6,9 +6,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Get Your Sparkle On</title>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   <meta name="description" content="A Guide to Formatting Tables with the Pixiedust Package">
-  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.4 and GitBook 2.6.7">
 
   <meta property="og:title" content="Get Your Sparkle On" />
   <meta property="og:type" content="book" />
@@ -26,7 +25,7 @@
 <meta name="author" content="Benjamin Nutter">
 
 
-<meta name="date" content="2017-01-20">
+<meta name="date" content="2017-09-15">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -34,7 +33,6 @@
   
   
 <link rel="prev" href="working-with-lists-of-tables.html">
-
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -94,6 +92,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </head>
 
 <body>
+
 
 
   <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
@@ -215,9 +214,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(mtcars, <span class="dv">12</span>) %&gt;%
 <span class="st">  </span><span class="kw">dust</span>(<span class="dt">label =</span> <span class="st">&quot;basic-example&quot;</span>,
        <span class="dt">caption =</span> <span class="st">&quot;A table without aids for discriminating lines&quot;</span>,
-       <span class="dt">keep_rownames =</span> <span class="ot">TRUE</span>) %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+       <span class="dt">keep_rownames =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
 <caption><span id="tab:basic-example">Table 10.1: </span> A table without aids for discriminating lines</caption>
 <tr>
@@ -410,9 +407,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">  </span><span class="kw">dust</span>(<span class="dt">label =</span> <span class="st">&quot;striped-example&quot;</span>,
        <span class="dt">caption =</span> <span class="st">&quot;A table with &lt;i&gt;Zebra Striping&lt;/i&gt;&quot;</span>,
        <span class="dt">keep_rownames =</span> <span class="ot">TRUE</span>) %&gt;%
-<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">bg_pattern_by =</span> <span class="st">&quot;rows&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">bg_pattern_by =</span> <span class="st">&quot;rows&quot;</span>)</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
 <caption><span id="tab:striped-example">Table 10.2: </span> A table with <i>Zebra Striping</i></caption>
 <tr>
@@ -612,9 +607,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">  </span><span class="kw">dust</span>(<span class="dt">label =</span> <span class="st">&quot;plain-lined-example&quot;</span>,
        <span class="dt">caption =</span> <span class="st">&quot;A table with solid horizontal lines&quot;</span>,
        <span class="dt">keep_rownames =</span> <span class="ot">TRUE</span>) %&gt;%
-<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">border =</span> <span class="st">&quot;bottom&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">border =</span> <span class="st">&quot;bottom&quot;</span>)</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
 <caption><span id="tab:plain-lined-example">Table 10.3: </span> A table with solid horizontal lines</caption>
 <tr>
@@ -806,9 +799,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
        <span class="dt">caption =</span> <span class="st">&quot;A table with gray horizontal lines&quot;</span>,
        <span class="dt">keep_rownames =</span> <span class="ot">TRUE</span>) %&gt;%
 <span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">border =</span> <span class="st">&quot;bottom&quot;</span>,
-           <span class="dt">border_color =</span> <span class="st">&quot;#DDDDDD&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+           <span class="dt">border_color =</span> <span class="st">&quot;#DDDDDD&quot;</span>) </code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
 <caption><span id="tab:gray-line-example">Table 10.4: </span> A table with gray horizontal lines</caption>
 <tr>
@@ -1008,10 +999,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
      <span class="dt">caption =</span> <span class="st">&quot;Statistically Significant Results in Bold&quot;</span>) %&gt;%
 <span class="st">  </span><span class="kw">medley_model</span>() %&gt;%
 <span class="st">  </span><span class="kw">medley_bw</span>() %&gt;%
-<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">logical_rows =</span> <span class="kw">quote</span>(p.value &lt;=<span class="st"> </span><span class="fl">0.05</span>),
-           <span class="dt">bold =</span> <span class="ot">TRUE</span>) %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+<span class="st">  </span><span class="kw">sprinkle</span>(<span class="co"># rows = quote(p.value &lt;= 0.05), # Not yet supported</span>
+           <span class="dt">rows =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>),
+           <span class="dt">bold =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
 <caption><span id="tab:bold-result-model">Table 10.5: </span> Statistically Significant Results in Bold</caption>
 <tr>
@@ -1073,11 +1063,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
      <span class="dt">caption =</span> <span class="st">&quot;Statistically Significant Results in Bold&quot;</span>) %&gt;%
 <span class="st">  </span><span class="kw">medley_model</span>() %&gt;%
 <span class="st">  </span><span class="kw">medley_bw</span>() %&gt;%
-<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">logical_rows =</span> <span class="kw">quote</span>(p.value &lt;=<span class="st"> </span><span class="fl">0.05</span>),
+<span class="st">  </span><span class="kw">sprinkle</span>(<span class="co"># rows = quote(p.value &lt;= 0.05), # not yet supported</span>
+           <span class="dt">rows =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>),
            <span class="dt">bold =</span> <span class="ot">TRUE</span>) %&gt;%
-<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">bg_pattern_by =</span> <span class="st">&quot;rows&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">bg_pattern_by =</span> <span class="st">&quot;rows&quot;</span>)</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
 <caption><span id="tab:bold-result-stripe">Table 10.6: </span> Statistically Significant Results in Bold</caption>
 <tr>
@@ -1139,11 +1128,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
      <span class="dt">caption =</span> <span class="st">&quot;Statistically Significant Results in Red&quot;</span>) %&gt;%
 <span class="st">  </span><span class="kw">medley_model</span>() %&gt;%
 <span class="st">  </span><span class="kw">medley_bw</span>() %&gt;%
-<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">logical_rows =</span> <span class="kw">quote</span>(p.value &lt;=<span class="st"> </span><span class="fl">0.05</span>),
+<span class="st">  </span><span class="kw">sprinkle</span>(<span class="co"># rows = quote(p.value &lt;= 0.05), # not yet supported</span>
+           <span class="dt">rows =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>),
            <span class="dt">font_color =</span> <span class="st">&quot;red&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">bg_pattern_by =</span> <span class="st">&quot;rows&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">bg_pattern_by =</span> <span class="st">&quot;rows&quot;</span>)</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
 <caption><span id="tab:bold-result-red">Table 10.7: </span> Statistically Significant Results in Red</caption>
 <tr>
@@ -1206,12 +1194,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
      <span class="dt">caption =</span> <span class="st">&quot;Statistically Significant Results Displayed Using Backgrounds. This practice is discouraged.&quot;</span>) %&gt;%
 <span class="st">  </span><span class="kw">medley_model</span>() %&gt;%
 <span class="st">  </span><span class="kw">medley_bw</span>() %&gt;%
-<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">logical_rows =</span> <span class="kw">quote</span>(p.value &lt;=<span class="st"> </span><span class="fl">0.05</span>),
+<span class="st">  </span><span class="kw">sprinkle</span>(<span class="co"># rows = quote(p.value &lt;= 0.05), # not yet supported</span>
+           <span class="dt">rows =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>),
            <span class="dt">bg =</span> palette[<span class="dv">2</span>]) %&gt;%
 <span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">border =</span> <span class="st">&quot;bottom&quot;</span>,
-           <span class="dt">border_color =</span> <span class="st">&quot;gray&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+           <span class="dt">border_color =</span> <span class="st">&quot;gray&quot;</span>) </code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
 <caption><span id="tab:background-result">Table 10.8: </span> Statistically Significant Results Displayed Using Backgrounds. This practice is discouraged.</caption>
 <tr>
@@ -1272,9 +1259,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">  </span><span class="kw">arrange</span>(gear) %&gt;%
 <span class="st">  </span><span class="kw">dust</span>(<span class="dt">caption =</span> <span class="st">&quot;Vehicular Data Sorted by Gear&quot;</span>,
        <span class="dt">label =</span> <span class="st">&quot;basic-group&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">medley_bw</span>() %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+<span class="st">  </span><span class="kw">medley_bw</span>()</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
 <caption><span id="tab:basic-group">Table 10.9: </span> Vehicular Data Sorted by Gear</caption>
 <tr>
@@ -1708,21 +1693,24 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </tr>
 </table></br></br>
 <p>If you wish to provide a little more assistance in discriminating groups, using alternating backgrounds as groups change may be a useful technique. This technique is illustrated in Table <a href="using-tables-effectively.html#tab:toggle-background">10.10</a> and combined with borders to facilitate row discrimination.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gear &lt;-<span class="st"> </span><span class="kw">which</span>(mtcars$gear %in%<span class="st"> </span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">5</span>))
+not_gear &lt;-<span class="st"> </span><span class="kw">which</span>(!mtcars$gear %in%<span class="st"> </span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">5</span>))
+
+mtcars %&gt;%
 <span class="st">  </span><span class="kw">arrange</span>(gear) %&gt;%
 <span class="st">  </span><span class="kw">dust</span>(<span class="dt">caption =</span> <span class="st">&quot;Vehicular Data Sorted by Gear with Background Toggling&quot;</span>,
        <span class="dt">label =</span> <span class="st">&quot;toggle-background&quot;</span>) %&gt;%
 <span class="st">  </span><span class="kw">medley_bw</span>() %&gt;%
-<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">logical_rows =</span> <span class="kw">quote</span>(gear %in%<span class="st"> </span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">5</span>)),
+<span class="st">  </span><span class="kw">sprinkle</span>(<span class="co"># rows = quote(gear %in% c(3, 5)), # not yet supported</span>
+           <span class="dt">rows =</span> gear,
            <span class="dt">bg =</span> <span class="st">&quot;#DDDDDD&quot;</span>,
            <span class="dt">border =</span> <span class="st">&quot;bottom&quot;</span>,
            <span class="dt">border_color =</span> <span class="st">&quot;white&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">logical_rows =</span> <span class="kw">quote</span>(!gear %in%<span class="st"> </span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">5</span>)),
+<span class="st">  </span><span class="kw">sprinkle</span>(<span class="co"># rows = quote(!gear %in% c(3, 5)), # not yet supported</span>
+           <span class="dt">rows =</span> not_gear,
            <span class="dt">bg =</span> <span class="st">&quot;white&quot;</span>,
            <span class="dt">border =</span> <span class="st">&quot;bottom&quot;</span>,
-           <span class="dt">border_color =</span> <span class="st">&quot;#DDDDDD&quot;</span>)%&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+           <span class="dt">border_color =</span> <span class="st">&quot;#DDDDDD&quot;</span>)</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
 <caption><span id="tab:toggle-background">Table 10.10: </span> Vehicular Data Sorted by Gear with Background Toggling</caption>
 <tr>
@@ -1739,43 +1727,43 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>carb</th>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-top:1px solid Black;border-bottom:1px solid rgba(255,255,255,1);'>21.4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-top:1px solid Black;border-bottom:1px solid rgba(255,255,255,1);'>6</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-top:1px solid Black;border-bottom:1px solid rgba(255,255,255,1);'>258</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-top:1px solid Black;border-bottom:1px solid rgba(255,255,255,1);'>110</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-top:1px solid Black;border-bottom:1px solid rgba(255,255,255,1);'>3.08</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-top:1px solid Black;border-bottom:1px solid rgba(255,255,255,1);'>3.215</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-top:1px solid Black;border-bottom:1px solid rgba(255,255,255,1);'>19.44</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-top:1px solid Black;border-bottom:1px solid rgba(255,255,255,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-top:1px solid Black;border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-top:1px solid Black;border-bottom:1px solid rgba(255,255,255,1);'>3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-top:1px solid Black;border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-top:1px solid Black;border-bottom:1px solid rgba(221,221,221,1);'>21.4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-top:1px solid Black;border-bottom:1px solid rgba(221,221,221,1);'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-top:1px solid Black;border-bottom:1px solid rgba(221,221,221,1);'>258</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-top:1px solid Black;border-bottom:1px solid rgba(221,221,221,1);'>110</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-top:1px solid Black;border-bottom:1px solid rgba(221,221,221,1);'>3.08</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-top:1px solid Black;border-bottom:1px solid rgba(221,221,221,1);'>3.215</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-top:1px solid Black;border-bottom:1px solid rgba(221,221,221,1);'>19.44</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-top:1px solid Black;border-bottom:1px solid rgba(221,221,221,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-top:1px solid Black;border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-top:1px solid Black;border-bottom:1px solid rgba(221,221,221,1);'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-top:1px solid Black;border-bottom:1px solid rgba(221,221,221,1);'>1</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>18.7</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>8</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>360</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>175</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.15</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.44</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>17.02</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>2</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>18.7</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>360</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>175</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.15</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.44</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>17.02</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>2</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>18.1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>6</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>225</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>105</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>2.76</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.46</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>20.22</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>18.1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>225</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>105</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>2.76</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.46</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>20.22</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
 </tr>
 <tr>
 <td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>14.3</td>
@@ -1830,56 +1818,56 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>10.4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>8</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>472</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>205</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>2.93</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>5.25</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>17.98</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>10.4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>472</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>205</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>2.93</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>5.25</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>17.98</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>10.4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>8</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>460</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>215</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>5.424</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>17.82</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>10.4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>460</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>215</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>5.424</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>17.82</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>14.7</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>8</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>440</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>230</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.23</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>5.345</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>17.42</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>14.7</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>440</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>230</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.23</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>5.345</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>17.42</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>21.5</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>120.1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>97</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.7</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>2.465</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>20.01</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>21.5</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>120.1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>97</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.7</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>2.465</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>20.01</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
 </tr>
 <tr>
 <td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>15.5</td>
@@ -1934,30 +1922,30 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>2</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>21</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>6</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>160</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>110</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.9</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>2.62</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>16.46</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>21</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>160</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>110</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.9</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>2.62</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>16.46</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>21</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>6</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>160</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>110</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.9</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>2.875</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>17.02</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>21</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>160</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>110</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.9</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>2.875</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>17.02</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
 </tr>
 <tr>
 <td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>22.8</td>
@@ -1999,69 +1987,69 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>2</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>19.2</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>6</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>167.6</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>123</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.92</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.44</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>18.3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>19.2</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>167.6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>123</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.92</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.44</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>18.3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>17.8</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>6</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>167.6</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>123</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.92</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.44</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>18.9</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>17.8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>167.6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>123</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.92</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.44</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>18.9</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>32.4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>78.7</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>66</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4.08</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>2.2</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>19.47</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>32.4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>78.7</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>66</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4.08</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>2.2</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>19.47</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>30.4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>75.7</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>52</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4.93</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1.615</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>18.52</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>2</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>30.4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>75.7</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>52</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4.93</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1.615</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>18.52</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>2</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>33.9</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>71.1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>65</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4.22</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1.835</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>19.9</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>33.9</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>71.1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>65</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4.22</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1.835</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>19.9</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
 </tr>
 <tr>
 <td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>27.3</td>
@@ -2077,17 +2065,17 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>21.4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>121</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>109</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4.11</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>2.78</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>18.6</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>2</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>21.4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>121</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>109</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4.11</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>2.78</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>18.6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>2</td>
 </tr>
 <tr>
 <td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>26</td>
@@ -2142,33 +2130,38 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>6</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>15</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>8</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>301</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>335</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.54</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.57</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>14.6</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>5</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>15</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>301</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>335</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.54</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.57</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>14.6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>5</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>8</td>
 </tr>
 </table></br></br>
 <p>In some settings, particularly within spreadsheets, it is not uncommon to see groups discriminated by various background colors. An example of this behavior is shown in Table <a href="using-tables-effectively.html#tab:background-discriminate">10.11</a>. This technique ought to be avoided as it requires the reader to remember the association of each color while trying to discern patterns and conclusions from the table. Some might say that I’ve presented an unfair comparison here, and that if I were to sort the table prior to assigning the background colors, it would not be as challenging for the reader. However, if the data have been sorted by group, there is no need for multiple background colors; instead, the alternating backgrounds used in Table <a href="using-tables-effectively.html#tab:toggle-background">10.10</a> are sufficient and do not add the difficulty of remember what the various colors mean.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gear3 &lt;-<span class="st"> </span><span class="kw">which</span>(mtcars$gear %in%<span class="st"> </span><span class="dv">3</span>)
+gear4 &lt;-<span class="st"> </span><span class="kw">which</span>(mtcars$gear %in%<span class="st"> </span><span class="dv">4</span>)
+gear5 &lt;-<span class="st"> </span><span class="kw">which</span>(mtcars$gear %in%<span class="st"> </span><span class="dv">5</span>)
+
+mtcars %&gt;%
 <span class="st">  </span><span class="kw">dust</span>(<span class="dt">caption =</span> <span class="st">&quot;Vehicular Data Sorted by Gear with Background Toggling&quot;</span>,
        <span class="dt">label =</span> <span class="st">&quot;background-discriminate&quot;</span>,
        <span class="dt">keep_rownames =</span> <span class="ot">TRUE</span>) %&gt;%
 <span class="st">  </span><span class="kw">medley_bw</span>() %&gt;%
-<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">logical_rows =</span> <span class="kw">quote</span>(gear  ==<span class="st"> </span><span class="dv">3</span>),
+<span class="st">  </span><span class="kw">sprinkle</span>(<span class="co"># rows = quote(gear  == 3), # not yet supported</span>
+           <span class="dt">rows =</span> gear3,
            <span class="dt">bg =</span> palette[<span class="dv">2</span>])  %&gt;%
-<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">logical_rows =</span> <span class="kw">quote</span>(gear  ==<span class="st"> </span><span class="dv">4</span>),
+<span class="st">  </span><span class="kw">sprinkle</span>(<span class="co"># rows = quote(gear  == 4), # not yet supported</span>
+           <span class="dt">rows =</span> gear4,
            <span class="dt">bg =</span> palette[<span class="dv">5</span>]) %&gt;%
-<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">logical_rows =</span> <span class="kw">quote</span>(gear  ==<span class="st"> </span><span class="dv">5</span>),
-           <span class="dt">bg =</span> palette[<span class="dv">8</span>])%&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+<span class="st">  </span><span class="kw">sprinkle</span>(<span class="co"># rows = quote(gear  == 5), # not yet supported</span>
+           <span class="dt">rows =</span> gear5,
+           <span class="dt">bg =</span> palette[<span class="dv">8</span>])</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
 <caption><span id="tab:background-discriminate">Table 10.11: </span> Vehicular Data Sorted by Gear with Background Toggling</caption>
 <tr>
@@ -2635,24 +2628,28 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </tr>
 </table></br></br>
 <p>If background colors are to be used, they ought to be used to accent something meaningful about the data that cannot be displayed by a simple sort. Consider, for example, Table @ref{tab:group-sort-shade}, which groups the data by <code>gear</code>, sorts it within each group by <code>mpg</code>, and then applies a gradient background to the <code>mpg</code> column to give a visual depiction of the distribution of <code>mpg</code> within each group.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gear3 &lt;-<span class="st"> </span><span class="kw">which</span>(mtcars$gear %in%<span class="st"> </span><span class="dv">3</span>)
+gear4 &lt;-<span class="st"> </span><span class="kw">which</span>(mtcars$gear %in%<span class="st"> </span><span class="dv">4</span>)
+gear5 &lt;-<span class="st"> </span><span class="kw">which</span>(mtcars$gear %in%<span class="st"> </span><span class="dv">5</span>)
+
+mtcars %&gt;%
 <span class="st">  </span><span class="kw">arrange</span>(gear, mpg) %&gt;%
 <span class="st">  </span><span class="kw">dust</span>(<span class="dt">caption =</span> <span class="st">&quot;Vehicular Data Grouped by Gear and Sorted by MPG&quot;</span>,
        <span class="dt">label =</span> <span class="st">&quot;group-sort-shade&quot;</span>) %&gt;%
 <span class="st">  </span><span class="kw">medley_bw</span>() %&gt;%
-<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">logical_rows =</span> <span class="kw">quote</span>(gear %in%<span class="st"> </span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">5</span>)),
+<span class="st">  </span><span class="kw">sprinkle</span>(<span class="co"># rows = quote(gear %in% c(3, 5)), #not yet supported</span>
+           <span class="dt">rows =</span> gear3,
            <span class="dt">bg =</span> <span class="st">&quot;#DDDDDD&quot;</span>,
            <span class="dt">border =</span> <span class="st">&quot;bottom&quot;</span>,
            <span class="dt">border_color =</span> <span class="st">&quot;white&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">logical_rows =</span> <span class="kw">quote</span>(!gear %in%<span class="st"> </span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">5</span>)),
+<span class="st">  </span><span class="kw">sprinkle</span>(<span class="co"># rows = quote(!gear %in% c(3, 5)), # not yet supported</span>
+           <span class="dt">rows =</span> gear4,
            <span class="dt">bg =</span> <span class="st">&quot;white&quot;</span>,
            <span class="dt">border =</span> <span class="st">&quot;bottom&quot;</span>,
            <span class="dt">border_color =</span> <span class="st">&quot;#DDDDDD&quot;</span>) %&gt;%
 <span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">cols =</span> <span class="st">&quot;mpg&quot;</span>,
            <span class="dt">gradient =</span> <span class="st">&quot;bg&quot;</span>,
-           <span class="dt">gradient_color =</span> palette[<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">7</span>)]) %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+           <span class="dt">gradient_color =</span> palette[<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">7</span>)])</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
 <caption><span id="tab:group-sort-shade">Table 10.12: </span> Vehicular Data Grouped by Gear and Sorted by MPG</caption>
 <tr>
@@ -2669,43 +2666,43 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>carb</th>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;border-top:1px solid Black;border-bottom:1px solid rgba(255,255,255,1);'>10.4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-top:1px solid Black;border-bottom:1px solid rgba(255,255,255,1);'>8</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-top:1px solid Black;border-bottom:1px solid rgba(255,255,255,1);'>472</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-top:1px solid Black;border-bottom:1px solid rgba(255,255,255,1);'>205</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-top:1px solid Black;border-bottom:1px solid rgba(255,255,255,1);'>2.93</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-top:1px solid Black;border-bottom:1px solid rgba(255,255,255,1);'>5.25</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-top:1px solid Black;border-bottom:1px solid rgba(255,255,255,1);'>17.98</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-top:1px solid Black;border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-top:1px solid Black;border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-top:1px solid Black;border-bottom:1px solid rgba(255,255,255,1);'>3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-top:1px solid Black;border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;border-top:1px solid Black;border-bottom:1px solid rgba(221,221,221,1);'>10.4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-top:1px solid Black;border-bottom:1px solid rgba(221,221,221,1);'>8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-top:1px solid Black;border-bottom:1px solid rgba(221,221,221,1);'>472</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-top:1px solid Black;border-bottom:1px solid rgba(221,221,221,1);'>205</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-top:1px solid Black;border-bottom:1px solid rgba(221,221,221,1);'>2.93</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-top:1px solid Black;border-bottom:1px solid rgba(221,221,221,1);'>5.25</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-top:1px solid Black;border-bottom:1px solid rgba(221,221,221,1);'>17.98</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-top:1px solid Black;border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-top:1px solid Black;border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-top:1px solid Black;border-bottom:1px solid rgba(221,221,221,1);'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-top:1px solid Black;border-bottom:1px solid rgba(221,221,221,1);'>4</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;border-bottom:1px solid rgba(255,255,255,1);'>10.4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>8</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>460</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>215</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>5.424</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>17.82</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;border-bottom:1px solid rgba(221,221,221,1);'>10.4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>460</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>215</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>5.424</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>17.82</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;border-bottom:1px solid rgba(255,255,255,1);'>13.3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>8</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>350</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>245</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.73</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.84</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>15.41</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;border-bottom:1px solid rgba(221,221,221,1);'>13.3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>350</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>245</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.73</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.84</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>15.41</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
 </tr>
 <tr>
 <td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C2A5CF;border-bottom:1px solid rgba(255,255,255,1);'>14.3</td>
@@ -2760,56 +2757,56 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>2</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#BEB2C5;border-bottom:1px solid rgba(255,255,255,1);'>15.5</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>8</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>318</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>150</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>2.76</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.52</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>16.87</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>2</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#BEB2C5;border-bottom:1px solid rgba(221,221,221,1);'>15.5</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>318</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>150</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>2.76</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.52</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>16.87</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>2</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#BEB2C5;border-bottom:1px solid rgba(255,255,255,1);'>16.4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>8</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>275.8</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>180</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.07</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4.07</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>17.4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#BEB2C5;border-bottom:1px solid rgba(221,221,221,1);'>16.4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>275.8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>180</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.07</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4.07</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>17.4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#BBB8C0;border-bottom:1px solid rgba(255,255,255,1);'>17.3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>8</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>275.8</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>180</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.07</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.73</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>17.6</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#BBB8C0;border-bottom:1px solid rgba(221,221,221,1);'>17.3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>275.8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>180</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.07</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.73</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>17.6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#BBB8C0;border-bottom:1px solid rgba(255,255,255,1);'>18.1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>6</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>225</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>105</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>2.76</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.46</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>20.22</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#BBB8C0;border-bottom:1px solid rgba(221,221,221,1);'>18.1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>225</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>105</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>2.76</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.46</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>20.22</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
 </tr>
 <tr>
 <td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#B8BEBB;border-bottom:1px solid rgba(255,255,255,1);'>18.7</td>
@@ -2864,30 +2861,30 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#BBB8C0;border-bottom:1px solid rgba(221,221,221,1);'>17.8</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>6</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>167.6</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>123</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.92</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.44</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>18.9</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#BBB8C0;border-bottom:1px solid rgba(255,255,255,1);'>17.8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>167.6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>123</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.92</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.44</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>18.9</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#B8BEBB;border-bottom:1px solid rgba(221,221,221,1);'>19.2</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>6</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>167.6</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>123</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.92</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.44</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>18.3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#B8BEBB;border-bottom:1px solid rgba(255,255,255,1);'>19.2</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>167.6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>123</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.92</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.44</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>18.3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
 </tr>
 <tr>
 <td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#B5C4B6;border-bottom:1px solid rgba(221,221,221,1);'>21</td>
@@ -2929,69 +2926,69 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>2</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#B2CAB0;border-bottom:1px solid rgba(221,221,221,1);'>22.8</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>108</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>93</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.85</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>2.32</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>18.61</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#B2CAB0;border-bottom:1px solid rgba(255,255,255,1);'>22.8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>108</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>93</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.85</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>2.32</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>18.61</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#B2CAB0;border-bottom:1px solid rgba(221,221,221,1);'>22.8</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>140.8</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>95</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.92</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.15</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>22.9</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>2</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#B2CAB0;border-bottom:1px solid rgba(255,255,255,1);'>22.8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>140.8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>95</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.92</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.15</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>22.9</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>2</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#AECFAB;border-bottom:1px solid rgba(221,221,221,1);'>24.4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>146.7</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>62</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.69</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.19</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>20</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>2</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#AECFAB;border-bottom:1px solid rgba(255,255,255,1);'>24.4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>146.7</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>62</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.69</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.19</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>20</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>2</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#AECFAB;border-bottom:1px solid rgba(221,221,221,1);'>27.3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>79</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>66</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4.08</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1.935</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>18.9</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#AECFAB;border-bottom:1px solid rgba(255,255,255,1);'>27.3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>79</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>66</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4.08</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1.935</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>18.9</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#AAD5A6;border-bottom:1px solid rgba(221,221,221,1);'>30.4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>75.7</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>52</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4.93</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1.615</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>18.52</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>2</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#AAD5A6;border-bottom:1px solid rgba(255,255,255,1);'>30.4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>75.7</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>52</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4.93</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1.615</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>18.52</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>2</td>
 </tr>
 <tr>
 <td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#AAD5A6;border-bottom:1px solid rgba(221,221,221,1);'>32.4</td>
@@ -3007,82 +3004,82 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
 </tr>
 <tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#AAD5A6;border-bottom:1px solid rgba(221,221,221,1);'>33.9</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#AAD5A6;'>33.9</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>71.1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>65</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4.22</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.835</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>19.9</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C0ABCA;'>15</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>301</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>335</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.54</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.57</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>14.6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>5</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>8</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#BEB2C5;'>15.8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>351</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>264</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4.22</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.17</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>14.5</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>5</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#B8BEBB;'>19.7</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>145</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>175</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.62</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2.77</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>15.5</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>5</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>6</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#AECFAB;'>26</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>120.3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>91</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4.43</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2.14</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>16.7</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>5</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#AAD5A6;border-bottom:1px solid rgba(221,221,221,1);'>30.4</td>
 <td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>71.1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>65</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4.22</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1.835</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>19.9</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>95.1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>113</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>3.77</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1.513</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>16.9</td>
 <td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
 <td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>1</td>
-</tr>
-<tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#C0ABCA;border-bottom:1px solid rgba(255,255,255,1);'>15</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>8</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>301</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>335</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.54</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.57</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>14.6</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>5</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>8</td>
-</tr>
-<tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#BEB2C5;border-bottom:1px solid rgba(255,255,255,1);'>15.8</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>8</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>351</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>264</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4.22</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.17</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>14.5</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>5</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
-</tr>
-<tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#B8BEBB;border-bottom:1px solid rgba(255,255,255,1);'>19.7</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>6</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>145</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>175</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.62</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>2.77</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>15.5</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>5</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>6</td>
-</tr>
-<tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#AECFAB;border-bottom:1px solid rgba(255,255,255,1);'>26</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>120.3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>91</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4.43</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>2.14</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>16.7</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>5</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>2</td>
-</tr>
-<tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:#AAD5A6;border-bottom:1px solid rgba(255,255,255,1);'>30.4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>95.1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>113</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>3.77</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1.513</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>16.9</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>5</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(221,221,221,1);border-bottom:1px solid rgba(255,255,255,1);'>2</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>5</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(255,255,255,1);border-bottom:1px solid rgba(221,221,221,1);'>2</td>
 </tr>
 </table></br></br>
 <p>While Table <a href="using-tables-effectively.html#tab:group-sort-shade">10.12</a> is a reasonable and effective use of shading and grouping together, it still doesn’t have anywhere the visual impact as something as simple as Figure 10.1</p>
@@ -3090,8 +3087,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
        <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">factor</span>(gear),
                      <span class="dt">y =</span> mpg)) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_boxplot</span>()</code></pre></div>
-<div class="figure"><span id="fig:unnamed-chunk-60"></span>
-<img src="_main_files/figure-html/unnamed-chunk-60-1.png" alt="Graphical visualizations are often a superior tool to tables to display complex concepts." width="672" />
+<div class="figure"><span id="fig:unnamed-chunk-54"></span>
+<img src="_main_files/figure-html/unnamed-chunk-54-1.png" alt="Graphical visualizations are often a superior tool to tables to display complex concepts." width="672" />
 <p class="caption">
 Figure 10.1: Graphical visualizations are often a superior tool to tables to display complex concepts.
 </p>
@@ -3110,9 +3107,7 @@ ovarian %&gt;%
 <span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">cols =</span> <span class="st">&quot;fustat&quot;</span>,
            <span class="dt">discrete =</span> <span class="st">&quot;bg&quot;</span>,
            <span class="dt">discrete_color =</span> palette[<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">7</span>)]) %&gt;%
-<span class="st">  </span><span class="kw">medley_bw</span>() %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+<span class="st">  </span><span class="kw">medley_bw</span>()</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
 <caption><span id="tab:temporal-table">Table 10.13: </span> Arrange a Table by Time and Using Background Colors to Identify Events</caption>
 <tr>
@@ -3341,7 +3336,9 @@ ovarian %&gt;%
 <h3><span class="header-section-number">10.5.1</span> Row Barrier</h3>
 <p>A row barrier is a visual obstruction within a table that takes up an entire row to indicate to the user that there is something different about the content that follows. An example is given in <a href="using-tables-effectively.html#tab:row-barrier">10.14</a>.</p>
 <p>At the time of this writing, <code>pixiedust</code> does not offer a mechanism for generating a table in this style, and so applying additional formatting, such as row stripes, etc, can require a great deal of code.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">split</span>(mtcars,
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gear_na &lt;-<span class="st"> </span><span class="kw">which</span>(<span class="kw">is.na</span>(mtcars$gear))
+
+<span class="kw">split</span>(mtcars,
       mtcars$gear) %&gt;%
 <span class="st">  </span><span class="kw">lapply</span>(<span class="dt">FUN =</span> function(x) <span class="kw">bind_rows</span>(<span class="kw">data.frame</span>(<span class="dt">mpg =</span> x$gear[<span class="dv">1</span>]),
                                      x)) %&gt;%
@@ -3349,7 +3346,8 @@ ovarian %&gt;%
 <span class="st">  </span><span class="kw">dust</span>(<span class="dt">caption =</span> <span class="st">&quot;Table Sectioned with a Row Barrier&quot;</span>,
        <span class="dt">label =</span> <span class="st">&quot;row-barrier&quot;</span>) %&gt;%
 <span class="st">  </span><span class="kw">medley_bw</span>() %&gt;%
-<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">logical_rows =</span> <span class="kw">quote</span>(<span class="kw">is.na</span>(gear)),
+<span class="st">  </span><span class="kw">sprinkle</span>(<span class="co"># rows = quote(is.na(gear)), # not yet supported</span>
+           <span class="dt">rows =</span> gear_na,
            <span class="dt">cols =</span> <span class="st">&quot;mpg&quot;</span>,
            <span class="dt">fn =</span> <span class="kw">quote</span>(<span class="kw">sprintf</span>(<span class="st">&quot;Gear = %s&quot;</span>, value))) %&gt;%
 <span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">rows =</span> <span class="dv">1</span>,
@@ -3363,9 +3361,7 @@ ovarian %&gt;%
 <span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">rows =</span> <span class="dv">30</span>,
            <span class="dt">merge =</span> <span class="ot">TRUE</span>,
            <span class="dt">halign =</span> <span class="st">&quot;left&quot;</span>,
-           <span class="dt">bg =</span> <span class="st">&quot;#DDDDDD&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+           <span class="dt">bg =</span> <span class="st">&quot;#DDDDDD&quot;</span>)</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
 <caption><span id="tab:row-barrier">Table 10.14: </span> Table Sectioned with a Row Barrier</caption>
 <tr>
@@ -3382,7 +3378,7 @@ ovarian %&gt;%
 <th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>carb</th>
 </tr>
 <tr>
-<td colspan = '11'; rowspan = '1'; style='text-align:left;background-color:rgba(221,221,221,1);border-top:1px solid Black;'>Gear = 3</td>
+<td colspan = '11'; rowspan = '1'; style='text-align:left;background-color:rgba(221,221,221,1);border-top:1px solid Black;'>3</td>
 
 
 
@@ -3590,7 +3586,7 @@ ovarian %&gt;%
 <td colspan = '1'; rowspan = '1'; style='text-align:right;'>2</td>
 </tr>
 <tr>
-<td colspan = '11'; rowspan = '1'; style='text-align:left;background-color:rgba(221,221,221,1);'>Gear = 4</td>
+<td colspan = '11'; rowspan = '1'; style='text-align:left;background-color:rgba(221,221,221,1);'>4</td>
 
 
 
@@ -3759,7 +3755,7 @@ ovarian %&gt;%
 <td colspan = '1'; rowspan = '1'; style='text-align:right;'>2</td>
 </tr>
 <tr>
-<td colspan = '11'; rowspan = '1'; style='text-align:left;background-color:rgba(221,221,221,1);'>Gear = 5</td>
+<td colspan = '11'; rowspan = '1'; style='text-align:left;background-color:rgba(221,221,221,1);'>5</td>
 
 
 
@@ -3846,10 +3842,7 @@ ovarian %&gt;%
 <span class="st">  </span><span class="kw">dust</span>(<span class="dt">caption =</span> <span class="st">&quot;Table Sectioned with a Row Barrier&quot;</span>,
        <span class="dt">label =</span> <span class="st">&quot;row-barrier&quot;</span>) %&gt;%
 <span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">bg_pattern_by =</span> <span class="st">&quot;rows&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">pixieply</span>(medley_bw) %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">lapply</span>(cat) %&gt;%
-<span class="st">  </span><span class="kw">invisible</span>()</code></pre></div>
+<span class="st">  </span><span class="kw">pixieply</span>(medley_bw) </code></pre></div>
 <p><table align = 'center' style = 'border-collapse:collapse;'>
 <caption><span id="tab:row-barrier">Table 10.14: </span> Table Sectioned with a Row Barrier</caption>
 <tr>
@@ -4323,10 +4316,7 @@ ovarian %&gt;%
            <span class="dt">gradient_color =</span> palette[<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">8</span>)],
            <span class="dt">gradient_cut =</span> <span class="kw">quantile</span>(mtcars$mpg, 
                                    <span class="dt">probs =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="dv">10</span>))) %&gt;%
-<span class="st">  </span><span class="kw">pixieply</span>(medley_bw) %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">lapply</span>(cat) %&gt;%
-<span class="st">  </span><span class="kw">invisible</span>()</code></pre></div>
+<span class="st">  </span><span class="kw">pixieply</span>(medley_bw) </code></pre></div>
 <p><table align = 'center' style = 'border-collapse:collapse;'>
 <caption><span id="tab:row-barrier">Table 10.14: </span> Table Sectioned with a Row Barrier</caption>
 <tr>
@@ -4800,7 +4790,8 @@ ovarian %&gt;%
       </div>
 <a href="working-with-lists-of-tables.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-
+    </div>
+  </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
@@ -4845,7 +4836,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(script.src))
       script.src  = script.src.replace(/^https?:/, '');
     document.getElementsByTagName("head")[0].appendChild(script);

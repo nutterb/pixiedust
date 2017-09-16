@@ -17,9 +17,7 @@ We won't bother exploring all of these sprinkles here, but will provide a single
 ```{r, results = 'asis'}
 dust(head(mtcars)) %>%
   sprinkle(caption = "This caption was defined in the sprinkle function",
-           label = "sprinkle-caption") %>%
-  print(asis = FALSE) %>%
-  cat()
+           label = "sprinkle-caption") 
 ```
 
 The full list of table-valued sprinkles is given in Table \@ref(tab:sprinkle-table-valued-sprinkle).
@@ -33,9 +31,7 @@ system.file(package = "pixiedust", "sprinkle_reference.csv") %>%
        label = "sprinkle-table-valued-sprinkle") %>%
   sprinkle(width = 200,
            bg_pattern_by = "rows") %>%
-  medley_bw() %>%
-  print(asis = FALSE) %>%
-  cat()
+  medley_bw()
 ```
 
 ## Cell-valued Sprinkles
@@ -60,9 +56,7 @@ dust(head(mtcars),
   sprinkle(rows = 1, 
            cols = 1,
            font_color = "red",
-           part = "head") %>%
-  print(asis = FALSE) %>%
-  cat()
+           part = "head")
 
 dust(head(mtcars),
      caption = "Cell Indexed Sprinkle on the Body Only",
@@ -71,9 +65,7 @@ dust(head(mtcars),
   sprinkle(rows = 1, 
            cols = 1,
            font_color = "red",
-           part = "body") %>%
-  print(asis = FALSE) %>%
-  cat()
+           part = "body")
 ```
 
 When multiple cells are to be modified, the default behavior is to apply the sprinkle to the intersection of rows and columns designated.  This makes `sprinkle` pretty greedy in how it assigns modifications; making identical modifications to disjointed sections of code is not its default behavior.  Table \@ref(tab:sprinkle-region1) applies a purple background to the four cells in the top left corner.  Compare this with Table \@ref(tab:sprinkle-region2), where the sprinkling is performed in all four corners.
@@ -85,9 +77,7 @@ dust(head(mtcars),
   sprinkle(rows = 1:2,
            cols = 1:2,
            bg = palette[3]) %>%
-  medley_bw() %>%
-  print(asis = FALSE) %>%
-  cat()
+  medley_bw() 
 
 dust(head(mtcars),
      caption = "Sprinkling applied to the four cells in each corner.",
@@ -95,9 +85,7 @@ dust(head(mtcars),
   sprinkle(rows = c(1:2, 5:6),
            cols = c(1:2, 10:11),
            bg = palette[3]) %>%
-  medley_bw() %>%
-  print(asis = FALSE) %>%
-  cat()
+  medley_bw() 
 ```
 
 The behavior of sprinkling in Table \@ref(tab:sprinkle-region2) can be elaborated using `expand.grid`. The call shown below identifies all of the cell coordinates where the sprinkle was applied.
@@ -119,9 +107,7 @@ dust(head(mtcars),
   sprinkle(rows = c(5:6),
            cols = c(10:11),
            bg = palette[3]) %>%
-  medley_bw() %>%
-  print(asis = FALSE) %>%
-  cat()
+  medley_bw()
 ```
 
 #### Cell Selection by Column Name
@@ -135,41 +121,36 @@ dust(head(mtcars),
   sprinkle(rows = 1:2,
            cols = c("mpg", "cyl"),
            bg = palette[3]) %>%
-  medley_bw() %>%
-  print(asis = FALSE) %>%
-  cat()
+  medley_bw() 
 ```
 
-#### Cell Selection with Row Logic
 
-Rows for sprinkling may be selected using logical conditions to improve reproducibility as well.  Table \@ref(tab:sprinkle-logical-row1) recreates Table \@ref{tab:sprinkle-region1} using row logic and column names.  Table \@ref(tab:sprinkle-logical-row2) shows an example of sprinkling statistically significant terms in a linear model using row logic.  When using `logical_rows`, it is necessary to wrap the expression in `quote` to delay the execution of the command until `sprinkle` is ready to determine the results from the internal `dust` objects.
 
-```{r, results = 'asis'}
-dust(head(mtcars),
-     caption = "Sprinkling applied to the four cells in the top left corner",
-     label = "sprinkle-logical-row1") %>%
-  sprinkle(logical_rows = quote(mpg == 21),
-           cols = c("mpg", "cyl"),
-           bg = palette[3]) %>%
-  medley_bw() %>%
-  print(asis = FALSE) %>%
-  cat()
+<!-- #### Cell Selection with Row Logic -->
 
-fit <- lm(mpg ~ qsec + factor(gear) + wt, data = mtcars)
+<!-- Rows for sprinkling may be selected using logical conditions to improve reproducibility as well.  Table \@ref(tab:sprinkle-logical-row1) recreates Table \@ref{tab:sprinkle-region1} using row logic and column names.  Table \@ref(tab:sprinkle-logical-row2) shows an example of sprinkling statistically significant terms in a linear model using row logic.  When using logical rows, it is necessary to wrap the expression in `quote` to delay the execution of the command until `sprinkle` is ready to determine the results from the internal `dust` objects. -->
 
-dust(fit,
-     caption = "Sprinkling a Model Summary with Column Names and Row Logic",
-     label = "sprinkle-logical-row2") %>%
-  sprinkle(logical_rows = quote(as.numeric(p.value) <= 0.05),
-           bold = TRUE) %>%
-  sprinkle(cols = "p.value",
-           fn = quote(pvalString(value))) %>%
-  sprinkle(cols = c("estimate", "std.error", "statistic"),
-           round = 2) %>%
-  medley_bw() %>%
-  print(asis = FALSE) %>%
-  cat()
-```
+<!-- ```{r, results = 'asis'} -->
+<!-- dust(head(mtcars), -->
+<!--      caption = "Sprinkling applied to the four cells in the top left corner", -->
+<!--      label = "sprinkle-logical-row1") %>% -->
+<!--   sprinkle(rows = quote(mpg == 21), -->
+<!--            cols = c("mpg", "cyl"), -->
+<!--            bg = palette[3]) -->
+
+<!-- fit <- lm(mpg ~ qsec + factor(gear) + wt, data = mtcars) -->
+
+<!-- dust(fit, -->
+<!--      caption = "Sprinkling a Model Summary with Column Names and Row Logic", -->
+<!--      label = "sprinkle-logical-row2") %>% -->
+<!--   sprinkle(logical_rows = quote(as.numeric(p.value) <= 0.05), -->
+<!--            bold = TRUE) %>% -->
+<!--   sprinkle(cols = "p.value", -->
+<!--            fn = quote(pvalString(value))) %>% -->
+<!--   sprinkle(cols = c("estimate", "std.error", "statistic"), -->
+<!--            round = 2) %>% -->
+<!--   medley_bw()-->
+<!-- ``` -->
 
 ### Sprinkle Cells by Fixed Cell Position
 

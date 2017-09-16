@@ -25,8 +25,7 @@ fit <- lm(mpg ~ qsec + factor(gear) + wt, data = mtcars)
 
 dust(fit) %>%
   sprinkle(rows = c(2, 5),
-           bg = "lightgreen") %>%
-  print(asis = FALSE) %>% cat
+           bg = "lightgreen")
 ```
 
 ## RGB Colors
@@ -40,8 +39,7 @@ fit <- lm(mpg ~ qsec + factor(gear) + wt, data = mtcars)
 
 dust(fit) %>%
   sprinkle(rows = c(2, 5),
-           bg = "rgb(144, 238, 144)") %>%
-  print(asis = FALSE) %>% cat
+           bg = "rgb(144, 238, 144)") 
 ```
 
 
@@ -56,8 +54,7 @@ fit <- lm(mpg ~ qsec + factor(gear) + wt, data = mtcars)
 
 dust(fit) %>%
   sprinkle(rows = c(2, 5),
-           bg = "#90EE90") %>%
-  print(asis = FALSE) %>% cat
+           bg = "#90EE90")
 ```
 
 ## Transparency
@@ -73,6 +70,5 @@ dust(fit) %>%
   sprinkle(rows = 2,
            bg = "#0000003F") %>%
   sprinkle(rows = 4,
-           bg = "rgba(00,00,00,.25)") %>%
-  print(asis = FALSE) %>% cat
+           bg = "rgba(00,00,00,.25)") 
 ```

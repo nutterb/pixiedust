@@ -28,9 +28,7 @@ The `caption` option determines the text that is placed above the table, and is 
 
 ```{r, results = 'asis'}
 dust(head(mtcars),
-     caption = "The first six lines of mtcars") %>%
-  print(asis = FALSE) %>%
-  cat()
+     caption = "The first six lines of mtcars")
 ```
 
 ### `border_collapse`
@@ -41,19 +39,14 @@ Relevant only to HTML tables, the `border-collapse` option determines if the bor
 
 ```{r, results = 'asis'}
 dust(head(mtcars),
-     border_collapse = TRUE,
-     caption = "A table with <font face = 'Courier New'>border_collapse = TRUE</font>") %>%
-  sprinkle(border = "all") %>%
-  print(asis = FALSE) %>%
-  cat()
+     border_collapse = 'collapse',
+     caption = "A table with <font face = 'Courier New'>border_collapse = 'collapse'</font>") %>%
+  sprinkle(border = "all")
 
 dust(head(mtcars),
-     border_collapse = FALSE,
-     caption = "A table with <font face = 'Courier New'>border_collapse = FALSE</font>") %>%
-  sprinkle(border = "all",
-           border_collapse = FALSE) %>%
-  print(asis = FALSE) %>%
-  cat()
+     border_collapse = 'separate',
+     caption = "A table with <font face = 'Courier New'>border_collapse = 'separate'</font>") %>%
+  sprinkle(border = "all") 
 ```
 
 By default, `border_collapse = TRUE` when a `dust` object is created.
@@ -67,27 +60,20 @@ The default value for this option is `"center"`.
 ```{r, results = 'asis'}
 dust(head(mtcars),
      justify = "center",
-     caption = "Center-justified Table") %>%
-  print(asis = FALSE) %>%
-  cat()
+     caption = "Center-justified Table")
 ```
 
 ```{r, results = 'asis'}
 dust(head(mtcars),
      justify = "left",
-     caption = "Left-justified Table") %>%
-  print(asis = FALSE) %>%
-  cat()
+     caption = "Left-justified Table")
 ```
 
 ```{r, results = 'asis'}
 dust(head(mtcars),
      justify = "right",
-     caption = "Right-justified Table") %>%
-  print(asis = FALSE) %>%
-  cat()
+     caption = "Right-justified Table")
 ```
-
 
 ### `longtable`
 
@@ -102,15 +88,11 @@ When `longtable` is an integer, each section of the table will contain no more t
 ```{r, results = 'asis'}
 dust(head(mtcars),
      longtable = FALSE,
-     caption = "The table caption") %>%
-  print(asis = FALSE) %>%
-  cat()
+     caption = "The table caption") 
 
 dust(head(mtcars),
      longtable = 2,
-     caption = "Notice that the multiple sections of table have the same number") %>%
-  print(asis = FALSE) %>%
-  cat()
+     caption = "Notice that the multiple sections of table have the same number")
 ```
 
 Use of headers and footers in conjunction with the `longtable` option is covered in more detail in Chapter \@ref(chapter-header-footer)
@@ -123,9 +105,7 @@ The `label` option accepts a string that makes a LATEX like label to associate w
 dust(head(mtcars),
      caption = "A table that has a label",
      label = "label-ref",
-     bookdown = TRUE) %>%
-  print(asis = FALSE) %>%
-  cat()
+     bookdown = TRUE)
 ```
 
 When choosing to reference the table above as Table \@ref(tab:label-ref), you must use the label with a `tab:` prefix.  For the above example, we used `tab:label-ref`.
@@ -154,9 +134,7 @@ dust(head(mtcars),
 data.frame(x = "<img src = 'images/01-Dust-hhlineFALSE.png' width = '100%' >",
            stringsAsFactors = FALSE) %>%
   dust(caption = "A LaTeX Table with <font face = 'Courier New'>hhline = FALSE</font>. Notice the borders between rows are not evident as requested in the code.") %>%
-  sprinkle_colnames("") %>%
-  print(asis = FALSE) %>%
-  cat()
+  sprinkle_colnames("")
 ```
 
 ```{r, message = FALSE}
@@ -189,9 +167,7 @@ If you are using the `bookdown` package, it is recommended that you set `bookdow
 dust(head(mtcars),
      caption = "A table with the <font face = 'Courier New'>bookdown</font> option turned off.",
      label = "label-ref",
-     bookdown = FALSE) %>%
-  print(asis = FALSE) %>%
-  cat()
+     bookdown = FALSE) 
 ```
 
 By default, `pixiedust` uses `bookdown = FALSE`. However, this book was written using `bookdown = TRUE` using the options described in section \@ref(#dust-setting-options-globally).

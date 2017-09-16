@@ -35,9 +35,7 @@ medley_mine <- function(object)
 head(mtcars) %>%
   dust(caption = "A table with a little formatting",
        label = "medley-a-bit-more") %>%
-  medley_mine() %>%
-  print(asis = FALSE) %>%
-  cat()
+  medley_mine() 
 ```
 
 It is possible to extend the medley to any extent.  The next segment of code adds row striping in my favorite color scheme:
@@ -58,9 +56,7 @@ medley_mine <- function(object)
 head(mtcars) %>%
   dust(caption = "A table with a little formatting and striping",
        label = "medley-with-stripe") %>%
-  medley_mine() %>%
-  print(asis = FALSE) %>%
-  cat()
+  medley_mine()
 ```
 
 When desired, you may even add additional arguments that let you add or remove features as desired.
@@ -90,14 +86,10 @@ medley_mine <- function(object, stripe = TRUE)
 head(mtcars) %>%
   dust(caption = "A table with a little formatting and optional striping turned off",
        label = "medley-stripe-off") %>%
-  medley_mine(stripe = FALSE) %>%
-  print(asis = FALSE) %>%
-  cat()
+  medley_mine(stripe = FALSE)
 
 head(mtcars) %>%
   dust(caption = "A table with a little formatting and optional striping turned on",
        label = "medley-stripe-on") %>%
-  medley_mine(stripe = TRUE) %>%
-  print(asis = FALSE) %>%
-  cat()
+  medley_mine(stripe = TRUE)
 ```

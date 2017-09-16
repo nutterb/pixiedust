@@ -25,9 +25,7 @@ As tables grow wider, there is a greater risk that the reader will have difficul
 head(mtcars, 12) %>%
   dust(label = "basic-example",
        caption = "A table without aids for discriminating lines",
-       keep_rownames = TRUE) %>%
-  print(asis = FALSE) %>%
-  cat()
+       keep_rownames = TRUE)
 ```
 
 ### Striping
@@ -39,9 +37,7 @@ head(mtcars, 12) %>%
   dust(label = "striped-example",
        caption = "A table with <i>Zebra Striping</i>",
        keep_rownames = TRUE) %>%
-  sprinkle(bg_pattern_by = "rows") %>%
-  print(asis = FALSE) %>%
-  cat()
+  sprinkle(bg_pattern_by = "rows")
 ```
 
 The striping strategy in Table \@ref(tab:striped-example) is great for on-screen displays. It even looks great when it is initially printed on paper.  Depending on your color selection, however, two things could happen if a printed copy is photocopied:
@@ -60,9 +56,7 @@ head(mtcars, 12) %>%
   dust(label = "plain-lined-example",
        caption = "A table with solid horizontal lines",
        keep_rownames = TRUE) %>%
-  sprinkle(border = "bottom") %>%
-  print(asis = FALSE) %>%
-  cat()
+  sprinkle(border = "bottom")
 ```
 
 An alternative look may be to use  a lighter color, as in Table \@ref(tab:gray-line-example).  However, the lighter color may fail to appear on some printed documents, and has a greater risk of not appearing on photocopies.  If photocopies are a reasonable possiblity for the future of your output, the solid black lines are your safest bet.
@@ -74,9 +68,7 @@ head(mtcars, 12) %>%
        caption = "A table with gray horizontal lines",
        keep_rownames = TRUE) %>%
   sprinkle(border = "bottom",
-           border_color = "#DDDDDD") %>%
-  print(asis = FALSE) %>%
-  cat()
+           border_color = "#DDDDDD") 
 ```
 
 ## Drawing Attention to Results
@@ -94,10 +86,9 @@ dust(fit,
      caption = "Statistically Significant Results in Bold") %>%
   medley_model() %>%
   medley_bw() %>%
-  sprinkle(logical_rows = quote(p.value <= 0.05),
-           bold = TRUE) %>%
-  print(asis = FALSE) %>%
-  cat()
+  sprinkle(# rows = quote(p.value <= 0.05), # Not yet supported
+           rows = c(1, 2, 4),
+           bold = TRUE)
 ```
 
 This strategy also works well with striping to maintain row discrimination.
@@ -111,11 +102,10 @@ dust(fit,
      caption = "Statistically Significant Results in Bold") %>%
   medley_model() %>%
   medley_bw() %>%
-  sprinkle(logical_rows = quote(p.value <= 0.05),
+  sprinkle(# rows = quote(p.value <= 0.05), # not yet supported
+           rows = c(1, 2, 4),
            bold = TRUE) %>%
-  sprinkle(bg_pattern_by = "rows") %>%
-  print(asis = FALSE) %>%
-  cat()
+  sprinkle(bg_pattern_by = "rows")
 ```
 
 Alternatively, depending on the format, you may try using colored text to draw attention to results, as in Table \@ref(tab:bold-result-red).
@@ -129,11 +119,10 @@ dust(fit,
      caption = "Statistically Significant Results in Red") %>%
   medley_model() %>%
   medley_bw() %>%
-  sprinkle(logical_rows = quote(p.value <= 0.05),
+  sprinkle(# rows = quote(p.value <= 0.05), # not yet supported
+           rows = c(1, 2, 4),
            font_color = "red") %>%
-  sprinkle(bg_pattern_by = "rows") %>%
-  print(asis = FALSE) %>%
-  cat()
+  sprinkle(bg_pattern_by = "rows")
 ```
 
 The use of background colors to draw attention to results is discouraged.  The example in Table  \@ref(tab:background-result) uses background colors to denote the statistically signficant results.  Notice how the colors may span multiple rows, which requires an additional strategy to assist row discrimination.  When using background colors this way, horizontal borders are the best row discrimination aid.  
@@ -149,12 +138,11 @@ dust(fit,
      caption = "Statistically Significant Results Displayed Using Backgrounds. This practice is discouraged.") %>%
   medley_model() %>%
   medley_bw() %>%
-  sprinkle(logical_rows = quote(p.value <= 0.05),
+  sprinkle(# rows = quote(p.value <= 0.05), # not yet supported
+           rows = c(1, 2, 4),
            bg = palette[2]) %>%
   sprinkle(border = "bottom",
-           border_color = "gray") %>%
-  print(asis = FALSE) %>%
-  cat()
+           border_color = "gray") 
 ```
 
 ## Grouping
@@ -166,70 +154,80 @@ mtcars %>%
   arrange(gear) %>%
   dust(caption = "Vehicular Data Sorted by Gear",
        label = "basic-group") %>%
-  medley_bw() %>%
-  print(asis = FALSE) %>%
-  cat()
+  medley_bw()
 ```
 
 If you wish to provide a little more assistance in discriminating groups, using alternating backgrounds as groups change may be a useful technique.  This technique is illustrated in Table \@ref(tab:toggle-background) and combined with borders to facilitate row discrimination.
 
 ```{r, results = 'asis'}
+gear <- which(mtcars$gear %in% c(3, 5))
+not_gear <- which(!mtcars$gear %in% c(3, 5))
+
 mtcars %>%
   arrange(gear) %>%
   dust(caption = "Vehicular Data Sorted by Gear with Background Toggling",
        label = "toggle-background") %>%
   medley_bw() %>%
-  sprinkle(logical_rows = quote(gear %in% c(3, 5)),
+  sprinkle(# rows = quote(gear %in% c(3, 5)), # not yet supported
+           rows = gear,
            bg = "#DDDDDD",
            border = "bottom",
            border_color = "white") %>%
-  sprinkle(logical_rows = quote(!gear %in% c(3, 5)),
+  sprinkle(# rows = quote(!gear %in% c(3, 5)), # not yet supported
+           rows = not_gear,
            bg = "white",
            border = "bottom",
-           border_color = "#DDDDDD")%>%
-  print(asis = FALSE) %>%
-  cat()
+           border_color = "#DDDDDD")
 ```
 
 In some settings, particularly within spreadsheets, it is not uncommon to see groups discriminated by various background colors.  An example of this behavior is shown in Table \@ref(tab:background-discriminate). This technique ought to be avoided as it requires the reader to remember the association of each color while trying to discern patterns and conclusions from the table.  Some might say that I've presented an unfair comparison here, and that if I were to sort the table prior to assigning the background colors, it would not be as challenging for the reader.  However, if the data have been sorted by group, there is no need for multiple background colors; instead, the alternating backgrounds used in Table \@ref(tab:toggle-background) are sufficient and do not add the difficulty of remember what the various colors mean.
 
 ```{r, results = 'asis'}
+gear3 <- which(mtcars$gear %in% 3)
+gear4 <- which(mtcars$gear %in% 4)
+gear5 <- which(mtcars$gear %in% 5)
+
 mtcars %>%
   dust(caption = "Vehicular Data Sorted by Gear with Background Toggling",
        label = "background-discriminate",
        keep_rownames = TRUE) %>%
   medley_bw() %>%
-  sprinkle(logical_rows = quote(gear  == 3),
+  sprinkle(# rows = quote(gear  == 3), # not yet supported
+           rows = gear3,
            bg = palette[2])  %>%
-  sprinkle(logical_rows = quote(gear  == 4),
+  sprinkle(# rows = quote(gear  == 4), # not yet supported
+           rows = gear4,
            bg = palette[5]) %>%
-  sprinkle(logical_rows = quote(gear  == 5),
-           bg = palette[8])%>%
-  print(asis = FALSE) %>%
-  cat()
+  sprinkle(# rows = quote(gear  == 5), # not yet supported
+           rows = gear5,
+           bg = palette[8])
 ```
 
 If background colors are to be used, they ought to be used to accent something meaningful about the data that cannot be displayed by a simple sort.  Consider, for example, Table \@ref{tab:group-sort-shade}, which groups the data by `gear`, sorts it within each group by `mpg`, and then applies a gradient background to the `mpg` column to give a visual depiction of the distribution of `mpg` within each group.
 
 ```{r, results = 'asis'}
+gear3 <- which(mtcars$gear %in% 3)
+gear4 <- which(mtcars$gear %in% 4)
+gear5 <- which(mtcars$gear %in% 5)
+
 mtcars %>%
   arrange(gear, mpg) %>%
   dust(caption = "Vehicular Data Grouped by Gear and Sorted by MPG",
        label = "group-sort-shade") %>%
   medley_bw() %>%
-  sprinkle(logical_rows = quote(gear %in% c(3, 5)),
+  sprinkle(# rows = quote(gear %in% c(3, 5)), #not yet supported
+           rows = gear3,
            bg = "#DDDDDD",
            border = "bottom",
            border_color = "white") %>%
-  sprinkle(logical_rows = quote(!gear %in% c(3, 5)),
+  sprinkle(# rows = quote(!gear %in% c(3, 5)), # not yet supported
+           rows = gear4,
            bg = "white",
            border = "bottom",
            border_color = "#DDDDDD") %>%
   sprinkle(cols = "mpg",
            gradient = "bg",
-           gradient_color = palette[c(3, 7)]) %>%
-  print(asis = FALSE) %>%
-  cat()
+           gradient_color = palette[c(3, 7)])
   
 ```
 
@@ -259,9 +257,7 @@ ovarian %>%
   sprinkle(cols = "fustat",
            discrete = "bg",
            discrete_color = palette[c(3, 7)]) %>%
-  medley_bw() %>%
-  print(asis = FALSE) %>%
-  cat()
+  medley_bw()
 ```
 
 ## Sectioning
@@ -275,6 +271,8 @@ A row barrier is a visual obstruction within a table that takes up an entire row
 At the time of this writing, `pixiedust` does not offer a mechanism for generating a table in this style, and so applying additional formatting, such as row stripes, etc, can require a great deal of code.
 
 ```{r, results = 'asis'}
+gear_na <- which(is.na(mtcars$gear))
+
 split(mtcars,
       mtcars$gear) %>%
   lapply(FUN = function(x) bind_rows(data.frame(mpg = x$gear[1]),
@@ -283,7 +281,8 @@ split(mtcars,
   dust(caption = "Table Sectioned with a Row Barrier",
        label = "row-barrier") %>%
   medley_bw() %>%
-  sprinkle(logical_rows = quote(is.na(gear)),
+  sprinkle(# rows = quote(is.na(gear)), # not yet supported
+           rows = gear_na,
            cols = "mpg",
            fn = quote(sprintf("Gear = %s", value))) %>%
   sprinkle(rows = 1,
@@ -297,9 +296,7 @@ split(mtcars,
   sprinkle(rows = 30,
            merge = TRUE,
            halign = "left",
-           bg = "#DDDDDD") %>%
-  print(asis = FALSE) %>%
-  cat()
+           bg = "#DDDDDD")
 ```
 
 ### Table Barrier
@@ -312,10 +309,7 @@ split(mtcars,
   dust(caption = "Table Sectioned with a Row Barrier",
        label = "row-barrier") %>%
   sprinkle(bg_pattern_by = "rows") %>%
-  pixieply(medley_bw) %>%
-  print(asis = FALSE) %>%
-  lapply(cat) %>%
-  invisible()
+  pixieply(medley_bw) 
 ```
 
 The tools in `pixiedust` permit more flexible formatting in this style of division, and can even be used to make a table similar in style to that of Table \@ref(tab:group-sort-shade).
@@ -331,9 +325,6 @@ split(mtcars,
            gradient_color = palette[c(2, 8)],
            gradient_cut = quantile(mtcars$mpg, 
                                    probs = seq(0, 1, length.out = 10))) %>%
-  pixieply(medley_bw) %>%
-  print(asis = FALSE) %>%
-  lapply(cat) %>%
-  invisible()
+  pixieply(medley_bw) 
 ```
 

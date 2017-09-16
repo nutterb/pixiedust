@@ -6,9 +6,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Get Your Sparkle On</title>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   <meta name="description" content="A Guide to Formatting Tables with the Pixiedust Package">
-  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.4 and GitBook 2.6.7">
 
   <meta property="og:title" content="Get Your Sparkle On" />
   <meta property="og:type" content="book" />
@@ -26,7 +25,7 @@
 <meta name="author" content="Benjamin Nutter">
 
 
-<meta name="date" content="2017-01-20">
+<meta name="date" content="2017-09-15">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -35,7 +34,6 @@
   
 <link rel="prev" href="chapter-header-footer.html">
 <link rel="next" href="colors.html">
-
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -94,6 +92,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </head>
 
 <body>
+
 
 
   <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
@@ -204,9 +203,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>We won’t bother exploring all of these sprinkles here, but will provide a single example with the <code>caption</code> sprinkle, shown in Table <a href="chapter-sprinkles.html#tab:sprinkle-caption">4.1</a>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dust</span>(<span class="kw">head</span>(mtcars)) %&gt;%
 <span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">caption =</span> <span class="st">&quot;This caption was defined in the sprinkle function&quot;</span>,
-           <span class="dt">label =</span> <span class="st">&quot;sprinkle-caption&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+           <span class="dt">label =</span> <span class="st">&quot;sprinkle-caption&quot;</span>) </code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
 <caption><span id="tab:sprinkle-caption">Table 4.1: </span> This caption was defined in the sprinkle function</caption>
 <tr>
@@ -302,6 +299,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </tr>
 </table></br></br>
 <p>The full list of table-valued sprinkles is given in Table <a href="chapter-sprinkles.html#tab:sprinkle-table-valued-sprinkle">4.2</a>.</p>
+<pre><code>## Warning in read.dcf(file.path(p, &quot;DESCRIPTION&quot;), c(&quot;Package&quot;, &quot;Version&quot;)):
+## cannot open compressed file &#39;C:\Users\Nutter\Documents\GitHub\pixiedust/
+## DESCRIPTION&#39;, probable reason &#39;No such file or directory&#39;</code></pre>
 <table align = 'center' style = 'border-collapse:collapse;'>
 <caption><span id="tab:sprinkle-table-valued-sprinkle">Table 4.2: </span> Table Valued Sprinkles</caption>
 <tr>
@@ -353,9 +353,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">rows =</span> <span class="dv">1</span>, 
            <span class="dt">cols =</span> <span class="dv">1</span>,
            <span class="dt">font_color =</span> <span class="st">&quot;red&quot;</span>,
-           <span class="dt">part =</span> <span class="st">&quot;head&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+           <span class="dt">part =</span> <span class="st">&quot;head&quot;</span>)</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
 <caption><span id="tab:sprinkle-head">Table 4.3: </span> Cell Indexed Sprinkle on the Header Only</caption>
 <tr>
@@ -457,9 +455,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">rows =</span> <span class="dv">1</span>, 
            <span class="dt">cols =</span> <span class="dv">1</span>,
            <span class="dt">font_color =</span> <span class="st">&quot;red&quot;</span>,
-           <span class="dt">part =</span> <span class="st">&quot;body&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+           <span class="dt">part =</span> <span class="st">&quot;body&quot;</span>)</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
 <caption><span id="tab:sprinkle-body">Table 4.4: </span> Cell Indexed Sprinkle on the Body Only</caption>
 <tr>
@@ -561,9 +557,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">rows =</span> <span class="dv">1</span>:<span class="dv">2</span>,
            <span class="dt">cols =</span> <span class="dv">1</span>:<span class="dv">2</span>,
            <span class="dt">bg =</span> palette[<span class="dv">3</span>]) %&gt;%
-<span class="st">  </span><span class="kw">medley_bw</span>() %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+<span class="st">  </span><span class="kw">medley_bw</span>() </code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
 <caption><span id="tab:sprinkle-region1">Table 4.5: </span> Sprinkling applied to the four cells in the top left corner</caption>
 <tr>
@@ -664,9 +658,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">rows =</span> <span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">2</span>, <span class="dv">5</span>:<span class="dv">6</span>),
            <span class="dt">cols =</span> <span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">2</span>, <span class="dv">10</span>:<span class="dv">11</span>),
            <span class="dt">bg =</span> palette[<span class="dv">3</span>]) %&gt;%
-<span class="st">  </span><span class="kw">medley_bw</span>() %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+<span class="st">  </span><span class="kw">medley_bw</span>() </code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
 <caption><span id="tab:sprinkle-region2">Table 4.6: </span> Sprinkling applied to the four cells in each corner.</caption>
 <tr>
@@ -791,9 +783,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">rows =</span> <span class="kw">c</span>(<span class="dv">5</span>:<span class="dv">6</span>),
            <span class="dt">cols =</span> <span class="kw">c</span>(<span class="dv">10</span>:<span class="dv">11</span>),
            <span class="dt">bg =</span> palette[<span class="dv">3</span>]) %&gt;%
-<span class="st">  </span><span class="kw">medley_bw</span>() %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+<span class="st">  </span><span class="kw">medley_bw</span>()</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
 <caption><span id="tab:sprinkle-region3">Table 4.7: </span> Sprinkling applied to the four cells in each corner.</caption>
 <tr>
@@ -898,9 +888,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">rows =</span> <span class="dv">1</span>:<span class="dv">2</span>,
            <span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">&quot;mpg&quot;</span>, <span class="st">&quot;cyl&quot;</span>),
            <span class="dt">bg =</span> palette[<span class="dv">3</span>]) %&gt;%
-<span class="st">  </span><span class="kw">medley_bw</span>() %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+<span class="st">  </span><span class="kw">medley_bw</span>() </code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
 <caption><span id="tab:sprinkle-colname1">Table 4.8: </span> Sprinkling applied to the four cells in the top left corner</caption>
 <tr>
@@ -995,172 +983,27 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>1</td>
 </tr>
 </table></br></br>
-</div>
-<div id="cell-selection-with-row-logic" class="section level4">
-<h4><span class="header-section-number">4.2.1.3</span> Cell Selection with Row Logic</h4>
-<p>Rows for sprinkling may be selected using logical conditions to improve reproducibility as well. Table <a href="chapter-sprinkles.html#tab:sprinkle-logical-row1">4.9</a> recreates Table @ref{tab:sprinkle-region1} using row logic and column names. Table <a href="chapter-sprinkles.html#tab:sprinkle-logical-row2">4.10</a> shows an example of sprinkling statistically significant terms in a linear model using row logic. When using <code>logical_rows</code>, it is necessary to wrap the expression in <code>quote</code> to delay the execution of the command until <code>sprinkle</code> is ready to determine the results from the internal <code>dust</code> objects.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dust</span>(<span class="kw">head</span>(mtcars),
-     <span class="dt">caption =</span> <span class="st">&quot;Sprinkling applied to the four cells in the top left corner&quot;</span>,
-     <span class="dt">label =</span> <span class="st">&quot;sprinkle-logical-row1&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">logical_rows =</span> <span class="kw">quote</span>(mpg ==<span class="st"> </span><span class="dv">21</span>),
-           <span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">&quot;mpg&quot;</span>, <span class="st">&quot;cyl&quot;</span>),
-           <span class="dt">bg =</span> palette[<span class="dv">3</span>]) %&gt;%
-<span class="st">  </span><span class="kw">medley_bw</span>() %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
-<table align = 'center' style = 'border-collapse:collapse;'>
-<caption><span id="tab:sprinkle-logical-row1">Table 4.9: </span> Sprinkling applied to the four cells in the top left corner</caption>
-<tr>
-<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>mpg</th>
-<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>cyl</th>
-<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>disp</th>
-<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>hp</th>
-<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>drat</th>
-<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>wt</th>
-<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>qsec</th>
-<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>vs</th>
-<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>am</th>
-<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>gear</th>
-<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>carb</th>
-</tr>
-<tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(194,165,207,1);border-top:1px solid Black;'>21</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(194,165,207,1);border-top:1px solid Black;'>6</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>160</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>110</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>3.9</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>2.62</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>16.46</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>4</td>
-</tr>
-<tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(194,165,207,1);'>21</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;background-color:rgba(194,165,207,1);'>6</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>160</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>110</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.9</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2.875</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>17.02</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
-</tr>
-<tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>22.8</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>108</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>93</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.85</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2.32</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>18.61</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
-</tr>
-<tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>21.4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>6</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>258</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>110</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.08</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.215</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>19.44</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
-</tr>
-<tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>18.7</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>8</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>360</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>175</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.15</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.44</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>17.02</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2</td>
-</tr>
-<tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>18.1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>6</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>225</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>105</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>2.76</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>3.46</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>20.22</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>1</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>0</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>3</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;border-bottom:1px solid Black;'>1</td>
-</tr>
-</table></br></br>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>qsec +<span class="st"> </span><span class="kw">factor</span>(gear) +<span class="st"> </span>wt, <span class="dt">data =</span> mtcars)
-
-<span class="kw">dust</span>(fit,
-     <span class="dt">caption =</span> <span class="st">&quot;Sprinkling a Model Summary with Column Names and Row Logic&quot;</span>,
-     <span class="dt">label =</span> <span class="st">&quot;sprinkle-logical-row2&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">logical_rows =</span> <span class="kw">quote</span>(<span class="kw">as.numeric</span>(p.value) &lt;=<span class="st"> </span><span class="fl">0.05</span>),
-           <span class="dt">bold =</span> <span class="ot">TRUE</span>) %&gt;%
-<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">cols =</span> <span class="st">&quot;p.value&quot;</span>,
-           <span class="dt">fn =</span> <span class="kw">quote</span>(<span class="kw">pvalString</span>(value))) %&gt;%
-<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">&quot;estimate&quot;</span>, <span class="st">&quot;std.error&quot;</span>, <span class="st">&quot;statistic&quot;</span>),
-           <span class="dt">round =</span> <span class="dv">2</span>) %&gt;%
-<span class="st">  </span><span class="kw">medley_bw</span>() %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
-<table align = 'center' style = 'border-collapse:collapse;'>
-<caption><span id="tab:sprinkle-logical-row2">Table 4.10: </span> Sprinkling a Model Summary with Column Names and Row Logic</caption>
-<tr>
-<th colspan = '1'; rowspan = '1'; style='text-align:left;border-top:1px solid Black;'>term</th>
-<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>estimate</th>
-<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>std.error</th>
-<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>statistic</th>
-<th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>p.value</th>
-</tr>
-<tr>
-<td colspan = '1'; rowspan = '1'; style='font-weight:bold;text-align:left;border-top:1px solid Black;'>(Intercept)</td>
-<td colspan = '1'; rowspan = '1'; style='font-weight:bold;text-align:right;border-top:1px solid Black;'>16.96</td>
-<td colspan = '1'; rowspan = '1'; style='font-weight:bold;text-align:right;border-top:1px solid Black;'>7.15</td>
-<td colspan = '1'; rowspan = '1'; style='font-weight:bold;text-align:right;border-top:1px solid Black;'>2.37</td>
-<td colspan = '1'; rowspan = '1'; style='font-weight:bold;text-align:right;border-top:1px solid Black;'>0.025</td>
-</tr>
-<tr>
-<td colspan = '1'; rowspan = '1'; style='font-weight:bold;text-align:left;'>qsec</td>
-<td colspan = '1'; rowspan = '1'; style='font-weight:bold;text-align:right;'>0.95</td>
-<td colspan = '1'; rowspan = '1'; style='font-weight:bold;text-align:right;'>0.35</td>
-<td colspan = '1'; rowspan = '1'; style='font-weight:bold;text-align:right;'>2.74</td>
-<td colspan = '1'; rowspan = '1'; style='font-weight:bold;text-align:right;'>0.011</td>
-</tr>
-<tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:left;'>factor(gear)4</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.41</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.33</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.05</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0.3</td>
-</tr>
-<tr>
-<td colspan = '1'; rowspan = '1'; style='text-align:left;'>factor(gear)5</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.49</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.81</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0.83</td>
-<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0.42</td>
-</tr>
-<tr>
-<td colspan = '1'; rowspan = '1'; style='font-weight:bold;text-align:left;border-bottom:1px solid Black;'>wt</td>
-<td colspan = '1'; rowspan = '1'; style='font-weight:bold;text-align:right;border-bottom:1px solid Black;'>-4.55</td>
-<td colspan = '1'; rowspan = '1'; style='font-weight:bold;text-align:right;border-bottom:1px solid Black;'>0.65</td>
-<td colspan = '1'; rowspan = '1'; style='font-weight:bold;text-align:right;border-bottom:1px solid Black;'>-6.96</td>
-<td colspan = '1'; rowspan = '1'; style='font-weight:bold;text-align:right;border-bottom:1px solid Black;'>< 0.001</td>
-</tr>
-</table></br></br>
+<!-- #### Cell Selection with Row Logic -->
+<!-- Rows for sprinkling may be selected using logical conditions to improve reproducibility as well.  Table \@ref(tab:sprinkle-logical-row1) recreates Table \@ref{tab:sprinkle-region1} using row logic and column names.  Table \@ref(tab:sprinkle-logical-row2) shows an example of sprinkling statistically significant terms in a linear model using row logic.  When using logical rows, it is necessary to wrap the expression in `quote` to delay the execution of the command until `sprinkle` is ready to determine the results from the internal `dust` objects. -->
+<!-- ```{r, results = 'asis'} -->
+<!-- dust(head(mtcars), -->
+<!--      caption = "Sprinkling applied to the four cells in the top left corner", -->
+<!--      label = "sprinkle-logical-row1") %>% -->
+<!--   sprinkle(rows = quote(mpg == 21), -->
+<!--            cols = c("mpg", "cyl"), -->
+<!--            bg = palette[3]) -->
+<!-- fit <- lm(mpg ~ qsec + factor(gear) + wt, data = mtcars) -->
+<!-- dust(fit, -->
+<!--      caption = "Sprinkling a Model Summary with Column Names and Row Logic", -->
+<!--      label = "sprinkle-logical-row2") %>% -->
+<!--   sprinkle(logical_rows = quote(as.numeric(p.value) <= 0.05), -->
+<!--            bold = TRUE) %>% -->
+<!--   sprinkle(cols = "p.value", -->
+<!--            fn = quote(pvalString(value))) %>% -->
+<!--   sprinkle(cols = c("estimate", "std.error", "statistic"), -->
+<!--            round = 2) %>% -->
+<!--   medley_bw()-->
+<!-- ``` -->
 </div>
 </div>
 <div id="sprinkle-cells-by-fixed-cell-position" class="section level3">
@@ -1181,8 +1024,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
         </div>
       </div>
 <a href="chapter-header-footer.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="colors.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
-
+<a href="colors.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
@@ -1227,7 +1071,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(script.src))
       script.src  = script.src.replace(/^https?:/, '');
     document.getElementsByTagName("head")[0].appendChild(script);

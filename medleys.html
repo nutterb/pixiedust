@@ -6,9 +6,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Get Your Sparkle On</title>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   <meta name="description" content="A Guide to Formatting Tables with the Pixiedust Package">
-  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.4 and GitBook 2.6.7">
 
   <meta property="og:title" content="Get Your Sparkle On" />
   <meta property="og:type" content="book" />
@@ -26,7 +25,7 @@
 <meta name="author" content="Benjamin Nutter">
 
 
-<meta name="date" content="2017-01-20">
+<meta name="date" content="2017-09-15">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -35,7 +34,6 @@
   
 <link rel="prev" href="latex-configuration.html">
 <link rel="next" href="table-numbering-and-referencing.html">
-
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -94,6 +92,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </head>
 
 <body>
+
 
 
   <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
@@ -204,6 +203,100 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(mtcars) %&gt;%
 <span class="st">  </span><span class="kw">dust</span>(<span class="dt">caption =</span> <span class="st">&quot;A table with minimal formatting&quot;</span>,
        <span class="dt">label =</span> <span class="st">&quot;medley-plain&quot;</span>)</code></pre></div>
+<table align = 'center' style = 'border-collapse:collapse;'>
+<caption><span id="tab:medley-plain">Table 7.1: </span> A table with minimal formatting</caption>
+<tr>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>mpg</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>cyl</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>disp</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>hp</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>drat</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>wt</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>qsec</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>vs</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>am</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>gear</th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>carb</th>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>21</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>160</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>110</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.9</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2.62</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>16.46</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>21</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>160</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>110</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.9</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2.875</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>17.02</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>22.8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>108</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>93</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.85</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2.32</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>18.61</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>21.4</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>258</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>110</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.08</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.215</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>19.44</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>18.7</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>8</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>360</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>175</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.15</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.44</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>17.02</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2</td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>18.1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>6</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>225</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>105</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>2.76</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3.46</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>20.22</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>3</td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1</td>
+</tr>
+</table></br></br>
 <p>Suppose I desire that all of my tables have a border above the header and a border at the bottom of the table. I can create a medley to apply these two borders by defining a function.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">medley_mine &lt;-<span class="st"> </span>function(object)
 {
@@ -219,11 +312,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">head</span>(mtcars) %&gt;%
 <span class="st">  </span><span class="kw">dust</span>(<span class="dt">caption =</span> <span class="st">&quot;A table with a little formatting&quot;</span>,
        <span class="dt">label =</span> <span class="st">&quot;medley-a-bit-more&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">medley_mine</span>() %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+<span class="st">  </span><span class="kw">medley_mine</span>() </code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
-<caption><span id="tab:medley-a-bit-more">Table 7.1: </span> A table with a little formatting</caption>
+<caption><span id="tab:medley-a-bit-more">Table 7.2: </span> A table with a little formatting</caption>
 <tr>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>mpg</th>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>cyl</th>
@@ -332,11 +423,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">head</span>(mtcars) %&gt;%
 <span class="st">  </span><span class="kw">dust</span>(<span class="dt">caption =</span> <span class="st">&quot;A table with a little formatting and striping&quot;</span>,
        <span class="dt">label =</span> <span class="st">&quot;medley-with-stripe&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">medley_mine</span>() %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+<span class="st">  </span><span class="kw">medley_mine</span>()</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
-<caption><span id="tab:medley-with-stripe">Table 7.2: </span> A table with a little formatting and striping</caption>
+<caption><span id="tab:medley-with-stripe">Table 7.3: </span> A table with a little formatting and striping</caption>
 <tr>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>mpg</th>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>cyl</th>
@@ -454,11 +543,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">head</span>(mtcars) %&gt;%
 <span class="st">  </span><span class="kw">dust</span>(<span class="dt">caption =</span> <span class="st">&quot;A table with a little formatting and optional striping turned off&quot;</span>,
        <span class="dt">label =</span> <span class="st">&quot;medley-stripe-off&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">medley_mine</span>(<span class="dt">stripe =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+<span class="st">  </span><span class="kw">medley_mine</span>(<span class="dt">stripe =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
-<caption><span id="tab:medley-stripe-off">Table 7.3: </span> A table with a little formatting and optional striping turned off</caption>
+<caption><span id="tab:medley-stripe-off">Table 7.4: </span> A table with a little formatting and optional striping turned off</caption>
 <tr>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>mpg</th>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>cyl</th>
@@ -554,11 +641,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(mtcars) %&gt;%
 <span class="st">  </span><span class="kw">dust</span>(<span class="dt">caption =</span> <span class="st">&quot;A table with a little formatting and optional striping turned on&quot;</span>,
        <span class="dt">label =</span> <span class="st">&quot;medley-stripe-on&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">medley_mine</span>(<span class="dt">stripe =</span> <span class="ot">TRUE</span>) %&gt;%
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">  </span><span class="kw">cat</span>()</code></pre></div>
+<span class="st">  </span><span class="kw">medley_mine</span>(<span class="dt">stripe =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <table align = 'center' style = 'border-collapse:collapse;'>
-<caption><span id="tab:medley-stripe-on">Table 7.4: </span> A table with a little formatting and optional striping turned on</caption>
+<caption><span id="tab:medley-stripe-on">Table 7.5: </span> A table with a little formatting and optional striping turned on</caption>
 <tr>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>mpg</th>
 <th colspan = '1'; rowspan = '1'; style='text-align:right;border-top:1px solid Black;'>cyl</th>
@@ -660,8 +745,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
         </div>
       </div>
 <a href="latex-configuration.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="table-numbering-and-referencing.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
-
+<a href="table-numbering-and-referencing.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
@@ -706,7 +792,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(script.src))
       script.src  = script.src.replace(/^https?:/, '');
     document.getElementsByTagName("head")[0].appendChild(script);
