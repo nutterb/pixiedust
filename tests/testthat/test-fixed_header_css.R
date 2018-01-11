@@ -43,7 +43,7 @@ test_that(
   "Cast an error if scroll_body_height_units is not character(1)",
   {
     expect_error(fixed_header_css(scroll_body_height_units = 100),
-                 "Must be of type 'character'")
+                 "'character'")
   }
 )
 
@@ -106,7 +106,7 @@ test_that(
   "Cast an error if fixed_header_height_units is not character(1)",
   {
     expect_error(fixed_header_css(fixed_header_height_units = 100),
-                 "Must be of type 'character'")
+                 "'character'")
   }
 )
 

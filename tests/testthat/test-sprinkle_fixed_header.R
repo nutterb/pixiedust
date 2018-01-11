@@ -91,7 +91,7 @@ test_that(
   {
     expect_error(sprinkle_fixed_header(x,
                                        scroll_body_height = "100"),
-                 "Must be of type 'integerish'")
+                 "'integerish'")
   }
 )
 
@@ -102,7 +102,7 @@ test_that(
   {
     expect_error(sprinkle_fixed_header(x,
                                        scroll_body_height_units = 100),
-                 "Must be of type 'character'")
+                 "'character'")
   }
 )
 
@@ -122,7 +122,7 @@ test_that(
   {
     expect_error(sprinkle_fixed_header(x,
                                        scroll_body_background_color = 100),
-                 "Must be of type 'character'")
+                 "'character'")
   }
 )
 
@@ -172,7 +172,7 @@ test_that(
   {
     expect_error(sprinkle_fixed_header(x,
                                        fixed_header_height_units = 100),
-                 "Must be of type 'character'")
+                 "'character'")
   }
 )
 
@@ -231,7 +231,7 @@ test_that(
   {
     expect_error(sprinkle_fixed_header(x,
                                        fixed_header_background_color = 100),
-                 "Must be of type 'character'")
+                 "'character'")
   }
 )
 
@@ -271,7 +271,7 @@ test_that(
   {
     expect_error(sprinkle_fixed_header(x,
                                        include_fixed_header_css = "TRUE"),
-                 "Must be of type 'logical'")
+                 "'logical'")
   }
 )
 
@@ -282,7 +282,7 @@ test_that(
   {
     expect_error(sprinkle_fixed_header(x,
                                        fixed_header_class_name = 100),
-                 "Must be of type 'character'")
+                 "'character'")
   }
 )
 
@@ -311,6 +311,6 @@ test_that(
   {
     expect_error(sprinkle_fixed_header(x,
                                        fixed_header = "TRUE"),
-                 "Must be of type 'logical'")
+                 "'logical'")
   }
 )
