@@ -6,7 +6,7 @@ test_that(
   "FR 1: Accepts an object of class `dust`",
   {
     expect_silent(
-      as.data.frame(dust(mtcars))
+      as.data.frame.dust(dust(mtcars))
     )
   }
 )
