@@ -90,6 +90,7 @@ Other special cases noted in future uses will be documented here, but in
 general, if it isn't a model object, you probably don't really want to 
 use this.
 }
+
 \examples{
 #* Descriptors for lm output with no interactions
 mtcars2 <- mtcars
@@ -143,4 +144,3 @@ pixiedust:::tidy_levels_labels(fit,
 \author{
 Benjamin Nutter
 }
-

@@ -21,7 +21,9 @@ dust(object, ...)
   longtable = getOption("pixie_longtable", FALSE),
   hhline = getOption("pixie_hhline", FALSE),
   bookdown = getOption("pixie_bookdown", FALSE),
-  border_collapse = getOption("pixie_border_collapse", "collapse"))
+  border_collapse = getOption("pixie_border_collapse", "collapse"),
+  tabcolsep = getOption("pixie_tabcolsep", 6),
+  fixed_header = getOption("pixie_fixed_header", FALSE))
 
 \method{dust}{grouped_df}(object, ungroup = TRUE, ...)
 
@@ -127,6 +129,12 @@ generated.  Defaults to \code{FALSE}.}
 \item{border_collapse}{\code{character(1)}. One of \code{"collapse"}, 
 \code{"separate"}, \code{"initial"}, or \code{"inherit"}.}
 
+\item{tabcolsep}{\code{integerish(1)}. For LaTeX output, the distance in 
+\code{pt} between columns of the table.}
+
+\item{fixed_header}{\code{logical(1)}. For HTML tables, should the 
+header rows be fixed in place over a scrollable body.}
+
 \item{ungroup}{Used when a \code{grouped_df} object is passed to \code{dust}.
 When \code{TRUE} (the default), the object is ungrouped and dusted 
 as a single table. When \code{FALSE}, the object is split and each element
@@ -199,12 +207,10 @@ they would within a markdown document.  For example, \code{"$\alpha$"}
 will render as the lower case Greek alpha.  Math symbols may be rendered
 in the same manner.
 }
+
 \examples{
 x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars))
 x
-}
-\author{
-Benjamin Nutter
 }
 \seealso{
 \code{\link[broom]{tidy}} \code{\link{glance_foot}} 
@@ -213,4 +219,6 @@ Benjamin Nutter
 \code{\link{get_dust_part}} for extracting parts of the \code{dust} object
 in order to build custom headers and/or footers.
 }
-
+\author{
+Benjamin Nutter
+}

@@ -79,7 +79,7 @@ The pre-defined sprinkles do not always provide the
    \code{"rows"}, or \code{"cols"}
 }
 }
+
 \author{
 Benjamin Nutter
 }
-

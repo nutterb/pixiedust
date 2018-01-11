@@ -47,10 +47,10 @@ This property has no effect on non-LaTeX output.
  \item Cast an error if \code{hhline} is not logical and length 1.
 }
 }
-\author{
-Benjamin Nutter
-}
+
 \seealso{
 \code{\link{dust}}, \code{\link{sprinkle}}
 }
-
+\author{
+Benjamin Nutter
+}

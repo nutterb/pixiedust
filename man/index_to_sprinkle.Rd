@@ -77,10 +77,10 @@ When \code{fixed = FALSE}, sprinkles are applied at the
    \code{"head"}, \code{"foot"}, or \code{"interfoot"}.
 }
 }
-\author{
-Benjamin Nutter
-}
+
 \seealso{
 \code{sprinkle}
 }
-
+\author{
+Benjamin Nutter
+}

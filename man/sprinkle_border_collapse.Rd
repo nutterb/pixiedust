@@ -48,10 +48,10 @@ This property has no effect on non-HTML output.
    \code{"collapse"}, \code{"separate"}, \code{"initial"}, \code{"inherit"}.
 }
 }
-\author{
-Benjamin Nutter
-}
+
 \seealso{
 \code{\link{dust}}, \code{\link{sprinkle}}
 }
-
+\author{
+Benjamin Nutter
+}
