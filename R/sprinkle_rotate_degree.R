@@ -129,7 +129,8 @@ sprinkle_rotate_degree.dust_list <- function(x, rows = NULL, cols = NULL,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_rotate_degree_index_assert <- function(rotate_degree, coll)
+sprinkle_rotate_degree_index_assert <- function(rotate_degree = NULL, 
+                                                coll)
 {
   if (!is.null(rotate_degree))
   {

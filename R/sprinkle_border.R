@@ -188,8 +188,11 @@ sprinkle_border.dust_list <- function(x, rows = NULL, cols = NULL,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_border_index_assert <- function(border, border_color, border_style,
-                                         border_thickness, border_units,
+sprinkle_border_index_assert <- function(border = c("all", "bottom", "left", "top", "right"), 
+                                         border_color = "black",
+                                         border_style = "solid", 
+                                         border_thickness = 1,
+                                         border_units = c("pt", "px"),
                                          coll)
 {
   checkmate::assert_subset(x = border,

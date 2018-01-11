@@ -86,7 +86,7 @@ sprinkle_justify.dust_list <- function(x,
 # the cell-valued sprinkles, but they don't actually require an 
 # index, since they change table-valued sprinkles
 
-sprinkle_justify_index_assert <- function(justify, coll)
+sprinkle_justify_index_assert <- function(justify = getOption("pixie_justify", "center"), coll)
 {
   checkmate::matchArg(x = tolower(justify),
                       choices = c("center", "none", "left", "right"),
@@ -94,7 +94,9 @@ sprinkle_justify_index_assert <- function(justify, coll)
                       .var.name = "justify")
 }
 
-sprinkle_justify_index <- function(x, justify)
+# indices argument is only present to avoid errors when the argument is passed 
+# from sprinkle
+sprinkle_justify_index <- function(x, justify, indices = NULL, part = NULL)
 {
   x[["justify"]] <- justify
   

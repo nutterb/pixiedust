@@ -80,7 +80,7 @@ sprinkle_float.dust_list <- function(x,
 # the cell-valued sprinkles, but they don't actually require an 
 # index, since they change table-valued sprinkles
 
-sprinkle_float_index_assert <- function(float, coll)
+sprinkle_float_index_assert <- function(float = getOption("pixie_float", FALSE), coll)
 {
   checkmate::assert_logical(x = float,
                             len = 1,
@@ -88,7 +88,9 @@ sprinkle_float_index_assert <- function(float, coll)
                             .var.name = "float")
 }
 
-sprinkle_float_index <- function(x, float)
+# indices argument is only present to avoid errors when the argument is passed 
+# from sprinkle
+sprinkle_float_index <- function(x, float, indices = NULL, part = NULL)
 {
   x[["float"]] <- float
   

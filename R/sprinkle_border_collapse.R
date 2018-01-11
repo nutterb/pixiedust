@@ -83,7 +83,8 @@ sprinkle_border_collapse.dust_list <- function(x,
 # the cell-valued sprinkles, but they don't actually require an 
 # index, since they change table-valued sprinkles
 
-sprinkle_border_collapse_index_assert <- function(border_collapse, coll)
+sprinkle_border_collapse_index_assert <- function(border_collapse = getOption("pixie_border_collapse", "collapse"), 
+                                                  coll)
 {
   checkmate::matchArg(x = border_collapse,
                       choices = c("collapse", "separate", "initial",
@@ -92,7 +93,10 @@ sprinkle_border_collapse_index_assert <- function(border_collapse, coll)
                       .var.name = "border_collapse")
 }
 
-sprinkle_border_collapse_index <- function(x, border_collapse)
+# indices argument is only present to avoid errors when the argument is passed 
+# from sprinkle
+sprinkle_border_collapse_index <- function(x, border_collapse, indices = NULL,
+                                           part = NULL)
 {
   x[["border_collapse"]] <- border_collapse
   

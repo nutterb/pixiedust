@@ -82,7 +82,8 @@ sprinkle_bookdown.dust_list <- function(x,
 # the cell-valued sprinkles, but they don't actually require an 
 # index, since they change table-valued sprinkles
 
-sprinkle_bookdown_index_assert <- function(bookdown, coll)
+sprinkle_bookdown_index_assert <- function(bookdown = getOption("pixie_bookdown", FALSE), 
+                                           coll)
 {
   checkmate::assert_logical(x = bookdown,
                             len = 1,
@@ -90,7 +91,9 @@ sprinkle_bookdown_index_assert <- function(bookdown, coll)
                             .var.name = "bookdown")
 }
 
-sprinkle_bookdown_index <- function(x, bookdown)
+# indices argument is only present to avoid errors when the argument is passed 
+# from sprinkle
+sprinkle_bookdown_index <- function(x, bookdown, indices = NULL)
 {
   x[["bookdown"]] <- bookdown
   

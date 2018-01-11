@@ -139,7 +139,9 @@ sprinkle_sanitize.dust_list <- function(x, rows = NULL, cols = NULL,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_sanitize_index_assert <- function(sanitize, sanitize_args, coll)
+sprinkle_sanitize_index_assert <- function(sanitize = NULL, 
+                                           sanitize_args = NULL, 
+                                           coll)
 {
   if (!is.null(sanitize))
   {
@@ -157,7 +159,7 @@ sprinkle_sanitize_index_assert <- function(sanitize, sanitize_args, coll)
   }
 }
 
-sprinkle_sanitize_index <- function(x, indices, sanitize, sanitize_args, part)
+sprinkle_sanitize_index <- function(x, indices, sanitize = NULL, sanitize_args = NULL, part)
 {
   if (!is.null(sanitize))
   {

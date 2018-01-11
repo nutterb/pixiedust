@@ -80,6 +80,10 @@
 #'   generated.  Defaults to \code{FALSE}.
 #' @param border_collapse \code{character(1)}. One of \code{"collapse"}, 
 #'   \code{"separate"}, \code{"initial"}, or \code{"inherit"}.
+#' @param tabcolsep \code{integerish(1)}. For LaTeX output, the distance in 
+#'   \code{pt} between columns of the table.
+#' @param fixed_header \code{logical(1)}. For HTML tables, should the 
+#'   header rows be fixed in place over a scrollable body.
 #' @param ... Additional arguments to pass to \code{tidy}
 #' @param ungroup Used when a \code{grouped_df} object is passed to \code{dust}.
 #'   When \code{TRUE} (the default), the object is ungrouped and dusted 
@@ -169,7 +173,9 @@ dust.default <- function(object, ...,
                  longtable = getOption("pixie_longtable", FALSE),
                  hhline = getOption("pixie_hhline", FALSE),
                  bookdown = getOption("pixie_bookdown", FALSE),
-                 border_collapse = getOption("pixie_border_collapse", "collapse"))
+                 border_collapse = getOption("pixie_border_collapse", "collapse"),
+                 tabcolsep = getOption("pixie_tabcolsep", 6),
+                 fixed_header = getOption("pixie_fixed_header", FALSE))
 {
   coll <- checkmate::makeAssertCollection()
   
@@ -284,9 +290,24 @@ dust.default <- function(object, ...,
                  float = float,
                  longtable = longtable,
                  table_width = 6,
-                 tabcolsep = 6,
+                 tabcolsep = tabcolsep,
                  hhline = hhline,
                  bookdown = bookdown,
+                 fixed_header = fixed_header,
+                 include_fixed_header_css = FALSE, #Flag for if fixed header CSS 
+                                            #should be generated with the table
+                 fixed_header_param = 
+                   list(
+                     fixed_header_class_name = "pixie-fixed",
+                     scroll_body_height = 300,
+                     scroll_body_height_units = "px",
+                     scroll_body_background_color = "white",
+                     fixed_header_height = 20,
+                     fixed_header_height_units = "px",
+                     fixed_header_text_height = 10,
+                     fixed_header_text_height_units = "px",
+                     fixed_header_background_color = "white"
+                   ),
                  print_method = pixiedust_print_method()),
             class = "dust")
 

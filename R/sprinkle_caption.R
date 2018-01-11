@@ -73,13 +73,17 @@ sprinkle_caption.dust_list <- function(x, caption, ...)
 
 sprinkle_caption_index_assert <- function(caption, coll)
 {
-  checkmate::assert_character(x = caption,
-                              len = 1,
-                              add = coll,
-                              .var.name = "caption")
+  if (!missing(caption)){
+    checkmate::assert_character(x = caption,
+                                len = 1,
+                                add = coll,
+                                .var.name = "caption")
+  }
 }
 
-sprinkle_caption_index <- function(x, caption)
+# indices argument is only present to avoid errors when the argument is passed 
+# from sprinkle
+sprinkle_caption_index <- function(x, caption, indices = NULL, part = NULL)
 {
   x[["caption"]] <- caption
   

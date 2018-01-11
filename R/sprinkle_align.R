@@ -141,7 +141,7 @@ sprinkle_align.dust_list <- function(x, rows = NULL, cols = NULL,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_align_index_assert <- function(halign, valign, coll)
+sprinkle_align_index_assert <- function(halign = NULL, valign = NULL, coll)
 {
   if (!is.null(halign))
   {
@@ -160,7 +160,7 @@ sprinkle_align_index_assert <- function(halign, valign, coll)
   }
 }
 
-sprinkle_align_index <- function(x, indices, halign, valign, part)
+sprinkle_align_index <- function(x, indices, halign = "left", valign = "top", part)
 {
   if (!is.null(halign))
   {

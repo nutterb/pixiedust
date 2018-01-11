@@ -183,10 +183,11 @@ sprinkle_gradient.dust_list <- function(x, rows = NULL, cols = NULL,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_gradient_index_assert <- function(gradient, gradient_colors, 
-                                           gradient_cut,
-                                           gradient_n,
-                                           gradient_na,
+sprinkle_gradient_index_assert <- function(gradient = "bg",
+                                           gradient_colors = getOption("pixie_gradient_pal", NULL),
+                                           gradient_cut = NULL,
+                                           gradient_n = 10,
+                                           gradient_na = "grey",
                                            coll)
 {
   checkmate::assert_subset(x = gradient,

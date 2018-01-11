@@ -133,7 +133,7 @@ sprinkle_round.dust_list <- function(x, rows = NULL, cols = NULL,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_round_index_assert <- function(round, coll)
+sprinkle_round_index_assert <- function(round = NULL, coll)
 {
   if (!is.null(round))
   {

@@ -77,7 +77,8 @@ sprinkle_tabcolsep.dust_list <- function(x,
 # the cell-valued sprinkles, but they don't actually require an 
 # index, since they change table-valued sprinkles
 
-sprinkle_tabcolsep_index_assert <- function(tabcolsep, coll)
+sprinkle_tabcolsep_index_assert <- function(tabcolsep = getOption("pixie_tabcolsep", 6),
+                                            coll)
 {
   checkmate::assert_integerish(x = tabcolsep,
                                len = 1,
@@ -85,7 +86,10 @@ sprinkle_tabcolsep_index_assert <- function(tabcolsep, coll)
                                .var.name = "tabcolsep")
 }
 
-sprinkle_tabcolsep_index <- function(x, tabcolsep)
+# indices argument is only present to avoid errors when the argument is passed 
+# from sprinkle
+sprinkle_tabcolsep_index <- function(x, tabcolsep, 
+                                     indices = NULL, part = NULL)
 {
   x[["tabcolsep"]] <- tabcolsep
   

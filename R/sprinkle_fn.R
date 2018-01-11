@@ -129,10 +129,11 @@ sprinkle_fn.dust_list <- function(x, rows = NULL, cols = NULL, fn = NULL,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_fn_index_assert <- function(fn, coll)
+sprinkle_fn_index_assert <- function(fn = NULL, coll)
 {
   checkmate::assert_class(x = fn,
                           class = "call",
+                          null.ok = TRUE,
                           add = coll)
 }
 

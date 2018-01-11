@@ -681,6 +681,22 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
                          classes = "dust",
                          add = coll)
 
+  if (!length(sprinkles)){
+    coll$push("At least one sprinkle must be declared in ...")
+  }
+  
+  if (!checkmate::test_named(sprinkles)){
+    coll$push("Arguments to ... must be named")
+  }
+  
+  not_sprinkles <- 
+    sprinkles[!names(sprinkles) %in% unlist(sprinkle_groups)]
+  
+  if (length(not_sprinkles)){
+    coll$push(sprintf("The following are not valid sprinkles: %s",
+                      paste0(not_sprinkles, collapse = ", ")))
+  }
+
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
                                cols = cols, 
@@ -698,10 +714,21 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
       
       if (!"fn" %in% names(sprinkle_arg))
       {
+        args_list <- 
+          if (names(sprinkle_groups)[i] == "replace")
+          {
+            list(indices = indices, 
+                 coll = coll)
+          }
+          else
+          {
+            list(coll = coll)
+          }
+        
         do.call(what = sprintf("sprinkle_%s_index_assert",
                                names(sprinkle_groups)[[i]]),
                 args = c(sprinkle_arg,
-                         list(coll = coll)))
+                         args_list))
       }
     }
   }
@@ -737,13 +764,13 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
       }
     }
   }
-  
+
   if ("fn" %in% names(sprinkles))
   {
-    sprinkle_fn_index(x = x, 
-                      indices = indices, 
-                      fn = sprinkles$fn,
-                      part = part)
+    x <- sprinkle_fn_index(x = x,
+                           indices = indices,
+                           fn = sprinkles$fn,
+                           part = part)
   }
   
   x
@@ -781,6 +808,13 @@ sprinkle_groups <-
     border_collapse = "border_collapse",
     caption = "caption",
     discrete = c("discrete", "discrete_colors"),
+    fixed_header = c("fixed_header", "include_fixed_header_css",
+                     "fixed_header_class_name", 
+                     "scroll_body_height", "scroll_body_height_units",
+                     "scroll_body_background_color",
+                     "fixed_header_height", "fixed_header_height_units",
+                     "fixed_header_text_height", "fixed_header_text_height_units",
+                     "fixed_header_background_color"),
     float = "float",
     fn = "fn",
     font = c("bold", "italic", "font_size", "font_size_units",
@@ -792,7 +826,8 @@ sprinkle_groups <-
     justify = "justify",
     label = "label",
     longtable = "longtable",
-    na_strings = "na_strings",
+    merge = c("merge", "merge_rowval", "merge_colval"),
+    na_string = "na_string",
     pad = "pad",
     replace = "replace",
     rotate_degree = "rotate_degree",
