@@ -1,17 +1,43 @@
 context("sprinkles")
 
+x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
+
+test_that(
+  "Cast an error if no sprinkles are given",
+  {
+    expect_error(sprinkle(x),
+                 "At least one sprinkle")
+  }
+)
+
+test_that(
+  "Cast an error if unnamed sprinkles are given",
+  {
+    expect_error(sprinkle(x, rows = 1, cols = 1, "green"),
+                 "Arguments to ... must be named")
+  }
+)
+
+test_that(
+  "Cast an error if a non-existent sprinkle is given",
+  {
+    expect_error(sprinkle(x, not_a_sprinkle = "abc"),
+                 "The following are not valid sprinkles")
+  }
+)
+
 test_that("sprinkles: bg",
 {
-  x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
+  
   expect_equal(sprinkle(x, rows = 1, cols = 1, bg = "orchid")$body$bg[1],
-               "rgba(218,112,214,1)")
+               "orchid")
 })
 
 test_that("sprinkles: bg casts an error when 'bg' has length > 1",
 {
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
   expect_error(sprinkle(x, rows = 1, cols = 1, bg = c("orchid", "white")),
-               "")
+               "Variable 'bg'")
 })
 
 test_that("sprinkles: bg_pattern",
@@ -54,8 +80,8 @@ test_that("sprinkles: border_collapse",
 {
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
   expect_equal(sprinkle(x, rows=1, cols = 1, 
-                        border_collapse = FALSE)$border_collapse,
-               FALSE)
+                        border_collapse = "separate")$border_collapse,
+               "separate")
 })
 
 test_that("sprinkles: border_collapse errors",
@@ -70,7 +96,7 @@ test_that("sprinkles: border",
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
   expect_equal(sprinkle(x, rows = 1, cols = 1, 
                         border = c("left", "right"))$body$left_border[1],
-               "1px solid Black")
+               "1pt solid black")
 })
 
 test_that("sprinkles: border errors",
@@ -85,7 +111,7 @@ test_that("sprinkles: border_thickness",
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
   expect_equal(sprinkle(x, rows = 1, cols = 1, 
                         border_thickness = 2)$body$top_border[1],
-               "2px solid Black")
+               "2pt solid black")
 })
 
 test_that("sprinkles: border_thickness errors",
@@ -100,7 +126,7 @@ test_that("sprinkles: border_units",
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
   expect_equal(sprinkle(x, rows = 1, cols = 1, 
                         border_units = "px")$body$top_border[1],
-               "1px solid Black")
+               "1px solid black")
 })
 
 test_that("sprinkles: border_units errors",
@@ -115,7 +141,7 @@ test_that("sprinkles: border_style",
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
   expect_equal(sprinkle(x, rows = 1, cols = 1, 
                         border_style = "dashed")$body$top_border[1],
-               "1px dashed Black")
+               "1pt dashed black")
 })
 
 test_that("sprinkles: border_style errors",
@@ -130,7 +156,7 @@ test_that("sprinkles: border_color",
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
   expect_equal(sprinkle(x, rows = 1, cols = 1, 
                         border_color = "Black")$body$top_border[1],
-               "1px solid rgba(0,0,0,1)")
+               "1pt solid Black")
 })
 
 test_that("sprinkles: border_color errors",
@@ -197,7 +223,7 @@ test_that("sprinkles: font_color",
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
   expect_equal(sprinkle(x, rows = 1, cols = 1, 
                         font_color = "orchid")$body$font_color[1],
-               "rgba(218,112,214,1)")
+               "orchid")
 })
            
 test_that("sprinkles: font_color error",
@@ -276,8 +302,7 @@ test_that("sprinkles: longtable accepts a number",
 test_that("sprinkles: longtable- character resolve to FALSE",
 {
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-  expect_equal(sprinkle(x, longtable = "character")$longtable,
-               FALSE)
+  expect_error(sprinkle(x, longtable = "character"))
 })
 
 test_that("sprinkles: merge",
@@ -295,18 +320,18 @@ test_that("sprinkles: merge is not logical",
                "")
 })
 
-test_that("sprinkles: merge_rowval without merge casts error",
+test_that("sprinkles: merge_rowval without merge casts message",
 {
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-  expect_error(sprinkle(x, rows = 3:4, cols = 1:2,
+  expect_message(sprinkle(x, rows = 3:4, cols = 1:2,
                        merge_rowval = 4),
                "")
 })
 
-test_that("sprinkles: merge_colval without merge casts error",
+test_that("sprinkles: merge_colval without merge casts message",
 {
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-  expect_error(sprinkle(x, rows = 3:4, cols = 1:2,
+  expect_message(sprinkle(x, rows = 3:4, cols = 1:2,
                        merge_colval = 4),
                "")
 })
@@ -459,8 +484,8 @@ test_that(
   "sprinkles: fixed argument",
   {
     x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars)) %>%
-      sprinkle(cols = 1:5,
-               rows = 1:5,
+      sprinkle(cols = c(1, 2, 3),
+               rows = c(1, 2, 3),
                bg = "green",
                fixed = TRUE) 
     expect_output(print(x))

@@ -62,9 +62,9 @@ test_that(
 # Functional Requirement 3 ------------------------------------------
 
 test_that(
-  "Casts an error if bg is not an atomic vector",
+  "Casts an error if bg is not a call object",
   {
-    expect_error(sprinkle_fn(x, replace = mtcars))
+    expect_error(sprinkle_fn(x, fn = mtcars))
   }
 )
 
