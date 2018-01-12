@@ -42,13 +42,23 @@ test_that(
   }
 )
 
+test_that(
+  "Works with a dust_list object",
+  {
+    expect_silent(
+      dplyr::group_by(mtcars, am, vs) %>% 
+        dust(ungroup = FALSE) %>% 
+        sprinkle_merge(rows = 1, cols = 1:2, merge = TRUE)
+    )
+  }
+)
 
 
 test_that(
   "Correctly skips merging when merge = FALSE",
   {
     expect_equal(
-      sprinkle_align(x, rows = 1:2, cols = 1:2, merge = FALSE),
+      sprinkle_merge(x, rows = 1:2, cols = 1:2, merge = FALSE),
       x
     )
   }

@@ -19,4 +19,14 @@ test_that("redust: how about a working example",
   x <- dust(mtcars[1:10, ])
   expect_silent(redust(x, mtcars[1:2, ], part = "head"))
 })
-  
+
+test_that(
+  "redust: dust_list",
+  {
+    expect_silent(
+      dplyr::group_by(mtcars, am, vs) %>% 
+        dust(ungroup = FALSE) %>% 
+        redust(mtcars[1:2, ], part = "head")
+    )
+  }
+)

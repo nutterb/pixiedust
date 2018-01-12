@@ -80,3 +80,23 @@ test_that(
     )
   }
 )
+
+# Additional Tests --------------------------------------------------
+
+test_that(
+  "Return a 0 row data frame if the part is NULL",
+  {
+    x <- dust(head(mtcars))
+    expect_equal(
+      get_dust_part(x, "interfoot"),
+      structure(list(mpg = logical(0), cyl = logical(0), disp = logical(0), 
+                     hp = logical(0), drat = logical(0), wt = logical(0), 
+                     qsec = logical(0), vs = logical(0), am = logical(0), 
+                     gear = logical(0), carb = logical(0)), 
+                .Names = c("mpg", "cyl", "disp", "hp", "drat", "wt", "qsec", 
+                           "vs", "am", "gear", "carb"), 
+                row.names = integer(0), 
+                class = "data.frame")
+    )
+  }
+)
