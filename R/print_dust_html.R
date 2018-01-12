@@ -130,8 +130,14 @@ print_dust_html <- function(x, ..., asis=TRUE,
   if (interactive & asis){
     getOption("viewer")(tmpfile)
   }
-  else if (asis) knitr::asis_output(htmltools::htmlPreserve(non_interactive))
-  else htmltools::htmlPreserve(non_interactive)
+  else if (asis){
+    if (x$html_preserve) knitr::asis_output(htmltools::htmlPreserve(non_interactive))
+    else knitr::asis_output(non_interactive)
+  }
+  else { 
+    if (x$html_preserve) htmltools::htmlPreserve(non_interactive)
+    else non_interactive
+  }
   
 }
 

@@ -18,7 +18,8 @@ test_that("dust object has expected names",
                  "border_collapse", "caption",     "label",       "justify", 
                  "float",           "longtable",   "table_width", "tabcolsep", 
                  "hhline",          "bookdown",    "fixed_header", "include_fixed_header_css",
-                 "fixed_header_param", "print_method"))
+                 "fixed_header_param", 
+                 "html_preserve",   "print_method"))
 })
 
 test_that("dust object body component has correct dimensions",

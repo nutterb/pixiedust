@@ -84,6 +84,10 @@
 #'   \code{pt} between columns of the table.
 #' @param fixed_header \code{logical(1)}. For HTML tables, should the 
 #'   header rows be fixed in place over a scrollable body.
+#' @param html_preserve \code{logical(1)}. When \code{TRUE}, HTML output is returned
+#'   wrapped in \code{htmltools::htmlPreserve}. If using LaTeX style equations in 
+#'   an HTML table, it may be necessary to set this to \code{FALSE}. Do this at
+#'   your own risk; this has not been thoroughly field tested.
 #' @param ... Additional arguments to pass to \code{tidy}
 #' @param ungroup Used when a \code{grouped_df} object is passed to \code{dust}.
 #'   When \code{TRUE} (the default), the object is ungrouped and dusted 
@@ -175,7 +179,8 @@ dust.default <- function(object, ...,
                  bookdown = getOption("pixie_bookdown", FALSE),
                  border_collapse = getOption("pixie_border_collapse", "collapse"),
                  tabcolsep = getOption("pixie_tabcolsep", 6),
-                 fixed_header = getOption("pixie_fixed_header", FALSE))
+                 fixed_header = getOption("pixie_fixed_header", FALSE),
+                 html_preserve = getOption("pixie_html_preserve", TRUE))
 {
   coll <- checkmate::makeAssertCollection()
   
@@ -308,6 +313,7 @@ dust.default <- function(object, ...,
                      fixed_header_text_height_units = "px",
                      fixed_header_background_color = "white"
                    ),
+                 html_preserve = html_preserve,
                  print_method = pixiedust_print_method()),
             class = "dust")
 

@@ -23,7 +23,8 @@ dust(object, ...)
   bookdown = getOption("pixie_bookdown", FALSE),
   border_collapse = getOption("pixie_border_collapse", "collapse"),
   tabcolsep = getOption("pixie_tabcolsep", 6),
-  fixed_header = getOption("pixie_fixed_header", FALSE))
+  fixed_header = getOption("pixie_fixed_header", FALSE),
+  html_preserve = getOption("pixie_html_preserve", TRUE))
 
 \method{dust}{grouped_df}(object, ungroup = TRUE, ...)
 
@@ -134,6 +135,11 @@ generated.  Defaults to \code{FALSE}.}
 
 \item{fixed_header}{\code{logical(1)}. For HTML tables, should the 
 header rows be fixed in place over a scrollable body.}
+
+\item{html_preserve}{\code{logical(1)}. When \code{TRUE}, HTML output is returned
+wrapped in \code{htmltools::htmlPreserve}. If using LaTeX style equations in 
+an HTML table, it may be necessary to set this to \code{FALSE}. Do this at
+your own risk; this has not been thoroughly field tested.}
 
 \item{ungroup}{Used when a \code{grouped_df} object is passed to \code{dust}.
 When \code{TRUE} (the default), the object is ungrouped and dusted 
