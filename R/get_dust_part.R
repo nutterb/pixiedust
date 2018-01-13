@@ -49,7 +49,7 @@ get_dust_part <- function(x, part = c("head", "foot", "interfoot", "body"))
   if (!is.null(x[[part]]))
   {
     X <- x[[part]][c("row", "col", "value")]
-    X <- reshape(X, 
+    X <- stats::reshape(X, 
                  direction = "wide",
                  timevar = "col",
                  idvar = "row")

@@ -1,11 +1,3 @@
-#' @importFrom dplyr bind_rows
-#' @importFrom dplyr data_frame
-#' @importFrom dplyr select_
-#' @importFrom htmltools htmlPreserve
-#' @importFrom knitr asis_output
-#' @importFrom tidyr spread_
-#' 
-
 print_dust_html <- function(x, ..., asis=TRUE, 
                             linebreak_at_end = getOption("pixie_html_linebreak", 2),
                             interactive = getOption("pixie_interactive"))
