@@ -694,7 +694,7 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
   
   if (length(not_sprinkles)){
     coll$push(sprintf("The following are not valid sprinkles: %s",
-                      paste0(not_sprinkles, collapse = ", ")))
+                      paste0(names(not_sprinkles), collapse = ", ")))
   }
 
   indices <- index_to_sprinkle(x = x, 
@@ -832,7 +832,7 @@ sprinkle_groups <-
     replace = "replace",
     rotate_degree = "rotate_degree",
     round = "round",
-    sanitize = "sanitize",
+    sanitize = c("sanitize", "sanitize_args"),
     tabcolsep = "tabcolsep",
     width = c("width", "width_units")
   )
