@@ -256,7 +256,7 @@ ovarian %>%
   sprinkle(bg_pattern_by = "rows") %>%
   sprinkle(cols = "fustat",
            discrete = "bg",
-           discrete_color = palette[c(3, 7)]) %>%
+           discrete_colors = palette[c(3, 7)]) %>%
   medley_bw()
 ```
 

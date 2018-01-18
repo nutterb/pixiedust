@@ -32,8 +32,7 @@ library(tidyr)
 
 palette <- brewer.pal(9, "PRGn")
 
-options(pixie_bookdown = TRUE,
-        pixie_interactive = FALSE)
+options(pixie_bookdown = TRUE)
 ```
 
 # Introduction
