@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Get Your Sparkle On</title>
+  <meta name="description" content="A Guide to Formatting Tables with the Pixiedust Package">
+  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Get Your Sparkle On" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="A Guide to Formatting Tables with the Pixiedust Package" />
+  <meta name="github-repo" content="nutterb/pixiedust" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Get Your Sparkle On" />
+  
+  <meta name="twitter:description" content="A Guide to Formatting Tables with the Pixiedust Package" />
+  
+
+<meta name="author" content="Benjamin Nutter">
+
+
+<meta name="date" content="2018-01-18">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+
+<link rel="next" href="dusting-objects.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#pixiedust-design-constraints"><i class="fa fa-check"></i><b>1.1</b> <code>pixiedust</code> Design Constraints</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#data-constraints"><i class="fa fa-check"></i><b>1.1.1</b> Data Constraints</a></li>
+<li class="chapter" data-level="1.1.2" data-path="index.html"><a href="index.html#user-interface-constraints"><i class="fa fa-check"></i><b>1.1.2</b> User Interface Constraints</a></li>
+<li class="chapter" data-level="1.1.3" data-path="index.html"><a href="index.html#output-constraints"><i class="fa fa-check"></i><b>1.1.3</b> Output Constraints</a></li>
+<li class="chapter" data-level="1.1.4" data-path="index.html"><a href="index.html#pixiedust-is-not"><i class="fa fa-check"></i><b>1.1.4</b> <code>pixiedust</code> Is Not …</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="dusting-objects.html"><a href="dusting-objects.html"><i class="fa fa-check"></i><b>2</b> <code>dust</code>ing Objects</a><ul>
+<li class="chapter" data-level="2.1" data-path="dusting-objects.html"><a href="dusting-objects.html#table-wide-options"><i class="fa fa-check"></i><b>2.1</b> Table-wide options</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="dusting-objects.html"><a href="dusting-objects.html#caption"><i class="fa fa-check"></i><b>2.1.1</b> <code>caption</code></a></li>
+<li class="chapter" data-level="2.1.2" data-path="dusting-objects.html"><a href="dusting-objects.html#border_collapse"><i class="fa fa-check"></i><b>2.1.2</b> <code>border_collapse</code></a></li>
+<li class="chapter" data-level="2.1.3" data-path="dusting-objects.html"><a href="dusting-objects.html#justify"><i class="fa fa-check"></i><b>2.1.3</b> <code>justify</code></a></li>
+<li class="chapter" data-level="2.1.4" data-path="dusting-objects.html"><a href="dusting-objects.html#longtable"><i class="fa fa-check"></i><b>2.1.4</b> <code>longtable</code></a></li>
+<li class="chapter" data-level="2.1.5" data-path="dusting-objects.html"><a href="dusting-objects.html#label"><i class="fa fa-check"></i><b>2.1.5</b> <code>label</code></a></li>
+<li class="chapter" data-level="2.1.6" data-path="dusting-objects.html"><a href="dusting-objects.html#float"><i class="fa fa-check"></i><b>2.1.6</b> <code>float</code></a></li>
+<li class="chapter" data-level="2.1.7" data-path="dusting-objects.html"><a href="dusting-objects.html#hhline"><i class="fa fa-check"></i><b>2.1.7</b> <code>hhline</code></a></li>
+<li class="chapter" data-level="2.1.8" data-path="dusting-objects.html"><a href="dusting-objects.html#bookdown"><i class="fa fa-check"></i><b>2.1.8</b> <code>bookdown</code></a></li>
+<li class="chapter" data-level="2.1.9" data-path="dusting-objects.html"><a href="dusting-objects.html#dust-setting-options-globally"><i class="fa fa-check"></i><b>2.1.9</b> Setting Options Globally</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="dusting-objects.html"><a href="dusting-objects.html#dust-anatomy"><i class="fa fa-check"></i><b>2.2</b> Anatomy of the <code>dust</code> Object</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="chapter-header-footer.html"><a href="chapter-header-footer.html"><i class="fa fa-check"></i><b>3</b> Headers and Footers</a></li>
+<li class="chapter" data-level="4" data-path="chapter-sprinkles.html"><a href="chapter-sprinkles.html"><i class="fa fa-check"></i><b>4</b> Sprinkling</a><ul>
+<li class="chapter" data-level="4.1" data-path="chapter-sprinkles.html"><a href="chapter-sprinkles.html#table-valued-sprinkles"><i class="fa fa-check"></i><b>4.1</b> Table-valued Sprinkles</a></li>
+<li class="chapter" data-level="4.2" data-path="chapter-sprinkles.html"><a href="chapter-sprinkles.html#cell-valued-sprinkles"><i class="fa fa-check"></i><b>4.2</b> Cell-valued Sprinkles</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="chapter-sprinkles.html"><a href="chapter-sprinkles.html#cell-selection"><i class="fa fa-check"></i><b>4.2.1</b> Cell Selection</a></li>
+<li class="chapter" data-level="4.2.2" data-path="chapter-sprinkles.html"><a href="chapter-sprinkles.html#sprinkle-cells-by-fixed-cell-position"><i class="fa fa-check"></i><b>4.2.2</b> Sprinkle Cells by Fixed Cell Position</a></li>
+<li class="chapter" data-level="4.2.3" data-path="chapter-sprinkles.html"><a href="chapter-sprinkles.html#recycling-sprinkles-over-cells"><i class="fa fa-check"></i><b>4.2.3</b> Recycling Sprinkles Over Cells</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="chapter-sprinkles.html"><a href="chapter-sprinkles.html#sprinkle-gallery"><i class="fa fa-check"></i><b>4.3</b> Examples</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="colors.html"><a href="colors.html"><i class="fa fa-check"></i><b>5</b> Colors</a><ul>
+<li class="chapter" data-level="5.1" data-path="colors.html"><a href="colors.html#named-colors"><i class="fa fa-check"></i><b>5.1</b> Named Colors</a></li>
+<li class="chapter" data-level="5.2" data-path="colors.html"><a href="colors.html#rgb-colors"><i class="fa fa-check"></i><b>5.2</b> RGB Colors</a></li>
+<li class="chapter" data-level="5.3" data-path="colors.html"><a href="colors.html#hex-colors"><i class="fa fa-check"></i><b>5.3</b> HEX Colors</a></li>
+<li class="chapter" data-level="5.4" data-path="colors.html"><a href="colors.html#transparency"><i class="fa fa-check"></i><b>5.4</b> Transparency</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="latex-configuration.html"><a href="latex-configuration.html"><i class="fa fa-check"></i><b>6</b> LaTeX Configuration</a></li>
+<li class="chapter" data-level="7" data-path="medleys.html"><a href="medleys.html"><i class="fa fa-check"></i><b>7</b> Medleys</a><ul>
+<li class="chapter" data-level="7.1" data-path="medleys.html"><a href="medleys.html#constructing-a-medley"><i class="fa fa-check"></i><b>7.1</b> Constructing a Medley</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="table-numbering-and-referencing.html"><a href="table-numbering-and-referencing.html"><i class="fa fa-check"></i><b>8</b> Table Numbering and Referencing</a></li>
+<li class="chapter" data-level="9" data-path="working-with-lists-of-tables.html"><a href="working-with-lists-of-tables.html"><i class="fa fa-check"></i><b>9</b> Working with Lists of Tables</a></li>
+<li class="chapter" data-level="10" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html"><i class="fa fa-check"></i><b>10</b> Using Tables Effectively</a><ul>
+<li class="chapter" data-level="10.1" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#guiding-principles"><i class="fa fa-check"></i><b>10.1</b> Guiding Principles</a></li>
+<li class="chapter" data-level="10.2" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#row-discrimination"><i class="fa fa-check"></i><b>10.2</b> Row Discrimination</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#striping"><i class="fa fa-check"></i><b>10.2.1</b> Striping</a></li>
+<li class="chapter" data-level="10.2.2" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#horizontal-borders"><i class="fa fa-check"></i><b>10.2.2</b> Horizontal Borders</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#drawing-attention-to-results"><i class="fa fa-check"></i><b>10.3</b> Drawing Attention to Results</a></li>
+<li class="chapter" data-level="10.4" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#grouping"><i class="fa fa-check"></i><b>10.4</b> Grouping</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#the-time-ordered-background-exception"><i class="fa fa-check"></i><b>10.4.1</b> The Time-Ordered Background Exception</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#sectioning"><i class="fa fa-check"></i><b>10.5</b> Sectioning</a><ul>
+<li class="chapter" data-level="10.5.1" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#row-barrier"><i class="fa fa-check"></i><b>10.5.1</b> Row Barrier</a></li>
+<li class="chapter" data-level="10.5.2" data-path="using-tables-effectively.html"><a href="using-tables-effectively.html#table-barrier"><i class="fa fa-check"></i><b>10.5.2</b> Table Barrier</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Get Your Sparkle On</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">Get Your Sparkle On</h1>
+<h3 class="subtitle"><em>A Guide to Using the Magic of <code>pixiedust</code></em></h3>
+<h4 class="author"><em>Benjamin Nutter</em></h4>
+<h4 class="date"><em>2018-01-18</em></h4>
+</div>
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<style>
+.book .book-body .page-wrapper .page-inner section.normal table
+{
+  width:auto;  
+  border-collapse:collapse;
+  border-spacing:2px;
+}
+.book .book-body .page-wrapper .page-inner section.normal table td,
+.book .book-body .page-wrapper .page-inner section.normal table th,
+.book .book-body .page-wrapper .page-inner section.normal table tr
+{
+  padding:2;
+  border:0;
+  background-color:#fff;
+}
+</style>
+<p>Tables are a powerful tool for communicating information. They are pervasive in statistical literature in many forms. We see them in text books as references for standard normal probabilities. Some tables organize analysis methods for differing strata in a population. We may even find tables displaying conference schedules.</p>
+<p>For statisticians, the table is an inevitable tool for conveying the results of any variety of statistical tables. In some cases, we begin to rely on a specific style of table we like for a specific kind of analysis, such as one we might use in exploratory data analysis. Other times, we may need to custom fit a table to a rare or novel analysis worthy of special attention.</p>
+<p>Creating tables in R is not a new endeavor. Many have attempted it, and many have performed it well. Perhaps most notably, the <code>xtable</code> package has streamlined the process of turning table - like objects into presentation - ready formats. Likewise, <code>knitr</code>’s <code>kable</code> function provides a rapid and reliable method to convert two dimensional grids into aesthetically pleasing tables.</p>
+<p>Beyond table - like objects, <code>xtable</code> and <code>stargazer</code> packages make conversion of non-table-like objects into tabular representations simple and dependable.</p>
+<p>In addition to these packages, a multitude of packages have popped up on CRAN to facilitate the creation of tables. These include <code>tableHTML</code>, <code>htmlTable</code>, <code>condformat</code>, and <code>ReporteRs</code>. Each of these has strengths and weaknesses - which we will not enumerate here-and each of these are good packages.</p>
+<p>So why, then, do we concern ourselves with <code>pixiedust</code>, yet <em>another</em> R package for creating tables?</p>
+<p>In short, it is because <code>pixiedust</code> offers a simple, consistent interface for fine tuned customization of each and every cell of the table.</p>
+<div id="pixiedust-design-constraints" class="section level2">
+<h2><span class="header-section-number">1.1</span> <code>pixiedust</code> Design Constraints</h2>
+<p>The <code>pixiedust</code> package was envisioned with a unique set of constraints. These constraints can be separated into categories involving the data, the user interface, and the output. These constraints guide the development of <code>pixiedust</code> and the philosophy of table customization.</p>
+<div id="data-constraints" class="section level3">
+<h3><span class="header-section-number">1.1.1</span> Data Constraints</h3>
+<p>Within any cell of the table</p>
+<ol style="list-style-type: decimal">
+<li>The underlying data may be formatted, but not changed.</li>
+<li>The user must be able to obtain the original object upon request.</li>
+</ol>
+<p>This means that, no matter what customizations you make to a cell, the data will never be altered until the table is actually printed. In other words, you can eliminate a vast amount of any pre-processing to the data you may have needed to do in the past. Furthermore, if you inadvertently make a <code>dust</code> object from your data, you can restore the data without any loss of information.</p>
+<p>Consider the following simple example. With <code>pixiedust</code>, we are able to round the first, second, and third rows to two decimal places, and the fourth and fifth rows to four decimal places.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(pixiedust)
+<span class="kw">options</span>(<span class="dt">pixiedust_print_method =</span> <span class="st">&quot;html&quot;</span>)
+<span class="kw">set.seed</span>(<span class="dv">1</span>)
+Example &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">sample_id =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,
+                      <span class="dt">random =</span> <span class="kw">rnorm</span>(<span class="dv">5</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">dust</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">rows =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, 
+           <span class="dt">round =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">sprinkle</span>(<span class="dt">rows =</span> <span class="dv">4</span><span class="op">:</span><span class="dv">5</span>,
+           <span class="dt">round =</span> <span class="dv">4</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">sprinkle_print_method</span>(<span class="st">&quot;html&quot;</span>) 
+
+Example <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">print</span>(<span class="dt">asis =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">cat</span>()</code></pre></div>
+<table style = 'margin:auto;border-collapse:collapse;'>
+<tr>
+<th colspan = '1'; rowspan = '1'; style='text-align:left;'>sample_id </th>
+<th colspan = '1'; rowspan = '1'; style='text-align:right;'>random </th>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;'>1 </td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>-0.63 </td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;'>2 </td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0.18 </td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;'>3 </td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>-0.84 </td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;'>4 </td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>1.5953 </td>
+</tr>
+<tr>
+<td colspan = '1'; rowspan = '1'; style='text-align:left;'>5 </td>
+<td colspan = '1'; rowspan = '1'; style='text-align:right;'>0.3295 </td>
+</tr>
+</table></br></br>
+<p>In most other packages, this type of formatting can’t be done without some preprocessing. Additionally, even though we’ve saved <code>Example</code> as a <code>dust</code> object, the core data is easily retrieved.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.data.frame</span>(Example, <span class="dt">sprinkled =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<pre><code>##   sample_id     random
+## 1         1 -0.6264538
+## 2         2  0.1836433
+## 3         3 -0.8356286
+## 4         4  1.5952808
+## 5         5  0.3295078</code></pre>
+</div>
+<div id="user-interface-constraints" class="section level3">
+<h3><span class="header-section-number">1.1.2</span> User Interface Constraints</h3>
+<ol style="list-style-type: decimal">
+<li>The interface must have as few functions as possible.</li>
+<li>The user should be able to apply as many customizations to a cell as is desired in one call.</li>
+<li>The user should be able to designate rows and columns by positional reference and named reference.</li>
+</ol>
+<p><code>pixiedust</code> comes with two core functions. The <code>dust</code> function converts an object to a tabular structure associated with its formatting choices. The <code>sprinkle</code> function acts on the <code>dust</code> object to change those associations as directed by the user. <code>dust</code> is described in more detail in Section <a href="dusting-objects.html#dust-anatomy">2.2</a>. Chapter <a href="chapter-sprinkles.html#chapter-sprinkles">4</a> is dedicated to the details of sprinkling.</p>
+<p>Additionally, there are some variants on <code>sprinkle</code>, namely <code>sprinkle_colnames</code> for changing how column names are printed in the table; <code>sprinkle_table</code> for applying a sprinkle to multiple parts of a table (header, body, and footer); and <code>sprinkle_print_method</code> for changing the print method for a table.</p>
+<p>Some less commonly used functions that are included with the package are <code>pixieply</code>, a variant of <code>mapply</code> that permits <code>sprinkle</code> to function over a list of <code>dust</code> objects; an <code>as.data.frame</code> method for converting <code>dust</code> objects to data frames; and a <code>print</code> method.</p>
+<p>Lastly, there are a handful of utility functions for managing table numbering. These can be seen by calling <code>?pixie_count</code>.</p>
+<p>The <code>sprinkle</code> function has only four formal arguments. The massive flexibility of <code>pixiedust</code> on such a simple interface is made possible by a flagrant abuse of the <code>...</code> argument (really, I don’t think <code>...</code> should ever be treated like it is in <code>pixiedust</code>). This approach allows the user to call as many defined sprinkles as desired without any action being taken on sprinkles that aren’t requested.</p>
+</div>
+<div id="output-constraints" class="section level3">
+<h3><span class="header-section-number">1.1.3</span> Output Constraints</h3>
+<ol style="list-style-type: decimal">
+<li>The user may choose to output to the console, markdown, HTML, or LaTeX.</li>
+<li>The interface must be identical for all outputs.</li>
+<li>When customizations do not apply to an output format, the request will be quietly ignored.</li>
+<li>When working in Rmarkdown scripts, the output format should be automatically detected, but may be altered by the user.</li>
+<li>Table numbering should be automatic and handled internally.</li>
+</ol>
+<p><code>pixiedust</code> currently supports output to the console, markdown, HTML and LaTeX (PDF), and an engine to output <code>ReporteRs</code> formatted tables is in the works. All of these outputs are controlled using the same interface. This has advantages over packages such as <code>xtable</code>, where some customizations must be written to a specific output, meaning they can’t be transferred from one output format to another.</p>
+<p>Not all of the customizations are relevant to every format. For example, backgrounds and borders are not supported by console or markdown output. Font families are supported in HTML, but not in LaTex. When a sprinkle is applied that isn’t supported by the format, the request is stored in the <code>dust</code> object, but is quietly ignored at the <code>print</code> request. The advantage to this arrangement is that there are no errors for applying a sprinkle to an unsupported format. The disadvantage is that you may not always realize that your sprinkle won’t show up in your output. Generally, I find that being able to have near-identical tables across multiple formats to outweigh the disadvantage.</p>
+<p>Since <code>pixiedust</code> is intended to work with Rmarkdown scripts, it is unnecessary to explicitly declare the output format. <code>pixiedust</code> will make use of <code>knitr::opts_knit$get(&quot;rmarkdown.pandoc.to&quot;)</code> to determine the output format for you and make the appropriate adjustments.</p>
+<p>One last important feature of <code>pixiedust</code> is that, by design, it imposes the minimum intervention possible. If you are using CSS (HTML) templates or LaTeX templates, the settings in those templates should only be superceded by <code>pixiedust</code> when the user requests it explicitly. The tables displayed in this manual have two Cascading Style Sheet (CSS) elements defined: the space between cells is 2 pixels (only applies with <code>border-collapse:separate</code>), and the cell paddign is set to 2 pixels. These settings have been chosen only to help the reader visualize the effect each call has on the table output. Depending on the templates on which your reports are based, the output may differ slightly from what is displayed here.</p>
+</div>
+<div id="pixiedust-is-not" class="section level3">
+<h3><span class="header-section-number">1.1.4</span> <code>pixiedust</code> Is Not …</h3>
+<p>While <code>pixiedust</code> is partially motivated by <code>ggplot</code> graphics, it does <em>not</em> purport to be a grammar of any sort, and does not pretend to have a structured philosophy about how to build tables. It simply does what it is told.</p>
+<p>Additionally, <code>sprinkles</code> should not be considered layers. Any changes made to a cell will simply overwrite previous changes, and will not allow any interaction.</p>
+<p>A last note of caution before you move on to the documentation: be careful not to over-format your tables. It can be tempting, but the content of the table should speak for itself. Customizations to the tables should merely guide the reader’s eye to the important information. The customizations you make should never scream at the reader.</p>
+<p>With that, I hope you enjoy using <code>pixiedust</code> as much as I have. If you have questions, problems, frustrations, or suggestions, please submit an issue to the <a href="https://github.com/nutterb/pixiedust/issues">GitHub repository</a> or send me an e-mail: <a href="mailto:benjamin.nutter@gmail.com">benjamin.nutter@gmail.com</a></p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="dusting-objects.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/nutterb/pixiedust/edit/devel/index.Rmd",
+"text": "Edit"
+},
+"download": ["_main.pdf"],
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"theme": null
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
