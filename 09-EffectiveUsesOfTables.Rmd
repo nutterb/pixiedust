@@ -227,7 +227,7 @@ mtcars %>%
            border_color = "#DDDDDD") %>%
   sprinkle(cols = "mpg",
            gradient = "bg",
-           gradient_color = palette[c(3, 7)])
+           gradient_colors = palette[c(3, 7)])
   
 ```
 
@@ -322,7 +322,7 @@ split(mtcars,
   sprinkle(bg_pattern_by = "rows") %>%
   sprinkle(cols = "mpg",
            gradient = "bg",
-           gradient_color = palette[c(2, 8)],
+           gradient_colors = palette[c(2, 8)],
            gradient_cut = quantile(mtcars$mpg, 
                                    probs = seq(0, 1, length.out = 10))) %>%
   pixieply(medley_bw) 
