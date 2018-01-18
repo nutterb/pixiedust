@@ -684,6 +684,27 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
   if (!length(sprinkles)){
     coll$push("At least one sprinkle must be declared in ...")
   }
+  else
+  {
+    sprinkle_match <- 
+      unlist(sprinkle_groups)[pmatch(names(sprinkles), 
+                                     unlist(sprinkle_groups))]
+    
+    unmatched_sprinkle <- 
+      names(sprinkles)[which(is.na(sprinkle_match))]
+    
+    names(sprinkles) <- sprinkle_match
+    
+    if (length(unmatched_sprinkle))
+    {
+      coll$push(
+        sprintf("The following arguments could not be matched to an existing sprinkle (check spelling and partial matching): %s",
+                paste(unmatched_sprinkle, collapse = ", "))
+      )
+      
+      sprinkles <- sprinkles[!is.na(names(sprinkles))]
+    }
+  }
   
   if (!checkmate::test_named(sprinkles)){
     coll$push("Arguments to ... must be named")

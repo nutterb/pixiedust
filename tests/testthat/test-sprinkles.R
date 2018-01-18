@@ -25,7 +25,7 @@ test_that(
   {
     skip_on_cran()
     expect_error(sprinkle(x, not_a_sprinkle = "abc"),
-                 "The following are not valid sprinkles")
+                 "could not be matched")
   }
 )
 
