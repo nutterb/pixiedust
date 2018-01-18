@@ -178,7 +178,10 @@ sprinkle_discrete_index_assert <- function(discrete = "bg",
   }  
 }
 
-sprinkle_discrete_index <- function(x, indices, discrete, discrete_colors, part,
+sprinkle_discrete_index <- function(x, indices, 
+                                    discrete = "bg", 
+                                    discrete_colors = getOption("pixie_discrete_pal", NULL), 
+                                    part,
                                     ...)
 {
   part <- part[1]

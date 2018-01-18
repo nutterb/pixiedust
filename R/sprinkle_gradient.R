@@ -238,9 +238,13 @@ sprinkle_gradient_index_assert <- function(gradient = "bg",
   }
 }
 
-sprinkle_gradient_index <- function(x, indices, gradient, gradient_colors, 
-                                    gradient_cut, gradient_n, 
-                                    gradient_na, part, ...)
+sprinkle_gradient_index <- function(x, indices, 
+                                    gradient = "bg",
+                                    gradient_colors = getOption("pixie_gradient_pal", NULL),
+                                    gradient_cut = NULL,
+                                    gradient_n = 10,
+                                    gradient_na = "grey", 
+                                    part, ...)
 {
   part <- part[1]
   
