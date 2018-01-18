@@ -3,6 +3,7 @@ context("print_dust_latex_hhline")
 test_that(
   "print_dust_latex_hhline",
   {
+    skip_on_cran()
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
     x <- dust(fit,
               hhline = TRUE) %>% 
@@ -38,6 +39,7 @@ test_that(
 test_that(
   "print_dust_latex_hhline with a label",
   {
+    skip_on_cran()
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
     x <- dust(fit,
               hhline = TRUE,
@@ -50,6 +52,7 @@ test_that(
 test_that(
   "print_dust_latex_hhline with bookdown and no label",
   {
+    skip_on_cran()
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
     x <- dust(fit,
               hhline = TRUE,
@@ -62,6 +65,7 @@ test_that(
 test_that(
   "print_dust_latex_hhline with bookdown and a label",
   {
+    skip_on_cran()
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
     x <- dust(fit,
               hhline = TRUE,
@@ -75,6 +79,7 @@ test_that(
 test_that(
   "print_dust_latex_hhline with longtable",
   {
+    skip_on_cran()
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
     x <- dust(fit,
               hhline = TRUE,
@@ -87,6 +92,7 @@ test_that(
 test_that(
   "print_dust_latex_hhline with float = FALSE",
   {
+    skip_on_cran()
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
     x <- dust(fit,
               hhline = TRUE,
@@ -99,6 +105,7 @@ test_that(
 test_that(
   "print_dust_latex with hhline and horizontal borders",
   {
+    skip_on_cran()
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
     x <- dust(fit,
               hhline = TRUE,

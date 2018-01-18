@@ -3,6 +3,7 @@ context("print_dust_latex")
 test_that(
   "print_dust_latex",
   {
+    skip_on_cran()
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
     x <- dust(fit) %>% 
       sprinkle(rows = 2:4,
@@ -37,6 +38,7 @@ test_that(
 test_that(
   "print_dust_latex with a label",
   {
+    skip_on_cran()
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
     x <- dust(fit,
               label = "some label") %>%
@@ -48,6 +50,7 @@ test_that(
 test_that(
   "print_dust_latex with bookdown and no label",
   {
+    skip_on_cran()
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
     x <- dust(fit,
               bookdown = TRUE) %>%
@@ -59,6 +62,7 @@ test_that(
 test_that(
   "print_dust_latex with bookdown and a label",
   {
+    skip_on_cran()
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
     x <- dust(fit,
               bookdown = TRUE,
@@ -71,6 +75,7 @@ test_that(
 test_that(
   "print_dust_latex with longtable",
   {
+    skip_on_cran()
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
     x <- dust(fit,
               longtable = TRUE) %>%
@@ -82,6 +87,7 @@ test_that(
 test_that(
   "print_dust_latex with float = FALSE",
   {
+    skip_on_cran()
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
     x <- dust(fit,
               float = FALSE) %>%
@@ -93,6 +99,7 @@ test_that(
 test_that(
   "print_dust_latex with HTML colors",
   {
+    skip_on_cran()
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
     x <- dust(fit,
               float = FALSE) %>%
@@ -105,6 +112,7 @@ test_that(
 test_that(
   "print_dust_latex with rgb color",
   {
+    skip_on_cran()
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
     x <- dust(fit,
               float = FALSE) %>%
@@ -118,6 +126,7 @@ test_that(
 test_that(
   "print_dust_latex with vertical dashed border",
   {
+    skip_on_cran()
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
     x <- dust(fit,
               float = FALSE) %>%
@@ -132,6 +141,7 @@ test_that(
 test_that(
   "print_dust_latex with horizontal borders",
   {
+    skip_on_cran()
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
     x <- dust(fit,
               float = FALSE) %>%

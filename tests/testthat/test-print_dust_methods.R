@@ -2,6 +2,7 @@ context("print_dust_methods")
 
 test_that("print_dust_console",
 {
+  skip_on_cran()
   fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
   x <- dust(fit) %>% 
     sprinkle(rows = 2:4,
@@ -34,6 +35,7 @@ test_that("print_dust_console",
 
 test_that("print_dust_html",
 {
+  skip_on_cran()
   fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
   x <- dust(fit) %>% 
     sprinkle(rows = 2:4,
@@ -67,6 +69,7 @@ test_that("print_dust_html",
 
 test_that("print_dust_html: correction for multiple cell merge",
 {
+  skip_on_cran()
   custom_head <- rbind(names(mtcars), Hmisc::label(mtcars)) %>%
     as.data.frame(stringsAsFactors = FALSE)
   
@@ -95,6 +98,7 @@ test_that("print_dust_html: correction for multiple cell merge",
 
 test_that("print_dust_markdown",
 {
+  skip_on_cran()
   fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
   x <- dust(fit) %>% 
     sprinkle(rows = 2:4,
@@ -129,6 +133,7 @@ test_that("print_dust_markdown",
 
 test_that("print_dust_latex",
           {
+            skip_on_cran()
             fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
             x <- dust(fit) %>% 
               sprinkle(rows = 2:4,
@@ -163,6 +168,7 @@ test_that("print_dust_latex",
 test_that(
   "missing values in LaTeX output - sanitization",
   {
+    skip_on_cran()
     DF <- head(mtcars)
     DF$mpg[c(1, 3, 4)] <- NA
     
@@ -177,6 +183,7 @@ test_that(
 test_that(
   "print_dust_latex does not output invalid -Inf width or height", 
   {
+    skip_on_cran()
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
     x <- print_dust_latex(dust(fit))
     expect_false(grepl("-Inf", x))
@@ -186,6 +193,7 @@ test_that(
 test_that(
   "html tables with bookdown label",
   {
+    skip_on_cran()
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
     x <- dust(fit,
               caption = "Table heading",

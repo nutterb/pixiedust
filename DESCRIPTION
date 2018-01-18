@@ -1,6 +1,6 @@
 Package: pixiedust
 Title: Tables so Beautifully Fine-Tuned You Will Believe It's Magic
-Version: 0.8.1
+Version: 0.8.2
 Authors@R: c(person("Benjamin", "Nutter", email = "nutter@battelle.org", role = c("aut", "cre")),
              person("David", "Kretch", role = c("ctb")))
 Description: The introduction of the 'broom' package has made converting model

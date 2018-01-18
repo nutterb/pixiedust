@@ -115,7 +115,8 @@ pixiedust:::tidy_levels_labels(fit,
 #* Compare the output for 'am' with the output for 'gear'
 
 mtcars2$am <- factor(mtcars2$am, 0:1, c("Automatic", "Manual"))
-mtcars2$am <-  labelVector::set_label(mtcars2$am, "Transmission") # Label was lost in variable conversion
+mtcars2$am <-  labelVector::set_label(mtcars2$am, "Transmission") 
+    # Label was lost in variable conversion
 fit <- lm(mpg ~ qsec + am + wt + factor(gear), data = mtcars2)
 pixiedust:::tidy_levels_labels(fit, 
   descriptors = c("term", "term_plain", "label", "level", "level_detail"),
