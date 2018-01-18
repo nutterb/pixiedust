@@ -21,6 +21,7 @@ Imports:
     Hmisc (>= 3.14-6),
     htmltools,
     knitr,
+    labelVector,
     magrittr,
     scales,
     stringr,

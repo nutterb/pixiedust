@@ -1,11 +1,3 @@
-#' @importFrom dplyr bind_rows
-#' @importFrom dplyr data_frame
-#' @importFrom dplyr select_
-#' @importFrom htmltools htmlPreserve
-#' @importFrom knitr asis_output
-#' @importFrom stringr str_extract_all
-#' @importFrom tidyr spread_
-
 
 print_dust_latex <- function(x, ..., asis=TRUE)
 {
