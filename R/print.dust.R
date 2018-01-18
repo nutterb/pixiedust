@@ -62,5 +62,6 @@ print.dust_list <- function(x, ..., asis = TRUE)
 {
   lapply(X = x,
          FUN = print.dust,
-         asis = asis)
+         asis = asis, 
+         ...)
 }
