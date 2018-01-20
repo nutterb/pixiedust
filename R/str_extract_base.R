@@ -27,8 +27,8 @@ str_split_fixed_base <- function(x, pattern, n){
   
   spl <-
     lapply(spl,
-           function(y) c(head(y, n - 1),
-                         paste0(tail(y, -(n - 1)), collapse = " ")))
+           function(y) c(utils::head(y, n - 1),
+                         paste0(utils::tail(y, -(n - 1)), collapse = " ")))
   
   do.call("rbind", spl)
 }

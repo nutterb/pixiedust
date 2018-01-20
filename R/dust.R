@@ -220,33 +220,30 @@ dust.default <- function(object, ...,
   {
     nms <- names(tidy_object)
     
-    tidy_object <- tidy_levels_labels(object,
-                                      descriptors = descriptors,
-                                      numeric_level = numeric_level,
-                                      argcheck = coll) %>%
-      dplyr::left_join(x = tidy_object, 
-                       y = .,
-                       by = c("term" = "term"))
+    tidy_object <- 
+      merge(x = tidy_object,
+            y = tidy_levels_labels(object,
+                                   descriptors = descriptors,
+                                   numeric_level = numeric_level,
+                                   argcheck = coll),
+            by = "term")
+  
      if ("label" %in% names(tidy_object))
      {
-       tidy_object %<>%
-         dplyr::mutate(
-           label = ifelse(grepl(pattern = "([(]|)Intercept([)]|)", 
-                                x = term),
-                          term,
-                          label)
-         )
+       is_intercept <- grepl(pattern = "([(]|)Intercept([)]|)", 
+                             x = tidy_object[["term"]])
+       
+       tidy_object[["label"]][is_intercept] <- 
+         tidy_object[["term"]][is_intercept]
      }
 
     if ("term_plain" %in% names(tidy_object))
     {
-      tidy_object %<>%
-        dplyr::mutate(
-          label = ifelse(grepl(pattern = "([(]|)Intercept([)]|)", 
-                               x = term),
-                         term,
-                         term_plain)
-        )
+      is_intercept <- grepl(pattern = "([(]|)Intercept([)]|)", 
+                            x = tidy_object[["term"]])
+      
+      tidy_object[["label"]][is_intercept] <- 
+        tidy_object[["term_plain"]][is_intercept]
     }
 
     if (!"term" %in% descriptors)
@@ -254,8 +251,7 @@ dust.default <- function(object, ...,
       nms <- nms[!nms %in% "term"]
     }
     
-    tidy_object <- dplyr::select_(tidy_object, 
-                                  .dots = c(descriptors, nms))
+    tidy_object <- tidy_object[c(descriptors, nms)]
   }
 
   checkmate::reportAssertions(coll)
@@ -326,12 +322,16 @@ dust.grouped_df <- function(object, ungroup = TRUE, ...)
 {
   if (ungroup)
   {
-    dust.default(dplyr::ungroup(object), ...)
+    # I'm circumventing the need to import dplyr here
+    # dust.default(dplyr::ungroup(object), ...)
+    dust.default(as.data.frame(object), ...)
   }
   else
   {
     split_var <- attr(object, "var")
-    object <- dplyr::ungroup(object)
+    # I'm circumventing the need to import dplyr here
+    # object <- dplyr::ungroup(object)
+    object <- as.data.frame(object)
     object <- split(object, object[, as.character(split_var)])
     dust.list(object, ...)
   }
@@ -366,10 +366,17 @@ component_table <- function(tbl, object)
   tab <- gather_tbl(tbl)
 
   #* Initialize default values of table attributes
+  # tab <-
+  #   merge(x = tab,
+  #         y = cell_attributes_frame(nrow(tbl), ncol(tbl)),
+  #         by = c("row", "col"))
   tab <- dplyr::left_join(tab, cell_attributes_frame(nrow(tbl), ncol(tbl)),
               by = c("row" = "row", "col" = "col"))
   
   #* Join with column classes
+  # tab <- merge(x = tab,
+  #              y = Classes,
+  #              by = "col_name")
   tab <- dplyr::left_join(tab, Classes,
               by = c("col_name" = "col_name"))
   return(tab)
@@ -379,70 +386,87 @@ component_table <- function(tbl, object)
 
 gather_tbl <- function(tbl)
 {
+  tbl_name <- names(tbl)
   #* Assign the row indices
-  dplyr::mutate_(tbl, row = ~1:n()) %>%
-    #* Gather into a table with row (numeric), col (character), 
-    #* and value (character)
-    tidyr::gather_("col", "value", 
-                   gather_cols=names(tbl)[!names(tbl) %in% "row"]) %>%
-    #* Assign col_name as a factor.  Levels are in the same order as the column
-    #*   appear in the broom output
-    #* Extract numeric values of the col_name factor to get the column indices
-    #* Recast col_name as a character
-    dplyr::mutate_(col_name = ~factor(col, colnames(tbl)),
-                   col = ~as.numeric(col_name),
-                   col_name = ~as.character(col_name),
-                   value = ~as.character(value))
+  tbl[["row"]] <- seq_len(nrow(tbl))
+
+  #* Gather into a table with row (numeric), col (character), 
+  #* and value (character)
+  # tbl2 <- tidyr::gather_(tbl,
+  #                       "col", "value",
+  #                       gather_cols=names(tbl)[!names(tbl) %in% "row"])
+  tbl <- 
+    stats::reshape(tbl, 
+                   direction = "long",
+                   varying = list(names(tbl)[!names(tbl) %in% "row"]),
+                   idvar = "row",
+                   timevar = "col")
+  names(tbl)[3] <- "value"
+  tbl[["col"]] <- tbl_name[tbl[["col"]]]
+  
+  #* Assign col_name as a factor.  Levels are in the same order as the column
+  #*   appear in the broom output
+  #* Extract numeric values of the col_name factor to get the column indices
+  #* Recast col_name as a character
+  tbl[["col_name"]] <- factor(tbl[["col"]],
+                              tbl_name)
+  tbl[["col"]] <- as.numeric(tbl[["col_name"]])
+  tbl[["col_name"]] <- as.character(tbl[["col_name"]])
+  tbl[["value"]] <- as.character(tbl[["value"]])
+
+  tbl
 }
 
 #*********************************************
 
 cell_attributes_frame <- function(nrow, ncol)
 {
-  expand.grid(row = 1:nrow,
-              col = 1:ncol,
-              fn = NA,
-              round = "",
-              bold = FALSE,
-              italic = FALSE,
-              halign = "",
-              valign = "",
-              bg = "",
-              font_family = "",
-              font_color = "",
-              font_size = "",
-              font_size_units = "",
-              left_border = "",
-              right_border = "",
-              top_border = "",
-              bottom_border = "",
-              height = "",
-              height_units = "",
-              width = "",
-              width_units = "",
-              replace = NA,
-              rotate_degree = "",
-              sanitize = FALSE,
-              sanitize_args = "",
-              pad = "",
-              rowspan = 1L,
-              colspan = 1L,
-              na_string = NA,
-              stringsAsFactors=FALSE) %>%
-    dplyr::mutate_(html_row = ~row,
-            html_col = ~col,
-            merge_rowval = ~row,
-            merge_colval = ~col,
-            merge = ~FALSE)
+  frame <- 
+    expand.grid(row = 1:nrow,
+                col = 1:ncol,
+                fn = NA,
+                round = "",
+                bold = FALSE,
+                italic = FALSE,
+                halign = "",
+                valign = "",
+                bg = "",
+                font_family = "",
+                font_color = "",
+                font_size = "",
+                font_size_units = "",
+                left_border = "",
+                right_border = "",
+                top_border = "",
+                bottom_border = "",
+                height = "",
+                height_units = "",
+                width = "",
+                width_units = "",
+                replace = NA,
+                rotate_degree = "",
+                sanitize = FALSE,
+                sanitize_args = "",
+                pad = "",
+                rowspan = 1L,
+                colspan = 1L,
+                na_string = NA,
+                stringsAsFactors=FALSE) 
+  frame[["html_row"]] <- frame[["row"]]
+  frame[["html_col"]] <- frame[["col"]]
+  frame[["merge_rowval"]] <- frame[["row"]]
+  frame[["merge_colval"]] <- frame[["col"]]
+  frame[["merge"]] <- FALSE
+  
+  frame
 }
 
 
 primaryClass <- function(x)
 {
-  acceptedClasses <- c("integer", "double", "numeric", "character", "factor", "logical")
+  acceptedClasses <- c("integer", "double", "numeric", 
+                       "character", "factor", "logical")
   class_vector <- class(x)
   class_vector[class_vector %in% acceptedClasses][1]
 }
 
-
-utils::globalVariables(c(".", "term", "term_plain"))
