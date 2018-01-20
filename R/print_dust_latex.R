@@ -346,7 +346,7 @@ convertColor <- function(color){
     return(paste0("[HTML]{", sub("#", "", color), "}"))
   }
   else if (grepl("rgb", color, ignore.case = TRUE)){
-    rgb <- stringr::str_extract_all(color, "\\d{1,3}", simplify = TRUE)[1, 1:3]
+    rgb <- str_extract_base(color, "\\d{1,3}")[1, 1:3]
     return(paste0("[RGB]{", paste0(rgb, collapse=","), "}"))
   }
   else return(paste0("{", color, "}"))
@@ -505,7 +505,7 @@ default_halign <- function(col_class, print_method = "latex"){
 #**************************************************
 #* Prepares code for vertical borders
 latex_vertical_border_code <- function(x){
-  border <- stringr::str_split_fixed(x, " ", 3)
+  border <- str_split_fixed_base(x, " ", 3)
   border[, 1] <- gsub("px", "pt", border[, 1])
   border[, 2] <- ifelse(border[, 2] %in% c("dashed", "dotted"), 
                         "dashed",
@@ -526,7 +526,7 @@ latex_vertical_border_code <- function(x){
 #**************************************************
 #* Prepares code for horizontal borders
 latex_horizontal_border_code <- function(x, col){
-  border <- stringr::str_split_fixed(x, " ", 3)
+  border <- str_split_fixed_base(x, " ", 3)
   border[, 1] <- gsub("px", "pt", border[, 1])
   border[, 2] <- ifelse(border[, 2] %in% c("dashed", "dotted"), 
                         "dashed",

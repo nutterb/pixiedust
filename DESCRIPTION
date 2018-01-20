@@ -24,7 +24,6 @@ Imports:
     labelVector,
     magrittr,
     scales,
-    stringr,
     tidyr
 Suggests:
     rmarkdown,
