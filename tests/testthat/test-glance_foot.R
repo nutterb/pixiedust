@@ -1,11 +1,15 @@
 context("glance_foot")
 
 mtcars2 <- mtcars
-Hmisc::label(mtcars2$mpg) <- "Gas Mileage"
-Hmisc::label(mtcars2$qsec) <- "Quarter Mile Time"
-Hmisc::label(mtcars2$am) <- "Transmission"
-Hmisc::label(mtcars2$wt) <- "Weight"
-Hmisc::label(mtcars2$gear) <- "Gears"
+mtcars2 <- 
+  labelVector::set_label(
+    mtcars2,
+    mpg = "Gas Mileage",
+    qsec = "Quarter Mile Time",
+    am = "Transmission",
+    wt = "Weight",
+    gear = "Gears"
+  )
 
 fit <- lm(mpg ~ qsec + factor(am) * wt + factor(gear), data = mtcars2)
 

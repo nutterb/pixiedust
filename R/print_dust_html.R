@@ -3,7 +3,10 @@ print_dust_html <- function(x, ..., asis=TRUE,
                             interactive = getOption("pixie_interactive"))
 {
   if (is.null(interactive)) interactive <- interactive()
-  if (!is.null(x$caption)) increment_pixie_count()
+  if (!is.null(x$caption) & x$caption_number) increment_pixie_count()
+  caption_number_prefix <- 
+    if (x$caption_number) sprintf("Table %s: ", get_pixie_count())
+    else ""
   
   label <-
     if (is.null(x[["label"]]))
@@ -26,7 +29,7 @@ print_dust_html <- function(x, ..., asis=TRUE,
     }
     else
     {
-      sprintf("Table %s: ", get_pixie_count())
+      caption_number_prefix
     }
   
   

@@ -18,7 +18,6 @@ Imports:
     broom,
     checkmate (>= 1.8.0),
     dplyr,
-    Hmisc (>= 3.14-6),
     htmltools,
     knitr,
     labelVector,
@@ -28,7 +27,7 @@ Imports:
 Suggests:
     rmarkdown,
     testthat
-License: MIT + file LICENSE
+License: GPL (>= 2)
 LazyData: true
 VignetteBuilder: knitr
 URL: https://github.com/nutterb/pixiedust

@@ -2,7 +2,7 @@
 print_dust_latex <- function(x, ..., asis=TRUE)
 {
   
-  if (!is.null(x$caption)) increment_pixie_count()
+  if (!is.null(x$caption) & x$caption_number) increment_pixie_count()
   
   label <- 
     if (is.null(x[["label"]]))
@@ -65,7 +65,9 @@ print_dust_latex <- function(x, ..., asis=TRUE)
                     gsub("n", "l", substr(x[["justify"]], 1, 1)), "]{",
                     paste0(col_halign_default$default_halign, collapse = ""), "}\n",
                     if (!is.null(x$caption))
-                      paste("\\caption{", x$caption, "}")
+                      paste0("\\caption", 
+                            if (x$caption_number) "" else "*", 
+                            "{", x$caption, "}")
                     else "", 
                     "\n", label, "\\\\ \n")
     end <- "\\end{longtable}"
@@ -75,7 +77,9 @@ print_dust_latex <- function(x, ..., asis=TRUE)
     begin <- paste0("\\begin{table}\n",
                     if (x[["justify"]] == "center") "\\centering\n" else "",
                     if (!is.null(x$caption))
-                      paste0("\\caption{", x$caption, "}\n")
+                      paste0("\\caption", 
+                             if (x$caption_number) "" else "*", 
+                             "{", x$caption, "}")
                     else "", 
                     "\n", label,
                     "\\begin{tabular}{",
@@ -552,7 +556,7 @@ sanitize <- function(x, args)
   if (sum(sanitize_index))
   {
     x[sanitize_index] <- 
-      do.call(what = Hmisc::latexTranslate,
+      do.call(what = sanitize_latex,
               args = c(list(object = x[sanitize_index]),
                        eval(parse(text = args[sanitize_index])))
       )

@@ -1,5 +1,9 @@
-### 0.8.2 (2018--)
+### 0.8.2 (2018-02-08)
 
+* Added `caption_number` sprinkle, allowing numbering of tables to be
+  turned off (#108)
+* Changed the license in order to redistribute code from the
+  `Hmisc` package.
 * Added `fixed_header` sprinkle. Allows HTML tables to have a fixed
   header over a scrollable body.
 * Added lots of tests.

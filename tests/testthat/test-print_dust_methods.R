@@ -70,7 +70,9 @@ test_that("print_dust_html",
 test_that("print_dust_html: correction for multiple cell merge",
 {
   skip_on_cran()
-  custom_head <- rbind(names(mtcars), Hmisc::label(mtcars)) %>%
+  custom_head <- rbind(names(mtcars), 
+                       labelVector::get_label(mtcars,
+                                              names(mtcars))) %>%
     as.data.frame(stringsAsFactors = FALSE)
   
   custom_foot <- rbind(vapply(mtcars, mean, numeric(1)),

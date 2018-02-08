@@ -8,7 +8,10 @@
 print_dust_console <- function(x, ..., return_df = FALSE, asis=TRUE)
 {
   
-  if (!is.null(x$caption)) increment_pixie_count()
+  if (!is.null(x$caption) & x$caption_number) increment_pixie_count()
+  caption_number_prefix <- 
+    if (x$caption_number) sprintf("Table %s: ", get_pixie_count())
+    else ""
   
   #* Determine the number of divisions
   #* It looks more complicated than it is, but the gist of it is
@@ -44,7 +47,7 @@ print_dust_console <- function(x, ..., return_df = FALSE, asis=TRUE)
                             if (i == total_div) foot else interfoot)
     if (return_df) DF <- rbind(DF, tbl)
     else {
-      if (!is.null(x$caption)) cat("Table ", get_pixie_count(), ": ", x$caption, "\n\n",
+      if (!is.null(x$caption)) cat(caption_number_prefix, x$caption, "\n\n",
                                    sep = "")
       print(as.data.frame(tbl))
       cat("\n\n")

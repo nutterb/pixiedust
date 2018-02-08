@@ -42,7 +42,7 @@ test_that("print.dust for unsupported format",
   )
 })
 
-test_that("prind.dust_list",
+test_that("print.dust_list",
 {
   x <- split(mtcars, list(mtcars$am, mtcars$vs))
   expect_output(

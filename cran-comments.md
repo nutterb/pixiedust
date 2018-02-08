@@ -1,5 +1,5 @@
 ## Test environments
-* local Windows install (R-3.4.1)
+* local Linux install (R-3.4.3; #135-Ubuntu SMP Fri Jan 19 11:48:36 UTC 2018)
 * x86_64-pc-linux-gnu (Ubuntu precise 12.04.5 64-bit) (on travis-ci), R 3.4.1
 * win-builder (devel 2017-09-12 r73242)
 

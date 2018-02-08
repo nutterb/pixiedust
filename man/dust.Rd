@@ -16,6 +16,7 @@ dust(object, ...)
   glance_foot = FALSE, glance_stats = NULL, col_pairs = 2,
   byrow = FALSE, descriptors = "term", numeric_level = c("term",
   "term_plain", "label"), label = NULL, caption = NULL,
+  caption_number = getOption("pixied_caption_number", TRUE),
   justify = getOption("pixie_justify", "center"),
   float = getOption("pixie_float", TRUE),
   longtable = getOption("pixie_longtable", FALSE),
@@ -98,6 +99,9 @@ of \code{options()$pixie_count}.  Note that rendering multiple tables in a
 chunk without specifying a label will result in label conflicts.}
 
 \item{caption}{A character string giving the caption for the table.}
+
+\item{caption_number}{\code{logical(1)}. Should the table caption be prefixed 
+with the table number?}
 
 \item{justify}{\code{character(1)}. Specifies the justification of the table on 
 the page.  May be \code{"center"} (default), \code{"left"}, or \code{"right"}.}

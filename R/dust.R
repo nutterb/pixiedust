@@ -47,6 +47,8 @@
 #'   are \code{"term"}, \code{"term_plain"}, and \code{"label"}.
 #'   See the full documentation for the unexported function \code{\link{tidy_levels_labels}}.
 #' @param caption A character string giving the caption for the table.
+#' @param caption_number \code{logical(1)}. Should the table caption be prefixed 
+#'   with the table number?
 #' @param float A logical used only in LaTeX output.  When \code{TRUE}, the table is 
 #'   set within a \code{table} environment.  The default is \code{TRUE}, as with 
 #'   \code{xtable}.
@@ -172,6 +174,7 @@ dust.default <- function(object, ...,
                  numeric_level = c("term", "term_plain", "label"),
                  label = NULL,
                  caption = NULL,
+                 caption_number = getOption("pixied_caption_number", TRUE),
                  justify = getOption("pixie_justify", "center"),
                  float = getOption("pixie_float", TRUE),
                  longtable = getOption("pixie_longtable", FALSE),
@@ -286,6 +289,7 @@ dust.default <- function(object, ...,
                  foot = foot,
                  border_collapse = border_collapse,
                  caption = caption,
+                 caption_number = caption_number,
                  label = label,
                  justify = justify,
                  float = float,
