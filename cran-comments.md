@@ -1,11 +1,13 @@
 ## Test environments
 * local Linux install (R-3.4.3; #135-Ubuntu SMP Fri Jan 19 11:48:36 UTC 2018)
-* x86_64-pc-linux-gnu (Ubuntu trusty 14.04.5 64-bit) (on travis-ci), R 3.4.2
 * win-builder (release R 3.4.3)
-* win-builder (devel 2017-09-12 r73242)
+* win-builder (devel 2018-02-21 r74285)
 
 ## R CMD check results
-
+There is a note about a change in the Maintainer e-mail address. I am unable 
+to confirm the change from nutter@battelle.org as the e-mail address doesn't
+exist.  I have sent an e-mail from CRAN from my personal e-mail requesting 
+that the maintainer e-mail address be changed.
 
 
 ## Downstream dependencies
