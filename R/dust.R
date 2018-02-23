@@ -223,13 +223,13 @@ dust.default <- function(object, ...,
   {
     nms <- names(tidy_object)
     
-    tidy_object <- 
-      merge(x = tidy_object,
-            y = tidy_levels_labels(object,
-                                   descriptors = descriptors,
-                                   numeric_level = numeric_level,
-                                   argcheck = coll),
-            by = "term")
+    tidy_object <- tidy_levels_labels(object,
+                                      descriptors = descriptors,
+                                      numeric_level = numeric_level,
+                                      argcheck = coll) %>%
+      dplyr::left_join(x = tidy_object, 
+                       y = .,
+                       by = c("term" = "term"))
   
      if ("label" %in% names(tidy_object))
      {
@@ -394,31 +394,19 @@ gather_tbl <- function(tbl)
   #* Assign the row indices
   tbl[["row"]] <- seq_len(nrow(tbl))
 
-  #* Gather into a table with row (numeric), col (character), 
-  #* and value (character)
-  # tbl2 <- tidyr::gather_(tbl,
-  #                       "col", "value",
-  #                       gather_cols=names(tbl)[!names(tbl) %in% "row"])
-  tbl <- 
-    stats::reshape(tbl, 
-                   direction = "long",
-                   varying = list(names(tbl)[!names(tbl) %in% "row"]),
-                   idvar = "row",
-                   timevar = "col")
-  names(tbl)[3] <- "value"
-  tbl[["col"]] <- tbl_name[tbl[["col"]]]
-  
-  #* Assign col_name as a factor.  Levels are in the same order as the column
-  #*   appear in the broom output
-  #* Extract numeric values of the col_name factor to get the column indices
-  #* Recast col_name as a character
-  tbl[["col_name"]] <- factor(tbl[["col"]],
-                              tbl_name)
-  tbl[["col"]] <- as.numeric(tbl[["col_name"]])
-  tbl[["col_name"]] <- as.character(tbl[["col_name"]])
-  tbl[["value"]] <- as.character(tbl[["value"]])
-
-  tbl
+  dplyr::mutate_(tbl, row = ~1:n()) %>%
+    #* Gather into a table with row (numeric), col (character), 
+    #* and value (character)
+    tidyr::gather_("col", "value", 
+                   gather_cols=names(tbl)[!names(tbl) %in% "row"]) %>%
+    #* Assign col_name as a factor.  Levels are in the same order as the column
+    #*   appear in the broom output
+    #* Extract numeric values of the col_name factor to get the column indices
+    #* Recast col_name as a character
+    dplyr::mutate_(col_name = ~factor(col, colnames(tbl)),
+                   col = ~as.numeric(col_name),
+                   col_name = ~as.character(col_name),
+                   value = ~as.character(value))
 }
 
 #*********************************************

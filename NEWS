@@ -1,4 +1,4 @@
-### 0.8.2 (2018-02-08)
+### 0.8.2 (2018-02-23)
 
 * Added `caption_number` sprinkle, allowing numbering of tables to be
   turned off (#108)

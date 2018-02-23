@@ -1,27 +1,23 @@
 ## Test environments
 * local Linux install (R-3.4.3; #135-Ubuntu SMP Fri Jan 19 11:48:36 UTC 2018)
-* x86_64-pc-linux-gnu (Ubuntu precise 12.04.5 64-bit) (on travis-ci), R 3.4.1
+* x86_64-pc-linux-gnu (Ubuntu trusty 14.04.5 64-bit) (on travis-ci), R 3.4.2
+* win-builder (release R 3.4.3)
 * win-builder (devel 2017-09-12 r73242)
 
 ## R CMD check results
-At the request of a user, this update reduces the dependency on R to 3.1.2.  It also fixes a handful of bugs identified while developing additional tests.
 
-There were no ERRORS or WARNINGS in any of the checks.
-
-NOTE: on win-builder 
-The note flags potentially misspelled words in the package
-description.  All words are correctly spelled.
 
 
 ## Downstream dependencies
-`HydeNet` shows no warnings, errors, or notes.
+`HydeNet` and `pointblank` show no warnings, errors, or notes.
 
 I was unable to complete the checks on `pointblank`; my system could not 
 resolve the Java dependencies.  I have notified the maintainer that I am 
-submitting this update to CRAN, as he is also trying to lower the R version dependency.
+submitting this update to CRAN. I will note that the current version of 
+`pointblank` on CRAN shows errors. These are unrelated to `pointblank`, and
+the development version on GitHub no longer uses `pixiedust` as a dependency.  
+I have notified the `pointblank` maintainer of this submission.
 
-`tadaatoolbox` generates a warning about an undocumented argument. I have 
-notified the maintainer; their fix has been applied but not yet submitted to CRAN
 
 Thanks,
 Benjamin

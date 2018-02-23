@@ -70,22 +70,19 @@ as.data.frame.dust <- function(x, ..., sprinkled = TRUE)
   }
   else 
   {
-    X <- x$body[c("row", "col", "value")]
-    X <- stats::reshape(X, 
-                        direction = "wide",
-                        idvar = "row",
-                        timevar = "col")
-    X <- X[-1]
+    X <- dplyr::select(x$body, 
+                       row, col, value) %>%
+      tidyr::spread(col, value) %>%
+      dplyr::select(-row)
     
-    names(X) <- tapply(X = x$body$col_name,
-                       INDEX = x$body$col,
-                       FUN = function(y) y[1])
-
-    classes <- tapply(X = x$body$col_class,
-                      INDEX = x$body$col,
-                      FUN = function(y) y[1])
-
-    classes <- sprintf("as.%s", classes)
+    col_names <- dplyr::group_by(x$body, col) %>%
+      dplyr::summarise(col_name = col_name[1])
+    col_names <- col_names$col_name
+    names(X) <- col_names
+    
+    classes <- dplyr::group_by(x$body, col) %>%
+      dplyr::summarise(col_class = col_class[1])
+    classes <- sprintf("as.%s", classes$col_class)
     
     for (i in seq_along(X)){
       X[[i]] <- get(classes[i])(X[[i]])
