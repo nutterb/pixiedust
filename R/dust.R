@@ -47,6 +47,8 @@
 #'   are \code{"term"}, \code{"term_plain"}, and \code{"label"}.
 #'   See the full documentation for the unexported function \code{\link{tidy_levels_labels}}.
 #' @param caption A character string giving the caption for the table.
+#' @param caption_number \code{logical(1)}. Should the table caption be prefixed 
+#'   with the table number?
 #' @param float A logical used only in LaTeX output.  When \code{TRUE}, the table is 
 #'   set within a \code{table} environment.  The default is \code{TRUE}, as with 
 #'   \code{xtable}.
@@ -80,6 +82,14 @@
 #'   generated.  Defaults to \code{FALSE}.
 #' @param border_collapse \code{character(1)}. One of \code{"collapse"}, 
 #'   \code{"separate"}, \code{"initial"}, or \code{"inherit"}.
+#' @param tabcolsep \code{integerish(1)}. For LaTeX output, the distance in 
+#'   \code{pt} between columns of the table.
+#' @param fixed_header \code{logical(1)}. For HTML tables, should the 
+#'   header rows be fixed in place over a scrollable body.
+#' @param html_preserve \code{logical(1)}. When \code{TRUE}, HTML output is returned
+#'   wrapped in \code{htmltools::htmlPreserve}. If using LaTeX style equations in 
+#'   an HTML table, it may be necessary to set this to \code{FALSE}. Do this at
+#'   your own risk; this has not been thoroughly field tested.
 #' @param ... Additional arguments to pass to \code{tidy}
 #' @param ungroup Used when a \code{grouped_df} object is passed to \code{dust}.
 #'   When \code{TRUE} (the default), the object is ungrouped and dusted 
@@ -164,12 +174,16 @@ dust.default <- function(object, ...,
                  numeric_level = c("term", "term_plain", "label"),
                  label = NULL,
                  caption = NULL,
+                 caption_number = getOption("pixied_caption_number", TRUE),
                  justify = getOption("pixie_justify", "center"),
                  float = getOption("pixie_float", TRUE),
                  longtable = getOption("pixie_longtable", FALSE),
                  hhline = getOption("pixie_hhline", FALSE),
                  bookdown = getOption("pixie_bookdown", FALSE),
-                 border_collapse = getOption("pixie_border_collapse", "collapse"))
+                 border_collapse = getOption("pixie_border_collapse", "collapse"),
+                 tabcolsep = getOption("pixie_tabcolsep", 6),
+                 fixed_header = getOption("pixie_fixed_header", FALSE),
+                 html_preserve = getOption("pixie_html_preserve", TRUE))
 {
   coll <- checkmate::makeAssertCollection()
   
@@ -216,26 +230,23 @@ dust.default <- function(object, ...,
       dplyr::left_join(x = tidy_object, 
                        y = .,
                        by = c("term" = "term"))
+  
      if ("label" %in% names(tidy_object))
      {
-       tidy_object %<>%
-         dplyr::mutate(
-           label = ifelse(grepl(pattern = "([(]|)Intercept([)]|)", 
-                                x = term),
-                          term,
-                          label)
-         )
+       is_intercept <- grepl(pattern = "([(]|)Intercept([)]|)", 
+                             x = tidy_object[["term"]])
+       
+       tidy_object[["label"]][is_intercept] <- 
+         tidy_object[["term"]][is_intercept]
      }
 
     if ("term_plain" %in% names(tidy_object))
     {
-      tidy_object %<>%
-        dplyr::mutate(
-          label = ifelse(grepl(pattern = "([(]|)Intercept([)]|)", 
-                               x = term),
-                         term,
-                         term_plain)
-        )
+      is_intercept <- grepl(pattern = "([(]|)Intercept([)]|)", 
+                            x = tidy_object[["term"]])
+      
+      tidy_object[["label"]][is_intercept] <- 
+        tidy_object[["term_plain"]][is_intercept]
     }
 
     if (!"term" %in% descriptors)
@@ -243,8 +254,7 @@ dust.default <- function(object, ...,
       nms <- nms[!nms %in% "term"]
     }
     
-    tidy_object <- dplyr::select_(tidy_object, 
-                                  .dots = c(descriptors, nms))
+    tidy_object <- tidy_object[c(descriptors, nms)]
   }
 
   checkmate::reportAssertions(coll)
@@ -279,14 +289,31 @@ dust.default <- function(object, ...,
                  foot = foot,
                  border_collapse = border_collapse,
                  caption = caption,
+                 caption_number = caption_number,
                  label = label,
                  justify = justify,
                  float = float,
                  longtable = longtable,
                  table_width = 6,
-                 tabcolsep = 6,
+                 tabcolsep = tabcolsep,
                  hhline = hhline,
                  bookdown = bookdown,
+                 fixed_header = fixed_header,
+                 include_fixed_header_css = FALSE, #Flag for if fixed header CSS 
+                                            #should be generated with the table
+                 fixed_header_param = 
+                   list(
+                     fixed_header_class_name = "pixie-fixed",
+                     scroll_body_height = 300,
+                     scroll_body_height_units = "px",
+                     scroll_body_background_color = "white",
+                     fixed_header_height = 20,
+                     fixed_header_height_units = "px",
+                     fixed_header_text_height = 10,
+                     fixed_header_text_height_units = "px",
+                     fixed_header_background_color = "white"
+                   ),
+                 html_preserve = html_preserve,
                  print_method = pixiedust_print_method()),
             class = "dust")
 
@@ -299,12 +326,16 @@ dust.grouped_df <- function(object, ungroup = TRUE, ...)
 {
   if (ungroup)
   {
-    dust.default(dplyr::ungroup(object), ...)
+    # I'm circumventing the need to import dplyr here
+    # dust.default(dplyr::ungroup(object), ...)
+    dust.default(as.data.frame(object), ...)
   }
   else
   {
     split_var <- attr(object, "var")
-    object <- dplyr::ungroup(object)
+    # I'm circumventing the need to import dplyr here
+    # object <- dplyr::ungroup(object)
+    object <- as.data.frame(object)
     object <- split(object, object[, as.character(split_var)])
     dust.list(object, ...)
   }
@@ -339,10 +370,17 @@ component_table <- function(tbl, object)
   tab <- gather_tbl(tbl)
 
   #* Initialize default values of table attributes
+  # tab <-
+  #   merge(x = tab,
+  #         y = cell_attributes_frame(nrow(tbl), ncol(tbl)),
+  #         by = c("row", "col"))
   tab <- dplyr::left_join(tab, cell_attributes_frame(nrow(tbl), ncol(tbl)),
               by = c("row" = "row", "col" = "col"))
   
   #* Join with column classes
+  # tab <- merge(x = tab,
+  #              y = Classes,
+  #              by = "col_name")
   tab <- dplyr::left_join(tab, Classes,
               by = c("col_name" = "col_name"))
   return(tab)
@@ -352,7 +390,10 @@ component_table <- function(tbl, object)
 
 gather_tbl <- function(tbl)
 {
+  tbl_name <- names(tbl)
   #* Assign the row indices
+  tbl[["row"]] <- seq_len(nrow(tbl))
+
   dplyr::mutate_(tbl, row = ~1:n()) %>%
     #* Gather into a table with row (numeric), col (character), 
     #* and value (character)
@@ -372,50 +413,52 @@ gather_tbl <- function(tbl)
 
 cell_attributes_frame <- function(nrow, ncol)
 {
-  expand.grid(row = 1:nrow,
-              col = 1:ncol,
-              fn = NA,
-              round = "",
-              bold = FALSE,
-              italic = FALSE,
-              halign = "",
-              valign = "",
-              bg = "",
-              font_family = "",
-              font_color = "",
-              font_size = "",
-              font_size_units = "",
-              left_border = "",
-              right_border = "",
-              top_border = "",
-              bottom_border = "",
-              height = "",
-              height_units = "",
-              width = "",
-              width_units = "",
-              replace = NA,
-              rotate_degree = "",
-              sanitize = FALSE,
-              sanitize_args = "",
-              pad = "",
-              rowspan = 1L,
-              colspan = 1L,
-              na_string = NA,
-              stringsAsFactors=FALSE) %>%
-    dplyr::mutate_(html_row = ~row,
-            html_col = ~col,
-            merge_rowval = ~row,
-            merge_colval = ~col,
-            merge = ~FALSE)
+  frame <- 
+    expand.grid(row = 1:nrow,
+                col = 1:ncol,
+                fn = NA,
+                round = "",
+                bold = FALSE,
+                italic = FALSE,
+                halign = "",
+                valign = "",
+                bg = "",
+                font_family = "",
+                font_color = "",
+                font_size = "",
+                font_size_units = "",
+                left_border = "",
+                right_border = "",
+                top_border = "",
+                bottom_border = "",
+                height = "",
+                height_units = "",
+                width = "",
+                width_units = "",
+                replace = NA,
+                rotate_degree = "",
+                sanitize = FALSE,
+                sanitize_args = "",
+                pad = "",
+                rowspan = 1L,
+                colspan = 1L,
+                na_string = NA,
+                stringsAsFactors=FALSE) 
+  frame[["html_row"]] <- frame[["row"]]
+  frame[["html_col"]] <- frame[["col"]]
+  frame[["merge_rowval"]] <- frame[["row"]]
+  frame[["merge_colval"]] <- frame[["col"]]
+  frame[["merge"]] <- FALSE
+  
+  frame
 }
 
 
 primaryClass <- function(x)
 {
-  acceptedClasses <- c("integer", "double", "numeric", "character", "factor", "logical")
+  acceptedClasses <- c("integer", "double", "numeric", 
+                       "character", "factor", "logical")
   class_vector <- class(x)
   class_vector[class_vector %in% acceptedClasses][1]
 }
 
-
-utils::globalVariables(c(".", "term", "term_plain"))

@@ -15,9 +15,12 @@ test_that("dust object has expected names",
   
   expect_equal(names(x), 
                c("head",            "body",        "interfoot",   "foot", 
-                 "border_collapse", "caption",     "label",       "justify", 
+                 "border_collapse", "caption",     "caption_number", "label",       
+                 "justify", 
                  "float",           "longtable",   "table_width", "tabcolsep", 
-                 "hhline",          "bookdown",    "print_method"))
+                 "hhline",          "bookdown",    "fixed_header", "include_fixed_header_css",
+                 "fixed_header_param", 
+                 "html_preserve",   "print_method"))
 })
 
 test_that("dust object body component has correct dimensions",

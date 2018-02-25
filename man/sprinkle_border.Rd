@@ -9,21 +9,21 @@
 sprinkle_border(x, rows, cols, border = c("all", "bottom", "left", "top",
   "right"), border_color = "black", border_style = "solid",
   border_thickness = 1, border_units = c("pt", "px"), part = c("body",
-  "head", "foot", "interfoot"), fixed = FALSE, recycle = c("none", "rows",
-  "cols", "columns"), ...)
+  "head", "foot", "interfoot", "table"), fixed = FALSE, recycle = c("none",
+  "rows", "cols", "columns"), ...)
 
 \method{sprinkle_border}{default}(x, rows = NULL, cols = NULL,
   border = c("all", "bottom", "left", "top", "right"),
   border_color = "black", border_style = "solid", border_thickness = 1,
   border_units = c("pt", "px"), part = c("body", "head", "foot",
-  "interfoot"), fixed = FALSE, recycle = c("none", "rows", "cols",
+  "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows", "cols",
   "columns"), ...)
 
 \method{sprinkle_border}{dust_list}(x, rows = NULL, cols = NULL,
   border = c("all", "bottom", "left", "top", "right"),
   border_color = "black", border_style = "solid", border_thickness = 1,
   border_units = c("pt", "px"), part = c("body", "head", "foot",
-  "interfoot"), fixed = FALSE, recycle = c("none", "rows", "cols",
+  "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows", "cols",
   "columns"), ...)
 }
 \arguments{
@@ -123,10 +123,10 @@ it is silently ignored.
    \code{"rows"}, or \code{"cols"}
 }
 }
-\author{
-Benjamin Nutter
-}
+
 \seealso{
 \code{\link{sprinkle}}, \code{\link{index_to_sprinkle}}
 }
-
+\author{
+Benjamin Nutter
+}

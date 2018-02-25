@@ -1,17 +1,12 @@
-#' @importFrom dplyr bind_rows
-#' @importFrom dplyr data_frame
-#' @importFrom dplyr select_
-#' @importFrom htmltools htmlPreserve
-#' @importFrom knitr asis_output
-#' @importFrom tidyr spread_
-#' 
-
 print_dust_html <- function(x, ..., asis=TRUE, 
                             linebreak_at_end = getOption("pixie_html_linebreak", 2),
                             interactive = getOption("pixie_interactive"))
 {
   if (is.null(interactive)) interactive <- interactive()
-  if (!is.null(x$caption)) increment_pixie_count()
+  if (!is.null(x$caption) & x$caption_number) increment_pixie_count()
+  caption_number_prefix <- 
+    if (x$caption_number) sprintf("Table %s: ", get_pixie_count())
+    else ""
   
   label <-
     if (is.null(x[["label"]]))
@@ -34,7 +29,7 @@ print_dust_html <- function(x, ..., asis=TRUE,
     }
     else
     {
-      sprintf("Table %s: ", get_pixie_count())
+      caption_number_prefix
     }
   
   
@@ -54,7 +49,9 @@ print_dust_html <- function(x, ..., asis=TRUE,
   
   
   #* Format the table parts
-  head <- part_prep_html(x$head, head = TRUE)
+  head <- part_prep_html(x$head, head = TRUE, 
+                         fixed_header = x[["fixed_header"]],
+                         fixed_header_class_name = x[["fixed_header_param"]][["fixed_header_class_name"]])
   body <- part_prep_html(x$body)
   foot <- if (!is.null(x$foot)) part_prep_html(x$foot) else NULL
   interfoot <- if (!is.null(x$interfoot)) part_prep_html(x$interfoot) else NULL
@@ -70,10 +67,45 @@ print_dust_html <- function(x, ..., asis=TRUE,
     rows <- apply(tbl, 1, paste0, collapse = "\n")
     rows <- sprintf("<tr>\n%s\n</tr>", rows)
     
-    html_code <- sprintf("<table align = '%s' style = 'border-collapse:%s;'>\n%s\n</table>%s",
-                         x[["justify"]],
+    justify <- 
+      if (x[["justify"]] == "center") "margin:auto"
+      else sprintf("float:%s", x[["justify"]])
+    
+    # Tables aligned to the left or right of the page need a barrier with the
+    # clear propert set to prevent text from being placed next to the table.
+    float_guard <- 
+      if (x[["justify"]] == "center") ""
+      else "<div style = 'clear:both'></div>"
+    
+    fixed_head_css <- 
+      if (x[["fixed_header"]] & x[["include_fixed_header_css"]])
+        do.call(fixed_header_css,
+                c(x[["fixed_header_param"]],
+                  list(pretty = FALSE)))
+      else ""
+    
+    if (x[["fixed_header"]]){
+      fixed_head_open_tag <- 
+        sprintf("<div style = 'text-align:%s'><section class='%s-section'><div class='%s-container'><div>",
+                x[["justify"]],
+                x[["fixed_header_param"]][["fixed_header_class_name"]],
+                x[["fixed_header_param"]][["fixed_header_class_name"]])
+      fixed_head_close_tag <- "</div></section></div>"
+    }
+    else{
+      fixed_head_open_tag <- fixed_head_close_tag <- ""
+    }
+    
+    
+    html_code <- sprintf("%s%s%s<table style = '%s;border-collapse:%s;'>\n%s\n</table>%s%s%s",
+                         float_guard,
+                         fixed_head_css,
+                         fixed_head_open_tag,
+                         justify,
                          x$border_collapse, 
                          paste0(rows, collapse = "\n"),
+                         fixed_head_close_tag,
+                         float_guard,
                          paste0(rep("</br>", linebreak_at_end), collapse = ""))
     
     if (!is.null(x$caption))
@@ -93,18 +125,39 @@ print_dust_html <- function(x, ..., asis=TRUE,
   if (interactive & asis){
     getOption("viewer")(tmpfile)
   }
-  else if (asis) knitr::asis_output(htmltools::htmlPreserve(non_interactive))
-  else htmltools::htmlPreserve(non_interactive)
+  else if (asis){
+    if (x$html_preserve) knitr::asis_output(htmltools::htmlPreserve(non_interactive))
+    else knitr::asis_output(non_interactive)
+  }
+  else { 
+    if (x$html_preserve) htmltools::htmlPreserve(non_interactive)
+    else non_interactive
+  }
   
 }
 
 #**** Helper functions
 
-part_prep_html <- function(part, head=FALSE)
+part_prep_html <- function(part, head=FALSE, 
+                           fixed_header = FALSE, fixed_header_class_name = "")
 {
   numeric_classes <- c("double", "numeric")
   
-  dh <- if (head) "th" else "td"
+  dh <- 
+    if (head)
+    {
+      if (fixed_header){
+        sprintf("th class = 'th-%s'", fixed_header_class_name)
+      }
+      else
+      {
+        "th"
+      }
+    }
+    else 
+    {
+      "td"
+    }
   
   #* apply a function, if any is indicated
   part <- perform_function(part)
@@ -214,13 +267,15 @@ part_prep_html <- function(part, head=FALSE)
   
   #* Generate css style definitions for each cell.
   part$value <-
-    with(part, sprintf("<%s colspan = '%s'; rowspan = '%s'; style='%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s'>%s</%s>",
+    with(part, sprintf("<%s colspan = '%s'; rowspan = '%s'; style='%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s'>%s %s</%s>",
                        dh, colspan, rowspan, 
                        bold, italic, halign, valign, bg, font_family, #6
                        font_color, font_size, height, width,          #4
                        top_border, bottom_border, left_border, right_border, #4
                        rotate_degree, pad,  #2
-                       value, dh))
+                       value, 
+                       if (fixed_header) paste0("<div>", value, "</div>") else "",
+                       substr(dh, 1, 2)))
 
   ncol <- max(part$col)
   

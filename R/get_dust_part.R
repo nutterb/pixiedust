@@ -48,27 +48,21 @@ get_dust_part <- function(x, part = c("head", "foot", "interfoot", "body"))
   
   if (!is.null(x[[part]]))
   {
-    X <- dplyr::select(x[[part]], 
-                       row, col, value) %>%
-      tidyr::spread(col, value) %>%
-      dplyr::select(-row)
-    
-    col_names <- dplyr::group_by(x[[part]], col) %>%
-      dplyr::summarise(col_name = col_name[1])
-    col_names <- col_names$col_name
-    
-    names(X) <- col_names
+    X <- x[[part]][c("row", "col", "value")]
+    X <- stats::reshape(X, 
+                 direction = "wide",
+                 timevar = "col",
+                 idvar = "row")
+    X <- X[-1]
+    names(X) <- unique(x[[part]][["col_name"]])
   }
   else
   {
-    col_names <- dplyr::group_by(x[["body"]], col) %>%
-      dplyr::summarise(col_name = col_name[1])
-    col_names <- col_names$col_name
-    
+    col_names <- unique(x[["body"]][["col_name"]])
     X <- matrix(nrow=0, 
-           ncol=length(col_names)) %>%
-      data.frame() %>%
-      stats::setNames(col_names)
+                ncol=length(col_names)) 
+    X <- data.frame(X)
+    names(X) <- col_names
   }
   
   X

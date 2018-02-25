@@ -7,16 +7,18 @@
 \title{Sprinkle Appearance of NA's}
 \usage{
 sprinkle_rotate_degree(x, rows = NULL, cols = NULL, rotate_degree = NULL,
-  part = c("body", "head", "foot", "interfoot"), fixed = FALSE,
+  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
   recycle = c("none", "rows", "cols", "columns"), ...)
 
 \method{sprinkle_rotate_degree}{default}(x, rows = NULL, cols = NULL,
-  rotate_degree = NULL, part = c("body", "head", "foot", "interfoot"),
-  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
+  rotate_degree = NULL, part = c("body", "head", "foot", "interfoot",
+  "table"), fixed = FALSE, recycle = c("none", "rows", "cols", "columns"),
+  ...)
 
 \method{sprinkle_rotate_degree}{dust_list}(x, rows = NULL, cols = NULL,
-  rotate_degree = NULL, part = c("body", "head", "foot", "interfoot"),
-  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
+  rotate_degree = NULL, part = c("body", "head", "foot", "interfoot",
+  "table"), fixed = FALSE, recycle = c("none", "rows", "cols", "columns"),
+  ...)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}
@@ -73,8 +75,8 @@ The functional behavior of the \code{fixed} and \code{recycle} arguments
 is not tested for this function. It is tested and validated in the
 tests for \code{\link{index_to_sprinkle}}.
 }
+
 \seealso{
 \code{\link{sprinkle}}, 
   \code{\link{index_to_sprinkle}}
 }
-

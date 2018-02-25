@@ -20,7 +20,11 @@ perform_function <- function(obj)
                        list(obj$value[i]))
     #* The else statement allows functions to act on character strings.
     else value <- obj$value[i]
-      obj$value[i] <- eval(parse(text = obj$fn[i]))
+      
+    res <- eval(parse(text = obj$fn[i]))
+    
+    obj$value[i] <- res
+    obj$col_class[i] <- primaryClass(res)
   }
   
   obj

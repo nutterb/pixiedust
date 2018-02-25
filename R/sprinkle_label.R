@@ -78,15 +78,18 @@ sprinkle_label.dust_list <- function(x, label = NULL, ...)
 # the cell-valued sprinkles, but they don't actually require an 
 # index, since they change table-valued sprinkles
 
-sprinkle_label_index_assert <- function(label, coll)
+sprinkle_label_index_assert <- function(label = NULL, coll)
 {
   checkmate::assert_character(x = label,
                               len = 1,
                               add = coll,
+                              null.ok = TRUE,
                               .var.name = "label")
 }
 
-sprinkle_label_index <- function(x, label)
+# indices argument is only present to avoid errors when the argument is passed 
+# from sprinkle
+sprinkle_label_index <- function(x, label, indices = NULL, part = NULL)
 {
   x[["label"]] <- label
   

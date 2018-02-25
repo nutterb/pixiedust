@@ -16,12 +16,16 @@ dust(object, ...)
   glance_foot = FALSE, glance_stats = NULL, col_pairs = 2,
   byrow = FALSE, descriptors = "term", numeric_level = c("term",
   "term_plain", "label"), label = NULL, caption = NULL,
+  caption_number = getOption("pixied_caption_number", TRUE),
   justify = getOption("pixie_justify", "center"),
   float = getOption("pixie_float", TRUE),
   longtable = getOption("pixie_longtable", FALSE),
   hhline = getOption("pixie_hhline", FALSE),
   bookdown = getOption("pixie_bookdown", FALSE),
-  border_collapse = getOption("pixie_border_collapse", "collapse"))
+  border_collapse = getOption("pixie_border_collapse", "collapse"),
+  tabcolsep = getOption("pixie_tabcolsep", 6),
+  fixed_header = getOption("pixie_fixed_header", FALSE),
+  html_preserve = getOption("pixie_html_preserve", TRUE))
 
 \method{dust}{grouped_df}(object, ungroup = TRUE, ...)
 
@@ -96,6 +100,9 @@ chunk without specifying a label will result in label conflicts.}
 
 \item{caption}{A character string giving the caption for the table.}
 
+\item{caption_number}{\code{logical(1)}. Should the table caption be prefixed 
+with the table number?}
+
 \item{justify}{\code{character(1)}. Specifies the justification of the table on 
 the page.  May be \code{"center"} (default), \code{"left"}, or \code{"right"}.}
 
@@ -126,6 +133,17 @@ generated.  Defaults to \code{FALSE}.}
 
 \item{border_collapse}{\code{character(1)}. One of \code{"collapse"}, 
 \code{"separate"}, \code{"initial"}, or \code{"inherit"}.}
+
+\item{tabcolsep}{\code{integerish(1)}. For LaTeX output, the distance in 
+\code{pt} between columns of the table.}
+
+\item{fixed_header}{\code{logical(1)}. For HTML tables, should the 
+header rows be fixed in place over a scrollable body.}
+
+\item{html_preserve}{\code{logical(1)}. When \code{TRUE}, HTML output is returned
+wrapped in \code{htmltools::htmlPreserve}. If using LaTeX style equations in 
+an HTML table, it may be necessary to set this to \code{FALSE}. Do this at
+your own risk; this has not been thoroughly field tested.}
 
 \item{ungroup}{Used when a \code{grouped_df} object is passed to \code{dust}.
 When \code{TRUE} (the default), the object is ungrouped and dusted 
@@ -199,12 +217,10 @@ they would within a markdown document.  For example, \code{"$\alpha$"}
 will render as the lower case Greek alpha.  Math symbols may be rendered
 in the same manner.
 }
+
 \examples{
 x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars))
 x
-}
-\author{
-Benjamin Nutter
 }
 \seealso{
 \code{\link[broom]{tidy}} \code{\link{glance_foot}} 
@@ -213,4 +229,6 @@ Benjamin Nutter
 \code{\link{get_dust_part}} for extracting parts of the \code{dust} object
 in order to build custom headers and/or footers.
 }
-
+\author{
+Benjamin Nutter
+}

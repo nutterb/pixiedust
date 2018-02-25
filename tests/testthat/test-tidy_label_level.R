@@ -2,11 +2,15 @@ context("tidy_labels_levels")
 
 
 mtcars2 <- mtcars
-Hmisc::label(mtcars2$mpg) <- "Gas Mileage"
-Hmisc::label(mtcars2$qsec) <- "Quarter Mile Time"
-Hmisc::label(mtcars2$am) <- "Transmission"
-Hmisc::label(mtcars2$wt) <- "Weight"
-Hmisc::label(mtcars2$gear) <- "Gears"
+mtcars2 <- 
+  labelVector::set_label(
+    mtcars2,
+    mpg = "Gas Mileage",
+    qsec = "Quarter Mile Time",
+    am = "Transmission",
+    wt = "Weight",
+    gear = "Gears"
+  )
 
 #* Basic Output for a model with no interactions
 #* Note: numeric_level has no impact as there are no
@@ -27,7 +31,7 @@ test_that("output for a model with no interactions",
 #* Compare the output for 'am' with the output for 'gear'
 
 mtcars2$am <- factor(mtcars2$am, 0:1, c("Automatic", "Manual"))
-Hmisc::label(mtcars2$am) <- "Transmission" # Label was lost in variable conversion
+mtcars2$am <- labelVector::set_label(mtcars2$am, "Transmission") # Label was lost in variable conversion
 fit <- lm(mpg ~ qsec + am + wt + factor(gear), data = mtcars2)
 
 test_that("factor labels from data are preserved",

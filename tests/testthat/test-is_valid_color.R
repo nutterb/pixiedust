@@ -5,6 +5,7 @@ context("is_valid_color")
 test_that(
   "Returns a logical vector correclty identifying valid color formats",
   {
+    skip_on_cran()
     col <- expand.grid(R = seq(0, 255, by = 50),
                        G = seq(0, 255, by = 50),
                        B = seq(0, 255, by = 50))
@@ -22,6 +23,7 @@ test_that(
 test_that(
   "Returns a logical vector correctly identifying valid color formats",
   {
+    skip_on_cran()
     expect_equal(
       is_valid_color(c("rgb(-1, 000, 0)", "rgb(5, 15, 256)", "rgb(5, 322, 100)")),
                      c(FALSE, FALSE, FALSE)
@@ -32,6 +34,7 @@ test_that(
 test_that(
   "Returns a logical vector correclty identifying valid color formats",
   {
+    skip_on_cran()
     col <- expand.grid(R = seq(0, 255, by = 50),
                        G = seq(0, 255, by = 50),
                        B = seq(0, 255, by = 50),
@@ -51,6 +54,7 @@ test_that(
 test_that(
   "Returns a logical vector correctly identifying valid color formats",
   {
+    skip_on_cran()
     expect_equal(
       is_valid_color(c("rgba(-1, 000, 0, 0.5)", "rgb(5, 15, 256, 0.5)", 
                        "rgb(5, 322, 100, 0.5)",
@@ -64,6 +68,7 @@ test_that(
 test_that(
   "Returns a logical vector correclty identifying valid color formats",
   {
+    skip_on_cran()
     col <- expand.grid(R = sample(c(0:9, LETTERS[1:6]), 4),
                        R2 = sample(c(0:9, LETTERS[1:6]), 4),
                        G = sample(c(0:9, LETTERS[1:6]), 4),
@@ -84,6 +89,7 @@ test_that(
 test_that(
   "Returns a logical vector correctly identifying valid color formats",
   {
+    skip_on_cran()
     expect_equal(
       is_valid_color(c("#00000G", "#AAAAZA", "#BBBQBB", "#CCLCCC",
                        "#DSDDDD", "#NEEEEE")),
@@ -95,6 +101,7 @@ test_that(
 test_that(
   "Returns a logical vector correclty identifying valid color formats",
   {
+    skip_on_cran()
     col <- expand.grid(R = sample(c(0:9, LETTERS[1:6]), 2),
                        R2 = sample(c(0:9, LETTERS[1:6]), 2),
                        G = sample(c(0:9, LETTERS[1:6]), 2),
@@ -118,6 +125,7 @@ test_that(
 test_that(
   "Returns a logical vector correctly identifying valid color formats",
   {
+    skip_on_cran()
     expect_equal(
       is_valid_color(c("#000000AG", "#AAAAAAGA")),
       c(FALSE, FALSE)
@@ -128,6 +136,7 @@ test_that(
 test_that(
   "Returns a logical vector correctly identifying valid color formats",
   {
+    skip_on_cran()
     expect_equal(
       is_valid_color(c(colors(), "transparent")),
       rep(TRUE, length(colors()) + 1)
@@ -140,6 +149,7 @@ test_that(
 test_that(
   "Cast an error if color is not a character object",
   {
+    skip_on_cran()
     expect_error(is_valid_color(1:3))
   }
 )

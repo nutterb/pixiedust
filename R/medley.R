@@ -27,6 +27,16 @@
 #' dust(fit, glance_foot = TRUE) %>%
 #'   medley_model() %>%
 #'   sprinkle_print_method("html")
+#'   
+#' # Medleys are not generics and do not have methods.
+#' # Using a medley on a dust_list object requires pixieply
+#' 
+#' library(dplyr)
+#' mtcars %>% 
+#'   group_by(gear) %>% 
+#'   dust(ungroup = FALSE) %>% 
+#'   pixieply(medley_bw) %>% 
+#'   sprinkle_print_method("html")
 #' }
 #' 
 

@@ -6,16 +6,16 @@
 \alias{sprinkle_pad.dust_list}
 \title{Sprinkle the Padding of a Cell}
 \usage{
-sprinkle_pad(x, rows = NULL, cols = NULL, pad, part = c("body", "head",
-  "foot", "interfoot"), fixed = FALSE, recycle = c("none", "rows", "cols",
-  "columns"), ...)
+sprinkle_pad(x, rows = NULL, cols = NULL, pad = 0, part = c("body",
+  "head", "foot", "interfoot", "table"), fixed = FALSE, recycle = c("none",
+  "rows", "cols", "columns"), ...)
 
-\method{sprinkle_pad}{default}(x, rows = NULL, cols = NULL, pad,
-  part = c("body", "head", "foot", "interfoot"), fixed = FALSE,
+\method{sprinkle_pad}{default}(x, rows = NULL, cols = NULL, pad = 0,
+  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
   recycle = c("none", "rows", "cols", "columns"), ...)
 
-\method{sprinkle_pad}{dust_list}(x, rows = NULL, cols = NULL, pad,
-  part = c("body", "head", "foot", "interfoot"), fixed = FALSE,
+\method{sprinkle_pad}{dust_list}(x, rows = NULL, cols = NULL, pad = 0,
+  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
   recycle = c("none", "rows", "cols", "columns"), ...)
 }
 \arguments{
@@ -87,11 +87,11 @@ The functional behavior of the \code{fixed} and \code{recycle} arguments
 is not tested for this function. It is tested and validated in the
 tests for \code{\link{index_to_sprinkle}}.
 }
-\author{
-Benjamin Nutter
-}
+
 \seealso{
 \code{\link{sprinkle}},
   \code{\link{index_to_sprinkle}}
 }
-
+\author{
+Benjamin Nutter
+}

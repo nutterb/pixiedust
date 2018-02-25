@@ -72,7 +72,7 @@
 sprinkle_discrete <- function(x, rows = NULL, cols = NULL, 
                               discrete = "bg",
                               discrete_colors = getOption("pixie_discrete_pal", NULL),
-                              part = c("body", "head", "foot", "interfoot"),
+                              part = c("body", "head", "foot", "interfoot", "table"),
                               fixed = FALSE, 
                               recycle = c("none", "rows", "cols", "columns"),
                             ...)
@@ -86,7 +86,7 @@ sprinkle_discrete <- function(x, rows = NULL, cols = NULL,
 sprinkle_discrete.default <- function(x, rows = NULL, cols = NULL, 
                                    discrete = "bg",
                                    discrete_colors = getOption("pixie_discrete_pal", NULL),
-                                   part = c("body", "head", "foot", "interfoot"),
+                                   part = c("body", "head", "foot", "interfoot", "table"),
                                    fixed = FALSE, 
                                    recycle = c("none", "rows", "cols", "columns"),
                                    ...)
@@ -124,7 +124,7 @@ sprinkle_discrete.default <- function(x, rows = NULL, cols = NULL,
 sprinkle_discrete.dust_list <- function(x, rows = NULL, cols = NULL, 
                                         discrete = "bg",
                                         discrete_colors = getOption("pixie_discrete_pal", NULL),
-                                      part = c("body", "head", "foot", "interfoot"),
+                                      part = c("body", "head", "foot", "interfoot", "table"),
                                       fixed = FALSE, 
                                       recycle = c("none", "rows", "cols", "columns"),
                                       ...)
@@ -152,7 +152,9 @@ sprinkle_discrete.dust_list <- function(x, rows = NULL, cols = NULL,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_discrete_index_assert <- function(discrete, discrete_colors, coll)
+sprinkle_discrete_index_assert <- function(discrete = "bg", 
+                                           discrete_colors = getOption("pixie_discrete_pal", NULL), 
+                                           coll)
 {
   checkmate::assert_subset(x = discrete,
                            choices = c("bg", "font", "font_color",
@@ -176,7 +178,10 @@ sprinkle_discrete_index_assert <- function(discrete, discrete_colors, coll)
   }  
 }
 
-sprinkle_discrete_index <- function(x, indices, discrete, discrete_colors, part,
+sprinkle_discrete_index <- function(x, indices, 
+                                    discrete = "bg", 
+                                    discrete_colors = getOption("pixie_discrete_pal", NULL), 
+                                    part,
                                     ...)
 {
   part <- part[1]

@@ -7,17 +7,18 @@
 \title{Adjust Table Cell Width}
 \usage{
 sprinkle_width(x, rows = NULL, cols = NULL, width = NULL,
-  width_units = NULL, part = c("body", "head", "foot", "interfoot"),
-  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
+  width_units = NULL, part = c("body", "head", "foot", "interfoot",
+  "table"), fixed = FALSE, recycle = c("none", "rows", "cols", "columns"),
+  ...)
 
 \method{sprinkle_width}{default}(x, rows = NULL, cols = NULL,
   width = NULL, width_units = NULL, part = c("body", "head", "foot",
-  "interfoot"), fixed = FALSE, recycle = c("none", "rows", "cols",
+  "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows", "cols",
   "columns"), ...)
 
 \method{sprinkle_width}{dust_list}(x, rows = NULL, cols = NULL,
   width = NULL, width_units = NULL, part = c("body", "head", "foot",
-  "interfoot"), fixed = FALSE, recycle = c("none", "rows", "cols",
+  "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows", "cols",
   "columns"), ...)
 }
 \arguments{
@@ -82,8 +83,8 @@ The functional behavior of the \code{fixed} and \code{recycle} arguments
 is not tested for this function. It is tested and validated in the
 tests for \code{\link{index_to_sprinkle}}.
 }
+
 \seealso{
 \code{\link{sprinkle}}, 
   \code{\link{index_to_sprinkle}}
 }
-

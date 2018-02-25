@@ -1,7 +1,7 @@
 Package: pixiedust
 Title: Tables so Beautifully Fine-Tuned You Will Believe It's Magic
-Version: 0.8.1
-Authors@R: c(person("Benjamin", "Nutter", email = "nutter@battelle.org", role = c("aut", "cre")),
+Version: 0.8.2
+Authors@R: c(person("Benjamin", "Nutter", email = "benjamin.nutter@gmail.com", role = c("aut", "cre")),
              person("David", "Kretch", role = c("ctb")))
 Description: The introduction of the 'broom' package has made converting model
     objects into data frames as simple as a single function. While the 'broom'
@@ -18,22 +18,19 @@ Imports:
     broom,
     checkmate (>= 1.8.0),
     dplyr,
-    Hmisc (>= 3.14-6),
     htmltools,
     knitr,
+    labelVector,
     magrittr,
     scales,
-    stringr,
     tidyr
 Suggests:
     rmarkdown,
     testthat
-License: MIT + file LICENSE
+License: GPL (>= 2)
 LazyData: true
 VignetteBuilder: knitr
 URL: https://github.com/nutterb/pixiedust
 BugReports: https://github.com/nutterb/pixiedust/issues
 RoxygenNote: 6.0.1
 NeedsCompilation: no
-Author: Benjamin Nutter [aut, cre]
-Maintainer: Benjamin Nutter <nutter@battelle.org>

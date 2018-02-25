@@ -1,4 +1,18 @@
-### 0.8.0 (TBD)  (Since last CRAN Release)
+### 0.8.2 (2018-02-23)
+
+* Added `caption_number` sprinkle, allowing numbering of tables to be
+  turned off (#108)
+* Changed the license in order to redistribute code from the
+  `Hmisc` package.
+* Added `fixed_header` sprinkle. Allows HTML tables to have a fixed
+  header over a scrollable body.
+* Added lots of tests.
+* Added `knit_print` method to allow printing in Rmarkdown documents to 
+  operate more smoothly (#96).
+* Fixed text wrapping around left and right justified HTML tables (#107)
+* Added tabcolsep argument to \code{dust}
+
+### 0.8.0 (2017-08-26)
 
 * Backward Compatibility Break: the `border_collapse` argument was changed
   to a character argument.  This allows the full options available in HTML.

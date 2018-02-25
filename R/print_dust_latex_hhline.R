@@ -6,19 +6,10 @@
 #* Use of the hhline method is determined by the package option
 #* getOption("pixiedust_latex_hhline"), with the default being TRUE.
 
-#' @importFrom dplyr bind_rows
-#' @importFrom dplyr data_frame
-#' @importFrom dplyr select_
-#' @importFrom htmltools htmlPreserve
-#' @importFrom knitr asis_output
-#' @importFrom stringr str_extract_all
-#' @importFrom tidyr spread_
-
-
 print_dust_latex_hhline <- function(x, ..., asis=TRUE)
 {
   
-  if (!is.null(x$caption)) increment_pixie_count()
+  if (!is.null(x$caption) & x$caption_number) increment_pixie_count()
   
   label <- 
     if (is.null(x[["label"]]))
@@ -81,7 +72,9 @@ print_dust_latex_hhline <- function(x, ..., asis=TRUE)
                     sub("n", "l", substr(x[["justify"]], 1, 1)), "]{",
                     paste0(col_halign_default$default_halign, collapse = ""), "}\n",
                     if (!is.null(x$caption))
-                      paste("\\caption{", x$caption, "}")
+                      paste("\\caption", 
+                            if (x$caption_number) "" else "*",
+                            "{", x$caption, "}")
                     else "", 
                     "\n", label, "\\\\ \n")
     end <- "\\end{longtable}"
@@ -91,7 +84,9 @@ print_dust_latex_hhline <- function(x, ..., asis=TRUE)
     begin <- paste0("\\begin{table}\n",
                     if (x[["justify"]] == "center") "\\centering\n" else "",
                     if (!is.null(x$caption))
-                      paste0("\\caption{", x$caption, "}\n")
+                      paste0("\\caption", 
+                             if (x$caption_number) "" else "*", 
+                             "{", x$caption, "}")
                     else "", 
                     "\n", label,
                     "\\begin{tabular}{",
@@ -347,7 +342,7 @@ part_prep_latex_hhline <- function(part, col_width, col_halign_default, head=FAL
 #**************************************************
 #* Prepares code for horizontal borders
 latex_horizontal_border_code_hhline <- function(x, col){
-  border <- stringr::str_split_fixed(x, " ", 3)
+  border <- str_split_fixed_base(x, " ", 3)
   border[, 1] <- gsub("px", "pt", border[, 1])
   border[, 2] <- ifelse(test= border[, 2] %in% c("dashed", "dotted", "groove", 
                                                 "ridge", "inset", "outset"),

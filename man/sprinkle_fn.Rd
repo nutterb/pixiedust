@@ -7,15 +7,15 @@
 \title{Apply a function to a selection of cells}
 \usage{
 sprinkle_fn(x, rows = NULL, cols = NULL, fn = NULL, part = c("body",
-  "head", "foot", "interfoot"), fixed = FALSE, recycle = c("none", "rows",
-  "cols"), ...)
+  "head", "foot", "interfoot", "table"), fixed = FALSE, recycle = c("none",
+  "rows", "cols"), ...)
 
 \method{sprinkle_fn}{default}(x, rows = NULL, cols = NULL, fn = NULL,
-  part = c("body", "head", "foot", "interfoot"), fixed = FALSE,
+  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
   recycle = c("none", "rows", "cols", "columns"), ...)
 
 \method{sprinkle_fn}{dust_list}(x, rows = NULL, cols = NULL, fn = NULL,
-  part = c("body", "head", "foot", "interfoot"), fixed = FALSE,
+  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
   recycle = c("none", "rows", "cols", "columns"), ...)
 }
 \arguments{
@@ -79,7 +79,7 @@ The pre-defined sprinkles do not always provide the
    \code{"rows"}, or \code{"cols"}
 }
 }
+
 \author{
 Benjamin Nutter
 }
-

@@ -48,7 +48,7 @@
 sprinkle_bg_pattern <- function(x, rows = NULL, cols = NULL, 
                                 bg_pattern = c("transparent", "#DCDCDC"),
                                 bg_pattern_by = c("rows", "cols"),
-                                ..., part = c("body", "head", "foot", "interoot"))
+                                ..., part = c("body", "head", "foot", "interoot", "table"))
 {
   UseMethod("sprinkle_bg_pattern")
 }
@@ -60,7 +60,7 @@ sprinkle_bg_pattern.default <- function(x, rows = NULL, cols = NULL,
                                      bg_pattern = c("transparent", "#DCDCDC"),
                                      bg_pattern_by = c("rows", "cols"),
                                      ...,
-                                     part = c("body", "head", "foot", "interfoot"))
+                                     part = c("body", "head", "foot", "interfoot", "table"))
 {
   coll <- checkmate::makeAssertCollection()
   
@@ -99,7 +99,7 @@ sprinkle_bg_pattern.dust_list <- function(x, rows = NULL, cols = NULL,
                                           bg_pattern = c("transparent", "#DCDCDC"),
                                           bg_pattern_by = c("rows", "cols"),
                                           ...,
-                                          part = c("body", "head", "foot", "interfoot"))
+                                          part = c("body", "head", "foot", "interfoot", "table"))
 {
   structure(
     lapply(X = x,
@@ -124,7 +124,9 @@ sprinkle_bg_pattern.dust_list <- function(x, rows = NULL, cols = NULL,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_bg_pattern_index_assert <- function(bg_pattern, bg_pattern_by, coll)
+sprinkle_bg_pattern_index_assert <- function(bg_pattern = c("transparent", "#DCDCDC"),
+                                             bg_pattern_by = c("rows", "cols"),
+                                             coll)
 {
   checkmate::assert_character(x = bg_pattern,
                               add = coll,
@@ -146,8 +148,10 @@ sprinkle_bg_pattern_index_assert <- function(bg_pattern, bg_pattern_by, coll)
   bg_pattern_by
 }
 
-sprinkle_bg_pattern_index <- function(x, indices, bg_pattern,
-                                      bg_pattern_by, part)
+sprinkle_bg_pattern_index <- function(x, indices, 
+                                      bg_pattern = c("transparent", "#DCDCDC"),
+                                      bg_pattern_by = c("rows"), 
+                                      part)
 {
   if (bg_pattern_by == "rows")
   {

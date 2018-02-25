@@ -46,10 +46,10 @@ When \code{longtable = TRUE}, LaTeX tables will be divided
    it is not-integerish and has length not equal to 1.
 }
 }
-\author{
-Benjamin Nutter
-}
+
 \seealso{
 \code{\link{dust}}, \code{\link{sprinkle}}
 }
-
+\author{
+Benjamin Nutter
+}

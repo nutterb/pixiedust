@@ -1,16 +1,8 @@
-#' @importFrom dplyr bind_rows
-#' @importFrom dplyr data_frame
-#' @importFrom dplyr select_
-#' @importFrom htmltools htmlPreserve
-#' @importFrom knitr asis_output
-#' @importFrom stringr str_extract_all
-#' @importFrom tidyr spread_
-
 
 print_dust_latex <- function(x, ..., asis=TRUE)
 {
   
-  if (!is.null(x$caption)) increment_pixie_count()
+  if (!is.null(x$caption) & x$caption_number) increment_pixie_count()
   
   label <- 
     if (is.null(x[["label"]]))
@@ -73,7 +65,9 @@ print_dust_latex <- function(x, ..., asis=TRUE)
                     gsub("n", "l", substr(x[["justify"]], 1, 1)), "]{",
                     paste0(col_halign_default$default_halign, collapse = ""), "}\n",
                     if (!is.null(x$caption))
-                      paste("\\caption{", x$caption, "}")
+                      paste0("\\caption", 
+                            if (x$caption_number) "" else "*", 
+                            "{", x$caption, "}")
                     else "", 
                     "\n", label, "\\\\ \n")
     end <- "\\end{longtable}"
@@ -83,7 +77,9 @@ print_dust_latex <- function(x, ..., asis=TRUE)
     begin <- paste0("\\begin{table}\n",
                     if (x[["justify"]] == "center") "\\centering\n" else "",
                     if (!is.null(x$caption))
-                      paste0("\\caption{", x$caption, "}\n")
+                      paste0("\\caption", 
+                             if (x$caption_number) "" else "*", 
+                             "{", x$caption, "}")
                     else "", 
                     "\n", label,
                     "\\begin{tabular}{",
@@ -354,7 +350,7 @@ convertColor <- function(color){
     return(paste0("[HTML]{", sub("#", "", color), "}"))
   }
   else if (grepl("rgb", color, ignore.case = TRUE)){
-    rgb <- stringr::str_extract_all(color, "\\d{1,3}", simplify = TRUE)[1, 1:3]
+    rgb <- str_extract_base(color, "\\d{1,3}")[1, 1:3]
     return(paste0("[RGB]{", paste0(rgb, collapse=","), "}"))
   }
   else return(paste0("{", color, "}"))
@@ -513,7 +509,7 @@ default_halign <- function(col_class, print_method = "latex"){
 #**************************************************
 #* Prepares code for vertical borders
 latex_vertical_border_code <- function(x){
-  border <- stringr::str_split_fixed(x, " ", 3)
+  border <- str_split_fixed_base(x, " ", 3)
   border[, 1] <- gsub("px", "pt", border[, 1])
   border[, 2] <- ifelse(border[, 2] %in% c("dashed", "dotted"), 
                         "dashed",
@@ -534,7 +530,7 @@ latex_vertical_border_code <- function(x){
 #**************************************************
 #* Prepares code for horizontal borders
 latex_horizontal_border_code <- function(x, col){
-  border <- stringr::str_split_fixed(x, " ", 3)
+  border <- str_split_fixed_base(x, " ", 3)
   border[, 1] <- gsub("px", "pt", border[, 1])
   border[, 2] <- ifelse(border[, 2] %in% c("dashed", "dotted"), 
                         "dashed",
@@ -560,7 +556,7 @@ sanitize <- function(x, args)
   if (sum(sanitize_index))
   {
     x[sanitize_index] <- 
-      do.call(what = Hmisc::latexTranslate,
+      do.call(what = sanitize_latex,
               args = c(list(object = x[sanitize_index]),
                        eval(parse(text = args[sanitize_index])))
       )
@@ -575,4 +571,4 @@ utils::globalVariables(c("halign", "left_border", "right_border",
                          "height_units", "width_units", "table_width",
                          "parbox", "width_by_char", "html_row", 
                          "html_col", "rowspan", "colspan", "value", "col_name",
-                         "col_class", "group"))
+                         "col_class", "group", "."))

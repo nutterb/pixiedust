@@ -75,6 +75,6 @@ test_that(
 test_that(
   "transparent color",
   {
-    sprinkle(x, bg = "transparent")
+    expect_silent(sprinkle(x, bg = "transparent"))
   }
 )

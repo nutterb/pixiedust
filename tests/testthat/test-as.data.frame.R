@@ -5,8 +5,9 @@ context("as.data.frame.dust")
 test_that(
   "FR 1: Accepts an object of class `dust`",
   {
+    skip_on_cran()
     expect_silent(
-      as.data.frame(dust(mtcars))
+      as.data.frame.dust(dust(mtcars))
     )
   }
 )
@@ -14,6 +15,7 @@ test_that(
 test_that(
   "FR 1: Accepts an object of class `dust_list`",
   {
+    skip_on_cran()
     expect_silent(
       split(mtcars, mtcars$am) %>%
         dust() %>%
@@ -25,6 +27,7 @@ test_that(
 test_that(
   "FR 1: Casts an error when passed an object not of class `dust` or `dust_list`",
   {
+    skip_on_cran()
     expect_error(
       pixiedust:::as.data.frame.dust(mtcars)
     )
@@ -34,6 +37,7 @@ test_that(
 test_that(
   "FR 1: Casts an error when passed an object not of class `dust` or `dust_list`",
   {
+    skip_on_cran()
     expect_error(
       pixiedust:::as.data.frame.dust_list(mtcars)
     )
@@ -45,6 +49,7 @@ test_that(
 test_that(
   "FR 2: Accepts a logical indicating if sprinkles should be applied.",
   {
+    skip_on_cran()
     expect_silent(
       dust(mtcars) %>%
         as.data.frame(sprinkled = TRUE)
@@ -55,6 +60,7 @@ test_that(
 test_that(
   "FR 2: Accepts a logical indicating if sprinkles should be applied (dust_list).",
   {
+    skip_on_cran()
     expect_silent(
       split(mtcars, mtcars$am) %>%
         dust() %>%
@@ -66,6 +72,7 @@ test_that(
 test_that(
   "FR 2: Casts error when `sprinkled` is not logical",
   {
+    skip_on_cran()
     expect_error(
       dust(mtcars) %>%
         as.data.frame(sprinkled = 1)
@@ -76,6 +83,7 @@ test_that(
 test_that(
   "FR 2: Casts error when `sprinkled` is not logical (dust_list)",
   {
+    skip_on_cran()
     expect_error(
       split(mtcars, mtcars$am) %>%
         dust() %>%
@@ -89,6 +97,7 @@ test_that(
 test_that(
   "FR 3: Return a data frame object",
   {
+    skip_on_cran()
     fit <- lm(mpg ~ qsec + factor(am) + wt * factor(gear), data = mtcars)
     Dust <- dust(fit) %>%
       sprinkle(cols = 2:4, round = 2) %>%
@@ -102,6 +111,7 @@ test_that(
 test_that(
   "FR 3: Return a data frame object when unsprinkled",
   {
+    skip_on_cran()
     fit <- lm(mpg ~ qsec + factor(am) + wt * factor(gear), data = mtcars)
     Dust <- dust(fit) %>%
       sprinkle(cols = 2:4, round = 2) %>%
@@ -117,6 +127,7 @@ test_that(
 test_that(
   "FR 4: Return a list of data frames (dust_list)",
   {
+    skip_on_cran()
     Dust <- split(mtcars, mtcars$am) %>%
       dust() %>%
       as.data.frame()
@@ -132,6 +143,7 @@ test_that(
 test_that(
   "FR 4: Return a list of data frames when unsprinkled (dust_list)",
   {
+    skip_on_cran()
     Dust <- split(mtcars, mtcars$am) %>%
       dust() %>%
       as.data.frame(sprinkled = FALSE)

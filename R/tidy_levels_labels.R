@@ -1,10 +1,4 @@
-#' @name tidy_levels_labels
-#' @importFrom broom tidy
-#' @importFrom dplyr bind_rows
-#' @importFrom dplyr mutate_
-#' @importFrom Hmisc label
-#' @importFrom stats model.frame
-#' 
+#' @name tidy_levels_labels 
 #' 
 #' @title Term and Level Descriptions for \code{pixiedust} Tables
 #' 
@@ -58,7 +52,7 @@
 #'       levels \code{B} and \code{C} of the variable \code{Fctr}, will 
 #'       have two rows of \code{"term_plain"} of just \code{Fctr}.}
 #'     \item{\code{"label"} }{Provides the label attached to the data using
-#'       \code{Hmisc::label}.  When a term is not associated with a label, 
+#'       \code{labelVector::get_label}.  When a term is not associated with a label, 
 #'       the value of \code{term_plain} is returned instead. Note that, variable names
 #'       will disassociate with a label if they are used in a function (such
 #'       as \code{factor(x)} or \code{x^2}.}
@@ -89,11 +83,11 @@
 #' @examples 
 #' #* Descriptors for lm output with no interactions
 #' mtcars2 <- mtcars
-#' Hmisc::label(mtcars2$mpg) <- "Gas Mileage"
-#' Hmisc::label(mtcars2$qsec) <- "Quarter Mile Time"
-#' Hmisc::label(mtcars2$am) <- "Transmission"
-#' Hmisc::label(mtcars2$wt) <- "Weight"
-#' Hmisc::label(mtcars2$gear) <- "Gears"
+#' mtcars2$mpg <- labelVector::set_label(mtcars2$mpg, "Gas Mileage")
+#' mtcars2$qsec <-  labelVector::set_label(mtcars2$qsec, "Quarter Mile Time")
+#' mtcars2$am <-  labelVector::set_label(mtcars2$am, "Transmission")
+#' mtcars2$wt <-  labelVector::set_label(mtcars2$wt, "Weight")
+#' mtcars2$gear <-  labelVector::set_label(mtcars2$gear, "Gears")
 #' 
 #' #* Basic Output for a model with no interactions
 #' #* Note: numeric_level has no impact as there are no
@@ -110,7 +104,8 @@
 #' #* Compare the output for 'am' with the output for 'gear'
 #' 
 #' mtcars2$am <- factor(mtcars2$am, 0:1, c("Automatic", "Manual"))
-#' Hmisc::label(mtcars2$am) <- "Transmission" # Label was lost in variable conversion
+#' mtcars2$am <-  labelVector::set_label(mtcars2$am, "Transmission") 
+#'     # Label was lost in variable conversion
 #' fit <- lm(mpg ~ qsec + am + wt + factor(gear), data = mtcars2)
 #' pixiedust:::tidy_levels_labels(fit, 
 #'   descriptors = c("term", "term_plain", "label", "level", "level_detail"),
@@ -166,7 +161,7 @@ tidy_levels_labels <- function(object,
 
 levels_and_labels <- function(object, ...){
   model_data <- stats::model.frame(object)
-  Labels <- Hmisc::label(model_data, default = names(model_data))
+  Labels <- labelVector::get_label(model_data, names(model_data))
   NLevels <- vapply(model_data, modelNLevels, 1)
   Levels <- 
     lapply(model_data, 

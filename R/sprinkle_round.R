@@ -53,7 +53,7 @@
 
 sprinkle_round <- function(x, rows = NULL, cols = NULL,
                                round = NULL, 
-                               part = c("body", "head", "foot", "interfoot"),
+                               part = c("body", "head", "foot", "interfoot", "table"),
                                fixed = FALSE, 
                                recycle = c("none", "rows", "cols", "columns"),
                                ...)
@@ -66,7 +66,7 @@ sprinkle_round <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_round.default <- function(x, rows = NULL, cols = NULL,
                                        round = NULL, 
-                                       part = c("body", "head", "foot", "interfoot"),
+                                       part = c("body", "head", "foot", "interfoot", "table"),
                                        fixed = FALSE, 
                                        recycle = c("none", "rows", "cols", "columns"),
                                        ...)
@@ -106,7 +106,7 @@ sprinkle_round.default <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_round.dust_list <- function(x, rows = NULL, cols = NULL,
                                          round = NULL, 
-                                         part = c("body", "head", "foot", "interfoot"),
+                                         part = c("body", "head", "foot", "interfoot", "table"),
                                          fixed = FALSE, 
                                          recycle = c("none", "rows", "cols", "columns"),
                                          ...)
@@ -133,7 +133,7 @@ sprinkle_round.dust_list <- function(x, rows = NULL, cols = NULL,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_round_index_assert <- function(round, coll)
+sprinkle_round_index_assert <- function(round = NULL, coll)
 {
   if (!is.null(round))
   {

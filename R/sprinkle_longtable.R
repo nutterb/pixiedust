@@ -82,7 +82,7 @@ sprinkle_longtable.dust_list <- function(x,
 # the cell-valued sprinkles, but they don't actually require an 
 # index, since they change table-valued sprinkles
 
-sprinkle_longtable_index_assert <- function(longtable, coll)
+sprinkle_longtable_index_assert <- function(longtable = getOption("pixie_longtable", FALSE), coll)
 {
   if (is.logical(longtable))
   {
@@ -100,7 +100,9 @@ sprinkle_longtable_index_assert <- function(longtable, coll)
   }
 }
 
-sprinkle_longtable_index <- function(x, longtable)
+# indices argument is only present to avoid errors when the argument is passed 
+# from sprinkle
+sprinkle_longtable_index <- function(x, longtable, indices = NULL, part = NULL)
 {
   x[["longtable"]] <- longtable
   

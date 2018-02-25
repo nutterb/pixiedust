@@ -672,102 +672,23 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
                              recycle = c("none", "rows", "cols", "columns"))
 {
   
+  sprinkles <- list(...)
+  
 # Argument validations ----------------------------------------------
   coll <- checkmate::makeAssertCollection()
-  
+
   checkmate::assertClass(x = x,
                          classes = "dust",
                          add = coll)
-  
-  checkmate::assertSubset(x = part,
-                          choices = c("body", "head", "foot", "interfoot", "table"),
-                          add = coll)
 
-  recycle <- checkmate::matchArg(x = recycle, 
-                              choices = c("none", "rows", "cols", "columns"),
-                              add = coll,
-                              .var.name = "recycle")
-
-  if (recycle == "columns") recycle <- "cols"
-
-  recycle_arrange <- 
-    if (recycle == "rows") 
-      c("row", "col")
-    else
-      c("col", "row")
-  
-  part <- part[1]
-  
-  x[[part]] <- dplyr::arrange_(x[[part]], recycle_arrange)
-  
-  if (length(part))
-  {
-    #* The cols argument allows character and numeric values to be 
-    #* given simultaneously. This block matches the character values
-    #* to numeric column indices
-    if (!is.null(cols))
-    {
-      cols_num <- suppressWarnings(as.numeric(cols))
-      cols_num <- cols_num[!is.na(cols_num)]
-      
-      cols_str <- match(cols, 
-                        unique(x[["head"]][["col_name"]]))
-      
-      #* We don't want to restrict ourselves to just the unique 
-      #* columns if we are doing fixed coordinate pairs
-      if (!fixed) cols <- unique(c(cols_num, cols_str))
-      
-      cols <- cols[!is.na(cols)]
-    }
-    
-    #* If rows or cols isn't given, assume the sprinkle should be applied
-    #* across the entire dimension.
-    if (is.null(rows))
-    {
-      rows <- 1:max(x[[part]][["row"]])
-    }
-    
-    if (is.null(cols) | length(cols) == 0)
-    {
-      cols <- 1:max(x[[part]][["col"]])
-    }
-  }  # End if (length(part))
-
-  #* Determine the indices of the table part to be changed.
-  if (fixed)
-  {
-    indices <- 
-      data.frame(rows = rows,
-                 cols = cols) %>%
-      dplyr::mutate(i = TRUE) %>%
-      dplyr::left_join(x[[part]],
-                       .,
-                       by = c("row" = "rows", 
-                              "col" = "cols")) %>%
-      dplyr::arrange_(recycle_arrange) %>%
-      `[[`("i")
-    indices[is.na(indices)] <- FALSE
-  }
-  else
-  {
-    indices <- x[[part]][["row"]] %in% rows & 
-                x[[part]][["col"]] %in% cols
-  }
-  
-  checkmate::assertNumeric(x = rows,
-                           add = coll)
-  
-  sprinkles <- list(...)
-
-  if (!length(sprinkles))
-  {
-    coll$push("No sprinkles in `...` to `sprinkle`")
+  if (!length(sprinkles)){
+    coll$push("At least one sprinkle must be declared in ...")
   }
   else
   {
     sprinkle_match <- 
-      SprinkleRef$sprinkle[pmatch(names(sprinkles), 
-                                  SprinkleRef$sprinkle)]
+      unlist(sprinkle_groups)[pmatch(names(sprinkles), 
+                                     unlist(sprinkle_groups))]
     
     unmatched_sprinkle <- 
       names(sprinkles)[which(is.na(sprinkle_match))]
@@ -785,213 +706,93 @@ sprinkle.default <- function(x, rows = NULL, cols = NULL, ...,
     }
   }
   
-  #* Some love for longtable.  Characters given to longtable
-  #* are assumed to be FALSE
-  if ("longtable" %in% names(sprinkles))
+  if (!checkmate::test_named(sprinkles)){
+    coll$push("Arguments to ... must be named")
+  }
+  
+  not_sprinkles <- 
+    sprinkles[!names(sprinkles) %in% unlist(sprinkle_groups)]
+  
+  if (length(not_sprinkles)){
+    coll$push(sprintf("The following are not valid sprinkles: %s",
+                      paste0(names(not_sprinkles), collapse = ", ")))
+  }
+
+  indices <- index_to_sprinkle(x = x, 
+                               rows = rows, 
+                               cols = cols, 
+                               fixed = fixed,
+                               part = part,
+                               recycle = recycle,
+                               coll = coll)
+
+  for (i in seq_along(sprinkle_groups))
   {
-    if (!is.logical(sprinkles[["longtable"]]))
+    if (any(sprinkle_groups[[i]] %in% names(sprinkles)))
     {
-      if (is.numeric(sprinkles[["longtable"]]) & sprinkles[["longtable"]] < 1)
+      sprinkle_arg <- sprinkles[sprinkle_groups[[i]]]
+      sprinkle_arg <- sprinkle_arg[!vapply(sprinkle_arg, is.null, logical(1))]
+      
+      if (!"fn" %in% names(sprinkle_arg))
       {
-        sprinkles[["longtable"]] <- FALSE
-      }
-      else if (!is.numeric(sprinkles[["longtable"]]))
-      {
-        sprinkles[["longtable"]] <- FALSE
+        args_list <- 
+          if (names(sprinkle_groups)[i] == "replace")
+          {
+            list(indices = indices, 
+                 coll = coll)
+          }
+          else
+          {
+            list(coll = coll)
+          }
+        
+        do.call(what = sprintf("sprinkle_%s_index_assert",
+                               names(sprinkle_groups)[[i]]),
+                args = c(sprinkle_arg,
+                         args_list))
       }
     }
   }
-  #* Use the unexported function `assert_sprinkles` to test
-  #* the assertions defined in the `SprinkleRef` data frame.
-  #* SprinkleRef is defined in the `inst/sprinkle_ref.csv' file
-  #* and is used internally to expedite tests on sprinkles.
-
-  assert_sprinkles(sprinkles = sprinkles,
-                   coll = coll,
-                   recycle = recycle)
-
-  #* Additional assertions
   
-  #* Cast an error if merge_rowval or merge_colval is given but not merge
-  if (("merge_rowval" %in% names(sprinkles) | 
-       "merge_colval" %in% names(sprinkles)) & 
-      !"merge" %in% names(sprinkles))
+  if ("fn" %in% names(sprinkles))
   {
-    coll$push("`merge` must be specified when `merge_rowval` or `merge_colval` is given")
-  }
-
-  #* Cast an error if `replace` is not the same length as `indices`
-  if ("replace" %in% names(sprinkles))
-  {
-    if (length(sprinkles[["replace"]]) != sum(indices))
-    {
-      coll$push(paste0("The `replace` sprinkle should have length ",
-                       sum(indices)))
-    }
-  }
-  
-  #* Convert colors to rgb
-  given_color_sprinkles <- 
-      !vapply(sprinkles[c("bg", "border_color", "font_color")], 
-              is.null, 
-              logical(1))
-  given_color_sprinkles <- 
-    c("bg", "border_color", "font_color")[given_color_sprinkles]
-
-    
-  if (length(given_color_sprinkles))
-  {
-    sprinkles[given_color_sprinkles] <- 
-      color_sprinkles(sprinkles = sprinkles[given_color_sprinkles],
-                      coll = coll)
-  }
-  
-  # Prevent `discrete` and `bg` from being used together
-  if (all(c("discrete", "bg") %in% names(sprinkles)))
-  {
-    if ("bg" %in% sprinkles[["discrete"]])
-      coll$push("`discrete = 'bg'` and the `bg` sprinkle may not be used in the same call")
-  }
-
-  if (all(c("discrete", "border") %in% names(sprinkles)))
-  {
-    if ("border" %in% sprinkles[["discrete"]])
-      coll$push("`discrete = 'border' and the `border` sprinkle may not be used in the same call")
+    sprinkle_fn_index_assert(fn = sprinkles$fn, 
+                             coll = coll)
   }
 
   #* Return any errors found.
   checkmate::reportAssertions(coll)
 
 # Functional Code ---------------------------------------------------
-  #* Sprinkles in the `option` group.
-  #* These are sprinkles that affect options found in `dust`,
-  #* such as longtable, caption, and label.
 
-  x <- option_sprinkles(x = x, 
-                        sprinkles = sprinkles)
-
-  #* Special care for the `sanitize_args` sprinkle
-  if ("sanitize_args" %in% names(sprinkles))
-  {
-    sprinkles[["sanitize_args"]] <- 
-      deparse(sprinkles[["sanitize_args"]]) %>%
-      paste0(collapse = "")
-  }
-
-  #* Sprinkles in the `simple` group.
-  #* These sprinkles do not associate with any other sprinkles and may be
-  #* directly modified without much difficulty.
-
-  x <- simple_sprinkles(x = x, 
-                        sprinkles = sprinkles, 
-                        part = part, 
-                        indices = indices)
-
-  #* Sprinkles in the bg_pattern group
-  if (any(names(sprinkles)  %in% 
-      SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "bg_pattern"]))
-  {
-    x <- bg_pattern_sprinkles(x = x, 
-                              part = part, 
-                              indices = indices, 
-                              bg_pattern = sprinkles[["bg_pattern"]], 
-                              bg_pattern_by = sprinkles[["bg_pattern_by"]])
-  }
-
-  #* Sprinkles in the `border` group
-  if (any(names(sprinkles) %in% 
-      SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "border"]))
-  {
-    x <- border_sprinkles(x = x, 
-                          part = part, 
-                          indices = indices,
-                          border = sprinkles[["border"]],
-                          border_thickness = sprinkles[["border_thickness"]],
-                          border_units = sprinkles[["border_units"]],
-                          border_style = sprinkles[["border_style"]],
-                          border_color = sprinkles[["border_color"]])
-  }
+  part <- part[1]
   
-  #* Sprinkles in the `discrete` group
-  
-  if (any(names(sprinkles) %in%
-          SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "discrete"]))
+  for (i in seq_along(sprinkle_groups))
   {
-    x <- discrete_sprinkles(x = x,
-                            part = part,
-                            indices = indices,
-                            discrete = sprinkles[["discrete"]],
-                            discrete_colors = sprinkles[["discrete_colors"]],
-                            border_style = sprinkles[["border_style"]],
-                            border_thickness = sprinkles[["border_thickness"]],
-                            border_units = sprinkles[["border_units"]])
+    if (any(sprinkle_groups[[i]] %in% names(sprinkles)))
+    {
+      sprinkle_arg <- sprinkles[sprinkle_groups[[i]]]
+      sprinkle_arg <- sprinkle_arg[!vapply(sprinkle_arg, is.null, logical(1))]
+
+      if (!"fn" %in% names(sprinkle_arg))
+      {
+        x <- do.call(what = sprintf("sprinkle_%s_index",
+                                    names(sprinkle_groups)[[i]]),
+                     args = c(sprinkle_arg,
+                              list(x = x,
+                                   indices = indices,
+                                   part = part)))
+      }
+    }
   }
 
-  #* Sprinkles in the `font_size` group
-  if (any(names(sprinkles) %in% 
-          SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "font_size"]))
+  if ("fn" %in% names(sprinkles))
   {
-    x <- font_size_sprinkles(x = x, 
-                             part = part, 
-                             indices = indices,
-                             font_size = sprinkles[["font_size"]],
-                             font_size_units = sprinkles[["font_size_units"]])
+    x <- sprinkle_fn_index(x = x,
+                           indices = indices,
+                           fn = sprinkles$fn,
+                           part = part)
   }
-  
-  #* Sprinkles in the `gradient` group
-  
-  if (any(names(sprinkles) %in%
-          SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "gradient"]))
-  {
-    x <- gradient_sprinkles(x = x,
-                            part = part,
-                            indices = indices,
-                            gradient = sprinkles[["gradient"]],
-                            gradient_colors = sprinkles[["gradient_colors"]],
-                            gradient_cut = sprinkles[["gradient_cut"]],
-                            gradient_n = sprinkles[["gradient_n"]],
-                            gradient_na = sprinkles[["gradient_na"]],
-                            border_style = sprinkles[["border_style"]],
-                            border_thickness = sprinkles[["border_thickness"]],
-                            border_units = sprinkles[["border_units"]])
-  }
-  
-  #* Sprinkles in the `height` group
-  if (any(names(sprinkles) %in% 
-          SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "height"]))
-  {
-    x <- height_sprinkles(x = x, 
-                          part = part, 
-                          indices = indices,
-                          height = sprinkles[["height"]],
-                          height_units = sprinkles[["height_units"]])
-  }
-  
-  #* Sprinkles in the `merge` group
-  if (any(names(sprinkles) %in% 
-          SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "merge"]))
-  {
-    x <- merge_sprinkles(x = x, 
-                         part = part, 
-                         indices = indices,
-                         merge = sprinkles[["merge"]],
-                         merge_rowval = sprinkles[["merge_rowval"]],
-                         merge_colval = sprinkles[["merge_colval"]])
-  }
-
-  #* Sprinkles in the `width` group
-  if (any(names(sprinkles) %in% 
-          SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "width"]))
-  {
-    x <- width_sprinkles(x = x, 
-                         part = part, 
-                         indices = indices,
-                         width = sprinkles[["width"]],
-                         width_units = sprinkles[["width_units"]])
-  }
-  
-  #* Restore original sorting
-  x[[part]] <- dplyr::arrange(x[[part]], col, row)
   
   x
 }
@@ -1015,568 +816,45 @@ sprinkle.dust_list <- function(x, rows = NULL, cols = NULL, ...,
   )
 }
 
-#**********************************************************
-#**********************************************************
-#* Sprinkle functions
-#* These functions are not exported.  They perform the 
-#* actual work of sprinkling.  Sprinkles have been divided
-#* into groups of similar content for ease of management.
-#* Sprinkles that are part of a system are grouped together,
-#* and sprinkles that have similar features are grouped 
-#* together.
-#*
-#* 1. option_sprinkles
-#* 2. simple_sprinkles
-#* 3. bg_pattern_sprinkles
-#* 4. border_sprinkles
-#* 5. font_size sprinkles
-#* 6. height_sprinkles
-#* 7. merge_sprinkles
-#* 8. width_sprinkles
+# Unexported --------------------------------------------------------
 
-
-# option sprinkles --------------------------------------------------
-#* These are sprinkles that can also be set in the `dust` call.
-#* Generally, they apply to the entire table object, not just
-#* to one of the parts. `longtable`, `float`, and `caption` 
-#* are examples
-
-option_sprinkles <- function(x, sprinkles)
-{
-  which_option <- 
-    which(names(sprinkles) %in%
-            SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "option"])
-  
-  for (spr in names(sprinkles)[which_option])
-  {
-    x[[spr]] <- sprinkles[[spr]]
-  }
-  
-  x
-}
-
-# simple_sprinkles --------------------------------------------------
-#* This group comprises the majority of sprinkles.  These 
-#* are sprinkles that impact a component of a table but 
-#* do not require interaction with other sprinkles.
-#* Examples include `bold`, `italic`, and `font_color`
-
-simple_sprinkles <- function(x, sprinkles, part, indices)
-{
-  which_simple <- 
-    which(names(sprinkles) %in%
-            SprinkleRef[["sprinkle"]][SprinkleRef[["group"]] == "simple"])
-
-  for (spr in names(sprinkles)[which_simple])
-  {
-    x[[part]][[spr]][indices] <- 
-      switch(spr,
-             "fn" = deparse(sprinkles[[spr]]),
-             "pad" = format(sprinkles[[spr]], scientific = FALSE),
-             "rotate_degree" = format(sprinkles[[spr]], scientific = FALSE),
-             sprinkles[[spr]])
-  }
-  
-  x
-}
-
-# bg_pattern_sprinkles ----------------------------------------------
-#* For striping by either row or column, both the 
-#* `bg_pattern` and `bg_pattern_by` sprinkles require a 
-#* value.  For convenience of the user, assigning one of 
-#* these a value will still work and we assign the other
-#* a default value.
-
-bg_pattern_sprinkles <- function(x, part, indices, bg_pattern, bg_pattern_by)
-{
-  #* Assign default values
-  if (is.null(bg_pattern)) bg_pattern <- c("#FFFFFF", "#DDDDDD")
-  if (is.null(bg_pattern_by)) bg_pattern_by <- "rows"
-  
-  #* Use only the first element of `bg_pattern_by` (in case the user
-  #* provided more than one value).
-  if (length(bg_pattern_by) > 1) bg_pattern_by <- bg_pattern_by[1]
-  
-  if (bg_pattern_by == "rows")
-  {
-    pattern <- data.frame(row = sort(unique(x[[part]][["row"]][indices])))
-    pattern[["bg"]] <- rep(bg_pattern, 
-                           length.out = nrow(pattern))
-    
-    pattern <- 
-      dplyr::left_join(pattern,
-                       dplyr::select(x[[part]][indices, ], 
-                                     row, col),
-                     by = c("row" = "row")) %>%
-      dplyr::arrange(col, row)
-   
-    x[[part]][["bg"]][indices] <- pattern[["bg"]]
-  }
-  else 
-  {
-    pattern <- data.frame(col = sort(unique(x[[part]][["col"]][indices])))
-    pattern[["bg"]] <- rep(bg_pattern, 
-                           length.out = nrow(pattern))
-    
-    pattern <- 
-      dplyr::left_join(pattern,
-                       dplyr::select(x[[part]][indices, ], 
-                                     row, col),
-                       by = c("col" = "col")) %>%
-      dplyr::arrange(col,row)
-    
-    x[[part]][["bg"]][indices] <- pattern[["bg"]]
-  }
-  
-  x
-}
-
-# border_sprinkles --------------------------------------------------
-#* The cell borders are perhaps the most complex system
-#* of sprinkles, requiring a side, thickness, unit, style,
-#* and color to be defined.  To simplify calls for the 
-#* user, defining at least one will result any remaining, 
-#* undefined sprinkles to take a default value.
-
-border_sprinkles <- function(x, part, indices,
-                             border, border_thickness,
-                             border_units, border_style, 
-                             border_color)
-{
-  if (is.null(border)) border <- c("bottom", "left", "top", "right")
-  if ("all" %in% border) border <- c("bottom", "left", "top", "right")
-  if (is.null(border_thickness)) border_thickness <- 1
-  if (is.null(border_units)) border_units <- "px"
-  if (is.null(border_style)) border_style <- "solid"
-  if (is.null(border_color)) border_color <- "Black"
-  
-  border_define <- sprintf("%s%s %s %s",
-                           border_thickness,
-                           border_units,
-                           border_style,
-                           border_color)
-  for (side in border){
-    x[[part]][[sprintf("%s_border", side)]][indices] <- border_define
-  }
-  
-  x
-}
-
-# font_size_sprinkles -----------------------------------------------
-#* The default font size is to allow the style/format of 
-#* the document to dictate the size.  Thus, declaring a
-#* font_size_unit without a font_size won't actually do
-#* anything.  On the other hand, if a font_size is 
-#* declared, but no units, the unit "pt" is assumed.
-
-font_size_sprinkles <- function(x, part, indices,
-                             font_size, font_size_units)
-{
-  if (is.null(font_size)) font_size <- ""
-  if (is.null(font_size_units)) font_size_units <- "pt"
-
-  x[[part]][["font_size"]][indices] <- format(font_size, scientific = FALSE)
-  x[[part]][["font_size_units"]][indices] <- font_size_units
-  
-  x
-}
-
-# height_sprinkles --------------------------------------------------
-#* Behaves similarly to `font_size_sprinkles`  With some
-#* cleverness, I could probably come up with a way to 
-#* work these into one function, but I'm not sure the
-#* generalization would create much improvement in 
-#* performance.
-
-height_sprinkles <- function(x, part, indices,
-                             height, height_units)
-{
-  if (is.null(height)) height = ""
-  if (is.null(height_units)) height_units <- "pt"
-  
-  x[[part]][["height"]][indices] <- format(height, scientific = FALSE)
-  x[[part]][["height_units"]][indices] <- height_units
-  
-  x
-}
-
-# merge_sprinkles ---------------------------------------------------
-#* This is the most difficult sprinkle, conceptually speaking.
-#* This handles merging cells.  
-#* Merged cells require a few components
-#*   a. display cell definition: The cell in the merged group 
-#*      which has the content to be displayed.  By default, 
-#*      this is the smallest row number/cell number combination.
-#*   b. rowspan definition: The number of rows the merged
-#*      cell should span.
-#*   c. colspan definition: The number of cells the merged
-#*      cell should span. 
-#* 
-#* Non-display cells are assigned a rowspan and colspan of 0.
-#* This suppresses them from printing, but preserves the content 
-#* of the cell within the `dust` object. Preservation is imporant
-#* in case a merged cell is unmerged in a subsequent call.
-
-merge_sprinkles <- function(x, part, indices,
-                             merge, merge_rowval, merge_colval)
-{
-  #* If the `merge` argument is NULL or FALSE, there's nothing to 
-  #* be done.  Return `x`
-  if (is.null(merge)) return(x)
-  if (!merge) return(x)
-  
-  #* If the display row and column aren't specified, choose the 
-  #* minimum row or cell.
-  if (is.null(merge_rowval)) merge_rowval <- min(x[[part]][["row"]][indices])
-  if (is.null(merge_colval)) merge_colval <- min(x[[part]][["col"]][indices])
-  
-  #* Map the cells to the display cell
-  x[[part]][["html_row"]][indices] <- as.integer(merge_rowval)
-  x[[part]][["html_col"]][indices] <- as.integer(merge_colval)
-  
-  #* Set colspan and rowspan of non-display cells to 0.  This suppresses 
-  #* them from display.
-  x[[part]][["rowspan"]][indices] [x[[part]][["row"]][indices] != merge_rowval] <- 0L
-  x[[part]][["colspan"]][indices] [x[[part]][["col"]][indices] != merge_colval] <- 0L
-  
-  #* Record the upper left most cell of the merged area.
-  #* This will be needed for HTML table to place the cell in the correct
-  #* location.
-  x[[part]][["html_row_pos"]][indices] <- as.integer(min(x[[part]][["row"]][indices]))
-  x[[part]][["html_col_pos"]][indices] <- as.integer(min(x[[part]][["col"]][indices]))
-  
-  #* Set the colspan and rowspan of the display cells.
-  x[[part]][["rowspan"]][indices] [x[[part]][["row"]][indices] == merge_rowval] <- 
-    x[[part]][["row"]][indices] %>%
-    unique() %>%
-    length() %>%
-    as.integer()
-  
-  x[[part]][["colspan"]][indices] [x[[part]][["col"]][indices] == merge_colval] <- 
-    x[[part]][["col"]][indices] %>%
-    unique() %>%
-    length() %>%
-    as.integer()
-  
-  x
-}
-
-# width_sprinkles ---------------------------------------------------
-#* See the note for '5. height_sprinkles'
-
-width_sprinkles <- function(x, part, indices,
-                             width, width_units)
-{
-  if (is.null(width)) width = ""
-  if (is.null(width_units)) width_units <- "pt"
-  
-  x[[part]][["width"]][indices] <- format(width, scientific = FALSE)
-  x[[part]][["width_units"]][indices] <- width_units
-  
-  x
-}
-
-# Color sprinkles ---------------------------------------------------
-
-color_sprinkles <- function(sprinkles, coll)
-{
-
-  sprinkles <- 
-    lapply(sprinkles,
-           function(x)
-           {
-             x <- gsub("[[:space:]]", "", x)
-             x[x == "transparent"] <- "rgba(255,255,255,0.0)"
-             x
-           }
-    )
-  for (i in seq_along(sprinkles))
-  {
-    is_color <- tolower(sprinkles[[i]]) %in% tolower(grDevices::colors())
-    is_rgb <- grepl("^rgb[(]\\d{1,3},\\d{1,3},\\d{1,3}[)]",sprinkles[[i]]) | 
-              grepl("^rgba[(]\\d{1,3},\\d{1,3},\\d{1,3},(\\d{1,4}|)[.]\\d{1,9}[)]$", sprinkles[[i]])  | 
-              grepl("^rgba[(]\\d{1,3},\\d{1,3},\\d{1,3},0[)]$", sprinkles[[i]])
-    is_hex <- grepl("^#[0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f]$", sprinkles[[i]]) | 
-              grepl("^#[0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f][0-9,A-F,a-f]$", sprinkles[[i]])
-    
-    not_colors <- sprinkles[[i]][!(is_color | is_rgb | is_hex)]
-    
-    if (length(not_colors))
-    {
-      coll$push(sprintf("Colors in '%s' are not valid colors: %s",
-                        names(sprinkles)[i],
-                        paste0(not_colors, collapse = ", ")))
-    }
-
-    sprinkles[[i]][is_color | is_hex] <- 
-      vapply(sprinkles[[i]][is_color | is_hex],
-             function(x)
-             {
-               col <- grDevices::col2rgb(x, alpha = TRUE) 
-               if (length(col) == 4) col[4] <- col[4] / 255
-               
-               paste0(col, collapse = ",") %>%
-               sprintf(fmt = "rgba(%s)",
-                       .)
-             },
-             character(1)
-      )
-               
-  }
-  sprinkles
-}
-
-# Discrete sprinkles ------------------------------------------------
-
-discrete_sprinkles <- function(x, part, indices,
-                               discrete, discrete_colors,
-                               border_thickness, border_units,
-                               border_style)
-{
-  discrete["font" %in% discrete] <- "font_color"
-  
-  if ("border" %in% discrete)
-  {
-    discrete <- c(sprintf("%s_border", 
-                          c("top", "left", "right", "bottom")),
-                  discrete)
-    discrete <- unique(discrete[!discrete %in% "border"])
-  }
-  
-  ux <- unique(x[[part]][["value"]][indices])
-  
-  if (is.null(discrete_colors)) 
-  {
-    discrete_colors <- getOption("pixie_discrete_pal", NULL)
-  }
-  
-  if (is.null(discrete_colors))
-  {
-    discrete_colors <- scales::hue_pal()(length(ux))
-  }
-
-  checkmate::makeAssertion(x = discrete_colors,
-                           if (length(discrete_colors) >= length(ux))
-                           {
-                             TRUE
-                           }
-                           else
-                           {
-                             sprintf("`discrete_color` must have at least the same length as the number of unique values (>= %s)",
-                                           length(ux))
-                           },
-                           var.name = "discrete_color",
-                           collection = NULL)
-  
-  if (is.null(border_thickness)) border_thickness <- 1
-  if (is.null(border_units)) border_units <- "px"
-  if (is.null(border_style)) border_style <- "solid"
-
-  for (i in seq_along(discrete))
-  {
-    if (grepl("border", discrete[i]))
-    {
-      x[[part]][[discrete[i]]][indices] <- 
-        sprintf("%s%s %s %s",
-                border_thickness,
-                border_units,
-                border_style,
-                discrete_colors[as.numeric(as.factor(x[[part]][["value"]][indices]))])
-    }
-    else 
-    {
-      x[[part]][[discrete[i]]][indices] <- 
-        discrete_colors[as.numeric(as.factor(x[[part]][["value"]][indices]))]
-    }
-  }
-  x
-}
-
-# Gradient Sprinkles ------------------------------------------------
-
-gradient_sprinkles <- function(x, part, indices,
-                               gradient, gradient_colors,
-                               gradient_cut, gradient_n,
-                               gradient_na,
-                               border_thickness, border_units,
-                               border_style)
-{
-  
-  checkmate::assert_subset(x = x[[part]][["col_class"]][indices],
-                           choices = c("numeric", "integer", "double"),
-                           empty.ok = FALSE)
-  
-  gradient["font" %in% gradient] <- "font_color"
-  
-  if (is.null(gradient_n)) gradient_n <- 10
-  
-  if (is.null(gradient_na))
-  {
-    gradient_na <- "grey"
-  }
-  
-  if ("border" %in% gradient)
-  {
-    gradient <- c(sprintf("%s_border", 
-                          c("top", "left", "right", "bottom")),
-                  gradient)
-    gradient <- unique(gradient[!gradient %in% "border"])
-  }
-  
-  if (is.null(gradient_colors))
-  {
-    gradient_colors <- getOption("pixie_gradient_pal", 
-                                 c("#132B43", "#56B1F7"))
-  }
-  
-  gradient_colors <- 
-    scales::gradient_n_pal(gradient_colors)(seq(0, 1, length.out = gradient_n))
-  
-  if (is.null(border_thickness)) border_thickness <- 1
-  if (is.null(border_units)) border_units <- "px"
-  if (is.null(border_style)) border_style <- "solid"
-  
-  gradient_split <- 
-    if (is.null(gradient_cut))
-    {
-    cut(as.numeric(x[[part]][["value"]][indices]),
-        breaks = stats::quantile(as.numeric(x[[part]][["value"]][indices]), 
-                                 probs = seq(0, 1, length.out = gradient_n),
-                                 na.rm = TRUE),
-        include.lowest = TRUE)
-    }
-    else
-    {
-      cut(as.numeric(x[[part]][["value"]][indices]),
-          breaks = gradient_cut,
-          include.lowest = TRUE,
-          na.rm = TRUE)
-    }
-  
-  na_val <- which(is.na(gradient_split))
-  
-  for (i in seq_along(gradient))
-  {
-    if (grepl("border", gradient[i]))
-    {
-      x[[part]][[gradient[i]]][indices] <- 
-        sprintf("%s%s %s %s",
-                border_thickness,
-                border_units,
-                border_style,
-                gradient_colors[as.numeric(gradient_split)])
-      
-      x[[part]][[gradient[i]]][indices][na_val] <- 
-        sprintf("%s%s %s %s",
-                border_thickness,
-                border_units,
-                border_style,
-                gradient_na)
-    }
-    else 
-    {
-      x[[part]][[gradient[i]]][indices] <- 
-        gradient_colors[as.numeric(gradient_split)]
-      
-      x[[part]][[gradient[i]]][indices][na_val] <- 
-        gradient_na
-    }
-  }
-  
-  x
-}
-
-# assert_sprinkles --------------------------------------------------
-#* Early versions of `pixiedust` performed a long series
-#* of checks that tested for the existence of a sprinkle 
-#* and then tested the characteristics of the sprinkle.
-#* This was time consuming and tedious to write.
-#* The function below allows us to test only the 
-#* sprinkles that are given, eliminating the need to 
-#* test for the existence of sprinkles.  It also uses
-#* `checkmate`, which is somewhat faster.
-#* The `assert*` function used for each sprinkle is 
-#* defined in the `SprinkleRef` data frame, which 
-#* exists in the 'R/sysdata.rda` object, and is defined
-#* by the `inst/sprinkle_ref.csv` file.  The 
-#* arguments for the checks are also defined in that 
-#* data frame.
-
-assert_sprinkles <- function(sprinkles, coll, recycle)
-{
-  #* The longtable sprinkle needs some special love.
-  #* It may be either logical or numerical, with values less
-  #* than 0 being interpreted as FALSE
-  if ("longtable" %in% names(sprinkles))
-  {
-    if (!is.numeric(sprinkles[["longtable"]]) & !is.logical(sprinkles[["longtable"]]))
-    {
-      coll$push("`longtable` must be either logical or numerical")
-    }
-  } #* END if ("longtable" %in% names(sprinkles))
-  
-  else
-  {
-    for (i in seq_along(sprinkles))
-    {
-      #* Determine the reference row in the `SprinkleRef` data frame
-      #* This data frame is saved to /R/sysdata.rda
-      ref_row <- which(SprinkleRef[["sprinkle"]] == names(sprinkles)[i])
-      
-      #* For the `fn` sprinkle, we need to rewrap it in `quote` 
-      #* to prevent checkmate from trying to evaluate it 
-      #* (this isn't a problem with checkmate, but a result 
-      #* of how we're passing the call.
-      if (inherits(sprinkles[[i]], "call"))
-      {
-        sprinkles[[i]] <- quote(sprinkles[[i]])
-      }
-
-      #* Arguments to the assert functions are prefixed with 'arg_'
-      #* First we extract them from `SprinkleRef`, then we 
-      #* remove any missing values.
-      args <- SprinkleRef[ref_row, 
-                          names(SprinkleRef)[grepl("arg_", names(SprinkleRef))],
-                          drop = FALSE]
-      
-      args <- lapply(X = args,
-                     FUN = function(x) if (is.na(x)) NULL else x)
-      args <- args[!vapply(args, is.null, logical(1))]
-      
-      #* For assertions with a `choices` argument, convert the character string
-      #* to a vector.
-      if (any(names(args) == "arg_choices"))
-      {
-        args[["arg_choices"]] <- eval(parse(text = args[["arg_choices"]]))
-      }
-
-      #* If recycling, remove the length 1 constraint
-      if (recycle != "none")
-      {
-        args[["arg_len"]] <- NULL
-      }
-      
-      #* Remove the 'arg_' prefix from the argument names.
-      names(args) <- sub(pattern = "arg_",
-                         replacement = "",
-                         x = names(args))
-
-
-      do.call(
-        what = #* generate the function call
-          eval(
-            parse(
-              text = 
-                sprintf("%s%s",
-                        "checkmate::",
-                        SprinkleRef[["assert_fn"]][ref_row])
-            )
-          ),
-        args = c(list(sprinkles[[i]], 
-                      add = coll,
-                      .var.name = names(sprinkles)[i]),
-                 args)
-      )
-    }  #* End for loop
-  } #* End else
-}
+sprinkle_groups <-  
+  list(
+    align = c("halign", "valign"),
+    bg = "bg",
+    bg_pattern = c("bg_pattern", "bg_pattern_by"),
+    bookdown = "bookdown",
+    border = c("border", "border_color", "border_style", 
+               "border_thickness", "border_units"),
+    border_collapse = "border_collapse",
+    caption = "caption", 
+    caption_number = "caption_number",
+    discrete = c("discrete", "discrete_colors"),
+    fixed_header = c("fixed_header", "include_fixed_header_css",
+                     "fixed_header_class_name", 
+                     "scroll_body_height", "scroll_body_height_units",
+                     "scroll_body_background_color",
+                     "fixed_header_height", "fixed_header_height_units",
+                     "fixed_header_text_height", "fixed_header_text_height_units",
+                     "fixed_header_background_color"),
+    float = "float",
+    fn = "fn",
+    font = c("bold", "italic", "font_size", "font_size_units",
+             "font_color", "font_family"),
+    gradient = c("gradient", "gradient_colors", "gradient_cut",
+                 "gradient_n", "gradient_na"),
+    height = c("height", "height_units"),
+    hhline = "hhline",
+    justify = "justify",
+    label = "label",
+    longtable = "longtable",
+    merge = c("merge", "merge_rowval", "merge_colval"),
+    na_string = "na_string",
+    pad = "pad",
+    replace = "replace",
+    rotate_degree = "rotate_degree",
+    round = "round",
+    sanitize = c("sanitize", "sanitize_args"),
+    tabcolsep = "tabcolsep",
+    width = c("width", "width_units")
+  )

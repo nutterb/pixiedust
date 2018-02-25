@@ -69,8 +69,8 @@
 #' 
 #' @export
 
-sprinkle_bg <- function(x, rows = NULL, cols = NULL, bg, 
-                        part = c("body", "head", "foot", "interfoot"),
+sprinkle_bg <- function(x, rows = NULL, cols = NULL, bg = "", 
+                        part = c("body", "head", "foot", "interfoot", "table"),
                         fixed = FALSE, 
                         recycle = c("none", "rows", "cols", "columns"), 
                         ...)
@@ -81,8 +81,8 @@ sprinkle_bg <- function(x, rows = NULL, cols = NULL, bg,
 #' @rdname sprinkle_bg
 #' @export
 
-sprinkle_bg.default <- function(x, rows = NULL, cols = NULL, bg, 
-                                part = c("body", "head", "foot", "interfoot"),
+sprinkle_bg.default <- function(x, rows = NULL, cols = NULL, bg = "", 
+                                part = c("body", "head", "foot", "interfoot", "table"),
                                 fixed = FALSE, 
                                 recycle = c("none", "rows", "cols", "columns"), 
                                 ...)
@@ -121,8 +121,8 @@ sprinkle_bg.default <- function(x, rows = NULL, cols = NULL, bg,
 #' @rdname sprinkle_bg
 #' @export
 
-sprinkle_bg.dust_list <- function(x, rows = NULL, cols = NULL, bg, 
-                                  part = c("body", "head", "foot", "interfoot"),
+sprinkle_bg.dust_list <- function(x, rows = NULL, cols = NULL, bg = "", 
+                                  part = c("body", "head", "foot", "interfoot", "table"),
                                   fixed = FALSE, 
                                   recycle = c("none", "rows", "cols", "columns"), 
                                   ...)
@@ -156,7 +156,7 @@ sprinkle_background <- sprinkle_bg
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_bg_index_assert <- function(bg, coll)
+sprinkle_bg_index_assert <- function(bg = "", coll)
 {
   checkmate::assert_character(x = bg,
                               len = 1,

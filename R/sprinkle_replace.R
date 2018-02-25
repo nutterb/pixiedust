@@ -56,7 +56,7 @@
 
 sprinkle_replace <- function(x, rows = NULL, cols = NULL,
                                replace, 
-                               part = c("body", "head", "foot", "interfoot"),
+                               part = c("body", "head", "foot", "interfoot", "table"),
                                fixed = FALSE, 
                                recycle = c("none", "rows", "cols", "columns"),
                                ...)
@@ -69,7 +69,7 @@ sprinkle_replace <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_replace.default <- function(x, rows = NULL, cols = NULL,
                                        replace,
-                                       part = c("body", "head", "foot", "interfoot"),
+                                       part = c("body", "head", "foot", "interfoot", "table"),
                                        fixed = FALSE, 
                                        recycle = c("none", "rows", "cols", "columns"),
                                        ...)
@@ -105,7 +105,7 @@ sprinkle_replace.default <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_replace.dust_list <- function(x, rows = NULL, cols = NULL,
                                          replace,
-                                         part = c("body", "head", "foot", "interfoot"),
+                                         part = c("body", "head", "foot", "interfoot", "table"),
                                          fixed = FALSE, 
                                          recycle = c("none", "rows", "cols", "columns"),
                                          ...)

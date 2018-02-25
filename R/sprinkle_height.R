@@ -58,7 +58,7 @@
 
 sprinkle_height <- function(x, rows = NULL, cols = NULL, 
                             height = NULL, height_units = NULL,
-                            part = c("body", "head", "foot", "interfoot"),
+                            part = c("body", "head", "foot", "interfoot", "table"),
                             fixed = FALSE, 
                             recycle = c("none", "rows", "cols", "columns"),
                             ...)
@@ -71,7 +71,7 @@ sprinkle_height <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_height.default <- function(x, rows = NULL, cols = NULL, 
                                  height = NULL, height_units = NULL,
-                                 part = c("body", "head", "foot", "interfoot"),
+                                 part = c("body", "head", "foot", "interfoot", "table"),
                                  fixed = FALSE, 
                                  recycle = c("none", "rows", "cols", "columns"),
                                  ...)
@@ -110,7 +110,7 @@ sprinkle_height.default <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_height.dust_list <- function(x, rows = NULL, cols = NULL, 
                                       height = NULL, height_units = NULL,
-                                      part = c("body", "head", "foot", "interfoot"),
+                                      part = c("body", "head", "foot", "interfoot", "table"),
                                       fixed = FALSE, 
                                       recycle = c("none", "rows", "cols", "columns"),
                                       ...)
@@ -138,7 +138,7 @@ sprinkle_height.dust_list <- function(x, rows = NULL, cols = NULL,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_height_index_assert <- function(height, height_units, coll)
+sprinkle_height_index_assert <- function(height = NULL, height_units = NULL, coll)
 {
   if (!is.null(height))
   {
@@ -157,7 +157,7 @@ sprinkle_height_index_assert <- function(height, height_units, coll)
   }
 }
 
-sprinkle_height_index <- function(x, indices, height, height_units, part)
+sprinkle_height_index <- function(x, indices, height = NULL, height_units = NULL, part)
 {
   if (!is.null(height))
   {

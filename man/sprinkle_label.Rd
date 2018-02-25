@@ -44,10 +44,10 @@ For details about using labels in \code{bookdown} documents, see
  \item Cast an error if \code{label} is not a \code{character(1)}.
 }
 }
-\author{
-Benjamin Nutter
-}
+
 \seealso{
 \code{\link{dust}}, \code{\link{sprinkle}}
 }
-
+\author{
+Benjamin Nutter
+}

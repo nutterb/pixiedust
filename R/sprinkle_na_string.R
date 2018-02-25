@@ -53,7 +53,7 @@
 
 sprinkle_na_string <- function(x, rows = NULL, cols = NULL,
                                na_string = getOption("pixie_na_string", NA), 
-                               part = c("body", "head", "foot", "interfoot"),
+                               part = c("body", "head", "foot", "interfoot", "table"),
                                fixed = FALSE, 
                                recycle = c("none", "rows", "cols", "columns"),
                                ...)
@@ -66,7 +66,7 @@ sprinkle_na_string <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_na_string.default <- function(x, rows = NULL, cols = NULL,
                                        na_string = getOption("pixie_na_string", NA), 
-                                       part = c("body", "head", "foot", "interfoot"),
+                                       part = c("body", "head", "foot", "interfoot", "table"),
                                        fixed = FALSE, 
                                        recycle = c("none", "rows", "cols", "columns"),
                                        ...)
@@ -106,7 +106,7 @@ sprinkle_na_string.default <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_na_string.dust_list <- function(x, rows = NULL, cols = NULL,
                                          na_string = getOption("pixie_na_string", NA), 
-                                         part = c("body", "head", "foot", "interfoot"),
+                                         part = c("body", "head", "foot", "interfoot", "table"),
                                          fixed = FALSE, 
                                          recycle = c("none", "rows", "cols", "columns"),
                                          ...)
@@ -133,7 +133,8 @@ sprinkle_na_string.dust_list <- function(x, rows = NULL, cols = NULL,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_na_string_index_assert <- function(na_string, coll)
+sprinkle_na_string_index_assert <- function(na_string = getOption("pixie_na_string", NA), 
+                                            coll)
 {
   checkmate::assert_character(x = na_string,
                               len = 1,

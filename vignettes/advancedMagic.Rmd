@@ -18,25 +18,27 @@ In addition to the basic cell-specific customizations covered in the "pixiedust"
 
 The presentation of this vignette will be a hybrid of tutorial and testing environment.  Due to the way that `pixiedust` generates output, it cannot be directly evaluated for accuracy (this may change some day, but not right now) and so the best way to see if it is doing what is expected is to generate the output.  The primary tutorial aspect of this vignette will be covered in the HTML portions, with the Markdown and Console output being provided mostly to verify that the output is as expected.
 
-For parts of this vignette, we will work with the `mtcars` data frame.  But first we make some additions to the data.  For simplicity, we will only use the first ten rows of the data frame.  Additionally, we will add labels to the variables using the `label` function from the `Hmisc` package.
+For parts of this vignette, we will work with the `mtcars` data frame.  But first we make some additions to the data.  For simplicity, we will only use the first ten rows of the data frame.  Additionally, we will add labels to the variables using the `set_label` function from the `labelVector` package.
 
 ```{r}
 library(dplyr)
 library(pixiedust)
 
 mtcars2 <- mtcars[1:10, ]
-
-Hmisc::label(mtcars2$mpg) <- "Gas Mileage"
-Hmisc::label(mtcars2$cyl) <- "Cylinders"
-Hmisc::label(mtcars2$disp) <- "Displacement"
-Hmisc::label(mtcars2$hp) <- "Horse Power"
-Hmisc::label(mtcars2$drat) <- "Rear Axle Ratio"
-Hmisc::label(mtcars2$wt) <- "Weight"
-Hmisc::label(mtcars2$qsec) <- "1/4 mile time"
-Hmisc::label(mtcars2$vs) <- "V/S"
-Hmisc::label(mtcars2$am) <- "Transmission"
-Hmisc::label(mtcars2$gear) <- "Forward Gears"
-Hmisc::label(mtcars2$carb) <- "Carburetors"
+mtcars2 <- 
+  labelVector::set_label(
+    mtcars2,
+    mpg = "Gas Mileage",
+    cyl = "Cylinders",
+    disp = "Displacement",
+    hp = "Horse Power",
+    drat = "Rear Axle Ratio",
+    wt = "Weight",
+    qsec = "1/4 mile time",
+    vs = "V/S",
+    am = "Transmission",
+    gear = "Forward Gears",
+    carb = "Carburetors")
 ```
 
 In other portions of the vignette, we will use a linear model based on the full `mtcars` data set.  We will assign the same variable labels shown above.  We will also create a couple of factor variables to show how factors can be displayed.
@@ -47,17 +49,20 @@ mtcars <- mutate(mtcars,
                  cyl = factor(cyl),
                  gear = factor(gear))
 
-Hmisc::label(mtcars$mpg) <- "Gas Mileage"
-Hmisc::label(mtcars$cyl) <- "Cylinders"
-Hmisc::label(mtcars$disp) <- "Displacement"
-Hmisc::label(mtcars$hp) <- "Horse Power"
-Hmisc::label(mtcars$drat) <- "Rear Axle Ratio"
-Hmisc::label(mtcars$wt) <- "Weight"
-Hmisc::label(mtcars$qsec) <- "1/4 mile time"
-Hmisc::label(mtcars$vs) <- "V/S"
-Hmisc::label(mtcars$am) <- "Transmission"
-Hmisc::label(mtcars$gear) <- "Forward Gears"
-Hmisc::label(mtcars$carb) <- "Carburetors"
+mtcars <-
+  labelVector::set_label(
+    mtcars,
+    mpg = "Gas Mileage",
+    cyl = "Cylinders",
+    disp = "Displacement",
+    hp = "Horse Power",
+    drat = "Rear Axle Ratio",
+    wt = "Weight",
+    qsec = "1/4 mile time",
+    vs = "V/S",
+    am = "Transmission",
+    gear = "Forward Gears",
+    carb = "Carburetors")
 
 fit <- lm(mpg ~ am + wt + qsec + gear, data = mtcars)
 ```
@@ -71,7 +76,9 @@ fit <- lm(mpg ~ am + wt + qsec + gear, data = mtcars)
 To illustrate the multirow headers and footers, we will generate a header that has both the column name and the label.  The footer will summarise the values in each column by mean and standard deviation.
 
 ```{r}
-custom_head <- rbind(names(mtcars2), Hmisc::label(mtcars2)) %>%
+custom_head <- rbind(names(mtcars2), 
+                     labelVector::get_label(mtcars2,
+                                            names(mtcars2))) %>%
   as.data.frame(stringsAsFactors = FALSE)
 
 custom_foot <- rbind(vapply(mtcars2, mean, numeric(1)),
@@ -135,7 +142,7 @@ x %>%
 
 ## Model Summaries with Fit Statistics
 
-`pixiedust` offers a few options to help simplify the preparation of model output for tabular display.  If you choose to use the `label` functions from the `Hmisc` package, these labels can be accessed for the table.  Additionally, the levels of factor variables may be printed in a more human-readable format.
+`pixiedust` offers a few options to help simplify the preparation of model output for tabular display.  If you choose to use the `label` functions from the `labelVector` package, these labels can be accessed for the table.  Additionally, the levels of factor variables may be printed in a more human-readable format. (note that the `label` functions from the `Hmisc` package may also be used)
 
 ```{r}
 fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), 
@@ -213,7 +220,9 @@ The console output isn't as sophisticated as the HTML output, and so not all of 
 To illustrate the multirow headers and footers, we will generate a header that has both the column name and the label.  The footer will summarise the values in each column by mean and standard deviation.
 
 ```{r}
-custom_head <- rbind(names(mtcars2), Hmisc::label(mtcars2)) %>%
+custom_head <- rbind(names(mtcars2), 
+                     labelVector::get_label(mtcars2,
+                                            names(mtcars2))) %>%
   as.data.frame(stringsAsFactors = FALSE)
 
 custom_foot <- rbind(vapply(mtcars2, mean, numeric(1)),
@@ -277,7 +286,7 @@ x %>%
 
 ## Model Summaries with Fit Statistics
 
-`pixiedust` offers a few options to help simplify the preparation of model output for tabular display.  If you choose to use the `label` functions from the `Hmisc` package, these labels can be accessed for the table.  Additionally, the levels of factor variables may be printed in a more human-readable format.
+`pixiedust` offers a few options to help simplify the preparation of model output for tabular display.  If you choose to use the `label` functions from the `labelVector` package, these labels can be accessed for the table.  Additionally, the levels of factor variables may be printed in a more human-readable format. (note that the `label` functions from the `Hmisc` package may also be used)
 
 ```{r}
 fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), 
@@ -355,7 +364,9 @@ Markdown output will support some of the features of `pixiedust` a little better
 To illustrate the multirow headers and footers, we will generate a header that has both the column name and the label.  The footer will summarise the values in each column by mean and standard deviation.
 
 ```{r}
-custom_head <- rbind(names(mtcars2), Hmisc::label(mtcars2)) %>%
+custom_head <- rbind(names(mtcars2), 
+                     labelVector::get_label(mtcars2,
+                                            names(mtcars2))) %>%
   as.data.frame(stringsAsFactors = FALSE)
 
 custom_foot <- rbind(vapply(mtcars2, mean, numeric(1)),
@@ -419,7 +430,7 @@ x %>%
 
 ## Model Summaries with Fit Statistics
 
-`pixiedust` offers a few options to help simplify the preparation of model output for tabular display.  If you choose to use the `label` functions from the `Hmisc` package, these labels can be accessed for the table.  Additionally, the levels of factor variables may be printed in a more human-readable format.
+`pixiedust` offers a few options to help simplify the preparation of model output for tabular display.  If you choose to use the `label` functions from the `labelVector` package, these labels can be accessed for the table.  Additionally, the levels of factor variables may be printed in a more human-readable format. (note that the `label` functions from the `Hmisc` package may also be used)
 
 ```{r}
 fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), 

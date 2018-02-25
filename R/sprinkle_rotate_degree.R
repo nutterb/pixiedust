@@ -53,7 +53,7 @@
 
 sprinkle_rotate_degree <- function(x, rows = NULL, cols = NULL,
                                rotate_degree = NULL, 
-                               part = c("body", "head", "foot", "interfoot"),
+                               part = c("body", "head", "foot", "interfoot", "table"),
                                fixed = FALSE, 
                                recycle = c("none", "rows", "cols", "columns"),
                                ...)
@@ -66,7 +66,7 @@ sprinkle_rotate_degree <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_rotate_degree.default <- function(x, rows = NULL, cols = NULL,
                                        rotate_degree = NULL, 
-                                       part = c("body", "head", "foot", "interfoot"),
+                                       part = c("body", "head", "foot", "interfoot", "table"),
                                        fixed = FALSE, 
                                        recycle = c("none", "rows", "cols", "columns"),
                                        ...)
@@ -102,7 +102,7 @@ sprinkle_rotate_degree.default <- function(x, rows = NULL, cols = NULL,
 
 sprinkle_rotate_degree.dust_list <- function(x, rows = NULL, cols = NULL,
                                          rotate_degree = NULL, 
-                                         part = c("body", "head", "foot", "interfoot"),
+                                         part = c("body", "head", "foot", "interfoot", "table"),
                                          fixed = FALSE, 
                                          recycle = c("none", "rows", "cols", "columns"),
                                          ...)
@@ -129,7 +129,8 @@ sprinkle_rotate_degree.dust_list <- function(x, rows = NULL, cols = NULL,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_rotate_degree_index_assert <- function(rotate_degree, coll)
+sprinkle_rotate_degree_index_assert <- function(rotate_degree = NULL, 
+                                                coll)
 {
   if (!is.null(rotate_degree))
   {

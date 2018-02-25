@@ -82,7 +82,8 @@ sprinkle_hhline.dust_list <- function(x,
 # the cell-valued sprinkles, but they don't actually require an 
 # index, since they change table-valued sprinkles
 
-sprinkle_hhline_index_assert <- function(hhline, coll)
+sprinkle_hhline_index_assert <- function(hhline = getOption("pixie_hhline", FALSE),
+                                         coll)
 {
   checkmate::assert_logical(x = hhline,
                             len = 1,
@@ -90,7 +91,9 @@ sprinkle_hhline_index_assert <- function(hhline, coll)
                             .var.name = "hhline")
 }
 
-sprinkle_hhline_index <- function(x, hhline)
+# indices argument is only present to avoid errors when the argument is passed 
+# from sprinkle
+sprinkle_hhline_index <- function(x, hhline, indices = NULL, part = NULL)
 {
   x[["hhline"]] <- hhline
   

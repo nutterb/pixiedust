@@ -46,10 +46,10 @@ Tables built for the \code{bookdown} package can be referenced
  \item Cast an error if \code{bookdown} has length greater than 1.
 }
 }
-\author{
-Benjamin Nutter
-}
+
 \seealso{
 \code{\link{dust}}, \code{\link{sprinkle}}
 }
-
+\author{
+Benjamin Nutter
+}

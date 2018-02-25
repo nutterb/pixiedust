@@ -85,7 +85,7 @@ sprinkle_gradient <- function(x, rows = NULL, cols = NULL,
                               gradient_cut = NULL,
                               gradient_n = 10,
                               gradient_na = "grey",
-                              part = c("body", "head", "foot", "interfoot"),
+                              part = c("body", "head", "foot", "interfoot", "table"),
                               fixed = FALSE, 
                               recycle = c("none", "rows", "cols", "columns"),
                             ...)
@@ -103,7 +103,7 @@ sprinkle_gradient.default <- function(x, rows = NULL, cols = NULL,
                                    gradient_cut = NULL,
                                    gradient_n = 10,
                                    gradient_na = "grey",
-                                   part = c("body", "head", "foot", "interfoot"),
+                                   part = c("body", "head", "foot", "interfoot", "table"),
                                    fixed = FALSE, 
                                    recycle = c("none", "rows", "cols", "columns"),
                                    ...)
@@ -152,7 +152,7 @@ sprinkle_gradient.dust_list <- function(x, rows = NULL, cols = NULL,
                                         gradient_cut = NULL,
                                         gradient_n = 10,
                                         gradient_na = "grey",
-                                        part = c("body", "head", "foot", "interfoot"),
+                                        part = c("body", "head", "foot", "interfoot", "table"),
                                       fixed = FALSE, 
                                       recycle = c("none", "rows", "cols", "columns"),
                                       ...)
@@ -183,10 +183,11 @@ sprinkle_gradient.dust_list <- function(x, rows = NULL, cols = NULL,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_gradient_index_assert <- function(gradient, gradient_colors, 
-                                           gradient_cut,
-                                           gradient_n,
-                                           gradient_na,
+sprinkle_gradient_index_assert <- function(gradient = "bg",
+                                           gradient_colors = getOption("pixie_gradient_pal", NULL),
+                                           gradient_cut = NULL,
+                                           gradient_n = 10,
+                                           gradient_na = "grey",
                                            coll)
 {
   checkmate::assert_subset(x = gradient,
@@ -237,9 +238,13 @@ sprinkle_gradient_index_assert <- function(gradient, gradient_colors,
   }
 }
 
-sprinkle_gradient_index <- function(x, indices, gradient, gradient_colors, 
-                                    gradient_cut, gradient_n, 
-                                    gradient_na, part, ...)
+sprinkle_gradient_index <- function(x, indices, 
+                                    gradient = "bg",
+                                    gradient_colors = getOption("pixie_gradient_pal", NULL),
+                                    gradient_cut = NULL,
+                                    gradient_n = 10,
+                                    gradient_na = "grey", 
+                                    part, ...)
 {
   part <- part[1]
   

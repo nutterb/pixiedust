@@ -8,18 +8,18 @@
 \usage{
 sprinkle_na_string(x, rows = NULL, cols = NULL,
   na_string = getOption("pixie_na_string", NA), part = c("body", "head",
-  "foot", "interfoot"), fixed = FALSE, recycle = c("none", "rows", "cols",
-  "columns"), ...)
+  "foot", "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows",
+  "cols", "columns"), ...)
 
 \method{sprinkle_na_string}{default}(x, rows = NULL, cols = NULL,
   na_string = getOption("pixie_na_string", NA), part = c("body", "head",
-  "foot", "interfoot"), fixed = FALSE, recycle = c("none", "rows", "cols",
-  "columns"), ...)
+  "foot", "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows",
+  "cols", "columns"), ...)
 
 \method{sprinkle_na_string}{dust_list}(x, rows = NULL, cols = NULL,
   na_string = getOption("pixie_na_string", NA), part = c("body", "head",
-  "foot", "interfoot"), fixed = FALSE, recycle = c("none", "rows", "cols",
-  "columns"), ...)
+  "foot", "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows",
+  "cols", "columns"), ...)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}
@@ -76,8 +76,8 @@ The functional behavior of the \code{fixed} and \code{recycle} arguments
 is not tested for this function. It is tested and validated in the
 tests for \code{\link{index_to_sprinkle}}.
 }
+
 \seealso{
 \code{\link{sprinkle}}, 
   \code{\link{index_to_sprinkle}}
 }
-

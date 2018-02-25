@@ -94,7 +94,7 @@ sprinkle_border <- function(x, rows, cols,
                             border_color = "black",
                             border_style = "solid", border_thickness = 1,
                             border_units = c("pt", "px"), 
-                            part = c("body", "head", "foot", "interfoot"),
+                            part = c("body", "head", "foot", "interfoot", "table"),
                             fixed = FALSE, 
                             recycle = c("none", "rows", "cols", "columns"), 
                             ...)
@@ -110,7 +110,7 @@ sprinkle_border.default <- function(x, rows = NULL, cols = NULL,
                                     border_color = "black",
                                     border_style = "solid", border_thickness = 1,
                                     border_units = c("pt", "px"),  
-                                    part = c("body", "head", "foot", "interfoot"),
+                                    part = c("body", "head", "foot", "interfoot", "table"),
                                     fixed = FALSE, 
                                     recycle = c("none", "rows", "cols", "columns"), 
                                     ...)
@@ -158,7 +158,7 @@ sprinkle_border.dust_list <- function(x, rows = NULL, cols = NULL,
                                       border_color = "black",
                                       border_style = "solid", border_thickness = 1,
                                       border_units = c("pt", "px"),  
-                                      part = c("body", "head", "foot", "interfoot"),
+                                      part = c("body", "head", "foot", "interfoot", "table"),
                                       fixed = FALSE, 
                                       recycle = c("none", "rows", "cols", "columns"), 
                                       ...)
@@ -188,8 +188,11 @@ sprinkle_border.dust_list <- function(x, rows = NULL, cols = NULL,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_border_index_assert <- function(border, border_color, border_style,
-                                         border_thickness, border_units,
+sprinkle_border_index_assert <- function(border = c("all", "bottom", "left", "top", "right"), 
+                                         border_color = "black",
+                                         border_style = "solid", 
+                                         border_thickness = 1,
+                                         border_units = c("pt", "px"),
                                          coll)
 {
   checkmate::assert_subset(x = border,

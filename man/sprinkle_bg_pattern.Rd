@@ -8,15 +8,15 @@
 \usage{
 sprinkle_bg_pattern(x, rows = NULL, cols = NULL,
   bg_pattern = c("transparent", "#DCDCDC"), bg_pattern_by = c("rows",
-  "cols"), ..., part = c("body", "head", "foot", "interoot"))
+  "cols"), ..., part = c("body", "head", "foot", "interoot", "table"))
 
 \method{sprinkle_bg_pattern}{default}(x, rows = NULL, cols = NULL,
   bg_pattern = c("transparent", "#DCDCDC"), bg_pattern_by = c("rows",
-  "cols"), ..., part = c("body", "head", "foot", "interfoot"))
+  "cols"), ..., part = c("body", "head", "foot", "interfoot", "table"))
 
 \method{sprinkle_bg_pattern}{dust_list}(x, rows = NULL, cols = NULL,
   bg_pattern = c("transparent", "#DCDCDC"), bg_pattern_by = c("rows",
-  "cols"), ..., part = c("body", "head", "foot", "interfoot"))
+  "cols"), ..., part = c("body", "head", "foot", "interfoot", "table"))
 }
 \arguments{
 \item{x}{An object of class \code{dust}}
@@ -66,8 +66,8 @@ This is a rare sprinkle that doesn't use the \code{fixed} and \code{recycle}
 arguments.  They are assumed to be \code{FALSE} and \code{"none"}, 
 respectively, in order to pass through \code{index_to_sprinkle}.
 }
+
 \seealso{
 \code{\link{sprinkle_bg}}, \code{\link{sprinkle}}, 
   \code{\link{index_to_sprinkle}}
 }
-

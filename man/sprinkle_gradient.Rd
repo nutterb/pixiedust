@@ -9,20 +9,22 @@
 sprinkle_gradient(x, rows = NULL, cols = NULL, gradient = "bg",
   gradient_colors = getOption("pixie_gradient_pal", NULL),
   gradient_cut = NULL, gradient_n = 10, gradient_na = "grey",
-  part = c("body", "head", "foot", "interfoot"), fixed = FALSE,
+  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
   recycle = c("none", "rows", "cols", "columns"), ...)
 
 \method{sprinkle_gradient}{default}(x, rows = NULL, cols = NULL,
   gradient = "bg", gradient_colors = getOption("pixie_gradient_pal",
   c("#132B43", "#56B1F7")), gradient_cut = NULL, gradient_n = 10,
-  gradient_na = "grey", part = c("body", "head", "foot", "interfoot"),
-  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
+  gradient_na = "grey", part = c("body", "head", "foot", "interfoot",
+  "table"), fixed = FALSE, recycle = c("none", "rows", "cols", "columns"),
+  ...)
 
 \method{sprinkle_gradient}{dust_list}(x, rows = NULL, cols = NULL,
   gradient = "bg", gradient_colors = getOption("pixie_gradient_pal",
   c("#132B43", "#56B1F7")), gradient_cut = NULL, gradient_n = 10,
-  gradient_na = "grey", part = c("body", "head", "foot", "interfoot"),
-  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
+  gradient_na = "grey", part = c("body", "head", "foot", "interfoot",
+  "table"), fixed = FALSE, recycle = c("none", "rows", "cols", "columns"),
+  ...)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}
@@ -112,8 +114,8 @@ The functional behavior of the \code{fixed} and \code{recycle} arguments
 is not tested for this function. It is tested and validated in the
 tests for \code{\link{index_to_sprinkle}}.
 }
+
 \seealso{
 \code{\link{sprinkle}}, 
   \code{\link{index_to_sprinkle}}
 }
-

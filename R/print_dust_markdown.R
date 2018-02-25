@@ -9,7 +9,10 @@ print_dust_markdown <- function(x, ..., asis=TRUE,
                                 interactive = getOption("pixie_interactive"))
 {
   if (is.null(interactive)) interactive <- interactive()
-  if (!is.null(x$caption)) increment_pixie_count()
+  if (!is.null(x$caption) & x$caption_number) increment_pixie_count()
+  caption_number_prefix <- 
+    if (x$caption_number) sprintf("Table %s: ", get_pixie_count())
+    else ""
   
   #* Determine the number of divisions
   #* It looks more complicated than it is, but the gist of it is
@@ -85,7 +88,7 @@ print_dust_markdown <- function(x, ..., asis=TRUE,
                              collapse = "\n"))
     
     if (!is.null(x$caption)) 
-      tbl_code <- paste0("Table ", get_pixie_count(), ": ", x$caption, "\n", tbl_code)
+      tbl_code <- paste0(caption_number_prefix, x$caption, "\n", tbl_code)
   }
   if (asis) knitr::asis_output(tbl_code)
   else tbl_code

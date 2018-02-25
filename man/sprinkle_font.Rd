@@ -8,18 +8,18 @@
 \usage{
 sprinkle_font(x, rows = NULL, cols = NULL, bold = NULL, italic = NULL,
   font_size = NULL, font_size_units = NULL, font_color = NULL,
-  font_family = NULL, ..., part = c("body", "head", "foot", "interfoot"),
-  fixed = FALSE, recycle = "none")
+  font_family = NULL, ..., part = c("body", "head", "foot", "interfoot",
+  "table"), fixed = FALSE, recycle = "none")
 
 \method{sprinkle_font}{default}(x, rows = NULL, cols = NULL, bold = NULL,
   italic = NULL, font_size = NULL, font_size_units = NULL,
   font_color = NULL, font_family = NULL, ..., part = c("body", "head",
-  "foot", "interfoot"), fixed = FALSE, recycle = "none")
+  "foot", "interfoot", "table"), fixed = FALSE, recycle = "none")
 
 \method{sprinkle_font}{dust_list}(x, rows = NULL, cols = NULL,
   bold = NULL, italic = NULL, font_size = NULL, font_size_units = NULL,
   font_color = NULL, font_family = NULL, ..., part = c("body", "head",
-  "foot", "interfoot"), fixed = FALSE, recycle = "none")
+  "foot", "interfoot", "table"), fixed = FALSE, recycle = "none")
 }
 \arguments{
 \item{x}{An object of class \code{dust}}
@@ -117,10 +117,10 @@ The functional behavior of the \code{fixed} and \code{recycle} arguments
 is not tested for this function. It is tested and validated in the
 tests for \code{\link{index_to_sprinkle}}.
 }
-\author{
-Benjamin Nutter
-}
+
 \seealso{
 \code{\link{sprinkle}}
 }
-
+\author{
+Benjamin Nutter
+}

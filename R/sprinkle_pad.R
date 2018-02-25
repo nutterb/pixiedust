@@ -66,8 +66,8 @@
 #' 
 #' @export
 
-sprinkle_pad <- function(x, rows = NULL, cols = NULL, pad, 
-                        part = c("body", "head", "foot", "interfoot"),
+sprinkle_pad <- function(x, rows = NULL, cols = NULL, pad = 0, 
+                        part = c("body", "head", "foot", "interfoot", "table"),
                         fixed = FALSE, 
                         recycle = c("none", "rows", "cols", "columns"), 
                         ...)
@@ -78,8 +78,8 @@ sprinkle_pad <- function(x, rows = NULL, cols = NULL, pad,
 #' @rdname sprinkle_pad
 #' @export
 
-sprinkle_pad.default <- function(x, rows = NULL, cols = NULL, pad, 
-                                part = c("body", "head", "foot", "interfoot"),
+sprinkle_pad.default <- function(x, rows = NULL, cols = NULL, pad = 0, 
+                                part = c("body", "head", "foot", "interfoot", "table"),
                                 fixed = FALSE, 
                                 recycle = c("none", "rows", "cols", "columns"), 
                                 ...)
@@ -118,8 +118,8 @@ sprinkle_pad.default <- function(x, rows = NULL, cols = NULL, pad,
 #' @rdname sprinkle_pad
 #' @export
 
-sprinkle_pad.dust_list <- function(x, rows = NULL, cols = NULL, pad, 
-                                  part = c("body", "head", "foot", "interfoot"),
+sprinkle_pad.dust_list <- function(x, rows = NULL, cols = NULL, pad = 0, 
+                                  part = c("body", "head", "foot", "interfoot", "table"),
                                   fixed = FALSE, 
                                   recycle = c("none", "rows", "cols", "columns"), 
                                   ...)
@@ -146,7 +146,7 @@ sprinkle_pad.dust_list <- function(x, rows = NULL, cols = NULL, pad,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_pad_index_assert <- function(pad, coll)
+sprinkle_pad_index_assert <- function(pad = 0, coll)
 {
   checkmate::assert_numeric(x = pad,
                             len = 1,

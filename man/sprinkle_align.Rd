@@ -7,17 +7,17 @@
 \title{Sprinkle Alignment of Table Cells}
 \usage{
 sprinkle_align(x, rows = NULL, cols = NULL, halign = NULL,
-  valign = NULL, part = c("body", "head", "foot", "interfoot"),
+  valign = NULL, part = c("body", "head", "foot", "interfoot", "table"),
   fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
 
 \method{sprinkle_align}{default}(x, rows = NULL, cols = NULL,
   halign = NULL, valign = NULL, part = c("body", "head", "foot",
-  "interfoot"), fixed = FALSE, recycle = c("none", "rows", "cols",
+  "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows", "cols",
   "columns"), ...)
 
 \method{sprinkle_align}{dust_list}(x, rows = NULL, cols = NULL,
   halign = NULL, valign = NULL, part = c("body", "head", "foot",
-  "interfoot"), fixed = FALSE, recycle = c("none", "rows", "cols",
+  "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows", "cols",
   "columns"), ...)
 }
 \arguments{
@@ -80,8 +80,8 @@ The functional behavior of the \code{fixed} and \code{recycle} arguments
 is not tested for this function. It is tested and validated in the
 tests for \code{\link{index_to_sprinkle}}.
 }
+
 \seealso{
 \code{\link{sprinkle}}, 
   \code{\link{index_to_sprinkle}}
 }
-

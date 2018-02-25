@@ -53,9 +53,11 @@ redust.default <- function(x, table, part = c("head", "foot", "interfoot", "body
   
   checkmate::reportAssertions(coll)
   
-  col_name_class <- dplyr::filter_(x$head, "row == 1") %>%
-    dplyr::select_("row", "col", "col_name", "col_class") %>%
-    dplyr::arrange_("row", "col")
+  col_name_class <- 
+    x[["head"]][x[["head"]][["row"]] == 1, ]
+  col_name_class <- col_name_class[c("row", "col", "col_name", "col_class")]
+  col_name_class <- col_name_class[order(col_name_class[["row"]],
+                                         col_name_class[["col"]]), ]
   
   part <- component_table(table)
   part$col_name <- rep(col_name_class$col_name, each = nrow(table))

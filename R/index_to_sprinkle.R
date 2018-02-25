@@ -107,7 +107,8 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
   
   part <- 
     checkmate::matchArg(x = part,
-                        choices = c("body", "head", "foot", "interfoot"),
+                        choices = c("body", "head", "foot", 
+                                    "interfoot", "table"),
                         add = coll,
                         .var.name = "part")
   
@@ -131,7 +132,7 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
   }
   
 # Second pass at argument validations -------------------------------
-  
+
   if (fixed)
   {
     if (length(rows) != length(cols))
@@ -139,21 +140,21 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
       coll$push("When `fixed = TRUE`, rows and cols must have the same length")
     }
   }
-  
+
   if (is.null(rows)) rows <- unique(x[[part]][["row"]])
   
   if (inherits(rows, "class"))
   {
     rows <- which(eval(rows))
   }
-  
+
   invalid_row <- which(!rows %in% unique(x[[part]][["row"]]))
   if (length(invalid_row))
   {
     coll$push(sprintf("The following rows given are not valid row indices: %s",
                       paste0(invalid_row, collapse = ", ")))
   }
-  
+
   if (is.null(cols))
   {
     cols <- unique(x[[part]][["col"]])
@@ -175,7 +176,7 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
     
     cols <- cols[!is.na(cols)]
   }
-  
+
   invalid_col <-  which(!cols %in% unique(x[[part]][["col"]]))
     
   if (length(invalid_col))
@@ -187,7 +188,7 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
   if (report_here) checkmate::reportAssertions(coll)
   
 # Functional Code ---------------------------------------------------
-  
+
   # Determine the index order for recycling
   
   if (recycle == "columns")
@@ -228,6 +229,6 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
       x[[part]][["row"]] %in% rows & 
       x[[part]][["col"]] %in% cols
   }
-  
+
   indices
 }
