@@ -26,8 +26,8 @@ test_that(
   "knit_print.dust_list with no options",
   {
     x <- mtcars %>% 
-      dplyr::group_by(gear) %>% 
-      dust(ungroup = FALSE) %>% 
+      split(mtcars["gear"]) %>%  
+      dust() %>% 
       sprinkle_print_method("html")
     expect_silent(knit_print.dust_list(x))
   }
@@ -37,8 +37,8 @@ test_that(
   "knit_print.dust_list with options",
   {
     x <- mtcars %>% 
-      dplyr::group_by(gear) %>% 
-      dust(ungroup = FALSE) %>% 
+      split(mtcars["gear"]) %>%  
+      dust() %>% 
       sprinkle_print_method("html")
     expect_silent(knit_print.dust_list(x,
                                   options = list(some_option = "a",
