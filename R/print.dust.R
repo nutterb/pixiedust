@@ -51,6 +51,7 @@ print.dust <- function(x, ..., asis = TRUE, linebreak_at_end = 2)
         "html"         = print_dust_html(x, ..., asis = asis, linebreak_at_end = linebreak_at_end),
         "latex"        = print_dust_latex(x, ..., asis = asis),
         "latex_hhline" = print_dust_latex_hhline(x, ..., asis = asis),
+        "slidy"        = print_dust_html(x, ..., asis = asis, linebreak_at_end = linebreak_at_end),
         stop(sprintf("'%s' is not an valid print method",
                      x[["print_method"]])))
 }
