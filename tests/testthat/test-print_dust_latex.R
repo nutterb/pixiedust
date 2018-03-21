@@ -150,3 +150,30 @@ test_that(
     
     expect_silent(print_dust_latex(x))
   })
+
+test_that(
+  "print_dust_latex with horizontal borders",
+  {
+    skip_on_cran()
+    fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
+    x <- dust(fit,
+              float = FALSE) %>%
+      sprinkle(border = "bottom",
+               border_style = "dashed") %>% 
+      sprinkle_print_method("latex")
+    
+    expect_silent(print_dust_latex(x))
+  })
+
+test_that(
+  "print_dust_latex sanitization",
+  {
+    skip_on_cran()
+    fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
+    x <- dust(fit,
+              float = FALSE) %>%
+      sprinkle(sanitize = TRUE) %>% 
+      sprinkle_print_method("latex")
+    
+    expect_silent(print_dust_latex(x))
+  })
