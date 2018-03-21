@@ -105,7 +105,7 @@ test_that(
 test_that(
   "print_dust_latex with hhline and horizontal borders",
   {
-    skip_on_cran()
+    # skip_on_cran()
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
     x <- dust(fit,
               hhline = TRUE,
