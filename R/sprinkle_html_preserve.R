@@ -4,7 +4,7 @@
 #' @description By default \code{pixiedust} makes use of \code{htmltools::htmlPreserve}
 #'   to prevent certain symbols from rendering in unintended ways based on some 
 #'   not-very-well-understood-by-the-author issues.  This property controls whether
-#'   the perservation is used or not.
+#'   the preservation is used or not.
 #'   
 #' @param x An object of class \code{dust}
 #' @param html_preserve \code{logical(1)} indicating if the table is being produced

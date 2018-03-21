@@ -19,7 +19,7 @@
 #'   
 #'   The markdown, html, and latex output is returned via \code{\link[knitr]{asis_output}},
 #'   which forces the output into the 'asis' environment.  It is intended to work 
-#'   with Rmarkdown, and the tables will be rended regardless of the 
+#'   with Rmarkdown, and the tables will be rendered regardless of the 
 #'   chunk's \code{results} argument.  Currently, there is no way to to capture
 #'   the code for additional post processing.
 #'   

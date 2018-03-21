@@ -2,7 +2,7 @@
 #' 
 #' The \code{pixiedust} mission is to provide a user friendly 
 #' and flexible interface by which report-quality tables may 
-#' be rendered in multiple output formats.  Intially, 
+#' be rendered in multiple output formats.  Initially, 
 #' \code{pixiedust} will support markdown, HTML, and LaTeX
 #' formats, as well as methods for console output.
 #' 

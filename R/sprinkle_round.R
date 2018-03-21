@@ -40,6 +40,8 @@
 #'  \item Casts an error if \code{fixed} is not a \code{logical(1)}
 #'  \item Casts an error if \code{recycle} is not one of \code{"none"},
 #'    \code{"rows"}, or \code{"cols"}
+#'  \item Cast an error if \code{recycle = "none"} and \code{round}
+#'    does not have length 1.
 #' }
 #' 
 #' The functional behavior of the \code{fixed} and \code{recycle} arguments 
@@ -77,9 +79,6 @@ sprinkle_round.default <- function(x, rows = NULL, cols = NULL,
                           classes = "dust",
                           add = coll)
   
-  sprinkle_round_index_assert(round = round, 
-                              coll = coll)
-  
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
                                cols = cols, 
@@ -87,6 +86,12 @@ sprinkle_round.default <- function(x, rows = NULL, cols = NULL,
                                part = part,
                                recycle = recycle,
                                coll = coll)
+  
+  recycle <- recycle[1]
+  
+  sprinkle_round_index_assert(round = round, 
+                              recycle = recycle,
+                              coll = coll)
   
   checkmate::reportAssertions(coll)
   
@@ -133,14 +138,18 @@ sprinkle_round.dust_list <- function(x, rows = NULL, cols = NULL,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_round_index_assert <- function(round = NULL, coll)
+sprinkle_round_index_assert <- function(round = NULL, 
+                                        recycle = "none",
+                                        coll)
 {
   if (!is.null(round))
   {
     checkmate::assert_integerish(x = round,
-                                 len = 1,
                                  add = coll,
                                  .var.name = "round")
+    
+    if (recycle == "none" && length(round) != 1)
+      coll$push("When `recycle` = 'none', round must have length 1.")
   }
 }
 

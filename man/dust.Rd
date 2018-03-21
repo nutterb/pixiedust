@@ -49,7 +49,7 @@ redust(x, table, part = c("head", "foot", "interfoot", "body"))
 object itself is the basis of the table.  If the summarized table is 
 desired, set to \code{TRUE}.}
 
-\item{keep_rownames}{Whe \code{tidy_df} is \code{FALSE}, setting 
+\item{keep_rownames}{When \code{tidy_df} is \code{FALSE}, setting 
 \code{keep_rownames} binds the row names to the data frame as the first
 column, allowing them to be preserved in the tabulated output.  This 
 is only to data frame like objects, as the \code{broom::tidy.matrix} method 

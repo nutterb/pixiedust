@@ -27,7 +27,7 @@ in a \code{htmltools::htmlPreserve} environment.}
 By default \code{pixiedust} makes use of \code{htmltools::htmlPreserve}
   to prevent certain symbols from rendering in unintended ways based on some 
   not-very-well-understood-by-the-author issues.  This property controls whether
-  the perservation is used or not.
+  the preservation is used or not.
 }
 \section{Functional Requirements}{
 

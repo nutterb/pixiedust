@@ -135,19 +135,19 @@ sprinkle_replace.dust_list <- function(x, rows = NULL, cols = NULL,
 sprinkle_replace_index_assert <- function(replace, indices, coll)
 {
   checkmate::assert_atomic_vector(x = replace,
-                                  max.len = sum(indices),
+                                  max.len = length(indices),
                                   add = coll,
                                   .var.name = "replace")
 }
 
 sprinkle_replace_index <- function(x, indices, replace, part)
 {
-  if (length(replace) != 1 & (sum(indices) %% length(replace)) != 0)
+  if (length(replace) != 1 & (length(indices) %% length(replace)) != 0)
   {
     warning("The number of cells to edit is not a multiple of ",
             "length(replace). Values may not recycle as expected.")
     
-    replace <- rep(replace, length.out = sum(indices))
+    replace <- rep(replace, length.out = length(indices))
   }
   
   # At this point, part should have passed the assertions in 

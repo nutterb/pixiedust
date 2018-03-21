@@ -77,6 +77,18 @@
 #'   \item Cast an error if \code{font_family} is not \code{character(1)}
 #'   \item Cast an error if \code{part} is not a subset of \code{c("body", 
 #'     "head", "foot", "interfoot")}
+#'  \item Cast an error if \code{recycle = "none"} and \code{bold}
+#'    does not have length 1.
+#'  \item Cast an error if \code{recycle = "none"} and \code{italic}
+#'    does not have length 1.
+#'  \item Cast an error if \code{recycle = "none"} and \code{font_size}
+#'    does not have length 1.
+#'  \item Cast an error if \code{recycle = "none"} and \code{font_size_units}
+#'    does not have length 1.
+#'  \item Cast an error if \code{recycle = "none"} and \code{font_color}
+#'    does not have length 1.
+#'  \item Cast an error if \code{recycle = "none"} and \code{font_family}
+#'    does not have length 1.
 #' }
 #' 
 #' The functional behavior of the \code{fixed} and \code{recycle} arguments 
@@ -117,14 +129,6 @@ sprinkle_font.default <- function(x, rows = NULL, cols = NULL,
                           classes = "dust",
                           add = coll)
   
-  sprinkle_font_index_assert(bold = bold, 
-                             italic = italic,
-                             font_size = font_size, 
-                             font_size_units = font_size_units,
-                             font_color = font_color, 
-                             font_family = font_family,
-                             coll = coll)
-  
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
                                cols = cols, 
@@ -132,6 +136,17 @@ sprinkle_font.default <- function(x, rows = NULL, cols = NULL,
                                part = part,
                                recycle = recycle,
                                coll = coll)
+  
+  recycle <- recycle[1]
+  
+  sprinkle_font_index_assert(bold = bold, 
+                             italic = italic,
+                             font_size = font_size, 
+                             font_size_units = font_size_units,
+                             font_color = font_color, 
+                             font_family = font_family,
+                             recycle = recycle,
+                             coll = coll)
   
   checkmate::reportAssertions(coll)
   
@@ -190,36 +205,42 @@ sprinkle_font.dust_list <- function(x, rows = NULL, cols = NULL,
 sprinkle_font_index_assert <- function(bold = NULL, italic = NULL,
                                        font_size = NULL, font_size_units = NULL,
                                        font_color = NULL, font_family = NULL,
+                                       recycle = "none",
                                        coll = coll)
 {
   if (!is.null(bold))
   {
     checkmate::assert_logical(x = bold,
-                              len = 1,
                               add = coll,
                               .var.name = "bold")
+    
+    if (recycle == "none" && length(bold) != 1)
+      coll$push("When `recycle` = 'none', bold must have length 1.")
   }
   
   if (!is.null(italic))
   {
     checkmate::assert_logical(x = italic,
-                              len = 1,
                               add = coll,
                               .var.name = "italic")
+    
+    if (recycle == "none" && length(italic) != 1)
+      coll$push("When `recycle` = 'none', italic must have length 1.")
   }
   
   if (!is.null(font_size))
   {
     checkmate::assert_numeric(x = font_size,
-                              len = 1,
                               add = coll,
                               .var.name = "font_size")
+    
+    if (recycle == "none" && length(font_size) != 1)
+      coll$push("When `recycle` = 'none', font_size must have length 1.")
   }
   
   if (!is.null(font_size_units))
   {
     checkmate::assert_character(x = font_size_units,
-                                len = 1,
                                 add = coll,
                                 .var.name = "font_size_units")
     
@@ -227,14 +248,19 @@ sprinkle_font_index_assert <- function(bold = NULL, italic = NULL,
                              choices = c("px", "pt", "em", "%"),
                              add = coll,
                              .var.name = "font_size_units")
+    
+    if (recycle == "none" && length(font_size_units) != 1)
+      coll$push("When `recycle` = 'none', font_size_units must have length 1.")
   }
   
   if (!is.null(font_color))
   {
     checkmate::assert_character(x = font_color,
-                                len = 1,
                                 add = coll,
                                 .var.name = "font_color")
+    
+    if (recycle == "none" && length(font_color) != 1)
+      coll$push("When `recycle` = 'none', font_color must have length 1.")
     
     if (!all(is_valid_color(font_color)))
     {
@@ -246,9 +272,11 @@ sprinkle_font_index_assert <- function(bold = NULL, italic = NULL,
   if (!is.null(font_family))
   {
     checkmate::assert_character(x = font_family,
-                                len = 1,
                                 add = coll,
                                 .var.name = "font_family")
+    
+    if (recycle == "none" && length(font_family) != 1)
+      coll$push("When `recycle` = 'none', font_family must have length 1.")
   }
 }
 

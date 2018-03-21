@@ -38,12 +38,19 @@
 #'  \item Correctly reassigns the appropriate elements of \code{halign} 
 #'    and \code{valign} columns in the table part.
 #'  \item Casts an error if \code{x} is not a \code{dust} object.
-#'  \item Casts an error if \code{bg} is not a \code{character(1)}
+#'  \item Casts an error if \code{halign} is not a \code{character}
 #'  \item Casts an error if \code{part} is not one of \code{"body"}, 
 #'    \code{"head"}, \code{"foot"}, or \code{"interfoot"}
 #'  \item Casts an error if \code{fixed} is not a \code{logical(1)}
 #'  \item Casts an error if \code{recycle} is not one of \code{"none"},
 #'    \code{"rows"}, or \code{"cols"}
+#'  \item Casts an error if \code{valign} is not a \code{character}
+#'  \item Cast an error if \code{recycle = "none"} and \code{halign} does
+#'    not have length 1.
+#'  \item Cast an error if \code{recycle = "none"} and \code{valign} does
+#'    not have length 1.
+#'  \item Cast an error if \code{halign} is not one of \code{c("left", "center", "right")}
+#'  \item Cast an error if \code{valign} is not one of \code{c("top", "middle", "bottom")}
 #' }
 #' 
 #' The functional behavior of the \code{fixed} and \code{recycle} arguments 
@@ -77,10 +84,6 @@ sprinkle_align.default <- function(x, rows = NULL, cols = NULL,
 {
   coll <- checkmate::makeAssertCollection()
 
-  sprinkle_align_index_assert(halign = halign,
-                              valign = valign,
-                              coll = coll)
-
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
                                cols = cols, 
@@ -88,6 +91,13 @@ sprinkle_align.default <- function(x, rows = NULL, cols = NULL,
                                part = part,
                                recycle = recycle,
                                coll = coll)
+  
+  recycle <- recycle[1]
+  
+  sprinkle_align_index_assert(halign = halign,
+                              valign = valign,
+                              recycle = recycle,
+                              coll = coll)
 
   checkmate::reportAssertions(coll)
   
@@ -141,22 +151,28 @@ sprinkle_align.dust_list <- function(x, rows = NULL, cols = NULL,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_align_index_assert <- function(halign = NULL, valign = NULL, coll)
+sprinkle_align_index_assert <- function(halign = NULL, valign = NULL, recycle = "none", coll)
 {
   if (!is.null(halign))
   {
-    halign <- checkmate::matchArg(x = halign,
-                                  choices = c("left", "center", "right"),
-                                  add = coll,
-                                  .var.name = "halign")
+    checkmate::assert_subset(x = halign,
+                             choices = c("left", "center", "right"),
+                             add = coll,
+                             .var.name = "halign")
+    
+    if (recycle == "none" && length(halign) != 1)
+      coll$push(paste0("When `recycle = none`, `halign` must have length 1"))
   }
   
   if (!is.null(valign))
   {
-    valign <- checkmate::matchArg(x = valign,
-                                  choices = c("top", "middle", "bottom"),
-                                  add = coll,
-                                  .var.name = "valign")
+    checkmate::assert_subset(x = valign,
+                             choices = c("top", "middle", "bottom"),
+                             add = coll,
+                             .var.name = "valign")
+    
+    if (recycle == "none" && length(valign) != 1)
+      coll$push(paste0("When `recycle = none`, `valign` must have length 1"))
   }
 }
 

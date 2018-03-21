@@ -36,13 +36,6 @@ test_that("sprinkles: bg",
                "orchid")
 })
 
-test_that("sprinkles: bg casts an error when 'bg' has length > 1",
-{
-  skip_on_cran()
-  x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-  expect_error(sprinkle(x, rows = 1, cols = 1, bg = c("orchid", "white")),
-               "Variable 'bg'")
-})
 
 test_that("sprinkles: bg_pattern",
 {

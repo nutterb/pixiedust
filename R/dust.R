@@ -13,7 +13,7 @@
 #'   \code{data.frame} class, the default behavior is to assume that the 
 #'   object itself is the basis of the table.  If the summarized table is 
 #'   desired, set to \code{TRUE}.
-#' @param keep_rownames Whe \code{tidy_df} is \code{FALSE}, setting 
+#' @param keep_rownames When \code{tidy_df} is \code{FALSE}, setting 
 #'   \code{keep_rownames} binds the row names to the data frame as the first
 #'   column, allowing them to be preserved in the tabulated output.  This 
 #'   is only to data frame like objects, as the \code{broom::tidy.matrix} method 

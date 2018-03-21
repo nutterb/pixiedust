@@ -104,3 +104,18 @@ test_that(
   }
 )
 
+# Functional Requirement 7 -----------------------------------------
+
+test_that(
+  "Casts an error if recycle = 'none' and pad does not have length 1.",
+  {
+    expect_error(sprinkle_pad(x, pad = 1:3, recycle = "none"))
+  }
+)
+
+test_that(
+  "Passes when recycle != 'none' and pad does has length > 1.",
+  {
+    expect_silent(sprinkle_pad(x, pad = 1:3, recycle = "rows"))
+  }
+)

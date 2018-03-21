@@ -111,6 +111,18 @@ The \code{bold} and \code{italic} features are recognized by all
   \item Cast an error if \code{font_family} is not \code{character(1)}
   \item Cast an error if \code{part} is not a subset of \code{c("body", 
     "head", "foot", "interfoot")}
+ \item Cast an error if \code{recycle = "none"} and \code{bold}
+   does not have length 1.
+ \item Cast an error if \code{recycle = "none"} and \code{italic}
+   does not have length 1.
+ \item Cast an error if \code{recycle = "none"} and \code{font_size}
+   does not have length 1.
+ \item Cast an error if \code{recycle = "none"} and \code{font_size_units}
+   does not have length 1.
+ \item Cast an error if \code{recycle = "none"} and \code{font_color}
+   does not have length 1.
+ \item Cast an error if \code{recycle = "none"} and \code{font_family}
+   does not have length 1.
 }
 
 The functional behavior of the \code{fixed} and \code{recycle} arguments 

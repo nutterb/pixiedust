@@ -116,3 +116,56 @@ test_that(
     expect_error(sprinkle_width(x, recycle = "not an option"))
   }
 )
+
+# Functional Requirement 8 ------------------------------------------
+
+test_that(
+  "Casts an error if recycle = 'none' and width does not have length 1",
+  {
+    expect_error(sprinkle_width(x, recycle = "none", width = 1:2))
+  }
+)
+
+# Functional Requirement 9 ------------------------------------------
+
+test_that(
+  "Correctly assigns values when recycle is not 'none' and multiple values are given.",
+  {
+    expect_equal(
+      sprinkle_width(x, 
+                     cols = 1:2,
+                     width = c(1, 3),
+                     recycle = "rows")[["body"]][["width"]][1:12],
+      rep(c("1", "3"), each = 6)
+    )
+  }
+)
+
+test_that(
+  "Correctly assigns values when recycle is not 'none' and multiple values are given.",
+  {
+    expect_equal(
+      sprinkle_width(x, 
+                     cols = 1:2,
+                     width = c(1, 3),
+                     recycle = "cols")[["body"]][["width"]][1:12],
+      rep(c("1", "3"), times = 6)
+    )
+  }
+)
+
+# Functional Requirement 10 -----------------------------------------
+
+test_that(
+  "Quietly accepts only the first value in width_units when recycle = 'none'.",
+  {
+    expect_equal(
+      sprinkle_width(x,
+                     cols = 1:2,
+                     width = 2,
+                     width_units = c("in", "pt"),
+                     recycle = "none")[["body"]][["width_units"]][1:12],
+      rep("in", 12)
+    )
+  }
+)
