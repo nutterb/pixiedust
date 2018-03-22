@@ -30,3 +30,13 @@ test_that(
     )
   }
 )
+
+test_that(
+  "Sanitize with a caret",
+  {
+    expect_equal(
+      sanitize_latex(c("alpha^theta"), greek = TRUE),
+      "$\\alpha$$^{$\\theta$}$"
+    )
+  }
+)
