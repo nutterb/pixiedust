@@ -84,7 +84,7 @@ test_that(
   "Cast an error if x does not inherit class dust",
   {
     expect_error(sprinkle_fixed_header(mtcars),
-                 "Must have class 'dust'")
+                 "class 'dust'")
   }
 )
 
