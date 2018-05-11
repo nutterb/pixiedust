@@ -56,6 +56,8 @@
 #'  \item Casts an error if \code{fixed} is not a \code{logical(1)}
 #'  \item Casts an error if \code{recycle} is not one of \code{"none"},
 #'    \code{"rows"}, or \code{"cols"}
+#'  \item Casts an error if \code{recycle = "none"} and \code{bg} does not
+#'    have length 1.
 #' }
 #' 
 #' The functional behavior of the \code{fixed} and \code{recycle} arguments 
@@ -93,9 +95,6 @@ sprinkle_bg.default <- function(x, rows = NULL, cols = NULL, bg = "",
                           classes = "dust",
                           add = coll)
   
-  sprinkle_bg_index_assert(bg = bg,
-                           coll = coll)
-  
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
                                cols = cols, 
@@ -103,6 +102,12 @@ sprinkle_bg.default <- function(x, rows = NULL, cols = NULL, bg = "",
                                part = part,
                                recycle = recycle,
                                coll = coll)
+  
+  recycle <- recycle[1]
+  
+  sprinkle_bg_index_assert(bg = bg,
+                           recycle = recycle,
+                           coll = coll)
   
   checkmate::reportAssertions(coll)
   
@@ -156,12 +161,16 @@ sprinkle_background <- sprinkle_bg
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_bg_index_assert <- function(bg = "", coll)
+sprinkle_bg_index_assert <- function(bg = "", recycle = "none", coll)
 {
   checkmate::assert_character(x = bg,
-                              len = 1,
                               add = coll,
                               .var.name = "bg")
+  
+  if (recycle == "none" && length(bg) != 1)
+  {
+    coll$push("When `recycle` = 'none', `bg` must have length 1.")
+  }
   
   if (!any(is_valid_color(bg)))
   {

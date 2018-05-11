@@ -294,3 +294,60 @@ test_that(
 # Functional Requirement 9 - 11 ------------------------------------
 
 # Tested in index_to_sprinkle
+
+# Functional Requirement 12 -----------------------------------------
+
+test_that(
+  "Casts an error if recycle = 'none' and border_color does not have length 1.",
+  {
+    expect_error(sprinkle_border(x, border_color = c("red", "blue"), recycle = "none"))
+  }
+)
+
+test_that(
+  "Passes when recycle != 'none' and border_color does has length > 1.",
+  {
+    expect_silent(sprinkle_border(x, border_color = c("red", "blue"), recycle = "rows"))
+  }
+)
+
+# Functional Requirement 13 -----------------------------------------
+
+test_that(
+  "Casts an error if recycle = 'none' and border_style does not have length 1.",
+  {
+    expect_error(sprinkle_border(x, border_style = c("dashed", "solid"), recycle = "none"))
+  }
+)
+
+test_that(
+  "Passes when recycle != 'none' and border_color does has length > 1.",
+  {
+    expect_silent(sprinkle_border(x, border_style = c("dashed", "solid"), recycle = "rows"))
+  }
+)
+
+# Functional Requirement 14 -----------------------------------------
+
+test_that(
+  "Casts an error if recycle = 'none' and border_thickness does not have length 1.",
+  {
+    expect_error(sprinkle_border(x, border_thickness = c(1, 3), recycle = "none"))
+  }
+)
+
+test_that(
+  "Passes when recycle != 'none' and border_thickness does has length > 1.",
+  {
+    expect_silent(sprinkle_border(x, border_thickness = c(1, 3), recycle = "rows"))
+  }
+)
+
+# Functional Requirement 15 -----------------------------------------
+
+test_that(
+  "Quietly restrict border_units to just the first element if it has length > 1 and recycle = 'none'",
+  {
+    expect_silent(sprinkle_border(x, border_units = c("px", "pt"), recycle = "none"))
+  }
+)

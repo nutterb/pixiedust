@@ -19,7 +19,7 @@
 #'   
 #'   The markdown, html, and latex output is returned via \code{\link[knitr]{asis_output}},
 #'   which forces the output into the 'asis' environment.  It is intended to work 
-#'   with Rmarkdown, and the tables will be rended regardless of the 
+#'   with Rmarkdown, and the tables will be rendered regardless of the 
 #'   chunk's \code{results} argument.  Currently, there is no way to to capture
 #'   the code for additional post processing.
 #'   
@@ -51,6 +51,7 @@ print.dust <- function(x, ..., asis = TRUE, linebreak_at_end = 2)
         "html"         = print_dust_html(x, ..., asis = asis, linebreak_at_end = linebreak_at_end),
         "latex"        = print_dust_latex(x, ..., asis = asis),
         "latex_hhline" = print_dust_latex_hhline(x, ..., asis = asis),
+        "slidy"        = print_dust_html(x, ..., asis = asis, linebreak_at_end = linebreak_at_end),
         stop(sprintf("'%s' is not an valid print method",
                      x[["print_method"]])))
 }

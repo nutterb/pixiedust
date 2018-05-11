@@ -152,7 +152,7 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
   if (length(invalid_row))
   {
     coll$push(sprintf("The following rows given are not valid row indices: %s",
-                      paste0(invalid_row, collapse = ", ")))
+                      paste0(rows[invalid_row], collapse = ", ")))
   }
 
   if (is.null(cols))
@@ -182,10 +182,14 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
   if (length(invalid_col))
   {
     coll$push(sprintf("The following columns given are not valid columns: %s",
-                      paste0(invalid_col, collapse = ", ")))
+                      paste0(cols[invalid_col], collapse = ", ")))
   }
   
   if (report_here) checkmate::reportAssertions(coll)
+  
+  # There's no point in continuing if there are any errors by now
+  # We return a full vector of indices just to maintain the same input.
+  if (!coll$isEmpty()) return(1)
   
 # Functional Code ---------------------------------------------------
 
@@ -208,26 +212,27 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
   
   # Determine and arrange the indices
   
-  if (fixed)
+  if (!fixed)
   {
-    indices <- data.frame(rows = rows,
+    indices <- expand.grid(rows = rows,
                           cols = cols)
-      indices <- dplyr::mutate(indices, 
-                               i = TRUE)
-      indices <- dplyr::left_join(x[[part]],
-                                  indices,
-                                  by = c("row" = "rows", 
-                                         "col" = "cols")) 
-      indices <- dplyr::arrange_(indices, 
-                                 recycle_arrange)
-      indices <- indices[["i"]]
-    indices[is.na(indices)] <- FALSE
+    indices <- dplyr::mutate(indices, 
+                             i = TRUE)
+    indices <- dplyr::left_join(x[[part]][c("row", "col")],
+                                indices,
+                                by = c("row" = "rows", 
+                                       "col" = "cols")) 
+    indices[["index"]] <- seq_len(nrow(indices))
+    indices <- dplyr::arrange_(indices,
+                               recycle_arrange)
+    indices[["i"]][is.na(indices[["i"]])] <- FALSE
+    indices <- indices[["index"]][indices[["i"]]]
   }
   else
   {
     indices <- 
-      x[[part]][["row"]] %in% rows & 
-      x[[part]][["col"]] %in% cols
+      which(x[[part]][["row"]] %in% rows & 
+              x[[part]][["col"]] %in% cols)
   }
 
   indices

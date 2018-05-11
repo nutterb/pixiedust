@@ -40,6 +40,8 @@
 #'  \item Casts an error if \code{fixed} is not a \code{logical(1)}
 #'  \item Casts an error if \code{recycle} is not one of \code{"none"},
 #'    \code{"rows"}, or \code{"cols"}
+#'  \item Cast an error if \code{recycle = "none"} and \code{rotate_degree}
+#'    does not have length 1.
 #' }
 #' 
 #' The functional behavior of the \code{fixed} and \code{recycle} arguments 
@@ -73,9 +75,6 @@ sprinkle_rotate_degree.default <- function(x, rows = NULL, cols = NULL,
 {
   coll <- checkmate::makeAssertCollection()
   
-  sprinkle_rotate_degree_index_assert(rotate_degree = rotate_degree, 
-                                      coll = coll)
-  
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
                                cols = cols, 
@@ -83,6 +82,12 @@ sprinkle_rotate_degree.default <- function(x, rows = NULL, cols = NULL,
                                part = part,
                                recycle = recycle,
                                coll = coll)
+  
+  recycle <- recycle[1]
+  
+  sprinkle_rotate_degree_index_assert(rotate_degree = rotate_degree, 
+                                      recycle = recycle,
+                                      coll = coll)
   
   checkmate::reportAssertions(coll)
   
@@ -130,14 +135,17 @@ sprinkle_rotate_degree.dust_list <- function(x, rows = NULL, cols = NULL,
 # without attempting to perform the assignment.
 
 sprinkle_rotate_degree_index_assert <- function(rotate_degree = NULL, 
+                                                recycle = "none",
                                                 coll)
 {
   if (!is.null(rotate_degree))
   {
     checkmate::assert_numeric(x = rotate_degree,
-                              len = 1,
                               add = coll,
                               .var.name = "rotate_degree")
+    
+    if (recycle == "none" && length(rotate_degree) != 1)
+      coll$push("When `recycle` = 'none', rotate_degree must have length 1.")
   }
 }
 

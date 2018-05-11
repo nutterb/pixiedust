@@ -101,3 +101,19 @@ test_that(
     expect_error(sprinkle_na_string(x, na_string = "red", recycle = "not_an_option"))
   }
 )
+
+# Functional Requirement 6 -----------------------------------------
+
+test_that(
+  "Casts an error if recycle = 'none' and na_string does not have length 1.",
+  {
+    expect_error(sprinkle_na_string(x, na_string = c("Roman", "Arial"), recycle = "none"))
+  }
+)
+
+test_that(
+  "Passes when recycle != 'none' and na_string does has length > 1.",
+  {
+    expect_silent(sprinkle_na_string(x, na_string = c("Roman", "Arial"), recycle = "rows"))
+  }
+)

@@ -113,3 +113,28 @@ test_that(
     expect_error(sprinkle_height(x, recycle = "not an option"))
   }
 )
+
+# Functional Requirement 8 ------------------------------------------
+
+test_that(
+  "Casts an error if recycle = 'none' and height does not have length 1.",
+  {
+    expect_error(sprinkle_height(x, height = c(10, 15), recycle = "none"))
+  }
+)
+
+test_that(
+  "Passes when recycle != 'none' and height has length > 1.",
+  {
+    expect_silent(sprinkle_height(x, height = c(10, 15), recycle = "rows"))
+  }
+)
+
+# Functional Requirement 9 ------------------------------------------
+
+test_that(
+  "When recycle = 'none', quietly coerce height_units to just the first element given.",
+  {
+    expect_silent(sprinkle_height(x, height_units = c("px", "pt")))
+  }
+)

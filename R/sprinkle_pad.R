@@ -53,6 +53,8 @@
 #'  \item Casts an error if \code{fixed} is not a \code{logical(1)}
 #'  \item Casts an error if \code{recycle} is not one of \code{"none"},
 #'    \code{"rows"}, or \code{"cols"}
+#'  \item Cast an error if \code{recycle = "none"} and \code{pad}
+#'    does not have length 1.
 #' }
 #' 
 #' The functional behavior of the \code{fixed} and \code{recycle} arguments 
@@ -90,9 +92,6 @@ sprinkle_pad.default <- function(x, rows = NULL, cols = NULL, pad = 0,
                           classes = "dust",
                           add = coll)
   
-  sprinkle_pad_index_assert(pad = pad,
-                            coll = coll)
-  
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
                                cols = cols, 
@@ -100,6 +99,12 @@ sprinkle_pad.default <- function(x, rows = NULL, cols = NULL, pad = 0,
                                part = part,
                                recycle = recycle,
                                coll = coll)
+  
+  recycle <- recycle[1]
+  
+  sprinkle_pad_index_assert(pad = pad,
+                            recycle = recycle,
+                            coll = coll)
   
   checkmate::reportAssertions(coll)
   
@@ -146,12 +151,13 @@ sprinkle_pad.dust_list <- function(x, rows = NULL, cols = NULL, pad = 0,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_pad_index_assert <- function(pad = 0, coll)
+sprinkle_pad_index_assert <- function(pad = 0, recycle = recycle, coll)
 {
   checkmate::assert_numeric(x = pad,
-                            len = 1,
                             add = coll,
                             .var.name = "pad")
+  if (recycle == "none" && length(pad) != 1)
+    coll$push("When `recycle` = 'none', pad must have length 1.")
 }
 
 sprinkle_pad_index <- function(x, indices, pad, part)

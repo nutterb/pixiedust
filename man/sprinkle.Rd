@@ -617,12 +617,12 @@ exception of the last section.  The last section has the \code{foot} appended.
 
 Colors may be declared as any of the color names in \code{colors()}, 
 as rgb character strings such as \code{"rgb(rrr,ggg,bbb)"} or as 
-hexidecimal character strings such as \code{"#rrggbb"}.  
+hexadecimal character strings such as \code{"#rrggbb"}.  
 
 Transparency is also recognized by HTML output, and may be indicated 
 in the rgba format \code{"rgba(rrr,ggg,bbb,aa)"}, where \code{aa} is a 
 number between 0 and 1, inclusive.  Alternative, transparency may be 
-given as \code{"#rrggbbAA"}, where \code{AA} is a hexidecimal 
+given as \code{"#rrggbbAA"}, where \code{AA} is a hexadecimal 
 representation of transparency with "00" being completely transparent 
 and "FF" being completely opaque.
 

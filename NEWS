@@ -1,3 +1,12 @@
+### 0.8.3 (2018-03-22)
+
+* Repaired recycling in several sprinkles.  Sprinkles that permit more than 
+  one value will return an error if given multiple values and 
+  `recycle = "none"`. The user must explicitly designate if recycling 
+  should be done over rows or columns.
+* Mapped "slidy" output to HTML.
+* Added several tests, bring test coverage up to 96%
+
 ### 0.8.2 (2018-02-23)
 
 * Added `caption_number` sprinkle, allowing numbering of tables to be

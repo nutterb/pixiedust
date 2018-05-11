@@ -16,7 +16,7 @@
 #'   data frame (or tidied output from \code{broom::tidy} 
 #'   originally given to \code{dust}.
 #' 
-#' @details In its current state, this can be a fairly ineffcient function
+#' @details In its current state, this can be a fairly inefficient function
 #'   as the table, if the longtable option is in use, will be built in 
 #'   a \code{for} loop and bound together using \code{rbind}.  This isn't 
 #'   really intended for large tables, but may be of assistance when 

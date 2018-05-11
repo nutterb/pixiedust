@@ -45,6 +45,10 @@
 #'  \item Casts an error if \code{fixed} is not a \code{logical(1)}
 #'  \item Casts an error if \code{recycle} is not one of \code{"none"},
 #'    \code{"rows"}, or \code{"cols"}
+#'  \item Cast an error if \code{recycle = "none"} and \code{height}
+#'    does not have length 1.
+#'  \item When \code{recycle = "none"}, quietly coerce \code{height_units}
+#'    to just the first element given.
 #' }
 #' 
 #' The functional behavior of the \code{fixed} and \code{recycle} arguments 
@@ -82,15 +86,18 @@ sprinkle_height.default <- function(x, rows = NULL, cols = NULL,
                           classes = "dust",
                           add = coll)
   
-  sprinkle_height_index_assert(height = height, 
-                               height_units = height_units, 
-                               coll = coll)
-  
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
                                cols = cols, 
                                fixed = fixed,
                                part = part,
+                               recycle = recycle,
+                               coll = coll)
+  
+  recycle <- recycle[1]
+  
+  sprinkle_height_index_assert(height = height, 
+                               height_units = height_units, 
                                recycle = recycle,
                                coll = coll)
   
@@ -138,22 +145,28 @@ sprinkle_height.dust_list <- function(x, rows = NULL, cols = NULL,
 # The assert function is kept separate so it may be called earlier
 # without attempting to perform the assignment.
 
-sprinkle_height_index_assert <- function(height = NULL, height_units = NULL, coll)
+sprinkle_height_index_assert <- function(height = NULL, height_units = NULL, 
+                                         recycle = "none", coll)
 {
   if (!is.null(height))
   {
     checkmate::assert_numeric(x = height,
-                              len = 1,
                               add = coll,
                               .var.name = "height")
+    
+    if (recycle == "none" && length(height) != 1)
+      coll$push("When `recycle` = 'none', height must have length 1.")
   }
   
   if (!is.null(height_units))
   {
-    checkmate::matchArg(x = height_units,
-                        choices = c("px", "pt", "in", "cm", "%"),
-                        add = coll,
-                        .var.name = "height_units")
+    checkmate::assert_subset(x = height_units,
+                             choices = c("px", "pt", "in", "cm", "%"),
+                             add = coll,
+                             .var.name = "height_units")
+    
+    if (recycle == "none")
+      height_units <- height_units[1]
   }
 }
 

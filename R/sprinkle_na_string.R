@@ -40,6 +40,8 @@
 #'  \item Casts an error if \code{fixed} is not a \code{logical(1)}
 #'  \item Casts an error if \code{recycle} is not one of \code{"none"},
 #'    \code{"rows"}, or \code{"cols"}
+#'  \item Cast an error if \code{recycle = "none"} and \code{na_string}
+#'    does not have length 1.
 #' }
 #' 
 #' The functional behavior of the \code{fixed} and \code{recycle} arguments 
@@ -77,9 +79,6 @@ sprinkle_na_string.default <- function(x, rows = NULL, cols = NULL,
                           classes = "dust",
                           add = coll)
   
-  sprinkle_na_string_index_assert(na_string = na_string, 
-                                  coll = coll)
-  
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
                                cols = cols, 
@@ -88,6 +87,12 @@ sprinkle_na_string.default <- function(x, rows = NULL, cols = NULL,
                                recycle = recycle,
                                coll = coll)
   
+  recycle <- recycle[1]
+  
+  sprinkle_na_string_index_assert(na_string = na_string, 
+                                  recycle = recycle,
+                                  coll = coll)
+
   checkmate::reportAssertions(coll)
   
   # At this point, part should have passed the assertions in 
@@ -134,12 +139,15 @@ sprinkle_na_string.dust_list <- function(x, rows = NULL, cols = NULL,
 # without attempting to perform the assignment.
 
 sprinkle_na_string_index_assert <- function(na_string = getOption("pixie_na_string", NA), 
+                                            recycle = recycle,
                                             coll)
 {
   checkmate::assert_character(x = na_string,
-                              len = 1,
                               add = coll,
                               .var.name = "na_string")
+  
+  if (recycle == "none" && length(na_string) != 1)
+    coll$push("When `recycle` = 'none', na_string must have length 1.")
 }
 
 sprinkle_na_string_index <- function(x, indices, na_string, part)

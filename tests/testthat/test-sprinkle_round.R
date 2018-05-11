@@ -86,3 +86,19 @@ test_that(
     expect_error(sprinkle_round(x, recycle = "not an option"))
   }
 )
+
+# Functional Requirement 8 -----------------------------------------
+
+test_that(
+  "Casts an error if recycle = 'none' and round does not have length 1.",
+  {
+    expect_error(sprinkle_round(x, round = 1:2, recycle = "none"))
+  }
+)
+
+test_that(
+  "Passes when recycle != 'none' and round does has length > 1.",
+  {
+    expect_silent(sprinkle_round(x, round = 1:3, recycle = "rows"))
+  }
+)

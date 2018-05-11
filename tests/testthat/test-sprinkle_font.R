@@ -271,3 +271,99 @@ test_that(
     )
   }
 )
+
+# Functional Requirement 17 -----------------------------------------
+
+test_that(
+  "Casts an error if recycle = 'none' and bold does not have length 1.",
+  {
+    expect_error(sprinkle_font(x, bold = c(TRUE, FALSE), recycle = "none"))
+  }
+)
+
+test_that(
+  "Passes when recycle != 'none' and bold does has length > 1.",
+  {
+    expect_silent(sprinkle_font(x, bold = c(TRUE, FALSE), recycle = "rows"))
+  }
+)
+
+# Functional Requirement 18 -----------------------------------------
+
+test_that(
+  "Casts an error if recycle = 'none' and italic does not have length 1.",
+  {
+    expect_error(sprinkle_font(x, italic = c(TRUE, FALSE), recycle = "none"))
+  }
+)
+
+test_that(
+  "Passes when recycle != 'none' and italic does has length > 1.",
+  {
+    expect_silent(sprinkle_font(x, italic = c(TRUE, FALSE), recycle = "rows"))
+  }
+)
+
+# Functional Requirement 19 -----------------------------------------
+
+test_that(
+  "Casts an error if recycle = 'none' and font_size does not have length 1.",
+  {
+    expect_error(sprinkle_font(x, font_size = c(10, 12), recycle = "none"))
+  }
+)
+
+test_that(
+  "Passes when recycle != 'none' and font_size does has length > 1.",
+  {
+    expect_silent(sprinkle_font(x, font_size = c(10, 12), recycle = "rows"))
+  }
+)
+
+# Functional Requirement 20 -----------------------------------------
+
+test_that(
+  "Casts an error if recycle = 'none' and font_size_units does not have length 1.",
+  {
+    expect_error(sprinkle_font(x, font_size_units = c("px", "pt"), recycle = "none"))
+  }
+)
+
+test_that(
+  "Passes when recycle != 'none' and font_size_units does has length > 1.",
+  {
+    expect_silent(sprinkle_font(x, font_size_units = c("px", "pt"), recycle = "rows"))
+  }
+)
+
+# Functional Requirement 21 -----------------------------------------
+
+test_that(
+  "Casts an error if recycle = 'none' and font_color does not have length 1.",
+  {
+    expect_error(sprinkle_font(x, font_color = c("red", "blue"), recycle = "none"))
+  }
+)
+
+test_that(
+  "Passes when recycle != 'none' and font_color does has length > 1.",
+  {
+    expect_silent(sprinkle_font(x, font_color = c("red", "blue"), recycle = "rows"))
+  }
+)
+
+# Functional Requirement 22 -----------------------------------------
+
+test_that(
+  "Casts an error if recycle = 'none' and font_family does not have length 1.",
+  {
+    expect_error(sprinkle_font(x, font_family = c("Roman", "Arial"), recycle = "none"))
+  }
+)
+
+test_that(
+  "Passes when recycle != 'none' and font_family does has length > 1.",
+  {
+    expect_silent(sprinkle_font(x, font_family = c("Roman", "Arial"), recycle = "rows"))
+  }
+)

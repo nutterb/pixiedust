@@ -117,3 +117,19 @@ test_that(
     expect_error(sprinkle_bg(x, bg = "red", recycle = "not_an_option"))
   }
 )
+
+# Functional Requirement 7 ------------------------------------------
+
+test_that(
+  "Casts an error if recycle = 'none' and bg does not have length 1.",
+  {
+    expect_error(sprinkle_bg(x, bg = c("red", "blue"), recycle = "none"))
+  }
+)
+
+test_that(
+  "Passes when recycle != 'none' and bg does has length > 1.",
+  {
+    expect_silent(sprinkle_bg(x, bg = c("red", "blue"), recycle = "rows"))
+  }
+)

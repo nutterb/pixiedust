@@ -185,6 +185,12 @@ sprinkle_merge_index <- function(x, indices,
 {
   if (!merge) return(x)
   
+  # convert the index positions to a logical vector.
+  # This was necessary after fixing the recycling in #111
+  i <- logical(nrow(x[[part]]))
+  i[indices] <- TRUE
+  indices <- i
+  
   x[[part]][["merge"]][indices] <- TRUE
   
   #* If the display row and column aren't specified, choose the 

@@ -2,7 +2,7 @@
 #' @title Sprinkle Changes to Cell Borders
 #' 
 #' @description Cell borders may be used to give visual structure to a table.
-#'   Borders may genereate distinction between sets of results, groups, 
+#'   Borders may generate distinction between sets of results, groups, 
 #'   or types of output.
 #'   
 #' @param x An object of class \code{dust}
@@ -81,6 +81,14 @@
 #'  \item Casts an error if \code{fixed} is not a \code{logical(1)}
 #'  \item Casts an error if \code{recycle} is not one of \code{"none"},
 #'    \code{"rows"}, or \code{"cols"}
+#'  \item Cast an error if \code{recycle = "none"} and \code{border_color}
+#'    does not have length 1.
+#'  \item Cast an error if \code{recycle = "none"} and \code{border_style}
+#'    does not have length 1.
+#'  \item Cast an error if \code{recycle = "none"} and \code{border_thickness}
+#'    does not have length 1.
+#'  \item Quietly restrict \code{border_units} to just the first element if
+#'    is has length > 1 and \code{recycle = "none"}.
 #' }
 #' 
 #' @author Benjamin Nutter
@@ -119,14 +127,7 @@ sprinkle_border.default <- function(x, rows = NULL, cols = NULL,
   
   checkmate::assert_class(x = x,
                           classes = "dust")
-  
-  sprinkle_border_index_assert(border = border,
-                               border_color = border_color,
-                               border_style = border_style,
-                               border_thickness = border_thickness,
-                               border_units = border_units,
-                               coll = coll)
-  
+
   indices <- index_to_sprinkle(x = x, 
                                rows = rows, 
                                cols = cols, 
@@ -134,6 +135,18 @@ sprinkle_border.default <- function(x, rows = NULL, cols = NULL,
                                part = part,
                                recycle = recycle,
                                coll = coll)
+    
+  recycle <- recycle[1]
+  
+  sprinkle_border_index_assert(border = border,
+                               border_color = border_color,
+                               border_style = border_style,
+                               border_thickness = border_thickness,
+                               border_units = border_units,
+                               recycle = recycle,
+                               coll = coll)
+  
+
   
   checkmate::reportAssertions(coll)
   
@@ -193,6 +206,7 @@ sprinkle_border_index_assert <- function(border = c("all", "bottom", "left", "to
                                          border_style = "solid", 
                                          border_thickness = 1,
                                          border_units = c("pt", "px"),
+                                         recycle = "none",
                                          coll)
 {
   checkmate::assert_subset(x = border,
@@ -200,8 +214,10 @@ sprinkle_border_index_assert <- function(border = c("all", "bottom", "left", "to
                            add = coll)
   
   checkmate::assert_character(x = border_color,
-                              len = 1,
                               add = coll)
+  
+  if (recycle == "none" && length(border_color) != 1)
+    coll$push("When `recycle` = 'none', border_color must have length 1.")
   
   if (!any(is_valid_color(border_color)))
   {
@@ -216,13 +232,20 @@ sprinkle_border_index_assert <- function(border = c("all", "bottom", "left", "to
                                        "outset", "hidden", "none"),
                            add = coll)
   
+  if (recycle == "none" && length(border_style) != 1)
+    coll$push("When `recycle` = 'none', border_style must have length 1.")
+  
   checkmate::assert_numeric(x = border_thickness,
-                            len = 1,
                             add = coll)
+  if (recycle == "none" && length(border_thickness) != 1)
+    coll$push("When `recycle` = 'none', border_thickness must have length 1.")
   
   checkmate::assert_subset(x = border_units,
                            choices = c("pt", "px"),
                            add = coll)
+  
+  if (recycle == "none" && length(border_units) != 1)
+    border_units <- border_units[1]
 }
 
 
