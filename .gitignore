@@ -16,3 +16,6 @@ vignettes/*.pdf
 # comparisons document
 xtable_vs_pixiedust.html
 LaTeX_Table_Tests.pdf
+
+# Reverse Dependency check
+/revdep/*
