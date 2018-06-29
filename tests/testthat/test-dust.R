@@ -47,7 +47,12 @@ test_that("dust runs when passed a data frame with tidy_df = FALSE",
 
 test_that("dust runs when passed a data frame with tidy_df = TRUE",
 {
-  expect_silent(dust(mtcars, tidy_df = TRUE))
+  # 25 Jun 2018 Changed to expect warning since broom is deprecating data frame
+  #             tidiers
+  if (utils::compareVersion(as.character(packageVersion("broom")), "0.4.4") == 1)
+    expect_warning(dust(mtcars, tidy_df = TRUE))
+  else
+    expect_silent(dust(mtcars, tidy_df = TRUE))
 })
 
 test_that("dust with keep_rownames = TRUE adds rownames to object",

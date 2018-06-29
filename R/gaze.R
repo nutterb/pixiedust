@@ -10,8 +10,22 @@
 #' @param include_glance \code{logical(1)} Determines if \code{glance} (fit)
 #'   statistics are displayed under the models.
 #' @param glance_vars \code{character}. A vector of statistics returned by
-#'   \code{glance} that are to be displayed for each model.
+#'   \code{glance} that are to be displayed for each model. Defaults are 
+#'   subject to change in future versions.
 #' @param digits \code{numeric(1)} The number of digits used for rounding.
+#' 
+#' @details This function is still in development.  Significant stars 
+#'   will be added in a future version. Note that function defaults may 
+#'   be subject to change.
+#' 
+#' @section Functional Requirements:
+#' \enumerate{
+#'   \item Return a data frame object
+#'   \item Cast an error if \code{include_glance} is not \code{logical(1)}
+#'   \item Cast an error if \code{glance_vars} is not a \code{character} 
+#'     vector.
+#'   \item Cast an error if \code{digits} is not \code{"integerish(1)"}.
+#' }
 #'
 #' @examples 
 #' fit1 <- lm(mpg ~ qsec + am + wt + gear + factor(vs), data = mtcars)
@@ -22,10 +36,28 @@
 #'      without_qsec = fit2)
 #' gaze(fit1, fit2, include_glance = FALSE)
 #' gaze(fit1, fit2, glance_vars = c("AIC", "BIC"))
+#' 
+#' @export
 
 gaze <- function(..., include_glance = TRUE,
                  glance_vars = c("adj.r.squared", "sigma", "AIC"),
                  digits = 3){
+  
+  coll <- checkmate::makeAssertCollection()
+  
+  checkmate::assert_logical(x = include_glance,
+                            len = 1,
+                            add = coll)
+  
+  checkmate::assert_character(x = glance_vars,
+                              add = coll)
+  
+  checkmate::assert_integerish(x = digits,
+                               len = 1,
+                               add = 1)
+  
+  checkmate::reportAssertions(coll)
+  
   fits <- list(...)
   if (is.null(names(fits))) names(fits) <- character(length(fits))
   
@@ -84,11 +116,13 @@ prep_gaze_tidy <- function(fits, fit_names, digits){
     sprintf("(%s)",
             res[["value"]][statistic_row])
   
-  res <- reshape(data = res[!names(res) %in% "id"],
-                 direction = "wide",
-                 v.names = "value",
-                 idvar = c("term", "variable"),
-                 timevar = c("model"))
+  res <- 
+    stats::reshape(
+      data = res[!names(res) %in% "id"],
+      direction = "wide",
+      v.names = "value",
+      idvar = c("term", "variable"),
+      timevar = c("model"))
   
   res <- res[order(res[["term"]], res[["variable"]]), ]
   names(res) <- sub("^value\\.", "", names(res))
@@ -127,12 +161,13 @@ prep_gaze_glance <- function(fits, fit_names, glance_vars, digits){
   
   
   res <-
-    reshape(data = res[!names(res) %in% "id"],
-                 direction = "wide",
-                 v.names = "value",
-                 idvar = c("term"),
-                 timevar = c("model"))
-
+    stats::reshape(
+      data = res[!names(res) %in% "id"],
+      direction = "wide",
+      v.names = "value",
+      idvar = c("term"),
+      timevar = c("model"))
+  
   names(res) <- sub("^value\\.", "", names(res))
   rownames(res) <- NULL
   res
