@@ -1,3 +1,8 @@
+### 0.8.4 (2018-06-29)
+
+* Added `gaze` function to produce model summaries side-by-side (#80)
+* Small adjustments to work with upcoming version of `broom`.
+
 ### 0.8.3 (2018-03-22)
 
 * Repaired recycling in several sprinkles.  Sprinkles that permit more than 
