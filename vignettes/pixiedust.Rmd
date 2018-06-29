@@ -276,16 +276,18 @@ basetable %>%
 ```
 # Rotating Text
 
-There is a sprinkle available to rotate the text in a cell. I don't recommend using it.  Rotated text is harder to read, and communicating concepts is the whole point of the table.  However, sometimes it might be necessary.  For our example, we'll take the summary of the `mtcars` data set as returned by `broom`.
+There is a sprinkle available to rotate the text in a cell. I don't recommend using it.  Rotated text is harder to read, and communicating concepts is the whole point of the table.  However, sometimes it might be necessary.  For our example, we'll use the first few rows of the `mtcars` data set.
 
 Notice here that when I apply the rotation, I added an argument to `sprinkle` in which I denoted that the rotation should apply to the head of the table.  The head and body of the table are stored separately in the `dust` object and all of the sprinkles may be applied to either part of the table.  
+
 ```{r}
-dust(mtcars, tidy_df = TRUE) %>% 
-  sprinkle(cols = c("mean", "sd", "median", "trimmed", "mad", 
-                    "min", "max", "range", "skew", "kurtosis", "se"),
-           round = 2) %>% 
-  sprinkle(rows = 1, rotate_degree = -90, 
-           height = 60, part = "head") %>% 
+dust(Formaldehyde) %>%
+  sprinkle(cols = c("mpg", "disp", "drat", "qsec"),
+           round = 2) %>%
+  sprinkle(rows = 1,
+           rotate_degree = -90,
+           height = 60,
+           part = "head") %>%
   sprinkle_print_method("html")
 ```
 

@@ -8,7 +8,7 @@ test_that("Apply a calculation",
   
   x <- perform_function(x$body)
   
-  expect_equal(x[x$row == 2 & x$col %in% 2:3, "value"],
+  expect_equal(x$value[x$row == 2 & x$col %in% 2:3],
                c("-1.24", "-0.38"))
 })
 
@@ -20,6 +20,6 @@ test_that("Apply a string manipulation",
             
   x <- perform_function(x$body)
             
-  expect_equal(x[x$row %in% 5:6 & x$col == 1, "value"],
+  expect_equal(x$value[x$row %in% 5:6 & x$col == 1],
                c("Gears: 4", "Gears: 5"))
 })

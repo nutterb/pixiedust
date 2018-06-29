@@ -89,7 +89,9 @@ glance_foot <- function(fit, col_pairs, total_cols,
   
   checkmate::reportAssertions(coll)
   
-  g <- broom::tidy(t(g[glance_stats])) 
+  g <- data.frame(.rownames = names(g[glance_stats]),
+                  unrowname.x. = unname(unlist(g[glance_stats][1, ])),
+                  stringsAsFactors = FALSE)
   # return(g)
   if (nrow(g) %% col_pairs > 0){
     n_fill <- (col_pairs - nrow(g) %% col_pairs)
