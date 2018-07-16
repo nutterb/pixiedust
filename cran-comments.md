@@ -1,8 +1,8 @@
 ## Test environments
 * local Linux install (R-3.4.4; #135-Ubuntu SMP Fri Jan 19 11:48:36 UTC 2018)
 * remote Linux install (R-3.5.0; Ubuntu 14.04.5 LTS, Travis CI)
-* win-builder (release R 3.5.0)
-* win-builder (2018-06-26 r74934)
+* win-builder (release R 3.5.1)
+* win-builder (2018-07-15 r74966)
 
 ## R CMD check results
 This update adjusts for changes coming with a pending update to the `broom`
