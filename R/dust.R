@@ -230,7 +230,7 @@ dust.default <- function(object, ...,
       dplyr::left_join(x = tidy_object, 
                        y = .,
                        by = c("term" = "term"))
-  
+
      if ("label" %in% names(tidy_object))
      {
        is_intercept <- grepl(pattern = "([(]|)Intercept([)]|)", 
@@ -254,7 +254,7 @@ dust.default <- function(object, ...,
       nms <- nms[!nms %in% "term"]
     }
     
-    tidy_object <- tidy_object[c(descriptors, nms)]
+    tidy_object <- tidy_object[unique(c(descriptors, nms))]
   }
 
   checkmate::reportAssertions(coll)
@@ -376,7 +376,7 @@ component_table <- function(tbl, object)
   #         by = c("row", "col"))
   tab <- dplyr::left_join(tab, cell_attributes_frame(nrow(tbl), ncol(tbl)),
               by = c("row" = "row", "col" = "col"))
-  
+
   #* Join with column classes
   # tab <- merge(x = tab,
   #              y = Classes,

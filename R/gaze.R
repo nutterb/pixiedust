@@ -54,7 +54,7 @@ gaze <- function(..., include_glance = TRUE,
   
   checkmate::assert_integerish(x = digits,
                                len = 1,
-                               add = 1)
+                               add = coll)
   
   checkmate::reportAssertions(coll)
   

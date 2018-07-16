@@ -49,7 +49,7 @@ test_that("dust runs when passed a data frame with tidy_df = TRUE",
 {
   # 25 Jun 2018 Changed to expect warning since broom is deprecating data frame
   #             tidiers
-  if (utils::compareVersion(as.character(packageVersion("broom")), "0.4.4") == 1)
+  if (utils::compareVersion(as.character(packageVersion("broom")), "0.4.5") == 1)
     expect_warning(dust(mtcars, tidy_df = TRUE))
   else
     expect_silent(dust(mtcars, tidy_df = TRUE))
