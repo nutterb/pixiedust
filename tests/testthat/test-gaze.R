@@ -23,7 +23,7 @@ test_that(
   "Cast an error if include_glance is not logical(1)",
   {
     expect_error(
-      gaze(fit1, fit2, include_gaze = "yes")
+      gaze(fit1, fit2, include_glance = "yes")
     )
   }
 )
@@ -32,7 +32,7 @@ test_that(
   "Cast an error if include_glance is not logical(1)",
   {
     expect_error(
-      gaze(fit1, fit2, include_gaze = c(TRUE, FALSE))
+      gaze(fit1, fit2, include_glance = c(TRUE, FALSE))
     )
   }
 )
