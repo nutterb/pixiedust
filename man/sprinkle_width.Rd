@@ -8,18 +8,18 @@
 \usage{
 sprinkle_width(x, rows = NULL, cols = NULL, width = NULL,
   width_units = NULL, part = c("body", "head", "foot", "interfoot",
-  "table"), fixed = FALSE, recycle = c("none", "rows", "cols", "columns"),
-  ...)
+  "table"), fixed = FALSE, recycle = c("none", "rows", "cols",
+  "columns"), ...)
 
 \method{sprinkle_width}{default}(x, rows = NULL, cols = NULL,
   width = NULL, width_units = NULL, part = c("body", "head", "foot",
-  "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows", "cols",
-  "columns"), ...)
+  "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows",
+  "cols", "columns"), ...)
 
 \method{sprinkle_width}{dust_list}(x, rows = NULL, cols = NULL,
   width = NULL, width_units = NULL, part = c("body", "head", "foot",
-  "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows", "cols",
-  "columns"), ...)
+  "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows",
+  "cols", "columns"), ...)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}

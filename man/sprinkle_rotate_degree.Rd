@@ -6,19 +6,20 @@
 \alias{sprinkle_rotate_degree.dust_list}
 \title{Sprinkle Appearance of NA's}
 \usage{
-sprinkle_rotate_degree(x, rows = NULL, cols = NULL, rotate_degree = NULL,
-  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
-  recycle = c("none", "rows", "cols", "columns"), ...)
+sprinkle_rotate_degree(x, rows = NULL, cols = NULL,
+  rotate_degree = NULL, part = c("body", "head", "foot", "interfoot",
+  "table"), fixed = FALSE, recycle = c("none", "rows", "cols",
+  "columns"), ...)
 
 \method{sprinkle_rotate_degree}{default}(x, rows = NULL, cols = NULL,
   rotate_degree = NULL, part = c("body", "head", "foot", "interfoot",
-  "table"), fixed = FALSE, recycle = c("none", "rows", "cols", "columns"),
-  ...)
+  "table"), fixed = FALSE, recycle = c("none", "rows", "cols",
+  "columns"), ...)
 
 \method{sprinkle_rotate_degree}{dust_list}(x, rows = NULL, cols = NULL,
   rotate_degree = NULL, part = c("body", "head", "foot", "interfoot",
-  "table"), fixed = FALSE, recycle = c("none", "rows", "cols", "columns"),
-  ...)
+  "table"), fixed = FALSE, recycle = c("none", "rows", "cols",
+  "columns"), ...)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}

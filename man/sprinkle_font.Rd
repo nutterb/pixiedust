@@ -6,20 +6,23 @@
 \alias{sprinkle_font.dust_list}
 \title{Sprinkle the Characteristics of Text in a Cell}
 \usage{
-sprinkle_font(x, rows = NULL, cols = NULL, bold = NULL, italic = NULL,
-  font_size = NULL, font_size_units = NULL, font_color = NULL,
-  font_family = NULL, ..., part = c("body", "head", "foot", "interfoot",
-  "table"), fixed = FALSE, recycle = "none")
-
-\method{sprinkle_font}{default}(x, rows = NULL, cols = NULL, bold = NULL,
+sprinkle_font(x, rows = NULL, cols = NULL, bold = NULL,
   italic = NULL, font_size = NULL, font_size_units = NULL,
-  font_color = NULL, font_family = NULL, ..., part = c("body", "head",
-  "foot", "interfoot", "table"), fixed = FALSE, recycle = "none")
+  font_color = NULL, font_family = NULL, ..., part = c("body",
+  "head", "foot", "interfoot", "table"), fixed = FALSE,
+  recycle = "none")
+
+\method{sprinkle_font}{default}(x, rows = NULL, cols = NULL,
+  bold = NULL, italic = NULL, font_size = NULL,
+  font_size_units = NULL, font_color = NULL, font_family = NULL, ...,
+  part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE, recycle = "none")
 
 \method{sprinkle_font}{dust_list}(x, rows = NULL, cols = NULL,
-  bold = NULL, italic = NULL, font_size = NULL, font_size_units = NULL,
-  font_color = NULL, font_family = NULL, ..., part = c("body", "head",
-  "foot", "interfoot", "table"), fixed = FALSE, recycle = "none")
+  bold = NULL, italic = NULL, font_size = NULL,
+  font_size_units = NULL, font_color = NULL, font_family = NULL, ...,
+  part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE, recycle = "none")
 }
 \arguments{
 \item{x}{An object of class \code{dust}}

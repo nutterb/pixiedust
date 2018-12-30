@@ -5,8 +5,8 @@
 \title{Determine the Indices to Sprinkle}
 \usage{
 index_to_sprinkle(x, rows = NULL, cols = NULL, fixed = FALSE,
-  part = c("body", "head", "foot", "interfoot"), recycle = c("none", "rows",
-  "cols", "columns"), coll = NULL)
+  part = c("body", "head", "foot", "interfoot"), recycle = c("none",
+  "rows", "cols", "columns"), coll = NULL)
 }
 \arguments{
 \item{x}{An object of class \code{dust}.}

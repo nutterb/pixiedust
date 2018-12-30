@@ -8,6 +8,8 @@
 #' @param options A list of options received from the chunk options.
 #' @param ... Additional arguments to pass to other methods.
 #' 
+#' @importFrom knitr knit_print
+#' @method knit_print dust
 #' @export
 
 knit_print.dust <- function(x, options, ...){
@@ -19,6 +21,7 @@ knit_print.dust <- function(x, options, ...){
 }
 
 #' @rdname knit_print.dust
+#' @method knit_print dust_list
 #' @export
 
 knit_print.dust_list <- function(x, options, ...){

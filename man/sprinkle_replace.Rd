@@ -6,17 +6,17 @@
 \alias{sprinkle_replace.dust_list}
 \title{Replace Contents of Selected Cells}
 \usage{
-sprinkle_replace(x, rows = NULL, cols = NULL, replace, part = c("body",
-  "head", "foot", "interfoot", "table"), fixed = FALSE, recycle = c("none",
-  "rows", "cols", "columns"), ...)
+sprinkle_replace(x, rows = NULL, cols = NULL, replace,
+  part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
 
-\method{sprinkle_replace}{default}(x, rows = NULL, cols = NULL, replace,
-  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
-  recycle = c("none", "rows", "cols", "columns"), ...)
+\method{sprinkle_replace}{default}(x, rows = NULL, cols = NULL,
+  replace, part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
 
-\method{sprinkle_replace}{dust_list}(x, rows = NULL, cols = NULL, replace,
-  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
-  recycle = c("none", "rows", "cols", "columns"), ...)
+\method{sprinkle_replace}{dust_list}(x, rows = NULL, cols = NULL,
+  replace, part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}

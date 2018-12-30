@@ -6,8 +6,8 @@
 \alias{sprinkle_html_preserve.dust_list}
 \title{Change the HTML Preserve Property in a Dust Table}
 \usage{
-sprinkle_html_preserve(x, html_preserve = getOption("pixie_html_preserve",
-  TRUE), ...)
+sprinkle_html_preserve(x,
+  html_preserve = getOption("pixie_html_preserve", TRUE), ...)
 
 \method{sprinkle_html_preserve}{default}(x,
   html_preserve = getOption("pixie_html_preserve", TRUE), ...)

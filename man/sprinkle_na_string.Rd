@@ -7,19 +7,19 @@
 \title{Sprinkle Appearance of NA's}
 \usage{
 sprinkle_na_string(x, rows = NULL, cols = NULL,
-  na_string = getOption("pixie_na_string", NA), part = c("body", "head",
-  "foot", "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows",
-  "cols", "columns"), ...)
+  na_string = getOption("pixie_na_string", NA), part = c("body",
+  "head", "foot", "interfoot", "table"), fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"), ...)
 
 \method{sprinkle_na_string}{default}(x, rows = NULL, cols = NULL,
-  na_string = getOption("pixie_na_string", NA), part = c("body", "head",
-  "foot", "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows",
-  "cols", "columns"), ...)
+  na_string = getOption("pixie_na_string", NA), part = c("body",
+  "head", "foot", "interfoot", "table"), fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"), ...)
 
 \method{sprinkle_na_string}{dust_list}(x, rows = NULL, cols = NULL,
-  na_string = getOption("pixie_na_string", NA), part = c("body", "head",
-  "foot", "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows",
-  "cols", "columns"), ...)
+  na_string = getOption("pixie_na_string", NA), part = c("body",
+  "head", "foot", "interfoot", "table"), fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"), ...)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}

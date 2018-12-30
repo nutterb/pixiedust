@@ -8,18 +8,18 @@
 \usage{
 sprinkle_sanitize(x, rows = NULL, cols = NULL, sanitize = NULL,
   sanitize_args = NULL, part = c("body", "head", "foot", "interfoot",
-  "table"), fixed = FALSE, recycle = c("none", "rows", "cols", "columns"),
-  ...)
+  "table"), fixed = FALSE, recycle = c("none", "rows", "cols",
+  "columns"), ...)
 
 \method{sprinkle_sanitize}{default}(x, rows = NULL, cols = NULL,
-  sanitize = NULL, sanitize_args = NULL, part = c("body", "head", "foot",
-  "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows", "cols",
-  "columns"), ...)
+  sanitize = NULL, sanitize_args = NULL, part = c("body", "head",
+  "foot", "interfoot", "table"), fixed = FALSE, recycle = c("none",
+  "rows", "cols", "columns"), ...)
 
 \method{sprinkle_sanitize}{dust_list}(x, rows = NULL, cols = NULL,
-  sanitize = NULL, sanitize_args = NULL, part = c("body", "head", "foot",
-  "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows", "cols",
-  "columns"), ...)
+  sanitize = NULL, sanitize_args = NULL, part = c("body", "head",
+  "foot", "interfoot", "table"), fixed = FALSE, recycle = c("none",
+  "rows", "cols", "columns"), ...)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}

@@ -7,19 +7,19 @@
 \title{Change Color Features by Discrete Values}
 \usage{
 sprinkle_discrete(x, rows = NULL, cols = NULL, discrete = "bg",
-  discrete_colors = getOption("pixie_discrete_pal", NULL), part = c("body",
-  "head", "foot", "interfoot", "table"), fixed = FALSE, recycle = c("none",
-  "rows", "cols", "columns"), ...)
+  discrete_colors = getOption("pixie_discrete_pal", NULL),
+  part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
 
 \method{sprinkle_discrete}{default}(x, rows = NULL, cols = NULL,
-  discrete = "bg", discrete_colors = getOption("pixie_discrete_pal", NULL),
-  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
-  recycle = c("none", "rows", "cols", "columns"), ...)
+  discrete = "bg", discrete_colors = getOption("pixie_discrete_pal",
+  NULL), part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
 
 \method{sprinkle_discrete}{dust_list}(x, rows = NULL, cols = NULL,
-  discrete = "bg", discrete_colors = getOption("pixie_discrete_pal", NULL),
-  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
-  recycle = c("none", "rows", "cols", "columns"), ...)
+  discrete = "bg", discrete_colors = getOption("pixie_discrete_pal",
+  NULL), part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}

@@ -4,8 +4,8 @@
 \alias{tidy_levels_labels}
 \title{Term and Level Descriptions for \code{pixiedust} Tables}
 \usage{
-tidy_levels_labels(object, descriptors = "term", numeric_level = c("term",
-  "term_plain", "label"), argcheck = NULL)
+tidy_levels_labels(object, descriptors = "term",
+  numeric_level = c("term", "term_plain", "label"), argcheck = NULL)
 }
 \arguments{
 \item{object}{A model object, ideally with a \code{model.frame} method.

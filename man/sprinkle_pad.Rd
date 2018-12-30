@@ -7,16 +7,16 @@
 \title{Sprinkle the Padding of a Cell}
 \usage{
 sprinkle_pad(x, rows = NULL, cols = NULL, pad = 0, part = c("body",
-  "head", "foot", "interfoot", "table"), fixed = FALSE, recycle = c("none",
-  "rows", "cols", "columns"), ...)
+  "head", "foot", "interfoot", "table"), fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"), ...)
 
 \method{sprinkle_pad}{default}(x, rows = NULL, cols = NULL, pad = 0,
-  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
-  recycle = c("none", "rows", "cols", "columns"), ...)
+  part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
 
-\method{sprinkle_pad}{dust_list}(x, rows = NULL, cols = NULL, pad = 0,
-  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
-  recycle = c("none", "rows", "cols", "columns"), ...)
+\method{sprinkle_pad}{dust_list}(x, rows = NULL, cols = NULL,
+  pad = 0, part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}

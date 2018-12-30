@@ -11,8 +11,8 @@
 \usage{
 sprinkle_bookdown(x, bookdown = getOption("pixie_bookdown", FALSE), ...)
 
-\method{sprinkle_bookdown}{default}(x, bookdown = getOption("pixie_bookdown",
-  FALSE), ...)
+\method{sprinkle_bookdown}{default}(x,
+  bookdown = getOption("pixie_bookdown", FALSE), ...)
 
 \method{sprinkle_bookdown}{dust_list}(x,
   bookdown = getOption("pixie_bookdown", FALSE), ...)

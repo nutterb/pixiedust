@@ -4,7 +4,8 @@
 \alias{glance_foot}
 \title{Prepare Glance Statistics for \code{pixiedust} Table Footer}
 \usage{
-glance_foot(fit, col_pairs, total_cols, glance_stats = NULL, byrow = FALSE)
+glance_foot(fit, col_pairs, total_cols, glance_stats = NULL,
+  byrow = FALSE)
 }
 \arguments{
 \item{fit}{A model object with a \code{broom::glance} method.}

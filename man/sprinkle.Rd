@@ -27,8 +27,8 @@ sprinkle(x, rows = NULL, cols = NULL, ..., part = c("body", "head",
   "foot", "interfoot", "table"))
 
 \method{sprinkle}{default}(x, rows = NULL, cols = NULL, ...,
-  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
-  recycle = c("none", "rows", "cols", "columns"))
+  part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"))
 
 \method{sprinkle}{dust_list}(x, rows = NULL, cols = NULL, ...,
   part = c("body", "head", "foot", "interfoot", "table"))

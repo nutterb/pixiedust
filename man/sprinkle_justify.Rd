@@ -8,11 +8,11 @@
 \usage{
 sprinkle_justify(x, justify = getOption("pixie_justify", "center"), ...)
 
-\method{sprinkle_justify}{default}(x, justify = getOption("pixie_justify",
-  "center"), ...)
+\method{sprinkle_justify}{default}(x,
+  justify = getOption("pixie_justify", "center"), ...)
 
-\method{sprinkle_justify}{dust_list}(x, justify = getOption("pixie_justify",
-  "center"), ...)
+\method{sprinkle_justify}{dust_list}(x,
+  justify = getOption("pixie_justify", "center"), ...)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}

@@ -11,11 +11,11 @@
 \usage{
 sprinkle_float(x, float = getOption("pixie_float", FALSE), ...)
 
-\method{sprinkle_float}{default}(x, float = getOption("pixie_float", FALSE),
-  ...)
+\method{sprinkle_float}{default}(x, float = getOption("pixie_float",
+  FALSE), ...)
 
-\method{sprinkle_float}{dust_list}(x, float = getOption("pixie_float", FALSE),
-  ...)
+\method{sprinkle_float}{dust_list}(x, float = getOption("pixie_float",
+  FALSE), ...)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}

@@ -8,18 +8,18 @@
 \usage{
 sprinkle_merge(x, rows = NULL, cols = NULL, merge = FALSE,
   merge_rowval = NULL, merge_colval = NULL, part = c("body", "head",
-  "foot", "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows",
-  "cols", "columns"), ...)
+  "foot", "interfoot", "table"), fixed = FALSE, recycle = c("none",
+  "rows", "cols", "columns"), ...)
 
 \method{sprinkle_merge}{default}(x, rows = NULL, cols = NULL,
   merge = FALSE, merge_rowval = NULL, merge_colval = NULL,
-  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
-  recycle = c("none", "rows", "cols", "columns"), ...)
+  part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
 
 \method{sprinkle_merge}{dust_list}(x, rows = NULL, cols = NULL,
   merge = FALSE, merge_rowval = NULL, merge_colval = NULL,
-  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
-  recycle = c("none", "rows", "cols", "columns"), ...)
+  part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}
