@@ -333,6 +333,10 @@ dust.grouped_df <- function(object, ungroup = TRUE, ...)
   else
   {
     split_var <- attr(object, "var")
+    # dplyr 0.8.0 replaces the var attribute with groups attribute
+    if (is.null(split_var)){
+      split_var <- utils::head(names(attr(object, "groups")), -1)
+    }
     # I'm circumventing the need to import dplyr here
     # object <- dplyr::ungroup(object)
     object <- as.data.frame(object)
@@ -394,7 +398,7 @@ gather_tbl <- function(tbl)
   #* Assign the row indices
   tbl[["row"]] <- seq_len(nrow(tbl))
 
-  dplyr::mutate_(tbl, row = ~1:n()) %>%
+  dplyr::mutate_(tbl, row = ~dplyr::row_number()) %>%
     #* Gather into a table with row (numeric), col (character), 
     #* and value (character)
     tidyr::gather_("col", "value", 
