@@ -12,6 +12,8 @@
 .rbind_internal <- function(..., deparse.level = 1){
   df_list <- list(...)
   
+  df_list <- df_list[!vapply(df_list, is.null, logical(1))]
+  
   all_data_frame <- vapply(X = df_list, 
                            FUN = inherits, 
                            FUN.VALUE = logical(1), 
@@ -32,7 +34,12 @@
              miss_frame <- as.data.frame(miss_frame, 
                                          stringsAsFactors = FALSE)
              names(miss_frame) <- miss_var
-             cbind(d, miss_frame)
+             if (nrow(miss_frame) > 0){
+               cbind(d, miss_frame)
+             } else {
+               d
+             }
+             
            })
   
   do.call("rbind", df_list)

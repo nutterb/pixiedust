@@ -40,7 +40,7 @@ print_dust_latex <- function(x, ..., asis=TRUE)
   tab_env <- if (is.numeric(x$longtable) || x$longtable) "longtable" else "tabular"
   
   Joint <- joint_reference_table(x)
-  
+
   col_width <- determine_column_width(Joint)
   col_halign_default <- get_column_halign(Joint)
   
@@ -131,32 +131,36 @@ print_dust_latex <- function(x, ..., asis=TRUE)
 #* Prepare Cell Values for Printing
 part_prep_latex <- function(part, col_width, col_halign_default, head=FALSE)
 {
-  part %<>% 
-    dplyr::select(-width) %>%
-    dplyr::left_join(col_width, by = c("col" = "col")) %>%
-    dplyr::left_join(col_halign_default, by = c("col" = "col")) %>%
-    dplyr::mutate(width_units = "pt",
-                  halign = ifelse(halign == "", default_halign, halign)) 
+  part <- part[!names(part) %in% "width"]
+  part <- merge(part, 
+                col_width, 
+                by = "col", 
+                all.x = TRUE, 
+                sort = FALSE)
+  part <- merge(part, 
+                col_halign_default, 
+                by = "col", 
+                all.x = TRUE, 
+                sort = FALSE)
+  part$width_units <- rep("pt", nrow(part))
+  part$halign <- ifelse(part$halign == "", 
+                        part$default_halign, 
+                        part$halign)
    
     #* Calculate the row cell width for multicolumn cells
     
-    Widths <- part %>%
-      dplyr::select(html_row, html_col, width, merge) %>%
-      dplyr::distinct(html_row, html_col, width, merge) %>%
-      dplyr::group_by(html_row, html_col) %>%
-      dplyr::mutate(width = ifelse(merge == TRUE, 
-                            sum(width[merge]),
-                            width)) %>%
-      dplyr::ungroup()
-    
-#     part %>% 
-#       dplyr::select(-width) %>%
-#       dplyr::left_join(Widths,
-#                         by = c("html_row" = "html_row", 
-#                                "html_col" = "html_col",
-#                                "merge" = "merge")) %>%
-#       dplyr::mutate(width = ifelse(is.na(width), "", width))
-
+  Widths <- part[c("html_row", "html_col", "width", "merge")]
+  Widths <- Widths[!duplicated(Widths), ]
+  Widths <- split(Widths, Widths[c("html_row", "html_col")])
+  Widths <- lapply(Widths, 
+                   function(x){
+                     x$width <- ifelse(x$merge == TRUE, 
+                                       sum(x$width[x$merge]), 
+                                       x$width)
+                     x
+                   })
+  Widths <- do.call(".rbind_internal", Widths)
+   
   
   numeric_classes <- c("double", "numeric")
   
@@ -241,20 +245,32 @@ part_prep_latex <- function(part, col_width, col_halign_default, head=FALSE)
     mapply(latex_horizontal_border_code, 
            part$bottom_border[logic],
            part$col[logic])
-  bottom_borders <- dplyr::select(part, row, col, bottom_border) %>%
-    tidyr::spread(col, bottom_border) %>%
-    dplyr::select(-row) %>%
-    apply(1, paste0, collapse = "")
+  bottom_borders <- part[c("row", "col", "bottom_border")]
+  bottom_borders <- reshape2::dcast(bottom_borders,
+                                    row ~ col, 
+                                    value.var = "bottom_border")
+  bottom_borders <- bottom_borders[!names(bottom_borders) %in% "row"]
+  bottom_borders <- apply(bottom_borders, 
+                          MARGIN = 1, 
+                          paste0, 
+                          collapse = "")
   
   logic <- part$top_border != ""
   part$top_border[logic] <- 
     mapply(latex_horizontal_border_code, 
            part$top_border[logic],
            part$col[logic])
-  top_borders <- dplyr::select(part, row, col, top_border) %>%
-    tidyr::spread(col, top_border) %>%
-    dplyr::select(-row) %>%
-    apply(1, paste0, collapse = "")
+  top_borders <- part[c("row", "col", "top_border")]
+  top_borders <- reshape2::dcast(top_borders, 
+                                 row ~ col, 
+                                 value.var = "top_border", 
+                                 fill = "")
+  top_borders <- top_borders[!names(top_borders) %in% "row"]
+  top_borders <- apply(top_borders, 
+                       MARGIN = 1, 
+                       FUN = paste0, 
+                       collapse = "")
+
 
   parbox <- needs_parbox(part)
   
@@ -296,30 +312,34 @@ part_prep_latex <- function(part, col_width, col_halign_default, head=FALSE)
   
   #* Remove value where a merged cell is not the display cell
   ncol <- max(part$col)
-  part %<>% dplyr::filter(!(rowspan == 0 | colspan == 0))
+  
+  part <- part[!(part$rowspan == 0 | part$colspan == 0), ]
 
   #* In order to get the multirow to render correctly, the cell with 
   #* the multirow needs to be at the top of the block.  This 
   #* rearranges the merged cells so that the multirow is at the top.
   
-  proper_multirow <- 
-    part[part$colspan != 1, ] %>%
-    dplyr::mutate(group = paste0(html_row, html_col)) %>%
-    dplyr::group_by(group) %>%
-    dplyr::arrange(dplyr::desc(colspan)) %>%
-    dplyr::mutate(row = sort(row)) %>%
-    dplyr::ungroup()
+  proper_multirow <- part[part$colspan != 1, ] 
+  proper_multirow$group <- paste0(proper_multirow$html_row,
+                                  proper_multirow$html_col)
+  proper_multirow <- split(proper_multirow,
+                           proper_multirow$group)
+  proper_multirow <- lapply(proper_multirow,
+                            function(x){
+                              x[order(x$colspan, decreasing = TRUE), ]
+                              x$row <- sort(x$row)
+                              x
+                            })
+  proper_multirow <- do.call(".rbind_internal", proper_multirow)
   
-  part %<>%
-    dplyr::filter(colspan == 1) %>%
-    dplyr::bind_rows(proper_multirow)
+  part <- part[part$colspan == 1, ]
+  part <- .rbind_internal(part, proper_multirow)
+
+  part <- .make_dataframe_wide(part)
   
   cbind(top_borders, 
         bottom_borders,
-        dplyr::select(part, row, col, value) %>%
-          tidyr::spread(col, value, fill = NA) %>%
-          dplyr::select(-row)
-  )
+        part)
 }
 
 #* Converts the data frame object to one line of LaTeX
@@ -406,19 +426,20 @@ joint_reference_table <- function(x){
     mapply(addPartCol,
          x[c("head", "body", "foot", "interfoot")],
          part_name = c("head", "body", "foot", "interfoot"),
-         SIMPLIFY = FALSE) %>%
-    dplyr::bind_rows() %>%
-    dplyr::mutate(width = as.numeric(width),
-                  table_width = x$table_width * 72.27,
-                  width = ifelse(width_units == "in",
-                                 width * 72.27,
-                                 ifelse(width_units == "cm",
-                                        width * 28.45, 
-                                        ifelse(width_units == "%",
-                                               width/100 * table_width, 
-                                               width)))) %>%
+         SIMPLIFY = FALSE) 
+  Joint <- do.call(".rbind_internal", Joint)
+  Joint$width <- as.numeric(Joint$width)
+  Joint$table_width <- x$table_width * 72.27
+  Joint$width <- ifelse(Joint$width_units == "in",
+                        Joint$width * 72.27, 
+                        ifelse(Joint$width_units == "cm", 
+                               Joint$width * 27.45,
+                               ifelse(Joint$width_units == "%",
+                                      Joint$width/100 * Joint$table_width, 
+                                      Joint$width)))
+  
   #* apply a function, if any is indicated
-  perform_function() 
+  Joint <- perform_function(Joint) 
   
   #* Perform any rounding
   logic <- Joint$round != "" & Joint$col_class %in% numeric_classes
@@ -431,21 +452,30 @@ joint_reference_table <- function(x){
            default_halign,
            character(1))
   
-  Joint %>%
-    dplyr::mutate(halign = substr(halign, 1, 1)) %>%
-    dplyr::group_by(col) %>%
-    dplyr::mutate(default_halign = names(sort(table(halign), decreasing = TRUE))[1]) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(parbox = needs_parbox(.),
-                  width_by_char = nchar(value) * 4.5) %>%
-    dplyr::group_by(col) %>%
-    dplyr::mutate(replace = all(is.na(width)) && any(parbox),
-                  width_by_char = max(width_by_char, na.rm=TRUE)) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(width = ifelse(replace,
-                                 width_by_char,
-                                 width)) %>%
-    dplyr::select(col, row, width, default_halign)
+  Joint$halign <- substr(Joint$halign, 1, 1)
+  Joint <- split(Joint, Joint$col)
+  Joint <- lapply(Joint, 
+                  function(x){
+                    x$default_halign <- names(sort(table(x$halign), 
+                                                   decreasing = TRUE))[1]
+                    x
+                  })
+  Joint <- do.call(".rbind_internal", Joint)
+  Joint$parbox <- needs_parbox(Joint)
+  Joint$width_by_char <- nchar(Joint$value) * 4.5
+  Joint <- split(Joint, Joint$col)
+  Joint <- lapply(Joint, 
+                  function(x){
+                    x$replace <- all(is.na(x$width)) && any(Joint$parbox)
+                    x$width_by_char <- max(x$width_by_char, na.rm = TRUE)
+                    x
+                  })
+  Joint <- do.call(".rbind_internal", Joint)
+  Joint$width <- ifelse(Joint$replace, 
+                        Joint$width_by_char, 
+                        Joint$width)  
+  Joint <- Joint[c("col", "row", "width", "default_halign")]
+  Joint
 }
 
 #**************************************************
@@ -454,31 +484,39 @@ joint_reference_table <- function(x){
 #* Right aligned for numeric, otherwise, left aligned
 determine_column_width <- function(Joint, x)
 {
-  Joint %>%
-    dplyr::select(row, col, width) %>%
-    dplyr::group_by(col) %>%
-    dplyr::summarise(width = max(width, na.rm=TRUE)) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(width = ifelse(is.finite(width), width, NA))
+  Joint <- Joint[c("row", "col", "width")]
+  suppressWarnings(Joint <- tapply(Joint$width, Joint$col, max, na.rm = TRUE))
+  Joint <- data.frame(col = names(Joint),
+                      width = unname(Joint),
+                      stringsAsFactors = FALSE)
+  Joint$width <- ifelse(is.finite(Joint$width),
+                        Joint$width,
+                        NA)
+  Joint
 }
 
 determine_row_height <- function(part)
 {
   if (is.null(part)) return("")
-  part %>%
-    dplyr::select(row, col, height, height_units) %>%
-    dplyr::mutate(height = as.numeric(height), 
-                  height = ifelse(height_units == "in", 
-                                  height * 72.27, 
-                                  ifelse(height_units == "cm",
-                                         height * 28.45,
-                                         height))) %>%
-    dplyr::group_by(row) %>%
-    dplyr::summarise(height = max(height, na.rm=TRUE)) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(height = ifelse(!is.finite(height),
-                         "", paste0("\\\\[", height, "pt]"))) %>%
-    '$'("height") 
+  part <- part[c("row", "col", "height", "height_units")]
+  part$height <- as.numeric(part$height)
+  part$height <- ifelse(part$height_units == "in", 
+                        part$height * 72.27, 
+                        ifelse(part$height_units == "cm",
+                               part$height * 28.45,
+                               part$height))
+  
+  suppressWarnings(part <- tapply(part$height, 
+                                  INDEX = part$row,
+                                  FUN = max, 
+                                  na.rm = TRUE))
+  part <- data.frame(row = names(part), 
+                     height = unname(part), 
+                     stringsAsFactors = FALSE)
+  part$height <- ifelse(!is.finite(part$height),
+                        "", 
+                        paste0("\\\\[", part$height, "pt]"))
+  part$height
 }
 
 #**************************************************
@@ -487,14 +525,17 @@ determine_row_height <- function(part)
 #* Right aligned for numeric, otherwise, left aligned
 
 get_column_halign <- function(Joint){
-  Joint %>%
-    dplyr::mutate(default_halign = ifelse(is.na(width),
-                                          default_halign,
-                                          paste0("p{", width, "pt}"))) %>%
-    dplyr::select(row, col, default_halign) %>%
-    dplyr::group_by(col) %>%
-    dplyr::summarise(default_halign = default_halign[1]) %>%
-    dplyr::ungroup() 
+  Joint$default_halign <- ifelse(is.na(Joint$width),
+                                 Joint$default_halign,
+                                 paste0("p{", Joint$width, "pt}"))
+  Joint <- Joint[c("row", "col", "default_halign")]
+  Joint <- tapply(Joint$default_halign, 
+                  Joint$col, 
+                  function(x) x[1])
+  Joint <- data.frame(col = names(Joint), 
+                      default_halign = unname(Joint),
+                      stringsAsFactors = FALSE)
+  Joint
 }
 
 default_halign <- function(col_class, print_method = "latex"){

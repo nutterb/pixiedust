@@ -61,9 +61,9 @@ print_dust_html <- function(x, ..., asis=TRUE,
   
   #* Run a for loop to build all the table divisions
   for (i in 1:total_div){
-    tbl <- dplyr::bind_rows(head,
-                            body[Divisions$row_num[Divisions$div_num == i], , drop=FALSE],
-                            if (i == total_div) foot else interfoot)
+    tbl <- .rbind_internal(head,
+                           body[Divisions$row_num[Divisions$div_num == i], , drop=FALSE],
+                           if (i == total_div) foot else interfoot)
     rows <- apply(tbl, 1, paste0, collapse = "\n")
     rows <- sprintf("<tr>\n%s\n</tr>", rows)
     
@@ -279,7 +279,7 @@ part_prep_html <- function(part, head=FALSE,
 
   ncol <- max(part$col)
   
-  part <- dplyr::filter_(part, "!(rowspan == 0 | colspan == 0)")
+  part <- part[!(part$rowspan == 0 | part$colspan == 0), ]
   
   logic <-
     part[["row"]] == part[["html_row"]] & 
@@ -293,15 +293,19 @@ part_prep_html <- function(part, head=FALSE,
     part[["html_col"]][logic] <- part[["html_col_pos"]][logic]
   
   #* Spread to wide format for printing
-  part <- dplyr::select_(part, "html_row", "html_col", "value") %>%
-    tidyr::spread_("html_col", "value", fill = "") %>%
-    dplyr::select_("-html_row")
+  part <- part[c("html_row", "html_col", "value")]  
+  part <- reshape2::dcast(part,
+                          html_row ~ html_col,
+                          value.var = "value",
+                          fill = "")
+  part <- part[!names(part) %in% "html_row"]
   
   if (ncol(part) != ncol){
-    part <- dplyr::bind_cols(part,
-                             do.call("cbind",
-                                     lapply(1:(ncol - ncol(part)),
-                                            function(i) dplyr::data_frame(value = ""))))
+    part <- cbind(part,
+                  do.call("cbind",
+                          lapply(1:(ncol - ncol(part)),
+                                 function(i) data.frame(value = "", 
+                                                        stringsAsFactors = FALSE))))
     names(part) <- 1:ncol
   }
   part

@@ -35,9 +35,10 @@ print_dust_console <- function(x, ..., return_df = FALSE, asis=TRUE)
   
   #* Run a loop to print all the divisions
   for (i in 1:total_div){
-    tbl <- dplyr::bind_rows(if (nrow(head) > 1) head[-1, ] else NULL, 
-                            body[Divisions$row_num[Divisions$div_num == i], ], 
-                            if (i == total_div) foot else interfoot)
+    tbl <- 
+      .rbind_internal(if (nrow(head) > 1) head[-1, ] else NULL, 
+                      body[Divisions$row_num[Divisions$div_num == i], ], 
+                      if (i == total_div) foot else interfoot)
     if (return_df) DF <- rbind(DF, tbl)
     else {
       if (!is.null(x$caption)) cat(caption_number_prefix, x$caption, "\n\n",
