@@ -8,11 +8,17 @@
 \usage{
 sprinkle_caption_number(x, caption_number, ...)
 
-\method{sprinkle_caption_number}{default}(x,
-  caption_number = getOption("pixie_caption_number", TRUE), ...)
+\method{sprinkle_caption_number}{default}(
+  x,
+  caption_number = getOption("pixie_caption_number", TRUE),
+  ...
+)
 
-\method{sprinkle_caption_number}{dust_list}(x,
-  caption_number = getOption("pixie_caption_number", TRUE), ...)
+\method{sprinkle_caption_number}{dust_list}(
+  x,
+  caption_number = getOption("pixie_caption_number", TRUE),
+  ...
+)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}

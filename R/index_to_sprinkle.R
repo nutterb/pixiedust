@@ -215,16 +215,19 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
   if (!fixed)
   {
     indices <- expand.grid(rows = rows,
-                          cols = cols)
-    indices <- dplyr::mutate(indices, 
-                             i = TRUE)
-    indices <- dplyr::left_join(x[[part]][c("row", "col")],
-                                indices,
-                                by = c("row" = "rows", 
-                                       "col" = "cols")) 
+                           cols = cols)
+    indices$i <- rep(TRUE, nrow(indices))
+    
+    indices <- merge(x[[part]][c("row", "col")], 
+                     indices, 
+                     by.x = c("col", "row"), 
+                     by.y = c("cols", "rows"), 
+                     all.x = TRUE)
+    
     indices[["index"]] <- seq_len(nrow(indices))
-    indices <- dplyr::arrange_(indices,
-                               recycle_arrange)
+
+    indices <- indices[order(indices[recycle_arrange]), ]
+
     indices[["i"]][is.na(indices[["i"]])] <- FALSE
     indices <- indices[["index"]][indices[["i"]]]
   }

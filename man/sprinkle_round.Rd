@@ -6,17 +6,38 @@
 \alias{sprinkle_round.dust_list}
 \title{Sprinkle Appearance of NA's}
 \usage{
-sprinkle_round(x, rows = NULL, cols = NULL, round = NULL,
+sprinkle_round(
+  x,
+  rows = NULL,
+  cols = NULL,
+  round = NULL,
   part = c("body", "head", "foot", "interfoot", "table"),
-  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"),
+  ...
+)
 
-\method{sprinkle_round}{default}(x, rows = NULL, cols = NULL,
-  round = NULL, part = c("body", "head", "foot", "interfoot", "table"),
-  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
+\method{sprinkle_round}{default}(
+  x,
+  rows = NULL,
+  cols = NULL,
+  round = NULL,
+  part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"),
+  ...
+)
 
-\method{sprinkle_round}{dust_list}(x, rows = NULL, cols = NULL,
-  round = NULL, part = c("body", "head", "foot", "interfoot", "table"),
-  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
+\method{sprinkle_round}{dust_list}(
+  x,
+  rows = NULL,
+  cols = NULL,
+  round = NULL,
+  part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"),
+  ...
+)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}

@@ -6,25 +6,50 @@
 \alias{sprinkle_gradient.dust_list}
 \title{Change Color Features by Binning Numeric Values}
 \usage{
-sprinkle_gradient(x, rows = NULL, cols = NULL, gradient = "bg",
+sprinkle_gradient(
+  x,
+  rows = NULL,
+  cols = NULL,
+  gradient = "bg",
   gradient_colors = getOption("pixie_gradient_pal", NULL),
-  gradient_cut = NULL, gradient_n = 10, gradient_na = "grey",
+  gradient_cut = NULL,
+  gradient_n = 10,
+  gradient_na = "grey",
   part = c("body", "head", "foot", "interfoot", "table"),
-  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"),
+  ...
+)
 
-\method{sprinkle_gradient}{default}(x, rows = NULL, cols = NULL,
-  gradient = "bg", gradient_colors = getOption("pixie_gradient_pal",
-  c("#132B43", "#56B1F7")), gradient_cut = NULL, gradient_n = 10,
-  gradient_na = "grey", part = c("body", "head", "foot", "interfoot",
-  "table"), fixed = FALSE, recycle = c("none", "rows", "cols",
-  "columns"), ...)
+\method{sprinkle_gradient}{default}(
+  x,
+  rows = NULL,
+  cols = NULL,
+  gradient = "bg",
+  gradient_colors = getOption("pixie_gradient_pal", c("#132B43", "#56B1F7")),
+  gradient_cut = NULL,
+  gradient_n = 10,
+  gradient_na = "grey",
+  part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"),
+  ...
+)
 
-\method{sprinkle_gradient}{dust_list}(x, rows = NULL, cols = NULL,
-  gradient = "bg", gradient_colors = getOption("pixie_gradient_pal",
-  c("#132B43", "#56B1F7")), gradient_cut = NULL, gradient_n = 10,
-  gradient_na = "grey", part = c("body", "head", "foot", "interfoot",
-  "table"), fixed = FALSE, recycle = c("none", "rows", "cols",
-  "columns"), ...)
+\method{sprinkle_gradient}{dust_list}(
+  x,
+  rows = NULL,
+  cols = NULL,
+  gradient = "bg",
+  gradient_colors = getOption("pixie_gradient_pal", c("#132B43", "#56B1F7")),
+  gradient_cut = NULL,
+  gradient_n = 10,
+  gradient_na = "grey",
+  part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"),
+  ...
+)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}

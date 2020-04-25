@@ -159,11 +159,16 @@ sprinkle_bg_pattern_index <- function(x, indices,
     pattern[["bg"]] <- rep(bg_pattern, 
                            length.out = nrow(pattern))
     
-    pattern <- 
-      dplyr::left_join(pattern,
-                       dplyr::select(x[[part]][indices, ], 
-                                     row, col),
-                       by = c("row" = "row"))
+    pattern <- merge(pattern, 
+                     x[[part]][indices, c("row", "col")], 
+                     by = c("row"), 
+                     sort = FALSE, 
+                     all.x = TRUE)
+    # pattern <- 
+    #   dplyr::left_join(pattern,
+    #                    dplyr::select(x[[part]][indices, ], 
+    #                                  row, col),
+    #                    by = c("row" = "row"))
     pattern <- dplyr::arrange(pattern, 
                               col, row)
     

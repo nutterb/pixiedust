@@ -9,14 +9,23 @@
 \url{https://www.w3schools.com/cssref/pr_border-collapse.asp}
 }
 \usage{
-sprinkle_border_collapse(x,
-  border_collapse = getOption("pixie_border_collapse", "collapse"), ...)
+sprinkle_border_collapse(
+  x,
+  border_collapse = getOption("pixie_border_collapse", "collapse"),
+  ...
+)
 
-\method{sprinkle_border_collapse}{default}(x,
-  border_collapse = getOption("pixie_border_collapse", "collapse"), ...)
+\method{sprinkle_border_collapse}{default}(
+  x,
+  border_collapse = getOption("pixie_border_collapse", "collapse"),
+  ...
+)
 
-\method{sprinkle_border_collapse}{dust_list}(x,
-  border_collapse = getOption("pixie_border_collapse", "collapse"), ...)
+\method{sprinkle_border_collapse}{dust_list}(
+  x,
+  border_collapse = getOption("pixie_border_collapse", "collapse"),
+  ...
+)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}

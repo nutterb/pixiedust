@@ -17,14 +17,14 @@ Depends:
 Imports:
     broom,
     checkmate (>= 1.8.0),
-    dplyr,
     htmltools,
     knitr,
     labelVector,
     magrittr,
-    scales,
-    tidyr
+    reshape2,
+    scales
 Suggests:
+    dplyr,
     rmarkdown,
     testthat
 License: GPL (>= 2)
@@ -32,5 +32,5 @@ LazyData: true
 VignetteBuilder: knitr
 URL: https://github.com/nutterb/pixiedust
 BugReports: https://github.com/nutterb/pixiedust/issues
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 NeedsCompilation: no

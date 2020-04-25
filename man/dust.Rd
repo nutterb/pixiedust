@@ -12,12 +12,21 @@
 \usage{
 dust(object, ...)
 
-\method{dust}{default}(object, ..., tidy_df = FALSE,
-  keep_rownames = FALSE, glance_foot = FALSE, glance_stats = NULL,
-  col_pairs = 2, byrow = FALSE, descriptors = "term",
-  numeric_level = c("term", "term_plain", "label"), label = NULL,
-  caption = NULL, caption_number = getOption("pixied_caption_number",
-  TRUE), justify = getOption("pixie_justify", "center"),
+\method{dust}{default}(
+  object,
+  ...,
+  tidy_df = FALSE,
+  keep_rownames = FALSE,
+  glance_foot = FALSE,
+  glance_stats = NULL,
+  col_pairs = 2,
+  byrow = FALSE,
+  descriptors = "term",
+  numeric_level = c("term", "term_plain", "label"),
+  label = NULL,
+  caption = NULL,
+  caption_number = getOption("pixied_caption_number", TRUE),
+  justify = getOption("pixie_justify", "center"),
   float = getOption("pixie_float", TRUE),
   longtable = getOption("pixie_longtable", FALSE),
   hhline = getOption("pixie_hhline", FALSE),
@@ -25,7 +34,8 @@ dust(object, ...)
   border_collapse = getOption("pixie_border_collapse", "collapse"),
   tabcolsep = getOption("pixie_tabcolsep", 6),
   fixed_header = getOption("pixie_fixed_header", FALSE),
-  html_preserve = getOption("pixie_html_preserve", TRUE))
+  html_preserve = getOption("pixie_html_preserve", TRUE)
+)
 
 \method{dust}{grouped_df}(object, ungroup = TRUE, ...)
 
@@ -33,11 +43,9 @@ dust(object, ...)
 
 redust(x, table, part = c("head", "foot", "interfoot", "body"))
 
-\method{redust}{default}(x, table, part = c("head", "foot", "interfoot",
-  "body"))
+\method{redust}{default}(x, table, part = c("head", "foot", "interfoot", "body"))
 
-\method{redust}{dust_list}(x, table, part = c("head", "foot",
-  "interfoot", "body"))
+\method{redust}{dust_list}(x, table, part = c("head", "foot", "interfoot", "body"))
 }
 \arguments{
 \item{object}{An object that has a \code{tidy} method in \code{broom}}

@@ -6,17 +6,38 @@
 \alias{sprinkle_fn.dust_list}
 \title{Apply a function to a selection of cells}
 \usage{
-sprinkle_fn(x, rows = NULL, cols = NULL, fn = NULL,
+sprinkle_fn(
+  x,
+  rows = NULL,
+  cols = NULL,
+  fn = NULL,
   part = c("body", "head", "foot", "interfoot", "table"),
-  fixed = FALSE, recycle = c("none", "rows", "cols"), ...)
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols"),
+  ...
+)
 
-\method{sprinkle_fn}{default}(x, rows = NULL, cols = NULL, fn = NULL,
+\method{sprinkle_fn}{default}(
+  x,
+  rows = NULL,
+  cols = NULL,
+  fn = NULL,
   part = c("body", "head", "foot", "interfoot", "table"),
-  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"),
+  ...
+)
 
-\method{sprinkle_fn}{dust_list}(x, rows = NULL, cols = NULL,
-  fn = NULL, part = c("body", "head", "foot", "interfoot", "table"),
-  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
+\method{sprinkle_fn}{dust_list}(
+  x,
+  rows = NULL,
+  cols = NULL,
+  fn = NULL,
+  part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"),
+  ...
+)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}

@@ -4,8 +4,12 @@
 \alias{gaze}
 \title{Mimic Stargazer Output to Display Multiple Models}
 \usage{
-gaze(..., include_glance = TRUE, glance_vars = c("adj.r.squared",
-  "sigma", "AIC"), digits = 3)
+gaze(
+  ...,
+  include_glance = TRUE,
+  glance_vars = c("adj.r.squared", "sigma", "AIC"),
+  digits = 3
+)
 }
 \arguments{
 \item{...}{models to be tidied.  Arguments may be named or unnamed.

@@ -3,7 +3,6 @@
 \docType{package}
 \name{pixiedust}
 \alias{pixiedust}
-\alias{pixiedust-package}
 \title{Tables So Beautifully Fine-Tuned You Will Believe It's Magic.}
 \description{
 The \code{pixiedust} mission is to provide a user friendly 

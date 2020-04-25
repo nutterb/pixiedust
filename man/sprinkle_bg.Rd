@@ -7,21 +7,49 @@
 \alias{sprinkle_background}
 \title{Sprinkle the Background Color of a Cell}
 \usage{
-sprinkle_bg(x, rows = NULL, cols = NULL, bg = "", part = c("body",
-  "head", "foot", "interfoot", "table"), fixed = FALSE,
-  recycle = c("none", "rows", "cols", "columns"), ...)
-
-\method{sprinkle_bg}{default}(x, rows = NULL, cols = NULL, bg = "",
+sprinkle_bg(
+  x,
+  rows = NULL,
+  cols = NULL,
+  bg = "",
   part = c("body", "head", "foot", "interfoot", "table"),
-  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"),
+  ...
+)
 
-\method{sprinkle_bg}{dust_list}(x, rows = NULL, cols = NULL, bg = "",
+\method{sprinkle_bg}{default}(
+  x,
+  rows = NULL,
+  cols = NULL,
+  bg = "",
   part = c("body", "head", "foot", "interfoot", "table"),
-  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"),
+  ...
+)
 
-sprinkle_background(x, rows = NULL, cols = NULL, bg = "",
+\method{sprinkle_bg}{dust_list}(
+  x,
+  rows = NULL,
+  cols = NULL,
+  bg = "",
   part = c("body", "head", "foot", "interfoot", "table"),
-  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"),
+  ...
+)
+
+sprinkle_background(
+  x,
+  rows = NULL,
+  cols = NULL,
+  bg = "",
+  part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"),
+  ...
+)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}

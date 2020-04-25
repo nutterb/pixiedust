@@ -151,7 +151,7 @@ tidy_levels_labels <- function(object,
   if (independent_check) checkmate::reportAssertions(argcheck)
   
   lnl <- levels_and_labels(object) %>%
-    level_label_interactions(broom::tidy(object), numeric_level)
+    level_label_interactions(as.data.frame(broom::tidy(object)), numeric_level)
   
   if (! "term" %in% descriptors)
     lnl[, c("term", descriptors), drop = FALSE]

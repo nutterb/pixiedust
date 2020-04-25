@@ -11,11 +11,9 @@
 \usage{
 sprinkle_tabcolsep(x, tabcolsep = getOption("pixie_tabcolsep", 6), ...)
 
-\method{sprinkle_tabcolsep}{default}(x,
-  tabcolsep = getOption("pixie_tabcolsep", 6), ...)
+\method{sprinkle_tabcolsep}{default}(x, tabcolsep = getOption("pixie_tabcolsep", 6), ...)
 
-\method{sprinkle_tabcolsep}{dust_list}(x,
-  tabcolsep = getOption("pixie_tabcolsep", 6), ...)
+\method{sprinkle_tabcolsep}{dust_list}(x, tabcolsep = getOption("pixie_tabcolsep", 6), ...)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}

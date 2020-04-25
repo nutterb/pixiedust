@@ -2,16 +2,14 @@
 % Please edit documentation in R/chain.R
 \name{\%<>\%}
 \alias{\%<>\%}
-\title{Chain together multiple operations.}
+\title{Chain together multiple operations}
 \usage{
 lhs \%<>\% rhs
 }
 \arguments{
-\item{lhs, rhs}{A dataset and function to apply to it}
+\item{lhs, rhs}{A data set and function to apply it to}
 }
 \description{
-This is a copy of the documentation for \code{\%<>\%} in 
-\code{magrittr}.  The copy here is made to conform to CRAN requirements 
-regarding documentation.  Please see the \code{magrittr} documenation
-for the complete and current documentation.
+Chain together multiple operations and save to the object
+  at the start of the chain.  See `magrittr` documentation for details.
 }

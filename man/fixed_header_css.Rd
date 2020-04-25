@@ -7,13 +7,18 @@
 Jonas Schubert Erlandsson. https://jsfiddle.net/dPixie/byB9d/3/
 }
 \usage{
-fixed_header_css(fixed_header_class_name = "pixie-fixed",
-  scroll_body_height = 300, scroll_body_height_units = "px",
-  scroll_body_background_color = "white", fixed_header_height = 20,
+fixed_header_css(
+  fixed_header_class_name = "pixie-fixed",
+  scroll_body_height = 300,
+  scroll_body_height_units = "px",
+  scroll_body_background_color = "white",
+  fixed_header_height = 20,
   fixed_header_height_units = "px",
   fixed_header_text_height = fixed_header_height/2,
   fixed_header_text_height_units = "px",
-  fixed_header_background_color = "white", pretty = TRUE)
+  fixed_header_background_color = "white",
+  pretty = TRUE
+)
 }
 \arguments{
 \item{fixed_header_class_name}{\code{character(1)}. When 

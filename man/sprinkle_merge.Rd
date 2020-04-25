@@ -6,20 +6,44 @@
 \alias{sprinkle_merge.dust_list}
 \title{Sprinkle Table Cells to Merge}
 \usage{
-sprinkle_merge(x, rows = NULL, cols = NULL, merge = FALSE,
-  merge_rowval = NULL, merge_colval = NULL, part = c("body", "head",
-  "foot", "interfoot", "table"), fixed = FALSE, recycle = c("none",
-  "rows", "cols", "columns"), ...)
-
-\method{sprinkle_merge}{default}(x, rows = NULL, cols = NULL,
-  merge = FALSE, merge_rowval = NULL, merge_colval = NULL,
+sprinkle_merge(
+  x,
+  rows = NULL,
+  cols = NULL,
+  merge = FALSE,
+  merge_rowval = NULL,
+  merge_colval = NULL,
   part = c("body", "head", "foot", "interfoot", "table"),
-  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"),
+  ...
+)
 
-\method{sprinkle_merge}{dust_list}(x, rows = NULL, cols = NULL,
-  merge = FALSE, merge_rowval = NULL, merge_colval = NULL,
+\method{sprinkle_merge}{default}(
+  x,
+  rows = NULL,
+  cols = NULL,
+  merge = FALSE,
+  merge_rowval = NULL,
+  merge_colval = NULL,
   part = c("body", "head", "foot", "interfoot", "table"),
-  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"), ...)
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"),
+  ...
+)
+
+\method{sprinkle_merge}{dust_list}(
+  x,
+  rows = NULL,
+  cols = NULL,
+  merge = FALSE,
+  merge_rowval = NULL,
+  merge_colval = NULL,
+  part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"),
+  ...
+)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}

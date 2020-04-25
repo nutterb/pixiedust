@@ -7,8 +7,7 @@
 \usage{
 pixieply(X, FUN, ...)
 
-pixiemap(X, FUN, ..., MoreArgs = NULL, SIMPLIFY = FALSE,
-  USE.NAMES = TRUE)
+pixiemap(X, FUN, ..., MoreArgs = NULL, SIMPLIFY = FALSE, USE.NAMES = TRUE)
 }
 \arguments{
 \item{X}{An object of class \code{dust_list}.}

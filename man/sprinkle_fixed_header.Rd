@@ -6,35 +6,53 @@
 \alias{sprinkle_fixed_header.dust_list}
 \title{Assign a Fixed Header to an HTML Table}
 \usage{
-sprinkle_fixed_header(x, fixed_header = TRUE,
+sprinkle_fixed_header(
+  x,
+  fixed_header = TRUE,
   include_fixed_header_css = TRUE,
-  fixed_header_class_name = "pixie-fixed", scroll_body_height = 300,
+  fixed_header_class_name = "pixie-fixed",
+  scroll_body_height = 300,
   scroll_body_height_units = "px",
-  scroll_body_background_color = "white", fixed_header_height = 20,
+  scroll_body_background_color = "white",
+  fixed_header_height = 20,
   fixed_header_height_units = "px",
   fixed_header_text_height = fixed_header_height/2,
   fixed_header_text_height_units = "px",
-  fixed_header_background_color = "white", ...)
+  fixed_header_background_color = "white",
+  ...
+)
 
-\method{sprinkle_fixed_header}{default}(x, fixed_header = TRUE,
+\method{sprinkle_fixed_header}{default}(
+  x,
+  fixed_header = TRUE,
   include_fixed_header_css = TRUE,
-  fixed_header_class_name = "pixie-fixed", scroll_body_height = 300,
+  fixed_header_class_name = "pixie-fixed",
+  scroll_body_height = 300,
   scroll_body_height_units = "px",
-  scroll_body_background_color = "white", fixed_header_height = 20,
+  scroll_body_background_color = "white",
+  fixed_header_height = 20,
   fixed_header_height_units = "px",
   fixed_header_text_height = fixed_header_height/2,
   fixed_header_text_height_units = "px",
-  fixed_header_background_color = "white", ...)
+  fixed_header_background_color = "white",
+  ...
+)
 
-\method{sprinkle_fixed_header}{dust_list}(x, fixed_header = TRUE,
+\method{sprinkle_fixed_header}{dust_list}(
+  x,
+  fixed_header = TRUE,
   include_fixed_header_css = TRUE,
-  fixed_header_class_name = "pixie-fixed", scroll_body_height = 300,
+  fixed_header_class_name = "pixie-fixed",
+  scroll_body_height = 300,
   scroll_body_height_units = "px",
-  scroll_body_background_color = "white", fixed_header_height = 20,
+  scroll_body_background_color = "white",
+  fixed_header_height = 20,
   fixed_header_height_units = "px",
   fixed_header_text_height = fixed_header_height/2,
   fixed_header_text_height_units = "px",
-  fixed_header_background_color = "white", ...)
+  fixed_header_background_color = "white",
+  ...
+)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}

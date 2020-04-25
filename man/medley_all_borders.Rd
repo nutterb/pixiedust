@@ -4,8 +4,14 @@
 \alias{medley_all_borders}
 \title{Apply Cell Borders to All Cells in a Region}
 \usage{
-medley_all_borders(x, rows = NULL, cols = NULL, horizontal = TRUE,
-  vertical = TRUE, part = "body")
+medley_all_borders(
+  x,
+  rows = NULL,
+  cols = NULL,
+  horizontal = TRUE,
+  vertical = TRUE,
+  part = "body"
+)
 }
 \arguments{
 \item{x}{An object of class dust}

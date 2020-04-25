@@ -23,24 +23,46 @@ Colored Cell border \cr
 http://tex.stackexchange.com/questions/40666/how-to-change-line-color-in-tabular
 }
 \usage{
-sprinkle(x, rows = NULL, cols = NULL, ..., part = c("body", "head",
-  "foot", "interfoot", "table"))
+sprinkle(
+  x,
+  rows = NULL,
+  cols = NULL,
+  ...,
+  part = c("body", "head", "foot", "interfoot", "table")
+)
 
-\method{sprinkle}{default}(x, rows = NULL, cols = NULL, ...,
+\method{sprinkle}{default}(
+  x,
+  rows = NULL,
+  cols = NULL,
+  ...,
   part = c("body", "head", "foot", "interfoot", "table"),
-  fixed = FALSE, recycle = c("none", "rows", "cols", "columns"))
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns")
+)
 
-\method{sprinkle}{dust_list}(x, rows = NULL, cols = NULL, ...,
-  part = c("body", "head", "foot", "interfoot", "table"))
+\method{sprinkle}{dust_list}(
+  x,
+  rows = NULL,
+  cols = NULL,
+  ...,
+  part = c("body", "head", "foot", "interfoot", "table")
+)
 
-sprinkle_print_method(x, print_method = c("console", "markdown", "html",
-  "latex"))
+sprinkle_print_method(
+  x,
+  print_method = c("console", "markdown", "html", "latex")
+)
 
-\method{sprinkle_print_method}{default}(x, print_method = c("console",
-  "markdown", "html", "latex", "docx"))
+\method{sprinkle_print_method}{default}(
+  x,
+  print_method = c("console", "markdown", "html", "latex", "docx")
+)
 
-\method{sprinkle_print_method}{dust_list}(x, print_method = c("console",
-  "markdown", "html", "latex"))
+\method{sprinkle_print_method}{dust_list}(
+  x,
+  print_method = c("console", "markdown", "html", "latex")
+)
 
 sprinkle_table(x, cols = NULL, ..., part = "table")
 

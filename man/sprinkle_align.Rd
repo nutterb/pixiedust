@@ -6,20 +6,41 @@
 \alias{sprinkle_align.dust_list}
 \title{Sprinkle Alignment of Table Cells}
 \usage{
-sprinkle_align(x, rows = NULL, cols = NULL, halign = NULL,
-  valign = NULL, part = c("body", "head", "foot", "interfoot",
-  "table"), fixed = FALSE, recycle = c("none", "rows", "cols",
-  "columns"), ...)
+sprinkle_align(
+  x,
+  rows = NULL,
+  cols = NULL,
+  halign = NULL,
+  valign = NULL,
+  part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"),
+  ...
+)
 
-\method{sprinkle_align}{default}(x, rows = NULL, cols = NULL,
-  halign = NULL, valign = NULL, part = c("body", "head", "foot",
-  "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows",
-  "cols", "columns"), ...)
+\method{sprinkle_align}{default}(
+  x,
+  rows = NULL,
+  cols = NULL,
+  halign = NULL,
+  valign = NULL,
+  part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"),
+  ...
+)
 
-\method{sprinkle_align}{dust_list}(x, rows = NULL, cols = NULL,
-  halign = NULL, valign = NULL, part = c("body", "head", "foot",
-  "interfoot", "table"), fixed = FALSE, recycle = c("none", "rows",
-  "cols", "columns"), ...)
+\method{sprinkle_align}{dust_list}(
+  x,
+  rows = NULL,
+  cols = NULL,
+  halign = NULL,
+  valign = NULL,
+  part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"),
+  ...
+)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}
