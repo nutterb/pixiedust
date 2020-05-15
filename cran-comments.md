@@ -1,6 +1,6 @@
 ## Test environments
 * local Linux install (R-3.6.1; #97-Ubuntu SMP Wed Apr 1 03:25:46 UTC 2020)
-* remote Linux install (R-3.5.1; Ubuntu 14.04.5 LTS, Travis CI)
+* remote Linux install (4.0.0; Ubuntu 16.04.6 LTS, Travis CI)
 * win-builder (release R )
 * win-builder-devel ()
 
