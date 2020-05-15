@@ -8,7 +8,9 @@
 .rbind_internal(..., deparse.level = 1)
 }
 \arguments{
-\item{...}{deparse.level See \code{deparse.level} in \code{rbind}.}
+\item{...}{data frames}
+
+\item{deparse.level}{See \code{deparse.level} in \code{rbind}.}
 }
 \description{
 Stack data frames on top of each other. Data frames do not have to 

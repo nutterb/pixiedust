@@ -32,7 +32,7 @@
 #'   
 #' @details Colors may be a dvips color name, or in the rgb(R, G, B), 
 #' rgba(R, G, B, A), #RRGGBB, or #RRGGBBAA formats. See 
-#' \url{http://nutterb.github.io/pixiedust/colors.html} for additional
+#' \url{http://suchanutter.net/pixiedust/colors.html} for additional
 #' details.
 #'   
 #' This sprinkle is ignored in console and markdown outputs.  HTML output

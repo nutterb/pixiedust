@@ -5,7 +5,7 @@
 #'   have all of the same columns.
 #'   
 #' @param ... data frames
-#' @param ... deparse.level See \code{deparse.level} in \code{rbind}.
+#' @param deparse.level See \code{deparse.level} in \code{rbind}.
 #' 
 #' @author Benjamin Nutter
 

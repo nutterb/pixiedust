@@ -140,33 +140,36 @@ print_dust_latex_hhline <- function(x, ..., asis=TRUE)
 #* Prepare Cell Values for Printing
 part_prep_latex_hhline <- function(part, col_width, col_halign_default, head=FALSE)
 {
-  part %<>% 
-    dplyr::select(-width) %>%
-    dplyr::left_join(col_width, by = c("col" = "col")) %>%
-    dplyr::left_join(col_halign_default, by = c("col" = "col")) %>%
-    dplyr::mutate(width_units = "pt",
-                  halign = ifelse(halign == "", default_halign, halign)) 
+  part <- part[!names(part) %in% "width"]
+  part <- merge(part, 
+                col_width, 
+                by = "col", 
+                all.x = TRUE, 
+                sort = FALSE)
+  part <- merge(part, 
+                col_halign_default, 
+                by = "col", 
+                all.x = TRUE, 
+                sort = FALSE)
+  part$width_units <- rep("pt", nrow(part))
+  part$halign <- ifelse(part$halign == "", 
+                        part$default_halign, 
+                        part$halign)
    
     #* Calculate the row cell width for multicolumn cells
     
-    Widths <- part %>%
-      dplyr::select(html_row, html_col, width, merge) %>%
-      dplyr::distinct(html_row, html_col, width, merge) %>%
-      dplyr::group_by(html_row, html_col) %>%
-      dplyr::mutate(width = ifelse(merge == TRUE, 
-                            sum(width[merge]),
-                            width)) %>%
-      dplyr::ungroup()
+  Widths <- part[c("html_row", "html_col", "width", "merge")]
+  Widths <- Widths[!duplicated(Widths), ]
+  Widths <- split(Widths, Widths[c("html_row", "html_col")])
+  Widths <- lapply(Widths, 
+                   function(x){
+                     x$width <- ifelse(x$merge == TRUE, 
+                                       sum(x$width[x$merge]), 
+                                       x$width)
+                     x
+                   })
+  Widths <- do.call(".rbind_internal", Widths)
     
-    part %>% 
-      dplyr::select(-width) %>%
-      dplyr::left_join(Widths,
-                        by = c("html_row" = "html_row", 
-                               "html_col" = "html_col",
-                               "merge" = "merge")) %>%
-      dplyr::mutate(width = ifelse(is.na(width), "", width))
-
-  
   numeric_classes <- c("double", "numeric")
   
   #* apply a function, if any is indicated
@@ -250,11 +253,16 @@ part_prep_latex_hhline <- function(part, col_width, col_halign_default, head=FAL
            part$bottom_border[logic],
            part$col[logic])
   part$bottom_border[!logic] <- "~"
-  bottom_borders <- dplyr::select(part, row, col, bottom_border) %>%
-    tidyr::spread(col, bottom_border) %>%
-    dplyr::select(-row) %>%
-    apply(1, paste0, collapse = "") %>%
-    paste0("\\hhline{", ., "}")
+  bottom_borders <- part[c("row", "col", "bottom_border")]
+  bottom_borders <- reshape2::dcast(bottom_borders,
+                                    row ~ col, 
+                                    value.var = "bottom_border")
+  bottom_borders <- bottom_borders[!names(bottom_borders) %in% "row"]
+  bottom_borders <- apply(bottom_borders, 
+                          MARGIN = 1, 
+                          paste0, 
+                          collapse = "")
+  bottom_borders <- paste0("\\hhline{", bottom_borders, "}")
   
   logic <- part$top_border != ""
   part$top_border[logic] <- 
@@ -262,11 +270,17 @@ part_prep_latex_hhline <- function(part, col_width, col_halign_default, head=FAL
            part$top_border[logic],
            part$col[logic])
   part$top_border[!logic] <- "~"
-  top_borders <- dplyr::select(part, row, col, top_border) %>%
-    tidyr::spread(col, top_border) %>%
-    dplyr::select(-row) %>%
-    apply(1, paste0, collapse = "") %>%
-    paste0("\\hhline{", ., "}")
+  top_borders <- part[c("row", "col", "top_border")]
+  top_borders <- reshape2::dcast(top_borders, 
+                                 row ~ col, 
+                                 value.var = "top_border", 
+                                 fill = "")
+  top_borders <- top_borders[!names(top_borders) %in% "row"]
+  top_borders <- apply(top_borders, 
+                       MARGIN = 1, 
+                       FUN = paste0, 
+                       collapse = "")
+  top_borderes <- paste0("\\hhline{", top_borders, "}")
   
   
   
@@ -312,30 +326,33 @@ part_prep_latex_hhline <- function(part, col_width, col_halign_default, head=FAL
   
   #* Remove value where a merged cell is not the display cell
   ncol <- max(part$col)
-  part %<>% dplyr::filter(!(rowspan == 0 | colspan == 0))
+  part <- part[!(part$rowspan == 0 | part$colspan == 0), ]
   
   #* In order to get the multirow to render correctly, the cell with 
   #* the multirow needs to be at the top of the block.  This 
   #* rearranges the merged cells so that the multirow is at the top.
   
-  proper_multirow <- 
-    part[part$colspan != 1, ] %>%
-    dplyr::mutate(group = paste0(html_row, html_col)) %>%
-    dplyr::group_by(group) %>%
-    dplyr::arrange(dplyr::desc(colspan)) %>%
-    dplyr::mutate(row = sort(row)) %>%
-    dplyr::ungroup()
+  proper_multirow <- part[part$colspan != 1, ] 
+  proper_multirow$group <- paste0(proper_multirow$html_row,
+                                  proper_multirow$html_col)
+  proper_multirow <- split(proper_multirow,
+                           proper_multirow$group)
+  proper_multirow <- lapply(proper_multirow,
+                            function(x){
+                              x[order(x$colspan, decreasing = TRUE), ]
+                              x$row <- sort(x$row)
+                              x
+                            })
+  proper_multirow <- do.call(".rbind_internal", proper_multirow)
   
-  part %<>%
-    dplyr::filter(colspan == 1) %>%
-    dplyr::bind_rows(proper_multirow)
+  part <- part[part$colspan == 1, ]
+  part <- .rbind_internal(part, proper_multirow)
+  
+  part <- .make_dataframe_wide(part)
   
   cbind(top_borders, 
         bottom_borders,
-        dplyr::select(part, row, col, value) %>%
-          tidyr::spread(col, value, fill = NA) %>%
-          dplyr::select(-row)
-  )
+        part)
 }
 
 #**************************************************

@@ -81,7 +81,7 @@ part_prep_console <- function(part)
     #* frame is grouped by column, and if any cell in the column has bold 
     #* text, the unbolded text gets two spaces on either side to make the 
     #* columns the same width.
-    part <- split(part, part$col_name)
+    part <- split(part, part$col)
     part <- lapply(part, 
                    function(x){
                      if (any(x$bold)){

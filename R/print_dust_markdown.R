@@ -1,10 +1,3 @@
-#' @importFrom dplyr bind_rows
-#' @importFrom dplyr mutate_
-#' @importFrom dplyr select_
-#' @importFrom knitr asis_output
-#' @importFrom knitr kable
-#' @importFrom tidyr spread
-
 print_dust_markdown <- function(x, ..., asis=TRUE,
                                 interactive = getOption("pixie_interactive"))
 {
@@ -62,28 +55,29 @@ print_dust_markdown <- function(x, ..., asis=TRUE,
   #* by the first letter of the HTML alignment.  If no alignment is 
   #* assigned, a default is chosen based on the variable type.  Numerics
   #* are aligned right, characters are aligned left.
-  alignments <- dplyr::filter_(x$head, "row == 1") %>%
-    dplyr::select_("row", "col", "halign", "col_class") %>%
-    dplyr::mutate_(halign = ~ifelse(halign == "",
-                                    ifelse(col_class %in% numeric_classes, 
-                                           "r",
-                                           "l"),
-                                    substr(halign, 1, 1)))
+  alignments <- x$head[x$head$row == 1, ]
+  alignments <- alignments[c("row", "col", "halign", "col_class")]
+
+  alignments$halign <- ifelse(alignments$halign == "",
+                              ifelse(alignments$col_class %in% numeric_classes, 
+                                     "r",
+                                     "l"),
+                              substr(alignments$halign, 1, 1))
 
   #* Run a for loop to generate all the code.
   #* Not the most efficient way to do this, probably, but 
   #* it's easy to read and understand.
   tbl_code <- ""
   for (i in 1:total_div){
-    tbl <- dplyr::bind_rows(if (nrow(head) > 1) subhead else NULL, 
-                            body[Divisions$row_num[Divisions$div_num == i], ], 
-                            if (i == total_div) foot else interfoot)
+    tbl <- .rbind_internal(if (nrow(head) > 1) subhead else NULL, 
+                           body[Divisions$row_num[Divisions$div_num == i], ], 
+                           if (i == total_div) foot else interfoot)
   
     tbl_code <- paste0(tbl_code,
                        paste(c("", "", 
                                knitr::kable(tbl,
                                             format = "markdown",
-                                            align = alignments$halign),
+                                            align = substr(alignments$halign, 1, 1)),
                                "\n", linebreak, "\n", linebreak, "\n"), 
                              collapse = "\n"))
     
@@ -136,7 +130,5 @@ part_prep_markdown <- function(part)
 
 
   #* Spread to wide format for printing
-  dplyr::select_(part, "row", "col", "value") %>%
-    tidyr::spread_("col", "value") %>%
-    dplyr::select_("-row")
+  .make_dataframe_wide(part)
 }

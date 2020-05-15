@@ -402,7 +402,9 @@ gather_tbl <- function(tbl)
   #* Assign the row indices
   tbl[["row"]] <- seq_len(nrow(tbl))
 
-  tbl <- stats::reshape(data = tbl, 
+  
+  
+  tbl <- stats::reshape(data = as.data.frame(tbl), 
                         direction = "long", 
                         varying = list(names(tbl)[!names(tbl) %in% "row"]))
   
