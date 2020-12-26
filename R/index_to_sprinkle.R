@@ -226,7 +226,7 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
     
     indices[["index"]] <- seq_len(nrow(indices))
 
-    indices <- indices[order(indices[recycle_arrange]), ]
+    indices <- indices[do.call("order", indices[recycle_arrange]), ]
 
     indices[["i"]][is.na(indices[["i"]])] <- FALSE
     indices <- indices[["index"]][indices[["i"]]]
