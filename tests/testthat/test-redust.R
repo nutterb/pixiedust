@@ -1,5 +1,3 @@
-context("redust")
-
 test_that("redust: reject tables with dissimilar column dimension",
 {
   x <- dust(mtcars[1:10, ])
@@ -24,8 +22,8 @@ test_that(
   "redust: dust_list",
   {
     expect_silent(
-      dplyr::group_by(mtcars, am, vs) %>% 
-        dust(ungroup = FALSE) %>% 
+      dplyr::group_by(mtcars, am, vs) %>%
+        dust(ungroup = FALSE) %>%
         redust(mtcars[1:2, ], part = "head")
     )
   }

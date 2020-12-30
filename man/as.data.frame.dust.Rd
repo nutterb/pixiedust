@@ -15,35 +15,35 @@
 \item{...}{Arguments to be passed to other methods.  Currently unused.}
 
 \item{sprinkled}{Logical.  If \code{TRUE}, the sprinkles attached to the
-\code{dust} object are applied before returning the data frame. 
+\code{dust} object are applied before returning the data frame.
 Sprinkles are applied via the same mechanism that prints to the console,
 so only sprinkles that are applicable to console output are used.
-When \code{FALSE}, \code{pixiedust} attempts to reconstruct the 
-data frame (or tidied output from \code{broom::tidy} 
+When \code{FALSE}, \code{pixiedust} attempts to reconstruct the
+data frame (or tidied output from \code{broom::tidy}
 originally given to \code{dust}.}
 }
 \description{
 Sprinkles are applied to the \code{dust} object
   as if it were being prepared for printing to the console.
-  However, instead of printing, the object is returned 
+  However, instead of printing, the object is returned
   as a single data frame.
 }
 \details{
 In its current state, this can be a fairly inefficient function
-  as the table, if the longtable option is in use, will be built in 
-  a \code{for} loop and bound together using \code{rbind}.  This isn't 
-  really intended for large tables, but may be of assistance when 
-  there isn't a sprinkle that does what you want to do.  (You can 
-  at least pull out the object as a data frame and do your own 
+  as the table, if the longtable option is in use, will be built in
+  a \code{for} loop and bound together using \code{rbind}.  This isn't
+  really intended for large tables, but may be of assistance when
+  there isn't a sprinkle that does what you want to do.  (You can
+  at least pull out the object as a data frame and do your own
   post processing).
 }
 \section{Functional Requirements}{
- 
+
 \enumerate{
  \item Accepts an object of class \code{dust} or \code{dust_list}
  \item Accepts a \code{logical(1)} indicating if the sprinkles should
    be applied to the data.
- \item For a \code{dust} object, returns an object of class 
+ \item For a \code{dust} object, returns an object of class
    \code{data.frame}
  \item For a \code{dust_list} object, returns a list of objects of class
    \code{data.frame}
@@ -57,7 +57,7 @@ Dust <- dust(fit) \%>\%
   sprinkle(cols = 5, fn = quote(pvalString(value))) \%>\%
   sprinkle(cols = 3, font_color = "#DA70D6") \%>\%
   sprinkle_print_method("html")
-  
+
 as.data.frame(Dust)
 
 }

@@ -4,8 +4,15 @@
 \alias{sanitize_latex}
 \title{Escape Characters for Printing in LaTeX Output}
 \usage{
-sanitize_latex(object, inn = NULL, out = NULL, pb = FALSE,
-  greek = FALSE, na = "", ...)
+sanitize_latex(
+  object,
+  inn = NULL,
+  out = NULL,
+  pb = FALSE,
+  greek = FALSE,
+  na = "",
+  ...
+)
 }
 \arguments{
 \item{object}{\code{character} vector of strings to translate.
@@ -14,17 +21,17 @@ Any NAs are set to blank strings before conversion.}
 \item{inn}{\code{character} vector. Additional strings to translate.}
 
 \item{out}{\code{character} vector the same length as \code{inn}.
-This gives the translated value of the corresonding element in 
+This gives the translated value of the corresonding element in
 \code{inn}}
 
-\item{pb}{\code{logical(1)} If \code{pb=TRUE}, \code{sanitize_latex} also 
+\item{pb}{\code{logical(1)} If \code{pb=TRUE}, \code{sanitize_latex} also
 translates \code{[()]} to math mode using \code{\\left}, \code{\\right}.}
 
-\item{greek}{\code{logical(1)}. set to \code{TRUE} to have 
-\code{sanitize_latex} put names for greek letters in math mode and 
+\item{greek}{\code{logical(1)}. set to \code{TRUE} to have
+\code{sanitize_latex} put names for greek letters in math mode and
 add backslashes.}
 
-\item{na}{\code{character(1)} Single character string to translate 
+\item{na}{\code{character(1)} Single character string to translate
 \code{NA} values to.}
 
 \item{...}{Additional arguments for other methods. Currently ignored.}
@@ -33,12 +40,12 @@ add backslashes.}
 Vector of chracter strings.
 }
 \description{
-\code{sanitize_latex} translates particular items in 
-character strings to LaTeX format, e.g., makes \code{a^2 = a\$^2\$} 
-for superscript within variable labels. LaTeX names of greek letters 
-(e.g., "alpha") will have backslashes added if \code{greek==TRUE}. 
-Math mode is inserted as needed. \code{sanitize_latex} assumes that 
-input text always has matches, e.g. \code{[) [] (] ()}, and that 
+\code{sanitize_latex} translates particular items in
+character strings to LaTeX format, e.g., makes \code{a^2 = a\$^2\$}
+for superscript within variable labels. LaTeX names of greek letters
+(e.g., "alpha") will have backslashes added if \code{greek==TRUE}.
+Math mode is inserted as needed. \code{sanitize_latex} assumes that
+input text always has matches, e.g. \code{[) [] (] ()}, and that
 surrounding by \$\$ is OK.
 }
 \examples{
@@ -49,7 +56,7 @@ sanitize_latex("75\% of the cars were | more than $20,000 Delta = 1.30", greek =
 \code{Hmisc::latexTranslate}, \code{Hmisc::sedit}
 }
 \author{
-This code is lifted from the \code{Hmisc} package in order to 
+This code is lifted from the \code{Hmisc} package in order to
 avoid depending on that package.
 
 Frank E. Harrell Jr.\cr

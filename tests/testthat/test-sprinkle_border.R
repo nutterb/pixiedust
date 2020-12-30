@@ -1,15 +1,13 @@
-context("sprinkle_border")
-
 x <- dust(head(mtcars))
 
 # Functional Requirement 1 ------------------------------------------
 
 test_that(
-  "Correctly reassigns the left_border, right_border, top_border, and 
+  "Correctly reassigns the left_border, right_border, top_border, and
    bottom_border columns in the table part",
   {
     expect_equal(
-      sprinkle_border(x, border = "all", 
+      sprinkle_border(x, border = "all",
                       border_color = "green")$body[c("bottom_border", "left_border", "top_border", "right_border")],
       data.frame(bottom_border = rep("1pt solid green", 66),
                  left_border = rep("1pt solid green", 66),
@@ -21,7 +19,7 @@ test_that(
 )
 
 test_that(
-  "Correctly reassigns the left_border, right_border, top_border, and 
+  "Correctly reassigns the left_border, right_border, top_border, and
    bottom_border columns in the table part",
   {
     expect_equal(
@@ -32,7 +30,7 @@ test_that(
 )
 
 test_that(
-  "Correctly reassigns the left_border, right_border, top_border, and 
+  "Correctly reassigns the left_border, right_border, top_border, and
    bottom_border columns in the table part",
   {
     expect_equal(
@@ -43,7 +41,7 @@ test_that(
 )
 
 test_that(
-  "Correctly reassigns the left_border, right_border, top_border, and 
+  "Correctly reassigns the left_border, right_border, top_border, and
    bottom_border columns in the table part",
   {
     expect_equal(
@@ -54,7 +52,7 @@ test_that(
 )
 
 test_that(
-  "Correctly reassigns the left_border, right_border, top_border, and 
+  "Correctly reassigns the left_border, right_border, top_border, and
    bottom_border columns in the table part",
   {
     expect_equal(
@@ -68,9 +66,9 @@ test_that(
   "Function succeeds when called on a dust_list object",
   {
     expect_silent(
-      mtcars %>% 
-        dplyr::group_by(am, vs) %>% 
-        dust(ungroup = FALSE) %>% 
+      mtcars %>%
+        dplyr::group_by(am, vs) %>%
+        dust(ungroup = FALSE) %>%
         sprinkle_border(border = "right", color = "red")
     )
   }
@@ -89,7 +87,7 @@ test_that(
 # Functional Requirement 3 ------------------------------------------
 
 test_that(
-  "Cast an error if any element of border is not one of all, bottom, 
+  "Cast an error if any element of border is not one of all, bottom,
    left, top, or right",
   {
     expect_error(
@@ -170,7 +168,6 @@ test_that(
     )
   }
 )
-
 
 test_that(
   "Accept solid, dashed, dotted, double, groove, ridge, inset, outset, hidden

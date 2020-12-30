@@ -1,5 +1,3 @@
-context("as.data.frame.dust")
-
 # Functional Requirement 1 ------------------------------------------
 
 test_that(
@@ -131,11 +129,11 @@ test_that(
     Dust <- split(mtcars, mtcars$am) %>%
       dust() %>%
       as.data.frame()
-    
-    dust_class <- vapply(Dust, 
+
+    dust_class <- vapply(Dust,
                          function(x) "data.frame" %in% class(x),
                          logical(1))
-    
+
     expect_true(all(dust_class))
   }
 )
@@ -147,11 +145,11 @@ test_that(
     Dust <- split(mtcars, mtcars$am) %>%
       dust() %>%
       as.data.frame(sprinkled = FALSE)
-    
-    dust_class <- vapply(Dust, 
+
+    dust_class <- vapply(Dust,
                          function(x) "data.frame" %in% class(x),
                          logical(1))
-    
+
     expect_true(all(dust_class))
   }
 )

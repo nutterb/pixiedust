@@ -9,32 +9,41 @@
 \url{https://www.w3schools.com/cssref/pr_border-collapse.asp}
 }
 \usage{
-sprinkle_border_collapse(x,
-  border_collapse = getOption("pixie_border_collapse", "collapse"), ...)
+sprinkle_border_collapse(
+  x,
+  border_collapse = getOption("pixie_border_collapse", "collapse"),
+  ...
+)
 
-\method{sprinkle_border_collapse}{default}(x,
-  border_collapse = getOption("pixie_border_collapse", "collapse"), ...)
+\method{sprinkle_border_collapse}{default}(
+  x,
+  border_collapse = getOption("pixie_border_collapse", "collapse"),
+  ...
+)
 
-\method{sprinkle_border_collapse}{dust_list}(x,
-  border_collapse = getOption("pixie_border_collapse", "collapse"), ...)
+\method{sprinkle_border_collapse}{dust_list}(
+  x,
+  border_collapse = getOption("pixie_border_collapse", "collapse"),
+  ...
+)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}
 
-\item{border_collapse}{\code{character(1)}. Defaults to \code{"collapse"}, 
-and may accept any of \code{"collapse"}, \code{"separate"}, 
+\item{border_collapse}{\code{character(1)}. Defaults to \code{"collapse"},
+and may accept any of \code{"collapse"}, \code{"separate"},
 \code{"initial"}, or \code{"inherit"}.}
 
 \item{...}{Additional arguments to pass to other methods. Currently ignored.}
 }
 \description{
-The \code{border_collapse} property controls the appearance of 
-  cell borders in HTML tables.  Be default, \code{pixiedust} collapses 
-  the borders so that the adjoining border of two cells appear as a 
+The \code{border_collapse} property controls the appearance of
+  cell borders in HTML tables.  Be default, \code{pixiedust} collapses
+  the borders so that the adjoining border of two cells appear as a
   single border.
 }
 \details{
-See \url{https://www.w3schools.com/cssref/pr_border-collapse.asp} 
+See \url{https://www.w3schools.com/cssref/pr_border-collapse.asp}
 for details on how each option affects the appearance of a table.
 
 This property has no effect on non-HTML output.
@@ -44,7 +53,7 @@ This property has no effect on non-HTML output.
 \enumerate{
  \item Change the \code{border_collapse} attribute of the \code{dust} object.
  \item Cast an error if \code{x} is not a \code{dust} object.
- \item Cast an error if \code{border_collapse} is not one of 
+ \item Cast an error if \code{border_collapse} is not one of
    \code{"collapse"}, \code{"separate"}, \code{"initial"}, \code{"inherit"}.
 }
 }

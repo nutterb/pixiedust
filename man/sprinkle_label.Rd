@@ -25,12 +25,12 @@ sprinkle_label(x, label = NULL, ...)
 \item{...}{Additional arguments to pass to other methods. Currently ignored.}
 }
 \description{
-The \code{label} property is used to make references to a 
-  table.  Labels may be used in LaTeX documents, or in both LaTeX and 
+The \code{label} property is used to make references to a
+  table.  Labels may be used in LaTeX documents, or in both LaTeX and
   HTML documents when using \code{bookdown}.
 }
 \details{
-For details about using labels in LaTeX documents, see 
+For details about using labels in LaTeX documents, see
 \url{https://en.wikibooks.org/wiki/LaTeX/Labels_and_Cross-referencing}.
 
 For details about using labels in \code{bookdown} documents, see

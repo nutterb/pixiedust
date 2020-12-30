@@ -1,5 +1,3 @@
-context("sprinkles")
-
 x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
 
 test_that(
@@ -36,12 +34,11 @@ test_that("sprinkles: bg",
                "orchid")
 })
 
-
 test_that("sprinkles: bg_pattern",
 {
   skip_on_cran()
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-  expect_equal(sprinkle(x, rows = 1, cols = 1, 
+  expect_equal(sprinkle(x, rows = 1, cols = 1,
                         bg_pattern = c("orchid", "aquamarine"))$body$bg[1:2],
                c("orchid", ""))
 })
@@ -81,7 +78,7 @@ test_that("sprinkles: border_collapse",
 {
   skip_on_cran()
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-  expect_equal(sprinkle(x, rows=1, cols = 1, 
+  expect_equal(sprinkle(x, rows=1, cols = 1,
                         border_collapse = "separate")$border_collapse,
                "separate")
 })
@@ -98,7 +95,7 @@ test_that("sprinkles: border",
 {
   skip_on_cran()
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-  expect_equal(sprinkle(x, rows = 1, cols = 1, 
+  expect_equal(sprinkle(x, rows = 1, cols = 1,
                         border = c("left", "right"))$body$left_border[1],
                "1pt solid black")
 })
@@ -115,7 +112,7 @@ test_that("sprinkles: border_thickness",
 {
   skip_on_cran()
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-  expect_equal(sprinkle(x, rows = 1, cols = 1, 
+  expect_equal(sprinkle(x, rows = 1, cols = 1,
                         border_thickness = 2)$body$top_border[1],
                "2pt solid black")
 })
@@ -132,7 +129,7 @@ test_that("sprinkles: border_units",
 {
   skip_on_cran()
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-  expect_equal(sprinkle(x, rows = 1, cols = 1, 
+  expect_equal(sprinkle(x, rows = 1, cols = 1,
                         border_units = "px")$body$top_border[1],
                "1px solid black")
 })
@@ -149,7 +146,7 @@ test_that("sprinkles: border_style",
 {
   skip_on_cran()
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-  expect_equal(sprinkle(x, rows = 1, cols = 1, 
+  expect_equal(sprinkle(x, rows = 1, cols = 1,
                         border_style = "dashed")$body$top_border[1],
                "1pt dashed black")
 })
@@ -166,7 +163,7 @@ test_that("sprinkles: border_color",
 {
   skip_on_cran()
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-  expect_equal(sprinkle(x, rows = 1, cols = 1, 
+  expect_equal(sprinkle(x, rows = 1, cols = 1,
                         border_color = "Black")$body$top_border[1],
                "1pt solid Black")
 })
@@ -183,7 +180,7 @@ test_that("sprinkles: halign",
 {
   skip_on_cran()
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-  expect_equal(sprinkle(x, rows = 1, cols = 1, 
+  expect_equal(sprinkle(x, rows = 1, cols = 1,
                         halign = "left")$body$halign[1],
                "left")
 })
@@ -195,7 +192,7 @@ test_that("sprinkles: halign errors",
   expect_error(sprinkle(x, rows = 1, cols = 1, halign = c("left", "right")),
                "")
 })
-               
+
 test_that("sprinkles: height",
 {
   skip_on_cran()
@@ -216,7 +213,7 @@ test_that("sprinkles: height_units",
 {
   skip_on_cran()
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-  expect_equal(sprinkle(x, rows = 1, cols = 1, 
+  expect_equal(sprinkle(x, rows = 1, cols = 1,
                         height_units = "px")$body$height_units[1],
                "px")
 })
@@ -233,7 +230,7 @@ test_that("sprinkles: fn",
 {
   skip_on_cran()
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-  expect_equal(sprinkle(x, rows = 1, cols = 1, 
+  expect_equal(sprinkle(x, rows = 1, cols = 1,
                         fn = quote(pvalString(value)))$body$fn[1],
                "pvalString(value)")
 })
@@ -242,11 +239,11 @@ test_that("sprinkles: font_color",
 {
   skip_on_cran()
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-  expect_equal(sprinkle(x, rows = 1, cols = 1, 
+  expect_equal(sprinkle(x, rows = 1, cols = 1,
                         font_color = "orchid")$body$font_color[1],
                "orchid")
 })
-           
+
 test_that("sprinkles: font_color error",
 {
   skip_on_cran()
@@ -259,7 +256,7 @@ test_that("sprinkles: font_size",
 {
   skip_on_cran()
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-  expect_equal(sprinkle(x, rows = 1, cols = 1, 
+  expect_equal(sprinkle(x, rows = 1, cols = 1,
                         font_size = 12)$body$font_size[1],
                "12")
 })
@@ -276,7 +273,7 @@ test_that("sprinkles: font_size_units",
 {
   skip_on_cran()
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-  expect_equal(sprinkle(x, rows = 1, cols = 1, 
+  expect_equal(sprinkle(x, rows = 1, cols = 1,
                         font_size_units = "em")$body$font_size_units[1],
                "em")
 })
@@ -293,7 +290,7 @@ test_that("sprinkles: italic",
 {
   skip_on_cran()
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-  expect_equal(sprinkle(x, rows = 1, cols = 1, 
+  expect_equal(sprinkle(x, rows = 1, cols = 1,
                         italic = TRUE)$body$italic[1],
                TRUE)
 })
@@ -386,7 +383,7 @@ test_that("sprinkles: na_string not character",
   x <- dust(aov(mpg ~ factor(am) + factor(gear), data = mtcars))
   expect_error(sprinkle(x, na_string = 1),
                "")
-}) 
+})
 
 test_that("sprinkles: pad",
 {
@@ -416,7 +413,7 @@ test_that("sprinkles: replace errors",
 {
   skip_on_cran()
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-  expect_error(sprinkle(x, rows = 1, cols = 1, 
+  expect_error(sprinkle(x, rows = 1, cols = 1,
                         replace = c("Intercept", "1/4 Mile Time")),
                "")
 })
@@ -441,7 +438,7 @@ test_that("sprinkles: rotate_degree",
 {
   skip_on_cran()
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-  expect_equal(sprinkle(x, rows = 1, cols = 1, 
+  expect_equal(sprinkle(x, rows = 1, cols = 1,
                         rotate_degree = 5)$body$rotate_degree[1],
                "5")
 })
@@ -490,7 +487,7 @@ test_that("sprinkles: width_units",
 {
   skip_on_cran()
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))
-  expect_equal(sprinkle(x, rows = 1, cols = 1, 
+  expect_equal(sprinkle(x, rows = 1, cols = 1,
                         width_units = "px")$body$width_units[1],
                "px")
 })
@@ -535,7 +532,6 @@ test_that("sprinkles: mixture of named and unnamed sprinkles",
                "")
 })
 
-
 test_that(
   "sprinkles: fixed argument",
   {
@@ -544,11 +540,10 @@ test_that(
       sprinkle(cols = c(1, 2, 3),
                rows = c(1, 2, 3),
                bg = "green",
-               fixed = TRUE) 
+               fixed = TRUE)
     expect_output(print(x))
   }
 )
-
 
 test_that(
   "sprinkles: longtable",
@@ -560,5 +555,4 @@ test_that(
     )
   }
 )
-          
-  
+

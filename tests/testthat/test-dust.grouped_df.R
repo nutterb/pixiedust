@@ -1,5 +1,3 @@
-context("Dust a grouped_df")
-
 test_that("ungroup a grouped_df",
 {
   expect_silent(

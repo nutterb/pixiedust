@@ -1,5 +1,3 @@
-context("sprinkle_sanitize")
-
 x <- dust(head(mtcars))
 
 # Functional Requirement 1 ------------------------------------------
@@ -12,7 +10,7 @@ test_that(
       sprinkle_sanitize(x, cols = 2, sanitize = TRUE)[["body"]][["sanitize"]],
       rep(c(FALSE, TRUE, FALSE), times = c(6, 6, 6*9))
     )
-  }  
+  }
 )
 
 test_that(
@@ -21,20 +19,20 @@ test_that(
   {
     expect_equal(
       sprinkle_sanitize(x, cols = 2, sanitize_args = list(greek = TRUE))[["body"]][["sanitize_args"]],
-      rep(c("", 
-            deparse(list(greek = TRUE)), 
-            ""), 
+      rep(c("",
+            deparse(list(greek = TRUE)),
+            ""),
           times = c(6, 6, 6*9))
     )
-  }  
+  }
 )
 
 test_that(
   "Function succeeds when called on a dust_list object",
   {
     expect_silent(
-      dplyr::group_by(mtcars, am, vs) %>% 
-        dust(ungroup = FALSE) %>% 
+      dplyr::group_by(mtcars, am, vs) %>%
+        dust(ungroup = FALSE) %>%
         sprinkle_sanitize(sanitize = TRUE)
     )
   }

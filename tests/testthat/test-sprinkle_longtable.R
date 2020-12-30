@@ -1,5 +1,3 @@
-context("sprinkle_longtable")
-
 x <- dust(mtcars)
 
 # Functional Requirement 1 ------------------------------------------
@@ -13,7 +11,6 @@ test_that(
     )
   }
 )
-
 
 test_that(
   "Change the longtable attribute of the dust object",
@@ -29,8 +26,8 @@ test_that(
   "Function succeeds when called on a dust_list object",
   {
     expect_silent(
-      dplyr::group_by(mtcars, am, vs) %>% 
-        dust(ungroup = FALSE) %>% 
+      dplyr::group_by(mtcars, am, vs) %>%
+        dust(ungroup = FALSE) %>%
         sprinkle_longtable(longtable = TRUE)
     )
   }

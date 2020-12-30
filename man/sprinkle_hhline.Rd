@@ -11,11 +11,9 @@
 \usage{
 sprinkle_hhline(x, hhline = getOption("pixie_hhline", FALSE), ...)
 
-\method{sprinkle_hhline}{default}(x, hhline = getOption("pixie_hhline",
-  FALSE), ...)
+\method{sprinkle_hhline}{default}(x, hhline = getOption("pixie_hhline", FALSE), ...)
 
-\method{sprinkle_hhline}{dust_list}(x, hhline = getOption("pixie_hhline",
-  FALSE), ...)
+\method{sprinkle_hhline}{dust_list}(x, hhline = getOption("pixie_hhline", FALSE), ...)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}
@@ -26,8 +24,8 @@ will be used for cell borderes.}
 \item{...}{Additional arguments to pass to other methods. Currently ignored.}
 }
 \description{
-The \code{hhline} property controls the appearance of 
-  cell borders in LaTeX tables.  There is a known limitation in the 
+The \code{hhline} property controls the appearance of
+  cell borders in LaTeX tables.  There is a known limitation in the
   LaTeX \code{colortbl} package where cell borders can be hidden if
   the cell has a background color.  If using both cell borders and
   background colors, it is recommended that you use the \code{hhline}

@@ -8,30 +8,36 @@
 \usage{
 sprinkle_caption_number(x, caption_number, ...)
 
-\method{sprinkle_caption_number}{default}(x,
-  caption_number = getOption("pixie_caption_number", TRUE), ...)
+\method{sprinkle_caption_number}{default}(
+  x,
+  caption_number = getOption("pixie_caption_number", TRUE),
+  ...
+)
 
-\method{sprinkle_caption_number}{dust_list}(x,
-  caption_number = getOption("pixie_caption_number", TRUE), ...)
+\method{sprinkle_caption_number}{dust_list}(
+  x,
+  caption_number = getOption("pixie_caption_number", TRUE),
+  ...
+)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}
 
-\item{caption_number}{\code{logical(1)} When \code{TRUE}, the table caption 
-is prefixed with "Table #". Table numbering is suppressed when 
+\item{caption_number}{\code{logical(1)} When \code{TRUE}, the table caption
+is prefixed with "Table #". Table numbering is suppressed when
 \code{FALSE}.  When numbering is suppressed, the table number counter
 will not increment.}
 
 \item{...}{Additional arguments to pass to other methods. Currently ignored.}
 }
 \description{
-The table caption is often used as a brief title, but may also 
-  be used to provide a longer statement explaining how to interpret the 
+The table caption is often used as a brief title, but may also
+  be used to provide a longer statement explaining how to interpret the
   table results.
 }
 \details{
-Table numbering makes it possible to reference tables within a 
-  document.  In some cases, the numbering is not desired. Suppressing 
+Table numbering makes it possible to reference tables within a
+  document.  In some cases, the numbering is not desired. Suppressing
   numbering may restrict the ability to make reference to the table.
 }
 \section{Functional Requirements}{

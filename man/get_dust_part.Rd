@@ -9,7 +9,7 @@ get_dust_part(x, part = c("head", "foot", "interfoot", "body"))
 \arguments{
 \item{x}{An object of class \code{dust}}
 
-\item{part}{\code{character(1)}, naming the part of the table to 
+\item{part}{\code{character(1)}, naming the part of the table to
 retrieve.  May be one of \code{"head"}, \code{"foot"}, \code{"interfoot"},
 or \code{"body"}.}
 }
@@ -19,8 +19,8 @@ an object of class \code{data.frame}
 \description{
 Making customized table headers and footers requires a
   data frame be added to the \code{dust} object that has the same
-  column dimension as the rest of the table.  In order to reduce the 
-  inconvenience of counting columns, \code{get_dust_part} extracts the 
+  column dimension as the rest of the table.  In order to reduce the
+  inconvenience of counting columns, \code{get_dust_part} extracts the
   data frame portion currently in use.  This ensures the column dimension
   is correct with the current values, and provides an object suitable
   for editing.

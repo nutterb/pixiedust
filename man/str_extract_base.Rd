@@ -21,7 +21,7 @@ str_split_fixed_base(x, pattern, n)
 }
 \description{
 This is a utility function that follow the pattern of
-  \code{stringr::str_extract_all}.  It is provided to avoid the 
+  \code{stringr::str_extract_all}.  It is provided to avoid the
   dependency on the \code{stringr} package.
 }
 \seealso{

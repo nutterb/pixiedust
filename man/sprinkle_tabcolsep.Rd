@@ -11,11 +11,9 @@
 \usage{
 sprinkle_tabcolsep(x, tabcolsep = getOption("pixie_tabcolsep", 6), ...)
 
-\method{sprinkle_tabcolsep}{default}(x,
-  tabcolsep = getOption("pixie_tabcolsep", 6), ...)
+\method{sprinkle_tabcolsep}{default}(x, tabcolsep = getOption("pixie_tabcolsep", 6), ...)
 
-\method{sprinkle_tabcolsep}{dust_list}(x,
-  tabcolsep = getOption("pixie_tabcolsep", 6), ...)
+\method{sprinkle_tabcolsep}{dust_list}(x, tabcolsep = getOption("pixie_tabcolsep", 6), ...)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}
@@ -25,11 +23,11 @@ sprinkle_tabcolsep(x, tabcolsep = getOption("pixie_tabcolsep", 6), ...)
 \item{...}{Additional arguments to pass to other methods. Currently ignored.}
 }
 \description{
-The \code{tabcolsep} property controls the space between 
+The \code{tabcolsep} property controls the space between
   columns in LaTeX output.  By default, it is set to 6 pt.
 }
 \details{
-Reading on the details of \code{tabcolsep} may be done by 
+Reading on the details of \code{tabcolsep} may be done by
   searching "latex tabcolsep" on the internet.
 
 This property has no effect on non-LaTeX output.

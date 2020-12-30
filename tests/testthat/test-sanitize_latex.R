@@ -1,5 +1,3 @@
-context("sanitize_latex.R")
-
 test_that(
   "Sanitize basic characters.",
   {

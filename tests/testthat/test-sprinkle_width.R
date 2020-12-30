@@ -1,5 +1,3 @@
-context("sprinkle_width")
-
 x <- dust(head(mtcars))
 
 # Functional Requirement 1 ------------------------------------------
@@ -12,7 +10,7 @@ test_that(
       sprinkle_width(x, cols = 2, width = 20)[["body"]][["width"]],
       rep(c("", "20", ""), times = c(6, 6, 6*9))
     )
-  }  
+  }
 )
 
 test_that(
@@ -23,17 +21,17 @@ test_that(
       sprinkle_width(x, cols = 2, width_units = "%")[["body"]][["width_units"]],
       rep(c("", "%", ""), times = c(6, 6, 6*9))
     )
-  }  
+  }
 )
 
 test_that(
   "Function succeeds when called on a dust_list object",
   {
     expect_silent(
-      mtcars %>% 
-        dplyr::group_by(am, vs) %>% 
-        dust(ungroup = FALSE) %>% 
-        sprinkle_width(cols = "mpg", 
+      mtcars %>%
+        dplyr::group_by(am, vs) %>%
+        dust(ungroup = FALSE) %>%
+        sprinkle_width(cols = "mpg",
                        width = 150,
                        width_units = "pt")
     )
@@ -132,7 +130,7 @@ test_that(
   "Correctly assigns values when recycle is not 'none' and multiple values are given.",
   {
     expect_equal(
-      sprinkle_width(x, 
+      sprinkle_width(x,
                      cols = 1:2,
                      width = c(1, 3),
                      recycle = "rows")[["body"]][["width"]][1:12],
@@ -145,7 +143,7 @@ test_that(
   "Correctly assigns values when recycle is not 'none' and multiple values are given.",
   {
     expect_equal(
-      sprinkle_width(x, 
+      sprinkle_width(x,
                      cols = 1:2,
                      width = c(1, 3),
                      recycle = "cols")[["body"]][["width"]][1:12],

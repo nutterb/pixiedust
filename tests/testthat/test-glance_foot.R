@@ -1,7 +1,5 @@
-context("glance_foot")
-
 mtcars2 <- mtcars
-mtcars2 <- 
+mtcars2 <-
   labelVector::set_label(
     mtcars2,
     mpg = "Gas Mileage",
@@ -42,9 +40,9 @@ test_that("glance_foot with no valid stats requested",
   expect_error(
     expect_warning(
       glance_foot(
-        fit, 
-        col_pairs = 2, 
-        total_cols = 6, 
+        fit,
+        col_pairs = 2,
+        total_cols = 6,
         byrow = TRUE,
         glance_stats = c("r.squared-x", "adj.r.squared-x",
                          "df-x", "AIC-xy")
@@ -58,9 +56,9 @@ test_that("glance_foot with too few total_cols",
   expect_error(
     expect_warning(
       glance_foot(
-        fit, 
-        col_pairs = 2, 
-        total_cols = 3, 
+        fit,
+        col_pairs = 2,
+        total_cols = 3,
         byrow = TRUE,
         glance_stats = c("r.squared", "adj.r.squared",
                          "df", "AIC-xy")

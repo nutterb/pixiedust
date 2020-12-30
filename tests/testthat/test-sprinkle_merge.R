@@ -1,11 +1,9 @@
-context("sprinkle_merge")
-
 x <- dust(head(mtcars))
 
 # Functional Requirement 1 ------------------------------------------
 
 test_that(
-  "Correctly reassigns the appropriate elements of merge, merge_rowval and 
+  "Correctly reassigns the appropriate elements of merge, merge_rowval and
    merge_colval columns in the table part.",
   {
     merge <- vector("logical", nrow(x$body))
@@ -18,7 +16,7 @@ test_that(
 )
 
 test_that(
-  "Correctly reassigns the appropriate elements of merge, merge_rowval and 
+  "Correctly reassigns the appropriate elements of merge, merge_rowval and
    merge_colval columns in the table part.",
   {
     expect_equal(
@@ -30,7 +28,7 @@ test_that(
 )
 
 test_that(
-  "Correctly reassigns the appropriate elements of merge, merge_rowval and 
+  "Correctly reassigns the appropriate elements of merge, merge_rowval and
    merge_colval columns in the table part.",
   {
     expect_equal(
@@ -46,13 +44,12 @@ test_that(
   "Works with a dust_list object",
   {
     expect_silent(
-      dplyr::group_by(mtcars, am, vs) %>% 
-        dust(ungroup = FALSE) %>% 
+      dplyr::group_by(mtcars, am, vs) %>%
+        dust(ungroup = FALSE) %>%
         sprinkle_merge(rows = 1, cols = 1:2, merge = TRUE)
     )
   }
 )
-
 
 test_that(
   "Correctly skips merging when merge = FALSE",
@@ -120,7 +117,6 @@ test_that(
     expect_error(suppressMessages(sprinkle_merge(x, merge_colval = "one")))
   }
 )
-
 
 # Functional Requirement 6 ------------------------------------------
 

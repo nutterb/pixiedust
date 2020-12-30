@@ -1,11 +1,9 @@
-context("sprinkle_bg_pattern")
-
 x <- dust(head(mtcars))
 
 # Functional Requirement 1 ------------------------------------------
 
 test_that(
-  "Correctly reassigns the appropriate elements of the `bg` columns 
+  "Correctly reassigns the appropriate elements of the `bg` columns
    in the table part",
   {
     expect_equal(
@@ -17,7 +15,7 @@ test_that(
 )
 
 test_that(
-  "Correctly reassigns the appropriate elements of the `bg` columns 
+  "Correctly reassigns the appropriate elements of the `bg` columns
    in the table part",
   {
     expect_equal(
@@ -30,7 +28,7 @@ test_that(
 )
 
 test_that(
-  "Correctly reassigns the appropriate elements of the `bg` columns 
+  "Correctly reassigns the appropriate elements of the `bg` columns
   in the table part",
   {
     expect_equal(
@@ -47,8 +45,8 @@ test_that(
   "Function succeeds when called on a dust_list object",
   {
     expect_silent(
-      dplyr::group_by(mtcars, am, vs) %>% 
-        dust(ungroup = FALSE) %>% 
+      dplyr::group_by(mtcars, am, vs) %>%
+        dust(ungroup = FALSE) %>%
         sprinkle_bg_pattern(bg_pattern = c("white", "black"))
     )
   }

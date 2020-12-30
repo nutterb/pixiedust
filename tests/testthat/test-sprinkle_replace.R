@@ -1,5 +1,3 @@
-context("sprinkle_replace")
-
 x <- dust(head(mtcars))
 
 # Functional Requirement 1 ------------------------------------------
@@ -45,8 +43,8 @@ test_that(
   "Function succeeds when called on a dust_list object",
   {
     expect_silent(
-      dplyr::group_by(mtcars, am, vs) %>% 
-        dust(ungroup = FALSE) %>% 
+      dplyr::group_by(mtcars, am, vs) %>%
+        dust(ungroup = FALSE) %>%
         sprinkle_replace(rows = 1, cols = 1, replace = "abc")
     )
   }
@@ -82,7 +80,7 @@ test_that(
 # Functional Requirement 5 ------------------------------------------
 
 test_that(
-  "Casts an warning if the number of indices to replace is not a 
+  "Casts an warning if the number of indices to replace is not a
    multiple of `replace`` ",
   {
     expect_warning(
@@ -95,7 +93,7 @@ test_that(
 # Functional Requirement 6 ------------------------------------------
 
 test_that(
-  "Casts an error if `length(replace)` is greater than the 
+  "Casts an error if `length(replace)` is greater than the
     number of cells to replace.",
   {
     expect_error(

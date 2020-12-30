@@ -24,9 +24,8 @@ Details regarding the use of each sprinkle are in Table 2.
 
 
 ```{r, echo=FALSE}
-Sprinkles <- read.csv(system.file("sprinkles.csv", package = "pixiedust"),
-                        stringsAsFactors=FALSE)
-Sprinkles[,-1] <- lapply(Sprinkles[-1], trimws)
+data("sprinkles", package = "pixiedust")
+sprinkles[, -1] <- lapply(sprinkles[-1], trimws)
 ```
 
 ```{r, echo=FALSE}
@@ -36,9 +35,9 @@ lightgreen <- "#A6DBA0"
 green <- "#006837"
 yellow <- "#FFFFBF"
 
-row_bg <- which(1:nrow(Sprinkles) %% 2 == 0)
+row_bg <- which(1:nrow(sprinkles) %% 2 == 0)
 
-dust(Sprinkles[, -2],
+dust(sprinkles[, -2],
      caption = "Sprinkles and their output formats") %>%
   sprinkle(cols = 2:5,
            fn = quote(ifelse(value == "x", 	"&#10003;", ""))) %>%
@@ -47,35 +46,32 @@ dust(Sprinkles[, -2],
            border_color = "#DCDCDC") %>%
   sprinkle(rows = row_bg,
            border_color = "#FFFFFF") %>%
-  sprinkle_table(pad = 3) 
+  sprinkle_table(pad = 3)
 
 ```
 
 
 ```{r, echo = FALSE}
-SprinkleDocs <- 
-  read.csv(system.file("sprinkle_documentation.csv", package = "pixiedust"),
-                        stringsAsFactors=FALSE,
-           na = "")
+data("sprinkle_documentation", package = "pixiedust")
 
-SprinkleDocs[["sprinkle_name"]] <- SprinkleDocs[["sprinkle"]]
+sprinkle_documentation[["sprinkle_name"]] <- sprinkle_documentation[["sprinkle"]]
 
-for(i in seq_along(SprinkleDocs[["sprinkle"]]))
+for(i in seq_along(sprinkle_documentation[["sprinkle"]]))
 {
-  if (is.na(SprinkleDocs[["sprinkle_name"]][i])) 
-    SprinkleDocs[["sprinkle_name"]][i] <- SprinkleDocs[["sprinkle_name"]][i-1]
+  if (is.na(sprinkle_documentation[["sprinkle_name"]][i]))
+    sprinkle_documentation[["sprinkle_name"]][i] <-
+      sprinkle_documentation[["sprinkle_name"]][i - 1]
 }
 
-SprinkleDocs <- 
-  mutate(SprinkleDocs,
-         bg_index = as.numeric(factor(sprinkle_name,
-                                         unique(sprinkle_name))) %% 2)
+sprinkle_documentation <- sprinkle_documentation %>%
+  mutate(bg_index = as.numeric(factor(sprinkle_name,
+                                      unique(sprinkle_name))) %% 2)
 
-rows_bg <- which(SprinkleDocs$bg_index == 0)
+rows_bg <- which(sprinkle_documentation$bg_index == 0)
 
-rows_top_border <- which(!is.na(SprinkleDocs$sprinkle))
+rows_top_border <- which(!is.na(sprinkle_documentation$sprinkle))
 
-dust(SprinkleDocs[, 1:3],
+dust(sprinkle_documentation[, 1:3],
      caption = "Sprinkle Usage") %>%
   sprinkle(border = "all",
            border_color = "#DCDCDC",

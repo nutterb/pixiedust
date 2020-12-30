@@ -1,13 +1,11 @@
-context("sprinkle_gradient")
-
 x <- dust(mtcars)
 
-color_range <- 
-  scales::gradient_n_pal(c("#132B43", "#56B1F7"))(seq(0, 1, 
+color_range <-
+  scales::gradient_n_pal(c("#132B43", "#56B1F7"))(seq(0, 1,
                                                       length.out = 10))
-color_index <- 
+color_index <-
   as.numeric(cut(mtcars$mpg,
-                 breaks = quantile(mtcars$mpg, 
+                 breaks = quantile(mtcars$mpg,
                                    probs = seq(0, 1, length.out = 10),
                                    na.rm = TRUE),
                  include.lowest = TRUE))
@@ -19,10 +17,10 @@ test_that(
   {
     expect_equal(
       sprinkle_gradient(
-        x, 
-        cols = "mpg", 
+        x,
+        cols = "mpg",
         gradient = "bg")[["body"]][["bg"]][1:32],
-      
+
       color_range[color_index]
     )
   }
@@ -178,7 +176,7 @@ test_that(
     expect_equal(
       {X <- mtcars
        X$mpg[1] <- NA
-       sprinkle_gradient(dust(X), cols = "mpg", gradient = "bg", 
+       sprinkle_gradient(dust(X), cols = "mpg", gradient = "bg",
                        gradient_na = NULL)[["body"]][["bg"]][1]},
       "grey"
     )
@@ -189,8 +187,8 @@ test_that(
   "Correctly reassigns the color for custom cut vector",
   {
     expect_equal(
-      sprinkle_gradient(x, cols = "mpg", 
-                        gradient_cut = quantile(mtcars$mpg, 
+      sprinkle_gradient(x, cols = "mpg",
+                        gradient_cut = quantile(mtcars$mpg,
                                                 probs = seq(0, 1, length.out = 10),
                                                 na.rm = TRUE))[["body"]][["bg"]][1:32],
       color_range[color_index]
@@ -202,9 +200,9 @@ test_that(
   "sprinkle_gradient succeeds on dust_list",
   {
     expect_silent(
-      mtcars %>% 
-        dplyr::group_by(am) %>% 
-        dust(ungroup = FALSE) %>% 
+      mtcars %>%
+        dplyr::group_by(am) %>%
+        dust(ungroup = FALSE) %>%
         sprinkle_gradient(gradient = "bg", gradient_n = 5)
     )
   }

@@ -40,8 +40,7 @@ dust(fit) %>%
 Tables can be customized by row, column, or even by a single cell by adding sprinkles to the `dust` object.  The table below shows the currently planned and implemented sprinkles.  In the "implemented" column, an 'x' indicates a customization that has been implemented, while a blank cell suggests that the customization is planned but has not yet been implemented.  In the remaining columns, an 'x' indicates that the sprinkle is already implemented for the output format; an 'o' indicates that implementation is planned but not yet completed; and a blank cell indicates that the sprinkle will not be implemented (usually because the output format doesn't support the option).
 
 ```{r, echo=FALSE}
-Sprinkles <- read.csv("inst/sprinkles.csv",
-                        stringsAsFactors=FALSE)
+Sprinkles <- load("data/sprinkles.rda")
 Sprinkles[,-1] <- lapply(Sprinkles[-1], stringr::str_trim)
 
 dust(Sprinkles) %>%

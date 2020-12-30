@@ -1,5 +1,3 @@
-context("pixieply")
-
 test_that("apply medley to dust_list",
 {
   expect_silent(
@@ -11,7 +9,6 @@ test_that("apply medley to dust_list",
     )
   )
 })
-
 
 test_that(
   "apply unique captions to dust_list",

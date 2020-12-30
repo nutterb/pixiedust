@@ -1,5 +1,3 @@
-context("sprinkle_height")
-
 x <- dust(head(mtcars))
 
 # Functional Requirement 1 ------------------------------------------
@@ -12,7 +10,7 @@ test_that(
       sprinkle_height(x, cols = 2, height = 20)[["body"]][["height"]],
       rep(c("", "20", ""), times = c(6, 6, 6*9))
     )
-  }  
+  }
 )
 
 test_that(
@@ -23,15 +21,15 @@ test_that(
       sprinkle_height(x, cols = 2, height_units = "%")[["body"]][["height_units"]],
       rep(c("", "%", ""), times = c(6, 6, 6*9))
     )
-  }  
+  }
 )
 
 test_that(
   "Function succeeds when called on a dust_list object",
   {
     expect_silent(
-      dplyr::group_by(mtcars, am, vs) %>% 
-        dust(ungroup = FALSE) %>% 
+      dplyr::group_by(mtcars, am, vs) %>%
+        dust(ungroup = FALSE) %>%
         sprinkle_height(height = 10)
     )
   }

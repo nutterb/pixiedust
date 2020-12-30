@@ -23,20 +23,20 @@ Assigns new column names to a table
 \section{Input Formats}{
 
 \itemize{
-  \item{named arguments}{ Using \code{dust_colnames(term = "Term", estimate = "Estimate")}, 
+  \item{named arguments}{ Using \code{dust_colnames(term = "Term", estimate = "Estimate")},
     column names may be passed for all or a subset of the columns.  The existing column
     name will be matched against the argument name.}
-  \item{unnamed arguments}{ Using \code{dust_colnames("Term", "Estimate", "SE", ...)}, 
-    column names may be passed for all of the columns.  If the arguments are unnamed, the 
+  \item{unnamed arguments}{ Using \code{dust_colnames("Term", "Estimate", "SE", ...)},
+    column names may be passed for all of the columns.  If the arguments are unnamed, the
     number of arguments passed must match the number of columns in the table.}
  }
- When using named arguments (or a named vector), you may not mix named and unnamed elements.  
+ When using named arguments (or a named vector), you may not mix named and unnamed elements.
  In other words, if one element is named, they must all be named.  Unnamed elements are assigned
  to columns in sequential order.
 }
 
 \examples{
-x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars)) 
+x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars))
 x
 x \%>\% sprinkle_colnames(term = "Term", statistic = "T")
 x \%>\% sprinkle_colnames("Term", "Estimate", "SE", "T-statistic", "p-value")

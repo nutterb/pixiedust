@@ -4,30 +4,34 @@
 \alias{gaze}
 \title{Mimic Stargazer Output to Display Multiple Models}
 \usage{
-gaze(..., include_glance = TRUE, glance_vars = c("adj.r.squared", "sigma",
-  "AIC"), digits = 3)
+gaze(
+  ...,
+  include_glance = TRUE,
+  glance_vars = c("adj.r.squared", "sigma", "AIC"),
+  digits = 3
+)
 }
 \arguments{
 \item{...}{models to be tidied.  Arguments may be named or unnamed.
-For named arguments, the model will be identfied by the argument 
+For named arguments, the model will be identfied by the argument
 name; for unnamed arguments, the object name will be the identifier.}
 
 \item{include_glance}{\code{logical(1)} Determines if \code{glance} (fit)
 statistics are displayed under the models.}
 
 \item{glance_vars}{\code{character}. A vector of statistics returned by
-\code{glance} that are to be displayed for each model. Defaults are 
+\code{glance} that are to be displayed for each model. Defaults are
 subject to change in future versions.}
 
 \item{digits}{\code{numeric(1)} The number of digits used for rounding.}
 }
 \description{
-Tidy multiple models and display coefficients and 
+Tidy multiple models and display coefficients and
   test statistics in a side-by-side format.
 }
 \details{
-This function is still in development.  Significant stars 
-  will be added in a future version. Note that function defaults may 
+This function is still in development.  Significant stars
+  will be added in a future version. Note that function defaults may
   be subject to change.
 }
 \section{Functional Requirements}{
@@ -35,7 +39,7 @@ This function is still in development.  Significant stars
 \enumerate{
   \item Return a data frame object
   \item Cast an error if \code{include_glance} is not \code{logical(1)}
-  \item Cast an error if \code{glance_vars} is not a \code{character} 
+  \item Cast an error if \code{glance_vars} is not a \code{character}
     vector.
   \item Cast an error if \code{digits} is not \code{"integerish(1)"}.
 }
@@ -46,7 +50,7 @@ fit1 <- lm(mpg ~ qsec + am + wt + gear + factor(vs), data = mtcars)
 fit2 <- lm(mpg ~ am + wt + gear + factor(vs), data = mtcars)
 
 gaze(fit1, fit2)
-gaze(with_qsec = fit1, 
+gaze(with_qsec = fit1,
      without_qsec = fit2)
 gaze(fit1, fit2, include_glance = FALSE)
 gaze(fit1, fit2, glance_vars = c("AIC", "BIC"))
