@@ -49,8 +49,7 @@
 #'
 #' @export
 
-as.data.frame.dust <- function(x, ..., sprinkled = TRUE)
-{
+as.data.frame.dust <- function(x, ..., sprinkled = TRUE) {
   coll <- checkmate::makeAssertCollection()
 
   checkmate::assert_class(x = x,
@@ -69,8 +68,8 @@ as.data.frame.dust <- function(x, ..., sprinkled = TRUE)
   else {
     X <- poorman::select(x$body,
                        row, col, value) %>%
-        tidyr::spread(col, value) %>%
-        poorman::select(-row)
+         tidyr::spread(col, value) %>%
+         poorman::select(-row)
 
     col_names <- poorman::group_by(x$body, col) %>%
       poorman::summarise(col_name = col_name[1])
@@ -81,7 +80,7 @@ as.data.frame.dust <- function(x, ..., sprinkled = TRUE)
       poorman::summarise(col_class = col_class[1])
     classes <- sprintf("as.%s", classes$col_class)
 
-    for (i in seq_along(X)){
+    for (i in seq_along(X)) {
       X[[i]] <- get(classes[i])(X[[i]])
     }
 

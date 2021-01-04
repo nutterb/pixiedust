@@ -159,8 +159,7 @@
 #' x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars))
 #' x
 
-dust <- function(object, ...)
-{
+dust <- function(object, ...) {
   UseMethod("dust")
 }
 
@@ -183,8 +182,7 @@ dust.default <- function(object, ...,
                  border_collapse = getOption("pixie_border_collapse", "collapse"),
                  tabcolsep = getOption("pixie_tabcolsep", 6),
                  fixed_header = getOption("pixie_fixed_header", FALSE),
-                 html_preserve = getOption("pixie_html_preserve", TRUE))
-{
+                 html_preserve = getOption("pixie_html_preserve", TRUE)) {
   coll <- checkmate::makeAssertCollection()
 
   descriptors <- checkmate::matchArg(x = descriptors,
@@ -195,26 +193,21 @@ dust.default <- function(object, ...,
 
   #* By default, we assume data.frame-like objects are to be printed
   #* as given.  All other objects are tidied.
-  if (!inherits(object, "data.frame") | tidy_df)
-  {
+  if (!inherits(object, "data.frame") | tidy_df) {
     tidy_object <- broom::tidy(object, ...)
   }
-  else if (inherits(object, "data.frame"))
-  {
-    if (inherits(object, "data.table"))
-    {
+  else if (inherits(object, "data.frame")) {
+    if (inherits(object, "data.table")) {
       object <- as.data.frame(object)
     }
-    if (keep_rownames)
-    {
+    if (keep_rownames) {
       tidy_object <- cbind(rownames(object),
                            object)
       rownames(tidy_object) <- NULL
       tidy_object[, 1] <- as.character(tidy_object[, 1])
       names(tidy_object)[1] <- ".rownames"
     }
-    else
-    {
+    else {
       tidy_object <- object
     }
   }
@@ -372,26 +365,20 @@ component_table <- function(tbl, object) {
   #              y = Classes,
   #              by = "col_name")
   tab <- poorman::left_join(tab, Classes,
-              by = c("col_name" = "col_name"))
+                            by = c("col_name" = "col_name"))
   return(tab)
 }
 
 #*********************************************
 
 gather_tbl <- function(tbl) {
-  # browser()
   tbl_name <- names(tbl)
   #* Assign the row indices
   tbl[["row"]] <- seq_len(nrow(tbl))
-  # redundant with the line above?
-  # poorman::mutate_(tbl, row = ~1:poorman::n()) %>%
 
   gtbl <- tbl %>%
     #* Gather into a table with row (numeric), col (character),
     #* and value (character)
-    # use proper method
-    # tidyr::gather_("col", "value",
-    #               gather_cols=names(tbl)[!names(tbl) %in% "row"]) %>%
     tidyr::gather("col", "value", -row)
     #* Assign col_name as a factor.  Levels are in the same order as the column
     #*   appear in the broom output
@@ -408,8 +395,7 @@ gather_tbl <- function(tbl) {
 
 #*********************************************
 
-cell_attributes_frame <- function(nrow, ncol)
-{
+cell_attributes_frame <- function(nrow, ncol) {
   frame <-
     expand.grid(row = 1:nrow,
                 col = 1:ncol,
@@ -440,7 +426,7 @@ cell_attributes_frame <- function(nrow, ncol)
                 rowspan = 1L,
                 colspan = 1L,
                 na_string = NA,
-                stringsAsFactors=FALSE)
+                stringsAsFactors = FALSE)
   frame[["html_row"]] <- frame[["row"]]
   frame[["html_col"]] <- frame[["col"]]
   frame[["merge_rowval"]] <- frame[["row"]]
@@ -451,11 +437,9 @@ cell_attributes_frame <- function(nrow, ncol)
 }
 
 
-primaryClass <- function(x)
-{
+primaryClass <- function(x) {
   acceptedClasses <- c("integer", "double", "numeric",
                        "character", "factor", "logical")
   class_vector <- class(x)
   class_vector[class_vector %in% acceptedClasses][1]
 }
-

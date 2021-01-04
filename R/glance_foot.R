@@ -51,36 +51,31 @@
 #'
 
 glance_foot <- function(fit, col_pairs, total_cols,
-                        glance_stats = NULL, byrow = FALSE){
+                        glance_stats = NULL, byrow = FALSE) {
   #* col_pairs is less then half of total_cols
   #* glance_stats are all found in names(tidy(fit))
   g <- broom::glance(fit)
 
   coll <- checkmate::makeAssertCollection()
 
-  if (col_pairs > total_cols/2)
-  {
+  if (col_pairs > total_cols / 2) {
     coll$push("'col_pairs' must be less than 'total_cols/2'")
   }
 
   if (is.null(glance_stats))
     glance_stats <- names(g)
-  else
-  {
+  else {
     invalid_stats <- glance_stats[!glance_stats %in% names(g)]
     glance_stats <- glance_stats[glance_stats %in% names(g)]
-    if (length(invalid_stats) > 0)
-    {
-      warning("The following statistics were requested but are not ",
-              "available for models of class ",
-              paste0(class(fit), collapse = "; "), ":",
-              "\n    ", paste0(invalid_stats, collapse = ", "))
+    if (length(invalid_stats) > 0) {
+        warning("The following statistics were requested but are not ",
+                "available for models of class ",
+                paste0(class(fit), collapse = "; "), ":",
+                "\n    ", paste0(invalid_stats, collapse = ", "))
     }
 
-    if (length(glance_stats) == 0)
-    {
-      coll$push(
-        sprintf("None of the statistics requested are available for models of class %s",
+    if (length(glance_stats) == 0) {
+      coll$push(sprintf("None of the statistics requested are available for models of class %s",
                 paste0(class(fit), collapse = "; "))
       )
     }
@@ -92,7 +87,7 @@ glance_foot <- function(fit, col_pairs, total_cols,
                   unrowname.x. = unname(unlist(g[glance_stats][1, ])),
                   stringsAsFactors = FALSE)
   # return(g)
-  if (nrow(g) %% col_pairs > 0){
+  if (nrow(g) %% col_pairs > 0) {
     n_fill <- (col_pairs - nrow(g) %% col_pairs)
     stat_fill <- data.frame(.rownames = rep("", n_fill),
                             x = rep(NA, n_fill),
@@ -140,7 +135,7 @@ glance_foot <- function(fit, col_pairs, total_cols,
 }
 
 
-build_fill <- function(fills_per_gap, rows){
+build_fill <- function(fills_per_gap, rows) {
   if (is.na(fills_per_gap)) return(NULL)
   Fills <- lapply(1:fills_per_gap,
                   function(f)
@@ -149,7 +144,7 @@ build_fill <- function(fills_per_gap, rows){
   do.call("cbind", Fills)
 }
 
-intersplice_fill <- function(G, Fill){
+intersplice_fill <- function(G, Fill) {
   if (!is.null(Fill)) return(cbind(G[1:2], Fill))
   else return(G[1:2])
 }

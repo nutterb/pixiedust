@@ -6,32 +6,27 @@
 #* Use of the hhline method is determined by the package option
 #* getOption("pixiedust_latex_hhline"), with the default being TRUE.
 
-print_dust_latex_hhline <- function(x, ..., asis=TRUE)
-{
+print_dust_latex_hhline <- function(x, ..., asis=TRUE) {
 
   if (!is.null(x$caption) & x$caption_number) increment_pixie_count()
 
   label <-
-    if (is.null(x[["label"]]))
-    {
+    if (is.null(x[["label"]])) {
       chunk_label <- knitr::opts_current$get("label")
       if (is.null(chunk_label))
         paste0("tab:pixie-", getOption("pixie_count"))
       else
         paste0("tab:", chunk_label)
     }
-  else
-  {
+  else {
     paste0("tab:", x[["label"]])
   }
 
   label <-
-    if (x[["bookdown"]])
-    {
+    if (x[["bookdown"]]) {
       paste0("(\\#", label, ")")
     }
-  else
-  {
+  else {
     paste0("\\label{", label, "}")
   }
 
@@ -66,8 +61,7 @@ print_dust_latex_hhline <- function(x, ..., asis=TRUE)
   prebegin <- paste0(prebegin,
                      "\\setlength{\\tabcolsep}{", x$tabcolsep, "pt}", sep = "\n")
 
-  if (tab_env == "longtable")
-  {
+  if (tab_env == "longtable") {
     begin <- paste0("\\begin{longtable}[",
                     sub("n", "l", substr(x[["justify"]], 1, 1)), "]{",
                     paste0(col_halign_default$default_halign, collapse = ""), "}\n",
@@ -79,8 +73,7 @@ print_dust_latex_hhline <- function(x, ..., asis=TRUE)
                     "\n", label, "\\\\ \n")
     end <- "\\end{longtable}"
   }
-  else if (x$float)
-  {
+  else if (x$float) {
     begin <- paste0("\\begin{table}\n",
                     if (x[["justify"]] == "center") "\\centering\n" else "",
                     if (!is.null(x$caption))
@@ -94,8 +87,7 @@ print_dust_latex_hhline <- function(x, ..., asis=TRUE)
 
     end <- paste0("\\end{tabular}\n\\end{table}\n")
   }
-  else
-  {
+  else {
     begin <- paste0(if (x[["justify"]] == "center")
       "\\begin{center}\n"
       else
@@ -113,9 +105,6 @@ print_dust_latex_hhline <- function(x, ..., asis=TRUE)
                     "")
   }
 
-
-
-
   #* Convert each part into a character string
   #* Returns a character vector of length 4.
   tbl <- mapply(paste_latex_part,
@@ -124,7 +113,7 @@ print_dust_latex_hhline <- function(x, ..., asis=TRUE)
                 MoreArgs = list(newline = if (is.numeric(x$longtable)) " \\ltabnewline" else " \\\\"))
 
   #* Append longtable tags
-  if (is.numeric(x$longtable) || x$longtable){
+  if (is.numeric(x$longtable) || x$longtable) {
     tbl <- paste0(tbl[c(1, 4, 3, 2)],
                   c("\n\\endhead\n", "\n\\endfoot\n", "\n\\endlastfoot\n", ""))
   }
@@ -138,8 +127,7 @@ print_dust_latex_hhline <- function(x, ..., asis=TRUE)
 }
 
 #* Prepare Cell Values for Printing
-part_prep_latex_hhline <- function(part, col_width, col_halign_default, head=FALSE)
-{
+part_prep_latex_hhline <- function(part, col_width, col_halign_default, head=FALSE) {
   part <- part %>%
           poorman::select(-width) %>%
           poorman::left_join(col_width, by = c("col" = "col")) %>%
@@ -318,16 +306,16 @@ part_prep_latex_hhline <- function(part, col_width, col_halign_default, head=FAL
   #* the multirow needs to be at the top of the block.  This
   #* rearranges the merged cells so that the multirow is at the top.
 
-  if(any(part$colspan != 1)) {
-    
-    proper_multirow <- part %>% 
-      poorman::filter(colspan != 1) %>% 
+  if (any(part$colspan != 1)) {
+
+    proper_multirow <- part %>%
+      poorman::filter(colspan != 1) %>%
       poorman::mutate(group = paste0(html_row, html_col)) %>%
       poorman::group_by(group) %>%
       poorman::arrange(poorman::desc(colspan)) %>%
       poorman::mutate(row = sort(row)) %>%
       poorman::ungroup()
-    
+
     part <- part %>%
       poorman::filter(colspan == 1) %>%
       poorman::bind_rows(proper_multirow)
@@ -344,21 +332,21 @@ part_prep_latex_hhline <- function(part, col_width, col_halign_default, head=FAL
 #**************************************************
 #**************************************************
 #* Prepares code for horizontal borders
-latex_horizontal_border_code_hhline <- function(x, col){
+latex_horizontal_border_code_hhline <- function(x, col) {
   border <- str_split_fixed_base(x, " ", 3)
   border[, 1] <- gsub("px", "pt", border[, 1])
-  border[, 2] <- ifelse(test= border[, 2] %in% c("dashed", "dotted", "groove",
+  border[, 2] <- ifelse(test = border[, 2] %in% c("dashed", "dotted", "groove",
                                                 "ridge", "inset", "outset"),
                         yes = "solid",
                         no = border[, 2])
   if (border[, 2] %in% c("hidden", "none")) return("~")
-  if (border[, 2] == "solid"){
+  if (border[, 2] == "solid") {
     border_code <- paste0("<{\\arrayrulecolor",
                           convertColor(border[, 3]),
                           "}-")
     return(border_code)
   }
-  if (border[, 2] %in% c("double")){
+  if (border[, 2] %in% c("double")) {
     border_code <- paste0(">{\\arrayrulecolor",
                           convertColor(border[, 3]),
                           "}=")

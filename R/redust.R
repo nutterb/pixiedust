@@ -5,16 +5,15 @@
 #' @param part The part of the table to replace with \code{table}
 #' @export
 
-redust <- function(x, table, part = c("head", "foot", "interfoot", "body"))
-{
+redust <- function(x, table, part = c("head", "foot", "interfoot", "body")) {
   UseMethod("redust")
 }
 
 #' @rdname dust
 #' @export
 
-redust.default <- function(x, table, part = c("head", "foot", "interfoot", "body"))
-{
+redust.default <- function(x, table,
+                           part = c("head", "foot", "interfoot", "body")) {
   coll <- checkmate::makeAssertCollection()
 
   #* x must have class 'dust'
@@ -33,7 +32,7 @@ redust.default <- function(x, table, part = c("head", "foot", "interfoot", "body
                       col_count, 1)
   n_colCounts <- unique(colCounts[!is.na(colCounts)])
 
-  if (length(n_colCounts) > 1){
+  if (length(n_colCounts) > 1) {
       coll$push(
         paste0("All parts of the table must have the same number of columns (or none).\n",
                "    Currently: ",
@@ -69,8 +68,8 @@ redust.default <- function(x, table, part = c("head", "foot", "interfoot", "body
 #' @rdname dust
 #' @export
 
-redust.dust_list <- function(x, table, part = c("head", "foot", "interfoot", "body"))
-{
+redust.dust_list <- function(x, table,
+                             part = c("head", "foot", "interfoot", "body")) {
   structure(
     lapply(X = x,
            FUN = redust.default,
@@ -82,6 +81,6 @@ redust.dust_list <- function(x, table, part = c("head", "foot", "interfoot", "bo
 
 #*****
 
-col_count <- function(p){
+col_count <- function(p) {
   if (is.null(p)) return(NA) else return(max(p$col))
 }

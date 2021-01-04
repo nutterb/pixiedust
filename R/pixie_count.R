@@ -29,16 +29,14 @@
 #'
 #' @export
 
-get_pixie_count <- function()
-{
+get_pixie_count <- function() {
   getOption("pixie_count")
 }
 
 #' @rdname pixie_count
 #' @export
 
-set_pixie_count <- function(value)
-{
+set_pixie_count <- function(value) {
   checkmate::assertIntegerish(value)
   options(pixie_count = as.integer(value))
 }
@@ -46,8 +44,7 @@ set_pixie_count <- function(value)
 #' @rdname pixie_count
 #' @export
 
-increment_pixie_count <- function(increment = 1)
-{
+increment_pixie_count <- function(increment = 1) {
   checkmate::assertIntegerish(increment)
   options(pixie_count = getOption("pixie_count") + as.integer(increment))
 }

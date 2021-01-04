@@ -58,7 +58,7 @@
 #'
 
 pval_string <- function(p, format=c("default", "exact", "scientific"),
-                       digits=3, ...){
+                       digits=3, ...) {
 
   coll <- checkmate::makeAssertCollection()
 
@@ -78,7 +78,7 @@ pval_string <- function(p, format=c("default", "exact", "scientific"),
   checkmate::reportAssertions(coll)
 
   #* Alpha beta format
-  if (format == "default"){
+  if (format == "default") {
     ps <- ifelse(p > .99,
                  "> 0.99",
                  ifelse(p > 0.10,
@@ -91,17 +91,17 @@ pval_string <- function(p, format=c("default", "exact", "scientific"),
   }
 
   #* exact format
-  else if (format == "exact"){
-    ps <- ifelse(p < 1*(10^-digits),
+  else if (format == "exact") {
+    ps <- ifelse(p < 1 * (10^-digits),
                  format(p,
                         scientific = TRUE,
-                        digits=digits),
+                        digits = digits),
                  format(round(p, digits),
                         digits = digits))
   }
 
   #* scientific notation format
-  else if (format == "scientific"){
+  else if (format == "scientific") {
     ps <- format(p,
                  scientific = TRUE,
                  digits = digits)

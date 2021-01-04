@@ -16,7 +16,7 @@
 #'
 #' @export
 
-is_valid_color <- function(color){
+is_valid_color <- function(color) {
 
   checkmate::assert_character(x = color)
 
@@ -30,8 +30,7 @@ is_valid_color <- function(color){
 #' @rdname is_valid_color
 #' @export
 
-is_valid_color_single <- function(color)
-{
+is_valid_color_single <- function(color) {
   checkmate::assert_character(x = color,
                               len = 1)
 

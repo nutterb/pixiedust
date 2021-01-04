@@ -54,8 +54,7 @@
 #'
 #' @export
 
-pixieply <- function(X, FUN, ...)
-{
+pixieply <- function(X, FUN, ...) {
   checkmate::assertClass(X, "dust_list")
 
   structure(
@@ -69,8 +68,8 @@ pixieply <- function(X, FUN, ...)
 #' @rdname pixieply
 #' @export
 
-pixiemap <- function(X, FUN, ..., MoreArgs = NULL, SIMPLIFY = FALSE, USE.NAMES = TRUE)
-{
+pixiemap <- function(X, FUN, ..., MoreArgs = NULL,
+                     SIMPLIFY = FALSE, USE.NAMES = TRUE) {
   checkmate::assertClass(X, "dust_list")
 
   structure(

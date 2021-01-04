@@ -41,7 +41,7 @@
 
 gaze <- function(..., include_glance = TRUE,
                  glance_vars = c("adj.r.squared", "sigma", "AIC"),
-                 digits = 3){
+                 digits = 3) {
 
   coll <- checkmate::makeAssertCollection()
 
@@ -67,7 +67,7 @@ gaze <- function(..., include_glance = TRUE,
   names(fits)[names(fits) == ""] <- fit_names[names(fits) == ""]
 
   res <- prep_gaze_tidy(fits, names(fits), digits)
-  if (include_glance){
+  if (include_glance) {
     res <- rbind(res,
                  prep_gaze_glance(fits, names(fits), glance_vars, digits))
   }
@@ -77,12 +77,11 @@ gaze <- function(..., include_glance = TRUE,
 
 # UNEXPORTED METHODS ------------------------------------------------
 
-prep_gaze_tidy <- function(fits, fit_names, digits){
+prep_gaze_tidy <- function(fits, fit_names, digits) {
   res <-
     mapply(
       FUN =
-        function(fit, name)
-        {
+        function(fit, name) {
           data.frame(model = name,
                      broom::tidy(fit),
                      stringsAsFactors = FALSE)
@@ -130,12 +129,11 @@ prep_gaze_tidy <- function(fits, fit_names, digits){
 }
 
 
-prep_gaze_glance <- function(fits, fit_names, glance_vars, digits){
+prep_gaze_glance <- function(fits, fit_names, glance_vars, digits) {
   res <-
     mapply(
       FUN =
-        function(fit, name)
-        {
+        function(fit, name) {
           data.frame(model = name,
                      broom::glance(fit),
                      stringsAsFactors = FALSE)

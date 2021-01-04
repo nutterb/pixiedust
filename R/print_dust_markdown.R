@@ -6,8 +6,7 @@
 #' @importFrom tidyr spread
 
 print_dust_markdown <- function(x, ..., asis=TRUE,
-                                interactive = getOption("pixie_interactive"))
-{
+                                interactive = getOption("pixie_interactive")) {
   if (is.null(interactive)) interactive <- interactive()
   if (!is.null(x$caption) & x$caption_number) increment_pixie_count()
   caption_number_prefix <-
@@ -30,8 +29,8 @@ print_dust_markdown <- function(x, ..., asis=TRUE,
 
   #* If the table is not being run interactively (ie, in an rmarkdown script)
   #* detect the type of output.  The spacing between tables is output-specific
-  if (!interactive){
-    output_type <- knitr::opts_knit$get('rmarkdown.pandoc.to')
+  if (!interactive) {
+    output_type <- knitr::opts_knit$get("rmarkdown.pandoc.to")
     linebreak <- if (is.null(output_type)) "  "
     else if (output_type == "html") "<br>"
     else if (output_type == "latex") "\\ \\linebreak"
@@ -47,7 +46,7 @@ print_dust_markdown <- function(x, ..., asis=TRUE,
   foot <- if (!is.null(x$foot)) part_prep_markdown(x$foot) else NULL
   interfoot <- if (!is.null(x$interfoot)) part_prep_markdown(x$interfoot) else NULL
 
-  names(body) <- names(head) <-as.character(head[1, ])
+  names(body) <- names(head) <- as.character(head[1, ])
 
   if (!is.null(foot)) names(foot) <- names(head)
   if (!is.null(interfoot)) names(interfoot) <- names(head)
@@ -56,6 +55,7 @@ print_dust_markdown <- function(x, ..., asis=TRUE,
   subhead <- lapply(subhead, function(v) paste0("**", v, "**")) %>%
     as.data.frame(stringsAsFactors = FALSE)
 
+  # TODO: waiting on poorman bugfix
   # numeric_classes <- c("numeric", "double", "int")
 
   #* Determine the alignments.  Alignments in 'knitr::kable' are assigned
@@ -74,7 +74,7 @@ print_dust_markdown <- function(x, ..., asis=TRUE,
   #* Not the most efficient way to do this, probably, but
   #* it's easy to read and understand.
   tbl_code <- ""
-  for (i in 1:total_div){
+  for (i in 1:total_div) {
     tbl <- poorman::bind_rows(if (nrow(head) > 1) subhead else NULL,
                               body[Divisions$row_num[Divisions$div_num == i], ],
                               if (i == total_div) foot else interfoot)
@@ -97,8 +97,7 @@ print_dust_markdown <- function(x, ..., asis=TRUE,
 
 #**** Helper functions
 
-part_prep_markdown <- function(part)
-{
+part_prep_markdown <- function(part) {
   numeric_classes <- c("double", "numeric")
 
   part <- perform_function(part)
@@ -134,9 +133,8 @@ part_prep_markdown <- function(part)
   part$value[logic] <-
     part$na_string[logic]
 
-
   #* Spread to wide format for printing
   poorman::select(part, row, col, value) %>%
-  tidyr::spread_("col", "value") %>%
+  tidyr::spread(col, value) %>%
   poorman::select(-row)
 }

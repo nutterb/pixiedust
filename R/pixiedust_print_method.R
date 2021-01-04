@@ -12,14 +12,12 @@
 #'   \code{knitr::opts_knit$get("rmarkdown.pandoc.to")}. Finally, if this is also
 #'   \code{NULL}, then the option is set to \code{"console"}.
 
-pixiedust_print_method <- function()
-{
+pixiedust_print_method <- function() {
   print_method <-
     getOption("pixiedust_print_method",
               knitr::opts_knit$get("rmarkdown.pandoc.to"))
 
-  if (is.null(print_method))
-  {
+  if (is.null(print_method)) {
     print_method <- "console"
   }
 

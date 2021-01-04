@@ -1,7 +1,6 @@
 print_dust_html <- function(x, ..., asis=TRUE,
                             linebreak_at_end = getOption("pixie_html_linebreak", 2),
-                            interactive = getOption("pixie_interactive"))
-{
+                            interactive = getOption("pixie_interactive")) {
   if (is.null(interactive)) interactive <- interactive()
   if (!is.null(x$caption) & x$caption_number) increment_pixie_count()
   caption_number_prefix <-
@@ -9,26 +8,22 @@ print_dust_html <- function(x, ..., asis=TRUE,
     else ""
 
   label <-
-    if (is.null(x[["label"]]))
-    {
+    if (is.null(x[["label"]])) {
       chunk_label <- knitr::opts_current$get("label")
       if (is.null(chunk_label))
         sprintf("tab:pixie-%s", getOption("pixie_count"))
       else
         sprintf("tab:%s", chunk_label)
     }
-    else
-    {
+    else {
      sprintf("tab:%s", x[["label"]])
     }
 
   label <-
-    if (x[["bookdown"]])
-    {
+    if (x[["bookdown"]]) {
       sprintf("(\\#%s)", label)
     }
-    else
-    {
+    else {
       caption_number_prefix
     }
 
@@ -55,13 +50,13 @@ print_dust_html <- function(x, ..., asis=TRUE,
   foot <- if (!is.null(x$foot)) part_prep_html(x$foot) else NULL
   interfoot <- if (!is.null(x$interfoot)) part_prep_html(x$interfoot) else NULL
 
-  tmpfile <- tempfile(fileext=".html")
+  tmpfile <- tempfile(fileext = ".html")
   non_interactive <- ""
 
   #* Run a for loop to build all the table divisions
   for (i in 1:total_div) {
     tbl <- poorman::bind_rows(head,
-                            body[Divisions$row_num[Divisions$div_num == i], , drop=FALSE],
+                            body[Divisions$row_num[Divisions$div_num == i], , drop = FALSE],
                             if (i == total_div) foot else interfoot)
     rows <- apply(tbl, 1, paste0, collapse = "\n")
     rows <- sprintf("<tr>\n%s\n</tr>", rows)
@@ -83,7 +78,7 @@ print_dust_html <- function(x, ..., asis=TRUE,
                   list(pretty = FALSE)))
       else ""
 
-    if (x[["fixed_header"]]){
+    if (x[["fixed_header"]]) {
       fixed_head_open_tag <-
         sprintf("<div style = 'text-align:%s'><section class='%s-section'><div class='%s-container'><div>",
                 x[["justify"]],
@@ -115,15 +110,15 @@ print_dust_html <- function(x, ..., asis=TRUE,
 
     #* When interactive, write to a temporary file so that it
     #* can be displayed in the viewer
-    if (interactive & asis){
+    if (interactive & asis) {
       write(html_code, tmpfile, append = i > 1)
     }
     else non_interactive <- paste0(non_interactive, html_code)
   }
-  if (interactive & asis){
+  if (interactive & asis) {
     getOption("viewer")(tmpfile)
   }
-  else if (asis){
+  else if (asis) {
     if (x$html_preserve) knitr::asis_output(htmltools::htmlPreserve(non_interactive))
     else knitr::asis_output(non_interactive)
   }
@@ -137,23 +132,19 @@ print_dust_html <- function(x, ..., asis=TRUE,
 #**** Helper functions
 
 part_prep_html <- function(part, head=FALSE,
-                           fixed_header = FALSE, fixed_header_class_name = "")
-{
+                           fixed_header = FALSE, fixed_header_class_name = "") {
   numeric_classes <- c("double", "numeric")
 
   dh <-
-    if (head)
-    {
-      if (fixed_header){
+    if (head) {
+      if (fixed_header) {
         sprintf("th class = 'th-%s'", fixed_header_class_name)
       }
-      else
-      {
+      else {
         "th"
       }
     }
-    else
-    {
+    else {
       "td"
     }
 
@@ -294,11 +285,11 @@ part_prep_html <- function(part, head=FALSE,
             tidyr::spread(html_col, value, fill = "") %>%
             poorman::select(-html_row)
 
-  if (ncol(part) != ncol){
+  if (ncol(part) != ncol) {
     part <- cbind(part,
                   do.call("cbind",
                           lapply(1:(ncol - ncol(part)),
-                                 function(i) data.frame(value = "", 
+                                 function(i) data.frame(value = "",
                                                         stringsAsFactors = FALSE))))
     names(part) <- 1:ncol
   }
@@ -311,8 +302,7 @@ part_prep_html <- function(part, head=FALSE,
 #* possible, specifying a rotation applies tags for webkit (Chrome?),
 #* Mozilla, Internet Explorer, Opera, and a generic transformation.
 
-rotate_tag <- function(degree)
-{
+rotate_tag <- function(degree) {
   sprintf(
     paste0("-webkit-transform:rotate(%sdeg);",
            "-moz-transform:rotate(%sdeg);",

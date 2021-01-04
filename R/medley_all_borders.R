@@ -21,10 +21,9 @@
 #'
 #' @export
 
-medley_all_borders <- function(x, rows=NULL, cols=NULL,
+medley_all_borders <- function(x, rows = NULL, cols = NULL,
                                horizontal = TRUE, vertical = TRUE,
-                               part = "body")
-{
+                               part = "body") {
   checkmate::assertClass(x,
                          classes = "dust")
 
@@ -32,15 +31,12 @@ medley_all_borders <- function(x, rows=NULL, cols=NULL,
     match.arg(part,
               c("table", "head", "body", "interfoot", "foot"),
               several.ok = TRUE)
-  if ("table" %in% part)
-  {
+  if ("table" %in% part) {
     part <- c("head", "body", "interfoot", "foot")
   }
 
-  for (p in part)
-  {
-    if (!is.null(x[[p]]))
-    {
+  for (p in part) {
+    if (!is.null(x[[p]])) {
       part_rows <- if (is.null(rows)) 1:max(x[[p]][["row"]]) else rows
       part_cols <- if (is.null(cols)) 1:max(x[[p]][["col"]]) else cols
 
@@ -50,16 +46,14 @@ medley_all_borders <- function(x, rows=NULL, cols=NULL,
                     border = c(if (vertical) "left" else NULL,
                                if (horizontal) "bottom" else NULL),
                     part = p)
-      if (horizontal)
-      {
+      if (horizontal) {
         x <- sprinkle(x,
                       rows = utils::head(part_rows, 1),
                       cols = part_cols,
                       border = "top",
                       part = p)
       }
-      if (vertical)
-      {
+      if (vertical) {
         x <- sprinkle(x,
                       rows = part_rows,
                       cols = utils::tail(part_cols, 1),

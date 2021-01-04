@@ -1,30 +1,25 @@
 
-print_dust_latex <- function(x, ..., asis=TRUE)
-{
+print_dust_latex <- function(x, ..., asis = TRUE) {
 
   if (!is.null(x$caption) & x$caption_number) increment_pixie_count()
 
   label <-
-    if (is.null(x[["label"]]))
-    {
+    if (is.null(x[["label"]])) {
       chunk_label <- knitr::opts_current$get("label")
       if (is.null(chunk_label))
         paste0("tab:pixie-", getOption("pixie_count"))
       else
         paste0("tab:", chunk_label)
     }
-    else
-    {
+    else {
       paste0("tab:", x[["label"]])
     }
 
   label <-
-    if (x[["bookdown"]])
-    {
+    if (x[["bookdown"]]) {
       paste0("(\\#", label, ")")
     }
-    else
-    {
+    else {
       paste0("\\label{", label, "}")
     }
 
@@ -59,8 +54,7 @@ print_dust_latex <- function(x, ..., asis=TRUE)
   prebegin <- paste0(prebegin,
                      "\\setlength{\\tabcolsep}{", x$tabcolsep, "pt}", sep = "\n")
 
-  if (tab_env == "longtable")
-  {
+  if (tab_env == "longtable") {
     begin <- paste0("\\begin{longtable}[",
                     gsub("n", "l", substr(x[["justify"]], 1, 1)), "]{",
                     paste0(col_halign_default$default_halign, collapse = ""), "}\n",
@@ -72,8 +66,7 @@ print_dust_latex <- function(x, ..., asis=TRUE)
                     "\n", label, "\\\\ \n")
     end <- "\\end{longtable}"
   }
-  else if (x$float)
-  {
+  else if (x$float) {
     begin <- paste0("\\begin{table}\n",
                     if (x[["justify"]] == "center") "\\centering\n" else "",
                     if (!is.null(x$caption))
@@ -87,8 +80,7 @@ print_dust_latex <- function(x, ..., asis=TRUE)
 
     end <- paste0("\\end{tabular}\n\\end{table}\n")
   }
-  else
-  {
+  else {
     begin <- paste0(if (x[["justify"]] == "center")
                       "\\begin{center}\n"
                     else
@@ -115,7 +107,7 @@ print_dust_latex <- function(x, ..., asis=TRUE)
                 MoreArgs = list(newline = if (is.numeric(x$longtable)) " \\ltabnewline" else " \\\\"))
 
   #* Append longtable tags
-  if (is.numeric(x$longtable) || x$longtable){
+  if (is.numeric(x$longtable) || x$longtable) {
     tbl <- paste0(tbl[c(1, 4, 3, 2)],
                   c("\n\\endhead\n", "\n\\endfoot\n", "\n\\endlastfoot\n", ""))
   }
@@ -125,12 +117,10 @@ print_dust_latex <- function(x, ..., asis=TRUE)
   if (asis) knitr::asis_output(paste(prebegin, begin, tbl, end, collapse = "\n"))
   else paste(prebegin, begin, tbl, end, collapse = "\n")
 
-
 }
 
 #* Prepare Cell Values for Printing
-part_prep_latex <- function(part, col_width, col_halign_default, head=FALSE)
-{
+part_prep_latex <- function(part, col_width, col_halign_default, head=FALSE) {
   part <- part %>%
     poorman::select(-width) %>%
     poorman::left_join(col_width, by = c("col" = "col")) %>%
@@ -302,21 +292,21 @@ part_prep_latex <- function(part, col_width, col_halign_default, head=FALSE)
   #* the multirow needs to be at the top of the block.  This
   #* rearranges the merged cells so that the multirow is at the top.
 
-  if(any(part$colspan != 1)) {
-    
-    proper_multirow <- part %>% 
-      poorman::filter(colspan != 1) %>% 
+  if (any(part$colspan != 1)) {
+
+    proper_multirow <- part %>%
+      poorman::filter(colspan != 1) %>%
       poorman::mutate(group = paste0(html_row, html_col)) %>%
       poorman::group_by(group) %>%
       poorman::arrange(poorman::desc(colspan)) %>%
       poorman::mutate(row = sort(row)) %>%
       poorman::ungroup()
-    
+
     part <- part %>%
       poorman::filter(colspan == 1) %>%
       poorman::bind_rows(proper_multirow)
   }
-  
+
   cbind(top_borders,
         bottom_borders,
         poorman::select(part, row, col, value) %>%
@@ -327,7 +317,7 @@ part_prep_latex <- function(part, col_width, col_halign_default, head=FALSE)
 
 #* Converts the data frame object to one line of LaTeX
 #* code per row.
-paste_latex_part <- function(part, row_height, newline = " \\\\"){
+paste_latex_part <- function(part, row_height, newline = " \\\\") {
   paste_row <- function(r) paste(r[!is.na(r)], collapse = " & ")
 
   if (is.null(part)) return("")
@@ -344,17 +334,17 @@ paste_latex_part <- function(part, row_height, newline = " \\\\"){
 
 #**************************************************
 #**************************************************
-convertColor <- function(color){
+convertColor <- function(color) {
   if (length(color) == 0) return(character(0))
 
   color <- gsub("rgba[(]255,255,255,0[)]", "", color)
 
-  if (grepl("#", color)){
+  if (grepl("#", color)) {
     return(paste0("[HTML]{", sub("#", "", color), "}"))
   }
-  else if (grepl("rgb", color, ignore.case = TRUE)){
+  else if (grepl("rgb", color, ignore.case = TRUE)) {
     rgb <- str_extract_base(color, "\\d{1,3}")[1, 1:3]
-    return(paste0("[RGB]{", paste0(rgb, collapse=","), "}"))
+    return(paste0("[RGB]{", paste0(rgb, collapse = ","), "}"))
   }
   else return(paste0("{", color, "}"))
 }
@@ -364,7 +354,7 @@ convertColor <- function(color){
 #* Writes the code that is necessary to force
 #* longtable breaks at the user-specified number
 #* of lines
-numeric_longtable_newline <- function(n, redefine = FALSE){
+numeric_longtable_newline <- function(n, redefine = FALSE) {
   if (redefine)
     return(paste0("\\newcount\\mylineno \n",
                   "\\mylineno=0 \n",
@@ -385,8 +375,7 @@ numeric_longtable_newline <- function(n, redefine = FALSE){
 #**************************************************
 #* Determine if the cell needs a parbox
 
-needs_parbox <- function(x)
-{
+needs_parbox <- function(x) {
   is.finite(x$width) |
     (x$halign != x$default_halign) |
      x$valign != "" |
@@ -414,7 +403,7 @@ joint_reference_table <- function(x) {
 
    Joint[["table_width"]] <- x$table_width
 
-   Joint <- Joint %>% 
+   Joint <- Joint %>%
     poorman::mutate(width = as.numeric(width),
                     table_width = table_width * 72.27,
                     width = ifelse(width_units == "in",
@@ -422,7 +411,7 @@ joint_reference_table <- function(x) {
                                    ifelse(width_units == "cm",
                                           width * 28.45,
                                           ifelse(width_units == "%",
-                                                 width/100 * table_width,
+                                                 width / 100 * table_width,
                                                  width)))) %>%
   #* apply a function, if any is indicated
   perform_function()
@@ -441,7 +430,8 @@ joint_reference_table <- function(x) {
   Joint %>%
     poorman::mutate(halign = substr(halign, 1, 1)) %>%
     poorman::group_by(col) %>%
-    poorman::mutate(default_halign = names(sort(table(halign), decreasing = TRUE))[1]) %>%
+    poorman::mutate(default_halign = names(sort(table(halign),
+                                                decreasing = TRUE))[1]) %>%
     poorman::ungroup() %>%
     poorman::mutate(parbox = (is.finite(width) |
                               (halign != default_halign) |
@@ -463,8 +453,7 @@ joint_reference_table <- function(x) {
 #**************************************************
 #* Get the default column alignments.
 #* Right aligned for numeric, otherwise, left aligned
-determine_column_width <- function(Joint)
-{
+determine_column_width <- function(Joint) {
 Joint %>%
     poorman::select(row, col, width) %>%
     poorman::group_by(col) %>%
@@ -473,8 +462,7 @@ Joint %>%
     poorman::mutate(width = ifelse(is.finite(width), width, NA))
 }
 
-determine_row_height <- function(part)
-{
+determine_row_height <- function(part) {
   if (is.null(part)) return("")
   part %>%
     poorman::select(row, col, height, height_units) %>%
@@ -497,7 +485,7 @@ determine_row_height <- function(part)
 #* Get the default column alignments.
 #* Right aligned for numeric, otherwise, left aligned
 
-get_column_halign <- function(Joint){
+get_column_halign <- function(Joint) {
   Joint %>%
     poorman::mutate(default_halign = ifelse(is.na(width),
                                           default_halign,
@@ -508,7 +496,7 @@ get_column_halign <- function(Joint){
     poorman::ungroup()
 }
 
-default_halign <- function(col_class, print_method = "latex"){
+default_halign <- function(col_class, print_method = "latex") {
   tag <-
     if (print_method == "latex") c("r", "l")
     else c("right", "left")
@@ -519,7 +507,7 @@ default_halign <- function(col_class, print_method = "latex"){
 #**************************************************
 #**************************************************
 #* Prepares code for vertical borders
-latex_vertical_border_code <- function(x){
+latex_vertical_border_code <- function(x) {
   border <- str_split_fixed_base(x, " ", 3)
   border[, 1] <- gsub("px", "pt", border[, 1])
   border[, 2] <- ifelse(border[, 2] %in% c("dashed", "dotted"),
@@ -527,11 +515,11 @@ latex_vertical_border_code <- function(x){
                         ifelse(border[, 2] %in% c("groove", "ridge", "inset", "outset", "hidden"),
                                "solid", border[, 2]))
   if (border[, 2] %in% c("hidden", "none")) return("")
-  if (border[, 2] == "dashed"){
+  if (border[, 2] == "dashed") {
     border_code <- paste("!{\\color", convertColor(border[, 3]), "\\vdashline}")
     return(border_code)
   }
-  if (border[, 2] %in% c("solid", "double")){
+  if (border[, 2] %in% c("solid", "double")) {
     border_code <- paste0("!{\\color", convertColor(border[, 3]), "\\vrule width ", border[, 1], "}")
     return(border_code)
   }
@@ -540,7 +528,7 @@ latex_vertical_border_code <- function(x){
 #**************************************************
 #**************************************************
 #* Prepares code for horizontal borders
-latex_horizontal_border_code <- function(x, col){
+latex_horizontal_border_code <- function(x, col) {
   border <- str_split_fixed_base(x, " ", 3)
   border[, 1] <- gsub("px", "pt", border[, 1])
   border[, 2] <- ifelse(border[, 2] %in% c("dashed", "dotted"),
@@ -548,12 +536,12 @@ latex_horizontal_border_code <- function(x, col){
                         ifelse(border[, 2] %in% c("groove", "ridge", "inset", "outset", "hidden"),
                                "solid", border[, 2]))
   if (border[, 2] %in% c("hidden", "none")) return("")
-  if (border[, 2] == "dashed"){
+  if (border[, 2] == "dashed") {
     border_code <- paste0("\\arrayrulecolor", convertColor(border[, 3]),
                           "\\cdashline{", col, "-", col, "}")
     return(border_code)
   }
-  if (border[, 2] %in% c("solid", "double")){
+  if (border[, 2] %in% c("solid", "double")) {
     border_code <- paste0("\\arrayrulecolor", convertColor(border[, 3]),
                           "\\cline{", col, "-", col, "}")
     return(border_code)
@@ -561,11 +549,9 @@ latex_horizontal_border_code <- function(x, col){
 }
 
 #* NA safe sanitization function
-sanitize <- function(x, args)
-{
+sanitize <- function(x, args) {
   sanitize_index <- !is.na(x)
-  if (sum(sanitize_index))
-  {
+  if (sum(sanitize_index)) {
     x[sanitize_index] <-
       do.call(what = sanitize_latex,
               args = c(list(object = x[sanitize_index]),

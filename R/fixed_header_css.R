@@ -111,8 +111,7 @@ fixed_header_css <- function(fixed_header_class_name = "pixie-fixed",
                              fixed_header_text_height = fixed_header_height / 2,
                              fixed_header_text_height_units = "px",
                              fixed_header_background_color = "white",
-                             pretty = TRUE)
-{
+                             pretty = TRUE) {
   coll <- checkmate::makeAssertCollection()
 
   checkmate::assert_integerish(x = scroll_body_height,
@@ -127,7 +126,7 @@ fixed_header_css <- function(fixed_header_class_name = "pixie-fixed",
                               len = 1,
                               add = coll)
 
-  if (!any(is_valid_color(scroll_body_background_color))){
+  if (!any(is_valid_color(scroll_body_background_color))) {
     coll$push("'scroll_body_background_color' is not a valid color")
   }
 
@@ -151,7 +150,7 @@ fixed_header_css <- function(fixed_header_class_name = "pixie-fixed",
                               len = 1,
                               add = coll)
 
-  if (!any(is_valid_color(fixed_header_background_color))){
+  if (!any(is_valid_color(fixed_header_background_color))) {
     coll$push("'fixed_header_background_color' is not a valid color")
   }
 
@@ -172,7 +171,7 @@ fixed_header_css <- function(fixed_header_class_name = "pixie-fixed",
 .", fixed_header_class_name, "-section {
   position: relative;
   display: inline-block;
-  padding-top: ", fixed_header_height, fixed_header_height_units,";
+  padding-top: ", fixed_header_height, fixed_header_height_units, ";
   background:", fixed_header_background_color, "; <!-- need a color to make the header non-transparent -->
               <!-- This is a potential CSS conflict -->
 }

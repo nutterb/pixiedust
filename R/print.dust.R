@@ -38,8 +38,7 @@
 #' @examples
 #' dust(lm(mpg ~ qsec + factor(am), data = mtcars))
 
-print.dust <- function(x, ..., asis = TRUE, linebreak_at_end = 2)
-{
+print.dust <- function(x, ..., asis = TRUE, linebreak_at_end = 2) {
   print_method <- x$print_method
   if (print_method == "latex" & x$hhline)
     print_method <- "latex_hhline"
@@ -59,8 +58,7 @@ print.dust <- function(x, ..., asis = TRUE, linebreak_at_end = 2)
 #' @rdname print.dust
 #' @export
 
-print.dust_list <- function(x, ..., asis = TRUE)
-{
+print.dust_list <- function(x, ..., asis = TRUE) {
   lapply(X = x,
          FUN = print.dust,
          asis = asis,

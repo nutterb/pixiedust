@@ -42,7 +42,7 @@
 
 #' @export
 
-medley_bw <- function(x){
+medley_bw <- function(x) {
   x %>%
     sprinkle(rows = 1, border = "top", part = "head") %>%
     sprinkle(rows = 1, border = "top", part = "body") %>%
@@ -51,7 +51,7 @@ medley_bw <- function(x){
 
 #' @rdname medley
 #' @export
-medley_model <- function(x, round = 2){
+medley_model <- function(x, round = 2) {
   not_pval <- unique(x$body$col_name)
   not_pval <- not_pval[!not_pval %in% "p.value"]
 
@@ -64,12 +64,10 @@ medley_model <- function(x, round = 2){
     sprinkle(cols = not_pval, round = round, part = "body") %>%
     sprinkle(cols = "p.value", fn = quote(pvalString(value)))
 
-  if (!is.null(x$foot)){
+  if (!is.null(x$foot)) {
     x <- x %>%
       sprinkle(rows = max(x$foot$row), border = "bottom", part = "foot") %>%
       sprinkle(round = round, na_string = "", part = "foot")
   }
   x
 }
-
-

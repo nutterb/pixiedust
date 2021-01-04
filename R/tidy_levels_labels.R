@@ -134,7 +134,7 @@
 tidy_levels_labels <- function(object,
                                descriptors = "term",
                                numeric_level = c("term", "term_plain", "label"),
-                               argcheck = NULL){
+                               argcheck = NULL) {
   independent_check <- is.null(argcheck)
   if (is.null(argcheck)) argcheck <- checkmate::makeAssertCollection()
 
@@ -159,26 +159,24 @@ tidy_levels_labels <- function(object,
     lnl[, descriptors, drop = FALSE]
 }
 
-levels_and_labels <- function(object, ...){
+levels_and_labels <- function(object, ...) {
   model_data <- stats::model.frame(object)
   Labels <- labelVector::get_label(model_data, names(model_data))
   NLevels <- vapply(model_data, modelNLevels, 1)
   Levels <- lapply(model_data,
                    modelFriendlyLevels) %>%
             poorman::bind_rows()
-  
+
   Levels[["term_plain"]] <- rep(names(NLevels), NLevels)
   Levels[["term"]] <- paste0(Levels$term_plain, Levels$level)
-  
+
   Levels$label <- Labels[match(Levels$term_plain, names(Labels))]
   Levels <- Levels[, c("term", "term_plain", "label", "level", "level_detail")]
   rownames(Levels) <- NULL
   Levels
 }
 
-
-
-modelFriendlyLevels <- function(f){
+modelFriendlyLevels <- function(f) {
   lev <- levels(f)
   if (is.null(lev))
     return(data.frame(level = "",
@@ -190,14 +188,14 @@ modelFriendlyLevels <- function(f){
                       stringsAsFactors = FALSE))
 }
 
-modelNLevels <- function(f){
+modelNLevels <- function(f) {
   nlev <- nlevels(f)
   nlev <- if (nlev == 0) 1 else (nlev - 1)
   nlev
 }
 
 
-level_label_interactions <- function(lnl, tidy_fit, numeric_level){
+level_label_interactions <- function(lnl, tidy_fit, numeric_level) {
   if (!any(grepl("[:]", tidy_fit$term)))
     return(lnl)
     # return(poorman::left_join(tidy_fit, lnl, by = c("term" = "term")))
@@ -212,7 +210,7 @@ level_label_interactions <- function(lnl, tidy_fit, numeric_level){
 }
 
 
-form_interaction_labels <- function(s, lnl, numeric_level){
+form_interaction_labels <- function(s, lnl, numeric_level) {
   m <- match(s, lnl$term)
 
   level <- ifelse(lnl$level[m] == "",

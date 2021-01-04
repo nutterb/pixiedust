@@ -10,7 +10,7 @@ perform_function <- function(obj) {
   #* Determine which cells in the table have a function assigned.
   have_fn <- which(!is.na(obj$fn))
 
-  for (i in have_fn){
+  for (i in have_fn) {
     #* All of the elements in 'value' are stored as character
     #* strings. The if clause allows numeric functions to be
     #* performed.
@@ -35,7 +35,7 @@ perform_function <- function(obj) {
 #* represent numeric values.  The roundSafe function will skip true character
 #* values when attempting to round.
 
-roundSafe <- function(x, digits){
+roundSafe <- function(x, digits) {
   y <- suppressWarnings(as.numeric(x))
   if (length(y[!is.na(y)]) == 0) return(x)
 

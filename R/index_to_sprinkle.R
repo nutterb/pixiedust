@@ -68,8 +68,7 @@
 index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
                               part = c("body", "head", "foot", "interfoot"),
                               recycle = c("none", "rows", "cols", "columns"),
-                              coll = NULL)
-{
+                              coll = NULL) {
   report_here <- is.null(coll)
 
   if (report_here) coll <- checkmate::makeAssertCollection()
@@ -84,18 +83,14 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
                           add = coll,
                           .var.name = "x")
 
-  if (!is.null(rows))
-  {
-    if (!is.numeric(rows) & !is.call(rows))
-    {
+  if (!is.null(rows)) {
+    if (!is.numeric(rows) & !is.call(rows)) {
       coll$push("`rows` must be either numeric or a call object (via `quote`)")
     }
   }
 
-  if (!is.null(cols))
-  {
-    if (!is.numeric(cols) & !is.character(cols))
-    {
+  if (!is.null(cols)) {
+    if (!is.numeric(cols) & !is.character(cols)) {
       coll$push("`cols` must be a numeric or character vector")
     }
   }
@@ -122,8 +117,7 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
   else if (!length(part) |
            !length(recycle) |
            !checkmate::test_logical(x = fixed,
-                                    len = 1))
-  {
+                                    len = 1)) {
     # If there is no match for `part`, there is no need to proceed to
     # the rest of the function.  If this function is called from
     # another with a `coll` object, return to that function's execution
@@ -133,34 +127,28 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
 
 # Second pass at argument validations -------------------------------
 
-  if (fixed)
-  {
-    if (length(rows) != length(cols))
-    {
+  if (fixed) {
+    if (length(rows) != length(cols)) {
       coll$push("When `fixed = TRUE`, rows and cols must have the same length")
     }
   }
 
   if (is.null(rows)) rows <- unique(x[[part]][["row"]])
 
-  if (inherits(rows, "class"))
-  {
+  if (inherits(rows, "class")) {
     rows <- which(eval(rows))
   }
 
   invalid_row <- which(!rows %in% unique(x[[part]][["row"]]))
-  if (length(invalid_row))
-  {
+  if (length(invalid_row)) {
     coll$push(sprintf("The following rows given are not valid row indices: %s",
                       paste0(rows[invalid_row], collapse = ", ")))
   }
 
-  if (is.null(cols))
-  {
+  if (is.null(cols)) {
     cols <- unique(x[[part]][["col"]])
   }
-  else
-  {
+  else {
     # The cols argument allows character and numeric values to be
     # given simultaneously. This block matches the character values
     # to numeric column indices
@@ -179,8 +167,7 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
 
   invalid_col <-  which(!cols %in% unique(x[[part]][["col"]]))
 
-  if (length(invalid_col))
-  {
+  if (length(invalid_col)) {
     coll$push(sprintf("The following columns given are not valid columns: %s",
                       paste0(cols[invalid_col], collapse = ", ")))
   }
@@ -195,8 +182,7 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
 
   # Determine the index order for recycling
 
-  if (recycle == "columns")
-  {
+  if (recycle == "columns") {
     recycle <- "cols"
   }
 
@@ -209,13 +195,11 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
   #   {
   #     c("col", "row")
   #   }
-  
+
   # Determine and arrange the indices
 
-  if (!fixed)
-  {
-    indices <- expand.grid(rows = rows,
-			   cols = cols)
+  if (!fixed) {
+    indices <- expand.grid(rows = rows, cols = cols)
     indices <- poorman::mutate(indices,
                              i = TRUE)
     indices <- poorman::left_join(x[[part]][c("row", "col")],
@@ -223,22 +207,20 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
                                 by = c("row" = "rows",
                                        "col" = "cols"))
     indices[["index"]] <- seq_len(nrow(indices))
-    
-    # browser()
-    # indices <- dplyr::arrange(indices,
-    #                           dplyr::all_of(recycle_arrange))
-    
+
+    # indices <- poorman::arrange(indices,
+    #                             poorman::all_of(recycle_arrange))
+
     if (recycle == "rows") {
       indices <- poorman::arrange(indices, row, col)
     } else {
       indices <- poorman::arrange(indices, col, row)
     }
-    
+
     indices[["i"]][is.na(indices[["i"]])] <- FALSE
     indices <- indices[["index"]][indices[["i"]]]
   }
-  else
-  {
+  else {
     indices <-
       which(x[[part]][["row"]] %in% rows &
               x[[part]][["col"]] %in% cols)

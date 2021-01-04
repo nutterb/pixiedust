@@ -27,8 +27,7 @@
 #' @export
 
 # Function Definition -----------------------------------------------
-get_dust_part <- function(x, part = c("head", "foot", "interfoot", "body"))
-{
+get_dust_part <- function(x, part = c("head", "foot", "interfoot", "body")) {
 
 # Argument Validations ----------------------------------------------
   coll <- checkmate::makeAssertCollection()
@@ -46,8 +45,7 @@ get_dust_part <- function(x, part = c("head", "foot", "interfoot", "body"))
 
 # Functional Code ---------------------------------------------------
 
-  if (!is.null(x[[part]]))
-  {
+  if (!is.null(x[[part]])) {
     X <- x[[part]][c("row", "col", "value")]
     X <- stats::reshape(X,
                  direction = "wide",
@@ -56,11 +54,10 @@ get_dust_part <- function(x, part = c("head", "foot", "interfoot", "body"))
     X <- X[-1]
     names(X) <- unique(x[[part]][["col_name"]])
   }
-  else
-  {
+  else {
     col_names <- unique(x[["body"]][["col_name"]])
-    X <- matrix(nrow=0,
-                ncol=length(col_names))
+    X <- matrix(nrow = 0,
+                ncol = length(col_names))
     X <- data.frame(X)
     names(X) <- col_names
   }

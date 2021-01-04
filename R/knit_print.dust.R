@@ -10,7 +10,7 @@
 #'
 #' @export
 
-knit_print.dust <- function(x, options, ...){
+knit_print.dust <- function(x, options, ...) {
   if (missing(options)) options <- list()
   print.dust(x,
              ...,
@@ -21,7 +21,7 @@ knit_print.dust <- function(x, options, ...){
 #' @rdname knit_print.dust
 #' @export
 
-knit_print.dust_list <- function(x, options, ...){
+knit_print.dust_list <- function(x, options, ...) {
   if (missing(options)) options <- list()
   print.dust_list(x,
                   ...,
