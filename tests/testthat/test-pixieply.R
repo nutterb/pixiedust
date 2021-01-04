@@ -4,7 +4,7 @@ test_that("apply medley to dust_list",
     pixieply(
       dust(mtcars %>%
              # TODO: waiting on poorman release of .drop in group_by
-             dplyr::group_by(am, vs),
+             poorman::group_by(am, vs),
            ungroup = FALSE),
       medley_all_borders
     )
@@ -16,7 +16,7 @@ test_that(
   {
     mtcars %>%
       # TODO: waiting on poorman release of .drop in group_by
-      dplyr::group_by(gear) %>%
+      poorman::group_by(gear) %>%
       dust(ungroup = FALSE) %>%
       pixiemap(FUN = sprinkle,
                caption = sprintf("gear = %s", sort(unique(mtcars$gear)))) %>%

@@ -3,7 +3,7 @@
 \name{dust}
 \alias{dust}
 \alias{dust.default}
-\alias{dust.grouped_df}
+\alias{dust.grouped_data}
 \alias{dust.list}
 \alias{redust}
 \alias{redust.default}
@@ -37,7 +37,7 @@ dust(object, ...)
   html_preserve = getOption("pixie_html_preserve", TRUE)
 )
 
-\method{dust}{grouped_df}(object, ungroup = TRUE, ...)
+\method{dust}{grouped_data}(object, ungroup = TRUE, ...)
 
 \method{dust}{list}(object, ...)
 
@@ -153,7 +153,7 @@ wrapped in \code{htmltools::htmlPreserve}. If using LaTeX style equations in
 an HTML table, it may be necessary to set this to \code{FALSE}. Do this at
 your own risk; this has not been thoroughly field tested.}
 
-\item{ungroup}{Used when a \code{grouped_df} object is passed to \code{dust}.
+\item{ungroup}{Used when a \code{grouped_data} object is passed to \code{dust}.
 When \code{TRUE} (the default), the object is ungrouped and dusted
 as a single table. When \code{FALSE}, the object is split and each element
 is dusted separately.}

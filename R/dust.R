@@ -91,7 +91,7 @@
 #'   an HTML table, it may be necessary to set this to \code{FALSE}. Do this at
 #'   your own risk; this has not been thoroughly field tested.
 #' @param ... Additional arguments to pass to \code{tidy}
-#' @param ungroup Used when a \code{grouped_df} object is passed to \code{dust}.
+#' @param ungroup Used when a \code{grouped_data} object is passed to \code{dust}.
 #'   When \code{TRUE} (the default), the object is ungrouped and dusted
 #'   as a single table. When \code{FALSE}, the object is split and each element
 #'   is dusted separately.
@@ -186,10 +186,10 @@ dust.default <- function(object, ...,
   coll <- checkmate::makeAssertCollection()
 
   descriptors <- checkmate::matchArg(x = descriptors,
-                                  choices = c("term", "term_plain", "label",
-                                              "level", "level_detail"),
-                                  several.ok = TRUE,
-                                  add = coll)
+                                     choices = c("term", "term_plain", "label",
+                                                 "level", "level_detail"),
+                                     several.ok = TRUE,
+                                     add = coll)
 
   #* By default, we assume data.frame-like objects are to be printed
   #* as given.  All other objects are tidied.
@@ -227,7 +227,8 @@ dust.default <- function(object, ...,
        is_intercept <- grepl(pattern = "([(]|)Intercept([)]|)",
                              x = tidy_object[["term"]])
 
-       tidy_object[["label"]][is_intercept] <- tidy_object[["term"]][is_intercept]
+       tidy_object[["label"]][is_intercept] <-
+        tidy_object[["term"]][is_intercept]
      }
 
     if ("term_plain" %in% names(tidy_object)) {
@@ -305,10 +306,31 @@ dust.default <- function(object, ...,
 
 }
 
+# ' @rdname dust
+# ' @export
+
+# dust.grouped_df <- function(object, ungroup = TRUE, ...) {
+#   if (ungroup) {
+#     # dust.default(poorman::ungroup(object), ...)
+#     dust.default(as.data.frame(object), ...)
+#   }
+#   else {
+#     # the "var" attribute no longer exists, avoiding group_var()
+#     # split_var <- attr(object, "var")
+#     group_names <- colnames(attr(object, "groups"))
+#     split_var <- group_names[1:(length(group_names) - 1)]
+
+#     # object <- poorman::ungroup(object)
+#     object <- as.data.frame(object)
+#     object <- split(object, object[, as.character(split_var)])
+#     dust.list(object, ...)
+#   }
+# }
+
 #' @rdname dust
 #' @export
 
-dust.grouped_df <- function(object, ungroup = TRUE, ...) {
+dust.grouped_data <- function(object, ungroup = TRUE, ...) {
   if (ungroup) {
     # dust.default(poorman::ungroup(object), ...)
     dust.default(as.data.frame(object), ...)
