@@ -1,11 +1,9 @@
-context("print_dust_latex")
-
 test_that(
   "print_dust_latex",
   {
     skip_on_cran()
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
-    x <- dust(fit) %>% 
+    x <- dust(fit) %>%
       sprinkle(rows = 2:4,
                cols = 2:4,
                bg = "black",
@@ -31,7 +29,7 @@ test_that(
                width = 15,
                width_units = "%") %>%
       sprinkle_print_method("latex")
-    
+
     expect_silent(print_dust_latex(x))
   })
 
@@ -43,7 +41,7 @@ test_that(
     x <- dust(fit,
               label = "some label") %>%
       sprinkle_print_method("latex")
-    
+
     expect_silent(print_dust_latex(x))
   })
 
@@ -55,7 +53,7 @@ test_that(
     x <- dust(fit,
               bookdown = TRUE) %>%
       sprinkle_print_method("latex")
-    
+
     expect_silent(print_dust_latex(x))
   })
 
@@ -68,7 +66,7 @@ test_that(
               bookdown = TRUE,
               label = "some label") %>%
       sprinkle_print_method("latex")
-    
+
     expect_silent(print_dust_latex(x))
   })
 
@@ -80,7 +78,7 @@ test_that(
     x <- dust(fit,
               longtable = TRUE) %>%
       sprinkle_print_method("latex")
-    
+
     expect_silent(print_dust_latex(x))
   })
 
@@ -92,7 +90,7 @@ test_that(
     x <- dust(fit,
               float = FALSE) %>%
       sprinkle_print_method("latex")
-    
+
     expect_silent(print_dust_latex(x))
   })
 
@@ -103,9 +101,9 @@ test_that(
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
     x <- dust(fit,
               float = FALSE) %>%
-      sprinkle(bg = "#FFFFFF") %>% 
+      sprinkle(bg = "#FFFFFF") %>%
       sprinkle_print_method("latex")
-    
+
     expect_silent(print_dust_latex(x))
   })
 
@@ -116,12 +114,11 @@ test_that(
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
     x <- dust(fit,
               float = FALSE) %>%
-      sprinkle(bg = "rgb(255,255,255)") %>% 
+      sprinkle(bg = "rgb(255,255,255)") %>%
       sprinkle_print_method("latex")
-    
+
     expect_silent(print_dust_latex(x))
   })
-
 
 test_that(
   "print_dust_latex with vertical dashed border",
@@ -132,9 +129,9 @@ test_that(
               float = FALSE) %>%
       sprinkle(cols = 2,
                border = "right",
-               border_style = "dashed") %>% 
+               border_style = "dashed") %>%
       sprinkle_print_method("latex")
-    
+
     expect_silent(print_dust_latex(x))
   })
 
@@ -145,9 +142,9 @@ test_that(
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
     x <- dust(fit,
               float = FALSE) %>%
-      sprinkle(border = "bottom") %>% 
+      sprinkle(border = "bottom") %>%
       sprinkle_print_method("latex")
-    
+
     expect_silent(print_dust_latex(x))
   })
 
@@ -159,9 +156,9 @@ test_that(
     x <- dust(fit,
               float = FALSE) %>%
       sprinkle(border = "bottom",
-               border_style = "dashed") %>% 
+               border_style = "dashed") %>%
       sprinkle_print_method("latex")
-    
+
     expect_silent(print_dust_latex(x))
   })
 
@@ -172,8 +169,8 @@ test_that(
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
     x <- dust(fit,
               float = FALSE) %>%
-      sprinkle(sanitize = TRUE) %>% 
+      sprinkle(sanitize = TRUE) %>%
       sprinkle_print_method("latex")
-    
+
     expect_silent(print_dust_latex(x))
   })

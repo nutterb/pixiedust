@@ -1,5 +1,3 @@
-context("sprinkle_table")
-
 test_that("sprinkle_table: apply a sprinkle to all parts",
 {
   x <- dust(mtcars)

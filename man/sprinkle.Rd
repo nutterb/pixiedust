@@ -23,24 +23,46 @@ Colored Cell border \cr
 http://tex.stackexchange.com/questions/40666/how-to-change-line-color-in-tabular
 }
 \usage{
-sprinkle(x, rows = NULL, cols = NULL, ..., part = c("body", "head",
-  "foot", "interfoot", "table"))
+sprinkle(
+  x,
+  rows = NULL,
+  cols = NULL,
+  ...,
+  part = c("body", "head", "foot", "interfoot", "table")
+)
 
-\method{sprinkle}{default}(x, rows = NULL, cols = NULL, ...,
-  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
-  recycle = c("none", "rows", "cols", "columns"))
+\method{sprinkle}{default}(
+  x,
+  rows = NULL,
+  cols = NULL,
+  ...,
+  part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns")
+)
 
-\method{sprinkle}{dust_list}(x, rows = NULL, cols = NULL, ...,
-  part = c("body", "head", "foot", "interfoot", "table"))
+\method{sprinkle}{dust_list}(
+  x,
+  rows = NULL,
+  cols = NULL,
+  ...,
+  part = c("body", "head", "foot", "interfoot", "table")
+)
 
-sprinkle_print_method(x, print_method = c("console", "markdown", "html",
-  "latex"))
+sprinkle_print_method(
+  x,
+  print_method = c("console", "markdown", "html", "latex")
+)
 
-\method{sprinkle_print_method}{default}(x, print_method = c("console",
-  "markdown", "html", "latex", "docx"))
+\method{sprinkle_print_method}{default}(
+  x,
+  print_method = c("console", "markdown", "html", "latex", "docx")
+)
 
-\method{sprinkle_print_method}{dust_list}(x, print_method = c("console",
-  "markdown", "html", "latex"))
+\method{sprinkle_print_method}{dust_list}(
+  x,
+  print_method = c("console", "markdown", "html", "latex")
+)
 
 sprinkle_table(x, cols = NULL, ..., part = "table")
 
@@ -54,7 +76,7 @@ sprinkle_table(x, cols = NULL, ..., part = "table")
 \item{rows}{A numeric vector specifying the rows of the table to sprinkle.
 See details for more about sprinkling.}
 
-\item{cols}{A numeric (or character) vector specifying the columns (or 
+\item{cols}{A numeric (or character) vector specifying the columns (or
 column names) to sprinkle.  See details for more about sprinkling.}
 
 \item{...}{named arguments, each of length 1, defining the customizations
@@ -62,61 +84,61 @@ for the given cells.  See "Sprinkles" for a listing of these arguments.}
 
 \item{part}{A character string denoting which part of the table to modify.}
 
-\item{fixed}{\code{logical(1)} indicating if the values in \code{rows} 
-and \code{cols} should be read as fixed coordinate pairs.  By default, 
-sprinkles are applied at the intersection of \code{rows} and \code{cols}, 
-meaning that the arguments do not have to share the same length.  
+\item{fixed}{\code{logical(1)} indicating if the values in \code{rows}
+and \code{cols} should be read as fixed coordinate pairs.  By default,
+sprinkles are applied at the intersection of \code{rows} and \code{cols},
+meaning that the arguments do not have to share the same length.
 When \code{fixed = TRUE}, they must share the same length.}
 
-\item{recycle}{A \code{character} one that determines how sprinkles are 
+\item{recycle}{A \code{character} one that determines how sprinkles are
 managed when the sprinkle input doesn't match the length of the region
-to be sprinkled.  By default, recycling is turned off.  Recycling 
-may be performed across rows first (left to right, top to bottom), 
+to be sprinkled.  By default, recycling is turned off.  Recycling
+may be performed across rows first (left to right, top to bottom),
 or down columns first (top to bottom, left to right).}
 
-\item{print_method}{A character string giving the print method for the table. 
+\item{print_method}{A character string giving the print method for the table.
 Note: \code{"docx"} is synonymous with \code{"markdown"}.}
 }
 \description{
 Customizations to a \code{dust} table are added by "sprinkling"
   with a little extra pixie dust.  Sprinkles are a collection of attributes
-  to be applied over a subset of table cells.  They may be added to any 
+  to be applied over a subset of table cells.  They may be added to any
   part of the table, or to the table as a whole.
 }
 \details{
-Sprinkling is done over the intersection of rows and columns 
+Sprinkling is done over the intersection of rows and columns
   (unless \code{fixed = TRUE}.  If
   rows but no columns are specified, sprinkling is performed over all columns
   of the given given rows. The reverse is true for when columns but no rows
-  are specified.  If neither columns nor rows are specified, the attribute 
+  are specified.  If neither columns nor rows are specified, the attribute
   is applied over all of the cells in the table part denoted in \code{part}.
 
   If at least one of \code{border}, \code{border_thickness}, \code{border_units},
   \code{border_style} or \code{border_color} is specified, the remaining
   unspecified attributes assume their default values.
-  
-  Other sprinkle pairings are \code{height} and \code{height_units}; 
+
+  Other sprinkle pairings are \code{height} and \code{height_units};
   \code{width} and \code{width_units}; \code{font_size} and \code{font_size_units};
   \code{bg_pattern} and \code{bg_pattern_by}
-  
+
   The sprinkles \code{bg} and \code{bg_pattern} may not be used together.
-  
-  A more detailed demonstration of the use of sprinkles is available in 
+
+  A more detailed demonstration of the use of sprinkles is available in
   \code{vignette("pixiedust", package = "pixiedust")}
-  
+
   Using \code{sprinkle_table}, sprinkles may be applied to the columns of multiple tables. Table
-  parts are required to have the same number of columns, but not necessarily the same number 
+  parts are required to have the same number of columns, but not necessarily the same number
   of rows, which is why the \code{rows} argument is not available for the \code{sprinkle_table}.
-  In contrast to \code{sprinkle}, the \code{part} argument in \code{sprinkle_table} will 
-  accept multiple parts.  If any of the named parts is \code{"table"}, the sprinkle will be 
+  In contrast to \code{sprinkle}, the \code{part} argument in \code{sprinkle_table} will
+  accept multiple parts.  If any of the named parts is \code{"table"}, the sprinkle will be
   applied to the columns of all of the parts.
 }
 \section{Sprinkles}{
 
-The following table describes the valid sprinkles that may be defined in the 
-\code{...} dots argument.  All sprinkles may be defined for any output type, but 
-only sprinkles recognized by that output type will be applied when printed.  
-A more readable format of this information is available in  
+The following table describes the valid sprinkles that may be defined in the
+\code{...} dots argument.  All sprinkles may be defined for any output type, but
+only sprinkles recognized by that output type will be applied when printed.
+A more readable format of this information is available in
 \code{vignette("sprinkles", package = "pixiedust")}.
 
 \tabular{lll}{
@@ -125,7 +147,7 @@ bg  \tab           \tab  \cr
     \tab default   \tab  \cr
     \tab accepts   \tab dvips color names; rgb(R,G,B); rgba(R,G,B,A); \cr
     \tab           \tab  #RRGGBB; #RRGGBBAA. See the "Colors" section \cr
-    \tab           \tab  for further details or \cr 
+    \tab           \tab  for further details or \cr
  \tab              \tab  \url{http://nutterb.github.io/pixiedust/colors.html}. \cr
     \tab console   \tab Not recognized \cr
     \tab markdown  \tab Not recognized \cr
@@ -139,7 +161,7 @@ bg_pattern \tab    \tab  \cr
  \tab              \tab by rows or by columns. \cr
  \tab default      \tab c("#FFFFFF", "#DDDDDD") \cr
  \tab accepts      \tab A vector of color names: \cr
- \tab              \tab dvips color names; rgb(R,G,B); rgba(R,G,B,A); \cr 
+ \tab              \tab dvips color names; rgb(R,G,B); rgba(R,G,B,A); \cr
  \tab              \tab #RRGGBB; #RRGGBBAA \cr
  \tab console      \tab Not recognized \cr
  \tab markdown     \tab Not recognized \cr
@@ -148,7 +170,7 @@ bg_pattern \tab    \tab  \cr
  \tab latex        \tab Accepts any of the listed formats, \cr
  \tab              \tab but ignores transparency \cr
 bg_pattern_by  \tab  \tab  \cr
- \tab action       \tab Determines if a `bg_pattern` is patterned \cr 
+ \tab action       \tab Determines if a `bg_pattern` is patterned \cr
  \tab              \tab by row or by columns. \cr
  \tab default      \tab "rows" \cr
  \tab accepts      \tab "rows", "columns", "cols" \cr
@@ -193,7 +215,7 @@ border_color \tab  \tab  \cr
  \tab accepts      \tab character(1) \cr
  \tab              \tab dvips color names; rgb(R,G,B); rgba(R,G,B,A); \cr
  \tab              \tab #RRGGBB; #RRGGBBAA. See the "Colors" section \cr
-    \tab           \tab  for further details or \cr 
+    \tab           \tab  for further details or \cr
  \tab              \tab  \url{http://nutterb.github.io/pixiedust/colors.html}. \cr
  \tab console      \tab Not recognized \cr
  \tab markdown     \tab Not recognized \cr
@@ -276,7 +298,7 @@ float \tab  \tab  \cr
 fn \tab  \tab  \cr
  \tab action       \tab Applies a function to the value of a cell. \cr
  \tab              \tab The function should be an \cr
- \tab              \tab expression that acts on the variable `value`.  \cr 
+ \tab              \tab expression that acts on the variable `value`.  \cr
  \tab              \tab For example, \code{quote(format(value, nsmall = 3))} \cr
  \tab default      \tab  \cr
  \tab accepts      \tab call \cr
@@ -289,7 +311,7 @@ font_color \tab  \tab  \cr
  \tab default      \tab Black \cr
  \tab accepts      \tab dvips color names; rgb(R,G,B); rgba(R,G,B,A); \cr
  \tab              \tab #RRGGBB; #RRGGBBAA. See the "Colors" section \cr
-    \tab           \tab  for further details or \cr 
+    \tab           \tab  for further details or \cr
  \tab              \tab  \url{http://nutterb.github.io/pixiedust/colors.html}. \cr
  \tab console      \tab Not recognized \cr
  \tab markdown     \tab Not recognized \cr
@@ -325,7 +347,7 @@ font_size_units \tab  \tab  \cr
 gradient \tab  \tab  \cr
  \tab action       \tab Adds distinct background colors based on \cr
  \tab              \tab progressively increasing values in the \cr
- \tab              \tab selected region. May not be used concurrently \cr 
+ \tab              \tab selected region. May not be used concurrently \cr
  \tab              \tab with \code{bg}. \cr
  \tab              \tab \code{"font"} is an alias for \code{"font_color"} \cr
  \tab              \tab and \code{"border"} is an alias for \cr
@@ -406,14 +428,14 @@ height_units \tab  \tab  \cr
  \tab html         \tab Recognized \cr
  \tab latex        \tab Recognized; "px" is coerced to "pt" \cr
 hhline \tab  \tab  \cr
- \tab action       \tab Toggles the option for cell border drawing with \cr 
+ \tab action       \tab Toggles the option for cell border drawing with \cr
  \tab              \tab the `hhline` LaTeX package \cr
  \tab default      \tab FALSE \cr
  \tab accepts      \tab logical(1) \cr
  \tab console      \tab Not recognized \cr
  \tab markdown     \tab Not recognized \cr
  \tab html         \tab Not recognized \cr
- \tab latex        \tab Recognized.  When `FALSE` double borders are \cr 
+ \tab latex        \tab Recognized.  When `FALSE` double borders are \cr
  \tab              \tab not available. \cr
  \tab              \tab When `TRUE`, colored and dashed borders are not \cr
  \tab              \tab available. This is usually the better option \cr
@@ -441,7 +463,7 @@ justify \tab  \tab  \cr
 longtable \tab  \tab  \cr
  \tab action       \tab Toggles the use of the LaTeX `longtable` style \cr
  \tab              \tab tables, namely allowing long tables to be broken \cr
- \tab              \tab into multiple sections. The table header appears \cr 
+ \tab              \tab into multiple sections. The table header appears \cr
  \tab              \tab at the top of each section. The table interfoot \cr
  \tab              \tab appears at the bottom of each section, except \cr
  \tab              \tab for the last. \cr
@@ -458,7 +480,7 @@ longtable \tab  \tab  \cr
  \tab              \tab per section. \cr
  \tab html         \tab Recognized; when `TRUE`, defaults to 25 rows \cr
  \tab              \tab per section. \cr
- \tab latex        \tab Recognized; when `TRUE`, `longtable`'s own algorithm \cr 
+ \tab latex        \tab Recognized; when `TRUE`, `longtable`'s own algorithm \cr
  \tab              \tab will determine the number of rows per section. \cr
  \tab              \tab When numeric, breaks are forced at the specified \cr
  \tab              \tab number of rows. \cr
@@ -533,7 +555,7 @@ rotate_degree \tab  \tab  \cr
  \tab html         \tab Recognized \cr
  \tab latex        \tab Recognized \cr
 round \tab  \tab  \cr
- \tab action       \tab Applies the `round` function to values in the \cr 
+ \tab action       \tab Applies the `round` function to values in the \cr
  \tab              \tab cell.  Skips any character values it encounters. \cr
  \tab default      \tab \code{getOption("digits")} \cr
  \tab accepts      \tab numeric(1) \cr
@@ -599,34 +621,34 @@ width_units \tab  \tab  \cr
 
 \section{Longtable}{
 
-The \code{longtable} feature is named for the LaTeX package used to break very large 
-tables into multiple pages.  
+The \code{longtable} feature is named for the LaTeX package used to break very large
+tables into multiple pages.
 
-When using the \code{longtable=TRUE} option, the default number of rows per table is 25 for 
-console, HTML, and markdown output.  For LaTeX output, the number of rows is determined by 
-the LaTeX \code{longtable} package's algorithm. The number of rows per table only considers 
-the content in the body of the table.  Consideration for the number of rows in the head and 
+When using the \code{longtable=TRUE} option, the default number of rows per table is 25 for
+console, HTML, and markdown output.  For LaTeX output, the number of rows is determined by
+the LaTeX \code{longtable} package's algorithm. The number of rows per table only considers
+the content in the body of the table.  Consideration for the number of rows in the head and
 foot are the responsibility of the user.
-  
-Whenever a table is broken into multiple parts, each part retains the table head.  If any 
-\code{interfoot} is provided, it is appended to the bottom of each section, with the 
+
+Whenever a table is broken into multiple parts, each part retains the table head.  If any
+\code{interfoot} is provided, it is appended to the bottom of each section, with the
 exception of the last section.  The last section has the \code{foot} appended.
 }
 
 \section{Colors}{
 
-Colors may be declared as any of the color names in \code{colors()}, 
-as rgb character strings such as \code{"rgb(rrr,ggg,bbb)"} or as 
-hexadecimal character strings such as \code{"#rrggbb"}.  
+Colors may be declared as any of the color names in \code{colors()},
+as rgb character strings such as \code{"rgb(rrr,ggg,bbb)"} or as
+hexadecimal character strings such as \code{"#rrggbb"}.
 
-Transparency is also recognized by HTML output, and may be indicated 
-in the rgba format \code{"rgba(rrr,ggg,bbb,aa)"}, where \code{aa} is a 
-number between 0 and 1, inclusive.  Alternative, transparency may be 
-given as \code{"#rrggbbAA"}, where \code{AA} is a hexadecimal 
-representation of transparency with "00" being completely transparent 
+Transparency is also recognized by HTML output, and may be indicated
+in the rgba format \code{"rgba(rrr,ggg,bbb,aa)"}, where \code{aa} is a
+number between 0 and 1, inclusive.  Alternative, transparency may be
+given as \code{"#rrggbbAA"}, where \code{AA} is a hexadecimal
+representation of transparency with "00" being completely transparent
 and "FF" being completely opaque.
 
-LaTeX output does not recognize transparency and will quietly drop the 
+LaTeX output does not recognize transparency and will quietly drop the
 transparency parameter.
 
 All colors are internally translated into rgb format and are case insensitive.
@@ -634,15 +656,15 @@ All colors are internally translated into rgb format and are case insensitive.
 
 \section{Required LaTeX Packages}{
 
-(Read more about \code{pixiedust} with LaTeX at 
+(Read more about \code{pixiedust} with LaTeX at
 http://nutterb.github.io/pixiedust/latex-configuration.html)
 
-If you will be using the LaTeX output, some sprinkles will require you 
-to include additional LaTeX packages in your document preamble.  In 
-\code{.Rnw} files, additional packages can be included with the 
+If you will be using the LaTeX output, some sprinkles will require you
+to include additional LaTeX packages in your document preamble.  In
+\code{.Rnw} files, additional packages can be included with the
 \code{\\usepackage\{[package]\}} syntax.  In markdown, additional packages
-are included using \code{header-includes:} in the YAML front matter with 
-a line of the format \code{\\usepackage\{[package]\}} for each package to 
+are included using \code{header-includes:} in the YAML front matter with
+a line of the format \code{\\usepackage\{[package]\}} for each package to
 be used.  Sprinkles that require additional packages, and the LaTeX packages
 required, are listed below:
 
@@ -660,20 +682,20 @@ required, are listed below:
   \code{longtable} \tab \code{\\usepackage\{longtable\}} \cr
       \tab (Must be loaded before \code{arydshln}) \cr
   \code{merge} \tab \code{\\usepackage\{multirow\}} \cr
-  \code{captions} for non floats \tab \code{\\usepackage\{caption\}} 
+  \code{captions} for non floats \tab \code{\\usepackage\{caption\}}
 }
 
-Note that \code{hhline} is used to make horizontal lines when 
-\code{options(pixiedust_latex_hhline = TRUE)} (the package default is \code{FALSE}), 
-otherwise the \code{cline} command is used.  
+Note that \code{hhline} is used to make horizontal lines when
+\code{options(pixiedust_latex_hhline = TRUE)} (the package default is \code{FALSE}),
+otherwise the \code{cline} command is used.
 
-Use of \code{cline} permits colored borders and dashed borders, but 
+Use of \code{cline} permits colored borders and dashed borders, but
 borders around cells with background colors are sometimes (often) lost.
 
-Use of \code{hhline} preserves borders around cells with background colors 
+Use of \code{hhline} preserves borders around cells with background colors
 and permits double borders, but colored and dashed borders are not available.
 
-In order to ensure all features are available, the recommended code block (accounting for 
+In order to ensure all features are available, the recommended code block (accounting for
 the proper order to load packages) is:
 
 \code{header-includes:} \cr
@@ -692,8 +714,8 @@ the proper order to load packages) is:
 
 \examples{
 x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars))
-x \%>\% sprinkle(cols = 2:4, round = 3) \%>\% 
-  sprinkle(cols = 5, fn = quote(pvalString(value))) \%>\% 
+x \%>\% sprinkle(cols = 2:4, round = 3) \%>\%
+  sprinkle(cols = 5, fn = quote(pvalString(value))) \%>\%
   sprinkle(rows = 2, bold = TRUE)
 
 }

@@ -1,5 +1,3 @@
-context("is_valid_color")
-
 # Functional Requirement --------------------------------------------
 
 test_that(
@@ -11,7 +9,7 @@ test_that(
                        B = seq(0, 255, by = 50))
     col <- sprintf("rgb(%s, %s, %s)",
                    col$R,
-                   col$G, 
+                   col$G,
                    col$B)
     expect_equal(
       is_valid_color(c(col, "rgb(255, 255, 255)")),
@@ -41,7 +39,7 @@ test_that(
                        A = seq(0, 1, by = .2))
     col <- sprintf("rgba(%s, %s, %s, %s)",
                    col$R,
-                   col$G, 
+                   col$G,
                    col$B,
                    col$A)
     expect_equal(
@@ -56,7 +54,7 @@ test_that(
   {
     skip_on_cran()
     expect_equal(
-      is_valid_color(c("rgba(-1, 000, 0, 0.5)", "rgb(5, 15, 256, 0.5)", 
+      is_valid_color(c("rgba(-1, 000, 0, 0.5)", "rgb(5, 15, 256, 0.5)",
                        "rgb(5, 322, 100, 0.5)",
                        "rgba(000, 000, 255, 1.1)", "rgba(256, 100, 15, -0.2)",
                        "rgba(123, 123, 123, 1.00000001)")),
@@ -97,7 +95,7 @@ test_that(
     )
   }
 )
-    
+
 test_that(
   "Returns a logical vector correclty identifying valid color formats",
   {

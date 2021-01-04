@@ -1,5 +1,3 @@
-context("sprinkle_colnames")
-
 test_that("sprinkle_colnames produces output",
 {
   x <- dust(lm(mpg ~ qsec + factor(am) + wt, data = mtcars))

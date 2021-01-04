@@ -1,25 +1,23 @@
-context("Create a dust object")
-
 fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
 
 test_that("Create a dust object",
 {
   x <- dust(fit)
-  
+
   expect_equal(class(x), "dust")
 })
 
 test_that("dust object has expected names",
 {
   x <- dust(fit)
-  
-  expect_equal(names(x), 
-               c("head",            "body",        "interfoot",   "foot", 
-                 "border_collapse", "caption",     "caption_number", "label",       
-                 "justify", 
-                 "float",           "longtable",   "table_width", "tabcolsep", 
+
+  expect_equal(names(x),
+               c("head",            "body",        "interfoot",   "foot",
+                 "border_collapse", "caption",     "caption_number", "label",
+                 "justify",
+                 "float",           "longtable",   "table_width", "tabcolsep",
                  "hhline",          "bookdown",    "fixed_header", "include_fixed_header_css",
-                 "fixed_header_param", 
+                 "fixed_header_param",
                  "html_preserve",   "print_method"))
 })
 
@@ -27,14 +25,14 @@ test_that("dust object body component has correct dimensions",
 {
   fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
   x <- dust(fit)
-  
+
   Dims <- list(dim(x$head),
                dim(x$body),
                dim(x$interfoot),
                dim(x$foot))
-  
-  expect_equal(Dims, 
-               list(c(5, 37), 
+
+  expect_equal(Dims,
+               list(c(5, 37),
                     c(30, 37),
                     NULL,
                     NULL))
@@ -63,7 +61,7 @@ test_that("dust with keep_rownames = TRUE adds rownames to object",
 
 test_that("dust with additional descriptors",
 {
-  expect_silent(dust(fit, 
+  expect_silent(dust(fit,
                     descriptors = c("label", "level_detail")))
 })
 
@@ -84,17 +82,15 @@ test_that("dust with glance_foot and col_pairs a divisor of total_cols",
   fit <- lm(mpg ~ qsec + factor(am) + wt * factor(gear), data = mtcars)
   expect_silent(dust(fit,
                      descriptors = c("label", "level_detail"),
-                     glance_foot = TRUE, 
+                     glance_foot = TRUE,
                      col_pairs = 3))
 })
-
 
 test_that("dust a list",
 {
   x <- split(mtcars, list(mtcars$am, mtcars$vs))
   expect_silent(dust(x))
 })
-
 
 test_that(
   "dust with descriptors",

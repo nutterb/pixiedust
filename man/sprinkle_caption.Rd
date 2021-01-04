@@ -20,13 +20,13 @@ sprinkle_caption(x, caption, ...)
 \item{...}{Additional arguments to pass to other methods. Currently ignored.}
 }
 \description{
-The table caption is often used as a brief title, but may also 
-  be used to provide a longer statement explaining how to interpret the 
+The table caption is often used as a brief title, but may also
+  be used to provide a longer statement explaining how to interpret the
   table results.
 }
 \details{
 The caption may be set during the initial \code{dust} call.  This
-  method allows for modification afterward, such as in the case of when a 
+  method allows for modification afterward, such as in the case of when a
   \code{dust} object is loaded from memory and the initial call cannot be
   accessed.
 }

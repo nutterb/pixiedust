@@ -3,7 +3,7 @@
 \name{dust}
 \alias{dust}
 \alias{dust.default}
-\alias{dust.grouped_df}
+\alias{dust.grouped_data}
 \alias{dust.list}
 \alias{redust}
 \alias{redust.default}
@@ -12,10 +12,19 @@
 \usage{
 dust(object, ...)
 
-\method{dust}{default}(object, ..., tidy_df = FALSE, keep_rownames = FALSE,
-  glance_foot = FALSE, glance_stats = NULL, col_pairs = 2,
-  byrow = FALSE, descriptors = "term", numeric_level = c("term",
-  "term_plain", "label"), label = NULL, caption = NULL,
+\method{dust}{default}(
+  object,
+  ...,
+  tidy_df = FALSE,
+  keep_rownames = FALSE,
+  glance_foot = FALSE,
+  glance_stats = NULL,
+  col_pairs = 2,
+  byrow = FALSE,
+  descriptors = "term",
+  numeric_level = c("term", "term_plain", "label"),
+  label = NULL,
+  caption = NULL,
   caption_number = getOption("pixied_caption_number", TRUE),
   justify = getOption("pixie_justify", "center"),
   float = getOption("pixie_float", TRUE),
@@ -25,56 +34,55 @@ dust(object, ...)
   border_collapse = getOption("pixie_border_collapse", "collapse"),
   tabcolsep = getOption("pixie_tabcolsep", 6),
   fixed_header = getOption("pixie_fixed_header", FALSE),
-  html_preserve = getOption("pixie_html_preserve", TRUE))
+  html_preserve = getOption("pixie_html_preserve", TRUE)
+)
 
-\method{dust}{grouped_df}(object, ungroup = TRUE, ...)
+\method{dust}{grouped_data}(object, ungroup = TRUE, ...)
 
 \method{dust}{list}(object, ...)
 
 redust(x, table, part = c("head", "foot", "interfoot", "body"))
 
-\method{redust}{default}(x, table, part = c("head", "foot", "interfoot",
-  "body"))
+\method{redust}{default}(x, table, part = c("head", "foot", "interfoot", "body"))
 
-\method{redust}{dust_list}(x, table, part = c("head", "foot", "interfoot",
-  "body"))
+\method{redust}{dust_list}(x, table, part = c("head", "foot", "interfoot", "body"))
 }
 \arguments{
 \item{object}{An object that has a \code{tidy} method in \code{broom}}
 
 \item{...}{Additional arguments to pass to \code{tidy}}
 
-\item{tidy_df}{When \code{object} is an object that inherits the 
-\code{data.frame} class, the default behavior is to assume that the 
-object itself is the basis of the table.  If the summarized table is 
+\item{tidy_df}{When \code{object} is an object that inherits the
+\code{data.frame} class, the default behavior is to assume that the
+object itself is the basis of the table.  If the summarized table is
 desired, set to \code{TRUE}.}
 
-\item{keep_rownames}{When \code{tidy_df} is \code{FALSE}, setting 
+\item{keep_rownames}{When \code{tidy_df} is \code{FALSE}, setting
 \code{keep_rownames} binds the row names to the data frame as the first
-column, allowing them to be preserved in the tabulated output.  This 
-is only to data frame like objects, as the \code{broom::tidy.matrix} method 
+column, allowing them to be preserved in the tabulated output.  This
+is only to data frame like objects, as the \code{broom::tidy.matrix} method
 performs this already.}
 
 \item{glance_foot}{Arrange the glance statistics for the \code{foot} of the
 table. (Not scheduled for implementation until version 0.4.0)}
 
 \item{glance_stats}{A character vector giving the names of the glance statistics
-to put in the output.  When \code{NULL}, the default, all of the available 
-statistics are retrieved.  In addition to controlling which statistics are 
+to put in the output.  When \code{NULL}, the default, all of the available
+statistics are retrieved.  In addition to controlling which statistics are
 printed, this also controls the order in which they are printed.}
 
-\item{col_pairs}{An integer indicating the number of column-pairings for the 
+\item{col_pairs}{An integer indicating the number of column-pairings for the
 glance output.  This must be less than half the total number of columns,
 as each column-pairing includes a statistic name and value. See the full
 documentation for the unexported function \code{\link{glance_foot}}.}
 
-\item{byrow}{A logical, defaulting to \code{FALSE}, that indicates if the 
-requested statistics are placed with priority to rows or columns.  
+\item{byrow}{A logical, defaulting to \code{FALSE}, that indicates if the
+requested statistics are placed with priority to rows or columns.
 See the full documentation for the unexported function \code{\link{glance_foot}}.}
 
 \item{descriptors}{A character vector indicating the descriptors to
-be used in the table.  Acceptable inputs are \code{"term"}, 
-\code{"term_plain"}, \code{"label"}, \code{"level"}, and 
+be used in the table.  Acceptable inputs are \code{"term"},
+\code{"term_plain"}, \code{"label"}, \code{"level"}, and
 \code{"level_detail"}.  These may be used in any combination and
 any order, with the descriptors appearing in the table from left
 to right in the order given.  The default, \code{"term"}, returns
@@ -89,64 +97,64 @@ when a numeric has an interaction with a factor.  Acceptable inputs
 are \code{"term"}, \code{"term_plain"}, and \code{"label"}.
 See the full documentation for the unexported function \code{\link{tidy_levels_labels}}.}
 
-\item{label}{\code{character(1)}. An optional string for assigning labels with 
-which tables can be referenced elsewhere in the document.  If \code{NULL}, 
-\code{pixiedust} attempts to name the label \code{tab:[chunk-name]}, where 
+\item{label}{\code{character(1)}. An optional string for assigning labels with
+which tables can be referenced elsewhere in the document.  If \code{NULL},
+\code{pixiedust} attempts to name the label \code{tab:[chunk-name]}, where
 \code{[chunk-name]} is the name of the \code{knitr} chunk.  If this also
-resolves to \code{NULL} (for instance, when you aren't using \code{knitr}, 
-the label \code{tab:pixie-[n]} is assigned, where \code{[n]} is the current value 
-of \code{options()$pixie_count}.  Note that rendering multiple tables in a 
+resolves to \code{NULL} (for instance, when you aren't using \code{knitr},
+the label \code{tab:pixie-[n]} is assigned, where \code{[n]} is the current value
+of \code{options()$pixie_count}.  Note that rendering multiple tables in a
 chunk without specifying a label will result in label conflicts.}
 
 \item{caption}{A character string giving the caption for the table.}
 
-\item{caption_number}{\code{logical(1)}. Should the table caption be prefixed 
+\item{caption_number}{\code{logical(1)}. Should the table caption be prefixed
 with the table number?}
 
-\item{justify}{\code{character(1)}. Specifies the justification of the table on 
+\item{justify}{\code{character(1)}. Specifies the justification of the table on
 the page.  May be \code{"center"} (default), \code{"left"}, or \code{"right"}.}
 
-\item{float}{A logical used only in LaTeX output.  When \code{TRUE}, the table is 
-set within a \code{table} environment.  The default is \code{TRUE}, as with 
+\item{float}{A logical used only in LaTeX output.  When \code{TRUE}, the table is
+set within a \code{table} environment.  The default is \code{TRUE}, as with
 \code{xtable}.}
 
 \item{longtable}{Allows the user to print a table in multiple sections.
-This is useful when 
+This is useful when
 a table has more rows than will fit on a printed page.  Acceptable inputs are \code{FALSE},
-indicating that only one table is printed (default); \code{TRUE} that the table should be 
-split into multiple tables with the default number of rows per table (see "Longtable"); or a 
-positive integer indicating how many rows per table to include. All other values are 
-interpreted as \code{FALSE}.  In LaTeX output, remember that after each section, a page 
+indicating that only one table is printed (default); \code{TRUE} that the table should be
+split into multiple tables with the default number of rows per table (see "Longtable"); or a
+positive integer indicating how many rows per table to include. All other values are
+interpreted as \code{FALSE}.  In LaTeX output, remember that after each section, a page
 break is forced. This setting may also be set from \code{sprinkle}.}
 
-\item{hhline}{Logical.  When \code{FALSE}, the default, horizontal LaTeX cell borders 
-are drawn using the \code{\\cline} command.  These don't necessarily 
-play well with cell backgrounds, however.  Using \code{hhline = TRUE} 
-prints horizontal borders using the \code{\\hhline} command.  While the 
-\code{hhline} output isn't disrupted by cell backgrounds, it may require 
-more careful coding of the desired borders.  In \code{hhline}, cells with 
-adjoining borders tend to double up and look thicker than when using 
+\item{hhline}{Logical.  When \code{FALSE}, the default, horizontal LaTeX cell borders
+are drawn using the \code{\\cline} command.  These don't necessarily
+play well with cell backgrounds, however.  Using \code{hhline = TRUE}
+prints horizontal borders using the \code{\\hhline} command.  While the
+\code{hhline} output isn't disrupted by cell backgrounds, it may require
+more careful coding of the desired borders.  In \code{hhline}, cells with
+adjoining borders tend to double up and look thicker than when using
 \code{cline}.}
 
 \item{bookdown}{Logical. When \code{TRUE}, \code{bookdown} style labels are
 generated.  Defaults to \code{FALSE}.}
 
-\item{border_collapse}{\code{character(1)}. One of \code{"collapse"}, 
+\item{border_collapse}{\code{character(1)}. One of \code{"collapse"},
 \code{"separate"}, \code{"initial"}, or \code{"inherit"}.}
 
-\item{tabcolsep}{\code{integerish(1)}. For LaTeX output, the distance in 
+\item{tabcolsep}{\code{integerish(1)}. For LaTeX output, the distance in
 \code{pt} between columns of the table.}
 
-\item{fixed_header}{\code{logical(1)}. For HTML tables, should the 
+\item{fixed_header}{\code{logical(1)}. For HTML tables, should the
 header rows be fixed in place over a scrollable body.}
 
 \item{html_preserve}{\code{logical(1)}. When \code{TRUE}, HTML output is returned
-wrapped in \code{htmltools::htmlPreserve}. If using LaTeX style equations in 
+wrapped in \code{htmltools::htmlPreserve}. If using LaTeX style equations in
 an HTML table, it may be necessary to set this to \code{FALSE}. Do this at
 your own risk; this has not been thoroughly field tested.}
 
-\item{ungroup}{Used when a \code{grouped_df} object is passed to \code{dust}.
-When \code{TRUE} (the default), the object is ungrouped and dusted 
+\item{ungroup}{Used when a \code{grouped_data} object is passed to \code{dust}.
+When \code{TRUE} (the default), the object is ungrouped and dusted
 as a single table. When \code{FALSE}, the object is split and each element
 is dusted separately.}
 
@@ -160,59 +168,59 @@ is dusted separately.}
 Returns an object of class \code{dust}
 }
 \description{
-Dust tables consist of four primary components that are 
-  built together to create a full table.  Namely, the \code{head}, the 
-  \code{body}, the \code{interfoot}, and the \code{foot}.  Dust tables 
-  also contain a table-wide attributes \code{border_collapse} and 
+Dust tables consist of four primary components that are
+  built together to create a full table.  Namely, the \code{head}, the
+  \code{body}, the \code{interfoot}, and the \code{foot}.  Dust tables
+  also contain a table-wide attributes \code{border_collapse} and
   \code{longtable} as well as a \code{print_method} element.
 }
 \details{
 The \code{head} object describes what each column of the table
   represents.  By default, the head is a single row, but multi row headers
   may be provided.  Note that multirow headers may not render in markdown
-  or console output as intended, though rendering in HTML and LaTeX is 
-  fairly reliable. In longtables (tables broken over multiple pages), 
+  or console output as intended, though rendering in HTML and LaTeX is
+  fairly reliable. In longtables (tables broken over multiple pages),
   the \code{head} appears at the top of each table portion.
-  
+
   The \code{body} object gives the main body of information.  In long tables,
   this section is broken into portions, ideally with one portion per page.
-  
-  The \code{interfoot} object is an optional table to be placed at the 
-  bottom of longtable portions with the exception of the last portion.  A 
-  well designed \code{interfoot} can convey to the user that the table 
+
+  The \code{interfoot} object is an optional table to be placed at the
+  bottom of longtable portions with the exception of the last portion.  A
+  well designed \code{interfoot} can convey to the user that the table
   continues on the next page.
-  
-  The \code{foot} object is the table that appears at the end of the 
-  completed table.  For model objects, it is recommended that the 
-  \code{\link[broom]{glance}} statistics be used to display model fit 
+
+  The \code{foot} object is the table that appears at the end of the
+  completed table.  For model objects, it is recommended that the
+  \code{\link[broom]{glance}} statistics be used to display model fit
   statistics.
-  
+
   The \code{border_collapse} object applies to an entire HTML table.  It
   indicates if the borders should form a single line or distinct lines.
-  
+
   The \code{longtable} object determines how many rows per page are printed.
-  By default, all content is printed as a single table.  Using the 
+  By default, all content is printed as a single table.  Using the
   \code{longtable} argument in the \code{\link{sprinkle}} function can change this
   setting.
-  
+
   The \code{table_width} element is specific to LaTeX tables.  This is a reference
   value for when column widths are specified in terms of the \code{\%} units.  For
   example, a column width of \code{20\%} will be defined as \code{table_width * .20}.
   The value in \code{table_width} is assumed to be in inches and defaults to 6.
-  
-  The \code{tabcolsep} object determines the spacing between columns in a 
+
+  The \code{tabcolsep} object determines the spacing between columns in a
   LaTeX table in pt.  By default, it is set at 6.
-  
-  The \code{print_method} object determines how the table is rendered when 
-  the \code{print} method is invoked.  The default is to print to the 
+
+  The \code{print_method} object determines how the table is rendered when
+  the \code{print} method is invoked.  The default is to print to the
   console.
-  
-  Many of these options may be set globally.  See 
+
+  Many of these options may be set globally.  See
   \code{\link{pixiedust}} for a complete list of package options.
 }
 \section{Symbols and Greek Letters}{
 
-When using markdown, math symbols and greek letters may be employed as 
+When using markdown, math symbols and greek letters may be employed as
 they would within a markdown document.  For example, \code{"$\alpha$"}
 will render as the lower case Greek alpha.  Math symbols may be rendered
 in the same manner.
@@ -223,7 +231,7 @@ x <- dust(lm(mpg ~ qsec + factor(am), data = mtcars))
 x
 }
 \seealso{
-\code{\link[broom]{tidy}} \code{\link{glance_foot}} 
+\code{\link[broom]{tidy}} \code{\link{glance_foot}}
   \code{\link{tidy_levels_labels}} \code{\link{pixiedust}}
 
 \code{\link{get_dust_part}} for extracting parts of the \code{dust} object

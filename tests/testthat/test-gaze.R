@@ -1,5 +1,3 @@
-context("gaze.R")
-
 fit1 <- lm(mpg ~ qsec + wt + factor(gear),
            data = mtcars)
 

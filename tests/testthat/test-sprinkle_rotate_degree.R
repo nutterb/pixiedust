@@ -1,5 +1,3 @@
-context("sprinkle_rotate_degree")
-
 x <- dust(head(mtcars))
 
 # Functional Requirement 1 ------------------------------------------
@@ -12,15 +10,15 @@ test_that(
       sprinkle_rotate_degree(x, cols = 2, rotate_degree = 3)[["body"]][["rotate_degree"]],
       rep(c("", 3, ""), times = c(6, 6, 6*9))
     )
-  }  
+  }
 )
 
 test_that(
   "Succeeds when called on a dust_list object",
   {
     expect_silent(
-      dplyr::group_by(mtcars, am, vs) %>% 
-        dust(ungroup = FALSE) %>% 
+      poorman::group_by(mtcars, am, vs) %>%
+        dust(ungroup = FALSE) %>%
         sprinkle_rotate_degree(rotate_degree = 90)
     )
   }

@@ -1,5 +1,3 @@
-context("Pixiedust Colors")
-
 x <- dust(lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars))
 
 test_that(

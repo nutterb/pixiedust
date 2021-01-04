@@ -1,5 +1,3 @@
-context("fixed_header_css.R")
-
 # Functional Requirement 1 ------------------------------------------
 
 test_that(

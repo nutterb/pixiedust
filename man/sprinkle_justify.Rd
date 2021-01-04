@@ -8,34 +8,32 @@
 \usage{
 sprinkle_justify(x, justify = getOption("pixie_justify", "center"), ...)
 
-\method{sprinkle_justify}{default}(x, justify = getOption("pixie_justify",
-  "center"), ...)
+\method{sprinkle_justify}{default}(x, justify = getOption("pixie_justify", "center"), ...)
 
-\method{sprinkle_justify}{dust_list}(x, justify = getOption("pixie_justify",
-  "center"), ...)
+\method{sprinkle_justify}{dust_list}(x, justify = getOption("pixie_justify", "center"), ...)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}
 
-\item{justify}{\code{character} string giving the justification of the 
+\item{justify}{\code{character} string giving the justification of the
 entire table on the page. May be any one of \code{"center"},
 \code{"left"}, or \code{"right"}.}
 
 \item{...}{Additional arguments to pass to other methods. Currently ignored.}
 }
 \description{
-The justification of the table determines the horizontal 
+The justification of the table determines the horizontal
   placing of the table on the page.
 }
 \details{
-For HTML tables, the values \code{"center"}, 
+For HTML tables, the values \code{"center"},
   \code{"left"},  and \code{"right"} all justify the table as expected.
-  It is important to note, however, that \code{"left"} and \code{"right"} 
-  will cause subsequent elements to be rendered next to the table, not 
-  below it. To render the table with left alignment without this side 
+  It is important to note, however, that \code{"left"} and \code{"right"}
+  will cause subsequent elements to be rendered next to the table, not
+  below it. To render the table with left alignment without this side
   effect, use \code{"none"}.
-  
-  In LaTeX output, both \code{"right"} and \code{"left"} justify 
+
+  In LaTeX output, both \code{"right"} and \code{"left"} justify
   to the left. This may change in the future if I find a resolution.  Using
   \code{"none"} also results in left justification.
 }
@@ -44,7 +42,7 @@ For HTML tables, the values \code{"center"},
 \enumerate{
  \item Change the \code{justify} attribute of the \code{dust} object.
  \item Cast an error if \code{x} is not a \code{dust} object.
- \item Cast an error if \code{justify} is not one of \code{"center"}, 
+ \item Cast an error if \code{justify} is not one of \code{"center"},
        \code{"none"}, \code{"left"}, or \code{"right"}.
  \item Ignore capitalization of the \code{justify} argument.
 }

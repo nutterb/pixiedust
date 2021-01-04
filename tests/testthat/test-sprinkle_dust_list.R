@@ -1,7 +1,5 @@
-context("sprinkling dust_list")
-
 dlist <- dust(mtcars %>%
-                dplyr::group_by(am, vs),
+                poorman::group_by(am, vs),
               ungroup = FALSE)
 
 test_that("sprinkle_table on a dust_list",
@@ -28,8 +26,8 @@ test_that("sprinkle_colnames on a dust_list",
 test_that("sprinkle a dust_list",
 {
   expect_silent(
-    sprinkle(dlist, 
-             rows = 3, 
+    sprinkle(dlist,
+             rows = 3,
              cols = 2,
              italic = TRUE)
   )

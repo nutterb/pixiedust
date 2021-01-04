@@ -11,11 +11,9 @@
 \usage{
 sprinkle_float(x, float = getOption("pixie_float", FALSE), ...)
 
-\method{sprinkle_float}{default}(x, float = getOption("pixie_float", FALSE),
-  ...)
+\method{sprinkle_float}{default}(x, float = getOption("pixie_float", FALSE), ...)
 
-\method{sprinkle_float}{dust_list}(x, float = getOption("pixie_float", FALSE),
-  ...)
+\method{sprinkle_float}{dust_list}(x, float = getOption("pixie_float", FALSE), ...)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}
@@ -26,9 +24,9 @@ a floating environment.}
 \item{...}{Additional arguments to pass to other methods. Currently ignored.}
 }
 \description{
-Alter the floating behavior of tables rendered in 
-LaTeX documents.  Floating tables are moved to a position deemed ideal 
-by the typesetter.  Setting \code{float = FALSE} causes the table to 
+Alter the floating behavior of tables rendered in
+LaTeX documents.  Floating tables are moved to a position deemed ideal
+by the typesetter.  Setting \code{float = FALSE} causes the table to
 be rendered in the position in which it is generated in the code.
 }
 \details{

@@ -1,16 +1,14 @@
-context("get_dust_part")
-
-foot <- 
-  colMeans(mtcars) %>% 
-  matrix(nrow = 1) %>% 
-  as.data.frame(stringsAsFactors = FALSE) %>% 
+foot <-
+  colMeans(mtcars) %>%
+  matrix(nrow = 1) %>%
+  as.data.frame(stringsAsFactors = FALSE) %>%
   setNames(names(mtcars))
 
-x <- 
-  dust(mtcars) %>% 
-  redust(foot, part = "foot") %>% 
+x <-
+  dust(mtcars) %>%
+  redust(foot, part = "foot") %>%
   redust(foot, part = "interfoot")
-  
+
 
 # Functional Requirement 1 ------------------------------------------
 
@@ -18,9 +16,9 @@ test_that(
   "Return, as a data frame, the table head",
   expect_equal(
     get_dust_part(x, "head"),
-    names(mtcars) %>% 
-      matrix(nrow = 1) %>% 
-      as.data.frame(stringsAsFactors = FALSE) %>% 
+    names(mtcars) %>%
+      matrix(nrow = 1) %>%
+      as.data.frame(stringsAsFactors = FALSE) %>%
       setNames(names(mtcars))
   )
 )
@@ -28,8 +26,8 @@ test_that(
 test_that(
   "Return, as a data frame, the table foot",
   expect_equal(
-    get_dust_part(x, "foot") %>% 
-      lapply(as.numeric) %>% 
+    get_dust_part(x, "foot") %>%
+      lapply(as.numeric) %>%
       as.data.frame(),
     foot
   )
@@ -38,8 +36,8 @@ test_that(
 test_that(
   "Return, as a data frame, the table interfoot",
   expect_equal(
-    get_dust_part(x, "interfoot") %>% 
-      lapply(as.numeric) %>% 
+    get_dust_part(x, "interfoot") %>%
+      lapply(as.numeric) %>%
       as.data.frame(),
     foot
   )
@@ -49,8 +47,8 @@ test_that(
   "Return, as a data frame, the table body",
   expect_equal(
     {
-      a <- get_dust_part(x, "body") %>% 
-        lapply(as.numeric) %>% 
+      a <- get_dust_part(x, "body") %>%
+        lapply(as.numeric) %>%
         as.data.frame()
       rownames(a) <- rownames(mtcars)
       a
@@ -89,13 +87,13 @@ test_that(
     x <- dust(head(mtcars))
     expect_equal(
       get_dust_part(x, "interfoot"),
-      structure(list(mpg = logical(0), cyl = logical(0), disp = logical(0), 
-                     hp = logical(0), drat = logical(0), wt = logical(0), 
-                     qsec = logical(0), vs = logical(0), am = logical(0), 
-                     gear = logical(0), carb = logical(0)), 
-                .Names = c("mpg", "cyl", "disp", "hp", "drat", "wt", "qsec", 
-                           "vs", "am", "gear", "carb"), 
-                row.names = integer(0), 
+      structure(list(mpg = logical(0), cyl = logical(0), disp = logical(0),
+                     hp = logical(0), drat = logical(0), wt = logical(0),
+                     qsec = logical(0), vs = logical(0), am = logical(0),
+                     gear = logical(0), carb = logical(0)),
+                .Names = c("mpg", "cyl", "disp", "hp", "drat", "wt", "qsec",
+                           "vs", "am", "gear", "carb"),
+                row.names = integer(0),
                 class = "data.frame")
     )
   }

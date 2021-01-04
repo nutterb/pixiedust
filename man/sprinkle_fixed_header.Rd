@@ -6,32 +6,53 @@
 \alias{sprinkle_fixed_header.dust_list}
 \title{Assign a Fixed Header to an HTML Table}
 \usage{
-sprinkle_fixed_header(x, fixed_header = TRUE,
-  include_fixed_header_css = TRUE, fixed_header_class_name = "pixie-fixed",
-  scroll_body_height = 300, scroll_body_height_units = "px",
-  scroll_body_background_color = "white", fixed_header_height = 20,
+sprinkle_fixed_header(
+  x,
+  fixed_header = TRUE,
+  include_fixed_header_css = TRUE,
+  fixed_header_class_name = "pixie-fixed",
+  scroll_body_height = 300,
+  scroll_body_height_units = "px",
+  scroll_body_background_color = "white",
+  fixed_header_height = 20,
   fixed_header_height_units = "px",
   fixed_header_text_height = fixed_header_height/2,
   fixed_header_text_height_units = "px",
-  fixed_header_background_color = "white", ...)
+  fixed_header_background_color = "white",
+  ...
+)
 
-\method{sprinkle_fixed_header}{default}(x, fixed_header = TRUE,
-  include_fixed_header_css = TRUE, fixed_header_class_name = "pixie-fixed",
-  scroll_body_height = 300, scroll_body_height_units = "px",
-  scroll_body_background_color = "white", fixed_header_height = 20,
+\method{sprinkle_fixed_header}{default}(
+  x,
+  fixed_header = TRUE,
+  include_fixed_header_css = TRUE,
+  fixed_header_class_name = "pixie-fixed",
+  scroll_body_height = 300,
+  scroll_body_height_units = "px",
+  scroll_body_background_color = "white",
+  fixed_header_height = 20,
   fixed_header_height_units = "px",
   fixed_header_text_height = fixed_header_height/2,
   fixed_header_text_height_units = "px",
-  fixed_header_background_color = "white", ...)
+  fixed_header_background_color = "white",
+  ...
+)
 
-\method{sprinkle_fixed_header}{dust_list}(x, fixed_header = TRUE,
-  include_fixed_header_css = TRUE, fixed_header_class_name = "pixie-fixed",
-  scroll_body_height = 300, scroll_body_height_units = "px",
-  scroll_body_background_color = "white", fixed_header_height = 20,
+\method{sprinkle_fixed_header}{dust_list}(
+  x,
+  fixed_header = TRUE,
+  include_fixed_header_css = TRUE,
+  fixed_header_class_name = "pixie-fixed",
+  scroll_body_height = 300,
+  scroll_body_height_units = "px",
+  scroll_body_background_color = "white",
+  fixed_header_height = 20,
   fixed_header_height_units = "px",
   fixed_header_text_height = fixed_header_height/2,
   fixed_header_text_height_units = "px",
-  fixed_header_background_color = "white", ...)
+  fixed_header_background_color = "white",
+  ...
+)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}
@@ -47,7 +68,7 @@ for their tables.  In this case, the user will need to add CSS classes
 to their customized CSS to accomodate the fixed headers.  See Avoiding
 CSS Conflicts.}
 
-\item{fixed_header_class_name}{\code{character(1)}. When 
+\item{fixed_header_class_name}{\code{character(1)}. When
 \code{include_fixed_header_css = FALSE}, this
 class name is used to reference CSS classes provided by the user to
 format the table correctly.}
@@ -94,40 +115,40 @@ Long tables to be displayed on-screen may benefit by keeping
   column name and the data.
 }
 \details{
-CSS doesn't make this kind of table natural.  The solution to 
-  generate the fixed headers used by \code{pixiedust} is probably not the 
-  best solution in terms of CSS design.  It is, however, the most conducive 
-  to generating dynamically on the fly. 
-  
-  The fixed header table requires nesting several HTML elements. 
+CSS doesn't make this kind of table natural.  The solution to
+  generate the fixed headers used by \code{pixiedust} is probably not the
+  best solution in terms of CSS design.  It is, however, the most conducive
+  to generating dynamically on the fly.
+
+  The fixed header table requires nesting several HTML elements.
   \enumerate{
    \item a \code{div} tag is used to control the alignment of the table
    \item a \code{section} tag is used to set up the header row that remains fixed.
    \item a \code{div} that sets the height of the scrollable body
    \item the \code{table} tag establishes the actual table.
    \item The \code{th} tags inside the table are set to full transparency and
-     the content of the headers is duplicated in a \code{div} within the 
+     the content of the headers is duplicated in a \code{div} within the
      \code{th} tag to display the content.
   }
-  
+
   To accomplish these tasks, some CSS is exported with the table and placed
   in the document immediately before the table.  Read further to understand
-  the conflicts that may arise if you are using custom CSS specifications 
+  the conflicts that may arise if you are using custom CSS specifications
   in your documents.
 }
 \section{Avoiding CSS Conflicts}{
- 
+
 Because of all of the shenanigans involved, exporting the CSS with the tables
 may result in conflicts with your custom CSS. Most importantly, any CSS
 you have applied to the \code{th} or \code{td} tags may be overwritten.
-If you are using custom CSS, you may want to consider using 
-\code{include_fixed_header_css = FALSE} and then utilizing 
-\code{\link{fixed_header_css}} to generate CSS you can include in your 
-CSS file to provide the fixed headers.  The code generated by 
+If you are using custom CSS, you may want to consider using
+\code{include_fixed_header_css = FALSE} and then utilizing
+\code{\link{fixed_header_css}} to generate CSS you can include in your
+CSS file to provide the fixed headers.  The code generated by
 \code{fixed_header_css} ought to be placed before your definitions for
-\code{td} and \code{th}.  
+\code{td} and \code{th}.
 
-To get the same header design in the fixed table, you will want to modify 
+To get the same header design in the fixed table, you will want to modify
 the \code{.th-pixie-fixed div} definition in the CSS to match your desired
 \code{th} definition.
 

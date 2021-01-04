@@ -13,9 +13,9 @@ is_valid_color_single(color)
 \item{color}{A character vector of color names.}
 }
 \description{
-\code{pixiedust} recognizes colors as dvips names, 
-  \code{rgb(R,G,B)}, \code{rgba(R,G,B,A)}, \code{#RRGGBB}, or 
-  \code{#RRGGBBAA}.  This code returns a logical indicating if 
+\code{pixiedust} recognizes colors as dvips names,
+  \code{rgb(R,G,B)}, \code{rgba(R,G,B,A)}, \code{#RRGGBB}, or
+  \code{#RRGGBBAA}.  This code returns a logical indicating if
   the given character strings are valid.
 }
 \section{Functional Requirements}{

@@ -1,5 +1,3 @@
-context("sprinkle_discrete")
-
 x <- dust(mtcars)
 
 # Functional Requirement 1 ------------------------------------------
@@ -9,9 +7,9 @@ test_that(
   {
     expect_equal(
       sprinkle_discrete(
-        x, 
-        cols = "gear", 
-        discrete = "bg", 
+        x,
+        cols = "gear",
+        discrete = "bg",
         discrete_color = c("red", "blue", "green"))[["body"]][["bg"]][289:320],
       c("red", "blue", "green")[match(mtcars$gear, c(3, 4, 5))]
     )
@@ -23,9 +21,9 @@ test_that(
   {
     expect_equal(
       sprinkle_discrete(
-        x, 
-        cols = "gear", 
-        discrete = "font", 
+        x,
+        cols = "gear",
+        discrete = "font",
         discrete_color = c("red", "blue", "green"))[["body"]][["font_color"]][289:320],
       c("red", "blue", "green")[match(mtcars$gear, c(3, 4, 5))]
     )
@@ -37,9 +35,9 @@ test_that(
   {
     expect_equal(
       sprinkle_discrete(
-        x, 
-        cols = "gear", 
-        discrete = "font_color", 
+        x,
+        cols = "gear",
+        discrete = "font_color",
         discrete_color = c("red", "blue", "green"))[["body"]][["font_color"]][289:320],
       c("red", "blue", "green")[match(mtcars$gear, c(3, 4, 5))]
     )
@@ -60,9 +58,9 @@ test_that(
   {
     expect_equal(
       sprinkle_discrete(
-        x, 
-        cols = "gear", 
-        discrete = "border", 
+        x,
+        cols = "gear",
+        discrete = "border",
         discrete_color = c("red", "blue", "green"))[["body"]][["left_border"]][289:320],
       sprintf("1px solid %s", c("red", "blue", "green")[match(mtcars$gear, c(3, 4, 5))])
     )
@@ -74,9 +72,9 @@ test_that(
   {
     expect_equal(
       sprinkle_discrete(
-        x, 
-        cols = "gear", 
-        discrete = "right_border", 
+        x,
+        cols = "gear",
+        discrete = "right_border",
         discrete_color = c("red", "blue", "green"))[["body"]][["right_border"]][289:320],
       sprintf("1px solid %s", c("red", "blue", "green")[match(mtcars$gear, c(3, 4, 5))])
     )
@@ -87,15 +85,14 @@ test_that(
   "Function succeeds when called on a dust_list object",
   {
     expect_silent(
-      dplyr::group_by(mtcars, am, vs) %>% 
-        dust(ungroup = FALSE) %>% 
+      poorman::group_by(mtcars, am, vs) %>%
+        dust(ungroup = FALSE) %>%
         sprinkle_discrete(cols = "gear",
                           discrete = "bg",
                           discrete_color = c("red", "blue", "green"))
     )
   }
 )
-
 
 # Functional Requirement 2 ------------------------------------------
 

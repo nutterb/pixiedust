@@ -1,5 +1,3 @@
-context("sprinkle_fn")
-
 x <- dust(head(mtcars))
 
 # Functional Requirement 1 ------------------------------------------
@@ -43,8 +41,8 @@ test_that(
   "Function succeeds when called on a dust_list object",
   {
     expect_silent(
-      dplyr::group_by(mtcars, am, vs) %>% 
-        dust(ungroup = FALSE) %>% 
+      poorman::group_by(mtcars, am, vs) %>%
+        dust(ungroup = FALSE) %>%
         sprinkle_fn(cols = "mpg", fn = quote(median(value)))
     )
   }
@@ -89,7 +87,7 @@ test_that(
 test_that(
   "Casts an error if fixed is not a logical(1)",
   {
-    expect_error(sprinkle_fn(x, fn = quote(identity(value)), 
+    expect_error(sprinkle_fn(x, fn = quote(identity(value)),
                              fixed = c(TRUE, FALSE)))
   }
 )

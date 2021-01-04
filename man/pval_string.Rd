@@ -5,18 +5,17 @@
 \alias{pvalString}
 \title{Format P-values for Reports}
 \usage{
-pval_string(p, format = c("default", "exact", "scientific"), digits = 3,
-  ...)
+pval_string(p, format = c("default", "exact", "scientific"), digits = 3, ...)
 
 pvalString(p, format = c("default", "exact", "scientific"), digits = 3, ...)
 }
 \arguments{
 \item{p}{a numeric vector of p-values.}
 
-\item{format}{A character string indicating the desired format for 
+\item{format}{A character string indicating the desired format for
 the p-values.  See Details for full descriptions.}
 
-\item{digits}{For \code{"exact"} and \code{"scientific"}; indicates the 
+\item{digits}{For \code{"exact"} and \code{"scientific"}; indicates the
 number of digits to precede scientific notation.}
 
 \item{...}{Additional arguments to be passed to \code{format}}
@@ -34,25 +33,25 @@ When \code{format = "default"}, p-values are formatted:
   \item \emph{0.10 > p > 0.001}: Rounded to three digits
   \item \emph{0.001 > p}: "< 0.001"
  }
- 
- When \code{format = "exact"}, the exact p-value is printed with the 
+
+ When \code{format = "exact"}, the exact p-value is printed with the
  number of places after the deimal equal to \code{digits}.  P-values smaller
  that 1*(10^-\code{digits}) are printed in scientific notation.
- 
+
  When \code{format = "scientific"}, all values are printed in scientific
  notation with \code{digits} digits printed before the \code{e}.
 }
 \section{Functional Requirements}{
 
  \enumerate{
-  \item When \code{format = "default"}, print p-values greater than 
-    0.99 as "> 0.99"; greater than 0.10 with two digits; 
-    greater than 0.001 with three digits; and less than 0.001 as 
+  \item When \code{format = "default"}, print p-values greater than
+    0.99 as "> 0.99"; greater than 0.10 with two digits;
+    greater than 0.001 with three digits; and less than 0.001 as
     "< 0.001".
   \item when \code{format = "exact"}, print the exact p-value out to at most
     \code{digits} places past the decimal place.
-  \item When \code{format = "scientific"}, print the p-value in 
-    scientific notation with up to \code{digits} values ahead of the 
+  \item When \code{format = "scientific"}, print the p-value in
+    scientific notation with up to \code{digits} values ahead of the
     \code{e}.
   \item Cast an error if \code{p} is not numeric on the interval [0, 1]
   \item Cast an error if format is not one of \code{c("default", "exact",
@@ -69,7 +68,7 @@ When \code{format = "default"}, p-values are formatted:
  pvalString(p, format="exact", digits=2)
  pvalString(p, format="scientific", digits=3)
  pvalString(p, format="scientific", digits=4)
- 
+
 }
 \author{
 Benjamin Nutter

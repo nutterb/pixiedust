@@ -1,10 +1,8 @@
-context("print_dust_methods")
-
 test_that("print_dust_console",
 {
   skip_on_cran()
   fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
-  x <- dust(fit) %>% 
+  x <- dust(fit) %>%
     sprinkle(rows = 2:4,
              cols = 2:4,
              bg = "black",
@@ -29,7 +27,7 @@ test_that("print_dust_console",
              valign = "bottom",
              width = 15,
              width_units = "%")
-  
+
   expect_output(print_dust_console(x), "")
 })
 
@@ -37,7 +35,7 @@ test_that("print_dust_html",
 {
   skip_on_cran()
   fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
-  x <- dust(fit) %>% 
+  x <- dust(fit) %>%
     sprinkle(rows = 2:4,
              cols = 2:4,
              bg = "black",
@@ -63,23 +61,23 @@ test_that("print_dust_html",
              width = 15,
              width_units = "%") %>%
     sprinkle_print_method("html")
-            
+
   expect_silent(print_dust_html(x))
 })
 
 test_that("print_dust_html: correction for multiple cell merge",
 {
   skip_on_cran()
-  custom_head <- rbind(names(mtcars), 
+  custom_head <- rbind(names(mtcars),
                        labelVector::get_label(mtcars,
                                               names(mtcars))) %>%
     as.data.frame(stringsAsFactors = FALSE)
-  
+
   custom_foot <- rbind(vapply(mtcars, mean, numeric(1)),
                        vapply(mtcars, sd, numeric(1))) %>%
     as.data.frame(stringsAsFactors = FALSE)
-  
-  custom_interfoot <- data.frame("To Be Continued", 
+
+  custom_interfoot <- data.frame("To Be Continued",
                                  "", "", "", "", "", "",
                                  "", "", "", "")
   suppressWarnings(
@@ -94,7 +92,7 @@ test_that("print_dust_html: correction for multiple cell merge",
      sprinkle(merge = TRUE, halign = "center", part = "interfoot") %>%
      sprinkle_print_method("html")
   )
-  
+
   expect_silent(print_dust_html(x))
 })
 
@@ -102,7 +100,7 @@ test_that("print_dust_markdown",
 {
   skip_on_cran()
   fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
-  x <- dust(fit) %>% 
+  x <- dust(fit) %>%
     sprinkle(rows = 2:4,
              cols = 2:4,
              bg = "black",
@@ -128,16 +126,15 @@ test_that("print_dust_markdown",
              width = 15,
              width_units = "%") %>%
     sprinkle_print_method("markdown")
-  
+
   expect_silent(print_dust_markdown(x))
 })
-
 
 test_that("print_dust_latex",
           {
             skip_on_cran()
             fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
-            x <- dust(fit) %>% 
+            x <- dust(fit) %>%
               sprinkle(rows = 2:4,
                        cols = 2:4,
                        bg = "black",
@@ -163,7 +160,7 @@ test_that("print_dust_latex",
                        width = 15,
                        width_units = "%") %>%
               sprinkle_print_method("latex")
-            
+
             expect_silent(print_dust_latex(x))
           })
 
@@ -173,17 +170,17 @@ test_that(
     skip_on_cran()
     DF <- head(mtcars)
     DF$mpg[c(1, 3, 4)] <- NA
-    
+
     expect_silent(
-      dust(DF) %>% 
-        sprinkle(sanitize = TRUE) %>% 
+      dust(DF) %>%
+        sprinkle(sanitize = TRUE) %>%
         sprinkle_print_method("latex")
     )
   }
 )
 
 test_that(
-  "print_dust_latex does not output invalid -Inf width or height", 
+  "print_dust_latex does not output invalid -Inf width or height",
   {
     skip_on_cran()
     fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)

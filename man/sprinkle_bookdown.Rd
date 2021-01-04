@@ -11,11 +11,9 @@
 \usage{
 sprinkle_bookdown(x, bookdown = getOption("pixie_bookdown", FALSE), ...)
 
-\method{sprinkle_bookdown}{default}(x, bookdown = getOption("pixie_bookdown",
-  FALSE), ...)
+\method{sprinkle_bookdown}{default}(x, bookdown = getOption("pixie_bookdown", FALSE), ...)
 
-\method{sprinkle_bookdown}{dust_list}(x,
-  bookdown = getOption("pixie_bookdown", FALSE), ...)
+\method{sprinkle_bookdown}{dust_list}(x, bookdown = getOption("pixie_bookdown", FALSE), ...)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}
@@ -31,9 +29,9 @@ Tables built for the \code{bookdown} package can be referenced
 }
 \details{
 \code{bookdown} is a package that facilitates the writing of books.
-  One of the advantages of \code{bookdown} is the ability to reference 
-  tables in a manner similar to LaTeX. The key difference in how 
-  \code{pixiedust} handles output is the reference specification. See 
+  One of the advantages of \code{bookdown} is the ability to reference
+  tables in a manner similar to LaTeX. The key difference in how
+  \code{pixiedust} handles output is the reference specification. See
   \url{https://bookdown.org/yihui/bookdown/tables.html} for details on how
   \code{bookdown} uses labels and references.
 }

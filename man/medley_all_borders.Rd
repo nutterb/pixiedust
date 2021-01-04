@@ -4,8 +4,14 @@
 \alias{medley_all_borders}
 \title{Apply Cell Borders to All Cells in a Region}
 \usage{
-medley_all_borders(x, rows = NULL, cols = NULL, horizontal = TRUE,
-  vertical = TRUE, part = "body")
+medley_all_borders(
+  x,
+  rows = NULL,
+  cols = NULL,
+  horizontal = TRUE,
+  vertical = TRUE,
+  part = "body"
+)
 }
 \arguments{
 \item{x}{An object of class dust}
@@ -18,16 +24,16 @@ medley_all_borders(x, rows = NULL, cols = NULL, horizontal = TRUE,
 
 \item{vertical}{Logical. Toggles vertical borders}
 
-\item{part}{A character vector.  May contain any of \code{"body", 
-"head", "interfoot", "foot", "table"}.  When any element is 
+\item{part}{A character vector.  May contain any of \code{"body",
+"head", "interfoot", "foot", "table"}.  When any element is
 \code{"table"}, the borders are drawn in all parts of the table.}
 }
 \description{
 For most output, specifying a region of cells with borders
   on all sides is as simple as giving the sprinkle \code{border = "all"}.
-  In LaTeX output, however, this can result in thicker than expected 
-  vertical borders.  This medley provides a LaTeX save approach to 
-  drawing borders on all sides without getting the double vertical 
+  In LaTeX output, however, this can result in thicker than expected
+  vertical borders.  This medley provides a LaTeX save approach to
+  drawing borders on all sides without getting the double vertical
   border effect.
 }
 \author{

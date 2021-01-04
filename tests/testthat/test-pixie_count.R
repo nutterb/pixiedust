@@ -1,5 +1,3 @@
-context("pixie_count")
-
 test_that("get_pixie_count",
 {
   expect_equal(get_pixie_count(), 0)
@@ -8,7 +6,7 @@ test_that("get_pixie_count",
 test_that("set_pixie_count",
 {
   set_pixie_count(4)
-  expect_equal(get_pixie_count(), 4)  
+  expect_equal(get_pixie_count(), 4)
 })
 
 test_that("increment_pixie_count",

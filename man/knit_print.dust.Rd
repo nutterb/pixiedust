@@ -17,6 +17,6 @@ knit_print.dust_list(x, options, ...)
 \item{...}{Additional arguments to pass to other methods.}
 }
 \description{
-Custom printing functions for displaying \code{dust} and 
+Custom printing functions for displaying \code{dust} and
   \code{dust_list} objects in R Markdown documents.
 }

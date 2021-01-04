@@ -1,5 +1,3 @@
-context("print.dust-explicit")
-
 test_that("print.dust for console output",
 {
   expect_output(

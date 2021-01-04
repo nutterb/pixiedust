@@ -1,5 +1,3 @@
-context("sprinkle_fixed_header.R")
-
 x <- dust(head(mtcars))
 
 # Functional Requirement 1 ------------------------------------------
@@ -24,10 +22,10 @@ test_that(
   "Works with dust_list object",
   {
     test_df <- rbind(mtcars, mtcars, mtcars)
-    test_df <- dplyr::group_by(test_df, am)
+    test_df <- poorman::group_by(test_df, am)
     expect_silent(
-      dust(test_df, ungroup = FALSE) %>% 
-        sprinkle_fixed_header(scroll_body_height = 100) %>% 
+      dust(test_df, ungroup = FALSE) %>%
+        sprinkle_fixed_header(scroll_body_height = 100) %>%
         sprinkle_print_method("html")
     )
   }
@@ -56,7 +54,7 @@ test_that(
 test_that(
   "Set the fixed_header_param element of the dust object correctly",
   expect_equal(
-    sprinkle_fixed_header(x, 
+    sprinkle_fixed_header(x,
                           fixed_header_class_name = "new-pixie",
                           scroll_body_height = 400,
                           scroll_body_height_units = "pt",

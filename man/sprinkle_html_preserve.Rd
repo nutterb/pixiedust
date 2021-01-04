@@ -6,14 +6,23 @@
 \alias{sprinkle_html_preserve.dust_list}
 \title{Change the HTML Preserve Property in a Dust Table}
 \usage{
-sprinkle_html_preserve(x, html_preserve = getOption("pixie_html_preserve",
-  TRUE), ...)
+sprinkle_html_preserve(
+  x,
+  html_preserve = getOption("pixie_html_preserve", TRUE),
+  ...
+)
 
-\method{sprinkle_html_preserve}{default}(x,
-  html_preserve = getOption("pixie_html_preserve", TRUE), ...)
+\method{sprinkle_html_preserve}{default}(
+  x,
+  html_preserve = getOption("pixie_html_preserve", TRUE),
+  ...
+)
 
-\method{sprinkle_html_preserve}{dust_list}(x,
-  html_preserve = getOption("pixie_html_preserve", TRUE), ...)
+\method{sprinkle_html_preserve}{dust_list}(
+  x,
+  html_preserve = getOption("pixie_html_preserve", TRUE),
+  ...
+)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}
@@ -25,7 +34,7 @@ in a \code{htmltools::htmlPreserve} environment.}
 }
 \description{
 By default \code{pixiedust} makes use of \code{htmltools::htmlPreserve}
-  to prevent certain symbols from rendering in unintended ways based on some 
+  to prevent certain symbols from rendering in unintended ways based on some
   not-very-well-understood-by-the-author issues.  This property controls whether
   the preservation is used or not.
 }

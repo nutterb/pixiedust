@@ -1,5 +1,3 @@
-context("sprinkle_font")
-
 x <- dust(head(mtcars))
 
 # Functional Requirement 1 ------------------------------------------
@@ -19,10 +17,10 @@ test_that(
   "Succeeds when called on a dust_list object",
   {
     expect_silent(
-      mtcars %>% 
-        dplyr::group_by(vs, am) %>% 
-        dust(ungroup = FALSE) %>% 
-        sprinkle_font(cols = "mpg", 
+      mtcars %>%
+        poorman::group_by(vs, am) %>%
+        dust(ungroup = FALSE) %>%
+        sprinkle_font(cols = "mpg",
                       bold = TRUE)
     )
   }
