@@ -32,16 +32,14 @@
 #'
 #' @export
 
-sprinkle_label <- function(x, label = NULL, ...)
-{
+sprinkle_label <- function(x, label = NULL, ...) {
   UseMethod("sprinkle_label")
 }
 
 #' @rdname sprinkle_label
 #' @export
 
-sprinkle_label.default <- function(x, label = NULL, ...)
-{
+sprinkle_label.default <- function(x, label = NULL, ...) {
   coll <- checkmate::makeAssertCollection()
 
   checkmate::assert_class(x = x,
@@ -60,8 +58,7 @@ sprinkle_label.default <- function(x, label = NULL, ...)
 #' @rdname sprinkle_label
 #' @export
 
-sprinkle_label.dust_list <- function(x, label = NULL, ...)
-{
+sprinkle_label.dust_list <- function(x, label = NULL, ...) {
   warning("The same label will be applied to each table in this list. ",
           "This will likely result in problems with referncing tables. ",
           "Consider using `pixiemap` instead.")
@@ -78,8 +75,7 @@ sprinkle_label.dust_list <- function(x, label = NULL, ...)
 # the cell-valued sprinkles, but they don't actually require an
 # index, since they change table-valued sprinkles
 
-sprinkle_label_index_assert <- function(label = NULL, coll)
-{
+sprinkle_label_index_assert <- function(label = NULL, coll) {
   checkmate::assert_character(x = label,
                               len = 1,
                               add = coll,
@@ -89,8 +85,7 @@ sprinkle_label_index_assert <- function(label = NULL, coll)
 
 # indices argument is only present to avoid errors when the argument is passed
 # from sprinkle
-sprinkle_label_index <- function(x, label, indices = NULL, part = NULL)
-{
+sprinkle_label_index <- function(x, label, indices = NULL, part = NULL) {
   x[["label"]] <- label
 
   x

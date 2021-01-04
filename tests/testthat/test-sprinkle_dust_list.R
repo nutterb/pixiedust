@@ -1,5 +1,5 @@
 dlist <- dust(mtcars %>%
-                dplyr::group_by(am, vs),
+                poorman::group_by(am, vs),
               ungroup = FALSE)
 
 test_that("sprinkle_table on a dust_list",

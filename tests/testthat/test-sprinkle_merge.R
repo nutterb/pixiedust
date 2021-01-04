@@ -44,7 +44,7 @@ test_that(
   "Works with a dust_list object",
   {
     expect_silent(
-      dplyr::group_by(mtcars, am, vs) %>%
+      poorman::group_by(mtcars, am, vs) %>%
         dust(ungroup = FALSE) %>%
         sprinkle_merge(rows = 1, cols = 1:2, merge = TRUE)
     )

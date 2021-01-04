@@ -29,7 +29,7 @@ test_that(
   {
     expect_silent(
       mtcars %>%
-        dplyr::group_by(am, vs) %>%
+        poorman::group_by(am, vs) %>%
         dust(ungroup = FALSE) %>%
         sprinkle_width(cols = "mpg",
                        width = 150,

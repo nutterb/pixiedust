@@ -16,6 +16,7 @@ test_that(
   "Function succeeds when called on a dust_list object",
   {
     expect_warning(
+      # TODO: waiting on poorman release of .drop in group_by
       dplyr::group_by(mtcars, am, vs) %>%
         dust(ungroup = FALSE) %>%
         sprinkle_label(label = "label")

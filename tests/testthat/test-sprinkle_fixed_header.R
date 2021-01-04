@@ -22,7 +22,7 @@ test_that(
   "Works with dust_list object",
   {
     test_df <- rbind(mtcars, mtcars, mtcars)
-    test_df <- dplyr::group_by(test_df, am)
+    test_df <- poorman::group_by(test_df, am)
     expect_silent(
       dust(test_df, ungroup = FALSE) %>%
         sprinkle_fixed_header(scroll_body_height = 100) %>%

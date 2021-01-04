@@ -31,7 +31,7 @@ test_that(
   "Function succeeds when called on a dust_list object",
   {
     expect_silent(
-      dplyr::group_by(mtcars, am, vs) %>%
+      poorman::group_by(mtcars, am, vs) %>%
         dust(ungroup = FALSE) %>%
         sprinkle_sanitize(sanitize = TRUE)
     )

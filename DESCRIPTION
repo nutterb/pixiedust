@@ -21,7 +21,6 @@ Imports:
     broom,
     checkmate (>= 1.8.0),
     poorman,
-    magrittr,
     htmltools,
     knitr,
     labelVector,

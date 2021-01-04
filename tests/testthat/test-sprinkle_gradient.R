@@ -201,7 +201,7 @@ test_that(
   {
     expect_silent(
       mtcars %>%
-        dplyr::group_by(am) %>%
+        poorman::group_by(am) %>%
         dust(ungroup = FALSE) %>%
         sprinkle_gradient(gradient = "bg", gradient_n = 5)
     )

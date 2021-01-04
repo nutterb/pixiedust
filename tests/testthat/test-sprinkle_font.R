@@ -18,7 +18,7 @@ test_that(
   {
     expect_silent(
       mtcars %>%
-        dplyr::group_by(vs, am) %>%
+        poorman::group_by(vs, am) %>%
         dust(ungroup = FALSE) %>%
         sprinkle_font(cols = "mpg",
                       bold = TRUE)

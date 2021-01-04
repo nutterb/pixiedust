@@ -43,7 +43,7 @@ test_that(
   "Succeeds when called on a dust_list object",
   {
     expect_silent(
-      dplyr::group_by(mtcars, am, vs) %>%
+      poorman::group_by(mtcars, am, vs) %>%
         dust(ungroup = FALSE) %>%
         sprinkle_na_string(na_string = "transparent")
     )

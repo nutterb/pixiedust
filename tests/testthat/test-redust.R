@@ -22,7 +22,7 @@ test_that(
   "redust: dust_list",
   {
     expect_silent(
-      dplyr::group_by(mtcars, am, vs) %>%
+      poorman::group_by(mtcars, am, vs) %>%
         dust(ungroup = FALSE) %>%
         redust(mtcars[1:2, ], part = "head")
     )
