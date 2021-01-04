@@ -1,12 +1,12 @@
-test_that("ungroup a grouped_df",
+test_that("ungroup a grouped_data",
 {
   expect_silent(
     dust(mtcars %>%
-                 poorman::group_by(am, vs))
+          poorman::group_by(am, vs))
   )
 })
 
-test_that("split a grouped_df",
+test_that("split grouped_data",
 {
   expect_silent(
     dust(mtcars %>%

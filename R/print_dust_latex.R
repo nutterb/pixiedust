@@ -435,8 +435,8 @@ joint_reference_table <- function(x) {
     poorman::ungroup() %>%
     poorman::mutate(parbox = (is.finite(width) |
                               (halign != default_halign) |
-                              valign != "" |
-                              merge),
+                               valign != "" |
+                               merge),
                     #parbox = needs_parbox(.),
                     width_by_char = nchar(value) * 4.5) %>%
     poorman::group_by(col) %>%
