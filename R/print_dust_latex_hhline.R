@@ -140,31 +140,31 @@ print_dust_latex_hhline <- function(x, ..., asis=TRUE)
 #* Prepare Cell Values for Printing
 part_prep_latex_hhline <- function(part, col_width, col_halign_default, head=FALSE)
 {
-  part %<>%
-    dplyr::select(-width) %>%
-    dplyr::left_join(col_width, by = c("col" = "col")) %>%
-    dplyr::left_join(col_halign_default, by = c("col" = "col")) %>%
-    dplyr::mutate(width_units = "pt",
-                  halign = ifelse(halign == "", default_halign, halign))
+  part <- part %>%
+          poorman::select(-width) %>%
+          poorman::left_join(col_width, by = c("col" = "col")) %>%
+          poorman::left_join(col_halign_default, by = c("col" = "col")) %>%
+          poorman::mutate(width_units = "pt",
+                          halign = ifelse(halign == "", default_halign, halign))
 
     #* Calculate the row cell width for multicolumn cells
 
     Widths <- part %>%
-      dplyr::select(html_row, html_col, width, merge) %>%
-      dplyr::distinct(html_row, html_col, width, merge) %>%
-      dplyr::group_by(html_row, html_col) %>%
-      dplyr::mutate(width = ifelse(merge == TRUE,
-                            sum(width[merge]),
-                            width)) %>%
-      dplyr::ungroup()
+              poorman::select(html_row, html_col, width, merge) %>%
+              poorman::distinct(html_row, html_col, width, merge) %>%
+              poorman::group_by(html_row, html_col) %>%
+              poorman::mutate(width = ifelse(merge == TRUE,
+                              sum(width[merge]),
+                              width)) %>%
+              poorman::ungroup()
 
     part %>%
-      dplyr::select(-width) %>%
-      dplyr::left_join(Widths,
+      poorman::select(-width) %>%
+      poorman::left_join(Widths,
                         by = c("html_row" = "html_row",
                                "html_col" = "html_col",
                                "merge" = "merge")) %>%
-      dplyr::mutate(width = ifelse(is.na(width), "", width))
+      poorman::mutate(width = ifelse(is.na(width), "", width))
 
 
   numeric_classes <- c("double", "numeric")
@@ -250,9 +250,9 @@ part_prep_latex_hhline <- function(part, col_width, col_halign_default, head=FAL
            part$bottom_border[logic],
            part$col[logic])
   part$bottom_border[!logic] <- "~"
-  bottom_borders <- dplyr::select(part, row, col, bottom_border) %>%
+  bottom_borders <- poorman::select(part, row, col, bottom_border) %>%
     tidyr::spread(col, bottom_border) %>%
-    dplyr::select(-row) %>%
+    poorman::select(-row) %>%
     apply(1, paste0, collapse = "") %>%
     paste0("\\hhline{", ., "}")
 
@@ -262,11 +262,11 @@ part_prep_latex_hhline <- function(part, col_width, col_halign_default, head=FAL
            part$top_border[logic],
            part$col[logic])
   part$top_border[!logic] <- "~"
-  top_borders <- dplyr::select(part, row, col, top_border) %>%
-    tidyr::spread(col, top_border) %>%
-    dplyr::select(-row) %>%
-    apply(1, paste0, collapse = "") %>%
-    paste0("\\hhline{", ., "}")
+  top_borders <- poorman::select(part, row, col, top_border) %>%
+                  tidyr::spread(col, top_border) %>%
+                  poorman::select(-row) %>%
+                  apply(1, paste0, collapse = "") %>%
+                  paste0("\\hhline{", ., "}")
 
 
 
@@ -312,29 +312,32 @@ part_prep_latex_hhline <- function(part, col_width, col_halign_default, head=FAL
 
   #* Remove value where a merged cell is not the display cell
   ncol <- max(part$col)
-  part %<>% dplyr::filter(!(rowspan == 0 | colspan == 0))
+  part <- poorman::filter(part, !(rowspan == 0 | colspan == 0))
 
   #* In order to get the multirow to render correctly, the cell with
   #* the multirow needs to be at the top of the block.  This
   #* rearranges the merged cells so that the multirow is at the top.
 
-  proper_multirow <-
-    part[part$colspan != 1, ] %>%
-    dplyr::mutate(group = paste0(html_row, html_col)) %>%
-    dplyr::group_by(group) %>%
-    dplyr::arrange(dplyr::desc(colspan)) %>%
-    dplyr::mutate(row = sort(row)) %>%
-    dplyr::ungroup()
-
-  part %<>%
-    dplyr::filter(colspan == 1) %>%
-    dplyr::bind_rows(proper_multirow)
+  if(any(part$colspan != 1)) {
+    
+    proper_multirow <- part %>% 
+      poorman::filter(colspan != 1) %>% 
+      poorman::mutate(group = paste0(html_row, html_col)) %>%
+      poorman::group_by(group) %>%
+      poorman::arrange(poorman::desc(colspan)) %>%
+      poorman::mutate(row = sort(row)) %>%
+      poorman::ungroup()
+    
+    part <- part %>%
+      poorman::filter(colspan == 1) %>%
+      poorman::bind_rows(proper_multirow)
+  }
 
   cbind(top_borders,
         bottom_borders,
-        dplyr::select(part, row, col, value) %>%
+        poorman::select(part, row, col, value) %>%
           tidyr::spread(col, value, fill = NA) %>%
-          dplyr::select(-row)
+          poorman::select(-row)
   )
 }
 

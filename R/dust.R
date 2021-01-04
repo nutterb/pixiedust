@@ -219,29 +219,25 @@ dust.default <- function(object, ...,
     }
   }
 
-  if (!inherits(object, "data.frame") & any(!descriptors %in% "term"))
-  {
+  if (!inherits(object, "data.frame") & any(!descriptors %in% "term")) {
     nms <- names(tidy_object)
 
     tidy_object <- tidy_levels_labels(object,
                                       descriptors = descriptors,
                                       numeric_level = numeric_level,
                                       argcheck = coll) %>%
-      dplyr::left_join(x = tidy_object,
-                       y = .,
-                       by = c("term" = "term"))
+      poorman::left_join(x = tidy_object,
+                         y = .,
+                         by = c("term" = "term"))
 
-     if ("label" %in% names(tidy_object))
-     {
+     if ("label" %in% names(tidy_object)) {
        is_intercept <- grepl(pattern = "([(]|)Intercept([)]|)",
                              x = tidy_object[["term"]])
 
-       tidy_object[["label"]][is_intercept] <-
-         tidy_object[["term"]][is_intercept]
+       tidy_object[["label"]][is_intercept] <- tidy_object[["term"]][is_intercept]
      }
 
-    if ("term_plain" %in% names(tidy_object))
-    {
+    if ("term_plain" %in% names(tidy_object)) {
       is_intercept <- grepl(pattern = "([(]|)Intercept([)]|)",
                             x = tidy_object[["term"]])
 
@@ -249,8 +245,7 @@ dust.default <- function(object, ...,
         tidy_object[["term_plain"]][is_intercept]
     }
 
-    if (!"term" %in% descriptors)
-    {
+    if (!"term" %in% descriptors) {
       nms <- nms[!nms %in% "term"]
     }
 
@@ -261,11 +256,10 @@ dust.default <- function(object, ...,
 
   # Create the table head
   head <- as.data.frame(t(names(tidy_object)),
-                        stringsAsFactors=FALSE)
+                        stringsAsFactors = FALSE)
   names(head) <- names(tidy_object)
 
-  if (glance_foot)
-  {
+  if (glance_foot) {
     foot <- glance_foot(object,
                         col_pairs = col_pairs,
                         total_cols = ncol(tidy_object),
@@ -273,8 +267,7 @@ dust.default <- function(object, ...,
                         byrow = byrow) %>%
       component_table()
   }
-  else
-  {
+  else {
     foot <- NULL
   }
 
@@ -322,23 +315,18 @@ dust.default <- function(object, ...,
 #' @rdname dust
 #' @export
 
-dust.grouped_df <- function(object, ungroup = TRUE, ...)
-{
-  if (ungroup)
-  {
-    # I'm circumventing the need to import dplyr here
-    # dust.default(dplyr::ungroup(object), ...)
+dust.grouped_df <- function(object, ungroup = TRUE, ...) {
+  if (ungroup) {
+    # dust.default(poorman::ungroup(object), ...)
     dust.default(as.data.frame(object), ...)
   }
-  else
-  {
+  else {
     # the "var" attribute no longer exists, avoiding group_var()
     # split_var <- attr(object, "var")
     group_names <- colnames(attr(object, "groups"))
     split_var <- group_names[1:(length(group_names) - 1)]
 
-    # I'm circumventing the need to import dplyr here
-    # object <- dplyr::ungroup(object)
+    # object <- poorman::ungroup(object)
     object <- as.data.frame(object)
     object <- split(object, object[, as.character(split_var)])
     dust.list(object, ...)
@@ -348,8 +336,7 @@ dust.grouped_df <- function(object, ungroup = TRUE, ...)
 #' @rdname dust
 #' @export
 
-dust.list <- function(object, ...)
-{
+dust.list <- function(object, ...) {
   structure(
     lapply(X = object,
            FUN = dust,
@@ -361,14 +348,13 @@ dust.list <- function(object, ...)
 #***********************************************************
 #* Utilities
 
-component_table <- function(tbl, object)
-{
+component_table <- function(tbl, object) {
   #* Get the classes of each column in the data frame.
   #* These will be needed later for the 'round' sprinkle.
   if (missing(object)) object <- tbl
   Classes <- data.frame(col_name = colnames(object),
                         col_class = vapply(object, primaryClass, character(1)),
-                        stringsAsFactors=FALSE)
+                        stringsAsFactors = FALSE)
 
   #* Initialize the table with row index, column index, and value
   tab <- gather_tbl(tbl)
@@ -378,42 +364,46 @@ component_table <- function(tbl, object)
   #   merge(x = tab,
   #         y = cell_attributes_frame(nrow(tbl), ncol(tbl)),
   #         by = c("row", "col"))
-  tab <- dplyr::left_join(tab, cell_attributes_frame(nrow(tbl), ncol(tbl)),
+  tab <- poorman::left_join(tab, cell_attributes_frame(nrow(tbl), ncol(tbl)),
               by = c("row" = "row", "col" = "col"))
 
   #* Join with column classes
   # tab <- merge(x = tab,
   #              y = Classes,
   #              by = "col_name")
-  tab <- dplyr::left_join(tab, Classes,
+  tab <- poorman::left_join(tab, Classes,
               by = c("col_name" = "col_name"))
   return(tab)
 }
 
 #*********************************************
 
-gather_tbl <- function(tbl)
-{
+gather_tbl <- function(tbl) {
+  # browser()
   tbl_name <- names(tbl)
   #* Assign the row indices
   tbl[["row"]] <- seq_len(nrow(tbl))
   # redundant with the line above?
-  # dplyr::mutate_(tbl, row = ~1:dplyr::n()) %>%
-  tbl %>%
+  # poorman::mutate_(tbl, row = ~1:poorman::n()) %>%
+
+  gtbl <- tbl %>%
     #* Gather into a table with row (numeric), col (character),
     #* and value (character)
     # use proper method
     # tidyr::gather_("col", "value",
     #               gather_cols=names(tbl)[!names(tbl) %in% "row"]) %>%
-    tidyr::gather("col", "value", -row) %>%
+    tidyr::gather("col", "value", -row)
     #* Assign col_name as a factor.  Levels are in the same order as the column
     #*   appear in the broom output
     #* Extract numeric values of the col_name factor to get the column indices
     #* Recast col_name as a character
-    dplyr::mutate(col_name = factor(col, colnames(tbl)),
-                   col = as.numeric(col_name),
-                   col_name = as.character(col_name),
-                   value = as.character(value))
+
+  gtbl[["col_name"]] <- factor(gtbl$col, colnames(tbl))
+
+  gtbl %>%
+    poorman::mutate(col = as.numeric(col_name),
+                    col_name = as.character(col_name),
+                    value = as.character(value))
 }
 
 #*********************************************

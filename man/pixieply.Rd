@@ -60,7 +60,7 @@ output: html_document
 
 ```{r}
 library(pixiedust)
-x <- dplyr::group_by(mtcars, am, vs)
+x <- poorman::group_by(mtcars, am, vs)
 dust(x, ungroup = FALSE) \%>\%
   sprinkle_print_method("html") \%>\%
     pixieply(medley_bw)

@@ -160,12 +160,11 @@ sprinkle_bg_pattern_index <- function(x, indices,
                            length.out = nrow(pattern))
 
     pattern <-
-      dplyr::left_join(pattern,
-                       dplyr::select(x[[part]][indices, ],
+      poorman::left_join(pattern,
+                         poorman::select(x[[part]][indices, ],
                                      row, col),
-                       by = c("row" = "row"))
-    pattern <- dplyr::arrange(pattern,
-                              col, row)
+                         by = c("row" = "row"))
+      pattern <- poorman::arrange(pattern, col, row)
 
     x[[part]][["bg"]][indices] <- pattern[["bg"]]
   }
@@ -176,12 +175,10 @@ sprinkle_bg_pattern_index <- function(x, indices,
                            length.out = nrow(pattern))
 
     pattern <-
-      dplyr::left_join(pattern,
-                       dplyr::select(x[[part]][indices, ],
-                                     row, col),
+      poorman::left_join(pattern,
+                         poorman::select(x[[part]][indices, ], row, col),
                        by = c("col" = "col"))
-    pattern <- dplyr::arrange(pattern,
-                              col, row)
+    pattern <- poorman::arrange(pattern, col, row)
 
     x[[part]][["bg"]][indices] <- pattern[["bg"]]
   }

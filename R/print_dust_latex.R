@@ -131,31 +131,31 @@ print_dust_latex <- function(x, ..., asis=TRUE)
 #* Prepare Cell Values for Printing
 part_prep_latex <- function(part, col_width, col_halign_default, head=FALSE)
 {
-  part %<>%
-    dplyr::select(-width) %>%
-    dplyr::left_join(col_width, by = c("col" = "col")) %>%
-    dplyr::left_join(col_halign_default, by = c("col" = "col")) %>%
-    dplyr::mutate(width_units = "pt",
-                  halign = ifelse(halign == "", default_halign, halign))
+  part <- part %>%
+    poorman::select(-width) %>%
+    poorman::left_join(col_width, by = c("col" = "col")) %>%
+    poorman::left_join(col_halign_default, by = c("col" = "col")) %>%
+    poorman::mutate(width_units = "pt",
+                    halign = ifelse(halign == "", default_halign, halign))
 
     #* Calculate the row cell width for multicolumn cells
 
     Widths <- part %>%
-      dplyr::select(html_row, html_col, width, merge) %>%
-      dplyr::distinct(html_row, html_col, width, merge) %>%
-      dplyr::group_by(html_row, html_col) %>%
-      dplyr::mutate(width = ifelse(merge == TRUE,
-                            sum(width[merge]),
-                            width)) %>%
-      dplyr::ungroup()
+      poorman::select(html_row, html_col, width, merge) %>%
+      poorman::distinct(html_row, html_col, width, merge) %>%
+      poorman::group_by(html_row, html_col) %>%
+      poorman::mutate(width = ifelse(merge == TRUE,
+                                     sum(width[merge]),
+                                     width)) %>%
+      poorman::ungroup()
 
 #     part %>%
-#       dplyr::select(-width) %>%
-#       dplyr::left_join(Widths,
+#       poorman::select(-width) %>%
+#       poorman::left_join(Widths,
 #                         by = c("html_row" = "html_row",
 #                                "html_col" = "html_col",
 #                                "merge" = "merge")) %>%
-#       dplyr::mutate(width = ifelse(is.na(width), "", width))
+#       poorman::mutate(width = ifelse(is.na(width), "", width))
 
 
   numeric_classes <- c("double", "numeric")
@@ -241,9 +241,9 @@ part_prep_latex <- function(part, col_width, col_halign_default, head=FALSE)
     mapply(latex_horizontal_border_code,
            part$bottom_border[logic],
            part$col[logic])
-  bottom_borders <- dplyr::select(part, row, col, bottom_border) %>%
+  bottom_borders <- poorman::select(part, row, col, bottom_border) %>%
     tidyr::spread(col, bottom_border) %>%
-    dplyr::select(-row) %>%
+    poorman::select(-row) %>%
     apply(1, paste0, collapse = "")
 
   logic <- part$top_border != ""
@@ -251,9 +251,9 @@ part_prep_latex <- function(part, col_width, col_halign_default, head=FALSE)
     mapply(latex_horizontal_border_code,
            part$top_border[logic],
            part$col[logic])
-  top_borders <- dplyr::select(part, row, col, top_border) %>%
+  top_borders <- poorman::select(part, row, col, top_border) %>%
     tidyr::spread(col, top_border) %>%
-    dplyr::select(-row) %>%
+    poorman::select(-row) %>%
     apply(1, paste0, collapse = "")
 
   parbox <- needs_parbox(part)
@@ -296,29 +296,32 @@ part_prep_latex <- function(part, col_width, col_halign_default, head=FALSE)
 
   #* Remove value where a merged cell is not the display cell
   ncol <- max(part$col)
-  part %<>% dplyr::filter(!(rowspan == 0 | colspan == 0))
+  part <- poorman::filter(part, !(rowspan == 0 | colspan == 0))
 
   #* In order to get the multirow to render correctly, the cell with
   #* the multirow needs to be at the top of the block.  This
   #* rearranges the merged cells so that the multirow is at the top.
 
-  proper_multirow <-
-    part[part$colspan != 1, ] %>%
-    dplyr::mutate(group = paste0(html_row, html_col)) %>%
-    dplyr::group_by(group) %>%
-    dplyr::arrange(dplyr::desc(colspan)) %>%
-    dplyr::mutate(row = sort(row)) %>%
-    dplyr::ungroup()
-
-  part %<>%
-    dplyr::filter(colspan == 1) %>%
-    dplyr::bind_rows(proper_multirow)
-
+  if(any(part$colspan != 1)) {
+    
+    proper_multirow <- part %>% 
+      poorman::filter(colspan != 1) %>% 
+      poorman::mutate(group = paste0(html_row, html_col)) %>%
+      poorman::group_by(group) %>%
+      poorman::arrange(poorman::desc(colspan)) %>%
+      poorman::mutate(row = sort(row)) %>%
+      poorman::ungroup()
+    
+    part <- part %>%
+      poorman::filter(colspan == 1) %>%
+      poorman::bind_rows(proper_multirow)
+  }
+  
   cbind(top_borders,
         bottom_borders,
-        dplyr::select(part, row, col, value) %>%
+        poorman::select(part, row, col, value) %>%
           tidyr::spread(col, value, fill = NA) %>%
-          dplyr::select(-row)
+          poorman::select(-row)
   )
 }
 
@@ -386,8 +389,8 @@ needs_parbox <- function(x)
 {
   is.finite(x$width) |
     (x$halign != x$default_halign) |
-    x$valign != "" |
-    x$merge
+     x$valign != "" |
+     x$merge
 }
 
 #**************************************************
@@ -404,19 +407,23 @@ joint_reference_table <- function(x) {
 
   Joint <-
     mapply(addPartCol,
-         x[c("head", "body", "foot", "interfoot")],
-         part_name = c("head", "body", "foot", "interfoot"),
-         SIMPLIFY = FALSE) %>%
-    dplyr::bind_rows() %>%
-    dplyr::mutate(width = as.numeric(width),
-                  table_width = x$table_width * 72.27,
-                  width = ifelse(width_units == "in",
-                                 width * 72.27,
-                                 ifelse(width_units == "cm",
-                                        width * 28.45,
-                                        ifelse(width_units == "%",
-                                               width/100 * table_width,
-                                               width)))) %>%
+           x[c("head", "body", "foot", "interfoot")],
+           part_name = c("head", "body", "foot", "interfoot"),
+           SIMPLIFY = FALSE) %>%
+    poorman::bind_rows()
+
+   Joint[["table_width"]] <- x$table_width
+
+   Joint <- Joint %>% 
+    poorman::mutate(width = as.numeric(width),
+                    table_width = table_width * 72.27,
+                    width = ifelse(width_units == "in",
+                                   width * 72.27,
+                                   ifelse(width_units == "cm",
+                                          width * 28.45,
+                                          ifelse(width_units == "%",
+                                                 width/100 * table_width,
+                                                 width)))) %>%
   #* apply a function, if any is indicated
   perform_function()
 
@@ -432,20 +439,24 @@ joint_reference_table <- function(x) {
            character(1))
 
   Joint %>%
-    dplyr::mutate(halign = substr(halign, 1, 1)) %>%
-    dplyr::group_by(col) %>%
-    dplyr::mutate(default_halign = names(sort(table(halign), decreasing = TRUE))[1]) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(parbox = needs_parbox(.),
-                  width_by_char = nchar(value) * 4.5) %>%
-    dplyr::group_by(col) %>%
-    dplyr::mutate(replace = all(is.na(width)) && any(parbox),
+    poorman::mutate(halign = substr(halign, 1, 1)) %>%
+    poorman::group_by(col) %>%
+    poorman::mutate(default_halign = names(sort(table(halign), decreasing = TRUE))[1]) %>%
+    poorman::ungroup() %>%
+    poorman::mutate(parbox = (is.finite(width) |
+                              (halign != default_halign) |
+                              valign != "" |
+                              merge),
+                    #parbox = needs_parbox(.),
+                    width_by_char = nchar(value) * 4.5) %>%
+    poorman::group_by(col) %>%
+    poorman::mutate(replace = all(is.na(width)) && any(parbox),
                   width_by_char = max(width_by_char, na.rm = TRUE)) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(width = ifelse(replace,
-                                 width_by_char,
-                                 width)) %>%
-    dplyr::select(col, row, width, default_halign)
+    poorman::ungroup() %>%
+    poorman::mutate(width = ifelse(replace,
+                                   width_by_char,
+                                   width)) %>%
+    poorman::select(col, row, width, default_halign)
 }
 
 #**************************************************
@@ -455,30 +466,30 @@ joint_reference_table <- function(x) {
 determine_column_width <- function(Joint)
 {
 Joint %>%
-    dplyr::select(row, col, width) %>%
-    dplyr::group_by(col) %>%
-    dplyr::summarise(width = suppressWarnings(max(width, na.rm = TRUE))) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(width = ifelse(is.finite(width), width, NA))
+    poorman::select(row, col, width) %>%
+    poorman::group_by(col) %>%
+    poorman::summarise(width = suppressWarnings(max(width, na.rm = TRUE))) %>%
+    poorman::ungroup() %>%
+    poorman::mutate(width = ifelse(is.finite(width), width, NA))
 }
 
 determine_row_height <- function(part)
 {
   if (is.null(part)) return("")
   part %>%
-    dplyr::select(row, col, height, height_units) %>%
-    dplyr::mutate(height = as.numeric(height),
-                  height = ifelse(height_units == "in",
-                                  height * 72.27,
-                                  ifelse(height_units == "cm",
-                                         height * 28.45,
-                                         height))) %>%
-    dplyr::group_by(row) %>%
-    dplyr::summarise(height = suppressWarnings(max(height, na.rm = TRUE))) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(height = ifelse(!is.finite(height),
-                         "", paste0("\\\\[", height, "pt]"))) %>%
-    '$'("height")
+    poorman::select(row, col, height, height_units) %>%
+    poorman::mutate(height = as.numeric(height),
+                    height = ifelse(height_units == "in",
+                                    height * 72.27,
+                                    ifelse(height_units == "cm",
+                                           height * 28.45,
+                                           height))) %>%
+    poorman::group_by(row) %>%
+    poorman::summarise(height = suppressWarnings(max(height, na.rm = TRUE))) %>%
+    poorman::ungroup() %>%
+    poorman::mutate(height = ifelse(!is.finite(height),
+                                    "", paste0("\\\\[", height, "pt]"))) %>%
+    poorman::pull("height")
 }
 
 #**************************************************
@@ -488,13 +499,13 @@ determine_row_height <- function(part)
 
 get_column_halign <- function(Joint){
   Joint %>%
-    dplyr::mutate(default_halign = ifelse(is.na(width),
+    poorman::mutate(default_halign = ifelse(is.na(width),
                                           default_halign,
                                           paste0("p{", width, "pt}"))) %>%
-    dplyr::select(row, col, default_halign) %>%
-    dplyr::group_by(col) %>%
-    dplyr::summarise(default_halign = default_halign[1]) %>%
-    dplyr::ungroup()
+    poorman::select(row, col, default_halign) %>%
+    poorman::group_by(col) %>%
+    poorman::summarise(default_halign = default_halign[1]) %>%
+    poorman::ungroup()
 }
 
 default_halign <- function(col_class, print_method = "latex"){

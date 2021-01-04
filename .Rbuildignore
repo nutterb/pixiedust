@@ -8,3 +8,5 @@ README\.Rmd
 README-.*\.png
 revdep
 .*\.Rcheck
+^.*\.Rproj$
+^\.Rproj\.user$

@@ -1,7 +1,8 @@
 Package: pixiedust
 Title: Tables so Beautifully Fine-Tuned You Will Believe It's Magic
-Version: 0.8.6
-Authors@R: c(person("Benjamin", "Nutter", email = "benjamin.nutter@gmail.com", role = c("aut", "cre")), person("David", "Kretch", role = c("ctb")))
+Version: 0.9.0
+Authors@R: c(person("Benjamin", "Nutter", email = "benjamin.nutter@gmail.com", role = c("aut", "cre")),
+             person("David", "Kretch", role = c("ctb")))
 Author: Benjamin Nutter [aut, cre],
 	David Kretch [ctb]
 Maintainer: Benjamin Nutter <benjamin.nutter@gmail.com>
@@ -19,11 +20,11 @@ Depends:
 Imports:
     broom,
     checkmate (>= 1.8.0),
-    dplyr,
+    poorman,
+    magrittr,
     htmltools,
     knitr,
     labelVector,
-    magrittr,
     scales,
     tidyr
 Suggests:

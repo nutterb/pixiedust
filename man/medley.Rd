@@ -41,7 +41,7 @@ dust(fit, glance_foot = TRUE) \%>\%
 # Medleys are not generics and do not have methods.
 # Using a medley on a dust_list object requires pixieply
 
-library(dplyr)
+library(poorman)
 mtcars \%>\%
   group_by(gear) \%>\%
   dust(ungroup = FALSE) \%>\%

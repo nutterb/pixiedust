@@ -1,6 +1,6 @@
-#' @importFrom dplyr bind_rows
-#' @importFrom dplyr mutate_
-#' @importFrom dplyr select_
+#' @importFrom poorman bind_rows
+#' @importFrom poorman mutate
+#' @importFrom poorman select
 #' @importFrom knitr asis_output
 #' @importFrom knitr kable
 #' @importFrom tidyr spread
@@ -56,16 +56,16 @@ print_dust_markdown <- function(x, ..., asis=TRUE,
   subhead <- lapply(subhead, function(v) paste0("**", v, "**")) %>%
     as.data.frame(stringsAsFactors = FALSE)
 
-  numeric_classes <- c("numeric", "double", "int")
+  # numeric_classes <- c("numeric", "double", "int")
 
   #* Determine the alignments.  Alignments in 'knitr::kable' are assigned
   #* by the first letter of the HTML alignment.  If no alignment is
   #* assigned, a default is chosen based on the variable type.  Numerics
   #* are aligned right, characters are aligned left.
-  alignments <- dplyr::filter(x$head, row == 1) %>%
-    dplyr::select(row, col, halign, col_class) %>%
-    dplyr::mutate(halign = ifelse(halign == "",
-                                    ifelse(col_class %in% numeric_classes,
+  alignments <- poorman::filter(x$head, row == 1) %>%
+    poorman::select(row, col, halign, col_class) %>%
+    poorman::mutate(halign = ifelse(halign == "",
+                                    ifelse(col_class %in% c("numeric", "double", "int"), #numeric_classes,
                                            "r",
                                            "l"),
                                     substr(halign, 1, 1)))
@@ -75,9 +75,9 @@ print_dust_markdown <- function(x, ..., asis=TRUE,
   #* it's easy to read and understand.
   tbl_code <- ""
   for (i in 1:total_div){
-    tbl <- dplyr::bind_rows(if (nrow(head) > 1) subhead else NULL,
-                            body[Divisions$row_num[Divisions$div_num == i], ],
-                            if (i == total_div) foot else interfoot)
+    tbl <- poorman::bind_rows(if (nrow(head) > 1) subhead else NULL,
+                              body[Divisions$row_num[Divisions$div_num == i], ],
+                              if (i == total_div) foot else interfoot)
 
     tbl_code <- paste0(tbl_code,
                        paste(c("", "",
@@ -136,7 +136,7 @@ part_prep_markdown <- function(part)
 
 
   #* Spread to wide format for printing
-  dplyr::select(part, row, col, value) %>%
-    tidyr::spread_("col", "value") %>%
-    dplyr::select(-row)
+  poorman::select(part, row, col, value) %>%
+  tidyr::spread_("col", "value") %>%
+  poorman::select(-row)
 }

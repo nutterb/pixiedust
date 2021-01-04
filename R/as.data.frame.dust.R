@@ -63,25 +63,22 @@ as.data.frame.dust <- function(x, ..., sprinkled = TRUE)
 
   checkmate::reportAssertions(coll)
 
-
-  if (sprinkled)
-  {
+  if (sprinkled) {
     return(print_dust_console(x, return_df = TRUE))
   }
-  else
-  {
-    X <- dplyr::select(x$body,
+  else {
+    X <- poorman::select(x$body,
                        row, col, value) %>%
-      tidyr::spread(col, value) %>%
-      dplyr::select(-row)
+        tidyr::spread(col, value) %>%
+        poorman::select(-row)
 
-    col_names <- dplyr::group_by(x$body, col) %>%
-      dplyr::summarise(col_name = col_name[1])
+    col_names <- poorman::group_by(x$body, col) %>%
+      poorman::summarise(col_name = col_name[1])
     col_names <- col_names$col_name
     names(X) <- col_names
 
-    classes <- dplyr::group_by(x$body, col) %>%
-      dplyr::summarise(col_class = col_class[1])
+    classes <- poorman::group_by(x$body, col) %>%
+      poorman::summarise(col_class = col_class[1])
     classes <- sprintf("as.%s", classes$col_class)
 
     for (i in seq_along(X)){
@@ -96,8 +93,7 @@ as.data.frame.dust <- function(x, ..., sprinkled = TRUE)
 #' @rdname as.data.frame.dust
 #' @export
 
-as.data.frame.dust_list <- function(x, ...)
-{
+as.data.frame.dust_list <- function(x, ...) {
   checkmate::assert_class(x = x,
                           classes = "dust_list")
 

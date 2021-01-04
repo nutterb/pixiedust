@@ -11,7 +11,7 @@ lhs \%>\% rhs
 }
 \description{
 This is a copy of the documentation for \code{\%>\%} in
-\code{dplyr}.  The copy here is made to conform to CRAN requirements
-regarding documentation.  Please see the \code{dplyr} documenation
+\code{poorman}.  The copy here is made to conform to CRAN requirements
+regarding documentation.  Please see the \code{poorman} documenation
 for the complete and current documentation.
 }

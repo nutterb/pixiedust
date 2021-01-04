@@ -97,7 +97,7 @@ glance_foot <- function(fit, col_pairs, total_cols,
     stat_fill <- data.frame(.rownames = rep("", n_fill),
                             x = rep(NA, n_fill),
                             stringsAsFactors = FALSE)
-    g <- dplyr::bind_rows(g, stat_fill)
+    g <- poorman::bind_rows(g, stat_fill)
   }
 
   g$col <-

@@ -139,14 +139,14 @@ tidy_levels_labels <- function(object,
   if (is.null(argcheck)) argcheck <- checkmate::makeAssertCollection()
 
   numeric_level <- checkmate::matchArg(x = numeric_level,
-                                    choices = c("term", "term_plain", "label"),
-                                    add = argcheck)
+                                       choices = c("term", "term_plain", "label"),
+                                       add = argcheck)
 
   descriptors <- checkmate::matchArg(x = descriptors,
-                                  choices = c("term", "term_plain", "label",
-                                              "level", "level_detail"),
-                                  several.ok = TRUE,
-                                  add = argcheck)
+                                     choices = c("term", "term_plain", "label",
+                                                 "level", "level_detail"),
+                                     several.ok = TRUE,
+                                     add = argcheck)
 
   if (independent_check) checkmate::reportAssertions(argcheck)
 
@@ -163,12 +163,13 @@ levels_and_labels <- function(object, ...){
   model_data <- stats::model.frame(object)
   Labels <- labelVector::get_label(model_data, names(model_data))
   NLevels <- vapply(model_data, modelNLevels, 1)
-  Levels <-
-    lapply(model_data,
-           modelFriendlyLevels) %>%
-    dplyr::bind_rows() %>%
-    dplyr::mutate(term_plain = rep(names(NLevels), NLevels),
-                  term = paste0(term_plain, level))
+  Levels <- lapply(model_data,
+                   modelFriendlyLevels) %>%
+            poorman::bind_rows()
+  
+  Levels[["term_plain"]] <- rep(names(NLevels), NLevels)
+  Levels[["term"]] <- paste0(Levels$term_plain, Levels$level)
+  
   Levels$label <- Labels[match(Levels$term_plain, names(Labels))]
   Levels <- Levels[, c("term", "term_plain", "label", "level", "level_detail")]
   rownames(Levels) <- NULL
@@ -191,7 +192,7 @@ modelFriendlyLevels <- function(f){
 
 modelNLevels <- function(f){
   nlev <- nlevels(f)
-  nlev <- if (nlev == 0) 1 else (nlev-1)
+  nlev <- if (nlev == 0) 1 else (nlev - 1)
   nlev
 }
 
@@ -199,14 +200,14 @@ modelNLevels <- function(f){
 level_label_interactions <- function(lnl, tidy_fit, numeric_level){
   if (!any(grepl("[:]", tidy_fit$term)))
     return(lnl)
-    # return(dplyr::left_join(tidy_fit, lnl, by = c("term" = "term")))
+    # return(poorman::left_join(tidy_fit, lnl, by = c("term" = "term")))
   else{
     inters <- which(grepl("[:]", tidy_fit$term))
     splits <- strsplit(tidy_fit$term[inters], "[:]")
     inters <- lapply(splits, form_interaction_labels, lnl, numeric_level) %>%
-      dplyr::bind_rows()
-    dplyr::bind_rows(lnl, inters)# %>%
-      # dplyr::left_join(tidy_fit, ., by = c("term" = "term"))
+      poorman::bind_rows()
+    poorman::bind_rows(lnl, inters)# %>%
+      # poorman::left_join(tidy_fit, ., by = c("term" = "term"))
   }
 }
 

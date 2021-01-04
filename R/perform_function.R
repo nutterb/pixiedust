@@ -6,8 +6,7 @@
 #* character strings.  Handling the conversions has to
 #* be done with care to get things to format correctly
 
-perform_function <- function(obj)
-{
+perform_function <- function(obj) {
   #* Determine which cells in the table have a function assigned.
   have_fn <- which(!is.na(obj$fn))
 

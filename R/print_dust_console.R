@@ -1,12 +1,11 @@
-#' @importFrom dplyr bind_rows
-#' @importFrom dplyr group_by
-#' @importFrom dplyr mutate
-#' @importFrom dplyr select
-#' @importFrom dplyr ungroup
+#' @importFrom poorman bind_rows
+#' @importFrom poorman group_by
+#' @importFrom poorman mutate
+#' @importFrom poorman select
+#' @importFrom poorman ungroup
 #' @importFrom tidyr spread
 
-print_dust_console <- function(x, ..., return_df = FALSE, asis=TRUE)
-{
+print_dust_console <- function(x, ..., return_df = FALSE, asis=TRUE) {
   if (!is.null(x$caption) & x$caption_number) increment_pixie_count()
   caption_number_prefix <-
     if (x$caption_number) sprintf("Table %s: ", get_pixie_count())
@@ -40,8 +39,8 @@ print_dust_console <- function(x, ..., return_df = FALSE, asis=TRUE)
   if (return_df) DF <- NULL
 
   #* Run a loop to print all the divisions
-  for (i in 1:total_div){
-    tbl <- dplyr::bind_rows(if (nrow(head) > 1) head[-1, ] else NULL,
+  for (i in 1:total_div) {
+    tbl <- poorman::bind_rows(if (nrow(head) > 1) head[-1, ] else NULL,
                             body[Divisions$row_num[Divisions$div_num == i], ],
                             if (i == total_div) foot else interfoot)
     if (return_df) DF <- rbind(DF, tbl)
@@ -58,8 +57,8 @@ print_dust_console <- function(x, ..., return_df = FALSE, asis=TRUE)
 
 #**** Helper functions
 
-part_prep_console <- function(part)
-{
+part_prep_console <- function(part) {
+
   #* values in the dust object are all stored as character strings.
   #* These classes need to be converted to numerics for rounding
   #* to have the appropriate effect.
@@ -67,7 +66,6 @@ part_prep_console <- function(part)
 
   #* If functions are assigned, perform the function.
   part <- perform_function(part)
-
 
   #* Perform any rounding
   logic <- part$round == "" & part$col_class %in% numeric_classes
@@ -88,51 +86,44 @@ part_prep_console <- function(part)
     #* text, the unbolded text gets two spaces on either side to make the
     #* columns the same width.
     apply_bold <- function(b, v) {
-	if(any(b)) ifelse(b, sprintf("**%s**", v), sprintf("  %s  ", v)) else v
+      if (any(b)) ifelse(b, sprintf("**%s**", v), sprintf("  %s  ", v)) else v
     }
 
     apply_italic <- function(i, v) {
-    	if(any(i)) ifelse(i, sprintf("_%s_", v), sprintf(" %s_", v)) else v
+      if (any(i)) ifelse(i, sprintf("_%s_", v), sprintf(" %s_", v)) else v
     }
 
     apply_span <- function(s, v) {
-    	ifelse(s == 0, "", v)
+      ifelse(s == 0, "", v)
     }
 
     apply_na <- function(n, v) {
         ifelse(is.na(v) & !is.na(n), n, v)
     }
 
-    dplyr::group_by(part, "col_name") %>%
-    # lambda notation is bad, mmkay?
-    # dplyr::mutate(
-    #   value = ~if (any(bold)) ifelse(bold,
-    #                                  sprintf("**%s**", value),
-    #                                  sprintf("  %s  ", value))
-    #               else value)
-    dplyr::mutate(value = apply_bold(bold, value)) %>%
-    dplyr::ungroup() %>%
+    poorman::group_by(part, col_name) %>%
+    poorman::mutate(
+      value = if (any(bold)) ifelse(bold, sprintf("**%s**", value), sprintf("  %s  ", value)) else value
+      ) %>%
+    # poorman::mutate(value = apply_bold(bold, value)) %>%
+    poorman::ungroup() %>%
     #* Italic. Follows the same process as bold text.
-    dplyr::group_by("col_name") %>%
-    # dplyr::mutate(value = ~if (any(italic)) ifelse(italic,
-    #                                                 sprintf("_%s_", value),
-    #                                                 sprintf(" %s_", value))
-    #                else value) %>%
-    dplyr::mutate(value = apply_italic(italic, value)) %>%
-    dplyr::ungroup() %>%
+    poorman::group_by(col_name) %>%
+    poorman::mutate(
+      value = if (any(italic)) ifelse(italic, sprintf("_%s_", value), sprintf(" %s_", value)) else value
+      ) %>%
+    # poorman::mutate(value = apply_italic(italic, value)) %>%
+    poorman::ungroup() %>%
     #* For merged cells not chosen for printing, set value to an empty character
-    # dplyr::mutate(value = ~ifelse(rowspan == 0, "", value),
-    #                value = ~ifelse(colspan == 0, "", value)) %>%
-    dplyr::mutate(value = apply_span(rowspan, value),
-		  value = apply_span(colspan, value)) %>%
-
+    poorman::mutate(value = ifelse(rowspan == 0, "", value),
+                    value = ifelse(colspan == 0, "", value)) %>%
+    # poorman::mutate(value = apply_span(rowspan, value),
+    #                 value = apply_span(colspan, value)) %>%
     #* Set NA (missing) values to na_string.
-    # dplyr::mutate(value = ~ifelse(is.na(value) & !is.na(na_string),
-    #                                na_string, value)) %>%
-    dplyr::mutate(value = apply_na(na_string, value)) %>%
-
+    poorman::mutate(value = ifelse(is.na(value) & !is.na(na_string), na_string, value)) %>%
+    # poorman::mutate(value = apply_na(na_string, value)) %>%
     #* Spread to wide format for printing
-    dplyr::select(row, col, value) %>%
+    poorman::select(row, col, value) %>%
     tidyr::spread(col, value) %>%
-    dplyr::select(-row)
+    poorman::select(-row)
 }

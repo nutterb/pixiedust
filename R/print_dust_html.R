@@ -59,8 +59,8 @@ print_dust_html <- function(x, ..., asis=TRUE,
   non_interactive <- ""
 
   #* Run a for loop to build all the table divisions
-  for (i in 1:total_div){
-    tbl <- dplyr::bind_rows(head,
+  for (i in 1:total_div) {
+    tbl <- poorman::bind_rows(head,
                             body[Divisions$row_num[Divisions$div_num == i], , drop=FALSE],
                             if (i == total_div) foot else interfoot)
     rows <- apply(tbl, 1, paste0, collapse = "\n")
@@ -276,7 +276,7 @@ part_prep_html <- function(part, head=FALSE,
                        substr(dh, 1, 2)))
 
   ncol <- max(part$col)
-  part <- dplyr::filter(part, !(rowspan == 0 | colspan == 0))
+  part <- poorman::filter(part, !(rowspan == 0 | colspan == 0))
 
   logic <-
     part[["row"]] == part[["html_row"]] &
@@ -290,9 +290,9 @@ part_prep_html <- function(part, head=FALSE,
     part[["html_col"]][logic] <- part[["html_col_pos"]][logic]
 
   #* Spread to wide format for printing
-  part <- dplyr::select(part, html_row, html_col, value) %>%
-    tidyr::spread(html_col, value, fill = "") %>%
-    dplyr::select(-html_row)
+  part <- poorman::select(part, html_row, html_col, value) %>%
+            tidyr::spread(html_col, value, fill = "") %>%
+            poorman::select(-html_row)
 
   if (ncol(part) != ncol){
     part <- cbind(part,

@@ -200,32 +200,40 @@ index_to_sprinkle <- function(x, rows = NULL, cols = NULL, fixed = FALSE,
     recycle <- "cols"
   }
 
-  recycle_arrange <-
-    if (recycle == "rows")
-    {
-      c("row", "col")
-    }
-    else
-    {
-      c("col", "row")
-    }
-
+  # recycle_arrange <-
+  #   if (recycle == "rows")
+  #   {
+  #     c("row", "col")
+  #   }
+  #   else
+  #   {
+  #     c("col", "row")
+  #   }
+  
   # Determine and arrange the indices
 
   if (!fixed)
   {
     indices <- expand.grid(rows = rows,
 			   cols = cols)
-    indices <- dplyr::mutate(indices,
+    indices <- poorman::mutate(indices,
                              i = TRUE)
-    indices <- dplyr::left_join(x[[part]][c("row", "col")],
+    indices <- poorman::left_join(x[[part]][c("row", "col")],
                                 indices,
                                 by = c("row" = "rows",
                                        "col" = "cols"))
     indices[["index"]] <- seq_len(nrow(indices))
-
-    indices <- dplyr::arrange(indices,
-                              dplyr::across(recycle_arrange))
+    
+    # browser()
+    # indices <- dplyr::arrange(indices,
+    #                           dplyr::all_of(recycle_arrange))
+    
+    if (recycle == "rows") {
+      indices <- poorman::arrange(indices, row, col)
+    } else {
+      indices <- poorman::arrange(indices, col, row)
+    }
+    
     indices[["i"]][is.na(indices[["i"]])] <- FALSE
     indices <- indices[["index"]][indices[["i"]]]
   }
