@@ -147,8 +147,7 @@ bg  \tab           \tab  \cr
     \tab default   \tab  \cr
     \tab accepts   \tab dvips color names; rgb(R,G,B); rgba(R,G,B,A); \cr
     \tab           \tab  #RRGGBB; #RRGGBBAA. See the "Colors" section \cr
-    \tab           \tab  for further details or \cr 
- \tab              \tab  \url{https://www.suchanutter.net/pixiedust/colors.html}. \cr
+    \tab           \tab  for further details. \cr
     \tab console   \tab Not recognized \cr
     \tab markdown  \tab Not recognized \cr
     \tab html      \tab Accepts any of the listed formats; \cr
@@ -215,8 +214,7 @@ border_color \tab  \tab  \cr
  \tab accepts      \tab character(1) \cr
  \tab              \tab dvips color names; rgb(R,G,B); rgba(R,G,B,A); \cr
  \tab              \tab #RRGGBB; #RRGGBBAA. See the "Colors" section \cr
-    \tab           \tab  for further details or \cr 
- \tab              \tab  \url{https://www.suchanutter.net/pixiedust/colors.html}. \cr
+    \tab           \tab  for further details. \cr
  \tab console      \tab Not recognized \cr
  \tab markdown     \tab Not recognized \cr
  \tab html         \tab Recognized \cr
@@ -311,8 +309,7 @@ font_color \tab  \tab  \cr
  \tab default      \tab Black \cr
  \tab accepts      \tab dvips color names; rgb(R,G,B); rgba(R,G,B,A); \cr
  \tab              \tab #RRGGBB; #RRGGBBAA. See the "Colors" section \cr
-    \tab           \tab  for further details or \cr 
- \tab              \tab  \url{https://www.suchanutter.net/pixiedust/colors.html}. \cr
+    \tab           \tab  for further details. \cr
  \tab console      \tab Not recognized \cr
  \tab markdown     \tab Not recognized \cr
  \tab html         \tab Recognized; transparency recognized \cr
@@ -656,8 +653,6 @@ All colors are internally translated into rgb format and are case insensitive.
 
 \section{Required LaTeX Packages}{
 
-(Read more about \code{pixiedust} with LaTeX at 
-http://suchanutter.net/pixiedust/latex-configuration.html)
 
 If you will be using the LaTeX output, some sprinkles will require you 
 to include additional LaTeX packages in your document preamble.  In 
