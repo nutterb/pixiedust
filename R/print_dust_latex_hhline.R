@@ -280,7 +280,7 @@ part_prep_latex_hhline <- function(part, col_width, col_halign_default, head=FAL
                        MARGIN = 1, 
                        FUN = paste0, 
                        collapse = "")
-  top_borderes <- paste0("\\hhline{", top_borders, "}")
+  top_borders <- paste0("\\hhline{", top_borders, "}")
   
   
   
