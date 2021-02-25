@@ -466,7 +466,7 @@ joint_reference_table <- function(x){
   Joint <- split(Joint, Joint$col)
   Joint <- lapply(Joint, 
                   function(x){
-                    x$replace <- all(is.na(x$width)) && any(Joint$parbox)
+                    x$replace <- all(is.na(x$width)) & any(x$parbox)
                     x$width_by_char <- max(x$width_by_char, na.rm = TRUE)
                     x
                   })
