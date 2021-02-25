@@ -77,9 +77,7 @@ be placed between the cell's content and the outside border.
 }
 \details{
 Colors may be a dvips color name, or in the rgb(R, G, B), 
-rgba(R, G, B, A), #RRGGBB, or #RRGGBBAA formats. See 
-\url{http://suchanutter.net/pixiedust/colors.html} for additional
-details.
+rgba(R, G, B, A), #RRGGBB, or #RRGGBBAA formats. 
   
 This sprinkle is ignored in console and markdown outputs.  HTML output
 will accept any of the color formats and recognize transparency.  LaTeX

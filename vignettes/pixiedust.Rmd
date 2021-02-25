@@ -293,4 +293,4 @@ dust(Formaldehyde) %>%
 
 # References
 
-1. Robinson, David. "`broom`: An R Package for Converting Statistical Analysis Objects Into Tidy Data Frames," Cornell University Library, http://arxiv.org/pdf/1412.3565v2.pdf.
+1. Robinson, David. "`broom`: An R Package for Converting Statistical Analysis Objects Into Tidy Data Frames," Cornell University Library, https://arxiv.org/pdf/1412.3565v2.pdf.
