@@ -151,7 +151,7 @@ tidy_levels_labels <- function(object,
   if (independent_check) checkmate::reportAssertions(argcheck)
   
   lnl <- levels_and_labels(object) %>%
-    level_label_interactions(broom::tidy(object), numeric_level)
+    level_label_interactions(as.data.frame(broom::tidy(object)), numeric_level)
   
   if (! "term" %in% descriptors)
     lnl[, c("term", descriptors), drop = FALSE]
@@ -165,11 +165,13 @@ levels_and_labels <- function(object, ...){
   NLevels <- vapply(model_data, modelNLevels, 1)
   Levels <- 
     lapply(model_data, 
-           modelFriendlyLevels) %>%
-    dplyr::bind_rows() %>%
-    dplyr::mutate_(term_plain = ~rep(names(NLevels), NLevels),
-                   term = ~paste0(term_plain, level))
+           modelFriendlyLevels) 
+  Levels <- do.call(.rbind_internal, Levels) 
+  
+  Levels$term_plain <- rep(names(NLevels), NLevels)
+  Levels$term <- paste0(Levels$term, Levels$level)
   Levels$label <- Labels[match(Levels$term_plain, names(Labels))]
+
   Levels <- Levels[, c("term", "term_plain", "label", "level", "level_detail")]
   rownames(Levels) <- NULL
   Levels
@@ -199,14 +201,13 @@ modelNLevels <- function(f){
 level_label_interactions <- function(lnl, tidy_fit, numeric_level){
   if (!any(grepl("[:]", tidy_fit$term)))
     return(lnl)
-    # return(dplyr::left_join(tidy_fit, lnl, by = c("term" = "term")))
   else{
     inters <- which(grepl("[:]", tidy_fit$term))
     splits <- strsplit(tidy_fit$term[inters], "[:]")
-    inters <- lapply(splits, form_interaction_labels, lnl, numeric_level) %>%
-      dplyr::bind_rows()
-    dplyr::bind_rows(lnl, inters)# %>%
-      # dplyr::left_join(tidy_fit, ., by = c("term" = "term"))
+    inters <- lapply(splits, form_interaction_labels, lnl, numeric_level) 
+    inters <- do.call(".rbind_internal", inters)
+
+    .rbind_internal(lnl, inters)
   }
 }
 

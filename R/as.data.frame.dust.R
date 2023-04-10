@@ -70,19 +70,24 @@ as.data.frame.dust <- function(x, ..., sprinkled = TRUE)
   }
   else 
   {
-    X <- dplyr::select(x$body, 
-                       row, col, value) %>%
-      tidyr::spread(col, value) %>%
-      dplyr::select(-row)
+    X <- x$body[c("row", "col", "value")]
+    X <- reshape2::dcast(X, 
+                         formula = row ~ col, 
+                         value.var = "value")
+    X <- X[!names(X) %in% "row"]
+
+    col_names <- tapply(X = x$body$col_name, 
+                        INDEX = x$body$col, 
+                        FUN = function(x) x[1])
     
-    col_names <- dplyr::group_by(x$body, col) %>%
-      dplyr::summarise(col_name = col_name[1])
-    col_names <- col_names$col_name
+    col_names <- unname(col_names)
     names(X) <- col_names
     
-    classes <- dplyr::group_by(x$body, col) %>%
-      dplyr::summarise(col_class = col_class[1])
-    classes <- sprintf("as.%s", classes$col_class)
+    classes <- tapply(X = x$body$col_class, 
+                      INDEX = x$body$col, 
+                      FUN = function(x) x[1])
+    classes <- unname(classes)
+    classes <- sprintf("as.%s", classes)
     
     for (i in seq_along(X)){
       X[[i]] <- get(classes[i])(X[[i]])

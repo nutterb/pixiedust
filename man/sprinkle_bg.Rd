@@ -7,21 +7,49 @@
 \alias{sprinkle_background}
 \title{Sprinkle the Background Color of a Cell}
 \usage{
-sprinkle_bg(x, rows = NULL, cols = NULL, bg = "", part = c("body",
-  "head", "foot", "interfoot", "table"), fixed = FALSE, recycle = c("none",
-  "rows", "cols", "columns"), ...)
+sprinkle_bg(
+  x,
+  rows = NULL,
+  cols = NULL,
+  bg = "",
+  part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"),
+  ...
+)
 
-\method{sprinkle_bg}{default}(x, rows = NULL, cols = NULL, bg = "",
-  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
-  recycle = c("none", "rows", "cols", "columns"), ...)
+\method{sprinkle_bg}{default}(
+  x,
+  rows = NULL,
+  cols = NULL,
+  bg = "",
+  part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"),
+  ...
+)
 
-\method{sprinkle_bg}{dust_list}(x, rows = NULL, cols = NULL, bg = "",
-  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
-  recycle = c("none", "rows", "cols", "columns"), ...)
+\method{sprinkle_bg}{dust_list}(
+  x,
+  rows = NULL,
+  cols = NULL,
+  bg = "",
+  part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"),
+  ...
+)
 
-sprinkle_background(x, rows = NULL, cols = NULL, bg = "",
-  part = c("body", "head", "foot", "interfoot", "table"), fixed = FALSE,
-  recycle = c("none", "rows", "cols", "columns"), ...)
+sprinkle_background(
+  x,
+  rows = NULL,
+  cols = NULL,
+  bg = "",
+  part = c("body", "head", "foot", "interfoot", "table"),
+  fixed = FALSE,
+  recycle = c("none", "rows", "cols", "columns"),
+  ...
+)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}
@@ -63,9 +91,7 @@ Background colors may be used to highlight the contents
 }
 \details{
 Colors may be a dvips color name, or in the rgb(R, G, B), 
-rgba(R, G, B, A), #RRGGBB, or #RRGGBBAA formats. See 
-\url{http://nutterb.github.io/pixiedust/colors.html} for additional
-details.
+rgba(R, G, B, A), #RRGGBB, or #RRGGBBAA formats. 
   
 This sprinkle is ignored in console and markdown outputs.  HTML output
 will accept any of the color formats and recognize transparency.  LaTeX

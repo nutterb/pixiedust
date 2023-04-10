@@ -155,3 +155,4 @@ test_that(
     expect_true(all(dust_class))
   }
 )
+

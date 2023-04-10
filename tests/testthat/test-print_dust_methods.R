@@ -94,7 +94,7 @@ test_that("print_dust_html: correction for multiple cell merge",
      sprinkle(merge = TRUE, halign = "center", part = "interfoot") %>%
      sprinkle_print_method("html")
   )
-  
+
   expect_silent(print_dust_html(x))
 })
 

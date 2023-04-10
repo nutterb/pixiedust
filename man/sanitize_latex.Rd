@@ -4,8 +4,15 @@
 \alias{sanitize_latex}
 \title{Escape Characters for Printing in LaTeX Output}
 \usage{
-sanitize_latex(object, inn = NULL, out = NULL, pb = FALSE,
-  greek = FALSE, na = "", ...)
+sanitize_latex(
+  object,
+  inn = NULL,
+  out = NULL,
+  pb = FALSE,
+  greek = FALSE,
+  na = "",
+  ...
+)
 }
 \arguments{
 \item{object}{\code{character} vector of strings to translate.

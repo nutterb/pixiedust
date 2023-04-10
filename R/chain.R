@@ -4,11 +4,8 @@
 #' @export %>%
 #' @usage lhs \%>\% rhs
 #' 
-#' @title Chain together multiple operations.
-#' @description This is a copy of the documentation for \code{\%>\%} in 
-#' \code{dplyr}.  The copy here is made to conform to CRAN requirements 
-#' regarding documentation.  Please see the \code{dplyr} documenation
-#' for the complete and current documentation.
+#' @title magrittr forward-pipe operator
+#' @description Pipe an object forward into a function or call expression
 #'
 #' @param lhs,rhs A dataset and function to apply to it
 
@@ -20,12 +17,10 @@ NULL
 #' @export %<>%
 #' @usage lhs \%<>\% rhs
 #' 
-#' @title Chain together multiple operations.
-#' @description This is a copy of the documentation for \code{\%<>\%} in 
-#' \code{magrittr}.  The copy here is made to conform to CRAN requirements 
-#' regarding documentation.  Please see the \code{magrittr} documenation
-#' for the complete and current documentation.
-#'
-#' @param lhs,rhs A dataset and function to apply to it
+#' @title Chain together multiple operations
+#' @description Chain together multiple operations and save to the object
+#'   at the start of the chain.  See `magrittr` documentation for details.
+#'   
+#' @param lhs,rhs A data set and function to apply it to
 
 NULL

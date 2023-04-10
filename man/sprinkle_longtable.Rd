@@ -8,11 +8,9 @@
 \usage{
 sprinkle_longtable(x, longtable = getOption("pixie_longtable", FALSE), ...)
 
-\method{sprinkle_longtable}{default}(x,
-  longtable = getOption("pixie_longtable", FALSE), ...)
+\method{sprinkle_longtable}{default}(x, longtable = getOption("pixie_longtable", FALSE), ...)
 
-\method{sprinkle_longtable}{dust_list}(x,
-  longtable = getOption("pixie_longtable", FALSE), ...)
+\method{sprinkle_longtable}{dust_list}(x, longtable = getOption("pixie_longtable", FALSE), ...)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}

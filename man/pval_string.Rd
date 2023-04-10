@@ -5,8 +5,7 @@
 \alias{pvalString}
 \title{Format P-values for Reports}
 \usage{
-pval_string(p, format = c("default", "exact", "scientific"), digits = 3,
-  ...)
+pval_string(p, format = c("default", "exact", "scientific"), digits = 3, ...)
 
 pvalString(p, format = c("default", "exact", "scientific"), digits = 3, ...)
 }

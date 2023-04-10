@@ -92,7 +92,7 @@ prep_gaze_tidy <- function(fits, fit_names, digits){
       SIMPLIFY = FALSE
     ) 
   
-  res <- dplyr::bind_rows(res)
+  res <- do.call("rbind", res)
   
   res <- res[c("model", "term", "estimate", "statistic")]
   res[["term"]] <- factor(res[["term"]], 
@@ -145,7 +145,7 @@ prep_gaze_glance <- function(fits, fit_names, glance_vars, digits){
       SIMPLIFY = FALSE
     ) 
   
-  res <- dplyr::bind_rows(res)
+  res <- do.call("rbind", res)
   res <- res[c("model", glance_vars)]
   
   res <- 

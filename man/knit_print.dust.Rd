@@ -5,9 +5,9 @@
 \alias{knit_print.dust_list}
 \title{\code{knitr} Printing Function}
 \usage{
-knit_print.dust(x, options, ...)
+\method{knit_print}{dust}(x, options, ...)
 
-knit_print.dust_list(x, options, ...)
+\method{knit_print}{dust_list}(x, options, ...)
 }
 \arguments{
 \item{x}{A dust object}

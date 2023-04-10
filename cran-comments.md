@@ -1,19 +1,24 @@
 ## Test environments
-* local Linux install (R-3.4.4; #135-Ubuntu SMP Fri Jan 19 11:48:36 UTC 2018)
-* remote Linux install (R-3.5.0; Ubuntu 14.04.5 LTS, Travis CI)
-* win-builder (release R 3.5.1)
-* win-builder (2018-07-15 r74966)
+* local Windows install (R-4.0.3; Windows 10 build 18363)
+* remote Linux install (4.0.2; Ubuntu 16.04.6 LTS, Travis CI)
+* win-builder (release R 4.0.3; 2020-10-10)
+* win-builder-devel (2021-01-13 r79826)
 
 ## R CMD check results
-This update adjusts for changes coming with a pending update to the `broom`
-package. 
+This update to `pixiedust` was requested by CRAN to address the use of `order` on a data frame.
 
 There were no warnings, errors, or notes returned by CHECK on any of the 
 test environments.
 
 
 ## Downstream dependencies
-`HydeNet` and `tadaatoolbox` show no warnings, errors, or notes.
+Reverse dependency checks showed the following:
+
+`tadaatoolbox` shows no warnings or errors. There is a note regarding found UTF-8 strings. This note exists in the CRAN checks online as well.
+
+`wiseR` shows no warnings or errors. There is a note for 'Namespaces in Imports field not imported from'. This note exists in the CRAN checks as well.
+
+`HydeNet` shows 2 errors that appear to be related to deprecated functions in the `dplyr` package.  There is also a NOTE about a package listed in the imports that is not imported from. These errors do not appear to be caused by changes in `pixiedust`. If it is acceptable to you, I would like to proceed with this update to `pixiedust` prior to fixing problems in `HydeNet`.
 
 Thanks,
 Benjamin

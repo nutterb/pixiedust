@@ -4,7 +4,6 @@
 #' @param table A data frame of similar dimensions of the part being replaced.
 #' @param part The part of the table to replace with \code{table}
 
-#' @rdname dust
 #' @export 
 
 redust <- function(x, table, part = c("head", "foot", "interfoot", "body"))

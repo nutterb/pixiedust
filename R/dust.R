@@ -197,7 +197,7 @@ dust.default <- function(object, ...,
   #* as given.  All other objects are tidied.
   if (!inherits(object, "data.frame") | tidy_df)
   {
-    tidy_object <- broom::tidy(object, ...)
+    tidy_object <- as.data.frame(broom::tidy(object, ...))
   }
   else if (inherits(object, "data.frame"))
   {
@@ -211,6 +211,7 @@ dust.default <- function(object, ...,
                            object)
       rownames(tidy_object) <- NULL
       tidy_object[, 1] <- as.character(tidy_object[, 1])
+      
       names(tidy_object)[1] <- ".rownames"
     }
     else
@@ -223,14 +224,16 @@ dust.default <- function(object, ...,
   {
     nms <- names(tidy_object)
     
-    tidy_object <- tidy_levels_labels(object,
-                                      descriptors = descriptors,
-                                      numeric_level = numeric_level,
-                                      argcheck = coll) %>%
-      dplyr::left_join(x = tidy_object, 
-                       y = .,
-                       by = c("term" = "term"))
-
+    tll <- tidy_levels_labels(object,
+                              descriptors = descriptors,
+                              numeric_level = numeric_level,
+                              argcheck = coll) 
+    tidy_object <- 
+      merge(tidy_object, 
+            tll, 
+            by = "term", 
+            all.x = TRUE)
+      
      if ("label" %in% names(tidy_object))
      {
        is_intercept <- grepl(pattern = "([(]|)Intercept([)]|)", 
@@ -262,6 +265,7 @@ dust.default <- function(object, ...,
   #* Create the table head
   head <- as.data.frame(t(names(tidy_object)),
                         stringsAsFactors=FALSE)
+ 
   names(head) <- names(tidy_object)
 
   if (glance_foot)
@@ -282,8 +286,8 @@ dust.default <- function(object, ...,
   #* the 'foot' object.  Objects passed as data frames should not have
   #* glance statistics by default.  Perhaps an option for glance_df should
   #* be provided here.
-
-  structure(list(head = component_table(head, tidy_object),
+  
+  out <- structure(list(head = component_table(head, tidy_object),
                  body = component_table(tidy_object),
                  interfoot = NULL,
                  foot = foot,
@@ -317,6 +321,7 @@ dust.default <- function(object, ...,
                  print_method = pixiedust_print_method()),
             class = "dust")
 
+  out
 }
 
 #' @rdname dust
@@ -326,15 +331,15 @@ dust.grouped_df <- function(object, ungroup = TRUE, ...)
 {
   if (ungroup)
   {
-    # I'm circumventing the need to import dplyr here
-    # dust.default(dplyr::ungroup(object), ...)
     dust.default(as.data.frame(object), ...)
   }
   else
   {
     split_var <- attr(object, "var")
-    # I'm circumventing the need to import dplyr here
-    # object <- dplyr::ungroup(object)
+    # dplyr 0.8.0 replaces the var attribute with groups attribute
+    if (is.null(split_var)){
+      split_var <- utils::head(names(attr(object, "groups")), -1)
+    }
     object <- as.data.frame(object)
     object <- split(object, object[, as.character(split_var)])
     dust.list(object, ...)
@@ -362,27 +367,30 @@ component_table <- function(tbl, object)
   #* Get the classes of each column in the data frame.
   #* These will be needed later for the 'round' sprinkle.
   if (missing(object)) object <- tbl
-  Classes <- data.frame(col_name = colnames(object),
-                        col_class = vapply(object, primaryClass, character(1)), 
-                        stringsAsFactors=FALSE)
   
+  Classes <- data.frame(col_name = colnames(object),
+                        col_class = vapply(X = object, 
+                                           FUN = primaryClass, 
+                                           FUN.VALUE = character(1)), 
+                        stringsAsFactors = FALSE)
   #* Initialize the table with row index, column index, and value
   tab <- gather_tbl(tbl)
 
   #* Initialize default values of table attributes
-  # tab <-
-  #   merge(x = tab,
-  #         y = cell_attributes_frame(nrow(tbl), ncol(tbl)),
-  #         by = c("row", "col"))
-  tab <- dplyr::left_join(tab, cell_attributes_frame(nrow(tbl), ncol(tbl)),
-              by = c("row" = "row", "col" = "col"))
+  tab <-
+    merge(x = tab,
+          y = cell_attributes_frame(nrow(tbl), ncol(tbl)),
+          by = c("row", "col"),
+          all.x = TRUE, 
+          sort = FALSE)
 
   #* Join with column classes
-  # tab <- merge(x = tab,
-  #              y = Classes,
-  #              by = "col_name")
-  tab <- dplyr::left_join(tab, Classes,
-              by = c("col_name" = "col_name"))
+  tab <- merge(x = tab,
+               y = Classes,
+               by = "col_name",
+               all.x = TRUE, 
+               sort = FALSE)
+
   return(tab)
 }
 
@@ -394,19 +402,22 @@ gather_tbl <- function(tbl)
   #* Assign the row indices
   tbl[["row"]] <- seq_len(nrow(tbl))
 
-  dplyr::mutate_(tbl, row = ~1:n()) %>%
-    #* Gather into a table with row (numeric), col (character), 
-    #* and value (character)
-    tidyr::gather_("col", "value", 
-                   gather_cols=names(tbl)[!names(tbl) %in% "row"]) %>%
-    #* Assign col_name as a factor.  Levels are in the same order as the column
-    #*   appear in the broom output
-    #* Extract numeric values of the col_name factor to get the column indices
-    #* Recast col_name as a character
-    dplyr::mutate_(col_name = ~factor(col, colnames(tbl)),
-                   col = ~as.numeric(col_name),
-                   col_name = ~as.character(col_name),
-                   value = ~as.character(value))
+  
+  
+  tbl <- stats::reshape(data = as.data.frame(tbl), 
+                        direction = "long", 
+                        varying = list(names(tbl)[!names(tbl) %in% "row"]))
+  
+  names(tbl)[names(tbl) %in% "time"] <- "col"
+  names(tbl)[3] <- "value"
+  tbl <- tbl[names(tbl)[!names(tbl) %in% "id"]]
+
+    tbl$col_name <- factor(tbl$col, labels = tbl_name)
+  tbl$col <- as.numeric(tbl$col_name)
+  tbl$col_name <- as.character(tbl$col_name)
+  tbl$value <- as.character(tbl$value)
+
+  tbl
 }
 
 #*********************************************

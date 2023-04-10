@@ -11,11 +11,9 @@
 \usage{
 sprinkle_hhline(x, hhline = getOption("pixie_hhline", FALSE), ...)
 
-\method{sprinkle_hhline}{default}(x, hhline = getOption("pixie_hhline",
-  FALSE), ...)
+\method{sprinkle_hhline}{default}(x, hhline = getOption("pixie_hhline", FALSE), ...)
 
-\method{sprinkle_hhline}{dust_list}(x, hhline = getOption("pixie_hhline",
-  FALSE), ...)
+\method{sprinkle_hhline}{dust_list}(x, hhline = getOption("pixie_hhline", FALSE), ...)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}

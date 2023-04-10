@@ -98,7 +98,7 @@ glance_foot <- function(fit, col_pairs, total_cols,
     stat_fill <- data.frame(.rownames = rep("", n_fill),
                             x = rep(NA, n_fill),
                             stringsAsFactors = FALSE)
-    g <- dplyr::bind_rows(g, stat_fill)
+    g <- .rbind_internal(g, stat_fill)
   }
 
   g$col <- 
@@ -132,8 +132,8 @@ glance_foot <- function(fit, col_pairs, total_cols,
   G <- mapply(intersplice_fill,
          G,
          Filler,
-         SIMPLIFY = FALSE) %>%
-    dplyr::bind_cols()
+         SIMPLIFY = FALSE) 
+  G <- do.call("cbind", G)
   
   names(G) <- make.unique(names(G))
   G
@@ -147,10 +147,10 @@ build_fill <- function(fills_per_gap, rows){
                   function(f)
                     data.frame(fill = rep("", rows),
                                stringsAsFactors = FALSE)) 
-  dplyr::bind_cols(Fills)
+  do.call("cbind", Fills)
 }
 
 intersplice_fill <- function(G, Fill){
-  if (!is.null(Fill)) return(dplyr::bind_cols(G[1:2], Fill))
+  if (!is.null(Fill)) return(cbind(G[1:2], Fill))
   else return(G[1:2])
 }

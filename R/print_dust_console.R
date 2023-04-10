@@ -1,10 +1,3 @@
-#' @importFrom dplyr bind_rows
-#' @importFrom dplyr group_by_
-#' @importFrom dplyr mutate_
-#' @importFrom dplyr select_
-#' @importFrom dplyr ungroup
-#' @importFrom tidyr spread
-
 print_dust_console <- function(x, ..., return_df = FALSE, asis=TRUE)
 {
   
@@ -42,9 +35,10 @@ print_dust_console <- function(x, ..., return_df = FALSE, asis=TRUE)
   
   #* Run a loop to print all the divisions
   for (i in 1:total_div){
-    tbl <- dplyr::bind_rows(if (nrow(head) > 1) head[-1, ] else NULL, 
-                            body[Divisions$row_num[Divisions$div_num == i], ], 
-                            if (i == total_div) foot else interfoot)
+    tbl <- 
+      .rbind_internal(if (nrow(head) > 1) head[-1, ] else NULL, 
+                      body[Divisions$row_num[Divisions$div_num == i], ], 
+                      if (i == total_div) foot else interfoot)
     if (return_df) DF <- rbind(DF, tbl)
     else {
       if (!is.null(x$caption)) cat(caption_number_prefix, x$caption, "\n\n",
@@ -74,10 +68,10 @@ part_prep_console <- function(part)
   part$round[logic] <- getOption("digits")
   
   logic <- part$col_class %in% numeric_classes
-  if (any(logic))
+  if (any(logic)){
     part$value[logic] <-
-    as.character(roundSafe(part$value[logic], as.numeric(part$round[logic])))
-  
+      as.character(roundSafe(part$value[logic], as.numeric(part$round[logic])))
+  }
   #* Replacement
   logic <- !is.na(part[["replace"]])
   part[["value"]][logic] <- part[["replace"]][logic]
@@ -87,30 +81,31 @@ part_prep_console <- function(part)
     #* frame is grouped by column, and if any cell in the column has bold 
     #* text, the unbolded text gets two spaces on either side to make the 
     #* columns the same width.
-    dplyr::group_by_(part, "col_name") %>%
-    dplyr::mutate_(
-      value = ~if (any(bold)) ifelse(bold, 
-                                     sprintf("**%s**", value),
-                                     sprintf("  %s  ", value))
-                   else value) %>%
-    dplyr::ungroup() %>%
-    #* Italic. Follows the same process as bold text.
-    dplyr::group_by_("col_name") %>%
-    dplyr::mutate_(value = ~if (any(italic)) ifelse(italic, 
-                                                    sprintf("_%s_", value),
-                                                    sprintf(" %s_", value))
-                   else value) %>%
-    dplyr::ungroup() %>%
-    #* For merged cells not chosen for printing, set value to an empty character
-    dplyr::mutate_(value = ~ifelse(rowspan == 0, "", value),
-                   value = ~ifelse(colspan == 0, "", value)) %>%
-      
-    #* Set NA (missing) values to na_string.
-    dplyr::mutate_(value = ~ifelse(is.na(value) & !is.na(na_string), 
-                                   na_string, value)) %>%  
-      
-    #* Spread to wide format for printing
-    dplyr::select_("row", "col", "value") %>%
-    tidyr::spread_("col", "value") %>%
-    dplyr::select_("-row")
+    part <- split(part, part$col)
+    part <- lapply(part, 
+                   function(x){
+                     if (any(x$bold)){
+                       x$value <- ifelse(x$bold, 
+                                         sprintf("**%s**", x$value),
+                                         sprintf("  %s  ", x$value))
+                     }
+                     if (any(x$italic)){
+                       x$value <- ifelse(x$italic, 
+                                         sprintf("_%s_", x$value),
+                                         sprintf(" %s_", x$value))
+                     }
+                     x
+                   })
+    part <- do.call("rbind", part)
+    
+    part$value <- ifelse(part$rowspan == 0, "", part$value)
+    part$value <- ifelse(part$colspan == 0, "", part$value)
+    
+    part$value <- ifelse(is.na(part$value) & !is.na(part$na_string), 
+                         part$na_string, 
+                         part$value)
+    
+    part <- .make_dataframe_wide(part)
+
+    part
 }

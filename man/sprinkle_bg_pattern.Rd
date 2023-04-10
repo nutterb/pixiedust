@@ -6,17 +6,35 @@
 \alias{sprinkle_bg_pattern.dust_list}
 \title{Row and Column Background Striping}
 \usage{
-sprinkle_bg_pattern(x, rows = NULL, cols = NULL,
-  bg_pattern = c("transparent", "#DCDCDC"), bg_pattern_by = c("rows",
-  "cols"), ..., part = c("body", "head", "foot", "interoot", "table"))
+sprinkle_bg_pattern(
+  x,
+  rows = NULL,
+  cols = NULL,
+  bg_pattern = c("transparent", "#DCDCDC"),
+  bg_pattern_by = c("rows", "cols"),
+  ...,
+  part = c("body", "head", "foot", "interoot", "table")
+)
 
-\method{sprinkle_bg_pattern}{default}(x, rows = NULL, cols = NULL,
-  bg_pattern = c("transparent", "#DCDCDC"), bg_pattern_by = c("rows",
-  "cols"), ..., part = c("body", "head", "foot", "interfoot", "table"))
+\method{sprinkle_bg_pattern}{default}(
+  x,
+  rows = NULL,
+  cols = NULL,
+  bg_pattern = c("transparent", "#DCDCDC"),
+  bg_pattern_by = c("rows", "cols"),
+  ...,
+  part = c("body", "head", "foot", "interfoot", "table")
+)
 
-\method{sprinkle_bg_pattern}{dust_list}(x, rows = NULL, cols = NULL,
-  bg_pattern = c("transparent", "#DCDCDC"), bg_pattern_by = c("rows",
-  "cols"), ..., part = c("body", "head", "foot", "interfoot", "table"))
+\method{sprinkle_bg_pattern}{dust_list}(
+  x,
+  rows = NULL,
+  cols = NULL,
+  bg_pattern = c("transparent", "#DCDCDC"),
+  bg_pattern_by = c("rows", "cols"),
+  ...,
+  part = c("body", "head", "foot", "interfoot", "table")
+)
 }
 \arguments{
 \item{x}{An object of class \code{dust}}
