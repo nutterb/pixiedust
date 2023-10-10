@@ -3,6 +3,7 @@
 \docType{package}
 \name{pixiedust}
 \alias{pixiedust}
+\alias{pixiedust-package}
 \title{Tables So Beautifully Fine-Tuned You Will Believe It's Magic.}
 \description{
 The \code{pixiedust} mission is to provide a user friendly 
@@ -109,3 +110,21 @@ otherwise it is \code{"console"}
 }
 }
 
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/nutterb/pixiedust}
+  \item Report bugs at \url{https://github.com/nutterb/pixiedust/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Benjamin Nutter \email{benjamin.nutter@gmail.com}
+
+Other contributors:
+\itemize{
+  \item David Kretch [contributor]
+}
+
+}
+\keyword{internal}

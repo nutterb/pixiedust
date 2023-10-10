@@ -46,7 +46,7 @@ for superscript within variable labels. LaTeX names of greek letters
 (e.g., "alpha") will have backslashes added if \code{greek==TRUE}. 
 Math mode is inserted as needed. \code{sanitize_latex} assumes that 
 input text always has matches, e.g. \code{[) [] (] ()}, and that 
-surrounding by \$\$ is OK.
+surrounding by \code{\$\$} is OK.
 }
 \examples{
 sanitize_latex("75\% of the cars were | more than $20,000 Delta = 1.30", greek = TRUE)

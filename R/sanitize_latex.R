@@ -7,7 +7,7 @@
 #' (e.g., "alpha") will have backslashes added if \code{greek==TRUE}. 
 #' Math mode is inserted as needed. \code{sanitize_latex} assumes that 
 #' input text always has matches, e.g. \code{[) [] (] ()}, and that 
-#' surrounding by \$\$ is OK.
+#' surrounding by \code{\$\$} is OK.
 #' 
 #' @param object \code{character} vector of strings to translate.
 #'    Any NAs are set to blank strings before conversion.

@@ -1,15 +1,17 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Travis-CI Build Status](https://travis-ci.org/nutterb/pixiedust.svg?branch=master)](https://travis-ci.org/nutterb/pixiedust) ![](http://cranlogs.r-pkg.org/badges/grand-total/pixiedust) [![Coverage Status](https://coveralls.io/repos/nutterb/pixiedust/badge.svg?branch=master&service=github)](https://coveralls.io/github/nutterb/pixiedust?branch=master)
 
-pixiedust
-=========
+# pixiedust
 
-After tidying up your analyses with the `broom` package, go ahead and grab the `pixiedust`. Customize your table output and write it to markdown, HTML, LaTeX, or even just the console. `pixiedust` makes it easy to customize the appearance of your tables in all of these formats by adding any number of "sprinkles", much in the same way you can add layers to a `ggplot`.
+After tidying up your analyses with the `broom` package, go ahead and
+grab the `pixiedust`. Customize your table output and write it to
+markdown, HTML, LaTeX, or even just the console. `pixiedust` makes it
+easy to customize the appearance of your tables in all of these formats
+by adding any number of “sprinkles”, much in the same way you can add
+layers to a `ggplot`.
 
 ``` r
 fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
 library(pixiedust)
-#> Additional documentation is being constructed at http://nutterb.github.io/pixiedust/index.html
 dust(fit) %>% 
   sprinkle(col = 2:4, round = 3) %>% 
   sprinkle(col = 5, fn = quote(pvalString(value))) %>% 
@@ -30,60 +32,70 @@ dust(fit) %>%
 
 ### Customizing with Sprinkles
 
-Tables can be customized by row, column, or even by a single cell by adding sprinkles to the `dust` object. The table below shows the currently planned and implemented sprinkles. In the "implemented" column, an 'x' indicates a customization that has been implemented, while a blank cell suggests that the customization is planned but has not yet been implemented. In the remaining columns, an 'x' indicates that the sprinkle is already implemented for the output format; an 'o' indicates that implementation is planned but not yet completed; and a blank cell indicates that the sprinkle will not be implemented (usually because the output format doesn't support the option).
+Tables can be customized by row, column, or even by a single cell by
+adding sprinkles to the `dust` object. The table below shows the
+currently planned and implemented sprinkles. In the “implemented”
+column, an ‘x’ indicates a customization that has been implemented,
+while a blank cell suggests that the customization is planned but has
+not yet been implemented. In the remaining columns, an ‘x’ indicates
+that the sprinkle is already implemented for the output format; an ‘o’
+indicates that implementation is planned but not yet completed; and a
+blank cell indicates that the sprinkle will not be implemented (usually
+because the output format doesn’t support the option).
 
-| sprinkle          | implemented | console | markdown | html | latex |
-|:------------------|:------------|:--------|:---------|:-----|:------|
-| bg                | x           |         |          | x    | x     |
-| bg\_pattern       | x           |         |          | x    | x     |
-| bg\_pattern\_by   | x           |         |          | x    | x     |
-| bold              | x           | x       | x        | x    | x     |
-| bookdown          | x           |         |          |      | x     |
-| border\_collapse  | x           |         |          | x    | x     |
-| border            | x           |         |          | x    | x     |
-| border\_thickness | x           |         |          | x    | x     |
-| border\_units     | x           |         |          | x    | x     |
-| border\_style     | x           |         |          | x    | x     |
-| border\_color     | x           |         |          | x    | x     |
-| caption           | x           | x       | x        | x    | x     |
-| colnames          | x           | x       | x        | x    | x     |
-| discrete          | x           |         |          | x    | x     |
-| discrete\_colors  | x           |         |          | x    | x     |
-| float             | x           |         |          |      | x     |
-| fn                | x           | x       | x        | x    | x     |
-| font\_color       | x           |         |          | x    | x     |
-| font\_family      | x           |         |          | x    |       |
-| font\_size        | x           |         |          | x    | x     |
-| font\_size\_units | x           |         |          | x    | x     |
-| gradient          | x           |         |          | x    | x     |
-| gradient\_colors  | x           |         |          | x    | x     |
-| gradient\_cut     | x           |         |          | x    | x     |
-| gradient\_n       | x           |         |          | x    | x     |
-| gradient\_na      | x           |         |          | x    | x     |
-| halign            | x           |         |          | x    | x     |
-| height            | x           |         |          | x    | x     |
-| height\_units     | x           |         |          | x    | x     |
-| hhline            | x           |         |          |      | x     |
-| italic            | x           | x       | x        | x    | x     |
-| justify           | x           |         |          | x    | x     |
-| label             | x           |         |          | x    | x     |
-| longtable         | x           | x       | x        | x    | x     |
-| merge             | x           | x       | x        | x    | x     |
-| na\_string        | x           | x       | x        | x    | x     |
-| padding           | x           |         |          | x    |       |
-| replace           | x           | x       | x        | x    | x     |
-| round             | x           | x       | x        | x    | x     |
-| rotate\_degree    | x           |         |          | x    | x     |
-| sanitize          |             |         |          |      | x     |
-| sanitize\_args    |             |         |          |      | x     |
-| tabcolsep         |             |         |          |      | x     |
-| valign            | x           |         |          | x    | x     |
-| width             | x           |         |          | x    | x     |
-| width\_units      | x           |         |          | x    | x     |
+| sprinkle         | implemented | console | markdown | html | latex |
+|:-----------------|:------------|:--------|:---------|:-----|:------|
+| bg               | x           |         |          | x    | x     |
+| bg_pattern       | x           |         |          | x    | x     |
+| bg_pattern_by    | x           |         |          | x    | x     |
+| bold             | x           | x       | x        | x    | x     |
+| bookdown         | x           |         |          |      | x     |
+| border_collapse  | x           |         |          | x    | x     |
+| border           | x           |         |          | x    | x     |
+| border_thickness | x           |         |          | x    | x     |
+| border_units     | x           |         |          | x    | x     |
+| border_style     | x           |         |          | x    | x     |
+| border_color     | x           |         |          | x    | x     |
+| caption          | x           | x       | x        | x    | x     |
+| colnames         | x           | x       | x        | x    | x     |
+| discrete         | x           |         |          | x    | x     |
+| discrete_colors  | x           |         |          | x    | x     |
+| float            | x           |         |          |      | x     |
+| fn               | x           | x       | x        | x    | x     |
+| font_color       | x           |         |          | x    | x     |
+| font_family      | x           |         |          | x    |       |
+| font_size        | x           |         |          | x    | x     |
+| font_size_units  | x           |         |          | x    | x     |
+| gradient         | x           |         |          | x    | x     |
+| gradient_colors  | x           |         |          | x    | x     |
+| gradient_cut     | x           |         |          | x    | x     |
+| gradient_n       | x           |         |          | x    | x     |
+| gradient_na      | x           |         |          | x    | x     |
+| halign           | x           |         |          | x    | x     |
+| height           | x           |         |          | x    | x     |
+| height_units     | x           |         |          | x    | x     |
+| hhline           | x           |         |          |      | x     |
+| italic           | x           | x       | x        | x    | x     |
+| justify          | x           |         |          | x    | x     |
+| label            | x           |         |          | x    | x     |
+| longtable        | x           | x       | x        | x    | x     |
+| merge            | x           | x       | x        | x    | x     |
+| na_string        | x           | x       | x        | x    | x     |
+| padding          | x           |         |          | x    |       |
+| replace          | x           | x       | x        | x    | x     |
+| round            | x           | x       | x        | x    | x     |
+| rotate_degree    | x           |         |          | x    | x     |
+| sanitize         |             |         |          |      | x     |
+| sanitize_args    |             |         |          |      | x     |
+| tabcolsep        |             |         |          |      | x     |
+| valign           | x           |         |          | x    | x     |
+| width            | x           |         |          | x    | x     |
+| width_units      | x           |         |          | x    | x     |
 
 ### A Brief Example
 
-To demonstrate, let's look at a simple linear model. We build the model and generate the standard summary.
+To demonstrate, let’s look at a simple linear model. We build the model
+and generate the standard summary.
 
 ``` r
 fit <- lm(mpg ~ qsec + factor(am) + wt + factor(gear), data = mtcars)
@@ -113,23 +125,38 @@ summary(fit)
 #> F-statistic: 29.43 on 5 and 26 DF,  p-value: 6.379e-10
 ```
 
-While the summary is informative and useful, it is full of "stats-speak" and isn't necessarily in a format that is suitable for publication or submission to a client. The `broom` package provides the summary in tidy format that, serendipitously, it a lot closer to what we would want for formal reports.
+While the summary is informative and useful, it is full of “stats-speak”
+and isn’t necessarily in a format that is suitable for publication or
+submission to a client. The `broom` package provides the summary in tidy
+format that, serendipitously, it a lot closer to what we would want for
+formal reports.
 
 ``` r
 library(broom)
 tidy(fit)
-#>            term   estimate std.error  statistic      p.value
-#> 1   (Intercept)  9.3650443 8.3730161  1.1184792 2.735903e-01
-#> 2          qsec  1.2449212 0.3828479  3.2517387 3.168128e-03
-#> 3   factor(am)1  3.1505178 1.9405171  1.6235455 1.165367e-01
-#> 4            wt -3.9263022 0.7427562 -5.2861251 1.581735e-05
-#> 5 factor(gear)4 -0.2681630 1.6554617 -0.1619868 8.725685e-01
-#> 6 factor(gear)5 -0.2697468 2.0631829 -0.1307430 8.969850e-01
+#> # A tibble: 6 × 5
+#>   term          estimate std.error statistic   p.value
+#>   <chr>            <dbl>     <dbl>     <dbl>     <dbl>
+#> 1 (Intercept)      9.37      8.37      1.12  0.274    
+#> 2 qsec             1.24      0.383     3.25  0.00317  
+#> 3 factor(am)1      3.15      1.94      1.62  0.117    
+#> 4 wt              -3.93      0.743    -5.29  0.0000158
+#> 5 factor(gear)4   -0.268     1.66     -0.162 0.873    
+#> 6 factor(gear)5   -0.270     2.06     -0.131 0.897
 ```
 
-It has been observed by some, however, that even this summary isn't quite ready for publication. There are too many decimal places, the p-value employ scientific notation, and column titles like "statistic" don't specify what type of statistic. These kinds of details aren't the purview of `broom`, however, as `broom` is focused on tidying the results of a model for further analysis (particularly with respect to comparing slightly varying models).
+It has been observed by some, however, that even this summary isn’t
+quite ready for publication. There are too many decimal places, the
+p-value employ scientific notation, and column titles like “statistic”
+don’t specify what type of statistic. These kinds of details aren’t the
+purview of `broom`, however, as `broom` is focused on tidying the
+results of a model for further analysis (particularly with respect to
+comparing slightly varying models).
 
-The `pixiedust` package diverts from `broom`'s mission here and provides the ability to customize the `broom` output for presentation. The initial `dust` object returns a table that is similar to the `broom` output.
+The `pixiedust` package diverts from `broom`’s mission here and provides
+the ability to customize the `broom` output for presentation. The
+initial `dust` object returns a table that is similar to the `broom`
+output.
 
 ``` r
 library(pixiedust)
@@ -144,7 +171,10 @@ dust(fit) %>%
 #> 6 factor(gear)5 -0.2697468 2.0631829  -0.130743  0.896985
 ```
 
-Where `pixiedust` shows its strength is the ease of which these tables can be customized. The code below rounds the columns `estimate`, `std.error`, and `statistic` to three decimal places each, and then formats the `p.value` into a format that happens to be one that I like.
+Where `pixiedust` shows its strength is the ease of which these tables
+can be customized. The code below rounds the columns `estimate`,
+`std.error`, and `statistic` to three decimal places each, and then
+formats the `p.value` into a format that happens to be one that I like.
 
 ``` r
 x <- dust(fit) %>% 
@@ -161,7 +191,12 @@ x
 #> 6 factor(gear)5    -0.27     2.063    -0.131     0.9
 ```
 
-Now we're almost there! Let's change up the column names, and while we're add it, let's add some "bold" markers to the statistically significant terms in order to make them stand out some (I say "bold" because the console output doesn't show up in bold, but with the markdown tags for bold text. In a rendered table, the text would actually be rendered in bold).
+Now we’re almost there! Let’s change up the column names, and while
+we’re add it, let’s add some “bold” markers to the statistically
+significant terms in order to make them stand out some (I say “bold”
+because the console output doesn’t show up in bold, but with the
+markdown tags for bold text. In a rendered table, the text would
+actually be rendered in bold).
 
 ``` r
 x <- x %>% 
@@ -185,12 +220,18 @@ x
 #> 6 factor(gear)5    -0.27   2.063      -0.131       0.9
 ```
 
-A cool, free tip!
------------------
+## A cool, free tip!
 
-The markdown output from `pixiedust` is somewhat limited due to the limitations of `Rmarkdown` itself. If/when more features become available for `Rmarkdown` output, I'll be sure to include them. But what can you do if you *really* want all of the flexibility of the HTML tables but need the MS Word document?
+The markdown output from `pixiedust` is somewhat limited due to the
+limitations of `Rmarkdown` itself. If/when more features become
+available for `Rmarkdown` output, I’ll be sure to include them. But what
+can you do if you *really* want all of the flexibility of the HTML
+tables but need the MS Word document?
 
-With a little help from the `Gmisc` package, you can have the best of both worlds. `Gmisc` isn't available on CRAN yet, but if you're willing to install it from GitHub, you can render a `docx` file. Install `Gmisc` with
+With a little help from the `Gmisc` package, you can have the best of
+both worlds. `Gmisc` isn’t available on CRAN yet, but if you’re willing
+to install it from GitHub, you can render a `docx` file. Install `Gmisc`
+with
 
 `install.packages("Gmisc")`
 
@@ -200,6 +241,11 @@ Then use in your YAML header
     output: Gmisc::docx_document
     ---
 
-When you knit your document, it knits as an HTML file, but I've had no problems with the rendering when I right-click the file and open with MS Word.
+When you knit your document, it knits as an HTML file, but I’ve had no
+problems with the rendering when I right-click the file and open with MS
+Word.
 
-Read more at <http://gforge.se/2014/07/fast-track-publishing-using-rmarkdown/> (but note that this blog post was written about the `Grmd` package before it was moved into the `Gmisc` package).
+Read more at
+<http://gforge.se/2014/07/fast-track-publishing-using-rmarkdown/> (but
+note that this blog post was written about the `Grmd` package before it
+was moved into the `Gmisc` package).

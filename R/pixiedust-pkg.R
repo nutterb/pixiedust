@@ -99,6 +99,6 @@
 #' }
 #' 
 #' @name pixiedust
-#' @docType package
+#' @keywords internal
 
-NULL
+"_PACKAGE"
